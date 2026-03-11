@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "249227775121",
+    "project_id": "life-quest-app-95eb9",
+    "storage_bucket": "life-quest-app-95eb9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249227775121:android:4401425d2261adde894330",
+        "android_client_info": {
+          "package_name": "com.example.life_quest_final_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249227775121-v6m98b4dja0b7pnu75cfudam6trbidst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.life_quest_final_v2",
+            "certificate_hash": "27cf18b7c1d3f8fde13fcafe0208d5b3c48d14c0"
+          }
+        },
+        {
+          "client_id": "249227775121-7hv9rv7ahbms0nnmn1t6taoang6kfdok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKznuvD71ZSllvU1DrgcJ1R8Z3b8aGK4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249227775121-7hv9rv7ahbms0nnmn1t6taoang6kfdok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

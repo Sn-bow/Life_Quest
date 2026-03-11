@@ -1,0 +1,62 @@
+﻿name: life_quest_final_v2
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  provider: ^6.1.2
+  phosphor_flutter: ^1.4.0
+  cupertino_icons: ^1.0.2
+  fl_chart: ^0.68.0
+  shared_preferences: ^2.2.3
+  confetti: ^0.7.0
+  firebase_core: ^3.15.2
+  firebase_auth: ^5.1.1
+  cloud_firestore: ^5.6.12
+  google_sign_in: ^6.2.1 # --- 추가된 부분 ---
+  flutter_local_notifications: ^17.2.1 # --- 추가된 부분 ---
+  image_picker: ^1.1.2 # --- 추가된 부분 ---
+  firebase_storage: ^12.1.0 # --- 추가된 부분 ---
+  firebase_app_check: ^0.3.0 # --- 추가된 부분 ---
+  timezone: ^0.9.4
+  audioplayers: ^6.6.0
+  home_widget: ^0.9.0
+  flutter_timezone: ^5.0.1
+  google_mobile_ads: ^6.0.0
+  in_app_purchase: ^3.2.3
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  mockito: ^5.6.3
+  fake_cloud_firestore: ^3.1.0
+  firebase_auth_mocks: ^0.14.2
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#FFF5D9"
+  color_dark: "#091327"
+  image: assets/images/splash_mark.png
+  image_dark: assets/images/splash_mark_dark.png
+  android: true
+  ios: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/sounds/

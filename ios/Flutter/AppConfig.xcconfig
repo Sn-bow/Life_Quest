@@ -1,0 +1,3 @@
+// Replace these values before shipping iOS builds.
+ADMOB_IOS_APP_ID=ca-app-pub-3940256099942544~1458002511
+HOME_WIDGET_APP_GROUP_ID=group.com.example.lifeQuestWidget
