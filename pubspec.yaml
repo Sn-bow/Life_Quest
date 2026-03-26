@@ -30,6 +30,7 @@ dependencies:
   flutter_timezone: ^5.0.1
   google_mobile_ads: ^6.0.0
   in_app_purchase: ^3.2.3
+  flutter_svg: ^2.2.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -45,11 +46,16 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/images/app_icon.png"
+  adaptive_icon_background: "assets/images/app_icon_android_background.png"
+  adaptive_icon_foreground: "assets/images/app_icon_android_foreground.png"
+  adaptive_icon_monochrome: "assets/images/app_icon_android_monochrome.png"
+  adaptive_icon_foreground_inset: 0
   min_sdk_android: 21
+  remove_alpha_ios: true
 
 flutter_native_splash:
-  color: "#FFF5D9"
-  color_dark: "#091327"
+  color: "#060B14"
+  color_dark: "#060B14"
   image: assets/images/splash_mark.png
   image_dark: assets/images/splash_mark_dark.png
   android: true
@@ -59,4 +65,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/avatar/hair/back/
+    - assets/avatar/hair/front/
+    - assets/avatar/eyes/
+    - assets/avatar/mouth/
+    - assets/avatar/outfit/
+    - assets/avatar/generated/
     - assets/sounds/

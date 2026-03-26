@@ -7,6 +7,8 @@ enum TitleConditionType {
   health,
   charisma,
   questsCompleted,
+  monthlyRaidClears,
+  yearlyRaidClears,
   allStats,
 }
 

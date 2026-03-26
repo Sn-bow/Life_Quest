@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/screens/settings_screen.dart';
 import 'package:life_quest_final_v2/screens/timer_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
+import 'package:life_quest_final_v2/widgets/player_avatar_view.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 import 'package:life_quest_final_v2/widgets/xp_bar.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,38 @@ class _StatusScreenState extends State<StatusScreen> {
   int get _totalPending => _pendingAlloc.values.fold(0, (sum, v) => sum + v);
 
   bool get _hasPending => _totalPending > 0;
+
+  Widget _buildAvatarPlaceholder(ThemeData theme, {double size = 120}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        color: Colors.white.withValues(alpha: 0.04),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.08),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            PhosphorIcons.userCircle,
+            size: size * 0.34,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '캐릭터 리빌드 중',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: Colors.white.withValues(alpha: 0.72),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _increment(StatType stat, int availableSP) {
     if (_totalPending < availableSP) {
@@ -110,6 +143,238 @@ class _StatusScreenState extends State<StatusScreen> {
     );
   }
 
+  void _showAvatarSelectionDialog(
+      BuildContext context, CharacterState characterState) {
+    final character = characterState.character;
+    String selectedPreset = character.avatarPreset;
+    String selectedGender = character.avatarGender;
+    String selectedSkinTone = character.avatarSkinTone;
+    String selectedHairStyle = character.avatarHairStyle;
+    String selectedEyeStyle = character.avatarEyeStyle;
+    String selectedEarStyle = character.avatarEarStyle;
+    String selectedNoseStyle = character.avatarNoseStyle;
+    String selectedMouthStyle = character.avatarMouthStyle;
+    String selectedOutfitStyle = character.avatarOutfitStyle;
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('내 캐릭터 꾸미기'),
+          content: StatefulBuilder(
+            builder: (context, setModalState) {
+              Widget buildOptionSection(
+                String title,
+                List<AvatarOption> options,
+                String selected,
+                ValueChanged<String> onSelected,
+              ) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: options.map((option) {
+                        return ChoiceChip(
+                          label: Text(option.label),
+                          selected: selected == option.id,
+                          onSelected: (_) => setModalState(() {
+                            onSelected(option.id);
+                          }),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                );
+              }
+
+              return SizedBox(
+                width: double.maxFinite,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: _buildAvatarPlaceholder(
+                          Theme.of(context),
+                          size: 116,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        '기본 스타일',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        height: 114,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: playerAvatarPresets.length,
+                          separatorBuilder: (_, __) => const SizedBox(width: 10),
+                          itemBuilder: (context, index) {
+                            final preset = playerAvatarPresets[index];
+                            final selected = selectedPreset == preset.id;
+                            return InkWell(
+                              onTap: () {
+                                setModalState(() {
+                                  selectedPreset = preset.id;
+                                  selectedGender = preset.gender;
+                                  selectedSkinTone = preset.skinTone;
+                                  selectedHairStyle = preset.hairStyle;
+                                  selectedEyeStyle = preset.eyeStyle;
+                                  selectedEarStyle = preset.earStyle;
+                                  selectedNoseStyle = preset.noseStyle;
+                                  selectedMouthStyle = preset.mouthStyle;
+                                  selectedOutfitStyle = preset.outfitStyle;
+                                });
+                              },
+                              child: Container(
+                                width: 106,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: selected
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Colors.white.withValues(alpha: 0.08),
+                                    width: selected ? 2 : 1,
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 66,
+                                      height: 66,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        color: Colors.white.withValues(alpha: 0.04),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Icon(
+                                        PhosphorIcons.userCircle,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        size: 28,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      preset.name,
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '성별 스타일',
+                        avatarGenderOptions,
+                        selectedGender,
+                        (value) => selectedGender = value,
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '피부 톤',
+                        avatarSkinToneOptions,
+                        selectedSkinTone,
+                        (value) => selectedSkinTone = value,
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '머리',
+                        avatarHairOptions,
+                        selectedHairStyle,
+                        (value) => selectedHairStyle = value,
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '눈',
+                        avatarEyeOptions,
+                        selectedEyeStyle,
+                        (value) => selectedEyeStyle = value,
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '귀',
+                        avatarEarOptions,
+                        selectedEarStyle,
+                        (value) => selectedEarStyle = value,
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '코',
+                        avatarNoseOptions,
+                        selectedNoseStyle,
+                        (value) => selectedNoseStyle = value,
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '입',
+                        avatarMouthOptions,
+                        selectedMouthStyle,
+                        (value) => selectedMouthStyle = value,
+                      ),
+                      const SizedBox(height: 16),
+                      buildOptionSection(
+                        '의상',
+                        avatarOutfitOptions,
+                        selectedOutfitStyle,
+                        (value) => selectedOutfitStyle = value,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('취소'),
+            ),
+            TextButton(
+              onPressed: () {
+                characterState.updateAvatarLoadout(
+                  presetId: selectedPreset,
+                  gender: selectedGender,
+                  skinTone: selectedSkinTone,
+                  hairStyle: selectedHairStyle,
+                  eyeStyle: selectedEyeStyle,
+                  earStyle: selectedEarStyle,
+                  noseStyle: selectedNoseStyle,
+                  mouthStyle: selectedMouthStyle,
+                  outfitStyle: selectedOutfitStyle,
+                );
+                Navigator.of(dialogContext).pop();
+              },
+              child: const Text('적용'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CharacterState>(
@@ -160,43 +425,42 @@ class _StatusScreenState extends State<StatusScreen> {
                 TranslucentCard(
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: theme.colorScheme.surface,
-                        child: character.photoUrl != null
-                            ? ClipOval(
-                                child: Image.network(
-                                  character.photoUrl!,
-                                  fit: BoxFit.cover,
-                                  width: 80,
-                                  height: 80,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return Icon(PhosphorIcons.userCircle,
-                                        size: 80,
-                                        color: theme.colorScheme.onSurface);
-                                  },
+                      InkWell(
+                        borderRadius: BorderRadius.circular(48),
+                        onTap: () =>
+                            _showAvatarSelectionDialog(context, characterState),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            _buildAvatarPlaceholder(theme, size: 120),
+                            Positioned(
+                              right: -2,
+                              bottom: -2,
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primary,
+                                  shape: BoxShape.circle,
                                 ),
-                              )
-                            : Icon(PhosphorIcons.userCircle,
-                                size: 80, color: theme.colorScheme.onSurface),
+                                child: Icon(
+                                  PhosphorIcons.pencilSimple,
+                                  size: 14,
+                                  color: theme.colorScheme.onPrimary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               character.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: theme.colorScheme.primary,
@@ -234,9 +498,13 @@ class _StatusScreenState extends State<StatusScreen> {
                                       context, characterState),
                                   child: Row(
                                     children: [
-                                      Text(
-                                        'Lv. ${character.level} | ${character.title}',
-                                        style: titleStyle,
+                                      Expanded(
+                                        child: Text(
+                                          'Lv. ${character.level} | ${character.title}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: titleStyle,
+                                        ),
                                       ),
                                       const SizedBox(width: 8),
                                       const Icon(PhosphorIcons.caretDown,
@@ -316,6 +584,16 @@ class _StatusScreenState extends State<StatusScreen> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '비전투 상태에서는 10분마다 HP가 조금씩 자연 회복됩니다.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: theme.brightness == Brightness.dark
+                              ? Colors.white60
+                              : Colors.black54,
+                        ),
+                      ),
                       const SizedBox(height: 12),
                       Row(
                         children: [
@@ -362,6 +640,30 @@ class _StatusScreenState extends State<StatusScreen> {
                             ),
                           ],
                         ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TranslucentCard(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        PhosphorIcons.sparkle,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          '레벨업 시 3포인트는 최근 완료한 퀘스트 성향에 따라 자동 성장하고, 나머지 포인트만 직접 분배합니다.',
+                          style: TextStyle(
+                            height: 1.45,
+                            color: theme.brightness == Brightness.dark
+                                ? Colors.white70
+                                : Colors.black87,
+                          ),
+                        ),
                       ),
                     ],
                   ),

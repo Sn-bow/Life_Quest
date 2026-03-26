@@ -52,6 +52,9 @@ android/key.properties
 # Local verification artifacts
 /tmp_*.png
 /tmp_*.mp4
+/tmp_*.xml
+/tmp_*.jpg
+/tmp/
 /tmp_start_frames/
 /ios/Pods/
 /android/.gradle/

@@ -156,6 +156,30 @@ class TitleDatabase {
         description: '퀘스트 1000회 완료',
         conditionType: TitleConditionType.questsCompleted,
         conditionValue: 1000),
+    GameTitle(
+        id: 't24',
+        name: '월간 레이드 돌파자',
+        description: '월간 레이드 1회 클리어',
+        conditionType: TitleConditionType.monthlyRaidClears,
+        conditionValue: 1),
+    GameTitle(
+        id: 't25',
+        name: '월간 레이드 정복자',
+        description: '월간 레이드 5회 클리어',
+        conditionType: TitleConditionType.monthlyRaidClears,
+        conditionValue: 5),
+    GameTitle(
+        id: 't26',
+        name: '연간 레이드 생존자',
+        description: '연간 레이드 1회 클리어',
+        conditionType: TitleConditionType.yearlyRaidClears,
+        conditionValue: 1),
+    GameTitle(
+        id: 't27',
+        name: '연간 레이드 군주',
+        description: '연간 레이드 3회 클리어',
+        conditionType: TitleConditionType.yearlyRaidClears,
+        conditionValue: 3),
 
     // --- All stat titles ---
     GameTitle(

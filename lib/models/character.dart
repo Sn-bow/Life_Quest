@@ -27,6 +27,7 @@ class Character {
   int characterMaxHp;
   int streak;
   DateTime? lastLoginDate;
+  DateTime? lastHpRegenAt;
 
   // Economy & Cosmetics
   int gold;
@@ -38,6 +39,22 @@ class Character {
   // Dungeon Progression
   int highestDungeonFloor;
   int currentDungeonChapter;
+
+  // Growth & report progression
+  Map<String, double> levelGrowthWeights;
+  Map<String, int> lastLevelAutoGrowth;
+  String? expandedReportUnlockedOn;
+  int monthlyRaidClears;
+  int yearlyRaidClears;
+  String avatarPreset;
+  String avatarGender;
+  String avatarSkinTone;
+  String avatarHairStyle;
+  String avatarEyeStyle;
+  String avatarEarStyle;
+  String avatarNoseStyle;
+  String avatarMouthStyle;
+  String avatarOutfitStyle;
 
   Character({
     required this.name,
@@ -62,6 +79,7 @@ class Character {
     this.characterMaxHp = 100,
     this.streak = 0,
     this.lastLoginDate,
+    this.lastHpRegenAt,
     this.gold = 0,
     List<String>? unlockedCosmetics,
     this.equippedTheme,
@@ -69,8 +87,24 @@ class Character {
     this.equippedCombatEffect,
     this.highestDungeonFloor = 1,
     this.currentDungeonChapter = 1,
+    Map<String, double>? levelGrowthWeights,
+    Map<String, int>? lastLevelAutoGrowth,
+    this.expandedReportUnlockedOn,
+    this.monthlyRaidClears = 0,
+    this.yearlyRaidClears = 0,
+    this.avatarPreset = 'preset_shadow',
+    this.avatarGender = 'masculine',
+    this.avatarSkinTone = 'warm',
+    this.avatarHairStyle = 'spike',
+    this.avatarEyeStyle = 'sharp',
+    this.avatarEarStyle = 'round',
+    this.avatarNoseStyle = 'line',
+    this.avatarMouthStyle = 'flat',
+    this.avatarOutfitStyle = 'hunter',
   }) : inventory = inventory ?? [],
-        unlockedCosmetics = unlockedCosmetics ?? [];
+        unlockedCosmetics = unlockedCosmetics ?? [],
+        levelGrowthWeights = levelGrowthWeights ?? {},
+        lastLevelAutoGrowth = lastLevelAutoGrowth ?? {};
 
   factory Character.fromJson(Map<String, dynamic> json) {
     final level = json['level'] ?? 1;
@@ -108,6 +142,9 @@ class Character {
       lastLoginDate: json['lastLoginDate'] != null
           ? DateTime.parse(json['lastLoginDate'])
           : null,
+      lastHpRegenAt: json['lastHpRegenAt'] != null
+          ? DateTime.tryParse(json['lastHpRegenAt'])
+          : null,
       gold: json['gold'] ?? 0,
       unlockedCosmetics: (json['unlockedCosmetics'] as List<dynamic>?)
               ?.map((e) => e.toString())
@@ -118,6 +155,29 @@ class Character {
       equippedCombatEffect: json['equippedCombatEffect'],
       highestDungeonFloor: json['highestDungeonFloor'] ?? 1,
       currentDungeonChapter: json['currentDungeonChapter'] ?? 1,
+      levelGrowthWeights: (json['levelGrowthWeights'] as Map<dynamic, dynamic>?)
+              ?.map((key, value) => MapEntry(
+                    key.toString(),
+                    (value as num).toDouble(),
+                  )) ??
+          {},
+      lastLevelAutoGrowth:
+          (json['lastLevelAutoGrowth'] as Map<dynamic, dynamic>?)?.map(
+                (key, value) => MapEntry(key.toString(), value as int),
+              ) ??
+              {},
+      expandedReportUnlockedOn: json['expandedReportUnlockedOn'] as String?,
+      monthlyRaidClears: json['monthlyRaidClears'] ?? 0,
+      yearlyRaidClears: json['yearlyRaidClears'] ?? 0,
+      avatarPreset: json['avatarPreset'] ?? 'preset_shadow',
+      avatarGender: json['avatarGender'] ?? 'masculine',
+      avatarSkinTone: json['avatarSkinTone'] ?? 'warm',
+      avatarHairStyle: json['avatarHairStyle'] ?? 'spike',
+      avatarEyeStyle: json['avatarEyeStyle'] ?? 'sharp',
+      avatarEarStyle: json['avatarEarStyle'] ?? 'round',
+      avatarNoseStyle: json['avatarNoseStyle'] ?? 'line',
+      avatarMouthStyle: json['avatarMouthStyle'] ?? 'flat',
+      avatarOutfitStyle: json['avatarOutfitStyle'] ?? 'hunter',
     );
   }
 
@@ -145,6 +205,7 @@ class Character {
       'characterMaxHp': characterMaxHp,
       'streak': streak,
       'lastLoginDate': lastLoginDate?.toIso8601String(),
+      'lastHpRegenAt': lastHpRegenAt?.toIso8601String(),
       'gold': gold,
       'unlockedCosmetics': unlockedCosmetics,
       'equippedTheme': equippedTheme,
@@ -152,6 +213,20 @@ class Character {
       'equippedCombatEffect': equippedCombatEffect,
       'highestDungeonFloor': highestDungeonFloor,
       'currentDungeonChapter': currentDungeonChapter,
+      'levelGrowthWeights': levelGrowthWeights,
+      'lastLevelAutoGrowth': lastLevelAutoGrowth,
+      'expandedReportUnlockedOn': expandedReportUnlockedOn,
+      'monthlyRaidClears': monthlyRaidClears,
+      'yearlyRaidClears': yearlyRaidClears,
+      'avatarPreset': avatarPreset,
+      'avatarGender': avatarGender,
+      'avatarSkinTone': avatarSkinTone,
+      'avatarHairStyle': avatarHairStyle,
+      'avatarEyeStyle': avatarEyeStyle,
+      'avatarEarStyle': avatarEarStyle,
+      'avatarNoseStyle': avatarNoseStyle,
+      'avatarMouthStyle': avatarMouthStyle,
+      'avatarOutfitStyle': avatarOutfitStyle,
     };
   }
 }

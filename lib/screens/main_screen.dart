@@ -1,6 +1,5 @@
 ﻿import 'dart:async';
 import 'package:confetti/confetti.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/screens/quests_screen.dart';
 import 'package:life_quest_final_v2/screens/achievement_screen.dart';
@@ -31,12 +30,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _confettiController =
         ConfettiController(duration: const Duration(seconds: 3));
-
-    // initState에서 데이터 로딩 시작
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      context.read<CharacterState>().loadDataForUser(user);
-    }
 
     context.read<CharacterState>().onLevelUp = () {
       _confettiController.play();

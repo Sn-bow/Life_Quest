@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/firebase_options.dart';
 import 'package:life_quest_final_v2/screens/login_screen.dart';
+import 'package:life_quest_final_v2/screens/loading_screen.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
-import 'package:life_quest_final_v2/screens/main_screen.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:home_widget/home_widget.dart';
@@ -272,25 +272,37 @@ class LifeQuestApp extends StatelessWidget {
   }
 }
 
-class AuthWrapper extends StatelessWidget {
+class AuthWrapper extends StatefulWidget {
   const AuthWrapper({super.key});
+
+  @override
+  State<AuthWrapper> createState() => _AuthWrapperState();
+}
+
+class _AuthWrapperState extends State<AuthWrapper> {
+  bool _showIntro = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future<void>.delayed(const Duration(milliseconds: 1800), () {
+      if (!mounted) return;
+      setState(() => _showIntro = false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          if (snapshot.hasData) {
-            return const MainScreen();
-          } else {
-            return const LoginScreen();
-          }
+        if (_showIntro || snapshot.connectionState != ConnectionState.active) {
+          return const LoadingScreen();
         }
-        return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: const Center(child: CircularProgressIndicator()),
-        );
+        if (snapshot.hasData) {
+          return LoadingScreen(user: snapshot.data);
+        }
+        return const LoginScreen();
       },
     );
   }

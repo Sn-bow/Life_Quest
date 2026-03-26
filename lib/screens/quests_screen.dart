@@ -9,28 +9,65 @@ import 'package:life_quest_final_v2/services/ad_service.dart';
 class QuestsScreen extends StatelessWidget {
   const QuestsScreen({super.key});
 
+  String _raidRewardPreview(Quest quest) {
+    switch (quest.type) {
+      case QuestType.monthly:
+        return '레이드 보너스\n추가 XP · 추가 골드\nAP +2 · SP +1\n진행 보상 해금';
+      case QuestType.yearly:
+        return '레이드 보너스\n대량 XP · 대량 골드\nAP +4 · SP +2\n희귀 보상 해금';
+      case QuestType.daily:
+      case QuestType.weekly:
+        return '';
+    }
+  }
+
+  String _completionSummary(QuestCompletionResult? result, Quest quest) {
+    if (result == null) {
+      return "'${quest.name}' 퀘스트를 완료하시겠습니까?";
+    }
+
+    final lines = <String>[
+      if (result.wasRaid)
+        '레이드 클리어 ${result.raidClearCount}회 달성',
+      '총 보상: ${result.totalXpAwarded.round()} XP · ${result.totalGoldAwarded} 골드 · AP +${result.actionPointsAwarded}',
+      if (result.statPointsAwarded > 0) '추가 스탯 포인트 +${result.statPointsAwarded}',
+      if (result.unlockedTitles.isNotEmpty)
+        '해금 칭호: ${result.unlockedTitles.join(', ')}',
+      if (result.unlockedCosmetics.isNotEmpty)
+        '해금 보상: ${result.unlockedCosmetics.join(', ')}',
+    ];
+    return lines.join('\n');
+  }
+
   @override
   Widget build(BuildContext context) {
     final characterState = context.watch<CharacterState>();
 
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('퀘스트 목록'),
           bottom: const TabBar(
+            isScrollable: true,
             tabs: [
               Tab(text: '일일 퀘스트'),
               Tab(text: '주간 퀘스트'),
+              Tab(text: '월간 레이드'),
+              Tab(text: '연간 레이드'),
             ],
           ),
         ),
         body: TabBarView(
           children: [
             _buildQuestList(
-                context, characterState.dailyQuests, characterState),
+                context, characterState.dailyQuests, characterState, QuestType.daily),
             _buildQuestList(
-                context, characterState.weeklyQuests, characterState),
+                context, characterState.weeklyQuests, characterState, QuestType.weekly),
+            _buildQuestList(
+                context, characterState.monthlyQuests, characterState, QuestType.monthly),
+            _buildQuestList(
+                context, characterState.yearlyQuests, characterState, QuestType.yearly),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -46,7 +83,7 @@ class QuestsScreen extends StatelessWidget {
   }
 
   Widget _buildQuestList(
-      BuildContext context, List<Quest> quests, CharacterState state) {
+      BuildContext context, List<Quest> quests, CharacterState state, QuestType type) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
@@ -60,7 +97,7 @@ class QuestsScreen extends StatelessWidget {
                 color: isDarkMode ? Colors.white24 : Colors.grey.shade300),
             const SizedBox(height: 16),
             Text(
-              '아직 추가된 퀘스트가 없어요.\n오른쪽 아래 + 버튼으로 새 퀘스트를 추가해 보세요!',
+              _emptyMessageFor(type),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: isDarkMode ? Colors.white54 : Colors.grey.shade600),
@@ -85,6 +122,10 @@ class QuestsScreen extends StatelessWidget {
         final quest = sortedQuests[index];
         return QuestTile(
           quest: quest,
+          rewardPreview:
+              quest.type == QuestType.monthly || quest.type == QuestType.yearly
+                  ? _raidRewardPreview(quest)
+                  : null,
           onChecked: () {
             _showCompleteConfirmationDialog(context, quest, state);
           },
@@ -97,6 +138,19 @@ class QuestsScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _emptyMessageFor(QuestType type) {
+    switch (type) {
+      case QuestType.daily:
+        return '아직 추가된 퀘스트가 없어요.\n오늘 처리할 일부터 가볍게 추가해 보세요.';
+      case QuestType.weekly:
+        return '이번 주 루틴 목표가 아직 없습니다.\n꾸준히 반복할 목표를 넣어보세요.';
+      case QuestType.monthly:
+        return '이번 달 레이드가 아직 없습니다.\n장기 목표를 월간 레이드로 등록해 보세요.';
+      case QuestType.yearly:
+        return '올해의 대형 레이드가 아직 없습니다.\n인생 목표급 도전을 연간 레이드로 추가해 보세요.';
+    }
   }
 
   void _showEditQuestDialog(
@@ -128,6 +182,19 @@ class QuestsScreen extends StatelessWidget {
           return '어려움';
         case QuestDifficulty.veryHard:
           return '매우 어려움';
+      }
+    }
+
+    String getQuestTypeName(QuestType type) {
+      switch (type) {
+        case QuestType.daily:
+          return '일일';
+        case QuestType.weekly:
+          return '주간';
+        case QuestType.monthly:
+          return '월간 레이드';
+        case QuestType.yearly:
+          return '연간 레이드';
       }
     }
 
@@ -200,7 +267,7 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '보상: $previewXp XP · ${(previewXp * 0.5).round()} 골드',
+                      '${getQuestTypeName(quest.type)} 보상: $previewXp XP · ${(previewXp * 0.5).round()} 골드',
                       style:
                           TextStyle(fontSize: 13, color: Colors.grey.shade600),
                     ),
@@ -246,7 +313,15 @@ class QuestsScreen extends StatelessWidget {
         return AlertDialog(
           title: const Text('퀘스트 완료'),
           content: Text(
-              "'${quest.name}' 퀘스트를 완료하시겠습니까?\n기본 보상: ${quest.xp} XP, ${(quest.xp * 0.5).round()} 골드"),
+            [
+              "'${quest.name}' 퀘스트를 완료하시겠습니까?",
+              '기본 보상',
+              '- ${quest.xp} XP',
+              '- ${(quest.xp * 0.5).round()} 골드',
+              if (quest.type == QuestType.monthly || quest.type == QuestType.yearly)
+                _raidRewardPreview(quest),
+            ].join('\n'),
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text('취소'),
@@ -257,7 +332,7 @@ class QuestsScreen extends StatelessWidget {
             if (remainingDouble > 0)
               ElevatedButton.icon(
                 icon: const Icon(Icons.ondemand_video, size: 18),
-                label: Text('광고 보고 2倍 받기 ($remainingDouble회)'),
+                label: Text('광고 보고 2배 받기 ($remainingDouble회)'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber,
                   foregroundColor: Colors.black,
@@ -267,19 +342,28 @@ class QuestsScreen extends StatelessWidget {
                   final success =
                       await adService.showRewardedAd('quest_double');
                   if (success) {
-                    state.completeQuest(quest, xpMultiplier: 2.0);
+                    final result =
+                        state.completeQuest(quest, xpMultiplier: 2.0);
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('🎉 광고 보상! 경험치와 골드를 2배로 획득했습니다!')),
+                        SnackBar(
+                          content: Text(
+                            '🎉 광고 보상 적용\n${_completionSummary(result, quest)}',
+                          ),
+                          duration: const Duration(seconds: 5),
+                        ),
                       );
                     }
                   } else {
-                    state.completeQuest(quest);
+                    final result = state.completeQuest(quest);
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('광고를 불러올 수 없습니다. 기본 보상이 지급됩니다.')),
+                        SnackBar(
+                          content: Text(
+                            '광고를 불러올 수 없습니다. 기본 보상이 지급됩니다.\n${_completionSummary(result, quest)}',
+                          ),
+                          duration: const Duration(seconds: 5),
+                        ),
                       );
                     }
                   }
@@ -288,8 +372,14 @@ class QuestsScreen extends StatelessWidget {
             TextButton(
               child: const Text('완료'),
               onPressed: () {
-                state.completeQuest(quest);
+                final result = state.completeQuest(quest);
                 Navigator.of(dialogContext).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(_completionSummary(result, quest)),
+                    duration: const Duration(seconds: 5),
+                  ),
+                );
               },
             ),
           ],
@@ -357,6 +447,19 @@ class QuestsScreen extends StatelessWidget {
       }
     }
 
+    String getQuestTypeName(QuestType type) {
+      switch (type) {
+        case QuestType.daily:
+          return '일일';
+        case QuestType.weekly:
+          return '주간';
+        case QuestType.monthly:
+          return '월간 레이드';
+        case QuestType.yearly:
+          return '연간 레이드';
+      }
+    }
+
     Color getDifficultyColor(QuestDifficulty d) {
       switch (d) {
         case QuestDifficulty.easy:
@@ -391,19 +494,21 @@ class QuestsScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Text('종류',
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    SegmentedButton<QuestType>(
-                      segments: const <ButtonSegment<QuestType>>[
-                        ButtonSegment(
-                            value: QuestType.daily, label: Text('일일')),
-                        ButtonSegment(
-                            value: QuestType.weekly, label: Text('주간')),
-                      ],
-                      selected: {selectedType},
-                      onSelectionChanged: (Set<QuestType> newSelection) {
-                        setState(() {
-                          selectedType = newSelection.first;
-                        });
-                      },
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: QuestType.values.map((type) {
+                        return ChoiceChip(
+                          label: Text(getQuestTypeName(type)),
+                          selected: selectedType == type,
+                          onSelected: (selected) {
+                            if (!selected) return;
+                            setState(() {
+                              selectedType = type;
+                            });
+                          },
+                        );
+                      }).toList(),
                     ),
                     const SizedBox(height: 20),
                     const Text('카테고리',
@@ -443,7 +548,7 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '보상: $previewXp XP · ${(previewXp * 0.5).round()} 골드',
+                      '${getQuestTypeName(selectedType)} 보상: $previewXp XP · ${(previewXp * 0.5).round()} 골드',
                       style:
                           TextStyle(fontSize: 13, color: Colors.grey.shade600),
                     ),

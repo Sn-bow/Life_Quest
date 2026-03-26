@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
+import 'package:life_quest_final_v2/widgets/combat/monster_battle_sprite.dart';
+import 'package:life_quest_final_v2/widgets/combat/player_battle_sprite.dart';
 
 class CombatArenaView extends StatelessWidget {
   final CombatState combatState;
@@ -73,85 +75,167 @@ class CombatArenaView extends StatelessWidget {
               );
             },
           ),
-          // Monster
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${monster.name} Lv.${monster.level}',
-                style: TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white : Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 8),
-              // Monster HP bar
-              Container(
-                width: 200,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade900,
-                  borderRadius: BorderRadius.circular(2),
-                  border: Border.all(
-                    color: isDark ? Colors.white24 : Colors.black26,
-                    width: 2,
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    FractionallySizedBox(
-                      widthFactor: hpPercent.clamp(0, 1),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: hpPercent > 0.5
-                              ? Colors.green
-                              : (hpPercent > 0.25 ? Colors.orange : Colors.red),
-                          borderRadius: BorderRadius.circular(1),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        charState.character.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? Colors.cyanAccent : Colors.indigo,
                         ),
                       ),
-                    ),
-                    Center(
-                      child: Text(
-                        '${monster.currentHp.toInt()} / ${monster.maxHp.toInt()}',
-                        style: const TextStyle(
+                      const SizedBox(height: 8),
+                      AnimatedBuilder(
+                        animation: flashAnimation,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(14 * flashAnimation.value, 0),
+                            child: Transform.scale(
+                              scale: 1 + (flashAnimation.value * 0.06),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.cyanAccent.withValues(
+                                        alpha: 0.18 * flashAnimation.value,
+                                      ),
+                                      blurRadius: 28,
+                                      spreadRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                                child: child,
+                              ),
+                            ),
+                          );
+                        },
+                        child: PlayerBattleSprite(
+                          gender: charState.character.avatarGender,
+                          skinTone: charState.character.avatarSkinTone,
+                          hairStyle: charState.character.avatarHairStyle,
+                          eyeStyle: charState.character.avatarEyeStyle,
+                          earStyle: charState.character.avatarEarStyle,
+                          noseStyle: charState.character.avatarNoseStyle,
+                          mouthStyle: charState.character.avatarMouthStyle,
+                          outfitStyle: charState.character.avatarOutfitStyle,
+                          weapon: charState.character.equippedWeapon,
+                          armor: charState.character.equippedArmor,
+                          accessory: charState.character.equippedAccessory,
+                          size: 132,
+                          attackProgress: flashAnimation.value,
+                          defendProgress: 0,
+                          facingRight: true,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Lv.${charState.character.level} · HP ${charState.character.characterHp}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
                           fontFamily: 'monospace',
-                          fontSize: 10,
+                          fontSize: 11,
+                          color: isDark ? Colors.white70 : Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${monster.name} Lv.${monster.level}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(blurRadius: 2, color: Colors.black)
+                          color: isDark ? Colors.white : Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: 180,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade900,
+                          borderRadius: BorderRadius.circular(2),
+                          border: Border.all(
+                            color: isDark ? Colors.white24 : Colors.black26,
+                            width: 2,
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            FractionallySizedBox(
+                              widthFactor: hpPercent.clamp(0, 1),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: hpPercent > 0.5
+                                      ? Colors.green
+                                      : (hpPercent > 0.25
+                                          ? Colors.orange
+                                          : Colors.red),
+                                  borderRadius: BorderRadius.circular(1),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Text(
+                                '${monster.currentHp.toInt()} / ${monster.maxHp.toInt()}',
+                                style: const TextStyle(
+                                  fontFamily: 'monospace',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  shadows: [
+                                    Shadow(blurRadius: 2, color: Colors.black)
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              // Monster emoji
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: isDark ? Colors.black26 : Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    color: isDark
-                        ? const Color(0xFF00FFFF).withValues(alpha: 0.3)
-                        : Colors.orange.shade200,
-                    width: 3,
+                      const SizedBox(height: 20),
+                      Container(
+                        width: 136,
+                        height: 136,
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.black26 : Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(
+                            color: isDark
+                                ? const Color(0xFF00FFFF).withValues(alpha: 0.3)
+                                : Colors.orange.shade200,
+                            width: 3,
+                          ),
+                        ),
+                        child: Center(
+                          child: MonsterBattleSprite(
+                            monster: monster,
+                            size: 118,
+                            hitProgress: flashAnimation.value,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Center(
-                  child: Text(
-                    getMonsterEmoji(monster.id),
-                    style: const TextStyle(fontSize: 60),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           // Victory/Defeat overlay
           if (combatState.status == CombatStatus.victory ||
@@ -227,35 +311,6 @@ class CombatArenaView extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  static String getMonsterEmoji(String monsterId) {
-    switch (monsterId) {
-      case 'slime_green':
-        return '🟢';
-      case 'bat':
-        return '🦇';
-      case 'mushroom':
-        return '🍄';
-      case 'goblin':
-        return '👺';
-      case 'skeleton':
-        return '💀';
-      case 'wolf':
-        return '🐺';
-      case 'orc':
-        return '👹';
-      case 'dark_mage':
-        return '🧙';
-      case 'golem':
-        return '🗿';
-      case 'boss_troll':
-        return '👾';
-      case 'boss_dragon':
-        return '🐉';
-      default:
-        return '👾';
-    }
   }
 
   static Color getRarityColor(ItemRarity rarity) {

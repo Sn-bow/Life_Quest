@@ -1,4 +1,5 @@
 ﻿import 'dart:async';
+import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,48 @@ import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/data/skill_database.dart';
 
 enum StatType { strength, wisdom, health, charisma }
+
+class QuestCompletionResult {
+  final double totalXpAwarded;
+  final int totalGoldAwarded;
+  final int actionPointsAwarded;
+  final int statPointsAwarded;
+  final bool wasRaid;
+  final int raidClearCount;
+  final List<String> unlockedTitles;
+  final List<String> unlockedCosmetics;
+
+  const QuestCompletionResult({
+    required this.totalXpAwarded,
+    required this.totalGoldAwarded,
+    required this.actionPointsAwarded,
+    required this.statPointsAwarded,
+    required this.wasRaid,
+    required this.raidClearCount,
+    this.unlockedTitles = const [],
+    this.unlockedCosmetics = const [],
+  });
+}
+
+class _RaidRewardOutcome {
+  final double bonusXp;
+  final int bonusGold;
+  final int bonusActionPoints;
+  final int bonusStatPoints;
+  final int raidClearCount;
+  final List<String> unlockedTitles;
+  final List<String> unlockedCosmetics;
+
+  const _RaidRewardOutcome({
+    required this.bonusXp,
+    required this.bonusGold,
+    required this.bonusActionPoints,
+    required this.bonusStatPoints,
+    required this.raidClearCount,
+    this.unlockedTitles = const [],
+    this.unlockedCosmetics = const [],
+  });
+}
 
 class CharacterState extends ChangeNotifier {
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
@@ -65,8 +108,10 @@ class CharacterState extends ChangeNotifier {
   Future<void> refreshTimeSensitiveState() async {
     if (_character == null || !_isDataLoaded || _isLoadingInProgress) return;
 
-    final referenceTime = _character!.lastLoginDate ?? DateTime.now();
-    final didChange = _resetQuestsIfNeeded(referenceTime);
+    final now = DateTime.now();
+    final referenceTime = _character!.lastLoginDate ?? now;
+    bool didChange = _resetQuestsIfNeeded(referenceTime, now: now);
+    didChange = _applyHpRecovery(notify: false, now: now) || didChange;
     if (!didChange) return;
 
     await _performSaveData();
@@ -76,6 +121,7 @@ class CharacterState extends ChangeNotifier {
   @override
   void dispose() {
     _saveTimer?.cancel();
+    _hpRegenTimer?.cancel();
     super.dispose();
   }
 
@@ -90,6 +136,8 @@ class CharacterState extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.dark;
   bool _isNotificationEnabled = true;
   Timer? _saveTimer;
+  Timer? _hpRegenTimer;
+  bool _isCombatActive = false;
 
   final FirebaseFirestore _firestore;
 
@@ -110,6 +158,8 @@ class CharacterState extends ChangeNotifier {
 
   List<Quest> _dailyQuests = [];
   List<Quest> _weeklyQuests = [];
+  List<Quest> _monthlyQuests = [];
+  List<Quest> _yearlyQuests = [];
   List<CustomReward> _customRewards = _buildDefaultCustomRewards();
 
   Character get character => _character!;
@@ -119,9 +169,16 @@ class CharacterState extends ChangeNotifier {
   bool get isNotificationEnabled => _isNotificationEnabled;
   int get questCompletionCount =>
       _progressCountFor(AchievementCondition.questCompleted);
+  bool get isExpandedReportUnlockedToday =>
+      _character != null &&
+      _character!.expandedReportUnlockedOn == _todayKey(DateTime.now());
+  int get monthlyRaidClears => _character?.monthlyRaidClears ?? 0;
+  int get yearlyRaidClears => _character?.yearlyRaidClears ?? 0;
 
   List<Quest> get dailyQuests => _dailyQuests;
   List<Quest> get weeklyQuests => _weeklyQuests;
+  List<Quest> get monthlyQuests => _monthlyQuests;
+  List<Quest> get yearlyQuests => _yearlyQuests;
   List<GameTitle> get unlockedTitles => _allTitles
       .where((title) => _unlockedTitleIds.contains(title.id))
       .toList();
@@ -137,7 +194,12 @@ class CharacterState extends ChangeNotifier {
     };
     int totalCount = 0;
 
-    final allQuests = [..._dailyQuests, ..._weeklyQuests];
+    final allQuests = [
+      ..._dailyQuests,
+      ..._weeklyQuests,
+      ..._monthlyQuests,
+      ..._yearlyQuests,
+    ];
     for (final quest in allQuests) {
       if (quest.isCompleted) {
         counts[quest.category] = (counts[quest.category] ?? 0) + 1;
@@ -157,7 +219,12 @@ class CharacterState extends ChangeNotifier {
     final Map<int, int> weeklyData = {for (var i = 1; i <= 7; i++) i: 0};
     final now = DateTime.now();
     final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-    final allQuests = [..._dailyQuests, ..._weeklyQuests];
+    final allQuests = [
+      ..._dailyQuests,
+      ..._weeklyQuests,
+      ..._monthlyQuests,
+      ..._yearlyQuests,
+    ];
     for (final quest in allQuests) {
       if (quest.isCompleted && quest.completedDate != null) {
         if (quest.completedDate!.isAfter(startOfWeek) ||
@@ -170,16 +237,65 @@ class CharacterState extends ChangeNotifier {
     return weeklyData;
   }
 
+  Map<StatType, double> get currentLevelGrowthDistribution {
+    if (_character == null) {
+      return {for (var type in StatType.values) type: 0.0};
+    }
+
+    final weights = {
+      for (final type in StatType.values)
+        type: _character!.levelGrowthWeights[type.name] ?? 0.0,
+    };
+    final total =
+        weights.values.fold<double>(0, (runningTotal, value) => runningTotal + value);
+
+    if (total <= 0) {
+      return {for (var type in StatType.values) type: 0.0};
+    }
+
+    return weights.map((key, value) => MapEntry(key, (value / total) * 100));
+  }
+
+  Map<StatType, int> get lastLevelAutoAllocation {
+    if (_character == null) {
+      return {for (var type in StatType.values) type: 0};
+    }
+
+    return {
+      for (final type in StatType.values)
+        type: _character!.lastLevelAutoGrowth[type.name] ?? 0,
+    };
+  }
+
+  StatType? get dominantGrowthCategory {
+    final distribution = currentLevelGrowthDistribution;
+    StatType? bestType;
+    double bestValue = 0;
+
+    for (final entry in distribution.entries) {
+      if (entry.value > bestValue) {
+        bestValue = entry.value;
+        bestType = entry.key;
+      }
+    }
+
+    return bestValue > 0 ? bestType : null;
+  }
+
   void resetState() {
     _saveTimer?.cancel();
+    _hpRegenTimer?.cancel();
     _character = null;
     _isLoading = true;
     _isDataLoaded = false;
     _isLoadingInProgress = false;
     _themeMode = ThemeMode.dark;
     _isNotificationEnabled = true;
+    _isCombatActive = false;
     _dailyQuests = [];
     _weeklyQuests = [];
+    _monthlyQuests = [];
+    _yearlyQuests = [];
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
@@ -251,6 +367,31 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateAvatarLoadout({
+    String? presetId,
+    String? gender,
+    String? skinTone,
+    String? hairStyle,
+    String? eyeStyle,
+    String? earStyle,
+    String? noseStyle,
+    String? mouthStyle,
+    String? outfitStyle,
+  }) {
+    if (_character == null) return;
+    _character!.avatarPreset = presetId ?? _character!.avatarPreset;
+    _character!.avatarGender = gender ?? _character!.avatarGender;
+    _character!.avatarSkinTone = skinTone ?? _character!.avatarSkinTone;
+    _character!.avatarHairStyle = hairStyle ?? _character!.avatarHairStyle;
+    _character!.avatarEyeStyle = eyeStyle ?? _character!.avatarEyeStyle;
+    _character!.avatarEarStyle = earStyle ?? _character!.avatarEarStyle;
+    _character!.avatarNoseStyle = noseStyle ?? _character!.avatarNoseStyle;
+    _character!.avatarMouthStyle = mouthStyle ?? _character!.avatarMouthStyle;
+    _character!.avatarOutfitStyle = outfitStyle ?? _character!.avatarOutfitStyle;
+    _saveData();
+    notifyListeners();
+  }
+
   void changeTitle(GameTitle newTitle) {
     if (_unlockedTitleIds.contains(newTitle.id)) {
       _character!.title = newTitle.name;
@@ -259,10 +400,11 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  void completeQuest(Quest quest, {double xpMultiplier = 1.0}) {
+  QuestCompletionResult? completeQuest(Quest quest, {double xpMultiplier = 1.0}) {
     if (!quest.isCompleted) {
       quest.isCompleted = true;
       quest.completedDate = DateTime.now();
+      _recordGrowthContribution(quest);
       double statBonusRate = 0;
       double statValue = 0;
       switch (quest.category) {
@@ -323,19 +465,50 @@ class CharacterState extends ChangeNotifier {
       if (goldReward < 1) goldReward = 1;
       _character!.gold += goldReward;
 
+      int totalGoldReward = goldReward;
+      int totalApReward = gainedAp;
+      int totalStatPointReward = 0;
+      int raidClearCount = 0;
+      final unlockedTitleNames = <String>[];
+      final unlockedCosmeticNames = <String>[];
+
+      if (quest.type == QuestType.monthly || quest.type == QuestType.yearly) {
+        final raidReward = _applyRaidRewards(quest, xpMultiplier);
+        totalXp += raidReward.bonusXp;
+        totalGoldReward += raidReward.bonusGold;
+        totalApReward += raidReward.bonusActionPoints;
+        totalStatPointReward += raidReward.bonusStatPoints;
+        raidClearCount = raidReward.raidClearCount;
+        unlockedTitleNames.addAll(raidReward.unlockedTitles);
+        unlockedCosmeticNames.addAll(raidReward.unlockedCosmetics);
+      }
+
       while (_character!.xp >= _character!.maxXp) {
         _levelUp();
       }
-      _checkTitleUnlock();
+      unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
       _saveData();
       notifyListeners();
+      return QuestCompletionResult(
+        totalXpAwarded: totalXp,
+        totalGoldAwarded: totalGoldReward,
+        actionPointsAwarded: totalApReward,
+        statPointsAwarded: totalStatPointReward,
+        wasRaid: quest.type == QuestType.monthly || quest.type == QuestType.yearly,
+        raidClearCount: raidClearCount,
+        unlockedTitles: unlockedTitleNames.toSet().toList(),
+        unlockedCosmetics: unlockedCosmeticNames.toSet().toList(),
+      );
     }
+    return null;
   }
 
   void deleteQuest(Quest quest) {
     _dailyQuests.removeWhere((q) => q.id == quest.id);
     _weeklyQuests.removeWhere((q) => q.id == quest.id);
+    _monthlyQuests.removeWhere((q) => q.id == quest.id);
+    _yearlyQuests.removeWhere((q) => q.id == quest.id);
     _saveData();
     notifyListeners();
   }
@@ -350,10 +523,19 @@ class CharacterState extends ChangeNotifier {
       category: category,
       difficulty: difficulty,
     );
-    if (type == QuestType.daily) {
-      _dailyQuests.add(newQuest);
-    } else {
-      _weeklyQuests.add(newQuest);
+    switch (type) {
+      case QuestType.daily:
+        _dailyQuests.add(newQuest);
+        break;
+      case QuestType.weekly:
+        _weeklyQuests.add(newQuest);
+        break;
+      case QuestType.monthly:
+        _monthlyQuests.add(newQuest);
+        break;
+      case QuestType.yearly:
+        _yearlyQuests.add(newQuest);
+        break;
     }
     _saveData();
     notifyListeners();
@@ -365,6 +547,87 @@ class CharacterState extends ChangeNotifier {
     quest.category = newCategory;
     _saveData();
     notifyListeners();
+  }
+
+  _RaidRewardOutcome _applyRaidRewards(Quest quest, double xpMultiplier) {
+    final unlockedCosmeticNames = <String>[];
+    final unlockedTitleNames = <String>[];
+    double bonusXp = 0;
+    int bonusGold = 0;
+    int bonusActionPoints = 0;
+    int bonusStatPoints = 0;
+    int raidClearCount = 0;
+
+    if (quest.type == QuestType.monthly) {
+      _character!.monthlyRaidClears += 1;
+      raidClearCount = _character!.monthlyRaidClears;
+      bonusXp = (quest.xp * 0.35 * xpMultiplier).roundToDouble();
+      bonusGold = (quest.xp * 0.75 * xpMultiplier).round().clamp(10, 999999);
+      bonusActionPoints = 2;
+      bonusStatPoints = 1;
+      if (raidClearCount == 1) {
+        final unlocked = _unlockCosmeticForReward('title_effect_sparkle');
+        if (unlocked != null) unlockedCosmeticNames.add(unlocked);
+      }
+      if (raidClearCount == 3) {
+        final unlocked = _unlockCosmeticForReward('theme_neon_cyberpunk');
+        if (unlocked != null) unlockedCosmeticNames.add(unlocked);
+      }
+    } else if (quest.type == QuestType.yearly) {
+      _character!.yearlyRaidClears += 1;
+      raidClearCount = _character!.yearlyRaidClears;
+      bonusXp = (quest.xp * 0.6 * xpMultiplier).roundToDouble();
+      bonusGold = (quest.xp * 1.2 * xpMultiplier).round().clamp(20, 999999);
+      bonusActionPoints = 4;
+      bonusStatPoints = 2;
+      if (raidClearCount == 1) {
+        final unlocked = _unlockCosmeticForReward('combat_effect_lightning');
+        if (unlocked != null) unlockedCosmeticNames.add(unlocked);
+      }
+      if (raidClearCount == 2) {
+        final unlocked = _unlockCosmeticForReward('theme_royal_gold');
+        if (unlocked != null) unlockedCosmeticNames.add(unlocked);
+      }
+    }
+
+    _character!.xp += bonusXp;
+    _character!.gold += bonusGold;
+    _character!.actionPoints =
+        (_character!.actionPoints + bonusActionPoints).clamp(0, _character!.maxActionPoints);
+    _character!.statPoints += bonusStatPoints;
+    unlockedTitleNames.addAll(_checkTitleUnlock());
+
+    return _RaidRewardOutcome(
+      bonusXp: bonusXp,
+      bonusGold: bonusGold,
+      bonusActionPoints: bonusActionPoints,
+      bonusStatPoints: bonusStatPoints,
+      raidClearCount: raidClearCount,
+      unlockedTitles: unlockedTitleNames,
+      unlockedCosmetics: unlockedCosmeticNames,
+    );
+  }
+
+  String? _unlockCosmeticForReward(String id) {
+    if (_character == null || _character!.unlockedCosmetics.contains(id)) {
+      return null;
+    }
+    _character!.unlockedCosmetics.add(id);
+    final item = CosmeticDatabase.getById(id);
+    if (item != null) {
+      if (item.category == CosmeticCategory.theme &&
+          _character!.equippedTheme == null) {
+        _character!.equippedTheme = id;
+      } else if (item.category == CosmeticCategory.titleEffect &&
+          _character!.equippedTitleEffect == null) {
+        _character!.equippedTitleEffect = id;
+      } else if (item.category == CosmeticCategory.combatEffect &&
+          _character!.equippedCombatEffect == null) {
+        _character!.equippedCombatEffect = id;
+      }
+      return item.name;
+    }
+    return id;
   }
 
   /// Properly apply combat rewards (XP + loot) with full level-up pipeline.
@@ -400,6 +663,10 @@ class CharacterState extends ChangeNotifier {
     // Linear-polynomial hybrid scaling to prevent exponential mid-game halt
     _character!.maxXp = xpRequiredForLevel(_character!.level);
 
+    final autoGrowthAllocation = _applyAutomaticGrowthOnLevelUp();
+    final autoGrowthPoints = autoGrowthAllocation.values
+        .fold<int>(0, (runningTotal, value) => runningTotal + value);
+
     // Dynamically sum all learned spBonusOnLevelUp skills
     int baseSP = 5;
     int bonusSP = 0;
@@ -411,7 +678,7 @@ class CharacterState extends ChangeNotifier {
         bonusSP += skill.effectValue.toInt();
       }
     }
-    _character!.statPoints += (baseSP + bonusSP);
+    _character!.statPoints += (baseSP - autoGrowthPoints + bonusSP);
     if (_character!.level % 2 == 0) {
       _character!.skillPoints += 1;
     }
@@ -463,8 +730,9 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  void _checkTitleUnlock() {
+  List<String> _checkTitleUnlock() {
     final questsCompleted = questCompletionCount;
+    final unlockedTitles = <String>[];
 
     for (final title in _allTitles) {
       if (_unlockedTitleIds.contains(title.id)) continue;
@@ -488,6 +756,16 @@ class CharacterState extends ChangeNotifier {
         case TitleConditionType.questsCompleted:
           if (questsCompleted >= title.conditionValue) unlocked = true;
           break;
+        case TitleConditionType.monthlyRaidClears:
+          if (_character!.monthlyRaidClears >= title.conditionValue) {
+            unlocked = true;
+          }
+          break;
+        case TitleConditionType.yearlyRaidClears:
+          if (_character!.yearlyRaidClears >= title.conditionValue) {
+            unlocked = true;
+          }
+          break;
         case TitleConditionType.allStats:
           if (_character!.strength >= title.conditionValue &&
               _character!.wisdom >= title.conditionValue &&
@@ -499,8 +777,10 @@ class CharacterState extends ChangeNotifier {
       }
       if (unlocked) {
         _unlockedTitleIds.add(title.id);
+        unlockedTitles.add(title.name);
       }
     }
+    return unlockedTitles;
   }
 
   void _updateAchievement(AchievementCondition condition, int value) {
@@ -602,6 +882,8 @@ class CharacterState extends ChangeNotifier {
         'character': _character!.toJson(),
         'dailyQuests': _dailyQuests.map((q) => q.toJson()).toList(),
         'weeklyQuests': _weeklyQuests.map((q) => q.toJson()).toList(),
+        'monthlyQuests': _monthlyQuests.map((q) => q.toJson()).toList(),
+        'yearlyQuests': _yearlyQuests.map((q) => q.toJson()).toList(),
         'customRewards': _customRewards.map((reward) => reward.toJson()).toList(),
         'unlockedTitleIds': _unlockedTitleIds.toList(),
         'learnedSkillIds': _learnedSkillIds.toList(),
@@ -669,6 +951,7 @@ class CharacterState extends ChangeNotifier {
         _character = Character.fromJson(
           Map<String, dynamic>.from(data['character'] as Map),
         );
+        _character!.lastHpRegenAt ??= DateTime.now();
         final expectedMaxXp = xpRequiredForLevel(_character!.level);
         if (_character!.maxXp != expectedMaxXp) {
           _character!.maxXp = expectedMaxXp;
@@ -681,6 +964,46 @@ class CharacterState extends ChangeNotifier {
         _weeklyQuests = (data['weeklyQuests'] as List<dynamic>? ?? [])
             .map((q) => Quest.fromJson(Map<String, dynamic>.from(q as Map)))
             .toList();
+        _monthlyQuests = (data['monthlyQuests'] as List<dynamic>? ?? [])
+            .map((q) => Quest.fromJson(Map<String, dynamic>.from(q as Map)))
+            .toList();
+        _yearlyQuests = (data['yearlyQuests'] as List<dynamic>? ?? [])
+            .map((q) => Quest.fromJson(Map<String, dynamic>.from(q as Map)))
+            .toList();
+        if (!data.containsKey('monthlyQuests')) {
+          _monthlyQuests = [
+            Quest(
+              id: 'm1',
+              name: '이번 달 운동 12회 달성',
+              xp: 140,
+              type: QuestType.monthly,
+              category: StatType.health,
+              difficulty: QuestDifficulty.hard,
+            ),
+            Quest(
+              id: 'm2',
+              name: '사이드 프로젝트 핵심 기능 완성',
+              xp: 200,
+              type: QuestType.monthly,
+              category: StatType.wisdom,
+              difficulty: QuestDifficulty.veryHard,
+            ),
+          ];
+          needsSave = true;
+        }
+        if (!data.containsKey('yearlyQuests')) {
+          _yearlyQuests = [
+            Quest(
+              id: 'y1',
+              name: '올해 대표 목표 하나 완수하기',
+              xp: 280,
+              type: QuestType.yearly,
+              category: StatType.charisma,
+              difficulty: QuestDifficulty.veryHard,
+            ),
+          ];
+          needsSave = true;
+        }
         _unlockedTitleIds = (data['unlockedTitleIds'] as List<dynamic>? ?? ['t0'])
             .map((id) => id.toString())
             .toSet();
@@ -725,17 +1048,23 @@ class CharacterState extends ChangeNotifier {
           needsSave = true;
         }
 
+        if (_applyHpRecovery(notify: false)) {
+          needsSave = true;
+        }
+
         if (needsSave) {
           await _performSaveData();
         }
 
         _isDataLoaded = true;
+        _startHpRegenLoop();
       } else {
         _initializeNewData(freshUser);
         await _syncNotificationSchedule();
         // Save initial data immediately instead of debouncing
         await _performSaveData();
         _isDataLoaded = true;
+        _startHpRegenLoop();
       }
     } catch (e) {
       debugPrint('Load data error: $e');
@@ -751,6 +1080,7 @@ class CharacterState extends ChangeNotifier {
       if (_character == null) {
         _initializeNewData(user);
         _isDataLoaded = true;
+        _startHpRegenLoop();
       }
     } finally {
       _isLoading = false;
@@ -759,10 +1089,10 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  bool _resetQuestsIfNeeded(DateTime lastLogin) {
+  bool _resetQuestsIfNeeded(DateTime lastLogin, {DateTime? now}) {
     bool didChange = false;
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
+    final currentTime = now ?? DateTime.now();
+    final today = DateTime(currentTime.year, currentTime.month, currentTime.day);
     final lastDay = DateTime(lastLogin.year, lastLogin.month, lastLogin.day);
     final isNewDay = today.isAfter(lastDay);
 
@@ -815,11 +1145,11 @@ class CharacterState extends ChangeNotifier {
       }
 
       // Update lastLoginDate
-      _character!.lastLoginDate = now;
+      _character!.lastLoginDate = currentTime;
     }
 
     // Weekly reset check
-    final daysSinceLastLogin = now.difference(lastLogin).inDays;
+    final daysSinceLastLogin = currentTime.difference(lastLogin).inDays;
     bool newWeekStarted = false;
     for (int i = 1; i <= daysSinceLastLogin; i++) {
       if (lastLogin.add(Duration(days: i)).weekday == DateTime.monday) {
@@ -830,6 +1160,25 @@ class CharacterState extends ChangeNotifier {
     if (newWeekStarted) {
       didChange = true;
       for (var quest in _weeklyQuests) {
+        quest.isCompleted = false;
+        quest.completedDate = null;
+      }
+    }
+
+    final isNewMonth = currentTime.year != lastLogin.year ||
+        currentTime.month != lastLogin.month;
+    if (isNewMonth) {
+      didChange = true;
+      for (var quest in _monthlyQuests) {
+        quest.isCompleted = false;
+        quest.completedDate = null;
+      }
+    }
+
+    final isNewYear = currentTime.year != lastLogin.year;
+    if (isNewYear) {
+      didChange = true;
+      for (var quest in _yearlyQuests) {
         quest.isCompleted = false;
         quest.completedDate = null;
       }
@@ -853,6 +1202,7 @@ class CharacterState extends ChangeNotifier {
       statPoints: 0,
       skillPoints: 0,
       lastLoginDate: DateTime.now(),
+      lastHpRegenAt: DateTime.now(),
     );
     _dailyQuests = [
       Quest(
@@ -888,12 +1238,227 @@ class CharacterState extends ChangeNotifier {
           type: QuestType.weekly,
           category: StatType.wisdom),
     ];
+    _monthlyQuests = [
+      Quest(
+          id: 'm1',
+          name: '이번 달 운동 12회 달성',
+          xp: 140,
+          type: QuestType.monthly,
+          category: StatType.health,
+          difficulty: QuestDifficulty.hard),
+      Quest(
+          id: 'm2',
+          name: '사이드 프로젝트 핵심 기능 완성',
+          xp: 200,
+          type: QuestType.monthly,
+          category: StatType.wisdom,
+          difficulty: QuestDifficulty.veryHard),
+    ];
+    _yearlyQuests = [
+      Quest(
+          id: 'y1',
+          name: '올해 대표 목표 하나 완수하기',
+          xp: 280,
+          type: QuestType.yearly,
+          category: StatType.charisma,
+          difficulty: QuestDifficulty.veryHard),
+    ];
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
     _isNotificationEnabled = true;
     _customRewards = _buildDefaultCustomRewards();
   }
+
+  Future<void> unlockExpandedReportForToday() async {
+    if (_character == null) return;
+    _character!.expandedReportUnlockedOn = _todayKey(DateTime.now());
+    await _saveData();
+    notifyListeners();
+  }
+
+  @visibleForTesting
+  void debugSeedState({
+    required Character character,
+    List<Quest>? dailyQuests,
+    List<Quest>? weeklyQuests,
+    List<Quest>? monthlyQuests,
+    List<Quest>? yearlyQuests,
+  }) {
+    _character = character;
+    _dailyQuests = dailyQuests ?? [];
+    _weeklyQuests = weeklyQuests ?? [];
+    _monthlyQuests = monthlyQuests ?? [];
+    _yearlyQuests = yearlyQuests ?? [];
+    _isLoading = false;
+    _isDataLoaded = true;
+    _isLoadingInProgress = false;
+  }
+
+  @visibleForTesting
+  bool debugApplyHpRecoveryAt(DateTime now) {
+    return _applyHpRecovery(notify: false, now: now);
+  }
+
+  @visibleForTesting
+  bool debugResetQuestsIfNeeded(DateTime lastLogin, {DateTime? now}) {
+    return _resetQuestsIfNeeded(lastLogin, now: now);
+  }
+
+  void setCombatActive(bool active) {
+    if (_character == null || _isCombatActive == active) return;
+    _isCombatActive = active;
+    _character!.lastHpRegenAt = DateTime.now();
+    _saveData();
+    notifyListeners();
+  }
+
+  void _startHpRegenLoop() {
+    _hpRegenTimer?.cancel();
+    _hpRegenTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (_applyHpRecovery()) {
+        _saveData();
+      }
+    });
+  }
+
+  bool _applyHpRecovery({bool notify = true, DateTime? now}) {
+    if (_character == null || _isCombatActive) return false;
+
+    if (_character!.characterHp >= _character!.characterMaxHp) {
+      _character!.lastHpRegenAt = now ?? DateTime.now();
+      return false;
+    }
+
+    final currentTime = now ?? DateTime.now();
+    final lastTick = _character!.lastHpRegenAt ?? currentTime;
+    const regenIntervalMinutes = 10;
+    final ticks =
+        currentTime.difference(lastTick).inMinutes ~/ regenIntervalMinutes;
+    if (ticks <= 0) return false;
+
+    final healPerTick =
+        math.max(1, (_character!.characterMaxHp * 0.03).round());
+    final recoveredHp = (_character!.characterHp + (healPerTick * ticks))
+        .clamp(0, _character!.characterMaxHp);
+    final changed = recoveredHp != _character!.characterHp;
+
+    _character!.characterHp = recoveredHp;
+    _character!.lastHpRegenAt = lastTick.add(
+      Duration(minutes: ticks * regenIntervalMinutes),
+    );
+
+    if (changed && notify) {
+      notifyListeners();
+    }
+    return changed;
+  }
+
+  void _recordGrowthContribution(Quest quest) {
+    if (_character == null) return;
+
+    double contribution = quest.xp.toDouble();
+    switch (quest.type) {
+      case QuestType.daily:
+        contribution *= 1.0;
+        break;
+      case QuestType.weekly:
+        contribution *= 1.25;
+        break;
+      case QuestType.monthly:
+        contribution *= 1.75;
+        break;
+      case QuestType.yearly:
+        contribution *= 2.5;
+        break;
+    }
+
+    _character!.levelGrowthWeights[quest.category.name] =
+        (_character!.levelGrowthWeights[quest.category.name] ?? 0) +
+            contribution;
+  }
+
+  Map<StatType, int> _applyAutomaticGrowthOnLevelUp() {
+    if (_character == null) {
+      return {for (final type in StatType.values) type: 0};
+    }
+
+    const autoGrowthPoints = 3;
+    final weights = {
+      for (final type in StatType.values)
+        type: _character!.levelGrowthWeights[type.name] ?? 0.0,
+    };
+    final total =
+        weights.values.fold<double>(0, (runningTotal, value) => runningTotal + value);
+    if (total <= 0) {
+      _character!.lastLevelAutoGrowth = {
+        for (final type in StatType.values) type.name: 0,
+      };
+      return {for (final type in StatType.values) type: 0};
+    }
+
+    final allocations = {for (final type in StatType.values) type: 0};
+    final remainders = <StatType, double>{};
+    int assigned = 0;
+
+    for (final entry in weights.entries) {
+      final exact = (entry.value / total) * autoGrowthPoints;
+      final whole = exact.floor();
+      allocations[entry.key] = whole;
+      remainders[entry.key] = exact - whole;
+      assigned += whole;
+    }
+
+    final sortedRemainders = remainders.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    var index = 0;
+    while (assigned < autoGrowthPoints && index < sortedRemainders.length) {
+      allocations[sortedRemainders[index].key] =
+          (allocations[sortedRemainders[index].key] ?? 0) + 1;
+      assigned++;
+      index++;
+    }
+
+    for (final entry in allocations.entries) {
+      if (entry.value > 0) {
+        _increaseStat(entry.key, entry.value);
+      }
+    }
+
+    _character!.lastLevelAutoGrowth = {
+      for (final entry in allocations.entries) entry.key.name: entry.value,
+    };
+    _character!.levelGrowthWeights = {};
+    return allocations;
+  }
+
+  void _increaseStat(StatType stat, int amount) {
+    switch (stat) {
+      case StatType.strength:
+        _character!.strength += amount;
+        _updateAchievement(
+            AchievementCondition.strengthReached, _character!.strength.toInt());
+        break;
+      case StatType.wisdom:
+        _character!.wisdom += amount;
+        _updateAchievement(
+            AchievementCondition.wisdomReached, _character!.wisdom.toInt());
+        break;
+      case StatType.health:
+        _character!.health += amount;
+        _updateAchievement(
+            AchievementCondition.healthReached, _character!.health.toInt());
+        break;
+      case StatType.charisma:
+        _character!.charisma += amount;
+        _updateAchievement(
+            AchievementCondition.charismaReached, _character!.charisma.toInt());
+        break;
+    }
+  }
+
+  String _todayKey(DateTime date) =>
+      '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   // --- Custom Rewards ---
   List<CustomReward> get customRewards => List.unmodifiable(_customRewards);
   void addCustomReward(String name, String description, int cost, String icon) {

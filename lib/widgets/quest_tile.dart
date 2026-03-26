@@ -7,6 +7,7 @@ class QuestTile extends StatelessWidget {
   final VoidCallback onChecked;
   final VoidCallback onDeleted;
   final VoidCallback? onEdited;
+  final String? rewardPreview;
 
   const QuestTile({
     super.key,
@@ -14,6 +15,7 @@ class QuestTile extends StatelessWidget {
     required this.onChecked,
     required this.onDeleted,
     this.onEdited,
+    this.rewardPreview,
   });
 
   Color _difficultyColor() {
@@ -75,6 +77,20 @@ class QuestTile extends StatelessWidget {
                         : theme.textTheme.bodyLarge?.color,
                   ),
                 ),
+                subtitle: rewardPreview == null
+                    ? null
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          rewardPreview!,
+                          maxLines: 4,
+                          style: TextStyle(
+                            fontSize: 12,
+                            height: 1.4,
+                            color: Colors.amber.shade300,
+                          ),
+                        ),
+                      ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

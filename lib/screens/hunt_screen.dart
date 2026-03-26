@@ -21,6 +21,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   late Animation<double> _shakeAnimation;
   late Animation<double> _flashAnimation;
   bool _showSkills = false;
+  CombatStatus? _lastCombatStatus;
 
   @override
   void initState() {
@@ -42,6 +43,9 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    if (mounted) {
+      context.read<CharacterState>().setCombatActive(false);
+    }
     _shakeController.dispose();
     _flashController.dispose();
     super.dispose();
@@ -57,6 +61,16 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     final charState = context.watch<CharacterState>();
     final combatState = context.watch<CombatState>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    if (_lastCombatStatus != combatState.status) {
+      _lastCombatStatus = combatState.status;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        context
+            .read<CharacterState>()
+            .setCombatActive(combatState.status == CombatStatus.fighting);
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(

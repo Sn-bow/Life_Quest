@@ -1,6 +1,6 @@
 import 'package:life_quest_final_v2/state/character_state.dart';
 
-enum QuestType { daily, weekly }
+enum QuestType { daily, weekly, monthly, yearly }
 
 enum QuestDifficulty {
   easy, // 쉬움
@@ -32,7 +32,12 @@ class Quest {
 
   /// Auto-calculate XP based on difficulty and quest type
   static int xpForDifficulty(QuestDifficulty difficulty, QuestType type) {
-    final base = type == QuestType.daily ? 1 : 3; // weekly = 3x multiplier
+    final base = switch (type) {
+      QuestType.daily => 1,
+      QuestType.weekly => 3,
+      QuestType.monthly => 7,
+      QuestType.yearly => 14,
+    };
     switch (difficulty) {
       case QuestDifficulty.easy:
         return 10 * base;

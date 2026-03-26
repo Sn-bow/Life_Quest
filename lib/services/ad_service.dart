@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 /// Singleton service for managing AdMob rewarded ads.
 class AdService {
@@ -33,6 +34,7 @@ class AdService {
     'ap_recovery': 3,
     'quest_double': 2,
     'combat_revive': 1,
+    'report_detail': 3,
   };
 
   /// Initialize the Mobile Ads SDK.
@@ -135,23 +137,44 @@ class AdService {
       return false;
     }
 
-    bool rewarded = false;
+    final ad = _rewardedAd!;
+    _rewardedAd = null;
+    _isAdLoaded = false;
 
-    await _rewardedAd!.show(
-      onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+    bool rewarded = false;
+    final resultCompleter = Completer<bool>();
+
+    void finish(bool value) {
+      if (!resultCompleter.isCompleted) {
+        resultCompleter.complete(value);
+      }
+    }
+
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _loadRewardedAd();
+        finish(rewarded);
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint('[AdService] Rewarded ad failed to show: $error');
+        ad.dispose();
+        _loadRewardedAd();
+        finish(false);
+      },
+    );
+
+    await ad.show(
+      onUserEarnedReward: (AdWithoutView adWithoutView, RewardItem reward) {
         rewarded = true;
         _dailyAdCounts[rewardType] = (_dailyAdCounts[rewardType] ?? 0) + 1;
-        _saveDailyCounts();
+        unawaited(_saveDailyCounts());
         debugPrint(
             '[AdService] User earned reward: ${reward.amount} ${reward.type}');
       },
     );
 
-    _rewardedAd = null;
-    _isAdLoaded = false;
-    _loadRewardedAd(); // Pre-load next ad
-
-    return rewarded;
+    return resultCompleter.future;
   }
 
   /// Dispose resources.

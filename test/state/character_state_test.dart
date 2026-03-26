@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 
@@ -115,6 +116,182 @@ void main() {
 
     test('Level 50 maxXp should be 2600', () {
       expect(100.0 + (50 * 50.0), 2600.0);
+    });
+  });
+
+  group('Time-based progression tests', () {
+    test('HP regenerates every 10 minutes while out of combat', () {
+      final state = CharacterState(firestore: FakeFirebaseFirestore());
+      final baseTime = DateTime(2026, 3, 12, 10, 0);
+
+      state.debugSeedState(
+        character: Character(
+          name: 'Tester',
+          level: 5,
+          title: '새싹 모험가',
+          xp: 120,
+          maxXp: CharacterState.xpRequiredForLevel(5),
+          strength: 5,
+          wisdom: 5,
+          health: 5,
+          charisma: 5,
+          statPoints: 0,
+          skillPoints: 0,
+          characterHp: 50,
+          characterMaxHp: 100,
+          lastLoginDate: baseTime,
+          lastHpRegenAt: baseTime,
+        ),
+      );
+
+      final didRecover =
+          state.debugApplyHpRecoveryAt(baseTime.add(const Duration(minutes: 25)));
+
+      expect(didRecover, isTrue);
+      expect(state.character.characterHp, 56);
+      expect(
+        state.character.lastHpRegenAt,
+        baseTime.add(const Duration(minutes: 20)),
+      );
+    });
+
+    test('HP does not regenerate during combat', () {
+      final state = CharacterState(firestore: FakeFirebaseFirestore());
+      final baseTime = DateTime(2026, 3, 12, 10, 0);
+
+      state.debugSeedState(
+        character: Character(
+          name: 'Tester',
+          level: 5,
+          title: '새싹 모험가',
+          xp: 120,
+          maxXp: CharacterState.xpRequiredForLevel(5),
+          strength: 5,
+          wisdom: 5,
+          health: 5,
+          charisma: 5,
+          statPoints: 0,
+          skillPoints: 0,
+          characterHp: 50,
+          characterMaxHp: 100,
+          lastLoginDate: baseTime,
+          lastHpRegenAt: baseTime,
+        ),
+      );
+
+      state.setCombatActive(true);
+      final didRecover =
+          state.debugApplyHpRecoveryAt(baseTime.add(const Duration(minutes: 25)));
+
+      expect(didRecover, isFalse);
+      expect(state.character.characterHp, 50);
+    });
+
+    test('Monthly and yearly quests reset across date boundaries', () {
+      final state = CharacterState(firestore: FakeFirebaseFirestore());
+      final lastLogin = DateTime(2025, 12, 31, 23, 50);
+
+      state.debugSeedState(
+        character: Character(
+          name: 'Tester',
+          level: 5,
+          title: '새싹 모험가',
+          xp: 120,
+          maxXp: CharacterState.xpRequiredForLevel(5),
+          strength: 5,
+          wisdom: 5,
+          health: 5,
+          charisma: 5,
+          statPoints: 0,
+          skillPoints: 0,
+          characterHp: 100,
+          characterMaxHp: 100,
+          lastLoginDate: lastLogin,
+          lastHpRegenAt: lastLogin,
+        ),
+        monthlyQuests: [
+          Quest(
+            id: 'm-test',
+            name: '월간 레이드',
+            xp: 140,
+            type: QuestType.monthly,
+            category: StatType.health,
+            isCompleted: true,
+            completedDate: lastLogin,
+          ),
+        ],
+        yearlyQuests: [
+          Quest(
+            id: 'y-test',
+            name: '연간 레이드',
+            xp: 280,
+            type: QuestType.yearly,
+            category: StatType.charisma,
+            isCompleted: true,
+            completedDate: lastLogin,
+          ),
+        ],
+      );
+
+      final didReset = state.debugResetQuestsIfNeeded(
+        lastLogin,
+        now: DateTime(2026, 1, 1, 9, 0),
+      );
+
+      expect(didReset, isTrue);
+      expect(state.monthlyQuests.single.isCompleted, isFalse);
+      expect(state.monthlyQuests.single.completedDate, isNull);
+      expect(state.yearlyQuests.single.isCompleted, isFalse);
+      expect(state.yearlyQuests.single.completedDate, isNull);
+    });
+
+    test('Monthly raid grants extra rewards and unlocks progression loot', () {
+      final state = CharacterState(firestore: FakeFirebaseFirestore());
+      final baseTime = DateTime(2026, 3, 12, 10, 0);
+      final monthlyRaid = Quest(
+        id: 'm-test',
+        name: '월간 레이드',
+        xp: 140,
+        type: QuestType.monthly,
+        category: StatType.health,
+        difficulty: QuestDifficulty.hard,
+      );
+
+      state.debugSeedState(
+        character: Character(
+          name: 'Tester',
+          level: 5,
+          title: '새싹 모험가',
+          xp: 0,
+          maxXp: CharacterState.xpRequiredForLevel(5),
+          strength: 5,
+          wisdom: 5,
+          health: 5,
+          charisma: 5,
+          statPoints: 0,
+          skillPoints: 0,
+          characterHp: 100,
+          characterMaxHp: 100,
+          lastLoginDate: baseTime,
+          lastHpRegenAt: baseTime,
+          actionPoints: 5,
+          maxActionPoints: 10,
+        ),
+        monthlyQuests: [monthlyRaid],
+      );
+
+      final result = state.completeQuest(monthlyRaid);
+
+      expect(result, isNotNull);
+      expect(result!.wasRaid, isTrue);
+      expect(result.raidClearCount, 1);
+      expect(state.monthlyRaidClears, 1);
+      expect(state.character.statPoints, 1);
+      expect(
+        state.character.unlockedCosmetics.contains('title_effect_sparkle'),
+        isTrue,
+      );
+      expect(result.unlockedCosmetics, contains('빛나는 칭호 이펙트'));
     });
   });
 }
