@@ -367,31 +367,6 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateAvatarLoadout({
-    String? presetId,
-    String? gender,
-    String? skinTone,
-    String? hairStyle,
-    String? eyeStyle,
-    String? earStyle,
-    String? noseStyle,
-    String? mouthStyle,
-    String? outfitStyle,
-  }) {
-    if (_character == null) return;
-    _character!.avatarPreset = presetId ?? _character!.avatarPreset;
-    _character!.avatarGender = gender ?? _character!.avatarGender;
-    _character!.avatarSkinTone = skinTone ?? _character!.avatarSkinTone;
-    _character!.avatarHairStyle = hairStyle ?? _character!.avatarHairStyle;
-    _character!.avatarEyeStyle = eyeStyle ?? _character!.avatarEyeStyle;
-    _character!.avatarEarStyle = earStyle ?? _character!.avatarEarStyle;
-    _character!.avatarNoseStyle = noseStyle ?? _character!.avatarNoseStyle;
-    _character!.avatarMouthStyle = mouthStyle ?? _character!.avatarMouthStyle;
-    _character!.avatarOutfitStyle = outfitStyle ?? _character!.avatarOutfitStyle;
-    _saveData();
-    notifyListeners();
-  }
-
   void changeTitle(GameTitle newTitle) {
     if (_unlockedTitleIds.contains(newTitle.id)) {
       _character!.title = newTitle.name;

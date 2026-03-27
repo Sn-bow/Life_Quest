@@ -1,8 +1,0 @@
-{
-  "model": "gpt-image-1",
-  "size": "1024x1024",
-  "n": 1,
-  "response_format": "b64_json",
-  "prompt": "Create a front-facing Korean webtoon-inspired SD character sheet for a mobile app avatar. The character should be cute, soft, rounded, and easy to read at small sizes. Use a 2-head-tall chibi proportion, very large expressive eyes, a soft round face, tiny nose, tiny mouth, short limbs, and a clean sticker-like silhouette. The style should feel like popular Korean webtoon merchandise or cute SD bonus art, not like a fantasy RPG class design. Use a simple modern outfit with clean shapes and subtle highlights. Show 4 small expression variations in one sheet: neutral, smile, happy, calm. Front-facing only. Transparent or plain light background. No props, no weapons, no text, no logos.",
-  "negative_prompt": "realistic, semi-realistic, mature proportions, long legs, detailed fingers, fantasy armor, weapon, magical sigil, emblem, mascot, animal ears, clutter, background scene, text, watermark, extra limbs, distorted eyes"
-}

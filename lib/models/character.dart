@@ -46,15 +46,6 @@ class Character {
   String? expandedReportUnlockedOn;
   int monthlyRaidClears;
   int yearlyRaidClears;
-  String avatarPreset;
-  String avatarGender;
-  String avatarSkinTone;
-  String avatarHairStyle;
-  String avatarEyeStyle;
-  String avatarEarStyle;
-  String avatarNoseStyle;
-  String avatarMouthStyle;
-  String avatarOutfitStyle;
 
   Character({
     required this.name,
@@ -92,15 +83,6 @@ class Character {
     this.expandedReportUnlockedOn,
     this.monthlyRaidClears = 0,
     this.yearlyRaidClears = 0,
-    this.avatarPreset = 'preset_shadow',
-    this.avatarGender = 'masculine',
-    this.avatarSkinTone = 'warm',
-    this.avatarHairStyle = 'spike',
-    this.avatarEyeStyle = 'sharp',
-    this.avatarEarStyle = 'round',
-    this.avatarNoseStyle = 'line',
-    this.avatarMouthStyle = 'flat',
-    this.avatarOutfitStyle = 'hunter',
   }) : inventory = inventory ?? [],
         unlockedCosmetics = unlockedCosmetics ?? [],
         levelGrowthWeights = levelGrowthWeights ?? {},
@@ -169,15 +151,6 @@ class Character {
       expandedReportUnlockedOn: json['expandedReportUnlockedOn'] as String?,
       monthlyRaidClears: json['monthlyRaidClears'] ?? 0,
       yearlyRaidClears: json['yearlyRaidClears'] ?? 0,
-      avatarPreset: json['avatarPreset'] ?? 'preset_shadow',
-      avatarGender: json['avatarGender'] ?? 'masculine',
-      avatarSkinTone: json['avatarSkinTone'] ?? 'warm',
-      avatarHairStyle: json['avatarHairStyle'] ?? 'spike',
-      avatarEyeStyle: json['avatarEyeStyle'] ?? 'sharp',
-      avatarEarStyle: json['avatarEarStyle'] ?? 'round',
-      avatarNoseStyle: json['avatarNoseStyle'] ?? 'line',
-      avatarMouthStyle: json['avatarMouthStyle'] ?? 'flat',
-      avatarOutfitStyle: json['avatarOutfitStyle'] ?? 'hunter',
     );
   }
 
@@ -218,15 +191,6 @@ class Character {
       'expandedReportUnlockedOn': expandedReportUnlockedOn,
       'monthlyRaidClears': monthlyRaidClears,
       'yearlyRaidClears': yearlyRaidClears,
-      'avatarPreset': avatarPreset,
-      'avatarGender': avatarGender,
-      'avatarSkinTone': avatarSkinTone,
-      'avatarHairStyle': avatarHairStyle,
-      'avatarEyeStyle': avatarEyeStyle,
-      'avatarEarStyle': avatarEarStyle,
-      'avatarNoseStyle': avatarNoseStyle,
-      'avatarMouthStyle': avatarMouthStyle,
-      'avatarOutfitStyle': avatarOutfitStyle,
     };
   }
 }

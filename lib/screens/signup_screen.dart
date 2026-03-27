@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
-import 'package:life_quest_final_v2/widgets/player_avatar_view.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -26,47 +25,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
   bool _isLoading = false;
   File? _selectedImage;
-  String _selectedAvatarPreset = playerAvatarPresets.first.id;
-  String _selectedAvatarGender = playerAvatarPresets.first.gender;
-  String _selectedAvatarSkinTone = playerAvatarPresets.first.skinTone;
-  String _selectedAvatarHairStyle = playerAvatarPresets.first.hairStyle;
-  String _selectedAvatarEyeStyle = playerAvatarPresets.first.eyeStyle;
-  String _selectedAvatarEarStyle = playerAvatarPresets.first.earStyle;
-  String _selectedAvatarNoseStyle = playerAvatarPresets.first.noseStyle;
-  String _selectedAvatarMouthStyle = playerAvatarPresets.first.mouthStyle;
-  String _selectedAvatarOutfitStyle = playerAvatarPresets.first.outfitStyle;
-
-  Widget _buildAvatarPlaceholder(ThemeData theme, {double size = 118}) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: Colors.white.withValues(alpha: 0.04),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.person_outline,
-            size: size * 0.34,
-            color: theme.colorScheme.primary,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '캐릭터 재작업 중',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: Colors.white.withValues(alpha: 0.72),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
@@ -136,15 +94,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         statPoints: 0,
         skillPoints: 0,
         lastLoginDate: DateTime.now(),
-        avatarPreset: _selectedAvatarPreset,
-        avatarGender: _selectedAvatarGender,
-        avatarSkinTone: _selectedAvatarSkinTone,
-        avatarHairStyle: _selectedAvatarHairStyle,
-        avatarEyeStyle: _selectedAvatarEyeStyle,
-        avatarEarStyle: _selectedAvatarEarStyle,
-        avatarNoseStyle: _selectedAvatarNoseStyle,
-        avatarMouthStyle: _selectedAvatarMouthStyle,
-        avatarOutfitStyle: _selectedAvatarOutfitStyle,
       );
 
       final initialData = {
@@ -273,37 +222,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
-    Widget buildOptionSection(
-      String title,
-      List<AvatarOption> options,
-      String selected,
-      ValueChanged<String> onSelected,
-    ) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: options.map((option) {
-              return ChoiceChip(
-                label: Text(option.label),
-                selected: selected == option.id,
-                onSelected: (_) => setState(() => onSelected(option.id)),
-              );
-            }).toList(),
-          ),
-        ],
-      );
-    }
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -361,147 +279,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             foregroundColor: theme.colorScheme.primary),
                       ),
                       const SizedBox(height: 12),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '내 캐릭터 만들기',
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Center(
-                        child: _buildAvatarPlaceholder(theme, size: 118),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: 124,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: playerAvatarPresets.length,
-                          separatorBuilder: (_, __) => const SizedBox(width: 12),
-                          itemBuilder: (context, index) {
-                            final preset = playerAvatarPresets[index];
-                            final selected = _selectedAvatarPreset == preset.id;
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _selectedAvatarPreset = preset.id;
-                                  _selectedAvatarGender = preset.gender;
-                                  _selectedAvatarSkinTone = preset.skinTone;
-                                  _selectedAvatarHairStyle = preset.hairStyle;
-                                  _selectedAvatarEyeStyle = preset.eyeStyle;
-                                  _selectedAvatarEarStyle = preset.earStyle;
-                                  _selectedAvatarNoseStyle = preset.noseStyle;
-                                  _selectedAvatarMouthStyle = preset.mouthStyle;
-                                  _selectedAvatarOutfitStyle =
-                                      preset.outfitStyle;
-                                });
-                              },
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 180),
-                                width: 110,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(18),
-                                  color: Colors.white.withValues(alpha: 0.04),
-                                  border: Border.all(
-                                    color: selected
-                                        ? theme.colorScheme.primary
-                                        : Colors.white.withValues(alpha: 0.08),
-                                    width: selected ? 2 : 1,
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 66,
-                                      height: 66,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: Colors.white.withValues(alpha: 0.04),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Icon(
-                                        Icons.person_outline,
-                                        color: theme.colorScheme.primary,
-                                        size: 28,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      preset.name,
-                                      textAlign: TextAlign.center,
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '성별 스타일',
-                        avatarGenderOptions,
-                        _selectedAvatarGender,
-                        (value) => _selectedAvatarGender = value,
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '피부 톤',
-                        avatarSkinToneOptions,
-                        _selectedAvatarSkinTone,
-                        (value) => _selectedAvatarSkinTone = value,
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '머리',
-                        avatarHairOptions,
-                        _selectedAvatarHairStyle,
-                        (value) => _selectedAvatarHairStyle = value,
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '눈',
-                        avatarEyeOptions,
-                        _selectedAvatarEyeStyle,
-                        (value) => _selectedAvatarEyeStyle = value,
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '귀',
-                        avatarEarOptions,
-                        _selectedAvatarEarStyle,
-                        (value) => _selectedAvatarEarStyle = value,
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '코',
-                        avatarNoseOptions,
-                        _selectedAvatarNoseStyle,
-                        (value) => _selectedAvatarNoseStyle = value,
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '입',
-                        avatarMouthOptions,
-                        _selectedAvatarMouthStyle,
-                        (value) => _selectedAvatarMouthStyle = value,
-                      ),
-                      const SizedBox(height: 16),
-                      buildOptionSection(
-                        '의상',
-                        avatarOutfitOptions,
-                        _selectedAvatarOutfitStyle,
-                        (value) => _selectedAvatarOutfitStyle = value,
-                      ),
-                      const SizedBox(height: 24),
                       TextFormField(
                         controller: _emailController,
                         decoration: const InputDecoration(
