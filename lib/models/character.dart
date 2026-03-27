@@ -1,4 +1,5 @@
-﻿import 'package:life_quest_final_v2/models/item.dart';
+import 'package:life_quest_final_v2/models/item.dart';
+import 'package:life_quest_final_v2/models/custom_reward.dart';
 
 class Character {
   String name;
@@ -32,6 +33,7 @@ class Character {
   // Economy & Cosmetics
   int gold;
   List<String> unlockedCosmetics;
+  List<CustomReward> customRewards;
   String? equippedTheme;
   String? equippedTitleEffect;
   String? equippedCombatEffect;
@@ -73,6 +75,7 @@ class Character {
     this.lastHpRegenAt,
     this.gold = 0,
     List<String>? unlockedCosmetics,
+    List<CustomReward>? customRewards,
     this.equippedTheme,
     this.equippedTitleEffect,
     this.equippedCombatEffect,
@@ -85,6 +88,7 @@ class Character {
     this.yearlyRaidClears = 0,
   }) : inventory = inventory ?? [],
         unlockedCosmetics = unlockedCosmetics ?? [],
+        customRewards = customRewards ?? [],
         levelGrowthWeights = levelGrowthWeights ?? {},
         lastLevelAutoGrowth = lastLevelAutoGrowth ?? {};
 
@@ -130,6 +134,10 @@ class Character {
       gold: json['gold'] ?? 0,
       unlockedCosmetics: (json['unlockedCosmetics'] as List<dynamic>?)
               ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      customRewards: (json['customRewards'] as List<dynamic>?)
+              ?.map((e) => CustomReward.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       equippedTheme: json['equippedTheme'],
@@ -181,6 +189,7 @@ class Character {
       'lastHpRegenAt': lastHpRegenAt?.toIso8601String(),
       'gold': gold,
       'unlockedCosmetics': unlockedCosmetics,
+      'customRewards': customRewards.map((e) => e.toJson()).toList(),
       'equippedTheme': equippedTheme,
       'equippedTitleEffect': equippedTitleEffect,
       'equippedCombatEffect': equippedCombatEffect,

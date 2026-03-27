@@ -26,14 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        // TODO: Run `flutterfire configure` to generate iOS Firebase options.
-        // After running the command, replace this block with:
-        //   return ios;
-        // And add the iOS FirebaseOptions constant below the android one.
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'run `flutterfire configure` to set up iOS Firebase support.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -62,6 +55,15 @@ class DefaultFirebaseOptions {
     messagingSenderId: '249227775121',
     projectId: 'life-quest-app-95eb9',
     storageBucket: 'life-quest-app-95eb9.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDLzhR6zBBZCrc0aminyYBp2o5rALFvklE',
+    appId: '1:249227775121:ios:9326803c7a243a60894330',
+    messagingSenderId: '249227775121',
+    projectId: 'life-quest-app-95eb9',
+    storageBucket: 'life-quest-app-95eb9.firebasestorage.app',
+    iosBundleId: 'com.example.lifeQuestFinalV2',
   );
 
 }

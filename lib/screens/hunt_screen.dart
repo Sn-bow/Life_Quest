@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 
 import 'package:life_quest_final_v2/models/skill.dart';
+import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/widgets/combat/dungeon_floor_selector.dart';
 import 'package:life_quest_final_v2/widgets/combat/combat_arena_view.dart';
@@ -296,25 +297,63 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   Widget _buildActionButtons(
       CharacterState charState, CombatState combatState, bool isDark) {
     if (combatState.status == CombatStatus.victory) {
+      final adService = AdService();
+      final remainingMultiplier = adService.getRemainingViews('combat_multiplier');
+
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              child: _secondaryButton(
-                '보상 수령 & 돌아가기',
-                Icons.emoji_events,
-                isDark ? const Color(0xFF00FFFF) : Colors.orange,
-                () {
-                  final result = combatState.lastResult;
-                  if (result != null) {
-                    charState.addCombatReward(result.xpGained, result.loot);
+            if (remainingMultiplier > 0) ...[
+              _secondaryButton(
+                '광고 보고 보상 2배로 받기 ($remainingMultiplier회 남음)',
+                Icons.ondemand_video,
+                Colors.amber,
+                () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  final success = await adService.showRewardedAd('combat_multiplier');
+                  if (!context.mounted) return;
+
+                  if (success) {
+                    final result = combatState.lastResult;
+                    if (result != null) {
+                      charState.character.gold += result.goldGained; // 2x Gold
+                      charState.addCombatReward(result.xpGained * 2, result.loot);
+                    }
+                    charState.forceSave();
+                    combatState.endCombat();
+                    messenger.showSnackBar(
+                      const SnackBar(content: Text('🎉 광고 보상으로 2배의 전리품을 획득했습니다!')),
+                    );
+                  } else {
+                    messenger.showSnackBar(
+                      const SnackBar(content: Text('광고를 불러올 수 없습니다. 다시 시도해주세요.')),
+                    );
                   }
-                  charState.forceSave(); // Save dungeon progress and rewards
-                  combatState.endCombat();
                 },
                 isDark,
               ),
+              const SizedBox(height: 8),
+            ],
+            Row(
+              children: [
+                Expanded(
+                  child: _secondaryButton(
+                    '결과 확인 & 돌아가기',
+                    Icons.emoji_events,
+                    isDark ? const Color(0xFF00FFFF) : Colors.orange,
+                    () {
+                      final result = combatState.lastResult;
+                      if (result != null) {
+                        charState.addCombatReward(result.xpGained, result.loot);
+                      }
+                      charState.forceSave(); // Save dungeon progress and rewards
+                      combatState.endCombat();
+                    },
+                    isDark,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -420,6 +459,18 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   const SizedBox(width: 8),
                   Expanded(
                     child: _actionButton(
+                        '가방 (1 AP)', Icons.shopping_bag, Colors.purple, () {
+                      if (!hasAp) return _showApWarning();
+                      _showInventoryModal(charState, combatState, isDark);
+                    }, isDark),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: _actionButton(
                         '도망 (1 AP)', Icons.directions_run, Colors.grey, () {
                       if (!hasAp) return _showApWarning();
                       int cost = combatState.playerFlee(charState.character);
@@ -497,6 +548,50 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
       charState.scheduleSave();
       charState.refreshState();
     }
+  }
+
+  void _showInventoryModal(CharacterState charState, CombatState combatState, bool isDark) {
+    final consumables = charState.character.inventory.where((i) => i.type == ItemType.consumable).toList();
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: isDark ? const Color(0xFF1D1E33) : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('가방 (소비 아이템)', style: TextStyle(fontFamily: 'monospace', fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800)),
+            const SizedBox(height: 16),
+            if (consumables.isEmpty)
+              const Center(child: Padding(padding: EdgeInsets.all(24), child: Text('사용할 수 있는 아이템이 없습니다.', style: TextStyle(fontFamily: 'monospace'))))
+            else
+              ...consumables.map((item) => ListTile(
+                leading: Icon(Icons.science, color: Colors.purple.shade400),
+                title: Text(item.name, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                subtitle: Text(item.description, style: const TextStyle(fontFamily: 'monospace')),
+                trailing: TextButton(
+                  onPressed: () {
+                    // Consume 1 AP and Use Item
+                    int apCost = 1;
+                    if (charState.character.actionPoints < apCost) return;
+                    bool used = combatState.useItem(charState.character, item);
+                    if (used) {
+                      _applyApCost(charState, apCost);
+                      Navigator.pop(ctx);
+                    }
+                  },
+                  child: Text('사용 (1 AP)', style: TextStyle(color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
+                ),
+              )).toList(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildSkillMenu(

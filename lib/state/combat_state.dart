@@ -337,6 +337,39 @@ class CombatState extends ChangeNotifier {
     return true;
   }
 
+  /// Use a consumable item in combat
+  bool useItem(Character character, EquipmentItem item) {
+    if (_status != CombatStatus.fighting || _currentMonster == null) {
+      return false;
+    }
+    if (item.type != ItemType.consumable) return false;
+
+    _isDefending = false;
+    _turnCount++;
+
+    if (item.bonusHealth > 0) {
+      if (item.bonusHealth > 1000) {
+        character.characterHp = character.characterMaxHp;
+      } else {
+        character.characterHp = (character.characterHp + item.bonusHealth.toInt()).clamp(0, character.characterMaxHp);
+      }
+      _combatLog = '💚 [${item.name}] 사용!! (체력 회복)';
+    } else if (item.bonusWisdom > 0) {
+      // AP 회복
+      character.actionPoints = (character.actionPoints + item.bonusWisdom.toInt()).clamp(0, character.maxActionPoints);
+      _combatLog = '⚡ [${item.name}] 사용!! (AP 회복)';
+    } else {
+      _combatLog = '🔄 [${item.name}] 사용!!';
+    }
+    
+    character.inventory.removeWhere((i) => i.id == item.id);
+    
+    // Monster attacks after using an item
+    _monsterAttack(character);
+    notifyListeners();
+    return true;
+  }
+
   /// Equip an item to the character
   void equipItem(Character character, EquipmentItem item) {
     switch (item.type) {

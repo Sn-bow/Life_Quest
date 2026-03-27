@@ -425,11 +425,29 @@ class InventoryScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Equip button
+          // Equip/Use button
           GestureDetector(
             onTap: () {
-              combatState.equipItem(character, item);
-              charState.forceSave();
+              if (item.type == ItemType.consumable) {
+                // Use Item
+                if (item.bonusHealth > 0) {
+                  if (item.bonusHealth > 1000) {
+                    character.characterHp = character.characterMaxHp;
+                  } else {
+                    character.characterHp = (character.characterHp + item.bonusHealth.toInt()).clamp(0, character.characterMaxHp);
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${item.name}을 사용했습니다. (HP 회복)', style: const TextStyle(fontFamily: 'monospace')), backgroundColor: Colors.green, duration: const Duration(seconds: 1)));
+                }
+                if (item.bonusWisdom > 0) {
+                  character.actionPoints = (character.actionPoints + item.bonusWisdom.toInt()).clamp(0, character.maxActionPoints);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${item.name}을 사용했습니다. (AP 회복)', style: const TextStyle(fontFamily: 'monospace')), backgroundColor: Colors.blue, duration: const Duration(seconds: 1)));
+                }
+                character.inventory.remove(item);
+                charState.forceSave();
+              } else {
+                combatState.equipItem(character, item);
+                charState.forceSave();
+              }
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -444,7 +462,7 @@ class InventoryScreen extends StatelessWidget {
                 ),
               ),
               child: Text(
-                '장착',
+                item.type == ItemType.consumable ? '사용' : '장착',
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 12,

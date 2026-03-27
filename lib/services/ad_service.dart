@@ -35,6 +35,7 @@ class AdService {
     'quest_double': 2,
     'combat_revive': 1,
     'report_detail': 3,
+    'combat_multiplier': 3,
   };
 
   /// Initialize the Mobile Ads SDK.

@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -160,7 +160,7 @@ class CharacterState extends ChangeNotifier {
   List<Quest> _weeklyQuests = [];
   List<Quest> _monthlyQuests = [];
   List<Quest> _yearlyQuests = [];
-  List<CustomReward> _customRewards = _buildDefaultCustomRewards();
+  // _customRewards moved to Character model
 
   Character get character => _character!;
   bool get isLoading => _isLoading;
@@ -299,7 +299,6 @@ class CharacterState extends ChangeNotifier {
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
-    _customRewards = _buildDefaultCustomRewards();
     unawaited(NotificationService().cancelAllNotifications());
   }
 
@@ -859,7 +858,6 @@ class CharacterState extends ChangeNotifier {
         'weeklyQuests': _weeklyQuests.map((q) => q.toJson()).toList(),
         'monthlyQuests': _monthlyQuests.map((q) => q.toJson()).toList(),
         'yearlyQuests': _yearlyQuests.map((q) => q.toJson()).toList(),
-        'customRewards': _customRewards.map((reward) => reward.toJson()).toList(),
         'unlockedTitleIds': _unlockedTitleIds.toList(),
         'learnedSkillIds': _learnedSkillIds.toList(),
         'achievementProgress':
@@ -992,18 +990,14 @@ class CharacterState extends ChangeNotifier {
           needsSave = true;
         }
 
-        if (data['customRewards'] is List) {
-          _customRewards = (data['customRewards'] as List<dynamic>)
+        if (_character!.customRewards.isEmpty && data.containsKey('customRewards') && data['customRewards'] is List) {
+          _character!.customRewards = (data['customRewards'] as List<dynamic>)
               .whereType<Map>()
-              .map((reward) =>
-                  CustomReward.fromJson(Map<String, dynamic>.from(reward)))
+              .map((reward) => CustomReward.fromJson(Map<String, dynamic>.from(reward)))
               .toList();
-          if (_customRewards.isEmpty) {
-            _customRewards = _buildDefaultCustomRewards();
-            needsSave = true;
-          }
-        } else {
-          _customRewards = _buildDefaultCustomRewards();
+          needsSave = true;
+        } else if (_character!.customRewards.isEmpty) {
+          _character!.customRewards = _buildDefaultCustomRewards();
           needsSave = true;
         }
 
@@ -1242,7 +1236,9 @@ class CharacterState extends ChangeNotifier {
     _learnedSkillIds = {};
     _initializeAchievementProgress();
     _isNotificationEnabled = true;
-    _customRewards = _buildDefaultCustomRewards();
+    if (_character != null) {
+      _character!.customRewards = _buildDefaultCustomRewards();
+    }
   }
 
   Future<void> unlockExpandedReportForToday() async {
@@ -1435,8 +1431,9 @@ class CharacterState extends ChangeNotifier {
   String _todayKey(DateTime date) =>
       '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   // --- Custom Rewards ---
-  List<CustomReward> get customRewards => List.unmodifiable(_customRewards);
+  List<CustomReward> get customRewards => _character == null ? [] : List.unmodifiable(_character!.customRewards);
   void addCustomReward(String name, String description, int cost, String icon) {
+    if (_character == null) return;
     final newReward = CustomReward(
       id: 'cr_${DateTime.now().millisecondsSinceEpoch}',
       name: name,
@@ -1444,13 +1441,14 @@ class CharacterState extends ChangeNotifier {
       cost: cost,
       icon: icon,
     );
-    _customRewards.add(newReward);
+    _character!.customRewards.add(newReward);
     _saveData();
     notifyListeners();
   }
 
   void removeCustomReward(String id) {
-    _customRewards.removeWhere((r) => r.id == id);
+    if (_character == null) return;
+    _character!.customRewards.removeWhere((r) => r.id == id);
     _saveData();
     notifyListeners();
   }

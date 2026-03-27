@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/screens/cosmetic_shop_screen.dart';
+import 'package:life_quest_final_v2/models/item.dart';
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
@@ -157,10 +158,16 @@ class ShopScreen extends StatelessWidget {
             onBuy: () {
               if (character.gold >= 50) {
                 character.gold -= 50;
-                character.characterHp = (character.characterHp + 30)
-                    .clamp(0, character.characterMaxHp);
+                character.inventory.add(EquipmentItem(
+                  id: 'hp_potion_${DateTime.now().millisecondsSinceEpoch}',
+                  name: 'HP 회복 물약',
+                  description: 'HP 30 회복',
+                  type: ItemType.consumable,
+                  rarity: ItemRarity.common,
+                  bonusHealth: 30, // Using bonusHealth as heal amount
+                ));
                 charState.forceSave();
-                _showSnack(context, 'HP가 30 회복되었습니다!', Colors.green);
+                _showSnack(context, 'HP 회복 물약을 획득했습니다!', Colors.green);
               }
             },
           ),
@@ -175,9 +182,16 @@ class ShopScreen extends StatelessWidget {
             onBuy: () {
               if (character.gold >= 150) {
                 character.gold -= 150;
-                character.characterHp = character.characterMaxHp;
+                character.inventory.add(EquipmentItem(
+                  id: 'hp_potion_full_${DateTime.now().millisecondsSinceEpoch}',
+                  name: 'HP 완전 회복 물약',
+                  description: 'HP 100% 회복',
+                  type: ItemType.consumable,
+                  rarity: ItemRarity.rare,
+                  bonusHealth: 9999,
+                ));
                 charState.forceSave();
-                _showSnack(context, 'HP가 완전히 회복되었습니다!', Colors.green);
+                _showSnack(context, 'HP 완전 회복 물약을 획득했습니다!', Colors.green);
               }
             },
           ),
@@ -192,10 +206,16 @@ class ShopScreen extends StatelessWidget {
             onBuy: () {
               if (character.gold >= 80) {
                 character.gold -= 80;
-                character.actionPoints = (character.actionPoints + 5)
-                    .clamp(0, character.maxActionPoints);
+                character.inventory.add(EquipmentItem(
+                  id: 'ap_potion_${DateTime.now().millisecondsSinceEpoch}',
+                  name: 'AP 충전 물약',
+                  description: 'AP 5 회복',
+                  type: ItemType.consumable,
+                  rarity: ItemRarity.uncommon,
+                  bonusWisdom: 5, // We use bonusWisdom to store AP amount
+                ));
                 charState.forceSave();
-                _showSnack(context, 'AP가 5 충전되었습니다!', Colors.blue);
+                _showSnack(context, 'AP 충전 물약을 획득했습니다!', Colors.blue);
               }
             },
           ),
