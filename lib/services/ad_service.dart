@@ -1,4 +1,4 @@
-﻿import 'package:flutter/foundation.dart';
+﻿import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform, TargetPlatform, debugPrint;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -10,17 +10,21 @@ class AdService {
   AdService._internal();
 
   // =========================================================
-  // TODO: Replace these with your actual AdMob Ad Unit IDs!
-  // These are Google's official TEST Ad Unit IDs for development.
+  // Production AdMob Ad Unit IDs (platform-specific)
   // =========================================================
-  static const String _productionRewardedAdUnitId = String.fromEnvironment(
-    'ADMOB_REWARDED_AD_UNIT_ID',
-    defaultValue: 'ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY',
-  );
+  static const String _productionRewardedAdUnitIdAndroid =
+      'ca-app-pub-5571035794358799/6920800679';
+  static const String _productionRewardedAdUnitIdIOS =
+      'ca-app-pub-5571035794358799/3529184725';
 
-  static const String _rewardedAdUnitId = kDebugMode
-      ? 'ca-app-pub-3940256099942544/5224354917' // Test ID
-      : _productionRewardedAdUnitId; // Production ID
+  static String get _rewardedAdUnitId {
+    if (kDebugMode) {
+      return 'ca-app-pub-3940256099942544/5224354917'; // Test ID
+    }
+    return defaultTargetPlatform == TargetPlatform.iOS
+        ? _productionRewardedAdUnitIdIOS
+        : _productionRewardedAdUnitIdAndroid;
+  }
 
   RewardedAd? _rewardedAd;
   bool _isAdLoaded = false;

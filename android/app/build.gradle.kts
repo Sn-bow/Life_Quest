@@ -18,7 +18,7 @@ if (keystorePropertiesFile.exists()) {
 
 val admobAndroidAppId = providers
     .gradleProperty("ADMOB_ANDROID_APP_ID")
-    .orElse("ca-app-pub-3940256099942544~3347511713")
+    .orElse("ca-app-pub-5571035794358799~6976774442")
     .get()
 
 android {
