@@ -67,7 +67,13 @@ class AdService {
           final formAvailable =
               await ConsentInformation.instance.isConsentFormAvailable();
           if (formAvailable) {
-            await ConsentForm.loadAndShowConsentFormIfRequired();
+            await ConsentForm.loadAndShowConsentFormIfRequired(
+              (FormError? error) {
+                if (error != null) {
+                  debugPrint('[AdService] UMP form dismissed with error: ${error.message}');
+                }
+              },
+            );
           }
         } catch (e) {
           debugPrint('[AdService] UMP consent form error: $e');
