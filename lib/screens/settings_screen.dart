@@ -53,8 +53,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text('닉네임 변경'),
         content: TextField(
           controller: nameController,
-          decoration: const InputDecoration(labelText: '새 닉네임'),
+          decoration: const InputDecoration(labelText: '새 닉네임', counterText: ''),
           autofocus: true,
+          maxLength: 20,
         ),
         actions: [
           TextButton(

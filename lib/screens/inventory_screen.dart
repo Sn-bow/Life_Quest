@@ -82,9 +82,18 @@ class InventoryScreen extends StatelessWidget {
             if (character.inventory.isEmpty)
               _buildEmptyInventory(isDark)
             else
-              ...character.inventory.map(
-                (item) => _buildInventoryItem(
-                    item, character, combatState, charState, isDark, context),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: character.inventory.length,
+                itemBuilder: (ctx, index) => _buildInventoryItem(
+                  character.inventory[index],
+                  character,
+                  combatState,
+                  charState,
+                  isDark,
+                  context,
+                ),
               ),
           ],
         ),

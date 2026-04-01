@@ -1,4 +1,5 @@
-﻿import 'package:firebase_app_check/firebase_app_check.dart';
+﻿import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Firestore 오프라인 persistence 활성화 (네트워크 없이도 캐시 데이터 사용 가능)
+  try {
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+  } catch (e) {
+    debugPrint('Firestore persistence 설정 실패: $e');
+  }
+
   try {
     await FirebaseAppCheck.instance.activate(
       androidProvider:

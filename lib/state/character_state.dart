@@ -138,6 +138,7 @@ class CharacterState extends ChangeNotifier {
   Timer? _saveTimer;
   Timer? _hpRegenTimer;
   bool _isCombatActive = false;
+  bool _isSaving = false;
 
   final FirebaseFirestore _firestore;
 
@@ -369,7 +370,7 @@ class CharacterState extends ChangeNotifier {
   void changeTitle(GameTitle newTitle) {
     if (_unlockedTitleIds.contains(newTitle.id)) {
       _character!.title = newTitle.name;
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -462,7 +463,7 @@ class CharacterState extends ChangeNotifier {
       }
       unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
       return QuestCompletionResult(
         totalXpAwarded: totalXp,
@@ -483,7 +484,7 @@ class CharacterState extends ChangeNotifier {
     _weeklyQuests.removeWhere((q) => q.id == quest.id);
     _monthlyQuests.removeWhere((q) => q.id == quest.id);
     _yearlyQuests.removeWhere((q) => q.id == quest.id);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -511,7 +512,7 @@ class CharacterState extends ChangeNotifier {
         _yearlyQuests.add(newQuest);
         break;
     }
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -519,7 +520,7 @@ class CharacterState extends ChangeNotifier {
     quest.name = newName;
     quest.xp = newXp;
     quest.category = newCategory;
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -616,7 +617,7 @@ class CharacterState extends ChangeNotifier {
     }
     _checkTitleUnlock();
     _updateAchievement(AchievementCondition.monstersKilled, 1);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -627,7 +628,7 @@ class CharacterState extends ChangeNotifier {
       _levelUp();
     }
     _checkTitleUnlock();
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -699,7 +700,7 @@ class CharacterState extends ChangeNotifier {
       }
       _character!.statPoints--;
       _checkTitleUnlock();
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -795,7 +796,7 @@ class CharacterState extends ChangeNotifier {
             margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
           ),
         );
-        _saveData();
+        unawaited(_saveData());
       }
     }
   }
@@ -805,7 +806,7 @@ class CharacterState extends ChangeNotifier {
       _character!.skillPoints--;
       _learnedSkillIds.add(skill.id);
       _updateAchievement(AchievementCondition.skillsLearned, 1);
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -845,9 +846,10 @@ class CharacterState extends ChangeNotifier {
 
   // The actual database write operation, wrapped in try-catch
   Future<void> _performSaveData() async {
-    if (_character == null) return;
+    if (_character == null || _isSaving) return;
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    _isSaving = true;
 
     try {
       final lastLoginDate = _character!.lastLoginDate;
@@ -889,6 +891,8 @@ class CharacterState extends ChangeNotifier {
           duration: Duration(seconds: 3),
         ),
       );
+    } finally {
+      _isSaving = false;
     }
   }
 
@@ -1280,15 +1284,16 @@ class CharacterState extends ChangeNotifier {
     if (_character == null || _isCombatActive == active) return;
     _isCombatActive = active;
     _character!.lastHpRegenAt = DateTime.now();
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
   void _startHpRegenLoop() {
     _hpRegenTimer?.cancel();
-    _hpRegenTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+    // HP 회복 주기는 10분이므로 타이머도 10분으로 설정 (매분 체크는 낭비)
+    _hpRegenTimer = Timer.periodic(const Duration(minutes: 10), (_) {
       if (_applyHpRecovery()) {
-        _saveData();
+        unawaited(_saveData());
       }
     });
   }
@@ -1442,14 +1447,14 @@ class CharacterState extends ChangeNotifier {
       icon: icon,
     );
     _character!.customRewards.add(newReward);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
   void removeCustomReward(String id) {
     if (_character == null) return;
     _character!.customRewards.removeWhere((r) => r.id == id);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -1460,7 +1465,7 @@ class CharacterState extends ChangeNotifier {
   void buyCustomReward(CustomReward reward) {
     if (canAffordCustomReward(reward)) {
       _character!.gold -= reward.cost;
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
 
       scaffoldMessengerKey.currentState?.showSnackBar(
@@ -1498,7 +1503,7 @@ class CharacterState extends ChangeNotifier {
       } else {
         _character!.highestDungeonFloor += 1;
       }
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -1570,7 +1575,7 @@ class CharacterState extends ChangeNotifier {
         }
       }
 
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -1590,7 +1595,7 @@ class CharacterState extends ChangeNotifier {
         _character!.equippedCombatEffect = item.id;
         break;
     }
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -1607,7 +1612,7 @@ class CharacterState extends ChangeNotifier {
         _character!.equippedCombatEffect = null;
         break;
     }
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 }

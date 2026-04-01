@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'dart:io';
 
 class NotificationService {
   // 싱글톤 패턴으로 인스턴스 관리
@@ -41,10 +42,21 @@ class NotificationService {
       final String timeZoneName = timeZoneInfo.identifier;
       tz.setLocalLocation(tz.getLocation(timeZoneName));
     } catch (e) {
-      debugPrint('Error getting local timezone: $e');
+      debugPrint('Error getting local timezone: $e - falling back to Asia/Seoul');
+      try {
+        tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+      } catch (_) {}
     }
 
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    // Android 13+ (API 33+) 알림 권한 요청
+    if (Platform.isAndroid) {
+      final androidPlugin = _flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      await androidPlugin?.requestNotificationsPermission();
+    }
   }
 
   // 매일 아침 9시에 알림 예약

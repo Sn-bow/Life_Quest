@@ -23,6 +23,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   late Animation<double> _flashAnimation;
   bool _showSkills = false;
   CombatStatus? _lastCombatStatus;
+  bool _isActionBusy = false;
 
   @override
   void initState() {
@@ -273,7 +274,6 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       padding: const EdgeInsets.all(12),
       width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 80),
       decoration: BoxDecoration(
         color: isDark ? Colors.black : Colors.black87,
         borderRadius: BorderRadius.circular(4),
@@ -282,13 +282,16 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
           width: 3,
         ),
       ),
-      child: Text(
-        combatState.combatLog,
-        style: const TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 13,
-          height: 1.5,
-          color: Colors.white,
+      constraints: const BoxConstraints(minHeight: 80, maxHeight: 120),
+      child: SingleChildScrollView(
+        child: Text(
+          combatState.combatLog,
+          style: const TextStyle(
+            fontFamily: 'monospace',
+            fontSize: 13,
+            height: 1.5,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -428,19 +431,25 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   Expanded(
                     child: _actionButton('공격 (1 AP)', Icons.sports_martial_arts,
                         Colors.redAccent, () {
+                      if (_isActionBusy) return;
                       if (!hasAp) return _showApWarning();
+                      setState(() => _isActionBusy = true);
                       int cost = combatState.playerAttack(charState.character);
                       _applyApCost(charState, cost);
                       _triggerHitEffect();
+                      setState(() => _isActionBusy = false);
                     }, isDark),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: _actionButton(
                         '방어 (1 AP)', Icons.shield, Colors.blueAccent, () {
+                      if (_isActionBusy) return;
                       if (!hasAp) return _showApWarning();
+                      setState(() => _isActionBusy = true);
                       int cost = combatState.playerDefend(charState.character);
                       _applyApCost(charState, cost);
+                      setState(() => _isActionBusy = false);
                     }, isDark),
                   ),
                 ],
@@ -472,9 +481,12 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   Expanded(
                     child: _actionButton(
                         '도망 (1 AP)', Icons.directions_run, Colors.grey, () {
+                      if (_isActionBusy) return;
                       if (!hasAp) return _showApWarning();
+                      setState(() => _isActionBusy = true);
                       int cost = combatState.playerFlee(charState.character);
                       _applyApCost(charState, cost);
+                      setState(() => _isActionBusy = false);
                     }, isDark),
                   ),
                 ],

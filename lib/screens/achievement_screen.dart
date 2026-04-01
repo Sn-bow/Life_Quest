@@ -108,7 +108,9 @@ class AchievementScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   if (!isCompleted)
                     LinearProgressIndicator(
-                      value: currentValue / targetValue,
+                      value: targetValue > 0
+                          ? (currentValue / targetValue).clamp(0.0, 1.0)
+                          : 0.0,
                       backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
                       valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
                     ),

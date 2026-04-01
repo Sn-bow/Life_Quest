@@ -1,5 +1,6 @@
 ﻿import 'dart:async';
 import 'package:confetti/confetti.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/screens/quests_screen.dart';
 import 'package:life_quest_final_v2/screens/achievement_screen.dart';
@@ -23,6 +24,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   late ConfettiController _confettiController;
   Timer? _timeSensitiveRefreshTimer;
+  StreamSubscription<User?>? _authSubscription;
 
   @override
   void initState() {
@@ -41,6 +43,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         context.read<CharacterState>().refreshTimeSensitiveState(),
       ),
     );
+
+    // 인증 상태 감시: 토큰 만료 또는 외부 로그아웃 시 자동으로 루트로 이동
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user == null && mounted) {
+        context.read<CharacterState>().resetState();
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
   }
 
   @override
@@ -54,6 +64,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _timeSensitiveRefreshTimer?.cancel();
+    _authSubscription?.cancel();
     _confettiController.dispose();
     context.read<CharacterState>().onLevelUp = null;
     super.dispose();

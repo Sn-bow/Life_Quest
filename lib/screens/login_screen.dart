@@ -56,6 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+      if (googleAuth.idToken == null) {
+        _showErrorSnackBar('Google 인증 토큰을 가져올 수 없습니다. 다시 시도해주세요.');
+        return;
+      }
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,

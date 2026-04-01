@@ -227,7 +227,8 @@ class QuestsScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration: const InputDecoration(labelText: '퀘스트 이름'),
+                      decoration: const InputDecoration(labelText: '퀘스트 이름', counterText: ''),
+                      maxLength: 50,
                     ),
                     const SizedBox(height: 20),
                     const Text('카테고리',
@@ -489,7 +490,8 @@ class QuestsScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration: const InputDecoration(labelText: '퀘스트 이름'),
+                      decoration: const InputDecoration(labelText: '퀘스트 이름', counterText: ''),
+                      maxLength: 50,
                     ),
                     const SizedBox(height: 20),
                     const Text('종류',

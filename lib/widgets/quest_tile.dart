@@ -68,6 +68,8 @@ class QuestTile extends StatelessWidget {
                 ),
                 title: Text(
                   quest.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     decoration: quest.isCompleted
                         ? TextDecoration.lineThrough

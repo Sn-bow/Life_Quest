@@ -22,10 +22,10 @@ class CustomReward {
       };
 
   factory CustomReward.fromJson(Map<String, dynamic> json) => CustomReward(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        description: json['description'] as String,
-        cost: json['cost'] as int,
-        icon: json['icon'] as String,
+        id: (json['id'] as String?) ?? 'cr_unknown',
+        name: (json['name'] as String?) ?? '알 수 없는 보상',
+        description: (json['description'] as String?) ?? '',
+        cost: (json['cost'] as num?)?.toInt() ?? 0,
+        icon: (json['icon'] as String?) ?? '🎁',
       );
 }

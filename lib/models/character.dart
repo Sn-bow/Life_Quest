@@ -113,14 +113,17 @@ class Character {
               ?.map((e) => EquipmentItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      equippedWeapon: json['equippedWeapon'] != null
-          ? EquipmentItem.fromJson(json['equippedWeapon'])
+      equippedWeapon: json['equippedWeapon'] is Map
+          ? EquipmentItem.fromJson(
+              Map<String, dynamic>.from(json['equippedWeapon'] as Map))
           : null,
-      equippedArmor: json['equippedArmor'] != null
-          ? EquipmentItem.fromJson(json['equippedArmor'])
+      equippedArmor: json['equippedArmor'] is Map
+          ? EquipmentItem.fromJson(
+              Map<String, dynamic>.from(json['equippedArmor'] as Map))
           : null,
-      equippedAccessory: json['equippedAccessory'] != null
-          ? EquipmentItem.fromJson(json['equippedAccessory'])
+      equippedAccessory: json['equippedAccessory'] is Map
+          ? EquipmentItem.fromJson(
+              Map<String, dynamic>.from(json['equippedAccessory'] as Map))
           : null,
       characterHp: json['characterHp'] ?? 100,
       characterMaxHp: json['characterMaxHp'] ?? 100,

@@ -85,6 +85,22 @@ class ShopScreen extends StatelessWidget {
     );
   }
 
+  /// 공통 구매 처리 헬퍼: 골드 차감 → 아이템 추가 → 저장 → 알림
+  void _handleItemPurchase({
+    required BuildContext context,
+    required CharacterState charState,
+    required int price,
+    required EquipmentItem item,
+    required Color snackColor,
+  }) {
+    final character = charState.character;
+    if (character.gold < price) return;
+    character.gold -= price;
+    character.inventory.add(item);
+    charState.forceSave();
+    _showSnack(context, '${item.name}을(를) 획득했습니다!', snackColor);
+  }
+
   Widget _buildGameItemsTab(BuildContext context, CharacterState charState,
       CombatState combatState, dynamic character, bool isDark) {
     return SingleChildScrollView(
@@ -155,21 +171,20 @@ class ShopScreen extends StatelessWidget {
             price: 50,
             gold: character.gold,
             isDark: isDark,
-            onBuy: () {
-              if (character.gold >= 50) {
-                character.gold -= 50;
-                character.inventory.add(EquipmentItem(
-                  id: 'hp_potion_${DateTime.now().millisecondsSinceEpoch}',
-                  name: 'HP 회복 물약',
-                  description: 'HP 30 회복',
-                  type: ItemType.consumable,
-                  rarity: ItemRarity.common,
-                  bonusHealth: 30, // Using bonusHealth as heal amount
-                ));
-                charState.forceSave();
-                _showSnack(context, 'HP 회복 물약을 획득했습니다!', Colors.green);
-              }
-            },
+            onBuy: () => _handleItemPurchase(
+              context: context,
+              charState: charState,
+              price: 50,
+              item: EquipmentItem(
+                id: 'hp_potion_${DateTime.now().millisecondsSinceEpoch}',
+                name: 'HP 회복 물약',
+                description: 'HP 30 회복',
+                type: ItemType.consumable,
+                rarity: ItemRarity.common,
+                bonusHealth: 30,
+              ),
+              snackColor: Colors.green,
+            ),
           ),
           _buildShopItem(
             context: context,
@@ -179,21 +194,20 @@ class ShopScreen extends StatelessWidget {
             price: 150,
             gold: character.gold,
             isDark: isDark,
-            onBuy: () {
-              if (character.gold >= 150) {
-                character.gold -= 150;
-                character.inventory.add(EquipmentItem(
-                  id: 'hp_potion_full_${DateTime.now().millisecondsSinceEpoch}',
-                  name: 'HP 완전 회복 물약',
-                  description: 'HP 100% 회복',
-                  type: ItemType.consumable,
-                  rarity: ItemRarity.rare,
-                  bonusHealth: 9999,
-                ));
-                charState.forceSave();
-                _showSnack(context, 'HP 완전 회복 물약을 획득했습니다!', Colors.green);
-              }
-            },
+            onBuy: () => _handleItemPurchase(
+              context: context,
+              charState: charState,
+              price: 150,
+              item: EquipmentItem(
+                id: 'hp_potion_full_${DateTime.now().millisecondsSinceEpoch}',
+                name: 'HP 완전 회복 물약',
+                description: 'HP 100% 회복',
+                type: ItemType.consumable,
+                rarity: ItemRarity.rare,
+                bonusHealth: 9999,
+              ),
+              snackColor: Colors.green,
+            ),
           ),
           _buildShopItem(
             context: context,
@@ -203,21 +217,20 @@ class ShopScreen extends StatelessWidget {
             price: 80,
             gold: character.gold,
             isDark: isDark,
-            onBuy: () {
-              if (character.gold >= 80) {
-                character.gold -= 80;
-                character.inventory.add(EquipmentItem(
-                  id: 'ap_potion_${DateTime.now().millisecondsSinceEpoch}',
-                  name: 'AP 충전 물약',
-                  description: 'AP 5 회복',
-                  type: ItemType.consumable,
-                  rarity: ItemRarity.uncommon,
-                  bonusWisdom: 5, // We use bonusWisdom to store AP amount
-                ));
-                charState.forceSave();
-                _showSnack(context, 'AP 충전 물약을 획득했습니다!', Colors.blue);
-              }
-            },
+            onBuy: () => _handleItemPurchase(
+              context: context,
+              charState: charState,
+              price: 80,
+              item: EquipmentItem(
+                id: 'ap_potion_${DateTime.now().millisecondsSinceEpoch}',
+                name: 'AP 충전 물약',
+                description: 'AP 5 회복',
+                type: ItemType.consumable,
+                rarity: ItemRarity.uncommon,
+                bonusWisdom: 5,
+              ),
+              snackColor: Colors.blue,
+            ),
           ),
           const SizedBox(height: 24),
           _buildSectionHeader(
@@ -232,12 +245,11 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 100) {
-                character.gold -= 100;
-                combatState.openLootBox(character, 1);
-                charState.forceSave();
-                _showSnack(context, '장비를 획득했습니다! 인벤토리를 확인하세요!', Colors.purple);
-              }
+              if (character.gold < 100) return;
+              character.gold -= 100;
+              combatState.openLootBox(character, 1);
+              charState.forceSave();
+              _showSnack(context, '장비를 획득했습니다! 인벤토리를 확인하세요!', Colors.purple);
             },
           ),
           _buildShopItem(
@@ -249,13 +261,11 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 300) {
-                character.gold -= 300;
-                combatState.openLootBox(character, 2);
-                charState.forceSave();
-                _showSnack(
-                    context, '고급 장비를 획득했습니다! 인벤토리를 확인하세요!', Colors.orange);
-              }
+              if (character.gold < 300) return;
+              character.gold -= 300;
+              combatState.openLootBox(character, 2);
+              charState.forceSave();
+              _showSnack(context, '고급 장비를 획득했습니다! 인벤토리를 확인하세요!', Colors.orange);
             },
           ),
           const SizedBox(height: 24),
@@ -270,13 +280,12 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 500) {
-                character.gold -= 500;
-                character.characterMaxHp += 10;
-                character.characterHp += 10;
-                charState.forceSave();
-                _showSnack(context, '최대 HP가 10 증가했습니다!', Colors.red);
-              }
+              if (character.gold < 500) return;
+              character.gold -= 500;
+              character.characterMaxHp += 10;
+              character.characterHp += 10;
+              charState.forceSave();
+              _showSnack(context, '최대 HP가 10 증가했습니다!', Colors.red);
             },
           ),
           _buildShopItem(
@@ -288,13 +297,12 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 500) {
-                character.gold -= 500;
-                character.maxActionPoints += 2;
-                character.actionPoints += 2;
-                charState.forceSave();
-                _showSnack(context, '최대 AP가 2 증가했습니다!', Colors.blue);
-              }
+              if (character.gold < 500) return;
+              character.gold -= 500;
+              character.maxActionPoints += 2;
+              character.actionPoints += 2;
+              charState.forceSave();
+              _showSnack(context, '최대 AP가 2 증가했습니다!', Colors.blue);
             },
           ),
         ],

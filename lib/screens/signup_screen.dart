@@ -287,10 +287,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value == null ||
-                              value.trim().isEmpty ||
-                              !value.contains('@')) {
-                            return '유효한 이메일을 입력해주세요.';
+                          if (value == null || value.trim().isEmpty) {
+                            return '이메일을 입력해주세요.';
+                          }
+                          final email = value.trim();
+                          final parts = email.split('@');
+                          if (parts.length != 2 ||
+                              parts[0].isEmpty ||
+                              parts[1].isEmpty ||
+                              !parts[1].contains('.')) {
+                            return '유효한 이메일 형식을 입력해주세요. (예: name@example.com)';
                           }
                           return null;
                         },

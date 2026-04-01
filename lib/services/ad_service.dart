@@ -1,7 +1,7 @@
-﻿import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform, TargetPlatform, debugPrint;
+﻿import 'dart:async';
+import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform, TargetPlatform, debugPrint;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:async';
 
 /// Singleton service for managing AdMob rewarded ads.
 class AdService {
@@ -28,7 +28,10 @@ class AdService {
 
   RewardedAd? _rewardedAd;
   bool _isAdLoaded = false;
+  bool _isAdLoading = false;
   bool _isAdRemoved = false;
+  int _retryCount = 0;
+  static const int _maxRetries = 5;
 
   // --- Daily limits ---
   final Map<String, int> _dailyAdCounts = {};
@@ -43,11 +46,48 @@ class AdService {
   };
 
   /// Initialize the Mobile Ads SDK.
+  /// GDPR: UMP SDK를 통해 사용자 동의 상태를 확인하고, 동의 완료 후 광고를 로드합니다.
   Future<void> init() async {
-    await MobileAds.instance.initialize();
     await _loadAdRemovalStatus();
     await _loadDailyCounts();
     _resetDailyCountsIfNeeded();
+
+    // UMP(User Messaging Platform) - GDPR 동의 플로우
+    await _requestConsentAndInitAds();
+  }
+
+  Future<void> _requestConsentAndInitAds() async {
+    final completer = Completer<void>();
+
+    ConsentInformation.instance.requestConsentInfoUpdate(
+      ConsentRequestParameters(),
+      () async {
+        // 동의 정보 업데이트 성공
+        try {
+          final formAvailable =
+              await ConsentInformation.instance.isConsentFormAvailable();
+          if (formAvailable) {
+            await ConsentForm.loadAndShowConsentFormIfRequired();
+          }
+        } catch (e) {
+          debugPrint('[AdService] UMP consent form error: $e');
+        }
+        completer.complete();
+      },
+      (FormError error) {
+        debugPrint('[AdService] UMP consent info update failed: ${error.message}');
+        completer.complete(); // 실패해도 광고 초기화는 진행
+      },
+    );
+
+    // 최대 5초 대기 (UMP 응답 없을 경우 타임아웃)
+    await completer.future.timeout(
+      const Duration(seconds: 5),
+      onTimeout: () => debugPrint('[AdService] UMP consent timed out'),
+    );
+
+    // 동의 완료 또는 불필요 지역: 광고 SDK 초기화
+    await MobileAds.instance.initialize();
     _loadRewardedAd();
   }
 
@@ -104,8 +144,9 @@ class AdService {
 
   /// Pre-load a rewarded ad for next display.
   void _loadRewardedAd() {
-    if (_isAdRemoved) return;
+    if (_isAdRemoved || _isAdLoading) return;
 
+    _isAdLoading = true;
     RewardedAd.load(
       adUnitId: _rewardedAdUnitId,
       request: const AdRequest(),
@@ -113,13 +154,20 @@ class AdService {
         onAdLoaded: (ad) {
           _rewardedAd = ad;
           _isAdLoaded = true;
+          _isAdLoading = false;
+          _retryCount = 0;
           debugPrint('[AdService] Rewarded ad loaded.');
         },
         onAdFailedToLoad: (error) {
           _isAdLoaded = false;
-          debugPrint('[AdService] Rewarded ad failed to load: $error');
-          // Retry after a delay
-          Future.delayed(const Duration(seconds: 30), _loadRewardedAd);
+          _isAdLoading = false;
+          _retryCount++;
+          debugPrint('[AdService] Rewarded ad failed to load: $error (retry $_retryCount/$_maxRetries)');
+          if (_retryCount < _maxRetries) {
+            // Exponential backoff: 30s, 60s, 120s, 240s, 480s
+            final delay = Duration(seconds: 30 * (1 << (_retryCount - 1)));
+            Future.delayed(delay, _loadRewardedAd);
+          }
         },
       ),
     );
@@ -158,6 +206,7 @@ class AdService {
     ad.fullScreenContentCallback = FullScreenContentCallback(
       onAdDismissedFullScreenContent: (ad) {
         ad.dispose();
+        _retryCount = 0;
         _loadRewardedAd();
         finish(rewarded);
       },
