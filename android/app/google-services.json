@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:249227775121:android:4401425d2261adde894330",
         "android_client_info": {
-          "package_name": "com.example.life_quest_final_v2"
+          "package_name": "com.lifequest.app"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "249227775121-v6m98b4dja0b7pnu75cfudam6trbidst.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.life_quest_final_v2",
+            "package_name": "com.lifequest.app",
             "certificate_hash": "27cf18b7c1d3f8fde13fcafe0208d5b3c48d14c0"
           }
         },

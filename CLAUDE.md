@@ -6,37 +6,27 @@
 - **백엔드**: Firebase (Auth, Firestore, Storage, App Check)
 - **상태 관리**: Provider
 - **GitHub**: https://github.com/Sn-bow/Life_Quest.git (branch: main)
+- **applicationId**: `com.lifequest.app` (2026-04-01 변경, 이전: com.example.life_quest_final_v2)
 
-## 현재 상태 (2026-03-28 기준)
+## 현재 상태 (2026-04-01 기준)
 
 ### 완료된 작업
-- Phase A: 치명적 버그 수정 8건 완료
-- Phase B: 높은 우선순위 수정 7건 완료
-- Phase C: 코드 품질 개선 10건 완료
-- Phase D: 테스트 확장 (7개 → 67개) 완료
-- Phase E: 배포 준비 4건 (코드 완료, 수동 작업 3건 남음)
-- **아바타/캐릭터 커스터마이징 시스템 전면 제거** (2026-03-28)
-  - player_avatar_view.dart 삭제
-  - assets/avatar/ 하위 SVG, PNG 에셋 전부 삭제
-  - character model에서 avatar 관련 필드 제거
-  - signup_screen에서 캐릭터 생성 플로우 제거
-  - status_screen에서 아바타 표시 제거
-  - combat_arena_view에서 아바타 참조 제거
-  - flutter_svg dependency 제거, avatar asset 경로 제거
-  - 불필요한 docs/, scripts/ 폴더 전부 삭제
-  - 참고: image_picker, firebase_storage는 프로필 사진 업로드용으로 signup_screen에서 사용 중 (유지)
-  - 참고: firebase_app_check는 main.dart에서 사용 중 (유지)
+- Phase A~E: 버그 수정, 코드 품질, 테스트, 배포 준비 완료
+- 아바타/캐릭터 커스터마이징 시스템 전면 제거 (2026-03-28)
+- **Android 릴리스 빌드 설정 완료** (2026-04-01)
+  - applicationId: `com.example.life_quest_final_v2` → `com.lifequest.app`
+  - namespace, google-services.json, Kotlin 파일 패키지명 모두 변경
+  - Kotlin 소스 `com/example/life_quest_final_v2/` → `com/lifequest/app/` 이동
+  - compileSdk: 35 → 36 (플러그인 요구사항)
+  - 릴리스 키스토어 생성 (`android/upload-keystore.jks`, alias: upload)
+  - `android/key.properties` 설정 완료
+  - AAB 빌드 성공 (`build/app/outputs/bundle/release/app-release.aab`, 64MB)
+- **코드 품질 분석 완료** (2026-04-01) - 아래 "다음 작업" 섹션 참조
 
 ### 검증 결과
 - `flutter analyze` → No issues found
 - `flutter test` → 67개 전체 통과
-
-### 커밋 히스토리
-```
-1ce2265 refactor: remove avatar/character customization system and cleanup
-064356a feat: add avatar system, character creation, and full game progression
-be937da Initial project import and branding updates
-```
+- `flutter build appbundle --release` → 성공 (64MB)
 
 ## 주요 기능
 - 퀘스트 시스템 (일간/주간/월간/연간)
@@ -65,21 +55,53 @@ lib/
 └── widgets/         # translucent_card, xp_bar, quest_tile, stat_bar, player_profile_sprite, combat/
 ```
 
-## 남은 수동 작업 (사용자가 직접 수행)
-1. **Android 릴리스 키스토어** 생성 및 `android/key.properties` 설정
-2. **iOS Firebase 설정** (`flutterfire configure` 실행)
-3. **AdMob 프로덕션 ID 교체** (ad_service.dart, AndroidManifest.xml, Info.plist)
+## 다음 작업: 코드 품질 수정 (우선순위별)
 
-## 다음 작업 후보
-- 수동 작업 완료 후 빌드 검증 (flutter build apk --release)
-- applicationId 실제 패키지명으로 변경
-- 앱 이름/버전 번호 최종 설정
-- 위젯 테스트, 통합 테스트 추가
-- CI/CD 파이프라인 설정
-- 앱 아이콘 및 스플래시 스크린 커스터마이징
+### CRITICAL (즉시 수정)
+1. **소모 아이템 전체 삭제 버그** - `combat_state.dart:365`
+   - `removeWhere`가 같은 ID 아이템 모두 삭제. `removeAt(indexWhere(...))`로 변경 필요
+2. **장비 착용 시 중복 삭제** - `combat_state.dart:380-397`
+   - 동일한 removeWhere 버그. `inventory.remove(item)` 사용 필요
+3. **Firestore 역직렬화 타입 캐스트 누락** - `character.dart:116-124`
+   - equippedWeapon/Armor/Accessory에 `as Map<String, dynamic>` 캐스팅 필요
+4. **CustomReward 안전하지 않은 캐스팅** - `custom_reward.dart:25-29`
+   - null 체크/기본값 없이 직접 캐스팅. null coalescing 추가 필요
+5. **Enum 직렬화 불일치** - `item.dart:55-77`
+   - toJson()은 `.name`, fromJson()은 `.toString()` 비교. 통일 필요
+
+### HIGH (중요)
+6. **Firebase 오프라인 지원 없음** - Firestore persistence 미설정
+7. **IAP 서버사이드 영수증 검증 없음** - `purchase_service.dart:84-115`
+8. **인증 상태 라우트 가드 없음** - `main_screen.dart:81-86`
+9. **Android 13+ 알림 권한 미처리** - `notification_service.dart:18-48`
+10. **GDPR 광고 동의 처리 없음** - `ad_service.dart`
+11. **Save/Load 레이스 컨디션** - `character_state.dart:838-1025`
+
+### MEDIUM (품질)
+12. 전투 로그 높이 무제한 → 버튼 가림 - `hunt_screen.dart:271-294`
+13. 퀘스트/캐릭터명 길이 제한 없음 - `quests_screen.dart`, `settings_screen.dart`
+14. 전투 액션 버튼 연타 방지 없음 - `hunt_screen.dart:428-481`
+15. quest_tile.dart에 maxLines/overflow 누락 - `quest_tile.dart:69-78`
+16. 업적 진행률 targetValue=0 시 NaN - `achievement_screen.dart:68-70`
+17. 광고 일일 횟수 초기화가 기기 시간 기반 - `ad_service.dart:96-103`
+18. _saveData() 대부분 await 없이 호출 - `character_state.dart` 19곳
+
+### 테스트 커버리지 현황
+- Models: 5/9 테스트됨 (cosmetic, custom_reward, monster, title 미테스트)
+- State: 2/2 양호
+- **Services: 0/4 전부 미테스트** (ad, purchase, notification, sound)
+- **Screens: 0/15 전부 미테스트**
+- **Data: 0/5 전부 미테스트**
+
+## 남은 수동 작업
+1. **iOS Firebase 설정** (`flutterfire configure` 실행)
+2. **AdMob 프로덕션 ID 교체** (ad_service.dart, AndroidManifest.xml, Info.plist)
+3. **Firebase 콘솔에서 Android 앱 패키지명을 `com.lifequest.app`으로 업데이트**
+4. **Google Play Console에 AAB 업로드** (파일: `build/app/outputs/bundle/release/app-release.aab`)
 
 ## 주의사항
 - 아바타/캐릭터 커스터마이징 기능은 의도적으로 제거됨 (다시 만들지 말 것)
-- avatar_preview/ 폴더와 assets/avatar/parts_v2/ 는 로컬에만 남아있을 수 있음 (git에서 제거됨)
-- image_picker, firebase_storage, firebase_app_check는 pubspec에 남아있음 (각각 프로필 사진, App Check에 사용 중)
-- WORK_INSTRUCTIONS.md에 이전 Phase A~E 작업 상세 내역 및 수동 작업 안내 있음
+- image_picker, firebase_storage, firebase_app_check는 pubspec에 유지 (각각 프로필 사진, App Check용)
+- 릴리스 키스토어(`upload-keystore.jks`)와 `key.properties`는 `.gitignore`에 포함 (git에 올라가지 않음)
+- Dart 패키지명은 `life_quest_final_v2` 그대로 유지 (Android applicationId만 변경)
+- WORK_INSTRUCTIONS.md에 이전 Phase A~E 작업 상세 내역 있음

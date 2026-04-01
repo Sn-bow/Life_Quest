@@ -22,8 +22,8 @@ val admobAndroidAppId = providers
     .get()
 
 android {
-    namespace = "com.example.life_quest_final_v2"
-    compileSdk = 35
+    namespace = "com.lifequest.app"
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -37,8 +37,8 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.life_quest_final_v2"
-        minSdk = 23
+        applicationId = "com.lifequest.app"
+        minSdk = flutter.minSdkVersion
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
