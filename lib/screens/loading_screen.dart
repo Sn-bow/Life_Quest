@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/screens/main_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -80,10 +81,9 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final statusText = _isBootstrappingUser ? '헌터 정보를 동기화하는 중' : '게이트를 여는 중';
-    final captionText = _isBootstrappingUser
-        ? '오늘의 퀘스트와 성장 기록을 불러옵니다'
-        : '시스템을 초기화하고 있습니다';
+    final l10n = AppLocalizations.of(context)!;
+    final statusText = _isBootstrappingUser ? l10n.loadingSync : l10n.loadingGate;
+    final captionText = _isBootstrappingUser ? l10n.loadingSyncDesc : l10n.loadingGateDesc;
 
     return Scaffold(
       body: AnimatedBuilder(
@@ -167,7 +167,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                       ),
                       const SizedBox(height: 22),
                       Text(
-                        'ARISE YOUR QUEST',
+                        l10n.loadingTagline,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: const Color(0xFFE5F6FF),
                           fontWeight: FontWeight.w900,

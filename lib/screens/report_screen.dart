@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -26,16 +27,16 @@ class _ReportScreenState extends State<ReportScreen> {
     _selectedDay = _normalizeDate(DateTime.now());
   }
 
-  String _getCategoryName(StatType category) {
+  String _getCategoryName(StatType category, AppLocalizations l10n) {
     switch (category) {
       case StatType.strength:
-        return '힘';
+        return l10n.statusStatStrength;
       case StatType.wisdom:
-        return '지혜';
+        return l10n.statusStatWisdom;
       case StatType.health:
-        return '건강';
+        return l10n.statusStatHealth;
       case StatType.charisma:
-        return '매력';
+        return l10n.statusStatCharm;
     }
   }
 
@@ -52,16 +53,16 @@ class _ReportScreenState extends State<ReportScreen> {
     }
   }
 
-  String _getQuestTypeName(QuestType type) {
+  String _getQuestTypeName(QuestType type, AppLocalizations l10n) {
     switch (type) {
       case QuestType.daily:
-        return '일일';
+        return l10n.questsTypeDaily;
       case QuestType.weekly:
-        return '주간';
+        return l10n.questsTypeWeekly;
       case QuestType.monthly:
-        return '월간 레이드';
+        return l10n.questsTypeMonthly;
       case QuestType.yearly:
-        return '연간 레이드';
+        return l10n.questsTypeYearly;
     }
   }
 
@@ -69,6 +70,7 @@ class _ReportScreenState extends State<ReportScreen> {
     if (_unlockingExpandedReport) return;
     final characterState = context.read<CharacterState>();
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     setState(() {
       _unlockingExpandedReport = true;
@@ -81,14 +83,14 @@ class _ReportScreenState extends State<ReportScreen> {
       await characterState.unlockExpandedReportForToday();
       if (!mounted) return;
       messenger.showSnackBar(
-        const SnackBar(
-          content: Text('확장 리포트를 오늘 하루 동안 열었습니다.'),
+        SnackBar(
+          content: Text(l10n.reportExpandedUnlocked),
         ),
       );
     } else {
       messenger.showSnackBar(
-        const SnackBar(
-          content: Text('광고를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'),
+        SnackBar(
+          content: Text(l10n.reportAdFailed),
         ),
       );
     }
@@ -102,6 +104,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final characterState = context.watch<CharacterState>();
     final weeklyData = characterState.weeklyCompletedQuests;
     final categoryData = characterState.questCategoryDistribution;
@@ -117,8 +120,8 @@ class _ReportScreenState extends State<ReportScreen> {
         _completionRate(characterState.monthlyQuests);
     final yearlyCompletionRate = _completionRate(characterState.yearlyQuests);
     final recommendedCategory = _recommendedCategory(characterState);
-    final recommendedQuest = _recommendedQuestLabel(characterState, recommendedCategory);
-    final bestWeekday = _bestWeekdayLabel(weeklyData);
+    final recommendedQuest = _recommendedQuestLabel(characterState, recommendedCategory, l10n);
+    final bestWeekday = _bestWeekdayLabel(weeklyData, l10n);
     final weeklyTotal = weeklyData.values.fold<int>(0, (total, value) => total + value);
     final completedQuestMap = _buildCompletedQuestMap(characterState);
     final selectedDayQuests =
@@ -134,9 +137,19 @@ class _ReportScreenState extends State<ReportScreen> {
       maxY *= 1.2;
     }
 
+    final weekLabels = [
+      l10n.reportWeekDayMon,
+      l10n.reportWeekDayTue,
+      l10n.reportWeekDayWed,
+      l10n.reportWeekDayThu,
+      l10n.reportWeekDayFri,
+      l10n.reportWeekDaySat,
+      l10n.reportWeekDaySun,
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('상세 리포트'),
+        title: Text(l10n.reportScreenTitle),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -147,8 +160,8 @@ class _ReportScreenState extends State<ReportScreen> {
                 Expanded(
                   child: _buildSummaryCard(
                     context,
-                    title: '현재 연속 기록',
-                    value: '${characterState.character.streak}일',
+                    title: l10n.reportSummaryStreak,
+                    value: l10n.reportSummaryStreakValue(characterState.character.streak),
                     icon: PhosphorIcons.fire,
                     color: Colors.orange.shade400,
                   ),
@@ -157,7 +170,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 Expanded(
                   child: _buildSummaryCard(
                     context,
-                    title: '현재 XP',
+                    title: l10n.reportSummaryXp,
                     value: '${characterState.character.xp.toInt()}',
                     icon: PhosphorIcons.star,
                     color: Colors.yellow.shade600,
@@ -171,8 +184,8 @@ class _ReportScreenState extends State<ReportScreen> {
                 Expanded(
                   child: _buildSummaryCard(
                     context,
-                    title: '완료한 퀘스트',
-                    value: '${characterState.questCompletionCount}개',
+                    title: l10n.reportSummaryQuestCount,
+                    value: l10n.reportSummaryQuestCountValue(characterState.questCompletionCount),
                     icon: PhosphorIcons.checkCircle,
                     color: Colors.green.shade400,
                   ),
@@ -181,7 +194,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 Expanded(
                   child: _buildSummaryCard(
                     context,
-                    title: '현재 칭호',
+                    title: l10n.reportSummaryTitle,
                     value: characterState.character.title,
                     icon: PhosphorIcons.medal,
                     color: Colors.blue.shade400,
@@ -194,10 +207,10 @@ class _ReportScreenState extends State<ReportScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('한주간의 활동 기록', style: theme.textTheme.titleLarge),
+                  Text(l10n.reportWeeklyActivityTitle, style: theme.textTheme.titleLarge),
                   const SizedBox(height: 10),
                   Text(
-                    '이번 주 루틴 유지 흐름을 먼저 확인할 수 있습니다.',
+                    l10n.reportWeeklyActivitySubtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.72),
                     ),
@@ -237,10 +250,9 @@ class _ReportScreenState extends State<ReportScreen> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
                                 );
-                                const labels = ['월', '화', '수', '목', '금', '토', '일'];
                                 final index = value.toInt();
-                                final text = index >= 0 && index < labels.length
-                                    ? labels[index]
+                                final text = index >= 0 && index < weekLabels.length
+                                    ? weekLabels[index]
                                     : '';
                                 return SideTitleWidget(
                                   axisSide: meta.axisSide,
@@ -323,6 +335,7 @@ class _ReportScreenState extends State<ReportScreen> {
     int remainingViews,
     bool isExpandedUnlocked,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return TranslucentCard(
       child: Column(
@@ -334,7 +347,7 @@ class _ReportScreenState extends State<ReportScreen> {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  '광고로 여는 확장 리포트',
+                  l10n.reportExpandedEntryTitle,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -345,14 +358,14 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 12),
           Text(
             isExpandedUnlocked
-                ? '오늘은 이미 확장 리포트가 해금되었습니다. 아래에서 심층 분석을 바로 볼 수 있습니다.'
-                : '심층 분석을 열면 카테고리 비율, 이번 레벨 성장 성향, 자동 성장 기록을 확인할 수 있습니다.',
+                ? l10n.reportExpandedAlreadyUnlocked
+                : l10n.reportExpandedDescription,
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 16),
-          _buildFeatureBullet('퀘스트 카테고리 비율'),
-          _buildFeatureBullet('다음 레벨 성장 성향 분석'),
-          _buildFeatureBullet('직전 레벨 자동 성장 기록'),
+          _buildFeatureBullet(l10n.reportFeatureCategoryRatio),
+          _buildFeatureBullet(l10n.reportFeatureGrowthTrend),
+          _buildFeatureBullet(l10n.reportFeatureAutoGrowth),
           const SizedBox(height: 18),
           if (isExpandedUnlocked)
             Container(
@@ -371,7 +384,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      '오늘 확장 리포트 해금됨',
+                      l10n.reportUnlockedToday,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -396,8 +409,8 @@ class _ReportScreenState extends State<ReportScreen> {
                     : const Icon(Icons.ondemand_video_rounded),
                 label: Text(
                   remainingViews > 0
-                      ? '광고 보고 확장 리포트 열기 (오늘 $remainingViews회 남음)'
-                      : '오늘은 더 이상 열 수 없습니다',
+                      ? l10n.reportWatchAdButton(remainingViews)
+                      : l10n.reportNoMoreViews,
                 ),
               ),
             ),
@@ -422,6 +435,7 @@ class _ReportScreenState extends State<ReportScreen> {
     required Map<DateTime, List<Quest>> completedQuestMap,
     required List<Quest> selectedDayQuests,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return Column(
       children: [
@@ -435,7 +449,7 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('퀘스트 카테고리 비율', style: theme.textTheme.titleLarge),
+              Text(l10n.reportCategoryRatioTitle, style: theme.textTheme.titleLarge),
               const SizedBox(height: 24),
               SizedBox(
                 height: 200,
@@ -476,7 +490,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         color: _getCategoryColor(category),
                       ),
                       const SizedBox(width: 8),
-                      Text(_getCategoryName(category)),
+                      Text(_getCategoryName(category, l10n)),
                     ],
                   );
                 }).toList(),
@@ -489,13 +503,13 @@ class _ReportScreenState extends State<ReportScreen> {
           children: [
             Expanded(
               child: _buildInsightCard(
-                title: '이번 레벨 성장 성향',
+                title: l10n.reportInsightGrowthTrendTitle,
                 value: dominantCategory != null
-                    ? _getCategoryName(dominantCategory)
-                    : '데이터 부족',
+                    ? _getCategoryName(dominantCategory, l10n)
+                    : l10n.reportInsightDataInsufficient,
                 caption: dominantCategory != null
-                    ? '완료한 퀘스트가 가장 많이 반영되는 방향입니다.'
-                    : '퀘스트를 완료하면 자동 성장 경향이 쌓입니다.',
+                    ? l10n.reportInsightGrowthTrendCaption
+                    : l10n.reportInsightGrowthTrendCaptionEmpty,
                 color: Colors.cyanAccent.shade400,
                 icon: Icons.auto_graph_rounded,
               ),
@@ -503,9 +517,9 @@ class _ReportScreenState extends State<ReportScreen> {
             const SizedBox(width: 16),
             Expanded(
               child: _buildInsightCard(
-                title: '직전 레벨 자동 성장',
-                value: _autoGrowthLabel(autoGrowthData),
-                caption: '레벨업 시 3포인트는 행동 통계 기반으로 자동 배분됩니다.',
+                title: l10n.reportInsightAutoGrowthTitle,
+                value: _autoGrowthLabel(autoGrowthData, l10n),
+                caption: l10n.reportInsightAutoGrowthCaption,
                 color: Colors.amber.shade500,
                 icon: Icons.auto_awesome_rounded,
               ),
@@ -517,9 +531,9 @@ class _ReportScreenState extends State<ReportScreen> {
           children: [
             Expanded(
               child: _buildInsightCard(
-                title: '이번 주 최고 몰입일',
+                title: l10n.reportInsightBestDayTitle,
                 value: bestWeekday,
-                caption: '이번 주 완료한 퀘스트는 총 $weeklyTotal개입니다.',
+                caption: l10n.reportInsightBestDayCaption(weeklyTotal),
                 color: Colors.lightBlue.shade400,
                 icon: Icons.calendar_view_week_rounded,
               ),
@@ -527,10 +541,10 @@ class _ReportScreenState extends State<ReportScreen> {
             const SizedBox(width: 16),
             Expanded(
               child: _buildInsightCard(
-                title: '추천 집중 스탯',
+                title: l10n.reportInsightRecommendedStatTitle,
                 value: recommendedCategory != null
-                    ? _getCategoryName(recommendedCategory)
-                    : '균형 잡힘',
+                    ? _getCategoryName(recommendedCategory, l10n)
+                    : l10n.reportInsightBalanced,
                 caption: recommendedQuest,
                 color: Colors.deepPurple.shade300,
                 icon: Icons.tips_and_updates_rounded,
@@ -543,7 +557,7 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('다음 레벨 자동 성장 예측', style: theme.textTheme.titleLarge),
+              Text(l10n.reportNextLevelPredictionTitle, style: theme.textTheme.titleLarge),
               const SizedBox(height: 16),
               ...StatType.values.map((stat) {
                 final percent = growthData[stat] ?? 0;
@@ -555,7 +569,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(_getCategoryName(stat)),
+                          Text(_getCategoryName(stat, l10n)),
                           Text('${percent.toStringAsFixed(0)}%'),
                         ],
                       ),
@@ -582,23 +596,23 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('장기 목표 진행률', style: theme.textTheme.titleLarge),
+              Text(l10n.reportLongTermTitle, style: theme.textTheme.titleLarge),
               const SizedBox(height: 10),
               Text(
-                '월간과 연간 레이드 진행 상황을 한 번에 확인할 수 있습니다.',
+                l10n.reportLongTermSubtitle,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.72),
                 ),
               ),
               const SizedBox(height: 18),
               _buildProgressRow(
-                label: '월간 레이드',
+                label: l10n.reportProgressMonthlyRaid,
                 percent: monthlyCompletionRate,
                 color: Colors.amber.shade500,
               ),
               const SizedBox(height: 14),
               _buildProgressRow(
-                label: '연간 레이드',
+                label: l10n.reportProgressYearlyRaid,
                 percent: yearlyCompletionRate,
                 color: Colors.redAccent.shade200,
               ),
@@ -607,15 +621,15 @@ class _ReportScreenState extends State<ReportScreen> {
                 children: [
                   Expanded(
                     child: _buildMiniStat(
-                      '현재 최저 스탯',
-                      _lowestStatLabel(character),
+                      l10n.reportLowestStat,
+                      _lowestStatLabel(character, l10n),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildMiniStat(
-                      '최고 스탯',
-                      _highestStatLabel(character),
+                      l10n.reportHighestStat,
+                      _highestStatLabel(character, l10n),
                     ),
                   ),
                 ],
@@ -632,6 +646,7 @@ class _ReportScreenState extends State<ReportScreen> {
     required Map<DateTime, List<Quest>> completedQuestMap,
     required List<Quest> selectedDayQuests,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final monthStart = DateTime(_focusedMonth.year, _focusedMonth.month, 1);
     final monthEnd = DateTime(_focusedMonth.year, _focusedMonth.month + 1, 0);
@@ -639,7 +654,15 @@ class _ReportScreenState extends State<ReportScreen> {
     final totalCells = leadingEmptyDays + monthEnd.day;
     final trailingEmptyDays = (7 - (totalCells % 7)) % 7;
     final cellCount = totalCells + trailingEmptyDays;
-    const weekdayLabels = ['일', '월', '화', '수', '목', '금', '토'];
+    final weekdayLabels = [
+      l10n.reportCalendarWeekdaySun,
+      l10n.reportCalendarWeekdayMon,
+      l10n.reportCalendarWeekdayTue,
+      l10n.reportCalendarWeekdayWed,
+      l10n.reportCalendarWeekdayThu,
+      l10n.reportCalendarWeekdayFri,
+      l10n.reportCalendarWeekdaySat,
+    ];
 
     return TranslucentCard(
       child: Column(
@@ -647,7 +670,7 @@ class _ReportScreenState extends State<ReportScreen> {
         children: [
           Row(
             children: [
-              Text('퀘스트 달력', style: theme.textTheme.titleLarge),
+              Text(l10n.reportCalendarTitle, style: theme.textTheme.titleLarge),
               const Spacer(),
               IconButton(
                 onPressed: () {
@@ -778,14 +801,14 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 16),
           Text(
             _selectedDay != null
-                ? '${_selectedDay!.month}월 ${_selectedDay!.day}일 완료 퀘스트'
-                : '날짜를 선택하세요',
+                ? l10n.reportCalendarSelectedTitle(_selectedDay!.month, _selectedDay!.day)
+                : l10n.reportCalendarSelectPrompt,
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 10),
           if (selectedDayQuests.isEmpty)
             Text(
-              '이 날짜에는 완료한 퀘스트가 없습니다.',
+              l10n.reportCalendarNoQuests,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.68),
               ),
@@ -820,7 +843,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${_getQuestTypeName(quest.type)} · ${_getCategoryName(quest.category)} · ${quest.xp} XP',
+                            '${_getQuestTypeName(quest.type, l10n)} · ${_getCategoryName(quest.category, l10n)} · ${quest.xp} XP',
                             style: TextStyle(
                               fontSize: 12,
                               color: theme.colorScheme.onSurface
@@ -943,12 +966,12 @@ class _ReportScreenState extends State<ReportScreen> {
     );
   }
 
-  String _autoGrowthLabel(Map<StatType, int> autoGrowthData) {
+  String _autoGrowthLabel(Map<StatType, int> autoGrowthData, AppLocalizations l10n) {
     final parts = autoGrowthData.entries
         .where((entry) => entry.value > 0)
-        .map((entry) => '${_getCategoryName(entry.key)} +${entry.value}')
+        .map((entry) => '${_getCategoryName(entry.key, l10n)} +${entry.value}')
         .toList();
-    return parts.isEmpty ? '기록 없음' : parts.join(' · ');
+    return parts.isEmpty ? l10n.reportNoRecord : parts.join(' · ');
   }
 
   double _completionRate(List<Quest> quests) {
@@ -997,8 +1020,8 @@ class _ReportScreenState extends State<ReportScreen> {
     return weakest;
   }
 
-  String _recommendedQuestLabel(CharacterState state, StatType? category) {
-    if (category == null) return '현재는 스탯 밸런스가 안정적입니다.';
+  String _recommendedQuestLabel(CharacterState state, StatType? category, AppLocalizations l10n) {
+    if (category == null) return l10n.reportStatBalanced;
     final allQuests = [
       ...state.dailyQuests,
       ...state.weeklyQuests,
@@ -1009,35 +1032,35 @@ class _ReportScreenState extends State<ReportScreen> {
       (quest) => !quest.isCompleted && quest.category == category,
       orElse: () => Quest(
         id: 'recommended-fallback',
-        name: '${_getCategoryName(category)} 계열 퀘스트를 추가해 보세요',
+        name: l10n.reportAddQuestSuggestion(_getCategoryName(category, l10n)),
         xp: 0,
         type: QuestType.daily,
         category: category,
       ),
     );
-    return '추천 행동: ${targetQuest.name}';
+    return l10n.reportRecommendedAction(targetQuest.name);
   }
 
-  String _bestWeekdayLabel(Map<int, int> weeklyData) {
+  String _bestWeekdayLabel(Map<int, int> weeklyData, AppLocalizations l10n) {
     if (weeklyData.values.every((value) => value == 0)) {
-      return '기록 없음';
+      return l10n.reportNoRecord;
     }
-    const labels = {
-      1: '월요일',
-      2: '화요일',
-      3: '수요일',
-      4: '목요일',
-      5: '금요일',
-      6: '토요일',
-      7: '일요일',
+    final labels = {
+      1: l10n.reportWeekdayMonday,
+      2: l10n.reportWeekdayTuesday,
+      3: l10n.reportWeekdayWednesday,
+      4: l10n.reportWeekdayThursday,
+      5: l10n.reportWeekdayFriday,
+      6: l10n.reportWeekdaySaturday,
+      7: l10n.reportWeekdaySunday,
     };
     final best = weeklyData.entries.reduce(
       (a, b) => a.value >= b.value ? a : b,
     );
-    return '${labels[best.key]} ${best.value}개';
+    return l10n.reportBestWeekday(labels[best.key] ?? '', best.value);
   }
 
-  String _lowestStatLabel(dynamic character) {
+  String _lowestStatLabel(dynamic character, AppLocalizations l10n) {
     final stats = <StatType, double>{
       StatType.strength: character.strength,
       StatType.wisdom: character.wisdom,
@@ -1045,10 +1068,10 @@ class _ReportScreenState extends State<ReportScreen> {
       StatType.charisma: character.charisma,
     };
     final weakest = stats.entries.reduce((a, b) => a.value <= b.value ? a : b);
-    return '${_getCategoryName(weakest.key)} ${weakest.value.toInt()}';
+    return l10n.reportStatValue(_getCategoryName(weakest.key, l10n), weakest.value.toInt());
   }
 
-  String _highestStatLabel(dynamic character) {
+  String _highestStatLabel(dynamic character, AppLocalizations l10n) {
     final stats = <StatType, double>{
       StatType.strength: character.strength,
       StatType.wisdom: character.wisdom,
@@ -1057,7 +1080,7 @@ class _ReportScreenState extends State<ReportScreen> {
     };
     final strongest =
         stats.entries.reduce((a, b) => a.value >= b.value ? a : b);
-    return '${_getCategoryName(strongest.key)} ${strongest.value.toInt()}';
+    return l10n.reportStatValue(_getCategoryName(strongest.key, l10n), strongest.value.toInt());
   }
 
   Widget _buildSummaryCard(

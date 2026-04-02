@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
@@ -8,6 +8,7 @@ import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/widgets/combat/dungeon_floor_selector.dart';
 import 'package:life_quest_final_v2/widgets/combat/combat_arena_view.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class HuntScreen extends StatefulWidget {
   const HuntScreen({super.key});
@@ -60,6 +61,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final charState = context.watch<CharacterState>();
     final combatState = context.watch<CombatState>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -82,7 +84,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 color: Colors.redAccent, size: 24),
             const SizedBox(width: 8),
             Text(
-              '사냥터',
+              l10n.huntScreenTitle,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color:
@@ -132,12 +134,12 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
               isDark: isDark,
               onCombatStarted: () => setState(() => _showSkills = false),
             )
-          : _buildCombatUI(charState, combatState, isDark),
+          : _buildCombatUI(charState, combatState, isDark, l10n),
     );
   }
 
   Widget _buildCombatUI(
-      CharacterState charState, CombatState combatState, bool isDark) {
+      CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -148,7 +150,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '⚡ AP: ${charState.character.actionPoints}',
+                l10n.huntApBadge(charState.character.actionPoints),
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 14,
@@ -161,7 +163,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                '💥 콤보: ${combatState.comboCount}',
+                l10n.huntComboBadge(combatState.comboCount),
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 14,
@@ -188,19 +190,19 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
         ),
 
         // Player HP bar
-        _buildPlayerHpBar(charState, isDark),
+        _buildPlayerHpBar(charState, isDark, l10n),
 
         // Combat log (Retro style)
         _buildCombatLog(combatState, isDark),
 
         // Action buttons
-        _buildActionButtons(charState, combatState, isDark),
+        _buildActionButtons(charState, combatState, isDark, l10n),
         const SizedBox(height: 16),
       ],
     );
   }
 
-  Widget _buildPlayerHpBar(CharacterState charState, bool isDark) {
+  Widget _buildPlayerHpBar(CharacterState charState, bool isDark, AppLocalizations l10n) {
     final character = charState.character;
     double hpPercent = character.characterHp / character.characterMaxHp;
     return Padding(
@@ -209,7 +211,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '나의 HP',
+            l10n.huntMyHpLabel,
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 12,
@@ -298,7 +300,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildActionButtons(
-      CharacterState charState, CombatState combatState, bool isDark) {
+      CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
     if (combatState.status == CombatStatus.victory) {
       final adService = AdService();
       final remainingMultiplier = adService.getRemainingViews('combat_multiplier');
@@ -309,7 +311,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
           children: [
             if (remainingMultiplier > 0) ...[
               _secondaryButton(
-                '광고 보고 보상 2배로 받기 ($remainingMultiplier회 남음)',
+                l10n.huntDoubleRewardButton(remainingMultiplier),
                 Icons.ondemand_video,
                 Colors.amber,
                 () async {
@@ -326,11 +328,11 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                     charState.forceSave();
                     combatState.endCombat();
                     messenger.showSnackBar(
-                      const SnackBar(content: Text('🎉 광고 보상으로 2배의 전리품을 획득했습니다!')),
+                      SnackBar(content: Text(l10n.huntDoubleRewardSuccess)),
                     );
                   } else {
                     messenger.showSnackBar(
-                      const SnackBar(content: Text('광고를 불러올 수 없습니다. 다시 시도해주세요.')),
+                      SnackBar(content: Text(l10n.huntAdUnavailable)),
                     );
                   }
                 },
@@ -342,7 +344,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
               children: [
                 Expanded(
                   child: _secondaryButton(
-                    '결과 확인 & 돌아가기',
+                    l10n.huntResultButton,
                     Icons.emoji_events,
                     isDark ? const Color(0xFF00FFFF) : Colors.orange,
                     () {
@@ -371,7 +373,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
           children: [
             if (remainingRevives > 0) ...[
               _secondaryButton(
-                '광고 보고 부활하기 (오늘 $remainingRevives회 남음)',
+                l10n.huntReviveButton(remainingRevives),
                 Icons.favorite,
                 Colors.pinkAccent,
                 () async {
@@ -383,15 +385,15 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                     await charState.forceSave();
                     if (context.mounted) {
                       messenger.showSnackBar(
-                        const SnackBar(
-                          content: Text('❤️ 광고 보상으로 즉시 부활했습니다!'),
+                        SnackBar(
+                          content: Text(l10n.huntReviveSuccess),
                         ),
                       );
                     }
                   } else if (context.mounted) {
                     messenger.showSnackBar(
-                      const SnackBar(
-                        content: Text('광고를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.'),
+                      SnackBar(
+                        content: Text(l10n.huntReviveAdUnavailable),
                       ),
                     );
                   }
@@ -401,7 +403,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
               const SizedBox(height: 8),
             ],
             _secondaryButton(
-              '포기하고 돌아가기',
+              l10n.huntRetreatButton,
               Icons.exit_to_app,
               Colors.red,
               () {
@@ -423,13 +425,13 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
           children: [
             if (_showSkills) ...[
               // Skill Selection Menu
-              _buildSkillMenu(charState, combatState, isDark),
+              _buildSkillMenu(charState, combatState, isDark, l10n),
             ] else ...[
               // 2x2 Grid
               Row(
                 children: [
                   Expanded(
-                    child: _actionButton('공격 (1 AP)', Icons.sports_martial_arts,
+                    child: _actionButton(l10n.huntActionAttack, Icons.sports_martial_arts,
                         Colors.redAccent, () {
                       if (_isActionBusy) return;
                       if (!hasAp) return _showApWarning();
@@ -443,7 +445,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   const SizedBox(width: 8),
                   Expanded(
                     child: _actionButton(
-                        '방어 (1 AP)', Icons.shield, Colors.blueAccent, () {
+                        l10n.huntActionDefend, Icons.shield, Colors.blueAccent, () {
                       if (_isActionBusy) return;
                       if (!hasAp) return _showApWarning();
                       setState(() => _isActionBusy = true);
@@ -459,7 +461,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: _actionButton(
-                        '스킬 (자유)', Icons.auto_awesome, Colors.green, () {
+                        l10n.huntActionSkill, Icons.auto_awesome, Colors.green, () {
                       setState(() {
                         _showSkills = true;
                       });
@@ -468,9 +470,9 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   const SizedBox(width: 8),
                   Expanded(
                     child: _actionButton(
-                        '가방 (1 AP)', Icons.shopping_bag, Colors.purple, () {
+                        l10n.huntActionBag, Icons.shopping_bag, Colors.purple, () {
                       if (!hasAp) return _showApWarning();
-                      _showInventoryModal(charState, combatState, isDark);
+                      _showInventoryModal(charState, combatState, isDark, l10n);
                     }, isDark),
                   ),
                 ],
@@ -480,7 +482,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: _actionButton(
-                        '도망 (1 AP)', Icons.directions_run, Colors.grey, () {
+                        l10n.huntActionFlee, Icons.directions_run, Colors.grey, () {
                       if (_isActionBusy) return;
                       if (!hasAp) return _showApWarning();
                       setState(() => _isActionBusy = true);
@@ -499,54 +501,58 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   }
 
   void _showApWarning() {
+    final l10n = AppLocalizations.of(context)!;
     final adService = AdService();
     final remaining = adService.getRemainingViews('ap_recovery');
 
     if (remaining > 0) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('AP 부족'),
-          content: Text(
-              'AP가 부족합니다. 광고를 보고 AP를 2 회복하시겠습니까?\n(오늘 남은 횟수: $remaining회)'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('취소'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                final success = await adService.showRewardedAd('ap_recovery');
-                if (!context.mounted) return;
+        builder: (context) {
+          final dialogL10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(dialogL10n.huntApLowTitle),
+            content: Text(dialogL10n.huntApLowBody(remaining)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(dialogL10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  final success = await adService.showRewardedAd('ap_recovery');
+                  if (!context.mounted) return;
 
-                if (success) {
-                  final charState =
-                      Provider.of<CharacterState>(context, listen: false);
-                  charState.character.actionPoints += 2;
-                  charState.forceSave();
-                  charState.refreshState();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('⚡ AP가 2 회복되었습니다!')),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('광고를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.'),
-                    ),
-                  );
-                }
-              },
-              child: const Text('광고 보고 회복'),
-            ),
-          ],
-        ),
+                  if (success) {
+                    final charState =
+                        Provider.of<CharacterState>(context, listen: false);
+                    charState.character.actionPoints += 2;
+                    charState.forceSave();
+                    charState.refreshState();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('⚡ AP가 2 회복되었습니다!')),
+                    );
+                  } else {
+                    final mountedL10n = AppLocalizations.of(context)!;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(mountedL10n.huntAdUnavailable),
+                      ),
+                    );
+                  }
+                },
+                child: Text(dialogL10n.huntApRecoverButton),
+              ),
+            ],
+          );
+        },
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('⚡ AP 부족! 퀘스트를 완료하세요. (오늘 광고 회복 모두 소진)',
-              style: TextStyle(fontFamily: 'monospace')),
+          content: Text(l10n.huntApExhausted,
+              style: const TextStyle(fontFamily: 'monospace')),
           backgroundColor: Colors.red.shade800,
           behavior: SnackBarBehavior.floating,
         ),
@@ -562,7 +568,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     }
   }
 
-  void _showInventoryModal(CharacterState charState, CombatState combatState, bool isDark) {
+  void _showInventoryModal(CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
     final consumables = charState.character.inventory.where((i) => i.type == ItemType.consumable).toList();
 
     showModalBottomSheet(
@@ -571,43 +577,46 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (ctx) => Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('가방 (소비 아이템)', style: TextStyle(fontFamily: 'monospace', fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800)),
-            const SizedBox(height: 16),
-            if (consumables.isEmpty)
-              const Center(child: Padding(padding: EdgeInsets.all(24), child: Text('사용할 수 있는 아이템이 없습니다.', style: TextStyle(fontFamily: 'monospace'))))
-            else
-              ...consumables.map((item) => ListTile(
-                leading: Icon(Icons.science, color: Colors.purple.shade400),
-                title: Text(item.name, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'monospace')),
-                subtitle: Text(item.description, style: const TextStyle(fontFamily: 'monospace')),
-                trailing: TextButton(
-                  onPressed: () {
-                    // Consume 1 AP and Use Item
-                    int apCost = 1;
-                    if (charState.character.actionPoints < apCost) return;
-                    bool used = combatState.useItem(charState.character, item);
-                    if (used) {
-                      _applyApCost(charState, apCost);
-                      Navigator.pop(ctx);
-                    }
-                  },
-                  child: Text('사용 (1 AP)', style: TextStyle(color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
-                ),
-              )).toList(),
-          ],
-        ),
-      ),
+      builder: (ctx) {
+        final modalL10n = AppLocalizations.of(ctx)!;
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(modalL10n.huntBagTitle, style: TextStyle(fontFamily: 'monospace', fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800)),
+              const SizedBox(height: 16),
+              if (consumables.isEmpty)
+                Center(child: Padding(padding: const EdgeInsets.all(24), child: Text(modalL10n.huntBagEmpty, style: const TextStyle(fontFamily: 'monospace'))))
+              else
+                ...consumables.map((item) => ListTile(
+                  leading: Icon(Icons.science, color: Colors.purple.shade400),
+                  title: Text(item.name, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                  subtitle: Text(item.description, style: const TextStyle(fontFamily: 'monospace')),
+                  trailing: TextButton(
+                    onPressed: () {
+                      // Consume 1 AP and Use Item
+                      int apCost = 1;
+                      if (charState.character.actionPoints < apCost) return;
+                      bool used = combatState.useItem(charState.character, item);
+                      if (used) {
+                        _applyApCost(charState, apCost);
+                        Navigator.pop(ctx);
+                      }
+                    },
+                    child: Text(modalL10n.huntBagUse, style: TextStyle(color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
+                  ),
+                )).toList(),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _buildSkillMenu(
-      CharacterState charState, CombatState combatState, bool isDark) {
+      CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
     final combatSkills = charState.allSkills
         .where((s) =>
             charState.learnedSkillIds.contains(s.id) &&
@@ -620,7 +629,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('사용할 스킬을 선택하세요:',
+            Text(l10n.huntSkillSelectTitle,
                 style: TextStyle(
                     fontFamily: 'monospace',
                     color: isDark ? Colors.white70 : Colors.black87)),
@@ -631,10 +640,10 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
           ],
         ),
         if (combatSkills.isEmpty)
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text('배운 전투 스킬이 없습니다.',
-                style: TextStyle(fontFamily: 'monospace')),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(l10n.huntSkillEmpty,
+                style: const TextStyle(fontFamily: 'monospace')),
           ),
         Wrap(
           spacing: 8,
@@ -763,4 +772,3 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   }
 
 }
-

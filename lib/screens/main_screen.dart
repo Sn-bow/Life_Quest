@@ -12,6 +12,7 @@ import 'package:life_quest_final_v2/screens/status_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -88,6 +89,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // 데이터 로딩 중일 때 로딩 화면 표시
     if (context.watch<CharacterState>().isLoading) {
       return const Scaffold(
@@ -104,34 +106,34 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.user),
-                label: '상태창',
+                icon: const Icon(PhosphorIcons.user),
+                label: l10n.tabStatus,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.sword),
-                label: '퀘스트',
+                icon: const Icon(PhosphorIcons.sword),
+                label: l10n.tabQuests,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.gameController),
-                label: '사냥',
+                icon: const Icon(PhosphorIcons.gameController),
+                label: l10n.tabHunt,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.backpack),
-                label: '인벤토리',
+                icon: const Icon(PhosphorIcons.backpack),
+                label: l10n.tabInventory,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.storefront),
-                label: '상점',
+                icon: const Icon(PhosphorIcons.storefront),
+                label: l10n.tabShop,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.trophy),
-                label: '업적',
+                icon: const Icon(PhosphorIcons.trophy),
+                label: l10n.tabAchievement,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.sparkle),
-                label: '스킬',
+                icon: const Icon(PhosphorIcons.sparkle),
+                label: l10n.tabSkill,
               ),
             ],
             currentIndex: _selectedIndex,

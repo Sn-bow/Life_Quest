@@ -1,4 +1,4 @@
-﻿import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
@@ -8,6 +8,7 @@ import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -49,31 +50,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
         TextEditingController(text: characterState.character.name);
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('닉네임 변경'),
-        content: TextField(
-          controller: nameController,
-          decoration: const InputDecoration(labelText: '새 닉네임', counterText: ''),
-          autofocus: true,
-          maxLength: 20,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('취소'),
+      builder: (ctx) {
+        final dialogL10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(dialogL10n.settingsNicknameChangeTitle),
+          content: TextField(
+            controller: nameController,
+            decoration: InputDecoration(labelText: dialogL10n.settingsNicknameNewLabel, counterText: ''),
+            autofocus: true,
+            maxLength: 20,
           ),
-          ElevatedButton(
-            onPressed: () {
-              final newName = nameController.text.trim();
-              if (newName.isNotEmpty) {
-                characterState.changeCharacterName(newName);
-                Navigator.of(ctx).pop();
-              }
-            },
-            child: const Text('변경'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: Text(dialogL10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final newName = nameController.text.trim();
+                if (newName.isNotEmpty) {
+                  characterState.changeCharacterName(newName);
+                  Navigator.of(ctx).pop();
+                }
+              },
+              child: Text(dialogL10n.change),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -81,55 +85,57 @@ class _SettingsScreenState extends State<SettingsScreen> {
       BuildContext context, CharacterState characterState) {
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('회원 탈퇴'),
-        content:
-            const Text('정말로 탈퇴하시겠습니까?\n모든 데이터가 영구적으로 삭제되며, 이 작업은 되돌릴 수 없습니다.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('취소'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red.shade800,
-              foregroundColor: Colors.white,
+      builder: (ctx) {
+        final dialogL10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(dialogL10n.settingsWithdrawTitle),
+          content: Text(dialogL10n.settingsWithdrawBody),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: Text(dialogL10n.cancel),
             ),
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              await characterState.deleteAccount();
-              if (!context.mounted) return;
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-            child: const Text('탈퇴 확인'),
-          ),
-        ],
-      ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade800,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () async {
+                Navigator.of(ctx).pop();
+                await characterState.deleteAccount();
+                if (!context.mounted) return;
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+              child: Text(dialogL10n.settingsWithdrawConfirm),
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final characterState = context.watch<CharacterState>();
     final isDarkMode = characterState.themeMode == ThemeMode.dark;
     final isNotificationEnabled = characterState.isNotificationEnabled;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('설정'),
+        title: Text(l10n.settingsScreenTitle),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          const Text('계정',
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(l10n.settingsAccountSection,
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
           TranslucentCard(
             child: Column(
               children: [
                 ListTile(
                   leading: const Icon(PhosphorIcons.userCircle),
-                  title: const Text('닉네임'),
+                  title: Text(l10n.settingsNicknameLabel),
                   subtitle: Text(characterState.character.name),
                   trailing: const Icon(PhosphorIcons.caretRight),
                   onTap: () => _showChangeNameDialog(context, characterState),
@@ -138,15 +144,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          const Text('앱 설정',
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(l10n.settingsAppSection,
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
           TranslucentCard(
             child: Column(
               children: [
                 SwitchListTile(
-                  title: const Text('다크 모드'),
-                  subtitle: const Text('앱의 전체 테마를 변경합니다.'),
+                  title: Text(l10n.settingsDarkMode),
+                  subtitle: Text(l10n.settingsDarkModeSubtitle),
                   secondary: Icon(
                     isDarkMode ? PhosphorIcons.moon : PhosphorIcons.sun,
                   ),
@@ -158,8 +163,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const Divider(),
                 SwitchListTile(
-                  title: const Text('사운드 효과음 (SFX)'),
-                  subtitle: const Text('각종 게임 효과음을 켜거나 끕니다.'),
+                  title: Text(l10n.settingsSfx),
+                  subtitle: Text(l10n.settingsSfxSubtitle),
                   secondary: Icon(
                     SoundService().isMuted ? Icons.volume_off : Icons.volume_up,
                   ),
@@ -171,8 +176,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const Divider(),
                 SwitchListTile(
-                  title: const Text('알림 설정'),
-                  subtitle: const Text('매일 아침 9시에 퀘스트 알림을 받습니다.'),
+                  title: Text(l10n.settingsNotification),
+                  subtitle: Text(l10n.settingsNotificationSubtitle),
                   secondary: Icon(
                     isNotificationEnabled
                         ? PhosphorIcons.bellRinging
@@ -184,12 +189,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     characterState.changeNotificationSetting(value).then((_) {
                       if (!context.mounted) return;
                       final messenger = ScaffoldMessenger.of(context);
+                      final snackL10n = AppLocalizations.of(context)!;
                       if (value) {
                         messenger.showSnackBar(
                           SnackBar(
-                            content: const Text(
-                              '매일 아침 9시, 저녁 8시에 알림이 예약되었습니다.',
-                              style: TextStyle(color: Colors.white),
+                            content: Text(
+                              snackL10n.settingsNotificationEnabled,
+                              style: const TextStyle(color: Colors.white),
                             ),
                             backgroundColor: Colors.green.shade600,
                           ),
@@ -197,9 +203,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       } else {
                         messenger.showSnackBar(
                           SnackBar(
-                            content: const Text(
-                              '모든 알림이 취소되었습니다.',
-                              style: TextStyle(color: Colors.white),
+                            content: Text(
+                              snackL10n.settingsNotificationDisabled,
+                              style: const TextStyle(color: Colors.white),
                             ),
                             backgroundColor: Colors.grey.shade700,
                           ),
@@ -244,33 +250,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 24),
           ],
-          const TranslucentCard(
+          TranslucentCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Text('광고 후원 안내',
-                      style: TextStyle(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Text(l10n.settingsAdSupportSection,
+                      style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey)),
                 ),
                 ListTile(
-                  leading:
-                      Icon(PhosphorIcons.videoCamera, color: Colors.amber),
-                  title: Text('선택형 광고로 앱을 운영합니다'),
-                  subtitle: Text(
-                    '광고는 퀘스트 보상 2배, AP 회복, 전투 부활처럼 추가 보상이 필요할 때만 표시됩니다.',
-                  ),
+                  leading: const Icon(PhosphorIcons.videoCamera, color: Colors.amber),
+                  title: Text(l10n.settingsAdSupportTitle),
+                  subtitle: Text(l10n.settingsAdSupportDesc),
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
-                  leading: Icon(PhosphorIcons.coins, color: Colors.teal),
-                  title: Text('광고 후원형 운영'),
-                  subtitle: Text(
-                    '현재 버전은 인앱결제보다 광고 수익 중심으로 운영됩니다. 유료 상품은 추후 검토됩니다.',
-                  ),
+                  leading: const Icon(PhosphorIcons.coins, color: Colors.teal),
+                  title: Text(l10n.settingsAdModelTitle),
+                  subtitle: Text(l10n.settingsAdModelDesc),
                 ),
               ],
             ),
@@ -282,7 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   leading:
                       Icon(PhosphorIcons.signOut, color: Colors.red.shade400),
-                  title: Text('로그아웃',
+                  title: Text(l10n.settingsLogout,
                       style: TextStyle(color: Colors.red.shade400)),
                   onTap: _handleLogout,
                 ),
@@ -290,7 +291,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   leading: Icon(PhosphorIcons.userCircleMinus,
                       color: Colors.red.shade400),
-                  title: Text('회원 탈퇴',
+                  title: Text(l10n.settingsWithdraw,
                       style: TextStyle(color: Colors.red.shade400)),
                   onTap: () =>
                       _showDeleteAccountDialog(context, characterState),
@@ -303,4 +304,3 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
-

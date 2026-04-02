@@ -13,6 +13,8 @@ import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 const _homeWidgetAppGroupId = String.fromEnvironment(
@@ -90,6 +92,18 @@ class LifeQuestApp extends StatelessWidget {
         return MaterialApp(
           scaffoldMessengerKey: state.scaffoldMessengerKey,
           title: 'Life Quest',
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ko'),
+            Locale('en'),
+            Locale('ja'),
+            Locale('zh'),
+          ],
           themeMode: state.themeMode,
           theme: ThemeData(
             brightness: Brightness.light,

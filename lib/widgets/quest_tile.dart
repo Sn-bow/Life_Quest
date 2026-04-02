@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class QuestTile extends StatelessWidget {
   final Quest quest;
@@ -33,6 +34,7 @@ class QuestTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
     final diffColor = _difficultyColor();
@@ -130,13 +132,13 @@ class QuestTile extends StatelessWidget {
                             color: theme.colorScheme.primary
                                 .withValues(alpha: 0.7)),
                         onPressed: onEdited,
-                        tooltip: '퀘스트 수정',
+                        tooltip: l10n.questTileEditTooltip,
                       ),
                     IconButton(
                       icon: Icon(Icons.delete,
                           color: Colors.redAccent.withValues(alpha: 0.7)),
                       onPressed: onDeleted,
-                      tooltip: '퀘스트 삭제',
+                      tooltip: l10n.questTileDeleteTooltip,
                     ),
                   ],
                 ),
