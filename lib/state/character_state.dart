@@ -466,6 +466,22 @@ class CharacterState extends ChangeNotifier {
       }
       unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
+      final unlockedCardName = _tryUnlockRandomCard();
+      if (unlockedCardName != null) {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(
+            content: Text(
+              '카드 획득: $unlockedCardName!',
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            backgroundColor: const Color(0xFF00FFFF),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
+            margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
+          ),
+        );
+      }
       unawaited(_saveData());
       notifyListeners();
       return QuestCompletionResult(
@@ -851,6 +867,110 @@ class CharacterState extends ChangeNotifier {
     return true;
   }
 
+  // ─────────────────────────────────────────────
+  // Card Collection
+  // ─────────────────────────────────────────────
+
+  /// All cards the player has unlocked, looked up from CardDatabase.
+  List<CardData> get unlockedCards {
+    if (_character == null) return [];
+    return _character!.unlockedCardIds
+        .map((id) => CardDatabase.getCard(id))
+        .whereType<CardData>()
+        .toList();
+  }
+
+  /// The custom starter deck built from saved card IDs.
+  /// Falls back to CardDatabase.starterDeck when the player has no custom deck.
+  List<CardData> get starterDeck {
+    if (_character == null || _character!.starterDeckCardIds.isEmpty) {
+      return CardDatabase.starterDeck;
+    }
+    return _character!.starterDeckCardIds
+        .map((id) => CardDatabase.getCard(id))
+        .whereType<CardData>()
+        .toList();
+  }
+
+  /// Add a card to the player's collection (no-op if already owned).
+  void unlockCard(String cardId) {
+    if (_character == null) return;
+    if (!_character!.unlockedCardIds.contains(cardId)) {
+      _character!.unlockedCardIds.add(cardId);
+      unawaited(_saveData());
+      notifyListeners();
+    }
+  }
+
+  /// Add a card to the custom starter deck.
+  /// Max 20 total cards, max 3 copies of the same card.
+  void addCardToStarterDeck(String cardId) {
+    if (_character == null) return;
+    final deck = _character!.starterDeckCardIds;
+    if (deck.length >= 20) return;
+    final copyCount = deck.where((id) => id == cardId).length;
+    if (copyCount >= 3) return;
+    deck.add(cardId);
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Remove a card from the custom starter deck by index.
+  void removeCardFromStarterDeck(int index) {
+    if (_character == null) return;
+    final deck = _character!.starterDeckCardIds;
+    if (index < 0 || index >= deck.length) return;
+    deck.removeAt(index);
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Reset the custom starter deck to the default (empty = use CardDatabase.starterDeck).
+  void resetStarterDeck() {
+    if (_character == null) return;
+    _character!.starterDeckCardIds.clear();
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Rolls for a random card unlock on quest completion.
+  /// 30% Common, 10% Uncommon, 5% Rare. Returns the card name if a new card
+  /// was unlocked, or null if no card was awarded or all matching cards are
+  /// already owned.
+  String? _tryUnlockRandomCard() {
+    if (_character == null) return null;
+    final roll = math.Random().nextDouble();
+    CardRarity? rarity;
+    if (roll < 0.05) {
+      rarity = CardRarity.rare;
+    } else if (roll < 0.15) {
+      rarity = CardRarity.uncommon;
+    } else if (roll < 0.45) {
+      rarity = CardRarity.common;
+    }
+    if (rarity == null) return null;
+
+    final pool = CardDatabase.getCardsByRarity(rarity)
+        .where((c) => !_character!.unlockedCardIds.contains(c.id))
+        .toList();
+    if (pool.isEmpty) return null;
+
+    final card = pool[math.Random().nextInt(pool.length)];
+    _character!.unlockedCardIds.add(card.id);
+    return card.name;
+  }
+
+  /// Called once for new players (or existing players with no unlocked cards)
+  /// to give them the 10 default starter cards.
+  void _initStarterCards() {
+    if (_character == null) return;
+    for (final card in CardDatabase.starterDeck) {
+      if (!_character!.unlockedCardIds.contains(card.id)) {
+        _character!.unlockedCardIds.add(card.id);
+      }
+    }
+  }
+
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
   // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
@@ -1019,6 +1139,12 @@ class CharacterState extends ChangeNotifier {
         _hydrateAchievementProgress(data['achievementProgress']);
         if (data['achievementProgress'] is! Map ||
             (data['achievementProgress'] as Map).isEmpty) {
+          needsSave = true;
+        }
+
+        // Give starter cards to players who have none yet (migration / new players)
+        if (_character!.unlockedCardIds.isEmpty) {
+          _initStarterCards();
           needsSave = true;
         }
 
@@ -1270,6 +1396,7 @@ class CharacterState extends ChangeNotifier {
     _isNotificationEnabled = true;
     if (_character != null) {
       _character!.customRewards = _buildDefaultCustomRewards();
+      _initStarterCards();
     }
   }
 

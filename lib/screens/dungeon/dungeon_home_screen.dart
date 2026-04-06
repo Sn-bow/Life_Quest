@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
-import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_map_screen.dart';
+import 'package:life_quest_final_v2/screens/dungeon/card_collection_screen.dart';
 
 class DungeonHomeScreen extends StatelessWidget {
   const DungeonHomeScreen({super.key});
@@ -31,6 +31,22 @@ class DungeonHomeScreen extends StatelessWidget {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.collections_bookmark,
+              color: isDark ? const Color(0xFF00FFFF) : Colors.deepPurple,
+            ),
+            tooltip: '카드 컬렉션',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const CardCollectionScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -302,15 +318,16 @@ class DungeonHomeScreen extends StatelessWidget {
   }
 
   void _startBattle(BuildContext context, int zone) {
-    final character = context.read<CharacterState>().character;
+    final charState = context.read<CharacterState>();
+    final character = charState.character;
 
     // Calculate player HP based on health stat
     final playerMaxHp = 80 + (character.health * 2);
 
-    // Start a dungeon run via DungeonState
+    // Start a dungeon run via DungeonState, using the player's custom deck
     context.read<DungeonState>().startRun(
       zone: zone,
-      startingDeck: CardDatabase.starterDeck,
+      startingDeck: charState.starterDeck,
       playerMaxHp: playerMaxHp,
     );
 
