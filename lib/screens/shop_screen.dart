@@ -4,12 +4,14 @@ import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/screens/cosmetic_shop_screen.dart';
 import 'package:life_quest_final_v2/models/item.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final charState = context.watch<CharacterState>();
     final combatState = context.watch<CombatState>();
     final character = charState.character;
@@ -23,7 +25,7 @@ class ShopScreen extends StatelessWidget {
             children: [
               const Text('🏪 ', style: TextStyle(fontSize: 20)),
               Text(
-                '상점',
+                l10n.shopScreenTitle,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontWeight: FontWeight.bold,
@@ -66,9 +68,9 @@ class ShopScreen extends StatelessWidget {
             unselectedLabelColor: Colors.grey,
             indicatorColor:
                 isDark ? const Color(0xFF00FFFF) : Colors.orange.shade900,
-            tabs: const [
-              Tab(text: '게임 아이템'),
-              Tab(text: '나만의 보상'),
+            tabs: [
+              Tab(text: l10n.shopTabGameItems),
+              Tab(text: l10n.shopTabCustomRewards),
             ],
           ),
         ),
@@ -85,8 +87,25 @@ class ShopScreen extends StatelessWidget {
     );
   }
 
+  /// 공통 구매 처리 헬퍼: 골드 차감 → 아이템 추가 → 저장 → 알림
+  void _handleItemPurchase({
+    required BuildContext context,
+    required CharacterState charState,
+    required int price,
+    required EquipmentItem item,
+    required Color snackColor,
+  }) {
+    final character = charState.character;
+    if (character.gold < price) return;
+    character.gold -= price;
+    character.inventory.add(item);
+    charState.forceSave();
+    _showSnack(context, AppLocalizations.of(context)!.shopItemAcquired(item.name), snackColor);
+  }
+
   Widget _buildGameItemsTab(BuildContext context, CharacterState charState,
       CombatState combatState, dynamic character, bool isDark) {
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -118,26 +137,26 @@ class ShopScreen extends StatelessWidget {
                       offset: Offset(0, 2))
                 ],
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.auto_awesome, color: Colors.white, size: 32),
-                  SizedBox(width: 16),
+                  const Icon(Icons.auto_awesome, color: Colors.white, size: 32),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('테마 쇼케이스',
-                            style: TextStyle(
+                        Text(l10n.shopThemeBannerTitle,
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold)),
-                        Text('준비 중인 테마와 이펙트를 미리 둘러보세요.',
+                        Text(l10n.shopThemeBannerSubtitle,
                             style:
-                                TextStyle(color: Colors.white70, fontSize: 12)),
+                                const TextStyle(color: Colors.white70, fontSize: 12)),
                       ],
                     ),
                   ),
-                  Icon(Icons.chevron_right, color: Colors.white),
+                  const Icon(Icons.chevron_right, color: Colors.white),
                 ],
               ),
             ),
@@ -145,156 +164,148 @@ class ShopScreen extends StatelessWidget {
           const SizedBox(height: 24),
           // ------------------------------------
 
-          _buildSectionHeader(context, '소비 아이템', isDark, Icons.science),
+          _buildSectionHeader(context, l10n.shopConsumableSection, isDark, Icons.science),
           const SizedBox(height: 8),
           _buildShopItem(
             context: context,
             icon: Icons.favorite,
-            name: 'HP 회복 물약',
-            description: 'HP를 30 회복합니다.',
+            name: l10n.shopHpPotionName,
+            description: l10n.shopHpPotionDesc,
             price: 50,
             gold: character.gold,
             isDark: isDark,
-            onBuy: () {
-              if (character.gold >= 50) {
-                character.gold -= 50;
-                character.inventory.add(EquipmentItem(
-                  id: 'hp_potion_${DateTime.now().millisecondsSinceEpoch}',
-                  name: 'HP 회복 물약',
-                  description: 'HP 30 회복',
-                  type: ItemType.consumable,
-                  rarity: ItemRarity.common,
-                  bonusHealth: 30, // Using bonusHealth as heal amount
-                ));
-                charState.forceSave();
-                _showSnack(context, 'HP 회복 물약을 획득했습니다!', Colors.green);
-              }
-            },
+            onBuy: () => _handleItemPurchase(
+              context: context,
+              charState: charState,
+              price: 50,
+              item: EquipmentItem(
+                id: 'hp_potion_${DateTime.now().millisecondsSinceEpoch}',
+                name: l10n.shopHpPotionName,
+                description: l10n.shopHpPotionDesc,
+                type: ItemType.consumable,
+                rarity: ItemRarity.common,
+                bonusHealth: 30,
+              ),
+              snackColor: Colors.green,
+            ),
           ),
           _buildShopItem(
             context: context,
             icon: Icons.favorite_border,
-            name: 'HP 완전 회복 물약',
-            description: 'HP를 최대치로 회복합니다.',
+            name: l10n.shopHpFullPotionName,
+            description: l10n.shopHpFullPotionDesc,
             price: 150,
             gold: character.gold,
             isDark: isDark,
-            onBuy: () {
-              if (character.gold >= 150) {
-                character.gold -= 150;
-                character.inventory.add(EquipmentItem(
-                  id: 'hp_potion_full_${DateTime.now().millisecondsSinceEpoch}',
-                  name: 'HP 완전 회복 물약',
-                  description: 'HP 100% 회복',
-                  type: ItemType.consumable,
-                  rarity: ItemRarity.rare,
-                  bonusHealth: 9999,
-                ));
-                charState.forceSave();
-                _showSnack(context, 'HP 완전 회복 물약을 획득했습니다!', Colors.green);
-              }
-            },
+            onBuy: () => _handleItemPurchase(
+              context: context,
+              charState: charState,
+              price: 150,
+              item: EquipmentItem(
+                id: 'hp_potion_full_${DateTime.now().millisecondsSinceEpoch}',
+                name: l10n.shopHpFullPotionName,
+                description: l10n.shopHpFullPotionDesc,
+                type: ItemType.consumable,
+                rarity: ItemRarity.rare,
+                bonusHealth: 9999,
+              ),
+              snackColor: Colors.green,
+            ),
           ),
           _buildShopItem(
             context: context,
             icon: Icons.bolt,
-            name: 'AP 충전 물약',
-            description: 'AP를 5 회복합니다.',
+            name: l10n.shopApPotionName,
+            description: l10n.shopApPotionDesc,
             price: 80,
             gold: character.gold,
             isDark: isDark,
-            onBuy: () {
-              if (character.gold >= 80) {
-                character.gold -= 80;
-                character.inventory.add(EquipmentItem(
-                  id: 'ap_potion_${DateTime.now().millisecondsSinceEpoch}',
-                  name: 'AP 충전 물약',
-                  description: 'AP 5 회복',
-                  type: ItemType.consumable,
-                  rarity: ItemRarity.uncommon,
-                  bonusWisdom: 5, // We use bonusWisdom to store AP amount
-                ));
-                charState.forceSave();
-                _showSnack(context, 'AP 충전 물약을 획득했습니다!', Colors.blue);
-              }
-            },
+            onBuy: () => _handleItemPurchase(
+              context: context,
+              charState: charState,
+              price: 80,
+              item: EquipmentItem(
+                id: 'ap_potion_${DateTime.now().millisecondsSinceEpoch}',
+                name: l10n.shopApPotionName,
+                description: l10n.shopApPotionDesc,
+                type: ItemType.consumable,
+                rarity: ItemRarity.uncommon,
+                bonusWisdom: 5,
+              ),
+              snackColor: Colors.blue,
+            ),
           ),
           const SizedBox(height: 24),
           _buildSectionHeader(
-              context, '장비 상자', isDark, Icons.inventory_2_outlined),
+              context, l10n.shopEquipBoxSection, isDark, Icons.inventory_2_outlined),
           const SizedBox(height: 8),
           _buildShopItem(
             context: context,
             icon: Icons.inventory_2,
-            name: '일반 장비 상자',
-            description: '일반~희귀 등급 장비를 랜덤 획득합니다.',
+            name: l10n.shopNormalBoxName,
+            description: l10n.shopNormalBoxDesc,
             price: 100,
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 100) {
-                character.gold -= 100;
-                combatState.openLootBox(character, 1);
-                charState.forceSave();
-                _showSnack(context, '장비를 획득했습니다! 인벤토리를 확인하세요!', Colors.purple);
-              }
+              if (character.gold < 100) return;
+              character.gold -= 100;
+              combatState.openLootBox(character, 1);
+              charState.forceSave();
+              _showSnack(context, l10n.shopNormalBoxSuccess, Colors.purple);
             },
           ),
           _buildShopItem(
             context: context,
             icon: Icons.redeem,
-            name: '고급 장비 상자',
-            description: '희귀~전설 등급 장비를 랜덤 획득합니다.',
+            name: l10n.shopPremiumBoxName,
+            description: l10n.shopPremiumBoxDesc,
             price: 300,
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 300) {
-                character.gold -= 300;
-                combatState.openLootBox(character, 2);
-                charState.forceSave();
-                _showSnack(
-                    context, '고급 장비를 획득했습니다! 인벤토리를 확인하세요!', Colors.orange);
-              }
+              if (character.gold < 300) return;
+              character.gold -= 300;
+              combatState.openLootBox(character, 2);
+              charState.forceSave();
+              _showSnack(context, l10n.shopPremiumBoxSuccess, Colors.orange);
             },
           ),
           const SizedBox(height: 24),
-          _buildSectionHeader(context, '영구 강화', isDark, Icons.upgrade),
+          _buildSectionHeader(context, l10n.shopPermanentSection, isDark, Icons.upgrade),
           const SizedBox(height: 8),
           _buildShopItem(
             context: context,
             icon: Icons.favorite,
-            name: '최대 HP +10',
-            description: '최대 HP를 영구적으로 10 증가시킵니다.',
+            name: l10n.shopMaxHpName,
+            description: l10n.shopMaxHpDesc,
             price: 500,
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 500) {
-                character.gold -= 500;
-                character.characterMaxHp += 10;
-                character.characterHp += 10;
-                charState.forceSave();
-                _showSnack(context, '최대 HP가 10 증가했습니다!', Colors.red);
-              }
+              if (character.gold < 500) return;
+              character.gold -= 500;
+              character.characterMaxHp += 10;
+              character.characterHp += 10;
+              charState.forceSave();
+              _showSnack(context, l10n.shopMaxHpSuccess, Colors.red);
             },
           ),
           _buildShopItem(
             context: context,
             icon: Icons.bolt,
-            name: '최대 AP +2',
-            description: '최대 AP를 영구적으로 2 증가시킵니다.',
+            name: l10n.shopMaxApName,
+            description: l10n.shopMaxApDesc,
             price: 500,
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold >= 500) {
-                character.gold -= 500;
-                character.maxActionPoints += 2;
-                character.actionPoints += 2;
-                charState.forceSave();
-                _showSnack(context, '최대 AP가 2 증가했습니다!', Colors.blue);
-              }
+              if (character.gold < 500) return;
+              character.gold -= 500;
+              character.maxActionPoints += 2;
+              character.actionPoints += 2;
+              charState.forceSave();
+              _showSnack(context, l10n.shopMaxApSuccess, Colors.blue);
             },
           ),
         ],
@@ -304,6 +315,7 @@ class ShopScreen extends StatelessWidget {
 
   Widget _buildCustomRewardsTab(
       BuildContext context, CharacterState charState, bool isDark) {
+    final l10n = AppLocalizations.of(context)!;
     return Stack(
       children: [
         ListView.builder(
@@ -323,7 +335,7 @@ class ShopScreen extends StatelessWidget {
               ),
               onDismissed: (_) {
                 charState.removeCustomReward(reward.id);
-                _showSnack(context, '${reward.name} 삭제됨', Colors.grey);
+                _showSnack(context, l10n.shopCustomRewardDeleted(reward.name), Colors.grey);
               },
               child: _buildShopItem(
                 context: context,
@@ -345,7 +357,7 @@ class ShopScreen extends StatelessWidget {
           child: FloatingActionButton.extended(
             onPressed: () => _showAddRewardDialog(context, charState),
             icon: const Icon(Icons.add),
-            label: const Text('보상 추가'),
+            label: Text(l10n.shopCustomRewardFabLabel),
             backgroundColor:
                 isDark ? const Color(0xFF00FFFF) : Colors.orange.shade700,
             foregroundColor: isDark ? Colors.black : Colors.white,
@@ -363,54 +375,58 @@ class ShopScreen extends StatelessWidget {
 
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('나만의 보상 추가'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameCtrl,
-                decoration:
-                    const InputDecoration(labelText: '보상 이름 (예: 넷플릭스 1시간)'),
-              ),
-              TextField(
-                controller: descCtrl,
-                decoration: const InputDecoration(
-                    labelText: '설명', hintText: '이 보상을 즐기세요!'),
-              ),
-              TextField(
-                controller: costCtrl,
-                decoration: const InputDecoration(labelText: '필요 골드'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: iconCtrl,
-                decoration: const InputDecoration(labelText: '아이콘 (이모지)'),
-              ),
-            ],
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(l10n.shopCustomRewardAddTitle),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameCtrl,
+                  decoration:
+                      InputDecoration(labelText: l10n.shopCustomRewardNameLabel),
+                ),
+                TextField(
+                  controller: descCtrl,
+                  decoration: InputDecoration(
+                      labelText: l10n.shopCustomRewardDescLabel,
+                      hintText: l10n.shopCustomRewardDescHint),
+                ),
+                TextField(
+                  controller: costCtrl,
+                  decoration: InputDecoration(labelText: l10n.shopCustomRewardCostLabel),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: iconCtrl,
+                  decoration: InputDecoration(labelText: l10n.shopCustomRewardIconLabel),
+                ),
+              ],
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('취소'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final cost = int.tryParse(costCtrl.text) ?? 100;
-              if (nameCtrl.text.isNotEmpty && cost > 0 && cost <= 99999) {
-                final icon =
-                    iconCtrl.text.trim().isEmpty ? '🎁' : iconCtrl.text.trim();
-                charState.addCustomReward(
-                    nameCtrl.text, descCtrl.text, cost, icon);
-                Navigator.pop(ctx);
-              }
-            },
-            child: const Text('저장'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final cost = int.tryParse(costCtrl.text) ?? 100;
+                if (nameCtrl.text.isNotEmpty && cost > 0 && cost <= 99999) {
+                  final icon =
+                      iconCtrl.text.trim().isEmpty ? '🎁' : iconCtrl.text.trim();
+                  charState.addCustomReward(
+                      nameCtrl.text, descCtrl.text, cost, icon);
+                  Navigator.pop(ctx);
+                }
+              },
+              child: Text(l10n.save),
+            ),
+          ],
+        );
+      },
     );
   }
 

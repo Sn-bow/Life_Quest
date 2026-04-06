@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/cosmetic.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class CosmeticShopScreen extends StatelessWidget {
@@ -10,10 +11,11 @@ class CosmeticShopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('테마 쇼케이스'),
+        title: Text(l10n.cosmeticShopTitle),
       ),
       body: Consumer<CharacterState>(builder: (context, characterState, child) {
         if (!characterState.isDataLoaded) {
@@ -22,21 +24,19 @@ class CosmeticShopScreen extends StatelessWidget {
         final character = characterState.character;
 
         final categories = {
-          CosmeticCategory.theme: '앱 테마',
-          CosmeticCategory.titleEffect: '칭호 이펙트',
-          CosmeticCategory.combatEffect: '전투 이펙트',
+          CosmeticCategory.theme: l10n.cosmeticCategoryTheme,
+          CosmeticCategory.titleEffect: l10n.cosmeticCategoryTitleEffect,
+          CosmeticCategory.combatEffect: l10n.cosmeticCategoryCombatEffect,
         };
 
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const TranslucentCard(
+            TranslucentCard(
               child: ListTile(
-                leading: Icon(Icons.auto_awesome, color: Colors.amber),
-                title: Text('프리미엄 꾸미기 기능은 준비 중입니다'),
-                subtitle: Text(
-                  '현재는 광고 후원형 운영에 집중하고 있습니다. 테마와 이펙트 상품은 추후 정식 오픈 예정입니다.',
-                ),
+                leading: const Icon(Icons.auto_awesome, color: Colors.amber),
+                title: Text(l10n.cosmeticComingSoonTitle),
+                subtitle: Text(l10n.cosmeticComingSoonDesc),
               ),
             ),
             const SizedBox(height: 16),
@@ -124,7 +124,7 @@ class CosmeticShopScreen extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
         onPressed: () => state.unequipCosmetic(item.category),
-        child: const Text('장착 해제'),
+        child: Text(AppLocalizations.of(context)!.cosmeticUnequip),
       );
     } else if (isUnlocked) {
       return ElevatedButton(
@@ -133,7 +133,7 @@ class CosmeticShopScreen extends StatelessWidget {
           foregroundColor: theme.colorScheme.onPrimary,
         ),
         onPressed: () => state.equipCosmetic(item),
-        child: const Text('장착'),
+        child: Text(AppLocalizations.of(context)!.cosmeticEquip),
       );
     } else {
       return OutlinedButton(
@@ -142,15 +142,15 @@ class CosmeticShopScreen extends StatelessWidget {
           side: BorderSide(color: Colors.grey.shade400),
         ),
         onPressed: () => _showComingSoon(context),
-        child: const Text('준비 중'),
+        child: Text(AppLocalizations.of(context)!.cosmeticComingSoon),
       );
     }
   }
 
   void _showComingSoon(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('코스메틱 상품은 추후 오픈 예정입니다. 현재는 광고 후원형 운영에 집중하고 있습니다.'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.cosmeticComingSoonSnackbar),
       ),
     );
   }

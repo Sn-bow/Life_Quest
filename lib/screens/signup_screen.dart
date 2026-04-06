@@ -8,6 +8,7 @@ import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -45,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
 
     try {
@@ -84,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         name: newName,
         photoUrl: photoUrl,
         level: 1,
-        title: '새싹 모험가',
+        title: l10n.initialTitleRookie,
         xp: 0,
         maxXp: CharacterState.xpRequiredForLevel(1),
         strength: 0,
@@ -101,21 +103,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'dailyQuests': [
           Quest(
                   id: 'd1',
-                  name: '아침 7시 기상',
+                  name: l10n.initialQuestMorning,
                   xp: 10,
                   type: QuestType.daily,
                   category: StatType.health)
               .toJson(),
           Quest(
                   id: 'd2',
-                  name: '운동 30분',
+                  name: l10n.initialQuestExercise,
                   xp: 20,
                   type: QuestType.daily,
                   category: StatType.strength)
               .toJson(),
           Quest(
                   id: 'd3',
-                  name: '책 10페이지 읽기',
+                  name: l10n.initialQuestRead,
                   xp: 15,
                   type: QuestType.daily,
                   category: StatType.wisdom)
@@ -124,14 +126,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'weeklyQuests': [
           Quest(
                   id: 'w1',
-                  name: '주 3회 이상 운동하기',
+                  name: l10n.initialQuestWeeklyExercise,
                   xp: 100,
                   type: QuestType.weekly,
                   category: StatType.strength)
               .toJson(),
           Quest(
                   id: 'w2',
-                  name: '새로운 기술/지식 학습하기',
+                  name: l10n.initialQuestWeeklyLearn,
                   xp: 120,
                   type: QuestType.weekly,
                   category: StatType.wisdom)
@@ -140,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'monthlyQuests': [
           Quest(
                   id: 'm1',
-                  name: '이번 달 운동 12회 달성',
+                  name: l10n.initialQuestMonthlyExercise,
                   xp: 140,
                   type: QuestType.monthly,
                   category: StatType.health,
@@ -148,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               .toJson(),
           Quest(
                   id: 'm2',
-                  name: '사이드 프로젝트 핵심 기능 완성',
+                  name: l10n.initialQuestMonthlyProject,
                   xp: 200,
                   type: QuestType.monthly,
                   category: StatType.wisdom,
@@ -158,7 +160,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'yearlyQuests': [
           Quest(
                   id: 'y1',
-                  name: '올해 대표 목표 하나 완수하기',
+                  name: l10n.initialQuestYearly,
                   xp: 280,
                   type: QuestType.yearly,
                   category: StatType.charisma,
@@ -178,17 +180,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (mounted) {
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('🎉 회원가입 성공! 환영합니다!',
-                style: TextStyle(color: Colors.white)),
+          SnackBar(
+            content: Text(l10n.signupSuccess,
+                style: const TextStyle(color: Colors.white)),
             backgroundColor: Colors.green,
           ),
         );
       }
     } on FirebaseAuthException catch (e) {
-      _showErrorSnackBar(e.message ?? '회원가입에 실패했습니다.');
+      _showErrorSnackBar(e.message ?? l10n.signupErrorFailed);
     } catch (e) {
-      _showErrorSnackBar('알 수 없는 오류가 발생했습니다: $e');
+      _showErrorSnackBar(l10n.signupErrorUnknown(e.toString()));
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -219,14 +221,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('새 모험가 등록',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(l10n.signupTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -274,23 +277,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onPressed: _pickImage,
                         icon:
                             const Icon(Icons.photo_library_outlined, size: 18),
-                        label: const Text('프로필 사진 선택'),
+                        label: Text(l10n.signupPickPhoto),
                         style: TextButton.styleFrom(
                             foregroundColor: theme.colorScheme.primary),
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: '이메일',
-                          prefixIcon: Icon(Icons.email_outlined),
+                        decoration: InputDecoration(
+                          labelText: l10n.signupEmailLabel,
+                          prefixIcon: const Icon(Icons.email_outlined),
                         ),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value == null ||
-                              value.trim().isEmpty ||
-                              !value.contains('@')) {
-                            return '유효한 이메일을 입력해주세요.';
+                          if (value == null || value.trim().isEmpty) {
+                            return l10n.signupEmailRequired;
+                          }
+                          final email = value.trim();
+                          final parts = email.split('@');
+                          if (parts.length != 2 ||
+                              parts[0].isEmpty ||
+                              parts[1].isEmpty ||
+                              !parts[1].contains('.')) {
+                            return l10n.signupEmailInvalid;
                           }
                           return null;
                         },
@@ -298,13 +307,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: '닉네임',
-                          prefixIcon: Icon(Icons.person_outline),
+                        decoration: InputDecoration(
+                          labelText: l10n.signupNicknameLabel,
+                          prefixIcon: const Icon(Icons.person_outline),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return '닉네임을 입력해주세요.';
+                            return l10n.signupNicknameRequired;
                           }
                           return null;
                         },
@@ -312,14 +321,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: '비밀번호',
-                          prefixIcon: Icon(Icons.lock_outline),
+                        decoration: InputDecoration(
+                          labelText: l10n.signupPasswordLabel,
+                          prefixIcon: const Icon(Icons.lock_outline),
                         ),
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.trim().length < 6) {
-                            return '비밀번호는 6자 이상이어야 합니다.';
+                            return l10n.signupPasswordTooShort;
                           }
                           return null;
                         },
@@ -327,14 +336,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _confirmPasswordController,
-                        decoration: const InputDecoration(
-                          labelText: '비밀번호 확인',
-                          prefixIcon: Icon(Icons.lock_reset_outlined),
+                        decoration: InputDecoration(
+                          labelText: l10n.signupPasswordConfirmLabel,
+                          prefixIcon: const Icon(Icons.lock_reset_outlined),
                         ),
                         obscureText: true,
                         validator: (value) {
                           if (value != _passwordController.text) {
-                            return '비밀번호가 일치하지 않습니다.';
+                            return l10n.signupPasswordMismatch;
                           }
                           return null;
                         },
@@ -356,8 +365,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          child: const Text('가입 완료',
-                              style: TextStyle(
+                          child: Text(l10n.signupButton,
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                         ),
                     ],

@@ -17,6 +17,8 @@ import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/data/achievement_database.dart';
 import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/data/skill_database.dart';
+import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/models/card_data.dart';
 
 enum StatType { strength, wisdom, health, charisma }
 
@@ -138,6 +140,8 @@ class CharacterState extends ChangeNotifier {
   Timer? _saveTimer;
   Timer? _hpRegenTimer;
   bool _isCombatActive = false;
+  bool _isSaving = false;
+  bool _pendingSave = false;
 
   final FirebaseFirestore _firestore;
 
@@ -369,7 +373,7 @@ class CharacterState extends ChangeNotifier {
   void changeTitle(GameTitle newTitle) {
     if (_unlockedTitleIds.contains(newTitle.id)) {
       _character!.title = newTitle.name;
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -462,7 +466,23 @@ class CharacterState extends ChangeNotifier {
       }
       unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
-      _saveData();
+      final unlockedCardName = _tryUnlockRandomCard();
+      if (unlockedCardName != null) {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(
+            content: Text(
+              '카드 획득: $unlockedCardName!',
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            backgroundColor: const Color(0xFF00FFFF),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
+            margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
+          ),
+        );
+      }
+      unawaited(_saveData());
       notifyListeners();
       return QuestCompletionResult(
         totalXpAwarded: totalXp,
@@ -483,7 +503,7 @@ class CharacterState extends ChangeNotifier {
     _weeklyQuests.removeWhere((q) => q.id == quest.id);
     _monthlyQuests.removeWhere((q) => q.id == quest.id);
     _yearlyQuests.removeWhere((q) => q.id == quest.id);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -511,7 +531,7 @@ class CharacterState extends ChangeNotifier {
         _yearlyQuests.add(newQuest);
         break;
     }
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -519,7 +539,7 @@ class CharacterState extends ChangeNotifier {
     quest.name = newName;
     quest.xp = newXp;
     quest.category = newCategory;
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -616,7 +636,7 @@ class CharacterState extends ChangeNotifier {
     }
     _checkTitleUnlock();
     _updateAchievement(AchievementCondition.monstersKilled, 1);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -627,7 +647,19 @@ class CharacterState extends ChangeNotifier {
       _levelUp();
     }
     _checkTitleUnlock();
-    _saveData();
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Apply dungeon run rewards (XP + gold) with full level-up pipeline.
+  void addDungeonReward(int xp, int gold) {
+    _character!.xp += xp;
+    _character!.gold += gold;
+    while (_character!.xp >= _character!.maxXp) {
+      _levelUp();
+    }
+    _checkTitleUnlock();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -699,7 +731,7 @@ class CharacterState extends ChangeNotifier {
       }
       _character!.statPoints--;
       _checkTitleUnlock();
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -795,7 +827,7 @@ class CharacterState extends ChangeNotifier {
             margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
           ),
         );
-        _saveData();
+        unawaited(_saveData());
       }
     }
   }
@@ -805,7 +837,7 @@ class CharacterState extends ChangeNotifier {
       _character!.skillPoints--;
       _learnedSkillIds.add(skill.id);
       _updateAchievement(AchievementCondition.skillsLearned, 1);
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -835,7 +867,168 @@ class CharacterState extends ChangeNotifier {
     return true;
   }
 
+  // ─────────────────────────────────────────────
+  // Ascension & Infinite Tower
+  // ─────────────────────────────────────────────
+
+  /// The set of zone numbers the player has cleared (1-5).
+  Set<int> get completedZones => _character?.completedZones ?? {};
+
+  /// Whether the player has cleared Zone 5 (unlocks Ascension & Infinite Tower).
+  bool get hasCompletedZone5 => completedZones.contains(5);
+
+  /// The player's highest Infinite Tower floor reached.
+  int get infiniteTowerFloor => _character?.infiniteTowerFloor ?? 1;
+
+  /// Record a zone completion. Shows a special banner if Zone 5 is newly cleared.
+  Future<void> completeZone(int zone) async {
+    if (_character == null) return;
+    final isNew = !_character!.completedZones.contains(zone);
+    _character!.completedZones.add(zone);
+
+    if (isNew && zone == 5) {
+      scaffoldMessengerKey.currentState?.showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Text('🏆', style: TextStyle(fontSize: 20)),
+              SizedBox(width: 8),
+              Text(
+                'Soul Deck 클리어!',
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Color(0xFF6A1B9A),
+          duration: Duration(seconds: 4),
+        ),
+      );
+    }
+
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Update the player's highest Infinite Tower floor if the new value is higher.
+  Future<void> updateInfiniteTowerFloor(int floor) async {
+    if (_character == null) return;
+    if (floor > _character!.infiniteTowerFloor) {
+      _character!.infiniteTowerFloor = floor;
+      unawaited(_saveData());
+      notifyListeners();
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // Card Collection
+  // ─────────────────────────────────────────────
+
+  /// All cards the player has unlocked, looked up from CardDatabase.
+  List<CardData> get unlockedCards {
+    if (_character == null) return [];
+    return _character!.unlockedCardIds
+        .map((id) => CardDatabase.getCard(id))
+        .whereType<CardData>()
+        .toList();
+  }
+
+  /// The custom starter deck built from saved card IDs.
+  /// Falls back to CardDatabase.starterDeck when the player has no custom deck.
+  List<CardData> get starterDeck {
+    if (_character == null || _character!.starterDeckCardIds.isEmpty) {
+      return CardDatabase.starterDeck;
+    }
+    return _character!.starterDeckCardIds
+        .map((id) => CardDatabase.getCard(id))
+        .whereType<CardData>()
+        .toList();
+  }
+
+  /// Add a card to the player's collection (no-op if already owned).
+  void unlockCard(String cardId) {
+    if (_character == null) return;
+    if (!_character!.unlockedCardIds.contains(cardId)) {
+      _character!.unlockedCardIds.add(cardId);
+      unawaited(_saveData());
+      notifyListeners();
+    }
+  }
+
+  /// Add a card to the custom starter deck.
+  /// Max 20 total cards, max 3 copies of the same card.
+  void addCardToStarterDeck(String cardId) {
+    if (_character == null) return;
+    final deck = _character!.starterDeckCardIds;
+    if (deck.length >= 20) return;
+    final copyCount = deck.where((id) => id == cardId).length;
+    if (copyCount >= 3) return;
+    deck.add(cardId);
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Remove a card from the custom starter deck by index.
+  void removeCardFromStarterDeck(int index) {
+    if (_character == null) return;
+    final deck = _character!.starterDeckCardIds;
+    if (index < 0 || index >= deck.length) return;
+    deck.removeAt(index);
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Reset the custom starter deck to the default (empty = use CardDatabase.starterDeck).
+  void resetStarterDeck() {
+    if (_character == null) return;
+    _character!.starterDeckCardIds.clear();
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Rolls for a random card unlock on quest completion.
+  /// 30% Common, 10% Uncommon, 5% Rare. Returns the card name if a new card
+  /// was unlocked, or null if no card was awarded or all matching cards are
+  /// already owned.
+  String? _tryUnlockRandomCard() {
+    if (_character == null) return null;
+    final roll = math.Random().nextDouble();
+    CardRarity? rarity;
+    if (roll < 0.05) {
+      rarity = CardRarity.rare;
+    } else if (roll < 0.15) {
+      rarity = CardRarity.uncommon;
+    } else if (roll < 0.45) {
+      rarity = CardRarity.common;
+    }
+    if (rarity == null) return null;
+
+    final pool = CardDatabase.getCardsByRarity(rarity)
+        .where((c) => !_character!.unlockedCardIds.contains(c.id))
+        .toList();
+    if (pool.isEmpty) return null;
+
+    final card = pool[math.Random().nextInt(pool.length)];
+    _character!.unlockedCardIds.add(card.id);
+    return card.name;
+  }
+
+  /// Called once for new players (or existing players with no unlocked cards)
+  /// to give them the 10 default starter cards.
+  void _initStarterCards() {
+    if (_character == null) return;
+    for (final card in CardDatabase.starterDeck) {
+      if (!_character!.unlockedCardIds.contains(card.id)) {
+        _character!.unlockedCardIds.add(card.id);
+      }
+    }
+  }
+
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
+  // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
     _saveTimer?.cancel();
     _saveTimer = Timer(const Duration(seconds: 3), () {
@@ -843,11 +1036,19 @@ class CharacterState extends ChangeNotifier {
     });
   }
 
-  // The actual database write operation, wrapped in try-catch
+  // The actual database write operation, wrapped in try-catch.
+  // Uses _isSaving/_pendingSave to prevent concurrent writes while ensuring
+  // the latest data is always saved (race condition prevention).
   Future<void> _performSaveData() async {
     if (_character == null) return;
+    if (_isSaving) {
+      // 이미 저장 중이면 대기열에 추가하고 반환
+      _pendingSave = true;
+      return;
+    }
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    _isSaving = true;
 
     try {
       final lastLoginDate = _character!.lastLoginDate;
@@ -889,6 +1090,13 @@ class CharacterState extends ChangeNotifier {
           duration: Duration(seconds: 3),
         ),
       );
+    } finally {
+      _isSaving = false;
+      // 저장 중에 새로운 변경이 있었으면 최신 데이터로 다시 저장
+      if (_pendingSave) {
+        _pendingSave = false;
+        await _performSaveData();
+      }
     }
   }
 
@@ -987,6 +1195,12 @@ class CharacterState extends ChangeNotifier {
         _hydrateAchievementProgress(data['achievementProgress']);
         if (data['achievementProgress'] is! Map ||
             (data['achievementProgress'] as Map).isEmpty) {
+          needsSave = true;
+        }
+
+        // Give starter cards to players who have none yet (migration / new players)
+        if (_character!.unlockedCardIds.isEmpty) {
+          _initStarterCards();
           needsSave = true;
         }
 
@@ -1238,6 +1452,7 @@ class CharacterState extends ChangeNotifier {
     _isNotificationEnabled = true;
     if (_character != null) {
       _character!.customRewards = _buildDefaultCustomRewards();
+      _initStarterCards();
     }
   }
 
@@ -1280,15 +1495,16 @@ class CharacterState extends ChangeNotifier {
     if (_character == null || _isCombatActive == active) return;
     _isCombatActive = active;
     _character!.lastHpRegenAt = DateTime.now();
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
   void _startHpRegenLoop() {
     _hpRegenTimer?.cancel();
-    _hpRegenTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+    // HP 회복 주기는 10분이므로 타이머도 10분으로 설정 (매분 체크는 낭비)
+    _hpRegenTimer = Timer.periodic(const Duration(minutes: 10), (_) {
       if (_applyHpRecovery()) {
-        _saveData();
+        unawaited(_saveData());
       }
     });
   }
@@ -1442,14 +1658,14 @@ class CharacterState extends ChangeNotifier {
       icon: icon,
     );
     _character!.customRewards.add(newReward);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
   void removeCustomReward(String id) {
     if (_character == null) return;
     _character!.customRewards.removeWhere((r) => r.id == id);
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -1460,7 +1676,7 @@ class CharacterState extends ChangeNotifier {
   void buyCustomReward(CustomReward reward) {
     if (canAffordCustomReward(reward)) {
       _character!.gold -= reward.cost;
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
 
       scaffoldMessengerKey.currentState?.showSnackBar(
@@ -1498,7 +1714,7 @@ class CharacterState extends ChangeNotifier {
       } else {
         _character!.highestDungeonFloor += 1;
       }
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -1570,7 +1786,7 @@ class CharacterState extends ChangeNotifier {
         }
       }
 
-      _saveData();
+      unawaited(_saveData());
       notifyListeners();
     }
   }
@@ -1590,7 +1806,7 @@ class CharacterState extends ChangeNotifier {
         _character!.equippedCombatEffect = item.id;
         break;
     }
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 
@@ -1607,7 +1823,7 @@ class CharacterState extends ChangeNotifier {
         _character!.equippedCombatEffect = null;
         break;
     }
-    _saveData();
+    unawaited(_saveData());
     notifyListeners();
   }
 }

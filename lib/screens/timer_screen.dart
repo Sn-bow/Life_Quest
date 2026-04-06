@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 
 class TimerScreen extends StatefulWidget {
@@ -127,52 +128,56 @@ class _TimerScreenState extends State<TimerScreen>
   void _showRewardDialog() {
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('🎉 집중 완료!'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('$_focusMinutes분 집중 세션 완료!',
-                style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.auto_awesome, size: 16, color: Colors.blue.shade300),
-                const SizedBox(width: 4),
-                const Text('XP +', style: TextStyle(fontSize: 14)),
-                const Text('30',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.amber)),
-                const SizedBox(width: 16),
-                const Icon(Icons.monetization_on,
-                    size: 16, color: Colors.amber),
-                const SizedBox(width: 4),
-                const Text('골드 +', style: TextStyle(fontSize: 14)),
-                const Text('15',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.amber)),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text('오늘 완료: $_completedSessions 세션',
-                style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              _startTimer(); // Auto-start break
-            },
-            child: const Text('휴식 시작'),
+      builder: (ctx) {
+        final l10nCtx = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(l10nCtx.timerFocusCompleteTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l10nCtx.timerFocusCompleteBody(_focusMinutes),
+                  style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.auto_awesome, size: 16, color: Colors.blue.shade300),
+                  const SizedBox(width: 4),
+                  const Text('XP +', style: TextStyle(fontSize: 14)),
+                  const Text('30',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber)),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.monetization_on,
+                      size: 16, color: Colors.amber),
+                  const SizedBox(width: 4),
+                  Text(l10nCtx.timerGoldRewardLabel,
+                      style: const TextStyle(fontSize: 14)),
+                  const Text('15',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber)),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(l10nCtx.timerTodaySessions(_completedSessions),
+                  style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+            ],
           ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                _startTimer();
+              },
+              child: Text(l10nCtx.timerStartBreak),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -185,6 +190,7 @@ class _TimerScreenState extends State<TimerScreen>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
     final progress = _isFocusPhase
         ? 1.0 - (_remainingSeconds / (_focusMinutes * 60))
         : 1.0 - (_remainingSeconds / (_breakMinutes * 60));
@@ -193,7 +199,7 @@ class _TimerScreenState extends State<TimerScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isFocusPhase ? '🍅 집중 타이머' : '☕ 휴식 타이머'),
+        title: Text(_isFocusPhase ? l10n.timerScreenFocus : l10n.timerScreenBreak),
       ),
       body: SafeArea(
         child: Center(
@@ -212,7 +218,7 @@ class _TimerScreenState extends State<TimerScreen>
                     border: Border.all(color: accentColor, width: 1.5),
                   ),
                   child: Text(
-                    _isFocusPhase ? '집중 모드' : '휴식 모드',
+                    _isFocusPhase ? l10n.timerFocusMode : l10n.timerBreakMode,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 14,
@@ -256,7 +262,7 @@ class _TimerScreenState extends State<TimerScreen>
                             ),
                           ),
                           Text(
-                            '세션 $_completedSessions 완료',
+                            l10n.timerSessionCount(_completedSessions),
                             style: TextStyle(
                               fontFamily: 'monospace',
                               fontSize: 13,
@@ -351,7 +357,7 @@ class _TimerScreenState extends State<TimerScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('집중 완료 보상: ',
+                      Text(l10n.timerFocusRewardLabel,
                           style: TextStyle(
                               fontSize: 12,
                               color: isDark
@@ -371,8 +377,8 @@ class _TimerScreenState extends State<TimerScreen>
                           const Icon(Icons.monetization_on,
                               size: 14, color: Colors.amber),
                           const SizedBox(width: 4),
-                          const Text('골드 +15',
-                              style: TextStyle(
+                          Text('${l10n.timerGoldRewardLabel}15',
+                              style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.amber)),

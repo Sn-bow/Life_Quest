@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/models/item.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class InventoryScreen extends StatelessWidget {
   const InventoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final charState = context.watch<CharacterState>();
     final combatState = context.watch<CombatState>();
     final character = charState.character;
@@ -20,7 +22,7 @@ class InventoryScreen extends StatelessWidget {
           children: [
             const Text('🎒 ', style: TextStyle(fontSize: 20)),
             Text(
-              '인벤토리',
+              l10n.inventoryScreenTitle,
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontWeight: FontWeight.bold,
@@ -64,27 +66,37 @@ class InventoryScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Equipment Slots
-            _buildSectionHeader('장착 장비', isDark),
+            _buildSectionHeader(l10n.inventoryEquippedSection, isDark),
             const SizedBox(height: 8),
-            _buildEquipmentSlots(character, combatState, isDark, context),
+            _buildEquipmentSlots(character, combatState, isDark, context, l10n),
             const SizedBox(height: 24),
 
             // Stat summary with equipment
-            _buildSectionHeader('전투 스탯', isDark),
+            _buildSectionHeader(l10n.inventoryCombatStatSection, isDark),
             const SizedBox(height: 24),
-            _buildCombatStats(character, isDark, context),
+            _buildCombatStats(character, isDark, context, l10n),
             const SizedBox(height: 24),
 
             // Inventory items
             _buildSectionHeader(
-                '보유 아이템 (${character.inventory.length})', isDark),
+                l10n.inventoryItemsSection(character.inventory.length), isDark),
             const SizedBox(height: 8),
             if (character.inventory.isEmpty)
-              _buildEmptyInventory(isDark)
+              _buildEmptyInventory(isDark, l10n)
             else
-              ...character.inventory.map(
-                (item) => _buildInventoryItem(
-                    item, character, combatState, charState, isDark, context),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: character.inventory.length,
+                itemBuilder: (ctx, index) => _buildInventoryItem(
+                  character.inventory[index],
+                  character,
+                  combatState,
+                  charState,
+                  isDark,
+                  context,
+                  l10n,
+                ),
               ),
           ],
         ),
@@ -118,20 +130,20 @@ class InventoryScreen extends StatelessWidget {
   }
 
   Widget _buildEquipmentSlots(dynamic character, CombatState combatState,
-      bool isDark, BuildContext context) {
+      bool isDark, BuildContext context, AppLocalizations l10n) {
     return Row(
       children: [
         Expanded(
-            child: _buildSlot('⚔️ 무기', character.equippedWeapon,
-                ItemType.weapon, character, combatState, isDark, context)),
+            child: _buildSlot(l10n.inventorySlotWeapon, character.equippedWeapon,
+                ItemType.weapon, character, combatState, isDark, context, l10n)),
         const SizedBox(width: 8),
         Expanded(
-            child: _buildSlot('🛡️ 방어구', character.equippedArmor,
-                ItemType.armor, character, combatState, isDark, context)),
+            child: _buildSlot(l10n.inventorySlotArmor, character.equippedArmor,
+                ItemType.armor, character, combatState, isDark, context, l10n)),
         const SizedBox(width: 8),
         Expanded(
-            child: _buildSlot('💍 장신구', character.equippedAccessory,
-                ItemType.accessory, character, combatState, isDark, context)),
+            child: _buildSlot(l10n.inventorySlotAccessory, character.equippedAccessory,
+                ItemType.accessory, character, combatState, isDark, context, l10n)),
       ],
     );
   }
@@ -143,46 +155,50 @@ class InventoryScreen extends StatelessWidget {
       dynamic character,
       CombatState combatState,
       bool isDark,
-      BuildContext context) {
+      BuildContext context,
+      AppLocalizations l10n) {
     return GestureDetector(
       onTap: item != null
           ? () {
               showDialog(
                 context: context,
-                builder: (ctx) => AlertDialog(
-                  title: Text(item.name,
-                      style: const TextStyle(
-                          fontFamily: 'monospace',
-                          fontWeight: FontWeight.bold)),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(item.description,
-                          style: const TextStyle(fontFamily: 'monospace')),
-                      const SizedBox(height: 8),
-                      _buildItemStats(item, isDark),
+                builder: (ctx) {
+                  final dialogL10n = AppLocalizations.of(ctx)!;
+                  return AlertDialog(
+                    title: Text(item.name,
+                        style: const TextStyle(
+                            fontFamily: 'monospace',
+                            fontWeight: FontWeight.bold)),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.description,
+                            style: const TextStyle(fontFamily: 'monospace')),
+                        const SizedBox(height: 8),
+                        _buildItemStats(item, isDark),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          combatState.unequipItem(character, slot);
+                          context.read<CharacterState>().forceSave();
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Text(dialogL10n.inventoryUnequip,
+                            style: TextStyle(
+                                fontFamily: 'monospace',
+                                color: Colors.red.shade400)),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(ctx).pop(),
+                        child: Text(dialogL10n.close,
+                            style: const TextStyle(fontFamily: 'monospace')),
+                      ),
                     ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        combatState.unequipItem(character, slot);
-                        context.read<CharacterState>().forceSave();
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text('해제',
-                          style: TextStyle(
-                              fontFamily: 'monospace',
-                              color: Colors.red.shade400)),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(ctx).pop(),
-                      child: const Text('닫기',
-                          style: TextStyle(fontFamily: 'monospace')),
-                    ),
-                  ],
-                ),
+                  );
+                },
               );
             }
           : null,
@@ -224,7 +240,7 @@ class InventoryScreen extends StatelessWidget {
               ),
             ] else
               Text(
-                '비어있음',
+                l10n.inventorySlotEmpty,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 11,
@@ -238,7 +254,7 @@ class InventoryScreen extends StatelessWidget {
   }
 
   Widget _buildCombatStats(
-      dynamic character, bool isDark, BuildContext context) {
+      dynamic character, bool isDark, BuildContext context, AppLocalizations l10n) {
     double totalAtk = character.strength + 5;
     double totalDef = character.health * 0.5;
 
@@ -268,18 +284,18 @@ class InventoryScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildStatColumn(
-              '공격력', Icons.sports_martial_arts, totalAtk.toInt(), isDark),
+              l10n.inventoryAttackLabel, Icons.sports_martial_arts, totalAtk.toInt(), isDark),
           Container(
               width: 1,
               height: 40,
               color: isDark ? Colors.white12 : Colors.grey.shade300),
           _buildStatColumn(
-              '방어력', Icons.shield_outlined, totalDef.toInt(), isDark),
+              l10n.inventoryDefenseLabel, Icons.shield_outlined, totalDef.toInt(), isDark),
           Container(
               width: 1,
               height: 40,
               color: isDark ? Colors.white12 : Colors.grey.shade300),
-          _buildStatColumn('체력', Icons.favorite_border,
+          _buildStatColumn(l10n.inventoryHpLabel, Icons.favorite_border,
               (50 + character.health * 5).toInt(), isDark),
         ],
       ),
@@ -314,7 +330,7 @@ class InventoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyInventory(bool isDark) {
+  Widget _buildEmptyInventory(bool isDark, AppLocalizations l10n) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(32),
@@ -332,7 +348,7 @@ class InventoryScreen extends StatelessWidget {
               size: 40, color: isDark ? Colors.white38 : Colors.grey.shade400),
           const SizedBox(height: 8),
           Text(
-            '아이템이 없습니다\n몬스터를 사냥하여 장비를 획득하세요!',
+            l10n.inventoryEmptyMessage,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -350,7 +366,8 @@ class InventoryScreen extends StatelessWidget {
       CombatState combatState,
       CharacterState charState,
       bool isDark,
-      BuildContext context) {
+      BuildContext context,
+      AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
@@ -405,7 +422,7 @@ class InventoryScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(3),
                       ),
                       child: Text(
-                        _getRarityName(item.rarity),
+                        _getRarityName(item.rarity, l10n),
                         style: TextStyle(
                             fontFamily: 'monospace',
                             fontSize: 9,
@@ -436,11 +453,11 @@ class InventoryScreen extends StatelessWidget {
                   } else {
                     character.characterHp = (character.characterHp + item.bonusHealth.toInt()).clamp(0, character.characterMaxHp);
                   }
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${item.name}을 사용했습니다. (HP 회복)', style: const TextStyle(fontFamily: 'monospace')), backgroundColor: Colors.green, duration: const Duration(seconds: 1)));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.inventoryUsedHp(item.name), style: const TextStyle(fontFamily: 'monospace')), backgroundColor: Colors.green, duration: const Duration(seconds: 1)));
                 }
                 if (item.bonusWisdom > 0) {
                   character.actionPoints = (character.actionPoints + item.bonusWisdom.toInt()).clamp(0, character.maxActionPoints);
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${item.name}을 사용했습니다. (AP 회복)', style: const TextStyle(fontFamily: 'monospace')), backgroundColor: Colors.blue, duration: const Duration(seconds: 1)));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.inventoryUsedAp(item.name), style: const TextStyle(fontFamily: 'monospace')), backgroundColor: Colors.blue, duration: const Duration(seconds: 1)));
                 }
                 character.inventory.remove(item);
                 charState.forceSave();
@@ -462,7 +479,7 @@ class InventoryScreen extends StatelessWidget {
                 ),
               ),
               child: Text(
-                item.type == ItemType.consumable ? '사용' : '장착',
+                l10n.inventoryUseEquip,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 12,
@@ -541,18 +558,18 @@ class InventoryScreen extends StatelessWidget {
     }
   }
 
-  String _getRarityName(ItemRarity rarity) {
+  String _getRarityName(ItemRarity rarity, AppLocalizations l10n) {
     switch (rarity) {
       case ItemRarity.common:
-        return '일반';
+        return l10n.inventoryRarityCommon;
       case ItemRarity.uncommon:
-        return '고급';
+        return l10n.inventoryRarityUncommon;
       case ItemRarity.rare:
-        return '희귀';
+        return l10n.inventoryRarityRare;
       case ItemRarity.epic:
-        return '영웅';
+        return l10n.inventoryRarityEpic;
       case ItemRarity.legendary:
-        return '전설';
+        return l10n.inventoryRarityLegendary;
     }
   }
 }

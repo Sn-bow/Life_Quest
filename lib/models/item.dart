@@ -53,10 +53,10 @@ class EquipmentItem {
       name: json['name'] ?? '알 수 없는 아이템',
       description: json['description'] ?? '',
       type: ItemType.values.firstWhere(
-          (e) => e.toString() == 'ItemType.${json['type']}',
+          (e) => e.name == json['type'],
           orElse: () => ItemType.consumable),
       rarity: ItemRarity.values.firstWhere(
-          (e) => e.toString() == 'ItemRarity.${json['rarity']}',
+          (e) => e.name == json['rarity'],
           orElse: () => ItemRarity.common),
       bonusStrength: (json['bonusStrength'] ?? 0).toDouble(),
       bonusWisdom: (json['bonusWisdom'] ?? 0).toDouble(),

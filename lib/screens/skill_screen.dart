@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SkillScreen extends StatelessWidget {
@@ -13,10 +14,11 @@ class SkillScreen extends StatelessWidget {
     final character = characterState.character;
     final skills = characterState.allSkills;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('스킬'),
+        title: Text(l10n.skillScreenTitle),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -41,7 +43,7 @@ class SkillScreen extends StatelessWidget {
           final isLearned = characterState.learnedSkillIds.contains(skill.id);
           final canLearn = characterState.canLearnSkill(skill);
 
-          String requirementText = '요구 조건: Lv.${skill.requiredLevel}';
+          String requirementText = l10n.skillRequiredLevel(skill.requiredLevel);
           if (skill.requiredStatType != null &&
               skill.requiredStatValue != null) {
             String statName = skill.requiredStatType!.name;
@@ -101,7 +103,7 @@ class SkillScreen extends StatelessWidget {
                         onPressed: canLearn
                             ? () => characterState.learnSkill(skill)
                             : null,
-                        child: const Text('습득'),
+                        child: Text(l10n.acquire),
                       ),
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:life_quest_final_v2/screens/signup_screen.dart'; // --- 추가된 부분 ---
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,9 +19,10 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   Future<void> _handleLogin() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_emailController.text.trim().isEmpty ||
         _passwordController.text.trim().isEmpty) {
-      _showErrorSnackBar('이메일과 비밀번호를 모두 입력해주세요.');
+      _showErrorSnackBar(l10n.loginErrorEmpty);
       return;
     }
     setState(() => _isLoading = true);
@@ -30,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
-      _showErrorSnackBar(e.message ?? '로그인에 실패했습니다.');
+      _showErrorSnackBar(e.message ?? l10n.loginErrorFailed);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -47,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // --- 여기까지 ---
 
   Future<void> _handleGoogleSignIn() async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -56,15 +59,19 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+      if (googleAuth.idToken == null) {
+        _showErrorSnackBar(l10n.loginErrorGoogleToken);
+        return;
+      }
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
       await _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      _showErrorSnackBar(e.message ?? '구글 로그인에 실패했습니다.');
+      _showErrorSnackBar(e.message ?? l10n.loginErrorGoogle);
     } catch (e) {
-      _showErrorSnackBar('오류가 발생했습니다: $e');
+      _showErrorSnackBar(l10n.loginErrorUnknown(e.toString()));
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -95,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
@@ -138,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '오늘의 행동을 경험치로 바꾸세요',
+                      l10n.loginSubtitle,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
@@ -146,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      '작은 퀘스트를 쌓아 캐릭터와 하루를 함께 성장시키는 생산성 RPG',
+                      l10n.loginTitle,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isDarkMode ? Colors.white60 : Colors.black54,
@@ -156,18 +164,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 48),
                     TextField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: '이메일',
-                        prefixIcon: Icon(Icons.email_outlined),
+                      decoration: InputDecoration(
+                        labelText: l10n.loginEmailLabel,
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 16),
                     TextField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(
-                        labelText: '비밀번호',
-                        prefixIcon: Icon(Icons.lock_outline_rounded),
+                      decoration: InputDecoration(
+                        labelText: l10n.loginPasswordLabel,
+                        prefixIcon: const Icon(Icons.lock_outline_rounded),
                       ),
                       obscureText: true,
                     ),
@@ -190,8 +198,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
-                            child: const Text('로그인',
-                                style: TextStyle(
+                            child: Text(l10n.loginButton,
+                                style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold)),
                           ),
                           const SizedBox(height: 16),
@@ -205,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
-                            child: Text('새 모험가 등록',
+                            child: Text(l10n.loginRegisterButton,
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -222,7 +230,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                child: Text('간편 로그인',
+                                child: Text(l10n.loginDivider,
                                     style: TextStyle(
                                         color: isDarkMode
                                             ? Colors.white54
@@ -241,8 +249,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: _handleGoogleSignIn,
                             icon: Image.asset('assets/images/google_logo.png',
                                 height: 24.0),
-                            label: const Text('Google 계정으로 시작하기',
-                                style: TextStyle(
+                            label: Text(l10n.loginGoogleButton,
+                                style: const TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w600)),
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 56),

@@ -3,6 +3,27 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'dart:io';
+
+// 알림 텍스트 다국어 헬퍼
+String _localizedString({
+  required String ko,
+  required String en,
+  required String ja,
+  required String zh,
+}) {
+  final lang = Platform.localeName.split('_').first.toLowerCase();
+  switch (lang) {
+    case 'ja':
+      return ja;
+    case 'zh':
+      return zh;
+    case 'ko':
+      return ko;
+    default:
+      return en;
+  }
+}
 
 class NotificationService {
   // 싱글톤 패턴으로 인스턴스 관리
@@ -41,18 +62,39 @@ class NotificationService {
       final String timeZoneName = timeZoneInfo.identifier;
       tz.setLocalLocation(tz.getLocation(timeZoneName));
     } catch (e) {
-      debugPrint('Error getting local timezone: $e');
+      debugPrint('Error getting local timezone: $e - falling back to Asia/Seoul');
+      try {
+        tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+      } catch (_) {}
     }
 
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    // Android 13+ (API 33+) 알림 권한 요청
+    if (Platform.isAndroid) {
+      final androidPlugin = _flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      await androidPlugin?.requestNotificationsPermission();
+    }
   }
 
   // 매일 아침 9시에 알림 예약
   Future<void> scheduleDailyNotification() async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       0, // 알림 ID
-      '오늘의 퀘스트를 시작하세요!',
-      '새로운 하루가 시작되었습니다. 당신의 성장을 기록해 보세요.',
+      _localizedString(
+        ko: '오늘의 퀘스트를 시작하세요!',
+        en: "Start today's quests!",
+        ja: '今日のクエストを始めよう！',
+        zh: '开始今日任务！',
+      ),
+      _localizedString(
+        ko: '새로운 하루가 시작되었습니다. 당신의 성장을 기록해 보세요.',
+        en: 'A new day has begun. Record your growth.',
+        ja: '新しい一日が始まりました。あなたの成長を記録しましょう。',
+        zh: '新的一天开始了。记录你的成长吧。',
+      ),
       _nextInstanceOfNineAM(),
       const NotificationDetails(
         android: AndroidNotificationDetails(
@@ -85,8 +127,18 @@ class NotificationService {
   Future<void> scheduleNightReminder() async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       1, // 알림 ID (아침 알림과 다르게)
-      '오늘 퀘스트를 모두 완료하셨나요?',
-      '아직 완료하지 못한 퀘스트가 있다면 HP가 감소할 수 있어요!',
+      _localizedString(
+        ko: '오늘 퀘스트를 모두 완료하셨나요?',
+        en: "Did you complete today's quests?",
+        ja: '今日のクエストをすべて完了しましたか？',
+        zh: '今天的任务都完成了吗？',
+      ),
+      _localizedString(
+        ko: '아직 완료하지 못한 퀘스트가 있다면 HP가 감소할 수 있어요!',
+        en: 'Incomplete quests may reduce your HP!',
+        ja: '未完了のクエストがあるとHPが減少することがあります！',
+        zh: '还有未完成的任务，可能会减少HP！',
+      ),
       _nextInstanceOfEightPM(),
       const NotificationDetails(
         android: AndroidNotificationDetails(

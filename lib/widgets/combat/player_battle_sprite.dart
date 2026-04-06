@@ -41,7 +41,7 @@ class PlayerBattleSprite extends StatelessWidget {
   Widget build(BuildContext context) {
     return Transform(
       alignment: Alignment.center,
-      transform: Matrix4.identity()..scale(facingRight ? 1.0 : -1.0, 1.0),
+      transform: Matrix4.diagonal3Values(facingRight ? 1.0 : -1.0, 1.0, 1.0),
       child: CustomPaint(
         size: Size.square(size),
         painter: _PlayerBattlePainter(

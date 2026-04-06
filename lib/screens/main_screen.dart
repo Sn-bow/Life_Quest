@@ -1,9 +1,10 @@
 ﻿import 'dart:async';
 import 'package:confetti/confetti.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/screens/quests_screen.dart';
 import 'package:life_quest_final_v2/screens/achievement_screen.dart';
-import 'package:life_quest_final_v2/screens/hunt_screen.dart';
+import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
 import 'package:life_quest_final_v2/screens/inventory_screen.dart';
 import 'package:life_quest_final_v2/screens/shop_screen.dart';
 import 'package:life_quest_final_v2/screens/skill_screen.dart';
@@ -11,6 +12,7 @@ import 'package:life_quest_final_v2/screens/status_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -23,6 +25,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   late ConfettiController _confettiController;
   Timer? _timeSensitiveRefreshTimer;
+  StreamSubscription<User?>? _authSubscription;
 
   @override
   void initState() {
@@ -41,6 +44,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         context.read<CharacterState>().refreshTimeSensitiveState(),
       ),
     );
+
+    // 인증 상태 감시: 토큰 만료 또는 외부 로그아웃 시 자동으로 루트로 이동
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user == null && mounted) {
+        context.read<CharacterState>().resetState();
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
   }
 
   @override
@@ -54,6 +65,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _timeSensitiveRefreshTimer?.cancel();
+    _authSubscription?.cancel();
     _confettiController.dispose();
     context.read<CharacterState>().onLevelUp = null;
     super.dispose();
@@ -62,7 +74,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   static const List<Widget> _widgetOptions = <Widget>[
     StatusScreen(),
     QuestsScreen(),
-    HuntScreen(),
+    DungeonHomeScreen(),
     InventoryScreen(),
     ShopScreen(),
     AchievementScreen(),
@@ -77,6 +89,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // 데이터 로딩 중일 때 로딩 화면 표시
     if (context.watch<CharacterState>().isLoading) {
       return const Scaffold(
@@ -93,34 +106,34 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.user),
-                label: '상태창',
+                icon: const Icon(PhosphorIcons.user),
+                label: l10n.tabStatus,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.sword),
-                label: '퀘스트',
+                icon: const Icon(PhosphorIcons.sword),
+                label: l10n.tabQuests,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.gameController),
-                label: '사냥',
+                icon: const Icon(PhosphorIcons.gameController),
+                label: l10n.tabHunt,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.backpack),
-                label: '인벤토리',
+                icon: const Icon(PhosphorIcons.backpack),
+                label: l10n.tabInventory,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.storefront),
-                label: '상점',
+                icon: const Icon(PhosphorIcons.storefront),
+                label: l10n.tabShop,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.trophy),
-                label: '업적',
+                icon: const Icon(PhosphorIcons.trophy),
+                label: l10n.tabAchievement,
               ),
               BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.sparkle),
-                label: '스킬',
+                icon: const Icon(PhosphorIcons.sparkle),
+                label: l10n.tabSkill,
               ),
             ],
             currentIndex: _selectedIndex,

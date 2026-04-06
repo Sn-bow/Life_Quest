@@ -42,12 +42,20 @@ class Character {
   int highestDungeonFloor;
   int currentDungeonChapter;
 
+  // Card Collection
+  List<String> unlockedCardIds;
+  List<String> starterDeckCardIds;
+
   // Growth & report progression
   Map<String, double> levelGrowthWeights;
   Map<String, int> lastLevelAutoGrowth;
   String? expandedReportUnlockedOn;
   int monthlyRaidClears;
   int yearlyRaidClears;
+
+  // Ascension & Infinite Tower
+  Set<int> completedZones;
+  int infiniteTowerFloor;
 
   Character({
     required this.name,
@@ -81,14 +89,21 @@ class Character {
     this.equippedCombatEffect,
     this.highestDungeonFloor = 1,
     this.currentDungeonChapter = 1,
+    List<String>? unlockedCardIds,
+    List<String>? starterDeckCardIds,
     Map<String, double>? levelGrowthWeights,
     Map<String, int>? lastLevelAutoGrowth,
     this.expandedReportUnlockedOn,
     this.monthlyRaidClears = 0,
     this.yearlyRaidClears = 0,
-  }) : inventory = inventory ?? [],
+    Set<int>? completedZones,
+    this.infiniteTowerFloor = 1,
+  }) : completedZones = completedZones ?? {},
+        inventory = inventory ?? [],
         unlockedCosmetics = unlockedCosmetics ?? [],
         customRewards = customRewards ?? [],
+        unlockedCardIds = unlockedCardIds ?? [],
+        starterDeckCardIds = starterDeckCardIds ?? [],
         levelGrowthWeights = levelGrowthWeights ?? {},
         lastLevelAutoGrowth = lastLevelAutoGrowth ?? {};
 
@@ -113,14 +128,17 @@ class Character {
               ?.map((e) => EquipmentItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      equippedWeapon: json['equippedWeapon'] != null
-          ? EquipmentItem.fromJson(json['equippedWeapon'])
+      equippedWeapon: json['equippedWeapon'] is Map
+          ? EquipmentItem.fromJson(
+              Map<String, dynamic>.from(json['equippedWeapon'] as Map))
           : null,
-      equippedArmor: json['equippedArmor'] != null
-          ? EquipmentItem.fromJson(json['equippedArmor'])
+      equippedArmor: json['equippedArmor'] is Map
+          ? EquipmentItem.fromJson(
+              Map<String, dynamic>.from(json['equippedArmor'] as Map))
           : null,
-      equippedAccessory: json['equippedAccessory'] != null
-          ? EquipmentItem.fromJson(json['equippedAccessory'])
+      equippedAccessory: json['equippedAccessory'] is Map
+          ? EquipmentItem.fromJson(
+              Map<String, dynamic>.from(json['equippedAccessory'] as Map))
           : null,
       characterHp: json['characterHp'] ?? 100,
       characterMaxHp: json['characterMaxHp'] ?? 100,
@@ -145,6 +163,14 @@ class Character {
       equippedCombatEffect: json['equippedCombatEffect'],
       highestDungeonFloor: json['highestDungeonFloor'] ?? 1,
       currentDungeonChapter: json['currentDungeonChapter'] ?? 1,
+      unlockedCardIds: (json['unlockedCardIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      starterDeckCardIds: (json['starterDeckCardIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
       levelGrowthWeights: (json['levelGrowthWeights'] as Map<dynamic, dynamic>?)
               ?.map((key, value) => MapEntry(
                     key.toString(),
@@ -159,6 +185,10 @@ class Character {
       expandedReportUnlockedOn: json['expandedReportUnlockedOn'] as String?,
       monthlyRaidClears: json['monthlyRaidClears'] ?? 0,
       yearlyRaidClears: json['yearlyRaidClears'] ?? 0,
+      completedZones: ((json['completedZones'] as List<dynamic>?) ?? [])
+          .map((e) => e as int)
+          .toSet(),
+      infiniteTowerFloor: json['infiniteTowerFloor'] ?? 1,
     );
   }
 
@@ -195,11 +225,15 @@ class Character {
       'equippedCombatEffect': equippedCombatEffect,
       'highestDungeonFloor': highestDungeonFloor,
       'currentDungeonChapter': currentDungeonChapter,
+      'unlockedCardIds': unlockedCardIds,
+      'starterDeckCardIds': starterDeckCardIds,
       'levelGrowthWeights': levelGrowthWeights,
       'lastLevelAutoGrowth': lastLevelAutoGrowth,
       'expandedReportUnlockedOn': expandedReportUnlockedOn,
       'monthlyRaidClears': monthlyRaidClears,
       'yearlyRaidClears': yearlyRaidClears,
+      'completedZones': completedZones.toList(),
+      'infiniteTowerFloor': infiniteTowerFloor,
     };
   }
 }

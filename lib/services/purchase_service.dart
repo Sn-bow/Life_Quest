@@ -19,6 +19,7 @@ class PurchaseService {
 
   // State
   bool _isAvailable = false;
+  bool _isInitialized = false;
   List<ProductDetails> _products = [];
   bool get isAvailable => _isAvailable;
   List<ProductDetails> get products => _products;
@@ -27,23 +28,23 @@ class PurchaseService {
   final _unlockController = StreamController<String>.broadcast();
   Stream<String> get unlockStream => _unlockController.stream;
 
-  /// Initialize the IAP service
+  /// Initialize the IAP service (중복 초기화 방지)
   Future<void> init() async {
+    if (_isInitialized) return;
+
     _isAvailable = await _inAppPurchase.isAvailable();
 
     if (_isAvailable) {
       await _loadProducts();
 
       // Listen for purchase updates
-      final Stream<List<PurchaseDetails>> purchaseUpdated =
-          _inAppPurchase.purchaseStream;
-      _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-        _listenToPurchaseUpdated(purchaseDetailsList);
-      }, onDone: () {
-        _subscription.cancel();
-      }, onError: (error) {
-        debugPrint('[PurchaseService] Purchase Stream Error: $error');
-      });
+      _subscription = _inAppPurchase.purchaseStream.listen(
+        _listenToPurchaseUpdated,
+        onError: (error) {
+          debugPrint('[PurchaseService] Purchase Stream Error: $error');
+        },
+      );
+      _isInitialized = true;
     } else {
       debugPrint('[PurchaseService] IAP is not available on this device.');
     }
@@ -93,6 +94,10 @@ class PurchaseService {
               '[PurchaseService] Purchase error: ${purchaseDetails.error}');
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
+          // WARNING: 서버사이드 영수증 검증 미구현 - 프로덕션 배포 전 반드시 구현 필요
+          // TODO: 서버에서 purchaseDetails.verificationData를 검증하여 위변조 방지
+          debugPrint('⚠️ Purchase verified locally only - server-side validation not implemented');
+
           // Verify and deliver product based on ID
           if (purchaseDetails.productID == removeAdsId) {
             await _deliverRemoveAds();

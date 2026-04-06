@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/report_screen.dart';
 import 'package:life_quest_final_v2/screens/settings_screen.dart';
 import 'package:life_quest_final_v2/screens/timer_screen.dart';
@@ -78,7 +79,7 @@ class _StatusScreenState extends State<StatusScreen> {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: const Text('칭호 변경'),
+          title: Text(AppLocalizations.of(context)!.statusTitleChangeTitle),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView.builder(
@@ -99,7 +100,7 @@ class _StatusScreenState extends State<StatusScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('닫기'),
+              child: Text(AppLocalizations.of(context)!.close),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
@@ -120,13 +121,14 @@ class _StatusScreenState extends State<StatusScreen> {
 
         final character = characterState.character;
         final theme = Theme.of(context);
+        final l10n = AppLocalizations.of(context)!;
         final int availableSP = character.statPoints;
         final int remainingSP = availableSP - _totalPending;
         final bool canUpgrade = remainingSP > 0;
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('상태창'),
+            title: Text(l10n.statusScreenTitle),
             actions: [
               IconButton(
                 icon: const Icon(PhosphorIcons.timer),
@@ -137,7 +139,7 @@ class _StatusScreenState extends State<StatusScreen> {
                         builder: (context) => const TimerScreen()),
                   );
                 },
-                tooltip: '집중 타이머',
+                tooltip: l10n.statusTimerTooltip,
               ),
               IconButton(
                 icon: const Icon(PhosphorIcons.gear),
@@ -148,7 +150,7 @@ class _StatusScreenState extends State<StatusScreen> {
                         builder: (context) => const SettingsScreen()),
                   );
                 },
-                tooltip: '설정',
+                tooltip: l10n.statusSettingsTooltip,
               ),
             ],
           ),
@@ -249,7 +251,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                 builder: (context) => const ReportScreen()),
                           );
                         },
-                        tooltip: '상세 리포트 보기',
+                        tooltip: l10n.statusReportTooltip,
                       ),
                     ],
                   ),
@@ -308,7 +310,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '비전투 상태에서는 10분마다 HP가 조금씩 자연 회복됩니다.',
+                        l10n.statusHpRecoveryHint,
                         style: TextStyle(
                           fontSize: 12,
                           color: theme.brightness == Brightness.dark
@@ -330,7 +332,7 @@ class _StatusScreenState extends State<StatusScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            '연속 달성: ${character.streak}일',
+                            l10n.statusStreakLabel(character.streak),
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -352,7 +354,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                'XP +${(character.streak * 10).clamp(0, 50)}%',
+                                l10n.statusStreakBonus((character.streak * 10).clamp(0, 50)),
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -378,7 +380,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          '레벨업 시 3포인트는 최근 완료한 퀘스트 성향에 따라 자동 성장하고, 나머지 포인트만 직접 분배합니다.',
+                          l10n.statusStatHint,
                           style: TextStyle(
                             height: 1.45,
                             color: theme.brightness == Brightness.dark
@@ -404,7 +406,7 @@ class _StatusScreenState extends State<StatusScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('골드',
+                                Text(l10n.statusGoldLabel,
                                     style: TextStyle(
                                         fontSize: 12,
                                         color:
@@ -441,7 +443,7 @@ class _StatusScreenState extends State<StatusScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('행동력',
+                                Text(l10n.statusApLabel,
                                     style: TextStyle(
                                         fontSize: 12,
                                         color:
@@ -471,7 +473,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('기본 스탯', style: theme.textTheme.titleLarge),
+                          Text(l10n.statusBaseStatTitle, style: theme.textTheme.titleLarge),
                           if (availableSP > 0)
                             Row(
                               children: [
@@ -505,7 +507,7 @@ class _StatusScreenState extends State<StatusScreen> {
                         child: TextButton.icon(
                           icon: Icon(Icons.analytics,
                               color: theme.colorScheme.primary),
-                          label: Text('상세 스탯 보기',
+                          label: Text(l10n.statusDetailStatButton,
                               style: TextStyle(
                                 color: theme.colorScheme.primary,
                               )),
@@ -525,58 +527,61 @@ class _StatusScreenState extends State<StatusScreen> {
 
                               showDialog(
                                 context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('📊 상세 전투 스탯'),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ListTile(
-                                        leading: const Icon(
-                                            Icons.sports_martial_arts,
-                                            color: Colors.red),
-                                        title: const Text('공격력 (Attack)'),
-                                        trailing: Text('$attack',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16)),
-                                      ),
-                                      ListTile(
-                                        leading: const Icon(Icons.shield,
-                                            color: Colors.blue),
-                                        title: const Text('방어력 (Defense)'),
-                                        trailing: Text('$defense',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16)),
-                                      ),
-                                      ListTile(
-                                        leading: const Icon(Icons.flash_on,
-                                            color: Colors.orange),
-                                        title: const Text('치명타율 (Crit Chance)'),
-                                        trailing: Text('$crit%',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16)),
-                                      ),
-                                      ListTile(
-                                        leading: const Icon(
-                                            Icons.directions_run,
-                                            color: Colors.green),
-                                        title: const Text('회피율 (Dodge Chance)'),
-                                        trailing: Text('$dodge%',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16)),
+                                builder: (ctx) {
+                                  final dialogL10n = AppLocalizations.of(ctx)!;
+                                  return AlertDialog(
+                                    title: Text(dialogL10n.statusDetailStatTitle),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ListTile(
+                                          leading: const Icon(
+                                              Icons.sports_martial_arts,
+                                              color: Colors.red),
+                                          title: Text(dialogL10n.statusAttackLabel),
+                                          trailing: Text('$attack',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16)),
+                                        ),
+                                        ListTile(
+                                          leading: const Icon(Icons.shield,
+                                              color: Colors.blue),
+                                          title: Text(dialogL10n.statusDefenseLabel),
+                                          trailing: Text('$defense',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16)),
+                                        ),
+                                        ListTile(
+                                          leading: const Icon(Icons.flash_on,
+                                              color: Colors.orange),
+                                          title: Text(dialogL10n.statusCritLabel),
+                                          trailing: Text('$crit%',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16)),
+                                        ),
+                                        ListTile(
+                                          leading: const Icon(
+                                              Icons.directions_run,
+                                              color: Colors.green),
+                                          title: Text(dialogL10n.statusDodgeLabel),
+                                          trailing: Text('$dodge%',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16)),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(ctx),
+                                        child: Text(dialogL10n.close),
                                       ),
                                     ],
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('닫기'),
-                                    ),
-                                  ],
-                                ),
+                                  );
+                                },
                               );
                             }
                           },
@@ -586,7 +591,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       // ------------------------------------
                       _buildStatRow(
                         stat: StatType.strength,
-                        label: '힘',
+                        label: l10n.statusStatStrength,
                         baseValue: character.strength,
                         icon: Icon(PhosphorIcons.barbell,
                             color: Colors.red.shade400),
@@ -598,7 +603,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       const SizedBox(height: 12),
                       _buildStatRow(
                         stat: StatType.wisdom,
-                        label: '지혜',
+                        label: l10n.statusStatWisdom,
                         baseValue: character.wisdom,
                         icon: Icon(PhosphorIcons.brain,
                             color: Colors.blue.shade400),
@@ -610,7 +615,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       const SizedBox(height: 12),
                       _buildStatRow(
                         stat: StatType.health,
-                        label: '건강',
+                        label: l10n.statusStatHealth,
                         baseValue: character.health,
                         icon: Icon(PhosphorIcons.heart,
                             color: Colors.green.shade400),
@@ -622,7 +627,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       const SizedBox(height: 12),
                       _buildStatRow(
                         stat: StatType.charisma,
-                        label: '매력',
+                        label: l10n.statusStatCharm,
                         baseValue: character.charisma,
                         icon: Icon(PhosphorIcons.sparkle,
                             color: Colors.purple.shade400),
@@ -640,7 +645,7 @@ class _StatusScreenState extends State<StatusScreen> {
                               child: OutlinedButton.icon(
                                 onPressed: _cancelAllocation,
                                 icon: const Icon(PhosphorIcons.x, size: 18),
-                                label: const Text('취소'),
+                                label: Text(l10n.cancel),
                                 style: OutlinedButton.styleFrom(
                                   foregroundColor: Colors.redAccent,
                                   side:
@@ -656,7 +661,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                 onPressed: () =>
                                     _showApplyConfirmDialog(characterState),
                                 icon: const Icon(PhosphorIcons.check, size: 18),
-                                label: const Text('적용'),
+                                label: Text(l10n.apply),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: theme.colorScheme.primary,
                                   foregroundColor:
@@ -767,21 +772,22 @@ class _StatusScreenState extends State<StatusScreen> {
   }
 
   void _showApplyConfirmDialog(CharacterState characterState) {
+    final l10n = AppLocalizations.of(context)!;
     final allocSummary =
         _pendingAlloc.entries.where((e) => e.value > 0).map((e) {
       String name;
       switch (e.key) {
         case StatType.strength:
-          name = '힘';
+          name = l10n.statusStatStrength;
           break;
         case StatType.wisdom:
-          name = '지혜';
+          name = l10n.statusStatWisdom;
           break;
         case StatType.health:
-          name = '건강';
+          name = l10n.statusStatHealth;
           break;
         case StatType.charisma:
-          name = '매력';
+          name = l10n.statusStatCharm;
           break;
       }
       return '$name +${e.value}';
@@ -789,24 +795,26 @@ class _StatusScreenState extends State<StatusScreen> {
 
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('스탯 적용 확인'),
-        content:
-            Text('다음 스탯을 적용하시겠습니까?\n\n$allocSummary\n\n적용 후에는 되돌릴 수 없습니다.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('취소'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _applyAllocation(characterState);
-              Navigator.of(ctx).pop();
-            },
-            child: const Text('적용'),
-          ),
-        ],
-      ),
+      builder: (ctx) {
+        final dialogL10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(dialogL10n.statusStatApplyTitle),
+          content: Text(dialogL10n.statusStatApplyBody(allocSummary)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: Text(dialogL10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _applyAllocation(characterState);
+                Navigator.of(ctx).pop();
+              },
+              child: Text(dialogL10n.apply),
+            ),
+          ],
+        );
+      },
     );
   }
 }

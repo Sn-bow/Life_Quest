@@ -4,12 +4,14 @@ import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 import 'package:provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class AchievementScreen extends StatelessWidget {
   const AchievementScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Consumer<CharacterState>(
       builder: (context, characterState, child) {
         final allAchievements = characterState.allAchievements;
@@ -22,11 +24,11 @@ class AchievementScreen extends StatelessWidget {
           length: 2,
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('업적'),
-              bottom: const TabBar(
+              title: Text(l10n.achievementScreenTitle),
+              bottom: TabBar(
                 tabs: [
-                  Tab(text: '진행 중'),
-                  Tab(text: '완료'),
+                  Tab(text: l10n.achievementTabInProgress),
+                  Tab(text: l10n.achievementTabCompleted),
                 ],
               ),
             ),
@@ -43,6 +45,7 @@ class AchievementScreen extends StatelessWidget {
   }
 
   Widget _buildAchievementList(BuildContext context, List<Achievement> achievements, Map<String, AchievementProgress> progressMap, {required bool isInProgress}) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
@@ -53,7 +56,7 @@ class AchievementScreen extends StatelessWidget {
           children: [
             Icon(isInProgress ? PhosphorIcons.rocketLaunch : PhosphorIcons.medal, size: 80, color: isDarkMode ? Colors.white24 : Colors.grey.shade300),
             const SizedBox(height: 16),
-            Text(isInProgress ? '모든 업적을 달성했거나, 새로운 도전을 기다리고 있습니다!' : '아직 완료한 업적이 없습니다.', textAlign: TextAlign.center, style: TextStyle(color: isDarkMode ? Colors.white54 : Colors.grey.shade600)),
+            Text(isInProgress ? l10n.achievementEmptyInProgress : l10n.achievementEmptyCompleted, textAlign: TextAlign.center, style: TextStyle(color: isDarkMode ? Colors.white54 : Colors.grey.shade600)),
           ],
         ),
       );
@@ -71,9 +74,9 @@ class AchievementScreen extends StatelessWidget {
 
         String rewardText = '';
         if (achievement.rewardType == RewardType.xp) {
-          rewardText = '보상: ${achievement.rewardValue} XP';
+          rewardText = l10n.achievementRewardXp(achievement.rewardValue);
         } else {
-          rewardText = '보상: ${achievement.rewardValue} SP';
+          rewardText = l10n.achievementRewardSp(achievement.rewardValue);
         }
 
         return Padding(
@@ -108,7 +111,9 @@ class AchievementScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   if (!isCompleted)
                     LinearProgressIndicator(
-                      value: currentValue / targetValue,
+                      value: targetValue > 0
+                          ? (currentValue / targetValue).clamp(0.0, 1.0)
+                          : 0.0,
                       backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
                       valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
                     ),

@@ -5,30 +5,31 @@ import 'package:life_quest_final_v2/widgets/quest_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class QuestsScreen extends StatelessWidget {
   const QuestsScreen({super.key});
 
-  String _raidRewardPreview(Quest quest) {
+  String _raidRewardPreview(Quest quest, AppLocalizations l10n) {
     switch (quest.type) {
       case QuestType.monthly:
-        return '레이드 보너스\n추가 XP · 추가 골드\nAP +2 · SP +1\n진행 보상 해금';
+        return l10n.questsRaidBonusMonthly;
       case QuestType.yearly:
-        return '레이드 보너스\n대량 XP · 대량 골드\nAP +4 · SP +2\n희귀 보상 해금';
+        return l10n.questsRaidBonusYearly;
       case QuestType.daily:
       case QuestType.weekly:
         return '';
     }
   }
 
-  String _completionSummary(QuestCompletionResult? result, Quest quest) {
+  String _completionSummary(QuestCompletionResult? result, Quest quest, AppLocalizations l10n) {
     if (result == null) {
-      return "'${quest.name}' 퀘스트를 완료하시겠습니까?";
+      return l10n.questsCompleteConfirm(quest.name);
     }
 
     final lines = <String>[
       if (result.wasRaid)
-        '레이드 클리어 ${result.raidClearCount}회 달성',
+        l10n.questsRaidClear(result.raidClearCount),
       '총 보상: ${result.totalXpAwarded.round()} XP · ${result.totalGoldAwarded} 골드 · AP +${result.actionPointsAwarded}',
       if (result.statPointsAwarded > 0) '추가 스탯 포인트 +${result.statPointsAwarded}',
       if (result.unlockedTitles.isNotEmpty)
@@ -41,33 +42,34 @@ class QuestsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final characterState = context.watch<CharacterState>();
 
     return DefaultTabController(
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('퀘스트 목록'),
-          bottom: const TabBar(
+          title: Text(l10n.questsScreenTitle),
+          bottom: TabBar(
             isScrollable: true,
             tabs: [
-              Tab(text: '일일 퀘스트'),
-              Tab(text: '주간 퀘스트'),
-              Tab(text: '월간 레이드'),
-              Tab(text: '연간 레이드'),
+              Tab(text: l10n.questsTabDaily),
+              Tab(text: l10n.questsTabWeekly),
+              Tab(text: l10n.questsTabMonthly),
+              Tab(text: l10n.questsTabYearly),
             ],
           ),
         ),
         body: TabBarView(
           children: [
             _buildQuestList(
-                context, characterState.dailyQuests, characterState, QuestType.daily),
+                context, characterState.dailyQuests, characterState, QuestType.daily, l10n),
             _buildQuestList(
-                context, characterState.weeklyQuests, characterState, QuestType.weekly),
+                context, characterState.weeklyQuests, characterState, QuestType.weekly, l10n),
             _buildQuestList(
-                context, characterState.monthlyQuests, characterState, QuestType.monthly),
+                context, characterState.monthlyQuests, characterState, QuestType.monthly, l10n),
             _buildQuestList(
-                context, characterState.yearlyQuests, characterState, QuestType.yearly),
+                context, characterState.yearlyQuests, characterState, QuestType.yearly, l10n),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -83,7 +85,7 @@ class QuestsScreen extends StatelessWidget {
   }
 
   Widget _buildQuestList(
-      BuildContext context, List<Quest> quests, CharacterState state, QuestType type) {
+      BuildContext context, List<Quest> quests, CharacterState state, QuestType type, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
@@ -97,7 +99,7 @@ class QuestsScreen extends StatelessWidget {
                 color: isDarkMode ? Colors.white24 : Colors.grey.shade300),
             const SizedBox(height: 16),
             Text(
-              _emptyMessageFor(type),
+              _emptyMessageFor(type, l10n),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: isDarkMode ? Colors.white54 : Colors.grey.shade600),
@@ -124,7 +126,7 @@ class QuestsScreen extends StatelessWidget {
           quest: quest,
           rewardPreview:
               quest.type == QuestType.monthly || quest.type == QuestType.yearly
-                  ? _raidRewardPreview(quest)
+                  ? _raidRewardPreview(quest, l10n)
                   : null,
           onChecked: () {
             _showCompleteConfirmationDialog(context, quest, state);
@@ -140,21 +142,22 @@ class QuestsScreen extends StatelessWidget {
     );
   }
 
-  String _emptyMessageFor(QuestType type) {
+  String _emptyMessageFor(QuestType type, AppLocalizations l10n) {
     switch (type) {
       case QuestType.daily:
-        return '아직 추가된 퀘스트가 없어요.\n오늘 처리할 일부터 가볍게 추가해 보세요.';
+        return l10n.questsEmptyDaily;
       case QuestType.weekly:
-        return '이번 주 루틴 목표가 아직 없습니다.\n꾸준히 반복할 목표를 넣어보세요.';
+        return l10n.questsEmptyWeekly;
       case QuestType.monthly:
-        return '이번 달 레이드가 아직 없습니다.\n장기 목표를 월간 레이드로 등록해 보세요.';
+        return l10n.questsEmptyMonthly;
       case QuestType.yearly:
-        return '올해의 대형 레이드가 아직 없습니다.\n인생 목표급 도전을 연간 레이드로 추가해 보세요.';
+        return l10n.questsEmptyYearly;
     }
   }
 
   void _showEditQuestDialog(
       BuildContext context, Quest quest, CharacterState state) {
+    final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController(text: quest.name);
     StatType selectedCategory = quest.category;
     QuestDifficulty selectedDifficulty = quest.difficulty;
@@ -162,39 +165,39 @@ class QuestsScreen extends StatelessWidget {
     String getCategoryName(StatType category) {
       switch (category) {
         case StatType.strength:
-          return '힘';
+          return l10n.questsCategoryStrength;
         case StatType.wisdom:
-          return '지혜';
+          return l10n.questsCategoryWisdom;
         case StatType.health:
-          return '건강';
+          return l10n.questsCategoryHealth;
         case StatType.charisma:
-          return '매력';
+          return l10n.questsCategoryCharm;
       }
     }
 
     String getDifficultyName(QuestDifficulty d) {
       switch (d) {
         case QuestDifficulty.easy:
-          return '쉬움';
+          return l10n.questsDifficultyEasy;
         case QuestDifficulty.normal:
-          return '보통';
+          return l10n.questsDifficultyNormal;
         case QuestDifficulty.hard:
-          return '어려움';
+          return l10n.questsDifficultyHard;
         case QuestDifficulty.veryHard:
-          return '매우 어려움';
+          return l10n.questsDifficultyVeryHard;
       }
     }
 
     String getQuestTypeName(QuestType type) {
       switch (type) {
         case QuestType.daily:
-          return '일일';
+          return l10n.questsTypeDaily;
         case QuestType.weekly:
-          return '주간';
+          return l10n.questsTypeWeekly;
         case QuestType.monthly:
-          return '월간 레이드';
+          return l10n.questsTypeMonthly;
         case QuestType.yearly:
-          return '연간 레이드';
+          return l10n.questsTypeYearly;
       }
     }
 
@@ -214,12 +217,14 @@ class QuestsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
+        final dialogL10n = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: const Text('퀘스트 수정'),
+          title: Text(dialogL10n.questsEditTitle),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               final previewXp =
                   Quest.xpForDifficulty(selectedDifficulty, quest.type);
+              final previewGold = (previewXp * 0.5).round();
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -227,11 +232,12 @@ class QuestsScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration: const InputDecoration(labelText: '퀘스트 이름'),
+                      decoration: InputDecoration(labelText: dialogL10n.questsNameLabel, counterText: ''),
+                      maxLength: 50,
                     ),
                     const SizedBox(height: 20),
-                    const Text('카테고리',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(dialogL10n.questsCategoryLabel,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     Wrap(
                       spacing: 8.0,
                       children: StatType.values.map((category) {
@@ -247,8 +253,8 @@ class QuestsScreen extends StatelessWidget {
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    const Text('난이도',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(dialogL10n.questsDifficultyLabel,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     Wrap(
                       spacing: 8.0,
                       children: QuestDifficulty.values.map((d) {
@@ -267,7 +273,11 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${getQuestTypeName(quest.type)} 보상: $previewXp XP · ${(previewXp * 0.5).round()} 골드',
+                      dialogL10n.questsRewardPreview(
+                        getQuestTypeName(quest.type),
+                        previewXp,
+                        previewGold,
+                      ),
                       style:
                           TextStyle(fontSize: 13, color: Colors.grey.shade600),
                     ),
@@ -279,7 +289,7 @@ class QuestsScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('취소'),
+              child: Text(dialogL10n.cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -292,7 +302,7 @@ class QuestsScreen extends StatelessWidget {
                   Navigator.pop(context);
                 }
               },
-              child: const Text('저장'),
+              child: Text(dialogL10n.save),
             ),
           ],
         );
@@ -310,21 +320,22 @@ class QuestsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext)!;
         return AlertDialog(
-          title: const Text('퀘스트 완료'),
+          title: Text(l10n.questsCompleteTitle),
           content: Text(
             [
-              "'${quest.name}' 퀘스트를 완료하시겠습니까?",
-              '기본 보상',
+              l10n.questsCompleteConfirm(quest.name),
+              l10n.questsBaseRewardLabel,
               '- ${quest.xp} XP',
               '- ${(quest.xp * 0.5).round()} 골드',
               if (quest.type == QuestType.monthly || quest.type == QuestType.yearly)
-                _raidRewardPreview(quest),
+                _raidRewardPreview(quest, l10n),
             ].join('\n'),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('취소'),
+              child: Text(l10n.cancel),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
@@ -332,7 +343,7 @@ class QuestsScreen extends StatelessWidget {
             if (remainingDouble > 0)
               ElevatedButton.icon(
                 icon: const Icon(Icons.ondemand_video, size: 18),
-                label: Text('광고 보고 2배 받기 ($remainingDouble회)'),
+                label: Text(l10n.questsDoubleAdButton(remainingDouble)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber,
                   foregroundColor: Colors.black,
@@ -345,10 +356,11 @@ class QuestsScreen extends StatelessWidget {
                     final result =
                         state.completeQuest(quest, xpMultiplier: 2.0);
                     if (context.mounted) {
+                      final mountedL10n = AppLocalizations.of(context)!;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            '🎉 광고 보상 적용\n${_completionSummary(result, quest)}',
+                            '🎉 광고 보상 적용\n${_completionSummary(result, quest, mountedL10n)}',
                           ),
                           duration: const Duration(seconds: 5),
                         ),
@@ -357,10 +369,11 @@ class QuestsScreen extends StatelessWidget {
                   } else {
                     final result = state.completeQuest(quest);
                     if (context.mounted) {
+                      final mountedL10n = AppLocalizations.of(context)!;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            '광고를 불러올 수 없습니다. 기본 보상이 지급됩니다.\n${_completionSummary(result, quest)}',
+                            '${mountedL10n.questsAdUnavailable}\n${_completionSummary(result, quest, mountedL10n)}',
                           ),
                           duration: const Duration(seconds: 5),
                         ),
@@ -370,16 +383,19 @@ class QuestsScreen extends StatelessWidget {
                 },
               ),
             TextButton(
-              child: const Text('완료'),
+              child: Text(l10n.complete),
               onPressed: () {
                 final result = state.completeQuest(quest);
                 Navigator.of(dialogContext).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(_completionSummary(result, quest)),
-                    duration: const Duration(seconds: 5),
-                  ),
-                );
+                if (context.mounted) {
+                  final mountedL10n = AppLocalizations.of(context)!;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(_completionSummary(result, quest, mountedL10n)),
+                      duration: const Duration(seconds: 5),
+                    ),
+                  );
+                }
               },
             ),
           ],
@@ -393,17 +409,17 @@ class QuestsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext)!;
         return AlertDialog(
-          title: const Text('퀘스트 삭제'),
-          content:
-              Text("'${quest.name}' 퀘스트를 삭제하시겠습니까?\n\n삭제된 퀘스트는 복구할 수 없습니다."),
+          title: Text(l10n.questsDeleteTitle),
+          content: Text(l10n.questsDeleteBody(quest.name)),
           actions: <Widget>[
             TextButton(
-              child: const Text('취소'),
+              child: Text(l10n.cancel),
               onPressed: () => Navigator.of(dialogContext).pop(),
             ),
             TextButton(
-              child: const Text('삭제', style: TextStyle(color: Colors.red)),
+              child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
               onPressed: () {
                 state.deleteQuest(quest);
                 Navigator.of(dialogContext).pop();
@@ -416,6 +432,7 @@ class QuestsScreen extends StatelessWidget {
   }
 
   void _showAddQuestDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController();
     QuestType selectedType = QuestType.daily;
     StatType selectedCategory = StatType.strength;
@@ -424,39 +441,39 @@ class QuestsScreen extends StatelessWidget {
     String getCategoryName(StatType category) {
       switch (category) {
         case StatType.strength:
-          return '힘';
+          return l10n.questsCategoryStrength;
         case StatType.wisdom:
-          return '지혜';
+          return l10n.questsCategoryWisdom;
         case StatType.health:
-          return '건강';
+          return l10n.questsCategoryHealth;
         case StatType.charisma:
-          return '매력';
+          return l10n.questsCategoryCharm;
       }
     }
 
     String getDifficultyName(QuestDifficulty d) {
       switch (d) {
         case QuestDifficulty.easy:
-          return '쉬움';
+          return l10n.questsDifficultyEasy;
         case QuestDifficulty.normal:
-          return '보통';
+          return l10n.questsDifficultyNormal;
         case QuestDifficulty.hard:
-          return '어려움';
+          return l10n.questsDifficultyHard;
         case QuestDifficulty.veryHard:
-          return '매우 어려움';
+          return l10n.questsDifficultyVeryHard;
       }
     }
 
     String getQuestTypeName(QuestType type) {
       switch (type) {
         case QuestType.daily:
-          return '일일';
+          return l10n.questsTypeDaily;
         case QuestType.weekly:
-          return '주간';
+          return l10n.questsTypeWeekly;
         case QuestType.monthly:
-          return '월간 레이드';
+          return l10n.questsTypeMonthly;
         case QuestType.yearly:
-          return '연간 레이드';
+          return l10n.questsTypeYearly;
       }
     }
 
@@ -476,12 +493,14 @@ class QuestsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
+        final dialogL10n = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: const Text('새 퀘스트 추가'),
+          title: Text(dialogL10n.questsAddTitle),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               final previewXp =
                   Quest.xpForDifficulty(selectedDifficulty, selectedType);
+              final previewGold = (previewXp * 0.5).round();
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -489,11 +508,12 @@ class QuestsScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration: const InputDecoration(labelText: '퀘스트 이름'),
+                      decoration: InputDecoration(labelText: dialogL10n.questsNameLabel, counterText: ''),
+                      maxLength: 50,
                     ),
                     const SizedBox(height: 20),
-                    const Text('종류',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(dialogL10n.questsTypeLabel,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
@@ -511,8 +531,8 @@ class QuestsScreen extends StatelessWidget {
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    const Text('카테고리',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(dialogL10n.questsCategoryLabel,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     Wrap(
                       spacing: 8.0,
                       children: StatType.values.map((category) {
@@ -528,8 +548,8 @@ class QuestsScreen extends StatelessWidget {
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    const Text('난이도',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(dialogL10n.questsDifficultyLabel,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     Wrap(
                       spacing: 8.0,
                       children: QuestDifficulty.values.map((d) {
@@ -548,7 +568,11 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${getQuestTypeName(selectedType)} 보상: $previewXp XP · ${(previewXp * 0.5).round()} 골드',
+                      dialogL10n.questsRewardPreview(
+                        getQuestTypeName(selectedType),
+                        previewXp,
+                        previewGold,
+                      ),
                       style:
                           TextStyle(fontSize: 13, color: Colors.grey.shade600),
                     ),
@@ -560,7 +584,7 @@ class QuestsScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('취소'),
+              child: Text(dialogL10n.cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -574,14 +598,14 @@ class QuestsScreen extends StatelessWidget {
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('퀘스트 이름을 입력해주세요.'),
+                    SnackBar(
+                      content: Text(dialogL10n.questsNameRequired),
                       backgroundColor: Colors.redAccent,
                     ),
                   );
                 }
               },
-              child: const Text('추가'),
+              child: Text(dialogL10n.complete),
             ),
           ],
         );

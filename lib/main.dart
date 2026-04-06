@@ -1,4 +1,5 @@
-﻿import 'package:firebase_app_check/firebase_app_check.dart';
+﻿import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -9,9 +10,13 @@ import 'package:life_quest_final_v2/screens/loading_screen.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
+import 'package:life_quest_final_v2/state/card_combat_state.dart';
+import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 const _homeWidgetAppGroupId = String.fromEnvironment(
@@ -24,6 +29,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Firestore 오프라인 persistence 활성화 (네트워크 없이도 캐시 데이터 사용 가능)
+  try {
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+  } catch (e) {
+    debugPrint('Firestore persistence 설정 실패: $e');
+  }
+
   try {
     await FirebaseAppCheck.instance.activate(
       androidProvider:
@@ -43,6 +59,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => CharacterState()),
         ChangeNotifierProvider(create: (context) => CombatState()),
+        ChangeNotifierProvider(create: (context) => CardCombatState()),
+        ChangeNotifierProvider(create: (context) => DungeonState()),
         Provider<SoundService>.value(value: SoundService()),
       ],
       child: const LifeQuestApp(),
@@ -78,6 +96,18 @@ class LifeQuestApp extends StatelessWidget {
         return MaterialApp(
           scaffoldMessengerKey: state.scaffoldMessengerKey,
           title: 'Life Quest',
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ko'),
+            Locale('en'),
+            Locale('ja'),
+            Locale('zh'),
+          ],
           themeMode: state.themeMode,
           theme: ThemeData(
             brightness: Brightness.light,

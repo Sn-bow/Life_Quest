@@ -362,8 +362,9 @@ class CombatState extends ChangeNotifier {
       _combatLog = '🔄 [${item.name}] 사용!!';
     }
     
-    character.inventory.removeWhere((i) => i.id == item.id);
-    
+    final removeIdx = character.inventory.indexWhere((i) => i.id == item.id);
+    if (removeIdx != -1) character.inventory.removeAt(removeIdx);
+
     // Monster attacks after using an item
     _monsterAttack(character);
     notifyListeners();
@@ -379,21 +380,21 @@ class CombatState extends ChangeNotifier {
           character.inventory.add(character.equippedWeapon!);
         }
         character.equippedWeapon = item;
-        character.inventory.removeWhere((i) => i.id == item.id);
+        character.inventory.remove(item);
         break;
       case ItemType.armor:
         if (character.equippedArmor != null) {
           character.inventory.add(character.equippedArmor!);
         }
         character.equippedArmor = item;
-        character.inventory.removeWhere((i) => i.id == item.id);
+        character.inventory.remove(item);
         break;
       case ItemType.accessory:
         if (character.equippedAccessory != null) {
           character.inventory.add(character.equippedAccessory!);
         }
         character.equippedAccessory = item;
-        character.inventory.removeWhere((i) => i.id == item.id);
+        character.inventory.remove(item);
         break;
       case ItemType.consumable:
         // Consumables are used immediately, not equipped
