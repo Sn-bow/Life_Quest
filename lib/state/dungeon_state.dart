@@ -51,6 +51,10 @@ class DungeonState extends ChangeNotifier {
   int _nodesCompleted = 0;
   int _monstersKilled = 0;
 
+  // ---- Infinite Tower ----
+  /// Additional HP/ATK scaling applied by the Infinite Tower (stacks on ascension).
+  double _towerStatMult = 1.0;
+
   // ===========================================================================
   // Getters
   // ===========================================================================
@@ -69,6 +73,7 @@ class DungeonState extends ChangeNotifier {
 
   int get nodesCompleted => _nodesCompleted;
   int get monstersKilled => _monstersKilled;
+  double get towerStatMult => _towerStatMult;
 
   DungeonEvent? get currentEvent => _currentEvent;
   List<CardData> get shopCards => List.unmodifiable(_shopCards);
@@ -95,9 +100,11 @@ class DungeonState extends ChangeNotifier {
     int ascension = 0,
     RelicData? starterRelic,
     int startingGold = 50,
+    double towerStatMult = 1.0,
   }) {
     _currentZone = zone;
     _ascensionLevel = ascension;
+    _towerStatMult = towerStatMult;
 
     // Generate map
     _currentMap = DungeonGenerator.generate(zone: zone);
@@ -108,15 +115,28 @@ class DungeonState extends ChangeNotifier {
     if (starterRelic != null) {
       _currentRelics.add(starterRelic);
     }
-    _dungeonGold = startingGold;
+    // Ascension 3: starting gold penalty
+    int adjustedGold = startingGold;
+    if (_ascensionLevel >= 3) {
+      adjustedGold = (adjustedGold - 30).clamp(0, 9999);
+    }
+    _dungeonGold = adjustedGold;
+
     _playerMaxHp = playerMaxHp;
     _playerHp = playerMaxHp;
     _maxEnergy = 3;
 
-    // Ascension effects
+    // Ascension 7: start HP -10%
     if (_ascensionLevel >= 7) {
-      // Ascension 7: start HP -10%
       _playerHp = (_playerMaxHp * 0.9).round();
+    }
+
+    // Ascension 4: add one curse card to starting deck
+    if (_ascensionLevel >= 4) {
+      final curseCards = CardDatabase.curseCards;
+      if (curseCards.isNotEmpty) {
+        _currentDeck.add(curseCards.first);
+      }
     }
 
     // Run tracking
@@ -175,11 +195,28 @@ class DungeonState extends ChangeNotifier {
     final monsters = MonsterDatabase.getMonstersByZone(_currentZone);
     if (monsters.isEmpty) return [];
 
+    // Ascension HP/ATK multipliers
+    // Lv1: +10% HP, Lv2: +10% ATK, Lv8: boss +25% HP, Lv10: +20% HP all
+    // _towerStatMult adds extra scaling per Infinite Tower floor
+    final hpMult = (1.0 +
+            (_ascensionLevel >= 1 ? 0.1 : 0.0) +
+            (_ascensionLevel >= 10 ? 0.2 : 0.0)) *
+        _towerStatMult;
+    final atkMult =
+        (1.0 + (_ascensionLevel >= 2 ? 0.1 : 0.0)) * _towerStatMult;
+    final bossHpMult = hpMult + (_ascensionLevel >= 8 ? 0.25 : 0.0);
+
     switch (node.type) {
       case NodeType.combat:
-        // 1 regular enemy
         final monster = monsters[rng.nextInt(monsters.length)];
-        return [EnemyBattleData.fromMonster(monster)];
+        return [
+          EnemyBattleData.fromMonster(
+            monster.copyWith(
+              maxHp: (monster.maxHp * hpMult).round(),
+              attack: (monster.attack * atkMult).round(),
+            ),
+          ),
+        ];
 
       case NodeType.elite:
         // 1 stronger enemy (pick highest-level in zone, buff stats)
@@ -189,8 +226,8 @@ class DungeonState extends ChangeNotifier {
         return [
           EnemyBattleData.fromMonster(
             elite.copyWith(
-              maxHp: (elite.maxHp * 1.5).round(),
-              attack: (elite.attack * 1.3).round(),
+              maxHp: (elite.maxHp * 1.5 * hpMult).round(),
+              attack: (elite.attack * 1.3 * atkMult).round(),
               defense: (elite.defense * 1.2).round(),
               xpReward: (elite.xpReward * 1.5).round(),
             ),
@@ -198,10 +235,18 @@ class DungeonState extends ChangeNotifier {
         ];
 
       case NodeType.boss:
-        // Pick the zone boss
+        // Pick the zone boss, apply boss HP multiplier (Lv8: +25%)
         final bosses = MonsterDatabase.getBossMonsters();
         final bossIndex = (_currentZone - 1).clamp(0, bosses.length - 1);
-        return [EnemyBattleData.fromMonster(bosses[bossIndex])];
+        final boss = bosses[bossIndex];
+        return [
+          EnemyBattleData.fromMonster(
+            boss.copyWith(
+              maxHp: (boss.maxHp * bossHpMult).round(),
+              attack: (boss.attack * atkMult).round(),
+            ),
+          ),
+        ];
 
       default:
         return [];
@@ -417,6 +462,7 @@ class DungeonState extends ChangeNotifier {
     _currentMap = null;
     _currentZone = 1;
     _ascensionLevel = 0;
+    _towerStatMult = 1.0;
     _currentDeck = [];
     _currentRelics = [];
     _dungeonGold = 0;

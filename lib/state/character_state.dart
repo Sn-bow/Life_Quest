@@ -868,6 +868,62 @@ class CharacterState extends ChangeNotifier {
   }
 
   // ─────────────────────────────────────────────
+  // Ascension & Infinite Tower
+  // ─────────────────────────────────────────────
+
+  /// The set of zone numbers the player has cleared (1-5).
+  Set<int> get completedZones => _character?.completedZones ?? {};
+
+  /// Whether the player has cleared Zone 5 (unlocks Ascension & Infinite Tower).
+  bool get hasCompletedZone5 => completedZones.contains(5);
+
+  /// The player's highest Infinite Tower floor reached.
+  int get infiniteTowerFloor => _character?.infiniteTowerFloor ?? 1;
+
+  /// Record a zone completion. Shows a special banner if Zone 5 is newly cleared.
+  Future<void> completeZone(int zone) async {
+    if (_character == null) return;
+    final isNew = !_character!.completedZones.contains(zone);
+    _character!.completedZones.add(zone);
+
+    if (isNew && zone == 5) {
+      scaffoldMessengerKey.currentState?.showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Text('🏆', style: TextStyle(fontSize: 20)),
+              SizedBox(width: 8),
+              Text(
+                'Soul Deck 클리어!',
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Color(0xFF6A1B9A),
+          duration: Duration(seconds: 4),
+        ),
+      );
+    }
+
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
+  /// Update the player's highest Infinite Tower floor if the new value is higher.
+  Future<void> updateInfiniteTowerFloor(int floor) async {
+    if (_character == null) return;
+    if (floor > _character!.infiniteTowerFloor) {
+      _character!.infiniteTowerFloor = floor;
+      unawaited(_saveData());
+      notifyListeners();
+    }
+  }
+
+  // ─────────────────────────────────────────────
   // Card Collection
   // ─────────────────────────────────────────────
 

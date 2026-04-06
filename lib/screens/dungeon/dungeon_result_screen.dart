@@ -28,9 +28,14 @@ class _DungeonResultScreenState extends State<DungeonResultScreen> {
     _rewardsApplied = true;
 
     final characterState = context.read<CharacterState>();
+    final dungeonState = context.read<DungeonState>();
     final xp = _rewards!['xp'] as int;
     final gold = _rewards!['gold'] as int;
     characterState.addDungeonReward(xp, gold);
+
+    if (widget.isVictory) {
+      characterState.completeZone(dungeonState.currentZone);
+    }
   }
 
   @override

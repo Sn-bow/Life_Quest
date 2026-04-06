@@ -53,6 +53,10 @@ class Character {
   int monthlyRaidClears;
   int yearlyRaidClears;
 
+  // Ascension & Infinite Tower
+  Set<int> completedZones;
+  int infiniteTowerFloor;
+
   Character({
     required this.name,
     this.photoUrl,
@@ -92,7 +96,10 @@ class Character {
     this.expandedReportUnlockedOn,
     this.monthlyRaidClears = 0,
     this.yearlyRaidClears = 0,
-  }) : inventory = inventory ?? [],
+    Set<int>? completedZones,
+    this.infiniteTowerFloor = 1,
+  }) : completedZones = completedZones ?? {},
+        inventory = inventory ?? [],
         unlockedCosmetics = unlockedCosmetics ?? [],
         customRewards = customRewards ?? [],
         unlockedCardIds = unlockedCardIds ?? [],
@@ -178,6 +185,10 @@ class Character {
       expandedReportUnlockedOn: json['expandedReportUnlockedOn'] as String?,
       monthlyRaidClears: json['monthlyRaidClears'] ?? 0,
       yearlyRaidClears: json['yearlyRaidClears'] ?? 0,
+      completedZones: ((json['completedZones'] as List<dynamic>?) ?? [])
+          .map((e) => e as int)
+          .toSet(),
+      infiniteTowerFloor: json['infiniteTowerFloor'] ?? 1,
     );
   }
 
@@ -221,6 +232,8 @@ class Character {
       'expandedReportUnlockedOn': expandedReportUnlockedOn,
       'monthlyRaidClears': monthlyRaidClears,
       'yearlyRaidClears': yearlyRaidClears,
+      'completedZones': completedZones.toList(),
+      'infiniteTowerFloor': infiniteTowerFloor,
     };
   }
 }
