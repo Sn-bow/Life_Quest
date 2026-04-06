@@ -55,9 +55,6 @@ class _CardBattleScreenState extends State<CardBattleScreen>
   // -- Track previous phase for turn transitions --
   CombatPhase _previousPhase = CombatPhase.notStarted;
 
-  // -- Track hand size for card draw animation --
-  int _previousHandSize = 0;
-
   // -- Enemy hit flash tracking --
   final Map<int, bool> _enemyFlashing = {};
 
@@ -150,8 +147,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
     }
     _previousPlayerHp = combat.playerHp;
 
-    // -- Card draw detection for animation --
-    _previousHandSize = combat.hand.length;
+    // -- Card draw detection for animation (unused: tracked via hand key) --
   }
 
   void _showTurnTransition(String text) {
@@ -1618,8 +1614,6 @@ class _CardRewardChoice extends StatelessWidget {
         return Colors.blue;
       case CardRarity.legendary:
         return Colors.orange;
-      default:
-        return Colors.grey;
     }
   }
 

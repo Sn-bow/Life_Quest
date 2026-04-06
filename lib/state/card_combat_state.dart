@@ -94,8 +94,8 @@ class EnemyBattleData {
           type: EnemyIntentType.multiAttack,
           value: (baseAttack * 0.6).round().clamp(1, 999),
           hits: 3),
-      EnemyIntent(type: EnemyIntentType.debuff, value: 1),
-      EnemyIntent(type: EnemyIntentType.buff, value: 2),
+      const EnemyIntent(type: EnemyIntentType.debuff, value: 1),
+      const EnemyIntent(type: EnemyIntentType.buff, value: 2),
     ];
 
     // Weighted toward attack patterns

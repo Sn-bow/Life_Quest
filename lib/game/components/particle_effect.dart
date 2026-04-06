@@ -45,7 +45,7 @@ class _Particle extends CircleComponent {
 
     // Fade out
     final alpha = (1.0 - (_elapsed / lifetime)).clamp(0.0, 1.0);
-    paint.color = paint.color.withOpacity(alpha);
+    paint.color = paint.color.withValues(alpha: alpha);
   }
 }
 
@@ -98,9 +98,9 @@ class ParticleEffect extends Component {
 
       // Slight color variation
       final variation = (rng.nextDouble() * 40 - 20).round();
-      final r = (color.red + variation).clamp(0, 255);
-      final g = (color.green + variation).clamp(0, 255);
-      final b = (color.blue + variation).clamp(0, 255);
+      final r = ((color.r * 255.0).round() + variation).clamp(0, 255);
+      final g = ((color.g * 255.0).round() + variation).clamp(0, 255);
+      final b = ((color.b * 255.0).round() + variation).clamp(0, 255);
       final particleColor = Color.fromARGB(255, r, g, b);
 
       // Slight size variation

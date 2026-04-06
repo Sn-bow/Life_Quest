@@ -217,13 +217,12 @@ class BattleGame extends FlameGame {
 
 /// A single parallax layer: draws a set of slowly drifting translucent shapes
 /// to create depth and atmosphere behind the battle.
-class _ParallaxLayer extends Component with HasGameRef {
+class _ParallaxLayer extends Component with HasGameReference {
   final int layerIndex;
   final Color color;
   final double speed;
   final Vector2 gameSize;
 
-  double _offset = 0;
   final List<_FloatingShape> _shapes = [];
 
   _ParallaxLayer({
@@ -253,8 +252,6 @@ class _ParallaxLayer extends Component with HasGameRef {
   @override
   void update(double dt) {
     super.update(dt);
-    _offset += speed * dt;
-
     // Wrap shapes
     for (final shape in _shapes) {
       shape.x -= speed * shape.speedMultiplier * dt;
@@ -301,6 +298,7 @@ class _FloatingShape {
 
 /// A brief expanding ring that fades out, used for the block/shield effect.
 class _ShieldFlash extends CircleComponent {
+  @override
   final Vector2 center;
   double _elapsed = 0;
   static const double _duration = 0.35;

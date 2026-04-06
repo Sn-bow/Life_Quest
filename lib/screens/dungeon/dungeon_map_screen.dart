@@ -136,11 +136,12 @@ class DungeonMapScreen extends StatelessWidget {
     if (!node.isAccessible || node.isCompleted) return;
 
     dungeonState.selectNode(node.id);
+    final nav = Navigator.of(context);
 
     switch (node.type) {
       case NodeType.combat:
       case NodeType.elite:
-        Navigator.of(context).push(
+        nav.push(
           MaterialPageRoute(
             builder: (_) => CardBattleScreen(
               deck: dungeonState.currentDeck,
@@ -156,13 +157,15 @@ class DungeonMapScreen extends StatelessWidget {
           } else if (result == false) {
             // Player died or forfeited combat
             dungeonState.endRun(victory: false);
-            _navigateToResultScreen(context, isVictory: false);
+            nav.push(MaterialPageRoute(
+              builder: (_) => const DungeonResultScreen(isVictory: false),
+            ));
           }
         });
         break;
 
       case NodeType.boss:
-        Navigator.of(context).push(
+        nav.push(
           MaterialPageRoute(
             builder: (_) => CardBattleScreen(
               deck: dungeonState.currentDeck,
@@ -174,12 +177,15 @@ class DungeonMapScreen extends StatelessWidget {
           ),
         ).then((result) {
           if (result == true) {
-            // completeCurrentNode already calls endRun(victory:true) for boss nodes
             dungeonState.completeCurrentNode();
-            _navigateToResultScreen(context, isVictory: true);
+            nav.push(MaterialPageRoute(
+              builder: (_) => const DungeonResultScreen(isVictory: true),
+            ));
           } else if (result == false) {
             dungeonState.endRun(victory: false);
-            _navigateToResultScreen(context, isVictory: false);
+            nav.push(MaterialPageRoute(
+              builder: (_) => const DungeonResultScreen(isVictory: false),
+            ));
           }
         });
         break;
@@ -210,13 +216,6 @@ class DungeonMapScreen extends StatelessWidget {
     }
   }
 
-  void _navigateToResultScreen(BuildContext context, {required bool isVictory}) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => DungeonResultScreen(isVictory: isVictory),
-      ),
-    );
-  }
 }
 
 // ============================================================================

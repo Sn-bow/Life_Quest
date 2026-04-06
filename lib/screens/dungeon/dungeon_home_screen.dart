@@ -16,20 +16,6 @@ class DungeonHomeScreen extends StatefulWidget {
 class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
   int _ascensionLevel = 0;
 
-  // Ascension modifier descriptions for each level (0-indexed = level 1)
-  static const List<String> _ascensionModifiers = [
-    'Lv 1: 적 HP +10%',
-    'Lv 2: 적 공격력 +10%',
-    'Lv 3: 시작 골드 -30',
-    'Lv 4: 저주 카드 1장 추가',
-    'Lv 5: 엘리트 처치 후 카드 선택 없음',
-    'Lv 6: 상점 가격 +25%',
-    'Lv 7: 시작 HP -10%',
-    'Lv 8: 보스 HP +25%',
-    'Lv 9: 이벤트 불이익 선택지 강화',
-    'Lv 10: 모든 적 HP +20%',
-  ];
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -415,11 +401,11 @@ class _SeasonBanner extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
+          const Row(
             children: [
-              const Text('🔥', style: TextStyle(fontSize: 20)),
-              const SizedBox(width: 8),
-              const Text(
+              Text('🔥', style: TextStyle(fontSize: 20)),
+              SizedBox(width: 8),
+              Text(
                 '시즌 1: 영혼의 각성',
                 style: TextStyle(
                   fontFamily: 'monospace',

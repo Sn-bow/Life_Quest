@@ -42,7 +42,7 @@ class StatusIcon extends PositionComponent {
       position: Vector2(10, 10),
       anchor: Anchor.center,
       paint: Paint()
-        ..color = color.withOpacity(0.85)
+        ..color = color.withValues(alpha: 0.85)
         ..style = PaintingStyle.fill,
     );
     add(_circle);

@@ -212,8 +212,8 @@ class DungeonState extends ChangeNotifier {
         return [
           EnemyBattleData.fromMonster(
             monster.copyWith(
-              maxHp: (monster.maxHp * hpMult).round(),
-              attack: (monster.attack * atkMult).round(),
+              maxHp: (monster.maxHp * hpMult).roundToDouble(),
+              attack: (monster.attack * atkMult).roundToDouble(),
             ),
           ),
         ];
@@ -226,9 +226,9 @@ class DungeonState extends ChangeNotifier {
         return [
           EnemyBattleData.fromMonster(
             elite.copyWith(
-              maxHp: (elite.maxHp * 1.5 * hpMult).round(),
-              attack: (elite.attack * 1.3 * atkMult).round(),
-              defense: (elite.defense * 1.2).round(),
+              maxHp: (elite.maxHp * 1.5 * hpMult).roundToDouble(),
+              attack: (elite.attack * 1.3 * atkMult).roundToDouble(),
+              defense: (elite.defense * 1.2).roundToDouble(),
               xpReward: (elite.xpReward * 1.5).round(),
             ),
           ),
@@ -242,8 +242,8 @@ class DungeonState extends ChangeNotifier {
         return [
           EnemyBattleData.fromMonster(
             boss.copyWith(
-              maxHp: (boss.maxHp * bossHpMult).round(),
-              attack: (boss.attack * atkMult).round(),
+              maxHp: (boss.maxHp * bossHpMult).roundToDouble(),
+              attack: (boss.attack * atkMult).roundToDouble(),
             ),
           ),
         ];
