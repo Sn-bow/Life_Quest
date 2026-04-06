@@ -42,6 +42,10 @@ class Character {
   int highestDungeonFloor;
   int currentDungeonChapter;
 
+  // Card Collection
+  List<String> unlockedCardIds;
+  List<String> starterDeckCardIds;
+
   // Growth & report progression
   Map<String, double> levelGrowthWeights;
   Map<String, int> lastLevelAutoGrowth;
@@ -81,6 +85,8 @@ class Character {
     this.equippedCombatEffect,
     this.highestDungeonFloor = 1,
     this.currentDungeonChapter = 1,
+    List<String>? unlockedCardIds,
+    List<String>? starterDeckCardIds,
     Map<String, double>? levelGrowthWeights,
     Map<String, int>? lastLevelAutoGrowth,
     this.expandedReportUnlockedOn,
@@ -89,6 +95,8 @@ class Character {
   }) : inventory = inventory ?? [],
         unlockedCosmetics = unlockedCosmetics ?? [],
         customRewards = customRewards ?? [],
+        unlockedCardIds = unlockedCardIds ?? [],
+        starterDeckCardIds = starterDeckCardIds ?? [],
         levelGrowthWeights = levelGrowthWeights ?? {},
         lastLevelAutoGrowth = lastLevelAutoGrowth ?? {};
 
@@ -148,6 +156,14 @@ class Character {
       equippedCombatEffect: json['equippedCombatEffect'],
       highestDungeonFloor: json['highestDungeonFloor'] ?? 1,
       currentDungeonChapter: json['currentDungeonChapter'] ?? 1,
+      unlockedCardIds: (json['unlockedCardIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      starterDeckCardIds: (json['starterDeckCardIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
       levelGrowthWeights: (json['levelGrowthWeights'] as Map<dynamic, dynamic>?)
               ?.map((key, value) => MapEntry(
                     key.toString(),
@@ -198,6 +214,8 @@ class Character {
       'equippedCombatEffect': equippedCombatEffect,
       'highestDungeonFloor': highestDungeonFloor,
       'currentDungeonChapter': currentDungeonChapter,
+      'unlockedCardIds': unlockedCardIds,
+      'starterDeckCardIds': starterDeckCardIds,
       'levelGrowthWeights': levelGrowthWeights,
       'lastLevelAutoGrowth': lastLevelAutoGrowth,
       'expandedReportUnlockedOn': expandedReportUnlockedOn,

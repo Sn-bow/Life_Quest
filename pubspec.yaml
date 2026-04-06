@@ -33,6 +33,8 @@ dependencies:
   google_mobile_ads: ^6.0.0
   in_app_purchase: ^3.2.3
   intl: ^0.20.2
+  flame: ^1.21.0
+  flame_audio: ^2.10.4
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -68,4 +70,15 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/game/
+    - assets/images/game/player/
+    - assets/images/game/monsters/
+    - assets/images/game/backgrounds/
+    - assets/images/game/effects/
+    - assets/images/game/cards/frames/
+    - assets/images/game/cards/icons/
+    - assets/images/game/relics/
+    - assets/images/game/ui/
+    - assets/images/game/map/
     - assets/sounds/
+    - assets/sounds/game/

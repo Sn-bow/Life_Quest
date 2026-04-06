@@ -94,6 +94,10 @@ class PurchaseService {
               '[PurchaseService] Purchase error: ${purchaseDetails.error}');
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
+          // WARNING: 서버사이드 영수증 검증 미구현 - 프로덕션 배포 전 반드시 구현 필요
+          // TODO: 서버에서 purchaseDetails.verificationData를 검증하여 위변조 방지
+          debugPrint('⚠️ Purchase verified locally only - server-side validation not implemented');
+
           // Verify and deliver product based on ID
           if (purchaseDetails.productID == removeAdsId) {
             await _deliverRemoveAds();

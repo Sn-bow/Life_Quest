@@ -432,26 +432,28 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: _actionButton(l10n.huntActionAttack, Icons.sports_martial_arts,
-                        Colors.redAccent, () {
-                      if (_isActionBusy) return;
+                        Colors.redAccent, _isActionBusy ? null : () {
                       if (!hasAp) return _showApWarning();
                       setState(() => _isActionBusy = true);
                       int cost = combatState.playerAttack(charState.character);
                       _applyApCost(charState, cost);
                       _triggerHitEffect();
-                      setState(() => _isActionBusy = false);
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        if (mounted) setState(() => _isActionBusy = false);
+                      });
                     }, isDark),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: _actionButton(
-                        l10n.huntActionDefend, Icons.shield, Colors.blueAccent, () {
-                      if (_isActionBusy) return;
+                        l10n.huntActionDefend, Icons.shield, Colors.blueAccent, _isActionBusy ? null : () {
                       if (!hasAp) return _showApWarning();
                       setState(() => _isActionBusy = true);
                       int cost = combatState.playerDefend(charState.character);
                       _applyApCost(charState, cost);
-                      setState(() => _isActionBusy = false);
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        if (mounted) setState(() => _isActionBusy = false);
+                      });
                     }, isDark),
                   ),
                 ],
@@ -482,13 +484,14 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: _actionButton(
-                        l10n.huntActionFlee, Icons.directions_run, Colors.grey, () {
-                      if (_isActionBusy) return;
+                        l10n.huntActionFlee, Icons.directions_run, Colors.grey, _isActionBusy ? null : () {
                       if (!hasAp) return _showApWarning();
                       setState(() => _isActionBusy = true);
                       int cost = combatState.playerFlee(charState.character);
                       _applyApCost(charState, cost);
-                      setState(() => _isActionBusy = false);
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        if (mounted) setState(() => _isActionBusy = false);
+                      });
                     }, isDark),
                   ),
                 ],
@@ -707,33 +710,37 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   }
 
   Widget _actionButton(String text, IconData icon, Color color,
-      VoidCallback onTap, bool isDark) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: isDark
-              ? color.withValues(alpha: 0.15)
-              : color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withValues(alpha: 0.5), width: 1.5),
-        ),
-        child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 18, color: color),
-              const SizedBox(width: 6),
-              Text(
-                text,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white : Colors.black87,
+      VoidCallback? onTap, bool isDark) {
+    final isDisabled = onTap == null;
+    return Opacity(
+      opacity: isDisabled ? 0.5 : 1.0,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          decoration: BoxDecoration(
+            color: isDark
+                ? color.withValues(alpha: 0.15)
+                : color.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: color.withValues(alpha: 0.5), width: 1.5),
+          ),
+          child: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 18, color: color),
+                const SizedBox(width: 6),
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

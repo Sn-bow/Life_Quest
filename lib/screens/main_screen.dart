@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/screens/quests_screen.dart';
 import 'package:life_quest_final_v2/screens/achievement_screen.dart';
 import 'package:life_quest_final_v2/screens/hunt_screen.dart';
+import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
 import 'package:life_quest_final_v2/screens/inventory_screen.dart';
 import 'package:life_quest_final_v2/screens/shop_screen.dart';
 import 'package:life_quest_final_v2/screens/skill_screen.dart';
@@ -74,7 +75,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   static const List<Widget> _widgetOptions = <Widget>[
     StatusScreen(),
     QuestsScreen(),
-    HuntScreen(),
+    DungeonHomeScreen(),
     InventoryScreen(),
     ShopScreen(),
     AchievementScreen(),

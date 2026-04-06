@@ -10,6 +10,8 @@ import 'package:life_quest_final_v2/screens/loading_screen.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
+import 'package:life_quest_final_v2/state/card_combat_state.dart';
+import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:home_widget/home_widget.dart';
@@ -57,6 +59,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => CharacterState()),
         ChangeNotifierProvider(create: (context) => CombatState()),
+        ChangeNotifierProvider(create: (context) => CardCombatState()),
+        ChangeNotifierProvider(create: (context) => DungeonState()),
         Provider<SoundService>.value(value: SoundService()),
       ],
       child: const LifeQuestApp(),

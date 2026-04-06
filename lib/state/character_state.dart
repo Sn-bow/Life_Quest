@@ -17,6 +17,8 @@ import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/data/achievement_database.dart';
 import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/data/skill_database.dart';
+import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/models/card_data.dart';
 
 enum StatType { strength, wisdom, health, charisma }
 
@@ -139,6 +141,7 @@ class CharacterState extends ChangeNotifier {
   Timer? _hpRegenTimer;
   bool _isCombatActive = false;
   bool _isSaving = false;
+  bool _pendingSave = false;
 
   final FirebaseFirestore _firestore;
 
@@ -632,6 +635,18 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Apply dungeon run rewards (XP + gold) with full level-up pipeline.
+  void addDungeonReward(int xp, int gold) {
+    _character!.xp += xp;
+    _character!.gold += gold;
+    while (_character!.xp >= _character!.maxXp) {
+      _levelUp();
+    }
+    _checkTitleUnlock();
+    unawaited(_saveData());
+    notifyListeners();
+  }
+
   void _levelUp() {
     _character!.xp -= _character!.maxXp;
     _character!.level++;
@@ -837,6 +852,7 @@ class CharacterState extends ChangeNotifier {
   }
 
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
+  // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
     _saveTimer?.cancel();
     _saveTimer = Timer(const Duration(seconds: 3), () {
@@ -844,9 +860,16 @@ class CharacterState extends ChangeNotifier {
     });
   }
 
-  // The actual database write operation, wrapped in try-catch
+  // The actual database write operation, wrapped in try-catch.
+  // Uses _isSaving/_pendingSave to prevent concurrent writes while ensuring
+  // the latest data is always saved (race condition prevention).
   Future<void> _performSaveData() async {
-    if (_character == null || _isSaving) return;
+    if (_character == null) return;
+    if (_isSaving) {
+      // 이미 저장 중이면 대기열에 추가하고 반환
+      _pendingSave = true;
+      return;
+    }
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
     _isSaving = true;
@@ -893,6 +916,11 @@ class CharacterState extends ChangeNotifier {
       );
     } finally {
       _isSaving = false;
+      // 저장 중에 새로운 변경이 있었으면 최신 데이터로 다시 저장
+      if (_pendingSave) {
+        _pendingSave = false;
+        await _performSaveData();
+      }
     }
   }
 

@@ -139,6 +139,8 @@ class AdService {
     }
   }
 
+  // TODO: 광고 일일 횟수 초기화가 기기 시간(DateTime.now()) 기반 - 조작 가능
+  // 서버사이드 시간 기반 초기화로 변경 권장 (프로덕션 배포 시)
   void _resetDailyCountsIfNeeded() {
     final today = DateTime.now().toIso8601String().substring(0, 10);
     if (_lastResetDate != today) {

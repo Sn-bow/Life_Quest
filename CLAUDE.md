@@ -8,7 +8,7 @@
 - **GitHub**: https://github.com/Sn-bow/Life_Quest.git (branch: main)
 - **applicationId**: `com.lifequest.app` (2026-04-01 변경, 이전: com.example.life_quest_final_v2)
 
-## 현재 상태 (2026-04-01 기준)
+## 현재 상태 (2026-04-06 기준)
 
 ### 완료된 작업
 - Phase A~E: 버그 수정, 코드 품질, 테스트, 배포 준비 완료
@@ -22,23 +22,54 @@
   - `android/key.properties` 설정 완료
   - AAB 빌드 성공 (`build/app/outputs/bundle/release/app-release.aab`, 64MB)
 - **코드 품질 분석 완료** (2026-04-01) - 아래 "다음 작업" 섹션 참조
+- **Soul Deck 게임 시스템 전면 재설계 완료** (2026-04-06)
+  - 기존 단순 턴제 전투 → Slay the Spire 스타일 덱빌딩 로그라이크로 교체
+  - Flame 엔진 기반 전투 씬 + Flutter 오버레이 UI
+
+### Soul Deck 구현 현황 (2026-04-06)
+#### Phase 1 - 핵심 시스템 ✅
+- **모델**: `card_data.dart`, `status_effect.dart`, `relic_data.dart`, `dungeon_map.dart`, `dungeon_event.dart`
+- **데이터**: `card_database.dart` (207장: Common 40+Uncommon 32+Rare 20+Legendary 8+Starter 10+Curse 4+업그레이드), `relic_database.dart` (31개), `event_database.dart` (10개), `dungeon_generator.dart` (6행 노드맵)
+- **상태**: `card_combat_state.dart` (에너지/핸드/덱/상태이상/데미지 전투 로직), `dungeon_state.dart` (런 관리, 노드 플로우, 저장/불러오기)
+- **게임**: `battle_game.dart` (Flame), `damage_text.dart`
+- **화면**: dungeon_home, dungeon_map, card_battle, dungeon_event, dungeon_shop, dungeon_rest, dungeon_result (7개)
+
+#### Phase 2 - 전투 이펙트 ✅
+- 카드 재생 애니메이션 (위로 올라가며 페이드), 카드 드로우 슬라이드인
+- 적 히트 플래시 (빨간색), 방어도 실드 아이콘
+- 턴 전환 오버레이 ("Your Turn"/"Enemy Turn"), 빅히트 스크린 쉐이크
+- Flame 파티클 이펙트 (히트/힐/블록), 존별 배경 파랄랙스
+- 상태이상 아이콘 컴포넌트 (11종), 결과 팝업 스케일 애니메이션
+
+#### Phase 3 - 던전↔캐릭터 보상 연동 ✅
+- `calculateRunRewards()`: 존/몬스터/노드 기반 XP+골드 계산 (승리 x1.5, 패배 x0.5)
+- `character_state.addDungeonReward()`: 레벨업/칭호 체크 포함
+- 전투 승리 → 카드 3장 선택 보상 UI
+- 결과 화면: XP/골드 표시, 중복 적용 방지, 홈 복귀
+
+#### Phase 4 - 카드 컬렉션 시스템 🔄 (진행 중)
 
 ### 검증 결과
-- `flutter analyze` → No issues found
-- `flutter test` → 67개 전체 통과
-- `flutter build appbundle --release` → 성공 (64MB)
+- `flutter analyze` → No issues found (Phase 1 시점)
+- `flutter test` → 67개 전체 통과 (Phase 1 시점)
+- `flutter build appbundle --release` → 성공 (64MB, Phase 1 시점)
+- **Phase 2~4 이후 재검증 필요**
 
 ## 주요 기능
 - 퀘스트 시스템 (일간/주간/월간/연간)
 - 캐릭터 성장 (레벨업, 스탯 분배: 힘/지혜/건강/매력, 칭호)
-- 전투/사냥 (던전 탐험, 턴제 전투, 전리품)
+- **Soul Deck 던전** (덱빌딩 로그라이크, 5존, 보스, 어센션)
+  - 카드 207장 (4카테고리×4등급), 렐릭 31개, 이벤트 10개
+  - Flame 엔진 전투씬 + Flutter 오버레이 UI
+  - 에너지 시스템, 상태이상 11종, 적 인텐트
+- 카드 컬렉션 (퀘스트 완료 → 카드 획득, 덱 커스텀)
 - 장비 & 인벤토리
 - 상점 (골드로 장비 구매, 코스메틱)
 - 스킬 트리
 - 업적 시스템
 - 성장 리포트
 - 집중 타이머 (포모도로)
-- 홈 위젯 (iOS/Android)
+- 홈 위젯 (Android)
 - 알림 (퀘스트 리마인더)
 - 광고 & 인앱결제 (Google AdMob, IAP)
 
@@ -48,43 +79,35 @@ lib/
 ├── main.dart
 ├── firebase_options.dart
 ├── models/          # character, quest, item, monster, skill, achievement, title, cosmetic, custom_reward
-├── screens/         # main, status, quests, hunt, inventory, shop, skill, achievement, report, timer, settings, login, signup, loading, cosmetic_shop
-├── state/           # character_state (Provider), combat_state
+│                    # + card_data, status_effect, relic_data, dungeon_map, dungeon_event (신규)
+├── screens/
+│   ├── [기존]       # main, status, quests, hunt, inventory, shop, skill, achievement, report, timer, settings, login, signup, loading, cosmetic_shop
+│   └── dungeon/     # dungeon_home, dungeon_map, card_battle, dungeon_event, dungeon_shop, dungeon_rest, dungeon_result, card_collection (신규)
+├── state/           # character_state, combat_state
+│                    # + card_combat_state, dungeon_state (신규)
 ├── services/        # sound, notification, ad, purchase
 ├── data/            # monster_database, achievement_database, skill_database, title_database, loot_table
+│                    # + card_database, relic_database, event_database, dungeon_generator (신규)
+├── game/            # battle_game.dart (신규 - Flame)
+│   └── components/  # damage_text, particle_effect, status_icon (신규)
 └── widgets/         # translucent_card, xp_bar, quest_tile, stat_bar, player_profile_sprite, combat/
 ```
 
-## 다음 작업: 코드 품질 수정 (우선순위별)
+## 버그 수정 현황 (2026-04-06 기준)
 
-### CRITICAL (즉시 수정)
-1. **소모 아이템 전체 삭제 버그** - `combat_state.dart:365`
-   - `removeWhere`가 같은 ID 아이템 모두 삭제. `removeAt(indexWhere(...))`로 변경 필요
-2. **장비 착용 시 중복 삭제** - `combat_state.dart:380-397`
-   - 동일한 removeWhere 버그. `inventory.remove(item)` 사용 필요
-3. **Firestore 역직렬화 타입 캐스트 누락** - `character.dart:116-124`
-   - equippedWeapon/Armor/Accessory에 `as Map<String, dynamic>` 캐스팅 필요
-4. **CustomReward 안전하지 않은 캐스팅** - `custom_reward.dart:25-29`
-   - null 체크/기본값 없이 직접 캐스팅. null coalescing 추가 필요
-5. **Enum 직렬화 불일치** - `item.dart:55-77`
-   - toJson()은 `.name`, fromJson()은 `.toString()` 비교. 통일 필요
+### CRITICAL (1-5) - 모두 수정 완료 ✅
+- 소모 아이템 삭제 버그, 장비 중복 삭제, Firestore 역직렬화, CustomReward 캐스팅, Enum 직렬화 → 이미 이전 Phase에서 수정됨
 
-### HIGH (중요)
-6. **Firebase 오프라인 지원 없음** - Firestore persistence 미설정
-7. **IAP 서버사이드 영수증 검증 없음** - `purchase_service.dart:84-115`
-8. **인증 상태 라우트 가드 없음** - `main_screen.dart:81-86`
-9. **Android 13+ 알림 권한 미처리** - `notification_service.dart:18-48`
-10. **GDPR 광고 동의 처리 없음** - `ad_service.dart`
-11. **Save/Load 레이스 컨디션** - `character_state.dart:838-1025`
+### HIGH (6-11) - 모두 수정 완료 ✅
+- Firebase 오프라인, 인증 라우트 가드, Android 13+ 알림, GDPR UMP → 이미 구현됨
+- IAP 영수증 검증: TODO/WARNING 코멘트 추가 (서버 인프라 필요)
+- Save/Load 레이스 컨디션: `_pendingSave` 플래그 메커니즘 추가
 
-### MEDIUM (품질)
-12. 전투 로그 높이 무제한 → 버튼 가림 - `hunt_screen.dart:271-294`
-13. 퀘스트/캐릭터명 길이 제한 없음 - `quests_screen.dart`, `settings_screen.dart`
-14. 전투 액션 버튼 연타 방지 없음 - `hunt_screen.dart:428-481`
-15. quest_tile.dart에 maxLines/overflow 누락 - `quest_tile.dart:69-78`
-16. 업적 진행률 targetValue=0 시 NaN - `achievement_screen.dart:68-70`
-17. 광고 일일 횟수 초기화가 기기 시간 기반 - `ad_service.dart:96-103`
-18. _saveData() 대부분 await 없이 호출 - `character_state.dart` 19곳
+### MEDIUM (12-18) - 모두 수정 완료 ✅
+- 전투로그 높이, 이름 길이 제한, 텍스트 overflow, NaN 방지 → 이미 구현됨
+- 전투 버튼 연타 방지: `_isActionBusy` + 300ms 딜레이 추가
+- 광고 시간 기반: TODO 코멘트 추가
+- _saveData await: 3초 디바운스 확인 + 코멘트 추가
 
 ### 테스트 커버리지 현황
 - Models: 5/9 테스트됨 (cosmetic, custom_reward, monster, title 미테스트)

@@ -409,6 +409,18 @@ class MonsterDatabase {
 
   static int get maxChapters => 5;
 
+  /// Returns monsters for a specific zone
+  static List<Monster> getMonstersByZone(int zone) {
+    switch (zone) {
+      case 1: return getZone1Monsters();
+      case 2: return getZone2Monsters();
+      case 3: return getZone3Monsters();
+      case 4: return getZone4Monsters();
+      case 5: return getZone5Monsters();
+      default: return getZone1Monsters();
+    }
+  }
+
   /// Returns monsters appropriate for the player's level
   static List<Monster> getMonstersForLevel(int playerLevel) {
     List<Monster> available = [];

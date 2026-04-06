@@ -1,0 +1,423 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/models/dungeon_event.dart';
+import 'package:life_quest_final_v2/state/dungeon_state.dart';
+
+class DungeonEventScreen extends StatefulWidget {
+  const DungeonEventScreen({super.key});
+
+  @override
+  State<DungeonEventScreen> createState() => _DungeonEventScreenState();
+}
+
+class _DungeonEventScreenState extends State<DungeonEventScreen> {
+  EventOutcome? _selectedOutcome;
+  bool _choiceMade = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
+    final dungeonState = context.watch<DungeonState>();
+    final event = dungeonState.currentEvent;
+
+    if (event == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text('이벤트', style: TextStyle(color: accent))),
+        body: const Center(child: Text('이벤트 데이터가 없습니다')),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Icon(Icons.auto_stories, color: accent, size: 22),
+            const SizedBox(width: 8),
+            Text(
+              '이벤트',
+              style: TextStyle(
+                fontFamily: 'monospace',
+                fontWeight: FontWeight.bold,
+                color: accent,
+              ),
+            ),
+          ],
+        ),
+        automaticallyImplyLeading: false,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Event title
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? const Color(0xFF1D1E33)
+                    : Colors.deepPurple.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: accent.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    event.name,
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    event.description,
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 14,
+                      height: 1.6,
+                      color: isDark ? Colors.white70 : Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Choices or outcome
+            if (!_choiceMade) ...[
+              Text(
+                '선택하세요',
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white60 : Colors.black45,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...event.choices.asMap().entries.map((entry) {
+                final index = entry.key;
+                final choice = entry.value;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _ChoiceButton(
+                    choice: choice,
+                    index: index,
+                    isDark: isDark,
+                    accent: accent,
+                    onTap: () => _makeChoice(choice, dungeonState),
+                  ),
+                );
+              }),
+            ] else ...[
+              // Outcome display
+              _OutcomeCard(
+                outcome: _selectedOutcome!,
+                isDark: isDark,
+                accent: accent,
+              ),
+            ],
+
+            const Spacer(),
+
+            // Continue button (only after choice)
+            if (_choiceMade)
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: accent,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    '계속',
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _makeChoice(EventChoice choice, DungeonState dungeonState) {
+    // Pick a random outcome from the choice
+    final rng = Random();
+    final outcome = choice.outcomes[rng.nextInt(choice.outcomes.length)];
+
+    // Apply effects
+    if (outcome.goldChange != 0) {
+      if (outcome.goldChange > 0) {
+        dungeonState.addGold(outcome.goldChange);
+      } else {
+        dungeonState.spendGold(-outcome.goldChange);
+      }
+    }
+    if (outcome.hpChange != 0) {
+      dungeonState.healPlayer(outcome.hpChange);
+    }
+    if (outcome.hpPercentChange != 0) {
+      dungeonState.healPlayerPercent(outcome.hpPercentChange);
+    }
+
+    setState(() {
+      _selectedOutcome = outcome;
+      _choiceMade = true;
+    });
+  }
+}
+
+// ============================================================================
+// Choice button
+// ============================================================================
+
+class _ChoiceButton extends StatelessWidget {
+  final EventChoice choice;
+  final int index;
+  final bool isDark;
+  final Color accent;
+  final VoidCallback onTap;
+
+  const _ChoiceButton({
+    required this.choice,
+    required this.index,
+    required this.isDark,
+    required this.accent,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Check if any outcome has gold cost
+    final hasGoldCost = choice.outcomes.any((o) => o.goldChange < 0);
+    final goldCost = hasGoldCost
+        ? choice.outcomes
+            .where((o) => o.goldChange < 0)
+            .map((o) => -o.goldChange)
+            .first
+        : 0;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: isDark
+              ? accent.withValues(alpha: 0.1)
+              : accent.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: accent.withValues(alpha: 0.4),
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: accent.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: accent,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                choice.text,
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 13,
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
+              ),
+            ),
+            if (hasGoldCost)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.amber.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.monetization_on,
+                        size: 14, color: Colors.amber),
+                    const SizedBox(width: 3),
+                    Text(
+                      '$goldCost',
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// Outcome card
+// ============================================================================
+
+class _OutcomeCard extends StatelessWidget {
+  final EventOutcome outcome;
+  final bool isDark;
+  final Color accent;
+
+  const _OutcomeCard({
+    required this.outcome,
+    required this.isDark,
+    required this.accent,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark
+            ? Colors.amber.withValues(alpha: 0.1)
+            : Colors.amber.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.amber.withValues(alpha: 0.4),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.auto_awesome, size: 20, color: Colors.amber),
+              const SizedBox(width: 8),
+              Text(
+                '결과',
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.amber : Colors.amber.shade800,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            outcome.description,
+            style: TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 14,
+              height: 1.5,
+              color: isDark ? Colors.white70 : Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // Effect summary
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            children: [
+              if (outcome.goldChange != 0)
+                _effectChip(
+                  outcome.goldChange > 0 ? Icons.add : Icons.remove,
+                  '${outcome.goldChange.abs()} 골드',
+                  outcome.goldChange > 0 ? Colors.amber : Colors.red,
+                ),
+              if (outcome.hpChange != 0)
+                _effectChip(
+                  outcome.hpChange > 0 ? Icons.healing : Icons.heart_broken,
+                  '${outcome.hpChange.abs()} HP',
+                  outcome.hpChange > 0 ? Colors.green : Colors.red,
+                ),
+              if (outcome.hpPercentChange != 0)
+                _effectChip(
+                  outcome.hpPercentChange > 0
+                      ? Icons.healing
+                      : Icons.heart_broken,
+                  '${(outcome.hpPercentChange * 100).toInt()}% HP',
+                  outcome.hpPercentChange > 0 ? Colors.green : Colors.red,
+                ),
+              if (outcome.cardReward)
+                _effectChip(Icons.style, '카드 획득', Colors.blue),
+              if (outcome.relicReward)
+                _effectChip(Icons.diamond, '유물 획득', Colors.purple),
+              if (outcome.cardRemove)
+                _effectChip(Icons.delete_outline, '카드 제거', Colors.orange),
+              if (outcome.cardUpgrade)
+                _effectChip(Icons.upgrade, '카드 강화', Colors.teal),
+              if (outcome.curseAdded)
+                _effectChip(Icons.warning, '저주 추가', Colors.red),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _effectChip(IconData icon, String label, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
