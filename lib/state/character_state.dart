@@ -315,7 +315,11 @@ class CharacterState extends ChangeNotifier {
 
   Future<void> changeNotificationSetting(bool isEnabled) async {
     _isNotificationEnabled = isEnabled;
-    await _syncNotificationSchedule();
+    try {
+      await _syncNotificationSchedule();
+    } catch (e) {
+      debugPrint('Notification schedule error (non-fatal): $e');
+    }
     await _saveData();
     notifyListeners();
   }
@@ -1220,7 +1224,11 @@ class CharacterState extends ChangeNotifier {
         _themeMode =
             ThemeMode.values[data['themeMode'] ?? ThemeMode.dark.index];
         _isNotificationEnabled = data['isNotificationEnabled'] ?? true;
-        await _syncNotificationSchedule();
+        try {
+          await _syncNotificationSchedule();
+        } catch (e) {
+          debugPrint('Notification schedule error (non-fatal): $e');
+        }
 
         final lastLogin = _parseLastLoginDate(data);
         if (lastLogin != null) {
@@ -1245,7 +1253,11 @@ class CharacterState extends ChangeNotifier {
         _startHpRegenLoop();
       } else {
         _initializeNewData(freshUser);
-        await _syncNotificationSchedule();
+        try {
+          await _syncNotificationSchedule();
+        } catch (e) {
+          debugPrint('Notification schedule error (non-fatal): $e');
+        }
         // Save initial data immediately instead of debouncing
         await _performSaveData();
         _isDataLoaded = true;
