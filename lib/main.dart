@@ -26,45 +26,44 @@ const _homeWidgetAppGroupId = String.fromEnvironment(
   defaultValue: 'group.com.example.lifeQuestWidget',
 );
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // Crashlytics: Flutter 프레임워크 에러 캡처
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  };
-
-  // Firestore 오프라인 persistence 활성화 (네트워크 없이도 캐시 데이터 사용 가능)
-  try {
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
-      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-    );
-  } catch (e) {
-    debugPrint('Firestore persistence 설정 실패: $e');
-  }
-
-  try {
-    await FirebaseAppCheck.instance.activate(
-      androidProvider:
-          kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
-    );
-  } catch (e) {
-    debugPrint('FirebaseAppCheck activation failed: $e');
-  }
-  await NotificationService().init();
-  await SoundService().init();
-  await AdService().init(); // Init AdMob
-
-  // Setup HomeWidget (iOS / Android) App Group
-  await HomeWidget.setAppGroupId(_homeWidgetAppGroupId);
-
-  // Crashlytics: Dart 비동기 에러 캡처 (Zone 전체)
-  await runZonedGuarded(
+void main() {
+  // runZonedGuarded을 가장 먼저 시작해야 Flutter 바인딩 Zone 충돌을 방지함
+  runZonedGuarded(
     () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+
+      // Crashlytics: Flutter 프레임워크 에러 캡처
+      FlutterError.onError = (errorDetails) {
+        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      };
+
+      // Firestore 오프라인 persistence 활성화
+      try {
+        FirebaseFirestore.instance.settings = const Settings(
+          persistenceEnabled: true,
+          cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+        );
+      } catch (e) {
+        debugPrint('Firestore persistence 설정 실패: $e');
+      }
+
+      try {
+        await FirebaseAppCheck.instance.activate(
+          androidProvider:
+              kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
+        );
+      } catch (e) {
+        debugPrint('FirebaseAppCheck activation failed: $e');
+      }
+      await NotificationService().init();
+      await SoundService().init();
+      await AdService().init();
+
+      await HomeWidget.setAppGroupId(_homeWidgetAppGroupId);
+
       runApp(
         MultiProvider(
           providers: [
