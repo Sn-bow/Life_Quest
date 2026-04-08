@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class CardCollectionScreen extends StatefulWidget {
   const CardCollectionScreen({super.key});
@@ -50,29 +51,31 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
     }
   }
 
-  String _rarityLabel(CardRarity r) {
+  String _rarityLabel(BuildContext context, CardRarity r) {
+    final l10n = AppLocalizations.of(context)!;
     switch (r) {
       case CardRarity.common:
-        return '일반';
+        return l10n.cardRarityCommon;
       case CardRarity.uncommon:
-        return '고급';
+        return l10n.cardRarityUncommon;
       case CardRarity.rare:
-        return '희귀';
+        return l10n.cardRarityRare;
       case CardRarity.legendary:
-        return '전설';
+        return l10n.cardRarityLegendary;
     }
   }
 
-  String _categoryLabel(CardCategory cat) {
+  String _categoryLabel(BuildContext context, CardCategory cat) {
+    final l10n = AppLocalizations.of(context)!;
     switch (cat) {
       case CardCategory.attack:
-        return '공격';
+        return l10n.cardCategoryAttack;
       case CardCategory.magic:
-        return '마법';
+        return l10n.cardCategoryMagic;
       case CardCategory.defense:
-        return '방어';
+        return l10n.cardCategoryDefense;
       case CardCategory.tactical:
-        return '전술';
+        return l10n.cardCategoryTactical;
     }
   }
 
@@ -91,6 +94,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
   }
 
   void _showCardDetail(BuildContext context, CardData card, CharacterState state) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final catColor = _categoryColor(card.category);
     final rarityColor = _rarityColor(card.rarity);
@@ -137,7 +141,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                                 border: Border.all(color: catColor.withValues(alpha: 0.5)),
                               ),
                               child: Text(
-                                _categoryLabel(card.category),
+                                _categoryLabel(context, card.category),
                                 style: TextStyle(fontSize: 11, color: catColor, fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -150,7 +154,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                                 border: Border.all(color: rarityColor.withValues(alpha: 0.5)),
                               ),
                               child: Text(
-                                _rarityLabel(card.rarity),
+                                _rarityLabel(context, card.rarity),
                                 style: TextStyle(fontSize: 11, color: rarityColor, fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -172,7 +176,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
               const SizedBox(height: 8),
               if (copyCount > 0)
                 Text(
-                  '덱에 $copyCount장 포함됨',
+                  l10n.cardCollectionDeckInclusion(copyCount),
                   style: TextStyle(
                     fontSize: 12,
                     color: isDark ? Colors.white54 : Colors.black38,
@@ -188,7 +192,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                           Navigator.pop(ctx);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('${card.name} 덱에 추가됨'),
+                              content: Text(l10n.cardCollectionAddedToDeck(card.name)),
                               duration: const Duration(seconds: 2),
                               behavior: SnackBarBehavior.floating,
                             ),
@@ -198,10 +202,10 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                   icon: const Icon(Icons.add),
                   label: Text(
                     canAdd
-                        ? '덱에 추가'
+                        ? l10n.cardCollectionAddToDeck
                         : deck.length >= 20
-                            ? '덱이 가득 참 (20장)'
-                            : '최대 3장까지 추가 가능',
+                            ? l10n.cardCollectionDeckFull
+                            : l10n.cardCollectionMaxCopies,
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: catColor,
@@ -292,7 +296,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  _categoryLabel(card.category),
+                  _categoryLabel(context, card.category),
                   style: TextStyle(fontSize: 9, color: catColor, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -305,6 +309,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final state = context.watch<CharacterState>();
     final unlockedCards = _filteredCards(state.unlockedCards);
@@ -312,7 +317,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('카드 컬렉션'),
+        title: Text(l10n.cardCollectionTitle),
         backgroundColor: isDark ? const Color(0xFF0A0E21) : null,
       ),
       body: Column(
@@ -324,15 +329,15 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _filterChip(context, null, '전체', isDark),
+                  _filterChip(context, null, l10n.cardCollectionFilterAll, isDark),
                   const SizedBox(width: 8),
-                  _filterChip(context, CardCategory.attack, '공격', isDark),
+                  _filterChip(context, CardCategory.attack, l10n.cardCategoryAttack, isDark),
                   const SizedBox(width: 8),
-                  _filterChip(context, CardCategory.magic, '마법', isDark),
+                  _filterChip(context, CardCategory.magic, l10n.cardCategoryMagic, isDark),
                   const SizedBox(width: 8),
-                  _filterChip(context, CardCategory.defense, '방어', isDark),
+                  _filterChip(context, CardCategory.defense, l10n.cardCategoryDefense, isDark),
                   const SizedBox(width: 8),
-                  _filterChip(context, CardCategory.tactical, '전술', isDark),
+                  _filterChip(context, CardCategory.tactical, l10n.cardCategoryTactical, isDark),
                 ],
               ),
             ),
@@ -344,7 +349,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
             child: Row(
               children: [
                 Text(
-                  '내 컬렉션',
+                  l10n.cardCollectionMyCollection,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -353,7 +358,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  '(${state.unlockedCards.length}장)',
+                  l10n.cardCollectionCardCount(state.unlockedCards.length),
                   style: TextStyle(
                     fontSize: 12,
                     color: isDark ? Colors.white54 : Colors.black38,
@@ -368,7 +373,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
             child: unlockedCards.isEmpty
                 ? Center(
                     child: Text(
-                      '보유한 카드가 없습니다.\n퀘스트를 완료하면 카드를 획득할 수 있습니다!',
+                      l10n.cardCollectionNoCards,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: isDark ? Colors.white38 : Colors.grey.shade500,
@@ -417,7 +422,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '내 덱',
+                          l10n.cardCollectionMyDeck,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -426,7 +431,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '(${deckCardIds.length}/20장)',
+                          l10n.cardCollectionDeckSize(deckCardIds.length),
                           style: TextStyle(
                             fontSize: 12,
                             color: isDark ? Colors.white54 : Colors.black38,
@@ -438,23 +443,26 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (ctx) => AlertDialog(
-                                  title: const Text('덱 초기화'),
-                                  content: const Text('커스텀 덱을 삭제하고 기본 스타터 덱으로 되돌리겠습니까?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(ctx),
-                                      child: const Text('취소'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        state.resetStarterDeck();
-                                        Navigator.pop(ctx);
-                                      },
-                                      child: const Text('초기화', style: TextStyle(color: Colors.red)),
-                                    ),
-                                  ],
-                                ),
+                                builder: (ctx) {
+                                  final dl10n = AppLocalizations.of(context)!;
+                                  return AlertDialog(
+                                    title: Text(dl10n.cardCollectionResetDeckDialog),
+                                    content: Text(dl10n.cardCollectionResetDeckConfirmation),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(ctx),
+                                        child: Text(dl10n.cancel),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          state.resetStarterDeck();
+                                          Navigator.pop(ctx);
+                                        },
+                                        child: Text(dl10n.cardCollectionResetButton, style: const TextStyle(color: Colors.red)),
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
                             },
                             style: TextButton.styleFrom(
@@ -463,7 +471,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                               minimumSize: Size.zero,
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            child: const Text('초기화', style: TextStyle(fontSize: 12)),
+                            child: Text(l10n.cardCollectionResetButton, style: const TextStyle(fontSize: 12)),
                           ),
                         const SizedBox(width: 4),
                         Icon(
@@ -483,7 +491,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 12),
                             child: Text(
-                              '기본 스타터 덱 사용 중\n컬렉션에서 카드를 추가하세요',
+                              l10n.cardCollectionDefaultDeckMessage,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 12,
@@ -513,7 +521,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
-                                  _categoryLabel(card.category),
+                                  _categoryLabel(context, card.category),
                                   style: TextStyle(fontSize: 11, color: catColor),
                                 ),
                                 trailing: IconButton(

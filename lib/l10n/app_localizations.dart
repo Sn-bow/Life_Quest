@@ -2171,6 +2171,816 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'상세 리포트 보기'**
   String get statusReportTooltip;
+
+  /// No description provided for @dungeonHomeTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'소울 덱'**
+  String get dungeonHomeTitle;
+
+  /// No description provided for @dungeonHomeCardCollectionTooltip.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 컬렉션'**
+  String get dungeonHomeCardCollectionTooltip;
+
+  /// No description provided for @dungeonHomeDungeonSelection.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전 선택'**
+  String get dungeonHomeDungeonSelection;
+
+  /// No description provided for @dungeonHomeRequiredLevel.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 {requiredLevel} 이상 필요합니다'**
+  String dungeonHomeRequiredLevel(int requiredLevel);
+
+  /// No description provided for @zone1Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'푸른 초원'**
+  String get zone1Name;
+
+  /// No description provided for @zone1Description.
+  ///
+  /// In ko, this message translates to:
+  /// **'초보 모험가를 위한 첫 번째 던전'**
+  String get zone1Description;
+
+  /// No description provided for @zone2Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'어둠의 숲'**
+  String get zone2Name;
+
+  /// No description provided for @zone2Description.
+  ///
+  /// In ko, this message translates to:
+  /// **'독과 디버프를 사용하는 적들이 도사리는 곳'**
+  String get zone2Description;
+
+  /// No description provided for @zone3Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'폐허의 성'**
+  String get zone3Name;
+
+  /// No description provided for @zone3Description.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어 특화 적과 다중 전투가 기다린다'**
+  String get zone3Description;
+
+  /// No description provided for @zone4Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'용암 동굴'**
+  String get zone4Name;
+
+  /// No description provided for @zone4Description.
+  ///
+  /// In ko, this message translates to:
+  /// **'화상과 고데미지의 지옥'**
+  String get zone4Description;
+
+  /// No description provided for @zone5Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'심연의 차원'**
+  String get zone5Name;
+
+  /// No description provided for @zone5Description.
+  ///
+  /// In ko, this message translates to:
+  /// **'의도를 숨기는 적들, 저주가 내리는 최종 던전'**
+  String get zone5Description;
+
+  /// No description provided for @seasonName.
+  ///
+  /// In ko, this message translates to:
+  /// **'시즌 1: 영혼의 각성'**
+  String get seasonName;
+
+  /// No description provided for @seasonEnded.
+  ///
+  /// In ko, this message translates to:
+  /// **'종료'**
+  String get seasonEnded;
+
+  /// No description provided for @seasonCountdown.
+  ///
+  /// In ko, this message translates to:
+  /// **'D-{days}'**
+  String seasonCountdown(int days);
+
+  /// No description provided for @ascensionModeTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'어센션 모드'**
+  String get ascensionModeTitle;
+
+  /// No description provided for @ascensionInactive.
+  ///
+  /// In ko, this message translates to:
+  /// **'미활성'**
+  String get ascensionInactive;
+
+  /// No description provided for @ascensionActiveModifiers.
+  ///
+  /// In ko, this message translates to:
+  /// **'적용 중인 페널티:'**
+  String get ascensionActiveModifiers;
+
+  /// No description provided for @ascensionSliderHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'슬라이더를 올려 난이도를 높이세요'**
+  String get ascensionSliderHint;
+
+  /// No description provided for @ascensionLevel1Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 1: 적 HP +10%'**
+  String get ascensionLevel1Modifier;
+
+  /// No description provided for @ascensionLevel2Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 2: 적 공격력 +10%'**
+  String get ascensionLevel2Modifier;
+
+  /// No description provided for @ascensionLevel3Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 3: 시작 골드 -30'**
+  String get ascensionLevel3Modifier;
+
+  /// No description provided for @ascensionLevel4Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 4: 저주 카드 1장 추가'**
+  String get ascensionLevel4Modifier;
+
+  /// No description provided for @ascensionLevel5Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 5: 엘리트 처치 후 카드 선택 없음'**
+  String get ascensionLevel5Modifier;
+
+  /// No description provided for @ascensionLevel6Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 6: 상점 가격 +25%'**
+  String get ascensionLevel6Modifier;
+
+  /// No description provided for @ascensionLevel7Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 7: 시작 HP -10%'**
+  String get ascensionLevel7Modifier;
+
+  /// No description provided for @ascensionLevel8Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 8: 보스 HP +25%'**
+  String get ascensionLevel8Modifier;
+
+  /// No description provided for @ascensionLevel9Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 9: 이벤트 불이익 선택지 강화'**
+  String get ascensionLevel9Modifier;
+
+  /// No description provided for @ascensionLevel10Modifier.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv 10: 모든 적 HP +20%'**
+  String get ascensionLevel10Modifier;
+
+  /// No description provided for @infiniteTowerTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'무한의 탑'**
+  String get infiniteTowerTitle;
+
+  /// No description provided for @infiniteTowerBestFloorDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'끝없는 도전 · 최고 기록: {bestFloor}층'**
+  String infiniteTowerBestFloorDesc(int bestFloor);
+
+  /// No description provided for @infiniteTowerSelectFloor.
+  ///
+  /// In ko, this message translates to:
+  /// **'도전할 층 선택'**
+  String get infiniteTowerSelectFloor;
+
+  /// No description provided for @infiniteTowerFloorInfo.
+  ///
+  /// In ko, this message translates to:
+  /// **'층 정보'**
+  String get infiniteTowerFloorInfo;
+
+  /// No description provided for @infiniteTowerChallengeFloor.
+  ///
+  /// In ko, this message translates to:
+  /// **'{targetFloor}층 도전하기'**
+  String infiniteTowerChallengeFloor(int targetFloor);
+
+  /// No description provided for @infiniteTowerFloorComposition.
+  ///
+  /// In ko, this message translates to:
+  /// **'층 구성'**
+  String get infiniteTowerFloorComposition;
+
+  /// No description provided for @infiniteTowerBestFloorLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'최고 기록'**
+  String get infiniteTowerBestFloorLabel;
+
+  /// No description provided for @infiniteTowerFloorDisplay.
+  ///
+  /// In ko, this message translates to:
+  /// **'{floor}층'**
+  String infiniteTowerFloorDisplay(int floor);
+
+  /// No description provided for @infiniteTowerEnemyHp.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 HP'**
+  String get infiniteTowerEnemyHp;
+
+  /// No description provided for @infiniteTowerEnemyAttack.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 공격력'**
+  String get infiniteTowerEnemyAttack;
+
+  /// No description provided for @infiniteTowerDefault.
+  ///
+  /// In ko, this message translates to:
+  /// **'기본'**
+  String get infiniteTowerDefault;
+
+  /// No description provided for @infiniteTowerFloor1To5.
+  ///
+  /// In ko, this message translates to:
+  /// **'1-5층'**
+  String get infiniteTowerFloor1To5;
+
+  /// No description provided for @infiniteTowerFloor6To10.
+  ///
+  /// In ko, this message translates to:
+  /// **'6-10층'**
+  String get infiniteTowerFloor6To10;
+
+  /// No description provided for @infiniteTowerFloor11To15.
+  ///
+  /// In ko, this message translates to:
+  /// **'11-15층'**
+  String get infiniteTowerFloor11To15;
+
+  /// No description provided for @infiniteTowerFloor16To20.
+  ///
+  /// In ko, this message translates to:
+  /// **'16-20층'**
+  String get infiniteTowerFloor16To20;
+
+  /// No description provided for @infiniteTowerFloor21To25.
+  ///
+  /// In ko, this message translates to:
+  /// **'21-25층'**
+  String get infiniteTowerFloor21To25;
+
+  /// No description provided for @infiniteTowerFloor26Plus.
+  ///
+  /// In ko, this message translates to:
+  /// **'26층+'**
+  String get infiniteTowerFloor26Plus;
+
+  /// No description provided for @infiniteTowerRepeatZones.
+  ///
+  /// In ko, this message translates to:
+  /// **'이후 Zone 1부터 반복 (난이도 계속 상승)'**
+  String get infiniteTowerRepeatZones;
+
+  /// No description provided for @dungeonMapTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전 지도'**
+  String get dungeonMapTitle;
+
+  /// No description provided for @dungeonMapNoData.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전 데이터가 없습니다'**
+  String get dungeonMapNoData;
+
+  /// No description provided for @dungeonRestTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴식처'**
+  String get dungeonRestTitle;
+
+  /// No description provided for @dungeonRestDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'조용한 휴식처를 발견했다. 따뜻한 모닥불이 타오르고 있다.\n무엇을 하겠는가?'**
+  String get dungeonRestDescription;
+
+  /// No description provided for @dungeonRestRestTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴식'**
+  String get dungeonRestRestTitle;
+
+  /// No description provided for @dungeonRestRestDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP의 30%를 회복합니다'**
+  String get dungeonRestRestDescription;
+
+  /// No description provided for @dungeonRestHealResult.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP가 {healAmount} 회복되었습니다!'**
+  String dungeonRestHealResult(int healAmount);
+
+  /// No description provided for @dungeonRestTrainTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'수련'**
+  String get dungeonRestTrainTitle;
+
+  /// No description provided for @dungeonRestTrainDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 1장을 강화합니다'**
+  String get dungeonRestTrainDescription;
+
+  /// No description provided for @dungeonRestNoCardsToUpgrade.
+  ///
+  /// In ko, this message translates to:
+  /// **'강화할 카드가 없습니다'**
+  String get dungeonRestNoCardsToUpgrade;
+
+  /// No description provided for @dungeonRestContinueButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'계속'**
+  String get dungeonRestContinueButton;
+
+  /// No description provided for @dungeonRestSelectCardToUpgrade.
+  ///
+  /// In ko, this message translates to:
+  /// **'강화할 카드를 선택하세요'**
+  String get dungeonRestSelectCardToUpgrade;
+
+  /// No description provided for @dungeonRestCardUpgraded.
+  ///
+  /// In ko, this message translates to:
+  /// **'강화됨'**
+  String get dungeonRestCardUpgraded;
+
+  /// No description provided for @dungeonShopTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전 상점'**
+  String get dungeonShopTitle;
+
+  /// No description provided for @dungeonShopCardsSection.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드'**
+  String get dungeonShopCardsSection;
+
+  /// No description provided for @dungeonShopNoCards.
+  ///
+  /// In ko, this message translates to:
+  /// **'판매 중인 카드가 없습니다'**
+  String get dungeonShopNoCards;
+
+  /// No description provided for @dungeonShopRelicsSection.
+  ///
+  /// In ko, this message translates to:
+  /// **'유물'**
+  String get dungeonShopRelicsSection;
+
+  /// No description provided for @dungeonShopNoRelics.
+  ///
+  /// In ko, this message translates to:
+  /// **'판매 중인 유물이 없습니다'**
+  String get dungeonShopNoRelics;
+
+  /// No description provided for @dungeonShopCardRemovalSection.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 제거'**
+  String get dungeonShopCardRemovalSection;
+
+  /// No description provided for @dungeonShopLeaveButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'상점 나가기'**
+  String get dungeonShopLeaveButton;
+
+  /// No description provided for @dungeonShopSelectCardToRemove.
+  ///
+  /// In ko, this message translates to:
+  /// **'제거할 카드를 선택하세요'**
+  String get dungeonShopSelectCardToRemove;
+
+  /// No description provided for @dungeonShopRemovalCost.
+  ///
+  /// In ko, this message translates to:
+  /// **'비용: {cost} 골드'**
+  String dungeonShopRemovalCost(int cost);
+
+  /// No description provided for @dungeonShopPurchaseComplete.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매 완료'**
+  String get dungeonShopPurchaseComplete;
+
+  /// No description provided for @dungeonShopRemoveOneCard.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 1장 제거'**
+  String get dungeonShopRemoveOneCard;
+
+  /// No description provided for @dungeonShopRemovalDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'덱에서 원하지 않는 카드를 제거합니다 (현재 덱: {deckSize}장)'**
+  String dungeonShopRemovalDescription(int deckSize);
+
+  /// No description provided for @dungeonEventTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'이벤트'**
+  String get dungeonEventTitle;
+
+  /// No description provided for @dungeonEventNoData.
+  ///
+  /// In ko, this message translates to:
+  /// **'이벤트 데이터가 없습니다'**
+  String get dungeonEventNoData;
+
+  /// No description provided for @dungeonEventChooseAction.
+  ///
+  /// In ko, this message translates to:
+  /// **'선택하세요'**
+  String get dungeonEventChooseAction;
+
+  /// No description provided for @dungeonEventContinueButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'계속'**
+  String get dungeonEventContinueButton;
+
+  /// No description provided for @dungeonEventOutcomeTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'결과'**
+  String get dungeonEventOutcomeTitle;
+
+  /// No description provided for @dungeonEventEffectCardReward.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 획득'**
+  String get dungeonEventEffectCardReward;
+
+  /// No description provided for @dungeonEventEffectRelicReward.
+  ///
+  /// In ko, this message translates to:
+  /// **'유물 획득'**
+  String get dungeonEventEffectRelicReward;
+
+  /// No description provided for @dungeonEventEffectCardRemove.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 제거'**
+  String get dungeonEventEffectCardRemove;
+
+  /// No description provided for @dungeonEventEffectCardUpgrade.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 강화'**
+  String get dungeonEventEffectCardUpgrade;
+
+  /// No description provided for @dungeonEventEffectCurseAdded.
+  ///
+  /// In ko, this message translates to:
+  /// **'저주 추가'**
+  String get dungeonEventEffectCurseAdded;
+
+  /// No description provided for @dungeonResultVictoryTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전 클리어!'**
+  String get dungeonResultVictoryTitle;
+
+  /// No description provided for @dungeonResultDefeatTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'모험 실패...'**
+  String get dungeonResultDefeatTitle;
+
+  /// No description provided for @dungeonResultVictoryMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'축하합니다! 모든 적을 물리치고 던전을 정복했습니다.'**
+  String get dungeonResultVictoryMessage;
+
+  /// No description provided for @dungeonResultDefeatMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.'**
+  String get dungeonResultDefeatMessage;
+
+  /// No description provided for @dungeonResultStatsTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'모험 기록'**
+  String get dungeonResultStatsTitle;
+
+  /// No description provided for @dungeonResultStatsZone.
+  ///
+  /// In ko, this message translates to:
+  /// **'지역'**
+  String get dungeonResultStatsZone;
+
+  /// No description provided for @dungeonResultStatsNodesCompleted.
+  ///
+  /// In ko, this message translates to:
+  /// **'노드 완료'**
+  String get dungeonResultStatsNodesCompleted;
+
+  /// No description provided for @dungeonResultStatsMonsterKilled.
+  ///
+  /// In ko, this message translates to:
+  /// **'몬스터 처치'**
+  String get dungeonResultStatsMonsterKilled;
+
+  /// No description provided for @dungeonResultRewardsTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'보상'**
+  String get dungeonResultRewardsTitle;
+
+  /// No description provided for @dungeonResultXpReward.
+  ///
+  /// In ko, this message translates to:
+  /// **'+{xpGained} XP'**
+  String dungeonResultXpReward(int xpGained);
+
+  /// No description provided for @dungeonResultGoldReward.
+  ///
+  /// In ko, this message translates to:
+  /// **'+{goldGained} 골드'**
+  String dungeonResultGoldReward(int goldGained);
+
+  /// No description provided for @dungeonResultVictoryBonus.
+  ///
+  /// In ko, this message translates to:
+  /// **'클리어 보너스 x1.5 + 보스 처치 보너스'**
+  String get dungeonResultVictoryBonus;
+
+  /// No description provided for @dungeonResultDefeatPenalty.
+  ///
+  /// In ko, this message translates to:
+  /// **'패배 페널티: 보상 x0.5'**
+  String get dungeonResultDefeatPenalty;
+
+  /// No description provided for @dungeonResultReturnHomeButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'홈으로 돌아가기'**
+  String get dungeonResultReturnHomeButton;
+
+  /// No description provided for @cardBattleYourTurn.
+  ///
+  /// In ko, this message translates to:
+  /// **'당신의 턴'**
+  String get cardBattleYourTurn;
+
+  /// No description provided for @cardBattleEnemyTurn.
+  ///
+  /// In ko, this message translates to:
+  /// **'적의 턴'**
+  String get cardBattleEnemyTurn;
+
+  /// No description provided for @cardBattleTurnCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'턴 {turnCount}'**
+  String cardBattleTurnCount(int turnCount);
+
+  /// No description provided for @cardBattleAbandonDialog.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 포기'**
+  String get cardBattleAbandonDialog;
+
+  /// No description provided for @cardBattleAbandonConfirmation.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투를 포기하시겠습니까? 진행 사항이 사라집니다.'**
+  String get cardBattleAbandonConfirmation;
+
+  /// No description provided for @cardBattleAbandonButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'포기'**
+  String get cardBattleAbandonButton;
+
+  /// No description provided for @cardBattleNoEnemies.
+  ///
+  /// In ko, this message translates to:
+  /// **'적이 없습니다'**
+  String get cardBattleNoEnemies;
+
+  /// No description provided for @cardBattleEndTurnButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'턴 종료'**
+  String get cardBattleEndTurnButton;
+
+  /// No description provided for @cardBattleNoCardsInHand.
+  ///
+  /// In ko, this message translates to:
+  /// **'손에 카드가 없습니다'**
+  String get cardBattleNoCardsInHand;
+
+  /// No description provided for @cardBattleVictory.
+  ///
+  /// In ko, this message translates to:
+  /// **'승리!'**
+  String get cardBattleVictory;
+
+  /// No description provided for @cardBattleGoldReward.
+  ///
+  /// In ko, this message translates to:
+  /// **'+{gold} 골드'**
+  String cardBattleGoldReward(int gold);
+
+  /// No description provided for @cardBattleSelectCard.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드를 선택하세요'**
+  String get cardBattleSelectCard;
+
+  /// No description provided for @cardBattleSkipButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'건너뛰기'**
+  String get cardBattleSkipButton;
+
+  /// No description provided for @cardRarityCommon.
+  ///
+  /// In ko, this message translates to:
+  /// **'일반'**
+  String get cardRarityCommon;
+
+  /// No description provided for @cardRarityUncommon.
+  ///
+  /// In ko, this message translates to:
+  /// **'고급'**
+  String get cardRarityUncommon;
+
+  /// No description provided for @cardRarityRare.
+  ///
+  /// In ko, this message translates to:
+  /// **'희귀'**
+  String get cardRarityRare;
+
+  /// No description provided for @cardRarityLegendary.
+  ///
+  /// In ko, this message translates to:
+  /// **'전설'**
+  String get cardRarityLegendary;
+
+  /// No description provided for @cardCategoryAttack.
+  ///
+  /// In ko, this message translates to:
+  /// **'공격'**
+  String get cardCategoryAttack;
+
+  /// No description provided for @cardCategoryMagic.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법'**
+  String get cardCategoryMagic;
+
+  /// No description provided for @cardCategoryDefense.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어'**
+  String get cardCategoryDefense;
+
+  /// No description provided for @cardCategoryTactical.
+  ///
+  /// In ko, this message translates to:
+  /// **'전술'**
+  String get cardCategoryTactical;
+
+  /// No description provided for @cardCollectionTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 컬렉션'**
+  String get cardCollectionTitle;
+
+  /// No description provided for @cardCollectionFilterAll.
+  ///
+  /// In ko, this message translates to:
+  /// **'전체'**
+  String get cardCollectionFilterAll;
+
+  /// No description provided for @cardCollectionMyCollection.
+  ///
+  /// In ko, this message translates to:
+  /// **'내 컬렉션'**
+  String get cardCollectionMyCollection;
+
+  /// No description provided for @cardCollectionCardCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'({count}장)'**
+  String cardCollectionCardCount(int count);
+
+  /// No description provided for @cardCollectionNoCards.
+  ///
+  /// In ko, this message translates to:
+  /// **'보유한 카드가 없습니다.\n퀘스트를 완료하면 카드를 획득할 수 있습니다!'**
+  String get cardCollectionNoCards;
+
+  /// No description provided for @cardCollectionDeckInclusion.
+  ///
+  /// In ko, this message translates to:
+  /// **'덱에 {copyCount}장 포함됨'**
+  String cardCollectionDeckInclusion(int copyCount);
+
+  /// No description provided for @cardCollectionAddToDeck.
+  ///
+  /// In ko, this message translates to:
+  /// **'덱에 추가'**
+  String get cardCollectionAddToDeck;
+
+  /// No description provided for @cardCollectionDeckFull.
+  ///
+  /// In ko, this message translates to:
+  /// **'덱이 가득 참 (20장)'**
+  String get cardCollectionDeckFull;
+
+  /// No description provided for @cardCollectionMaxCopies.
+  ///
+  /// In ko, this message translates to:
+  /// **'최대 3장까지 추가 가능'**
+  String get cardCollectionMaxCopies;
+
+  /// No description provided for @cardCollectionAddedToDeck.
+  ///
+  /// In ko, this message translates to:
+  /// **'{cardName} 덱에 추가됨'**
+  String cardCollectionAddedToDeck(String cardName);
+
+  /// No description provided for @cardCollectionMyDeck.
+  ///
+  /// In ko, this message translates to:
+  /// **'내 덱'**
+  String get cardCollectionMyDeck;
+
+  /// No description provided for @cardCollectionDeckSize.
+  ///
+  /// In ko, this message translates to:
+  /// **'({deckSize}/20장)'**
+  String cardCollectionDeckSize(int deckSize);
+
+  /// No description provided for @cardCollectionResetDeckDialog.
+  ///
+  /// In ko, this message translates to:
+  /// **'덱 초기화'**
+  String get cardCollectionResetDeckDialog;
+
+  /// No description provided for @cardCollectionResetDeckConfirmation.
+  ///
+  /// In ko, this message translates to:
+  /// **'커스텀 덱을 삭제하고 기본 스타터 덱으로 되돌리겠습니까?'**
+  String get cardCollectionResetDeckConfirmation;
+
+  /// No description provided for @cardCollectionResetButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'초기화'**
+  String get cardCollectionResetButton;
+
+  /// No description provided for @cardCollectionDefaultDeckMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'기본 스타터 덱 사용 중\n컬렉션에서 카드를 추가하세요'**
+  String get cardCollectionDefaultDeckMessage;
 }
 
 class _AppLocalizationsDelegate

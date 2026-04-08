@@ -1128,4 +1128,445 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get statusReportTooltip => '상세 리포트 보기';
+
+  @override
+  String get dungeonHomeTitle => '소울 덱';
+
+  @override
+  String get dungeonHomeCardCollectionTooltip => '카드 컬렉션';
+
+  @override
+  String get dungeonHomeDungeonSelection => '던전 선택';
+
+  @override
+  String dungeonHomeRequiredLevel(int requiredLevel) {
+    return '레벨 $requiredLevel 이상 필요합니다';
+  }
+
+  @override
+  String get zone1Name => '푸른 초원';
+
+  @override
+  String get zone1Description => '초보 모험가를 위한 첫 번째 던전';
+
+  @override
+  String get zone2Name => '어둠의 숲';
+
+  @override
+  String get zone2Description => '독과 디버프를 사용하는 적들이 도사리는 곳';
+
+  @override
+  String get zone3Name => '폐허의 성';
+
+  @override
+  String get zone3Description => '방어 특화 적과 다중 전투가 기다린다';
+
+  @override
+  String get zone4Name => '용암 동굴';
+
+  @override
+  String get zone4Description => '화상과 고데미지의 지옥';
+
+  @override
+  String get zone5Name => '심연의 차원';
+
+  @override
+  String get zone5Description => '의도를 숨기는 적들, 저주가 내리는 최종 던전';
+
+  @override
+  String get seasonName => '시즌 1: 영혼의 각성';
+
+  @override
+  String get seasonEnded => '종료';
+
+  @override
+  String seasonCountdown(int days) {
+    return 'D-$days';
+  }
+
+  @override
+  String get ascensionModeTitle => '어센션 모드';
+
+  @override
+  String get ascensionInactive => '미활성';
+
+  @override
+  String get ascensionActiveModifiers => '적용 중인 페널티:';
+
+  @override
+  String get ascensionSliderHint => '슬라이더를 올려 난이도를 높이세요';
+
+  @override
+  String get ascensionLevel1Modifier => 'Lv 1: 적 HP +10%';
+
+  @override
+  String get ascensionLevel2Modifier => 'Lv 2: 적 공격력 +10%';
+
+  @override
+  String get ascensionLevel3Modifier => 'Lv 3: 시작 골드 -30';
+
+  @override
+  String get ascensionLevel4Modifier => 'Lv 4: 저주 카드 1장 추가';
+
+  @override
+  String get ascensionLevel5Modifier => 'Lv 5: 엘리트 처치 후 카드 선택 없음';
+
+  @override
+  String get ascensionLevel6Modifier => 'Lv 6: 상점 가격 +25%';
+
+  @override
+  String get ascensionLevel7Modifier => 'Lv 7: 시작 HP -10%';
+
+  @override
+  String get ascensionLevel8Modifier => 'Lv 8: 보스 HP +25%';
+
+  @override
+  String get ascensionLevel9Modifier => 'Lv 9: 이벤트 불이익 선택지 강화';
+
+  @override
+  String get ascensionLevel10Modifier => 'Lv 10: 모든 적 HP +20%';
+
+  @override
+  String get infiniteTowerTitle => '무한의 탑';
+
+  @override
+  String infiniteTowerBestFloorDesc(int bestFloor) {
+    return '끝없는 도전 · 최고 기록: $bestFloor층';
+  }
+
+  @override
+  String get infiniteTowerSelectFloor => '도전할 층 선택';
+
+  @override
+  String get infiniteTowerFloorInfo => '층 정보';
+
+  @override
+  String infiniteTowerChallengeFloor(int targetFloor) {
+    return '$targetFloor층 도전하기';
+  }
+
+  @override
+  String get infiniteTowerFloorComposition => '층 구성';
+
+  @override
+  String get infiniteTowerBestFloorLabel => '최고 기록';
+
+  @override
+  String infiniteTowerFloorDisplay(int floor) {
+    return '$floor층';
+  }
+
+  @override
+  String get infiniteTowerEnemyHp => '적 HP';
+
+  @override
+  String get infiniteTowerEnemyAttack => '적 공격력';
+
+  @override
+  String get infiniteTowerDefault => '기본';
+
+  @override
+  String get infiniteTowerFloor1To5 => '1-5층';
+
+  @override
+  String get infiniteTowerFloor6To10 => '6-10층';
+
+  @override
+  String get infiniteTowerFloor11To15 => '11-15층';
+
+  @override
+  String get infiniteTowerFloor16To20 => '16-20층';
+
+  @override
+  String get infiniteTowerFloor21To25 => '21-25층';
+
+  @override
+  String get infiniteTowerFloor26Plus => '26층+';
+
+  @override
+  String get infiniteTowerRepeatZones => '이후 Zone 1부터 반복 (난이도 계속 상승)';
+
+  @override
+  String get dungeonMapTitle => '던전 지도';
+
+  @override
+  String get dungeonMapNoData => '던전 데이터가 없습니다';
+
+  @override
+  String get dungeonRestTitle => '휴식처';
+
+  @override
+  String get dungeonRestDescription =>
+      '조용한 휴식처를 발견했다. 따뜻한 모닥불이 타오르고 있다.\n무엇을 하겠는가?';
+
+  @override
+  String get dungeonRestRestTitle => '휴식';
+
+  @override
+  String get dungeonRestRestDescription => 'HP의 30%를 회복합니다';
+
+  @override
+  String dungeonRestHealResult(int healAmount) {
+    return 'HP가 $healAmount 회복되었습니다!';
+  }
+
+  @override
+  String get dungeonRestTrainTitle => '수련';
+
+  @override
+  String get dungeonRestTrainDescription => '카드 1장을 강화합니다';
+
+  @override
+  String get dungeonRestNoCardsToUpgrade => '강화할 카드가 없습니다';
+
+  @override
+  String get dungeonRestContinueButton => '계속';
+
+  @override
+  String get dungeonRestSelectCardToUpgrade => '강화할 카드를 선택하세요';
+
+  @override
+  String get dungeonRestCardUpgraded => '강화됨';
+
+  @override
+  String get dungeonShopTitle => '던전 상점';
+
+  @override
+  String get dungeonShopCardsSection => '카드';
+
+  @override
+  String get dungeonShopNoCards => '판매 중인 카드가 없습니다';
+
+  @override
+  String get dungeonShopRelicsSection => '유물';
+
+  @override
+  String get dungeonShopNoRelics => '판매 중인 유물이 없습니다';
+
+  @override
+  String get dungeonShopCardRemovalSection => '카드 제거';
+
+  @override
+  String get dungeonShopLeaveButton => '상점 나가기';
+
+  @override
+  String get dungeonShopSelectCardToRemove => '제거할 카드를 선택하세요';
+
+  @override
+  String dungeonShopRemovalCost(int cost) {
+    return '비용: $cost 골드';
+  }
+
+  @override
+  String get dungeonShopPurchaseComplete => '구매 완료';
+
+  @override
+  String get dungeonShopRemoveOneCard => '카드 1장 제거';
+
+  @override
+  String dungeonShopRemovalDescription(int deckSize) {
+    return '덱에서 원하지 않는 카드를 제거합니다 (현재 덱: $deckSize장)';
+  }
+
+  @override
+  String get dungeonEventTitle => '이벤트';
+
+  @override
+  String get dungeonEventNoData => '이벤트 데이터가 없습니다';
+
+  @override
+  String get dungeonEventChooseAction => '선택하세요';
+
+  @override
+  String get dungeonEventContinueButton => '계속';
+
+  @override
+  String get dungeonEventOutcomeTitle => '결과';
+
+  @override
+  String get dungeonEventEffectCardReward => '카드 획득';
+
+  @override
+  String get dungeonEventEffectRelicReward => '유물 획득';
+
+  @override
+  String get dungeonEventEffectCardRemove => '카드 제거';
+
+  @override
+  String get dungeonEventEffectCardUpgrade => '카드 강화';
+
+  @override
+  String get dungeonEventEffectCurseAdded => '저주 추가';
+
+  @override
+  String get dungeonResultVictoryTitle => '던전 클리어!';
+
+  @override
+  String get dungeonResultDefeatTitle => '모험 실패...';
+
+  @override
+  String get dungeonResultVictoryMessage => '축하합니다! 모든 적을 물리치고 던전을 정복했습니다.';
+
+  @override
+  String get dungeonResultDefeatMessage => '아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.';
+
+  @override
+  String get dungeonResultStatsTitle => '모험 기록';
+
+  @override
+  String get dungeonResultStatsZone => '지역';
+
+  @override
+  String get dungeonResultStatsNodesCompleted => '노드 완료';
+
+  @override
+  String get dungeonResultStatsMonsterKilled => '몬스터 처치';
+
+  @override
+  String get dungeonResultRewardsTitle => '보상';
+
+  @override
+  String dungeonResultXpReward(int xpGained) {
+    return '+$xpGained XP';
+  }
+
+  @override
+  String dungeonResultGoldReward(int goldGained) {
+    return '+$goldGained 골드';
+  }
+
+  @override
+  String get dungeonResultVictoryBonus => '클리어 보너스 x1.5 + 보스 처치 보너스';
+
+  @override
+  String get dungeonResultDefeatPenalty => '패배 페널티: 보상 x0.5';
+
+  @override
+  String get dungeonResultReturnHomeButton => '홈으로 돌아가기';
+
+  @override
+  String get cardBattleYourTurn => '당신의 턴';
+
+  @override
+  String get cardBattleEnemyTurn => '적의 턴';
+
+  @override
+  String cardBattleTurnCount(int turnCount) {
+    return '턴 $turnCount';
+  }
+
+  @override
+  String get cardBattleAbandonDialog => '전투 포기';
+
+  @override
+  String get cardBattleAbandonConfirmation => '전투를 포기하시겠습니까? 진행 사항이 사라집니다.';
+
+  @override
+  String get cardBattleAbandonButton => '포기';
+
+  @override
+  String get cardBattleNoEnemies => '적이 없습니다';
+
+  @override
+  String get cardBattleEndTurnButton => '턴 종료';
+
+  @override
+  String get cardBattleNoCardsInHand => '손에 카드가 없습니다';
+
+  @override
+  String get cardBattleVictory => '승리!';
+
+  @override
+  String cardBattleGoldReward(int gold) {
+    return '+$gold 골드';
+  }
+
+  @override
+  String get cardBattleSelectCard => '카드를 선택하세요';
+
+  @override
+  String get cardBattleSkipButton => '건너뛰기';
+
+  @override
+  String get cardRarityCommon => '일반';
+
+  @override
+  String get cardRarityUncommon => '고급';
+
+  @override
+  String get cardRarityRare => '희귀';
+
+  @override
+  String get cardRarityLegendary => '전설';
+
+  @override
+  String get cardCategoryAttack => '공격';
+
+  @override
+  String get cardCategoryMagic => '마법';
+
+  @override
+  String get cardCategoryDefense => '방어';
+
+  @override
+  String get cardCategoryTactical => '전술';
+
+  @override
+  String get cardCollectionTitle => '카드 컬렉션';
+
+  @override
+  String get cardCollectionFilterAll => '전체';
+
+  @override
+  String get cardCollectionMyCollection => '내 컬렉션';
+
+  @override
+  String cardCollectionCardCount(int count) {
+    return '($count장)';
+  }
+
+  @override
+  String get cardCollectionNoCards =>
+      '보유한 카드가 없습니다.\n퀘스트를 완료하면 카드를 획득할 수 있습니다!';
+
+  @override
+  String cardCollectionDeckInclusion(int copyCount) {
+    return '덱에 $copyCount장 포함됨';
+  }
+
+  @override
+  String get cardCollectionAddToDeck => '덱에 추가';
+
+  @override
+  String get cardCollectionDeckFull => '덱이 가득 참 (20장)';
+
+  @override
+  String get cardCollectionMaxCopies => '최대 3장까지 추가 가능';
+
+  @override
+  String cardCollectionAddedToDeck(String cardName) {
+    return '$cardName 덱에 추가됨';
+  }
+
+  @override
+  String get cardCollectionMyDeck => '내 덱';
+
+  @override
+  String cardCollectionDeckSize(int deckSize) {
+    return '($deckSize/20장)';
+  }
+
+  @override
+  String get cardCollectionResetDeckDialog => '덱 초기화';
+
+  @override
+  String get cardCollectionResetDeckConfirmation =>
+      '커스텀 덱을 삭제하고 기본 스타터 덱으로 되돌리겠습니까?';
+
+  @override
+  String get cardCollectionResetButton => '초기화';
+
+  @override
+  String get cardCollectionDefaultDeckMessage =>
+      '기본 스타터 덱 사용 중\n컬렉션에서 카드를 추가하세요';
 }

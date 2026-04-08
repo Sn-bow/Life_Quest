@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class DungeonShopScreen extends StatefulWidget {
   const DungeonShopScreen({super.key});
@@ -18,6 +19,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
     final dungeonState = context.watch<DungeonState>();
@@ -32,7 +34,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
             Icon(Icons.storefront, color: accent, size: 22),
             const SizedBox(width: 8),
             Text(
-              '던전 상점',
+              l10n.dungeonShopTitle,
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontWeight: FontWeight.bold,
@@ -78,10 +80,10 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Section 1: Cards
-            _sectionTitle('카드', Icons.style, accent, isDark),
+            _sectionTitle(l10n.dungeonShopCardsSection, Icons.style, accent, isDark),
             const SizedBox(height: 8),
             if (shopCards.isEmpty)
-              _emptySection('판매 중인 카드가 없습니다', isDark)
+              _emptySection(l10n.dungeonShopNoCards, isDark)
             else
               ...shopCards.asMap().entries.map((entry) {
                 final index = entry.key;
@@ -102,10 +104,10 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
             const SizedBox(height: 24),
 
             // Section 2: Relics
-            _sectionTitle('유물', Icons.diamond, accent, isDark),
+            _sectionTitle(l10n.dungeonShopRelicsSection, Icons.diamond, accent, isDark),
             const SizedBox(height: 8),
             if (shopRelics.isEmpty)
-              _emptySection('판매 중인 유물이 없습니다', isDark)
+              _emptySection(l10n.dungeonShopNoRelics, isDark)
             else
               ...shopRelics.asMap().entries.map((entry) {
                 final index = entry.key;
@@ -126,7 +128,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
             const SizedBox(height: 24),
 
             // Section 3: Card removal
-            _sectionTitle('카드 제거', Icons.delete_sweep, accent, isDark),
+            _sectionTitle(l10n.dungeonShopCardRemovalSection, Icons.delete_sweep, accent, isDark),
             const SizedBox(height: 8),
             _CardRemovalItem(
               cost: removalCost,
@@ -145,9 +147,9 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
               child: ElevatedButton.icon(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.exit_to_app),
-                label: const Text(
-                  '상점 나가기',
-                  style: TextStyle(
+                label: Text(
+                  l10n.dungeonShopLeaveButton,
+                  style: const TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -229,6 +231,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
         final deck = dungeonState.currentDeck;
         return Container(
           padding: const EdgeInsets.all(16),
@@ -239,7 +242,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '제거할 카드를 선택하세요',
+                l10n.dungeonShopSelectCardToRemove,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 16,
@@ -248,7 +251,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
                 ),
               ),
               Text(
-                '비용: $cost 골드',
+                l10n.dungeonShopRemovalCost(cost),
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 13,
@@ -386,6 +389,7 @@ class _CardShopItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Opacity(
       opacity: isPurchased ? 0.4 : 1.0,
       child: Container(
@@ -454,7 +458,7 @@ class _CardShopItem extends StatelessWidget {
             // Price / buy button
             isPurchased
                 ? Text(
-                    '구매 완료',
+                    l10n.dungeonShopPurchaseComplete,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 12,
@@ -532,6 +536,7 @@ class _RelicShopItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Opacity(
       opacity: isPurchased ? 0.4 : 1.0,
       child: Container(
@@ -589,7 +594,7 @@ class _RelicShopItem extends StatelessWidget {
             const SizedBox(width: 8),
             isPurchased
                 ? Text(
-                    '구매 완료',
+                    l10n.dungeonShopPurchaseComplete,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 12,
@@ -662,6 +667,7 @@ class _CardRemovalItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: canAfford && deckSize > 0 ? onTap : null,
       child: Container(
@@ -694,7 +700,7 @@ class _CardRemovalItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '카드 1장 제거',
+                    l10n.dungeonShopRemoveOneCard,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 14,
@@ -704,7 +710,7 @@ class _CardRemovalItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '덱에서 원하지 않는 카드를 제거합니다 (현재 덱: $deckSize장)',
+                    l10n.dungeonShopRemovalDescription(deckSize),
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 11,

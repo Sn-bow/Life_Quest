@@ -1150,4 +1150,453 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statusReportTooltip => 'View Detailed Report';
+
+  @override
+  String get dungeonHomeTitle => 'Soul Deck';
+
+  @override
+  String get dungeonHomeCardCollectionTooltip => 'Card Collection';
+
+  @override
+  String get dungeonHomeDungeonSelection => 'Select Dungeon';
+
+  @override
+  String dungeonHomeRequiredLevel(int requiredLevel) {
+    return 'Level $requiredLevel or higher required';
+  }
+
+  @override
+  String get zone1Name => 'Blue Meadow';
+
+  @override
+  String get zone1Description => 'The first dungeon for novice adventurers';
+
+  @override
+  String get zone2Name => 'Dark Forest';
+
+  @override
+  String get zone2Description =>
+      'A place teeming with enemies that use poison and debuffs';
+
+  @override
+  String get zone3Name => 'Ruined Castle';
+
+  @override
+  String get zone3Description =>
+      'Defense-focused enemies and multi-battles await';
+
+  @override
+  String get zone4Name => 'Lava Cave';
+
+  @override
+  String get zone4Description => 'A hell of burns and high damage';
+
+  @override
+  String get zone5Name => 'Abyssal Dimension';
+
+  @override
+  String get zone5Description =>
+      'Enemies that hide their intent; the cursed final dungeon';
+
+  @override
+  String get seasonName => 'Season 1: Soul Awakening';
+
+  @override
+  String get seasonEnded => 'Ended';
+
+  @override
+  String seasonCountdown(int days) {
+    return 'D-$days';
+  }
+
+  @override
+  String get ascensionModeTitle => 'Ascension Mode';
+
+  @override
+  String get ascensionInactive => 'Inactive';
+
+  @override
+  String get ascensionActiveModifiers => 'Active Penalties:';
+
+  @override
+  String get ascensionSliderHint => 'Drag slider to increase difficulty';
+
+  @override
+  String get ascensionLevel1Modifier => 'Lv 1: Enemy HP +10%';
+
+  @override
+  String get ascensionLevel2Modifier => 'Lv 2: Enemy ATK +10%';
+
+  @override
+  String get ascensionLevel3Modifier => 'Lv 3: Starting Gold -30';
+
+  @override
+  String get ascensionLevel4Modifier => 'Lv 4: Add 1 Curse Card';
+
+  @override
+  String get ascensionLevel5Modifier => 'Lv 5: No card choice after Elite';
+
+  @override
+  String get ascensionLevel6Modifier => 'Lv 6: Shop Prices +25%';
+
+  @override
+  String get ascensionLevel7Modifier => 'Lv 7: Starting HP -10%';
+
+  @override
+  String get ascensionLevel8Modifier => 'Lv 8: Boss HP +25%';
+
+  @override
+  String get ascensionLevel9Modifier => 'Lv 9: Stronger Event Penalties';
+
+  @override
+  String get ascensionLevel10Modifier => 'Lv 10: All Enemy HP +20%';
+
+  @override
+  String get infiniteTowerTitle => 'Infinite Tower';
+
+  @override
+  String infiniteTowerBestFloorDesc(int bestFloor) {
+    return 'Endless challenge · Best: Floor $bestFloor';
+  }
+
+  @override
+  String get infiniteTowerSelectFloor => 'Select Floor';
+
+  @override
+  String get infiniteTowerFloorInfo => 'Floor Info';
+
+  @override
+  String infiniteTowerChallengeFloor(int targetFloor) {
+    return 'Challenge Floor $targetFloor';
+  }
+
+  @override
+  String get infiniteTowerFloorComposition => 'Floor Composition';
+
+  @override
+  String get infiniteTowerBestFloorLabel => 'Best Floor';
+
+  @override
+  String infiniteTowerFloorDisplay(int floor) {
+    return 'Floor $floor';
+  }
+
+  @override
+  String get infiniteTowerEnemyHp => 'Enemy HP';
+
+  @override
+  String get infiniteTowerEnemyAttack => 'Enemy ATK';
+
+  @override
+  String get infiniteTowerDefault => 'Base';
+
+  @override
+  String get infiniteTowerFloor1To5 => 'Floors 1-5';
+
+  @override
+  String get infiniteTowerFloor6To10 => 'Floors 6-10';
+
+  @override
+  String get infiniteTowerFloor11To15 => 'Floors 11-15';
+
+  @override
+  String get infiniteTowerFloor16To20 => 'Floors 16-20';
+
+  @override
+  String get infiniteTowerFloor21To25 => 'Floors 21-25';
+
+  @override
+  String get infiniteTowerFloor26Plus => 'Floor 26+';
+
+  @override
+  String get infiniteTowerRepeatZones =>
+      'Repeats from Zone 1 (difficulty keeps rising)';
+
+  @override
+  String get dungeonMapTitle => 'Dungeon Map';
+
+  @override
+  String get dungeonMapNoData => 'No dungeon data';
+
+  @override
+  String get dungeonRestTitle => 'Rest Site';
+
+  @override
+  String get dungeonRestDescription =>
+      'A quiet rest site. A warm campfire burns.\nWhat will you do?';
+
+  @override
+  String get dungeonRestRestTitle => 'Rest';
+
+  @override
+  String get dungeonRestRestDescription => 'Recover 30% of HP';
+
+  @override
+  String dungeonRestHealResult(int healAmount) {
+    return 'Recovered $healAmount HP!';
+  }
+
+  @override
+  String get dungeonRestTrainTitle => 'Train';
+
+  @override
+  String get dungeonRestTrainDescription => 'Upgrade 1 card';
+
+  @override
+  String get dungeonRestNoCardsToUpgrade => 'No cards to upgrade';
+
+  @override
+  String get dungeonRestContinueButton => 'Continue';
+
+  @override
+  String get dungeonRestSelectCardToUpgrade => 'Select a card to upgrade';
+
+  @override
+  String get dungeonRestCardUpgraded => 'Upgraded';
+
+  @override
+  String get dungeonShopTitle => 'Dungeon Shop';
+
+  @override
+  String get dungeonShopCardsSection => 'Cards';
+
+  @override
+  String get dungeonShopNoCards => 'No cards for sale';
+
+  @override
+  String get dungeonShopRelicsSection => 'Relics';
+
+  @override
+  String get dungeonShopNoRelics => 'No relics for sale';
+
+  @override
+  String get dungeonShopCardRemovalSection => 'Card Removal';
+
+  @override
+  String get dungeonShopLeaveButton => 'Leave Shop';
+
+  @override
+  String get dungeonShopSelectCardToRemove => 'Select a card to remove';
+
+  @override
+  String dungeonShopRemovalCost(int cost) {
+    return 'Cost: $cost Gold';
+  }
+
+  @override
+  String get dungeonShopPurchaseComplete => 'Purchase complete';
+
+  @override
+  String get dungeonShopRemoveOneCard => 'Remove 1 Card';
+
+  @override
+  String dungeonShopRemovalDescription(int deckSize) {
+    return 'Remove an unwanted card from your deck (deck: $deckSize cards)';
+  }
+
+  @override
+  String get dungeonEventTitle => 'Event';
+
+  @override
+  String get dungeonEventNoData => 'No event data';
+
+  @override
+  String get dungeonEventChooseAction => 'Choose';
+
+  @override
+  String get dungeonEventContinueButton => 'Continue';
+
+  @override
+  String get dungeonEventOutcomeTitle => 'Result';
+
+  @override
+  String get dungeonEventEffectCardReward => 'Card Obtained';
+
+  @override
+  String get dungeonEventEffectRelicReward => 'Relic Obtained';
+
+  @override
+  String get dungeonEventEffectCardRemove => 'Card Removed';
+
+  @override
+  String get dungeonEventEffectCardUpgrade => 'Card Upgraded';
+
+  @override
+  String get dungeonEventEffectCurseAdded => 'Curse Added';
+
+  @override
+  String get dungeonResultVictoryTitle => 'Dungeon Cleared!';
+
+  @override
+  String get dungeonResultDefeatTitle => 'Adventure Failed...';
+
+  @override
+  String get dungeonResultVictoryMessage =>
+      'Congratulations! You conquered the dungeon defeating all enemies.';
+
+  @override
+  String get dungeonResultDefeatMessage =>
+      'Unfortunately this adventure failed. Try again!';
+
+  @override
+  String get dungeonResultStatsTitle => 'Adventure Log';
+
+  @override
+  String get dungeonResultStatsZone => 'Zone';
+
+  @override
+  String get dungeonResultStatsNodesCompleted => 'Nodes Completed';
+
+  @override
+  String get dungeonResultStatsMonsterKilled => 'Monsters Defeated';
+
+  @override
+  String get dungeonResultRewardsTitle => 'Rewards';
+
+  @override
+  String dungeonResultXpReward(int xpGained) {
+    return '+$xpGained XP';
+  }
+
+  @override
+  String dungeonResultGoldReward(int goldGained) {
+    return '+$goldGained Gold';
+  }
+
+  @override
+  String get dungeonResultVictoryBonus =>
+      'Clear Bonus x1.5 + Boss Defeat Bonus';
+
+  @override
+  String get dungeonResultDefeatPenalty => 'Defeat Penalty: Rewards x0.5';
+
+  @override
+  String get dungeonResultReturnHomeButton => 'Return Home';
+
+  @override
+  String get cardBattleYourTurn => 'Your Turn';
+
+  @override
+  String get cardBattleEnemyTurn => 'Enemy Turn';
+
+  @override
+  String cardBattleTurnCount(int turnCount) {
+    return 'Turn $turnCount';
+  }
+
+  @override
+  String get cardBattleAbandonDialog => 'Forfeit Battle';
+
+  @override
+  String get cardBattleAbandonConfirmation =>
+      'Forfeit this battle? Your progress will be lost.';
+
+  @override
+  String get cardBattleAbandonButton => 'Forfeit';
+
+  @override
+  String get cardBattleNoEnemies => 'No enemies';
+
+  @override
+  String get cardBattleEndTurnButton => 'End Turn';
+
+  @override
+  String get cardBattleNoCardsInHand => 'No cards in hand';
+
+  @override
+  String get cardBattleVictory => 'Victory!';
+
+  @override
+  String cardBattleGoldReward(int gold) {
+    return '+$gold Gold';
+  }
+
+  @override
+  String get cardBattleSelectCard => 'Select a card';
+
+  @override
+  String get cardBattleSkipButton => 'Skip';
+
+  @override
+  String get cardRarityCommon => 'Common';
+
+  @override
+  String get cardRarityUncommon => 'Uncommon';
+
+  @override
+  String get cardRarityRare => 'Rare';
+
+  @override
+  String get cardRarityLegendary => 'Legendary';
+
+  @override
+  String get cardCategoryAttack => 'Attack';
+
+  @override
+  String get cardCategoryMagic => 'Magic';
+
+  @override
+  String get cardCategoryDefense => 'Defense';
+
+  @override
+  String get cardCategoryTactical => 'Tactical';
+
+  @override
+  String get cardCollectionTitle => 'Card Collection';
+
+  @override
+  String get cardCollectionFilterAll => 'All';
+
+  @override
+  String get cardCollectionMyCollection => 'My Collection';
+
+  @override
+  String cardCollectionCardCount(int count) {
+    return '($count cards)';
+  }
+
+  @override
+  String get cardCollectionNoCards =>
+      'You have no cards.\nComplete quests to obtain cards!';
+
+  @override
+  String cardCollectionDeckInclusion(int copyCount) {
+    return '$copyCount in deck';
+  }
+
+  @override
+  String get cardCollectionAddToDeck => 'Add to Deck';
+
+  @override
+  String get cardCollectionDeckFull => 'Deck full (20 cards)';
+
+  @override
+  String get cardCollectionMaxCopies => 'Max 3 copies allowed';
+
+  @override
+  String cardCollectionAddedToDeck(String cardName) {
+    return '$cardName added to deck';
+  }
+
+  @override
+  String get cardCollectionMyDeck => 'My Deck';
+
+  @override
+  String cardCollectionDeckSize(int deckSize) {
+    return '($deckSize/20)';
+  }
+
+  @override
+  String get cardCollectionResetDeckDialog => 'Reset Deck';
+
+  @override
+  String get cardCollectionResetDeckConfirmation =>
+      'Delete custom deck and revert to default starter deck?';
+
+  @override
+  String get cardCollectionResetButton => 'Reset';
+
+  @override
+  String get cardCollectionDefaultDeckMessage =>
+      'Using default starter deck\nAdd cards from your collection';
 }

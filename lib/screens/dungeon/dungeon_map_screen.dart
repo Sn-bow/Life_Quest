@@ -7,20 +7,32 @@ import 'package:life_quest_final_v2/screens/dungeon/dungeon_event_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_shop_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_rest_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_result_screen.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class DungeonMapScreen extends StatelessWidget {
   const DungeonMapScreen({super.key});
 
-  static const _zoneNames = {
-    1: '푸른 초원',
-    2: '어둠의 숲',
-    3: '폐허의 성',
-    4: '용암 동굴',
-    5: '심연의 차원',
-  };
+  String _getZoneName(BuildContext context, int zone) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (zone) {
+      case 1:
+        return l10n.zone1Name;
+      case 2:
+        return l10n.zone2Name;
+      case 3:
+        return l10n.zone3Name;
+      case 4:
+        return l10n.zone4Name;
+      case 5:
+        return l10n.zone5Name;
+      default:
+        return 'Zone $zone';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
     final dungeonState = context.watch<DungeonState>();
@@ -28,13 +40,13 @@ class DungeonMapScreen extends StatelessWidget {
 
     if (map == null) {
       return Scaffold(
-        appBar: AppBar(title: Text('던전 지도', style: TextStyle(color: accent))),
-        body: const Center(child: Text('던전 데이터가 없습니다')),
+        appBar: AppBar(title: Text(l10n.dungeonMapTitle, style: TextStyle(color: accent))),
+        body: Center(child: Text(l10n.dungeonMapNoData)),
       );
     }
 
     final maxRow = map.nodes.fold<int>(0, (m, n) => n.row > m ? n.row : m);
-    final zoneName = _zoneNames[map.zone] ?? 'Zone ${map.zone}';
+    final zoneName = _getZoneName(context, map.zone);
 
     return Scaffold(
       appBar: AppBar(

@@ -1112,4 +1112,441 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get statusReportTooltip => '查看详细报告';
+
+  @override
+  String get dungeonHomeTitle => '灵魂牌组';
+
+  @override
+  String get dungeonHomeCardCollectionTooltip => '卡牌收藏';
+
+  @override
+  String get dungeonHomeDungeonSelection => '选择地下城';
+
+  @override
+  String dungeonHomeRequiredLevel(int requiredLevel) {
+    return '需要$requiredLevel级或以上';
+  }
+
+  @override
+  String get zone1Name => '青色草原';
+
+  @override
+  String get zone1Description => '适合新手冒险者的第一个地下城';
+
+  @override
+  String get zone2Name => '黑暗森林';
+
+  @override
+  String get zone2Description => '潜伏着使用毒素和减益效果的敌人';
+
+  @override
+  String get zone3Name => '废墟城堡';
+
+  @override
+  String get zone3Description => '等待着防御专精的敌人和多重战斗';
+
+  @override
+  String get zone4Name => '熔岩洞穴';
+
+  @override
+  String get zone4Description => '灼伤和高伤害的地狱';
+
+  @override
+  String get zone5Name => '深渊次元';
+
+  @override
+  String get zone5Description => '隐藏意图的敌人，降下诅咒的最终地下城';
+
+  @override
+  String get seasonName => '赛季1：灵魂觉醒';
+
+  @override
+  String get seasonEnded => '已结束';
+
+  @override
+  String seasonCountdown(int days) {
+    return 'D-$days';
+  }
+
+  @override
+  String get ascensionModeTitle => '飞升模式';
+
+  @override
+  String get ascensionInactive => '未激活';
+
+  @override
+  String get ascensionActiveModifiers => '当前惩罚：';
+
+  @override
+  String get ascensionSliderHint => '上滑以增加难度';
+
+  @override
+  String get ascensionLevel1Modifier => 'Lv 1: 敌人HP +10%';
+
+  @override
+  String get ascensionLevel2Modifier => 'Lv 2: 敌人攻击 +10%';
+
+  @override
+  String get ascensionLevel3Modifier => 'Lv 3: 起始金币 -30';
+
+  @override
+  String get ascensionLevel4Modifier => 'Lv 4: 增加1张诅咒卡';
+
+  @override
+  String get ascensionLevel5Modifier => 'Lv 5: 消灭精英后无卡牌选择';
+
+  @override
+  String get ascensionLevel6Modifier => 'Lv 6: 商店价格 +25%';
+
+  @override
+  String get ascensionLevel7Modifier => 'Lv 7: 起始HP -10%';
+
+  @override
+  String get ascensionLevel8Modifier => 'Lv 8: Boss HP +25%';
+
+  @override
+  String get ascensionLevel9Modifier => 'Lv 9: 强化事件不利选项';
+
+  @override
+  String get ascensionLevel10Modifier => 'Lv 10: 所有敌人HP +20%';
+
+  @override
+  String get infiniteTowerTitle => '无限之塔';
+
+  @override
+  String infiniteTowerBestFloorDesc(int bestFloor) {
+    return '无尽挑战 · 最高记录: $bestFloor层';
+  }
+
+  @override
+  String get infiniteTowerSelectFloor => '选择挑战楼层';
+
+  @override
+  String get infiniteTowerFloorInfo => '楼层信息';
+
+  @override
+  String infiniteTowerChallengeFloor(int targetFloor) {
+    return '挑战$targetFloor层';
+  }
+
+  @override
+  String get infiniteTowerFloorComposition => '楼层构成';
+
+  @override
+  String get infiniteTowerBestFloorLabel => '最高记录';
+
+  @override
+  String infiniteTowerFloorDisplay(int floor) {
+    return '$floor层';
+  }
+
+  @override
+  String get infiniteTowerEnemyHp => '敌人HP';
+
+  @override
+  String get infiniteTowerEnemyAttack => '敌人攻击';
+
+  @override
+  String get infiniteTowerDefault => '基础';
+
+  @override
+  String get infiniteTowerFloor1To5 => '1-5层';
+
+  @override
+  String get infiniteTowerFloor6To10 => '6-10层';
+
+  @override
+  String get infiniteTowerFloor11To15 => '11-15层';
+
+  @override
+  String get infiniteTowerFloor16To20 => '16-20层';
+
+  @override
+  String get infiniteTowerFloor21To25 => '21-25层';
+
+  @override
+  String get infiniteTowerFloor26Plus => '26层以上';
+
+  @override
+  String get infiniteTowerRepeatZones => '从区域1重复（难度持续上升）';
+
+  @override
+  String get dungeonMapTitle => '地下城地图';
+
+  @override
+  String get dungeonMapNoData => '没有地下城数据';
+
+  @override
+  String get dungeonRestTitle => '休息点';
+
+  @override
+  String get dungeonRestDescription => '发现了一个安静的休息点。温暖的篝火在燃烧。\n你要做什么？';
+
+  @override
+  String get dungeonRestRestTitle => '休息';
+
+  @override
+  String get dungeonRestRestDescription => '回复30%的HP';
+
+  @override
+  String dungeonRestHealResult(int healAmount) {
+    return 'HP回复了$healAmount！';
+  }
+
+  @override
+  String get dungeonRestTrainTitle => '修炼';
+
+  @override
+  String get dungeonRestTrainDescription => '强化1张卡牌';
+
+  @override
+  String get dungeonRestNoCardsToUpgrade => '没有可强化的卡牌';
+
+  @override
+  String get dungeonRestContinueButton => '继续';
+
+  @override
+  String get dungeonRestSelectCardToUpgrade => '选择要强化的卡牌';
+
+  @override
+  String get dungeonRestCardUpgraded => '已强化';
+
+  @override
+  String get dungeonShopTitle => '地下城商店';
+
+  @override
+  String get dungeonShopCardsSection => '卡牌';
+
+  @override
+  String get dungeonShopNoCards => '没有在售的卡牌';
+
+  @override
+  String get dungeonShopRelicsSection => '遗物';
+
+  @override
+  String get dungeonShopNoRelics => '没有在售的遗物';
+
+  @override
+  String get dungeonShopCardRemovalSection => '移除卡牌';
+
+  @override
+  String get dungeonShopLeaveButton => '离开商店';
+
+  @override
+  String get dungeonShopSelectCardToRemove => '选择要移除的卡牌';
+
+  @override
+  String dungeonShopRemovalCost(int cost) {
+    return '费用: $cost金币';
+  }
+
+  @override
+  String get dungeonShopPurchaseComplete => '购买完成';
+
+  @override
+  String get dungeonShopRemoveOneCard => '移除1张卡牌';
+
+  @override
+  String dungeonShopRemovalDescription(int deckSize) {
+    return '从牌组中移除不需要的卡牌（当前牌组: $deckSize张）';
+  }
+
+  @override
+  String get dungeonEventTitle => '事件';
+
+  @override
+  String get dungeonEventNoData => '没有事件数据';
+
+  @override
+  String get dungeonEventChooseAction => '请选择';
+
+  @override
+  String get dungeonEventContinueButton => '继续';
+
+  @override
+  String get dungeonEventOutcomeTitle => '结果';
+
+  @override
+  String get dungeonEventEffectCardReward => '获得卡牌';
+
+  @override
+  String get dungeonEventEffectRelicReward => '获得遗物';
+
+  @override
+  String get dungeonEventEffectCardRemove => '移除卡牌';
+
+  @override
+  String get dungeonEventEffectCardUpgrade => '强化卡牌';
+
+  @override
+  String get dungeonEventEffectCurseAdded => '添加诅咒';
+
+  @override
+  String get dungeonResultVictoryTitle => '地下城通关！';
+
+  @override
+  String get dungeonResultDefeatTitle => '冒险失败...';
+
+  @override
+  String get dungeonResultVictoryMessage => '恭喜！你击败了所有敌人，征服了地下城。';
+
+  @override
+  String get dungeonResultDefeatMessage => '很遗憾，本次冒险失败了。再次挑战吧！';
+
+  @override
+  String get dungeonResultStatsTitle => '冒险记录';
+
+  @override
+  String get dungeonResultStatsZone => '区域';
+
+  @override
+  String get dungeonResultStatsNodesCompleted => '完成节点';
+
+  @override
+  String get dungeonResultStatsMonsterKilled => '击杀怪物';
+
+  @override
+  String get dungeonResultRewardsTitle => '奖励';
+
+  @override
+  String dungeonResultXpReward(int xpGained) {
+    return '+$xpGained XP';
+  }
+
+  @override
+  String dungeonResultGoldReward(int goldGained) {
+    return '+$goldGained金币';
+  }
+
+  @override
+  String get dungeonResultVictoryBonus => '通关奖励 x1.5 + Boss击杀奖励';
+
+  @override
+  String get dungeonResultDefeatPenalty => '失败惩罚: 奖励 x0.5';
+
+  @override
+  String get dungeonResultReturnHomeButton => '返回主页';
+
+  @override
+  String get cardBattleYourTurn => '你的回合';
+
+  @override
+  String get cardBattleEnemyTurn => '敌人回合';
+
+  @override
+  String cardBattleTurnCount(int turnCount) {
+    return '第$turnCount回合';
+  }
+
+  @override
+  String get cardBattleAbandonDialog => '放弃战斗';
+
+  @override
+  String get cardBattleAbandonConfirmation => '要放弃本次战斗吗？进度将会丢失。';
+
+  @override
+  String get cardBattleAbandonButton => '放弃';
+
+  @override
+  String get cardBattleNoEnemies => '没有敌人';
+
+  @override
+  String get cardBattleEndTurnButton => '结束回合';
+
+  @override
+  String get cardBattleNoCardsInHand => '手牌中没有卡牌';
+
+  @override
+  String get cardBattleVictory => '胜利！';
+
+  @override
+  String cardBattleGoldReward(int gold) {
+    return '+$gold金币';
+  }
+
+  @override
+  String get cardBattleSelectCard => '请选择一张卡牌';
+
+  @override
+  String get cardBattleSkipButton => '跳过';
+
+  @override
+  String get cardRarityCommon => '普通';
+
+  @override
+  String get cardRarityUncommon => '罕见';
+
+  @override
+  String get cardRarityRare => '稀有';
+
+  @override
+  String get cardRarityLegendary => '传说';
+
+  @override
+  String get cardCategoryAttack => '攻击';
+
+  @override
+  String get cardCategoryMagic => '魔法';
+
+  @override
+  String get cardCategoryDefense => '防御';
+
+  @override
+  String get cardCategoryTactical => '战术';
+
+  @override
+  String get cardCollectionTitle => '卡牌收藏';
+
+  @override
+  String get cardCollectionFilterAll => '全部';
+
+  @override
+  String get cardCollectionMyCollection => '我的收藏';
+
+  @override
+  String cardCollectionCardCount(int count) {
+    return '($count张)';
+  }
+
+  @override
+  String get cardCollectionNoCards => '你没有卡牌。\n完成任务可以获得卡牌！';
+
+  @override
+  String cardCollectionDeckInclusion(int copyCount) {
+    return '牌组中有$copyCount张';
+  }
+
+  @override
+  String get cardCollectionAddToDeck => '添加到牌组';
+
+  @override
+  String get cardCollectionDeckFull => '牌组已满 (20张)';
+
+  @override
+  String get cardCollectionMaxCopies => '最多可添加3张';
+
+  @override
+  String cardCollectionAddedToDeck(String cardName) {
+    return '$cardName已添加到牌组';
+  }
+
+  @override
+  String get cardCollectionMyDeck => '我的牌组';
+
+  @override
+  String cardCollectionDeckSize(int deckSize) {
+    return '($deckSize/20张)';
+  }
+
+  @override
+  String get cardCollectionResetDeckDialog => '重置牌组';
+
+  @override
+  String get cardCollectionResetDeckConfirmation => '删除自定义牌组并恢复为默认初始牌组？';
+
+  @override
+  String get cardCollectionResetButton => '重置';
+
+  @override
+  String get cardCollectionDefaultDeckMessage => '当前使用默认初始牌组\n从收藏中添加卡牌';
 }

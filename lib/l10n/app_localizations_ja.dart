@@ -1123,4 +1123,443 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get statusReportTooltip => '詳細レポートを見る';
+
+  @override
+  String get dungeonHomeTitle => 'ソウルデッキ';
+
+  @override
+  String get dungeonHomeCardCollectionTooltip => 'カードコレクション';
+
+  @override
+  String get dungeonHomeDungeonSelection => 'ダンジョン選択';
+
+  @override
+  String dungeonHomeRequiredLevel(int requiredLevel) {
+    return 'レベル$requiredLevel以上が必要です';
+  }
+
+  @override
+  String get zone1Name => '青い草原';
+
+  @override
+  String get zone1Description => '初心者冒険者のための最初のダンジョン';
+
+  @override
+  String get zone2Name => '闇の森';
+
+  @override
+  String get zone2Description => '毒とデバフを使う敵が潜む場所';
+
+  @override
+  String get zone3Name => '廃墟の城';
+
+  @override
+  String get zone3Description => '防御特化の敵と複数戦闘が待っている';
+
+  @override
+  String get zone4Name => '溶岩の洞窟';
+
+  @override
+  String get zone4Description => '火傷と高ダメージの地獄';
+
+  @override
+  String get zone5Name => '深淵の次元';
+
+  @override
+  String get zone5Description => '意図を隠す敵と呪いが降る最終ダンジョン';
+
+  @override
+  String get seasonName => 'シーズン1: ソウルの覚醒';
+
+  @override
+  String get seasonEnded => '終了';
+
+  @override
+  String seasonCountdown(int days) {
+    return 'D-$days';
+  }
+
+  @override
+  String get ascensionModeTitle => 'アセンションモード';
+
+  @override
+  String get ascensionInactive => '非アクティブ';
+
+  @override
+  String get ascensionActiveModifiers => '適用中のペナルティ:';
+
+  @override
+  String get ascensionSliderHint => 'スライダーを上げて難易度を上げましょう';
+
+  @override
+  String get ascensionLevel1Modifier => 'Lv 1: 敵HP +10%';
+
+  @override
+  String get ascensionLevel2Modifier => 'Lv 2: 敵攻撃力 +10%';
+
+  @override
+  String get ascensionLevel3Modifier => 'Lv 3: 開始ゴールド -30';
+
+  @override
+  String get ascensionLevel4Modifier => 'Lv 4: 呪いカード1枚追加';
+
+  @override
+  String get ascensionLevel5Modifier => 'Lv 5: エリート撃破後カード選択なし';
+
+  @override
+  String get ascensionLevel6Modifier => 'Lv 6: ショップ価格 +25%';
+
+  @override
+  String get ascensionLevel7Modifier => 'Lv 7: 開始HP -10%';
+
+  @override
+  String get ascensionLevel8Modifier => 'Lv 8: ボスHP +25%';
+
+  @override
+  String get ascensionLevel9Modifier => 'Lv 9: イベント不利選択肢強化';
+
+  @override
+  String get ascensionLevel10Modifier => 'Lv 10: 全敵HP +20%';
+
+  @override
+  String get infiniteTowerTitle => '無限の塔';
+
+  @override
+  String infiniteTowerBestFloorDesc(int bestFloor) {
+    return '終わりなき挑戦 · 最高記録: $bestFloor階';
+  }
+
+  @override
+  String get infiniteTowerSelectFloor => '挑戦する階を選択';
+
+  @override
+  String get infiniteTowerFloorInfo => '階情報';
+
+  @override
+  String infiniteTowerChallengeFloor(int targetFloor) {
+    return '$targetFloor階に挑戦する';
+  }
+
+  @override
+  String get infiniteTowerFloorComposition => '階構成';
+
+  @override
+  String get infiniteTowerBestFloorLabel => '最高記録';
+
+  @override
+  String infiniteTowerFloorDisplay(int floor) {
+    return '$floor階';
+  }
+
+  @override
+  String get infiniteTowerEnemyHp => '敵HP';
+
+  @override
+  String get infiniteTowerEnemyAttack => '敵攻撃力';
+
+  @override
+  String get infiniteTowerDefault => '基本';
+
+  @override
+  String get infiniteTowerFloor1To5 => '1-5階';
+
+  @override
+  String get infiniteTowerFloor6To10 => '6-10階';
+
+  @override
+  String get infiniteTowerFloor11To15 => '11-15階';
+
+  @override
+  String get infiniteTowerFloor16To20 => '16-20階';
+
+  @override
+  String get infiniteTowerFloor21To25 => '21-25階';
+
+  @override
+  String get infiniteTowerFloor26Plus => '26階以上';
+
+  @override
+  String get infiniteTowerRepeatZones => 'Zone 1から繰り返し（難易度上昇続く）';
+
+  @override
+  String get dungeonMapTitle => 'ダンジョンマップ';
+
+  @override
+  String get dungeonMapNoData => 'ダンジョンデータがありません';
+
+  @override
+  String get dungeonRestTitle => '休憩所';
+
+  @override
+  String get dungeonRestDescription => '静かな休憩所を見つけた。温かいたき火が燃えている。\n何をしますか？';
+
+  @override
+  String get dungeonRestRestTitle => '休憩';
+
+  @override
+  String get dungeonRestRestDescription => 'HPの30%を回復します';
+
+  @override
+  String dungeonRestHealResult(int healAmount) {
+    return 'HPが$healAmount回復しました！';
+  }
+
+  @override
+  String get dungeonRestTrainTitle => '修練';
+
+  @override
+  String get dungeonRestTrainDescription => 'カード1枚を強化します';
+
+  @override
+  String get dungeonRestNoCardsToUpgrade => '強化できるカードがありません';
+
+  @override
+  String get dungeonRestContinueButton => '続ける';
+
+  @override
+  String get dungeonRestSelectCardToUpgrade => '強化するカードを選んでください';
+
+  @override
+  String get dungeonRestCardUpgraded => '強化済み';
+
+  @override
+  String get dungeonShopTitle => 'ダンジョンショップ';
+
+  @override
+  String get dungeonShopCardsSection => 'カード';
+
+  @override
+  String get dungeonShopNoCards => '販売中のカードがありません';
+
+  @override
+  String get dungeonShopRelicsSection => '遺物';
+
+  @override
+  String get dungeonShopNoRelics => '販売中の遺物がありません';
+
+  @override
+  String get dungeonShopCardRemovalSection => 'カード除去';
+
+  @override
+  String get dungeonShopLeaveButton => 'ショップを出る';
+
+  @override
+  String get dungeonShopSelectCardToRemove => '除去するカードを選んでください';
+
+  @override
+  String dungeonShopRemovalCost(int cost) {
+    return '費用: $costゴールド';
+  }
+
+  @override
+  String get dungeonShopPurchaseComplete => '購入完了';
+
+  @override
+  String get dungeonShopRemoveOneCard => 'カード1枚除去';
+
+  @override
+  String dungeonShopRemovalDescription(int deckSize) {
+    return 'デッキから不要なカードを除去します（現在のデッキ: $deckSize枚）';
+  }
+
+  @override
+  String get dungeonEventTitle => 'イベント';
+
+  @override
+  String get dungeonEventNoData => 'イベントデータがありません';
+
+  @override
+  String get dungeonEventChooseAction => '選んでください';
+
+  @override
+  String get dungeonEventContinueButton => '続ける';
+
+  @override
+  String get dungeonEventOutcomeTitle => '結果';
+
+  @override
+  String get dungeonEventEffectCardReward => 'カード獲得';
+
+  @override
+  String get dungeonEventEffectRelicReward => '遺物獲得';
+
+  @override
+  String get dungeonEventEffectCardRemove => 'カード除去';
+
+  @override
+  String get dungeonEventEffectCardUpgrade => 'カード強化';
+
+  @override
+  String get dungeonEventEffectCurseAdded => '呪い追加';
+
+  @override
+  String get dungeonResultVictoryTitle => 'ダンジョンクリア！';
+
+  @override
+  String get dungeonResultDefeatTitle => '冒険失敗...';
+
+  @override
+  String get dungeonResultVictoryMessage => 'おめでとうございます！全ての敵を倒してダンジョンを制覇しました。';
+
+  @override
+  String get dungeonResultDefeatMessage => '残念ながら今回の冒険は失敗しました。もう一度挑戦しましょう。';
+
+  @override
+  String get dungeonResultStatsTitle => '冒険記録';
+
+  @override
+  String get dungeonResultStatsZone => 'エリア';
+
+  @override
+  String get dungeonResultStatsNodesCompleted => 'ノード完了';
+
+  @override
+  String get dungeonResultStatsMonsterKilled => 'モンスター討伐';
+
+  @override
+  String get dungeonResultRewardsTitle => '報酬';
+
+  @override
+  String dungeonResultXpReward(int xpGained) {
+    return '+$xpGained XP';
+  }
+
+  @override
+  String dungeonResultGoldReward(int goldGained) {
+    return '+$goldGainedゴールド';
+  }
+
+  @override
+  String get dungeonResultVictoryBonus => 'クリアボーナス x1.5 + ボス討伐ボーナス';
+
+  @override
+  String get dungeonResultDefeatPenalty => '敗北ペナルティ: 報酬 x0.5';
+
+  @override
+  String get dungeonResultReturnHomeButton => 'ホームに戻る';
+
+  @override
+  String get cardBattleYourTurn => 'あなたのターン';
+
+  @override
+  String get cardBattleEnemyTurn => '敵のターン';
+
+  @override
+  String cardBattleTurnCount(int turnCount) {
+    return 'ターン$turnCount';
+  }
+
+  @override
+  String get cardBattleAbandonDialog => '戦闘放棄';
+
+  @override
+  String get cardBattleAbandonConfirmation => '戦闘を放棄しますか？進行状況が失われます。';
+
+  @override
+  String get cardBattleAbandonButton => '放棄';
+
+  @override
+  String get cardBattleNoEnemies => '敵がいません';
+
+  @override
+  String get cardBattleEndTurnButton => 'ターン終了';
+
+  @override
+  String get cardBattleNoCardsInHand => '手札にカードがありません';
+
+  @override
+  String get cardBattleVictory => '勝利！';
+
+  @override
+  String cardBattleGoldReward(int gold) {
+    return '+$goldゴールド';
+  }
+
+  @override
+  String get cardBattleSelectCard => 'カードを選んでください';
+
+  @override
+  String get cardBattleSkipButton => 'スキップ';
+
+  @override
+  String get cardRarityCommon => 'コモン';
+
+  @override
+  String get cardRarityUncommon => 'アンコモン';
+
+  @override
+  String get cardRarityRare => 'レア';
+
+  @override
+  String get cardRarityLegendary => 'レジェンダリー';
+
+  @override
+  String get cardCategoryAttack => '攻撃';
+
+  @override
+  String get cardCategoryMagic => '魔法';
+
+  @override
+  String get cardCategoryDefense => '防御';
+
+  @override
+  String get cardCategoryTactical => '戦術';
+
+  @override
+  String get cardCollectionTitle => 'カードコレクション';
+
+  @override
+  String get cardCollectionFilterAll => '全て';
+
+  @override
+  String get cardCollectionMyCollection => 'マイコレクション';
+
+  @override
+  String cardCollectionCardCount(int count) {
+    return '($count枚)';
+  }
+
+  @override
+  String get cardCollectionNoCards => 'カードを持っていません。\nクエストを完了するとカードを獲得できます！';
+
+  @override
+  String cardCollectionDeckInclusion(int copyCount) {
+    return 'デッキに$copyCount枚含まれる';
+  }
+
+  @override
+  String get cardCollectionAddToDeck => 'デッキに追加';
+
+  @override
+  String get cardCollectionDeckFull => 'デッキが満杯 (20枚)';
+
+  @override
+  String get cardCollectionMaxCopies => '最大3枚まで追加可能';
+
+  @override
+  String cardCollectionAddedToDeck(String cardName) {
+    return '$cardNameをデッキに追加しました';
+  }
+
+  @override
+  String get cardCollectionMyDeck => 'マイデッキ';
+
+  @override
+  String cardCollectionDeckSize(int deckSize) {
+    return '($deckSize/20枚)';
+  }
+
+  @override
+  String get cardCollectionResetDeckDialog => 'デッキリセット';
+
+  @override
+  String get cardCollectionResetDeckConfirmation =>
+      'カスタムデッキを削除してデフォルトのスターターデッキに戻しますか？';
+
+  @override
+  String get cardCollectionResetButton => 'リセット';
+
+  @override
+  String get cardCollectionDefaultDeckMessage =>
+      'デフォルトのスターターデッキを使用中\nコレクションからカードを追加しましょう';
 }

@@ -5,6 +5,7 @@ import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_map_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/card_collection_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/infinite_tower_screen.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class DungeonHomeScreen extends StatefulWidget {
   const DungeonHomeScreen({super.key});
@@ -18,6 +19,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final charState = context.watch<CharacterState>();
     final character = charState.character;
@@ -32,7 +34,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                 size: 24),
             const SizedBox(width: 8),
             Text(
-              '소울 덱',
+              l10n.dungeonHomeTitle,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: isDark ? const Color(0xFF00FFFF) : Colors.deepPurple,
@@ -46,7 +48,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
               Icons.collections_bookmark,
               color: isDark ? const Color(0xFF00FFFF) : Colors.deepPurple,
             ),
-            tooltip: '카드 컬렉션',
+            tooltip: l10n.dungeonHomeCardCollectionTooltip,
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -124,7 +126,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
 
             // ── Zone selection ──
             Text(
-              '던전 선택',
+              l10n.dungeonHomeDungeonSelection,
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 16,
@@ -137,8 +139,8 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
             _zoneCard(
               context: context,
               zone: 1,
-              name: '푸른 초원',
-              description: '초보 모험가를 위한 첫 번째 던전',
+              name: l10n.zone1Name,
+              description: l10n.zone1Description,
               icon: Icons.grass,
               color: Colors.green,
               isLocked: false,
@@ -151,8 +153,8 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
             _zoneCard(
               context: context,
               zone: 2,
-              name: '어둠의 숲',
-              description: '독과 디버프를 사용하는 적들이 도사리는 곳',
+              name: l10n.zone2Name,
+              description: l10n.zone2Description,
               icon: Icons.forest,
               color: Colors.teal,
               isLocked: character.level < 5,
@@ -165,8 +167,8 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
             _zoneCard(
               context: context,
               zone: 3,
-              name: '폐허의 성',
-              description: '방어 특화 적과 다중 전투가 기다린다',
+              name: l10n.zone3Name,
+              description: l10n.zone3Description,
               icon: Icons.castle,
               color: Colors.blueGrey,
               isLocked: character.level < 10,
@@ -179,8 +181,8 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
             _zoneCard(
               context: context,
               zone: 4,
-              name: '용암 동굴',
-              description: '화상과 고데미지의 지옥',
+              name: l10n.zone4Name,
+              description: l10n.zone4Description,
               icon: Icons.whatshot,
               color: Colors.deepOrange,
               isLocked: character.level < 20,
@@ -193,8 +195,8 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
             _zoneCard(
               context: context,
               zone: 5,
-              name: '심연의 차원',
-              description: '의도를 숨기는 적들, 저주가 내리는 최종 던전',
+              name: l10n.zone5Name,
+              description: l10n.zone5Description,
               icon: Icons.blur_on,
               color: Colors.deepPurple,
               isLocked: character.level < 30,
@@ -248,12 +250,13 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     required bool isDark,
     bool isCompleted = false,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: isLocked
           ? () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('레벨 $requiredLevel 이상 필요합니다',
+                  content: Text(l10n.dungeonHomeRequiredLevel(requiredLevel),
                       style: const TextStyle(fontFamily: 'monospace')),
                   backgroundColor: Colors.red.shade700,
                 ),
@@ -382,24 +385,25 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
 
 /// 시즌 종료일을 변경하려면 이 날짜를 수정하세요.
 final _seasonEndDate = DateTime(2026, 5, 3);
-const _seasonName = '시즌 1: 영혼의 각성';
 
 class _SeasonBanner extends StatelessWidget {
   final bool isDark;
 
   const _SeasonBanner({required this.isDark});
 
-  String _buildCountdown() {
+  String _buildCountdown(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final diff = _seasonEndDate.difference(now);
-    if (diff.isNegative) return '종료';
+    if (diff.isNegative) return l10n.seasonEnded;
     final days = diff.inDays;
     if (days == 0) return 'D-Day';
-    return 'D-$days';
+    return l10n.seasonCountdown(days);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -414,13 +418,13 @@ class _SeasonBanner extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Row(
+          Row(
             children: [
-              Text('🔥', style: TextStyle(fontSize: 20)),
-              SizedBox(width: 8),
+              const Text('🔥', style: TextStyle(fontSize: 20)),
+              const SizedBox(width: 8),
               Text(
-                _seasonName,
-                style: TextStyle(
+                l10n.seasonName,
+                style: const TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -437,7 +441,7 @@ class _SeasonBanner extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              _buildCountdown(),
+              _buildCountdown(context),
               style: const TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 13,
@@ -461,27 +465,30 @@ class _AscensionSection extends StatelessWidget {
   final ValueChanged<int> onChanged;
   final bool isDark;
 
-  static const List<String> _modifiers = [
-    'Lv 1: 적 HP +10%',
-    'Lv 2: 적 공격력 +10%',
-    'Lv 3: 시작 골드 -30',
-    'Lv 4: 저주 카드 1장 추가',
-    'Lv 5: 엘리트 처치 후 카드 선택 없음',
-    'Lv 6: 상점 가격 +25%',
-    'Lv 7: 시작 HP -10%',
-    'Lv 8: 보스 HP +25%',
-    'Lv 9: 이벤트 불이익 선택지 강화',
-    'Lv 10: 모든 적 HP +20%',
-  ];
-
   const _AscensionSection({
     required this.ascensionLevel,
     required this.onChanged,
     required this.isDark,
   });
 
+  List<String> _modifiers(AppLocalizations l10n) => [
+    l10n.ascensionLevel1Modifier,
+    l10n.ascensionLevel2Modifier,
+    l10n.ascensionLevel3Modifier,
+    l10n.ascensionLevel4Modifier,
+    l10n.ascensionLevel5Modifier,
+    l10n.ascensionLevel6Modifier,
+    l10n.ascensionLevel7Modifier,
+    l10n.ascensionLevel8Modifier,
+    l10n.ascensionLevel9Modifier,
+    l10n.ascensionLevel10Modifier,
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final modifiers = _modifiers(l10n);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -508,7 +515,7 @@ class _AscensionSection extends StatelessWidget {
               const Icon(Icons.whatshot, color: Colors.deepPurple, size: 20),
               const SizedBox(width: 8),
               Text(
-                '어센션 모드',
+                l10n.ascensionModeTitle,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 15,
@@ -526,7 +533,7 @@ class _AscensionSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  ascensionLevel > 0 ? 'A$ascensionLevel' : '미활성',
+                  ascensionLevel > 0 ? 'A$ascensionLevel' : l10n.ascensionInactive,
                   style: TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 12,
@@ -579,7 +586,7 @@ class _AscensionSection extends StatelessWidget {
           if (ascensionLevel > 0) ...[
             const SizedBox(height: 8),
             Text(
-              '적용 중인 페널티:',
+              l10n.ascensionActiveModifiers,
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 11,
@@ -596,7 +603,7 @@ class _AscensionSection extends StatelessWidget {
                         size: 13, color: Colors.orange.shade400),
                     const SizedBox(width: 6),
                     Text(
-                      _modifiers[i],
+                      modifiers[i],
                       style: TextStyle(
                         fontFamily: 'monospace',
                         fontSize: 11,
@@ -609,7 +616,7 @@ class _AscensionSection extends StatelessWidget {
             }),
           ] else ...[
             Text(
-              '슬라이더를 올려 난이도를 높이세요',
+              l10n.ascensionSliderHint,
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 11,
@@ -634,6 +641,7 @@ class _InfiniteTowerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final charState = context.watch<CharacterState>();
     final bestFloor = charState.infiniteTowerFloor;
 
@@ -681,9 +689,9 @@ class _InfiniteTowerButton extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '무한의 탑',
-                    style: TextStyle(
+                  Text(
+                    l10n.infiniteTowerTitle,
+                    style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -692,7 +700,7 @@ class _InfiniteTowerButton extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '끝없는 도전 · 최고 기록: $bestFloor층',
+                    l10n.infiniteTowerBestFloorDesc(bestFloor),
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 11,
