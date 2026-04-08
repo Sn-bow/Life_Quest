@@ -380,10 +380,23 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
 // Season Banner
 // ─────────────────────────────────────────────
 
+/// 시즌 종료일을 변경하려면 이 날짜를 수정하세요.
+final _seasonEndDate = DateTime(2026, 5, 3);
+const _seasonName = '시즌 1: 영혼의 각성';
+
 class _SeasonBanner extends StatelessWidget {
   final bool isDark;
 
   const _SeasonBanner({required this.isDark});
+
+  String _buildCountdown() {
+    final now = DateTime.now();
+    final diff = _seasonEndDate.difference(now);
+    if (diff.isNegative) return '종료';
+    final days = diff.inDays;
+    if (days == 0) return 'D-Day';
+    return 'D-$days';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -406,7 +419,7 @@ class _SeasonBanner extends StatelessWidget {
               Text('🔥', style: TextStyle(fontSize: 20)),
               SizedBox(width: 8),
               Text(
-                '시즌 1: 영혼의 각성',
+                _seasonName,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 14,
@@ -416,7 +429,6 @@ class _SeasonBanner extends StatelessWidget {
               ),
             ],
           ),
-          // TODO: Replace hardcoded D-25 with real countdown from season end date
           Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -424,9 +436,9 @@ class _SeasonBanner extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text(
-              'D-25',
-              style: TextStyle(
+            child: Text(
+              _buildCountdown(),
+              style: const TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 13,
                 fontWeight: FontWeight.bold,

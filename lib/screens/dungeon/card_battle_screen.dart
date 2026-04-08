@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/status_effect.dart';
@@ -155,6 +157,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
       _turnOverlayText = text;
       _showTurnOverlay = true;
     });
+    SoundService().playTurnChange();
     _turnOverlayController.forward(from: 0.0);
   }
 
@@ -229,17 +232,30 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                   card.category == CardCategory.magic) {
                                 _triggerEnemyFlash(enemyIdx);
                                 _game.playHitParticle();
+                                HapticFeedback.mediumImpact(); // 공격 햅틱
                               }
                               if (card.effects.any(
                                   (e) => e.effectType == CardEffectType.block)) {
                                 _game.playBlockParticle();
+                                HapticFeedback.lightImpact(); // 방어 햅틱
                               }
                               if (card.effects.any(
                                   (e) => e.effectType == CardEffectType.heal)) {
                                 _game.playHealParticle();
+                                HapticFeedback.lightImpact(); // 힐 햅틱
                               }
 
-                              // TODO: SoundService.playCardSound(card.category)
+                              // 카드 카테고리별 사운드
+                              switch (card.category) {
+                                case CardCategory.attack:
+                                  SoundService().playCardPlayAttack();
+                                case CardCategory.magic:
+                                  SoundService().playCardPlayMagic();
+                                case CardCategory.defense:
+                                  SoundService().playCardPlayDefense();
+                                case CardCategory.tactical:
+                                  SoundService().playCardPlayTactical();
+                              }
                               combat.playCard(cardIndex,
                                   targetEnemyIndex: enemyIdx);
                             },
@@ -832,7 +848,10 @@ class _EndTurnButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: enabled ? () => combat.endTurn() : null,
+        onTap: enabled ? () {
+          HapticFeedback.selectionClick();
+          combat.endTurn();
+        } : null,
         borderRadius: BorderRadius.circular(24),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

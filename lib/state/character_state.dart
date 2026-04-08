@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
@@ -689,6 +690,7 @@ class CharacterState extends ChangeNotifier {
       _character!.skillPoints += 1;
     }
     SoundService().playLevelUp();
+    HapticFeedback.heavyImpact(); // 레벨업 강한 진동
     onLevelUp?.call();
     _checkTitleUnlock();
     _updateAchievement(AchievementCondition.levelReached, _character!.level);
