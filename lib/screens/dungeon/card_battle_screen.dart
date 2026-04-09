@@ -12,6 +12,7 @@ import 'package:life_quest_final_v2/state/card_combat_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/game/battle_game.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
 
 // ============================================================================
 // CardBattleScreen
@@ -1204,16 +1205,19 @@ class _HandCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Expanded(
-                      child: Text(
-                        card.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: Builder(builder: (ctx) {
+                        final l10n = AppLocalizations.of(ctx)!;
+                        return Text(
+                          CardLocalization.localizedName(card, l10n),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        );
+                      }),
                     ),
                   ],
                 ),
@@ -1223,16 +1227,19 @@ class _HandCard extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(6),
-                  child: Text(
-                    card.description,
-                    style: TextStyle(
-                      color: isDark ? Colors.white70 : Colors.black87,
-                      fontSize: 10,
-                      height: 1.3,
-                    ),
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Builder(builder: (ctx) {
+                    final l10n = AppLocalizations.of(ctx)!;
+                    return Text(
+                      CardLocalization.localizedDescription(card, l10n),
+                      style: TextStyle(
+                        color: isDark ? Colors.white70 : Colors.black87,
+                        fontSize: 10,
+                        height: 1.3,
+                      ),
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  }),
                 ),
               ),
 
@@ -1713,33 +1720,39 @@ class _CardRewardChoice extends StatelessWidget {
               const SizedBox(height: 6),
 
               // Name
-              Text(
-                card.name,
-                style: TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white : Colors.black87,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Builder(builder: (ctx) {
+                final l10n = AppLocalizations.of(ctx)!;
+                return Text(
+                  CardLocalization.localizedName(card, l10n),
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                );
+              }),
               const SizedBox(height: 4),
 
               // Description
               Expanded(
-                child: Text(
-                  card.description,
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 9,
-                    color: isDark ? Colors.white54 : Colors.black45,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: Builder(builder: (ctx) {
+                  final l10n = AppLocalizations.of(ctx)!;
+                  return Text(
+                    CardLocalization.localizedDescription(card, l10n),
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 9,
+                      color: isDark ? Colors.white54 : Colors.black45,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                }),
               ),
 
               // Rarity label

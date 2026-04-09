@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
 
 class CardCollectionScreen extends StatefulWidget {
   const CardCollectionScreen({super.key});
@@ -124,7 +125,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          card.name,
+                          CardLocalization.localizedName(card, l10n),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -167,7 +168,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                card.description,
+                CardLocalization.localizedDescription(card, l10n),
                 style: TextStyle(
                   fontSize: 14,
                   color: isDark ? Colors.white70 : Colors.black54,
@@ -192,7 +193,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                           Navigator.pop(ctx);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(l10n.cardCollectionAddedToDeck(card.name)),
+                              content: Text(l10n.cardCollectionAddedToDeck(CardLocalization.localizedName(card, l10n))),
                               duration: const Duration(seconds: 2),
                               behavior: SnackBarBehavior.floating,
                             ),
@@ -246,6 +247,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
   }
 
   Widget _cardGridItem(BuildContext context, CardData card, CharacterState state, bool isDark) {
+    final l10n = AppLocalizations.of(context)!;
     final catColor = _categoryColor(card.category);
     final rarityColor = _rarityColor(card.rarity);
 
@@ -279,7 +281,7 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
               const SizedBox(height: 6),
               Expanded(
                 child: Text(
-                  card.name,
+                  CardLocalization.localizedName(card, l10n),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -507,12 +509,13 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
                               final cardId = deckCardIds[index];
                               final card = CardDatabase.getCard(cardId);
                               if (card == null) return const SizedBox.shrink();
+                              final l10n = AppLocalizations.of(context)!;
                               final catColor = _categoryColor(card.category);
                               return ListTile(
                                 dense: true,
                                 leading: _costBadge(card.cost, isDark),
                                 title: Text(
-                                  card.name,
+                                  CardLocalization.localizedName(card, l10n),
                                   style: TextStyle(
                                     fontSize: 13,
                                     color: isDark ? Colors.white : Colors.black87,

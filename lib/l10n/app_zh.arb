@@ -530,5 +530,19 @@
   "cardCollectionResetDeckDialog": "重置牌组",
   "cardCollectionResetDeckConfirmation": "删除自定义牌组并恢复为默认初始牌组？",
   "cardCollectionResetButton": "重置",
-  "cardCollectionDefaultDeckMessage": "当前使用默认初始牌组\n从收藏中添加卡牌"
+  "cardCollectionDefaultDeckMessage": "当前使用默认初始牌组\n从收藏中添加卡牌",
+  "cardNameBaseStrike": "基础攻击",
+  "cardDescBaseStrike": "造成6点伤害。",
+  "cardNameBaseDefend": "基础格挡",
+  "cardDescBaseDefend": "获得5点格挡。",
+  "cardNameBaseFocus": "集中",
+  "cardDescBaseFocus": "抽1张牌。",
+  "cardNameCursePain": "痛苦",
+  "cardDescCursePain": "无法使用。每次抽到时失去1HP。",
+  "cardNameCurseDoubt": "疑虑",
+  "cardDescCurseDoubt": "无法使用。每回合少抽1张牌。",
+  "cardNameCurseBurden": "负担",
+  "cardDescCurseBurden": "无法使用。每回合开始时失去1能量。",
+  "cardNameCurseDecay": "腐蚀",
+  "cardDescCurseDecay": "无法使用。每回合失去3点格挡。"
 }

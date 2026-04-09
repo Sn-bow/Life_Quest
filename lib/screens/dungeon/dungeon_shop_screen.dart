@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
 
 class DungeonShopScreen extends StatefulWidget {
   const DungeonShopScreen({super.key});
@@ -432,7 +433,7 @@ class _CardShopItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    card.name,
+                    CardLocalization.localizedName(card, l10n),
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 14,
@@ -442,7 +443,7 @@ class _CardShopItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    card.description,
+                    CardLocalization.localizedDescription(card, l10n),
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 11,
@@ -787,6 +788,7 @@ class _MiniCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1E1E2E) : const Color(0xFFF5F5F0),
@@ -819,7 +821,7 @@ class _MiniCardWidget extends StatelessWidget {
               const SizedBox(width: 3),
               Expanded(
                 child: Text(
-                  card.name,
+                  CardLocalization.localizedName(card, l10n),
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
@@ -834,7 +836,7 @@ class _MiniCardWidget extends StatelessWidget {
           const SizedBox(height: 4),
           Expanded(
             child: Text(
-              card.description,
+              CardLocalization.localizedDescription(card, l10n),
               style: TextStyle(
                 fontSize: 9,
                 color: isDark ? Colors.white54 : Colors.black45,

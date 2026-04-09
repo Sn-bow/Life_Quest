@@ -530,5 +530,19 @@
   "cardCollectionResetDeckDialog": "デッキリセット",
   "cardCollectionResetDeckConfirmation": "カスタムデッキを削除してデフォルトのスターターデッキに戻しますか？",
   "cardCollectionResetButton": "リセット",
-  "cardCollectionDefaultDeckMessage": "デフォルトのスターターデッキを使用中\nコレクションからカードを追加しましょう"
+  "cardCollectionDefaultDeckMessage": "デフォルトのスターターデッキを使用中\nコレクションからカードを追加しましょう",
+  "cardNameBaseStrike": "ベーシックストライク",
+  "cardDescBaseStrike": "6ダメージを与える。",
+  "cardNameBaseDefend": "ベーシックブロック",
+  "cardDescBaseDefend": "ブロック5を得る。",
+  "cardNameBaseFocus": "集中",
+  "cardDescBaseFocus": "カードを1枚引く。",
+  "cardNameCursePain": "苦痛",
+  "cardDescCursePain": "使用不可。引くたびにHP1を失う。",
+  "cardNameCurseDoubt": "疑念",
+  "cardDescCurseDoubt": "使用不可。毎ターンドロー-1。",
+  "cardNameCurseBurden": "重荷",
+  "cardDescCurseBurden": "使用不可。毎ターン開始時エナジー-1。",
+  "cardNameCurseDecay": "腐食",
+  "cardDescCurseDecay": "使用不可。毎ターンブロック-3。"
 }

@@ -530,5 +530,19 @@
   "cardCollectionResetDeckDialog": "덱 초기화",
   "cardCollectionResetDeckConfirmation": "커스텀 덱을 삭제하고 기본 스타터 덱으로 되돌리겠습니까?",
   "cardCollectionResetButton": "초기화",
-  "cardCollectionDefaultDeckMessage": "기본 스타터 덱 사용 중\n컬렉션에서 카드를 추가하세요"
+  "cardCollectionDefaultDeckMessage": "기본 스타터 덱 사용 중\n컬렉션에서 카드를 추가하세요",
+  "cardNameBaseStrike": "기본 공격",
+  "cardDescBaseStrike": "6 데미지를 준다.",
+  "cardNameBaseDefend": "기본 방어",
+  "cardDescBaseDefend": "방어도 5를 얻는다.",
+  "cardNameBaseFocus": "집중",
+  "cardDescBaseFocus": "카드 1장을 드로우한다.",
+  "cardNameCursePain": "고통",
+  "cardDescCursePain": "사용 불가. 패에 잡히면 HP 1을 잃는다.",
+  "cardNameCurseDoubt": "의심",
+  "cardDescCurseDoubt": "사용 불가. 패에 있으면 드로우 -1.",
+  "cardNameCurseBurden": "짐",
+  "cardDescCurseBurden": "사용 불가. 패에 있으면 에너지 -1.",
+  "cardNameCurseDecay": "부식",
+  "cardDescCurseDecay": "사용 불가. 매 턴 방어 -3."
 }

@@ -530,5 +530,19 @@
   "cardCollectionResetDeckDialog": "Reset Deck",
   "cardCollectionResetDeckConfirmation": "Delete custom deck and revert to default starter deck?",
   "cardCollectionResetButton": "Reset",
-  "cardCollectionDefaultDeckMessage": "Using default starter deck\nAdd cards from your collection"
+  "cardCollectionDefaultDeckMessage": "Using default starter deck\nAdd cards from your collection",
+  "cardNameBaseStrike": "Basic Strike",
+  "cardDescBaseStrike": "Deal 6 damage.",
+  "cardNameBaseDefend": "Basic Block",
+  "cardDescBaseDefend": "Gain 5 Block.",
+  "cardNameBaseFocus": "Focus",
+  "cardDescBaseFocus": "Draw 1 card.",
+  "cardNameCursePain": "Pain",
+  "cardDescCursePain": "Unplayable. Lose 1 HP whenever drawn.",
+  "cardNameCurseDoubt": "Doubt",
+  "cardDescCurseDoubt": "Unplayable. Draw 1 less card each turn.",
+  "cardNameCurseBurden": "Burden",
+  "cardDescCurseBurden": "Unplayable. Lose 1 Energy at the start of each turn.",
+  "cardNameCurseDecay": "Decay",
+  "cardDescCurseDecay": "Unplayable. Lose 3 Block each turn."
 }

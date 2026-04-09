@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
 
 class DungeonRestScreen extends StatefulWidget {
   const DungeonRestScreen({super.key});
@@ -526,7 +527,7 @@ class _UpgradeCardWidget extends StatelessWidget {
                   const SizedBox(width: 3),
                   Expanded(
                     child: Text(
-                      card.name,
+                      CardLocalization.localizedName(card, l10n),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -544,7 +545,7 @@ class _UpgradeCardWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(4),
                 child: Text(
-                  card.description,
+                  CardLocalization.localizedDescription(card, l10n),
                   style: TextStyle(
                     color: isDark ? Colors.white70 : Colors.black87,
                     fontSize: 9,
