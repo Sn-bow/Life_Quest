@@ -14,6 +14,7 @@ void main() {
     setUp(() {
       mockFirestore = FakeFirebaseFirestore();
       characterState = CharacterState(firestore: mockFirestore);
+      characterState.initializeForTesting();
     });
 
     test('Custom Reward addition increments the list', () {

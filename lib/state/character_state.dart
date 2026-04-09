@@ -91,6 +91,27 @@ class CharacterState extends ChangeNotifier {
           icon: '🎬',
         ),
       ];
+  /// For testing only: initialises a default Character without Firebase.
+  @visibleForTesting
+  void initializeForTesting() {
+    _character = Character(
+      name: 'Test',
+      level: 1,
+      title: '새싹 모험가',
+      xp: 0,
+      maxXp: 150,
+      strength: 0,
+      wisdom: 0,
+      health: 0,
+      charisma: 0,
+      statPoints: 0,
+      skillPoints: 0,
+      customRewards: _buildDefaultCustomRewards(),
+    );
+    _isDataLoaded = true;
+    _isLoading = false;
+  }
+
   /// Public method for external callers to trigger a UI rebuild.
   /// Use this instead of calling notifyListeners() from outside the class.
   void refreshState() {
