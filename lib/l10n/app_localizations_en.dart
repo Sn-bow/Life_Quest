@@ -1763,4 +1763,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cardDescAtkC10Up => 'Deal 5 damage to all enemies.';
+
+  @override
+  String get cardNameAtkU01 => 'Power Slash';
+
+  @override
+  String get cardDescAtkU01 =>
+      'Deal 14 damage and apply Vulnerable for 2 turns.';
+
+  @override
+  String get cardNameAtkU01Up => 'Power Slash+';
+
+  @override
+  String get cardDescAtkU01Up =>
+      'Deal 18 damage and apply Vulnerable for 2 turns.';
+
+  @override
+  String get cardNameAtkU02 => 'Blade Dance';
+
+  @override
+  String get cardDescAtkU02 => 'Deal 3 damage 3 times and gain 3 Block.';
+
+  @override
+  String get cardNameAtkU02Up => 'Blade Dance+';
+
+  @override
+  String get cardDescAtkU02Up => 'Deal 4 damage 3 times and gain 5 Block.';
+
+  @override
+  String get cardNameAtkU03 => 'Execute';
+
+  @override
+  String get cardDescAtkU03 =>
+      'Deal 30 damage if enemy HP ≤ 50%, otherwise 10 damage.';
+
+  @override
+  String get cardNameAtkU03Up => 'Execute+';
+
+  @override
+  String get cardDescAtkU03Up =>
+      'Deal 40 damage if enemy HP ≤ 50%, otherwise 14 damage.';
+
+  @override
+  String get cardNameAtkU04 => 'Berserk';
+
+  @override
+  String get cardDescAtkU04 => 'Gain Strength +2 (permanent).';
+
+  @override
+  String get cardNameAtkU04Up => 'Berserk+';
+
+  @override
+  String get cardDescAtkU04Up => 'Gain Strength +3 (permanent).';
+
+  @override
+  String get cardNameAtkU05 => 'Blood Oath';
+
+  @override
+  String get cardDescAtkU05 =>
+      'Lose 3 HP, deal 8 damage, and gain Strength +1.';
+
+  @override
+  String get cardNameAtkU05Up => 'Blood Oath+';
+
+  @override
+  String get cardDescAtkU05Up =>
+      'Lose 3 HP, deal 12 damage, and gain Strength +1.';
+
+  @override
+  String get cardNameAtkU06 => 'Whirlwind';
+
+  @override
+  String get cardDescAtkU06 => 'Deal 8 damage to all enemies.';
+
+  @override
+  String get cardNameAtkU06Up => 'Whirlwind+';
+
+  @override
+  String get cardDescAtkU06Up => 'Deal 12 damage to all enemies.';
+
+  @override
+  String get cardNameAtkU07 => 'Crush';
+
+  @override
+  String get cardDescAtkU07 => 'Deal 10 damage and apply Weak for 2 turns.';
+
+  @override
+  String get cardNameAtkU07Up => 'Crush+';
+
+  @override
+  String get cardDescAtkU07Up => 'Deal 14 damage and apply Weak for 2 turns.';
+
+  @override
+  String get cardNameAtkU08 => 'Merciless';
+
+  @override
+  String get cardDescAtkU08 =>
+      'Deal double damage to Vulnerable enemies (base 6 damage).';
+
+  @override
+  String get cardNameAtkU08Up => 'Merciless+';
+
+  @override
+  String get cardDescAtkU08Up =>
+      'Deal double damage to Vulnerable enemies (base 9 damage).';
 }

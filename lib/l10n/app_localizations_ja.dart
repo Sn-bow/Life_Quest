@@ -1724,4 +1724,100 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cardDescAtkC10Up => '全ての敵に5ダメージを与える。';
+
+  @override
+  String get cardNameAtkU01 => 'パワースラッシュ';
+
+  @override
+  String get cardDescAtkU01 => '14ダメージを与え、脆弱2ターンを付与する。';
+
+  @override
+  String get cardNameAtkU01Up => 'パワースラッシュ+';
+
+  @override
+  String get cardDescAtkU01Up => '18ダメージを与え、脆弱2ターンを付与する。';
+
+  @override
+  String get cardNameAtkU02 => '刃の舞';
+
+  @override
+  String get cardDescAtkU02 => '3ダメージを3回与え、防御3を得る。';
+
+  @override
+  String get cardNameAtkU02Up => '刃の舞+';
+
+  @override
+  String get cardDescAtkU02Up => '4ダメージを3回与え、防御5を得る。';
+
+  @override
+  String get cardNameAtkU03 => '処刑';
+
+  @override
+  String get cardDescAtkU03 => '敵HPが50%以下なら30ダメージ、そうでなければ10ダメージ。';
+
+  @override
+  String get cardNameAtkU03Up => '処刑+';
+
+  @override
+  String get cardDescAtkU03Up => '敵HPが50%以下なら40ダメージ、そうでなければ14ダメージ。';
+
+  @override
+  String get cardNameAtkU04 => '狂乱';
+
+  @override
+  String get cardDescAtkU04 => '力+2を得る（永続）。';
+
+  @override
+  String get cardNameAtkU04Up => '狂乱+';
+
+  @override
+  String get cardDescAtkU04Up => '力+3を得る（永続）。';
+
+  @override
+  String get cardNameAtkU05 => '血の誓い';
+
+  @override
+  String get cardDescAtkU05 => 'HP3を失い、8ダメージを与え、力+1を得る。';
+
+  @override
+  String get cardNameAtkU05Up => '血の誓い+';
+
+  @override
+  String get cardDescAtkU05Up => 'HP3を失い、12ダメージを与え、力+1を得る。';
+
+  @override
+  String get cardNameAtkU06 => '回転斬り';
+
+  @override
+  String get cardDescAtkU06 => '全ての敵に8ダメージを与える。';
+
+  @override
+  String get cardNameAtkU06Up => '回転斬り+';
+
+  @override
+  String get cardDescAtkU06Up => '全ての敵に12ダメージを与える。';
+
+  @override
+  String get cardNameAtkU07 => '粉砕';
+
+  @override
+  String get cardDescAtkU07 => '10ダメージを与え、脱力2ターンを付与する。';
+
+  @override
+  String get cardNameAtkU07Up => '粉砕+';
+
+  @override
+  String get cardDescAtkU07Up => '14ダメージを与え、脱力2ターンを付与する。';
+
+  @override
+  String get cardNameAtkU08 => '無慈悲';
+
+  @override
+  String get cardDescAtkU08 => '脆弱状態の敵に2倍ダメージ（基本6ダメージ）。';
+
+  @override
+  String get cardNameAtkU08Up => '無慈悲+';
+
+  @override
+  String get cardDescAtkU08Up => '脆弱状態の敵に2倍ダメージ（基本9ダメージ）。';
 }

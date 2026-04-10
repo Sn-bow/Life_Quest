@@ -65,6 +65,38 @@ class CardLocalization {
         return l10n.cardNameAtkC10;
       case 'atk_c10_up':
         return l10n.cardNameAtkC10Up;
+      case 'atk_u01':
+        return l10n.cardNameAtkU01;
+      case 'atk_u01_up':
+        return l10n.cardNameAtkU01Up;
+      case 'atk_u02':
+        return l10n.cardNameAtkU02;
+      case 'atk_u02_up':
+        return l10n.cardNameAtkU02Up;
+      case 'atk_u03':
+        return l10n.cardNameAtkU03;
+      case 'atk_u03_up':
+        return l10n.cardNameAtkU03Up;
+      case 'atk_u04':
+        return l10n.cardNameAtkU04;
+      case 'atk_u04_up':
+        return l10n.cardNameAtkU04Up;
+      case 'atk_u05':
+        return l10n.cardNameAtkU05;
+      case 'atk_u05_up':
+        return l10n.cardNameAtkU05Up;
+      case 'atk_u06':
+        return l10n.cardNameAtkU06;
+      case 'atk_u06_up':
+        return l10n.cardNameAtkU06Up;
+      case 'atk_u07':
+        return l10n.cardNameAtkU07;
+      case 'atk_u07_up':
+        return l10n.cardNameAtkU07Up;
+      case 'atk_u08':
+        return l10n.cardNameAtkU08;
+      case 'atk_u08_up':
+        return l10n.cardNameAtkU08Up;
       default:
         return card.name;
     }
@@ -126,6 +158,38 @@ class CardLocalization {
         return l10n.cardDescAtkC10;
       case 'atk_c10_up':
         return l10n.cardDescAtkC10Up;
+      case 'atk_u01':
+        return l10n.cardDescAtkU01;
+      case 'atk_u01_up':
+        return l10n.cardDescAtkU01Up;
+      case 'atk_u02':
+        return l10n.cardDescAtkU02;
+      case 'atk_u02_up':
+        return l10n.cardDescAtkU02Up;
+      case 'atk_u03':
+        return l10n.cardDescAtkU03;
+      case 'atk_u03_up':
+        return l10n.cardDescAtkU03Up;
+      case 'atk_u04':
+        return l10n.cardDescAtkU04;
+      case 'atk_u04_up':
+        return l10n.cardDescAtkU04Up;
+      case 'atk_u05':
+        return l10n.cardDescAtkU05;
+      case 'atk_u05_up':
+        return l10n.cardDescAtkU05Up;
+      case 'atk_u06':
+        return l10n.cardDescAtkU06;
+      case 'atk_u06_up':
+        return l10n.cardDescAtkU06Up;
+      case 'atk_u07':
+        return l10n.cardDescAtkU07;
+      case 'atk_u07_up':
+        return l10n.cardDescAtkU07Up;
+      case 'atk_u08':
+        return l10n.cardDescAtkU08;
+      case 'atk_u08_up':
+        return l10n.cardDescAtkU08Up;
       default:
         return card.description;
     }

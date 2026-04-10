@@ -3305,6 +3305,198 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'적 전체에 5 데미지를 준다.'**
   String get cardDescAtkC10Up;
+
+  /// No description provided for @cardNameAtkU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'파워 슬래시'**
+  String get cardNameAtkU01;
+
+  /// No description provided for @cardDescAtkU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'14 데미지를 주고, 취약 2턴을 부여한다.'**
+  String get cardDescAtkU01;
+
+  /// No description provided for @cardNameAtkU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'파워 슬래시+'**
+  String get cardNameAtkU01Up;
+
+  /// No description provided for @cardDescAtkU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'18 데미지를 주고, 취약 2턴을 부여한다.'**
+  String get cardDescAtkU01Up;
+
+  /// No description provided for @cardNameAtkU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'칼날 춤'**
+  String get cardNameAtkU02;
+
+  /// No description provided for @cardDescAtkU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'3 데미지를 3회 주고, 방어도 3을 얻는다.'**
+  String get cardDescAtkU02;
+
+  /// No description provided for @cardNameAtkU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'칼날 춤+'**
+  String get cardNameAtkU02Up;
+
+  /// No description provided for @cardDescAtkU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'4 데미지를 3회 주고, 방어도 5를 얻는다.'**
+  String get cardDescAtkU02Up;
+
+  /// No description provided for @cardNameAtkU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'처형'**
+  String get cardNameAtkU03;
+
+  /// No description provided for @cardDescAtkU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 HP 50% 이하면 30 데미지, 아니면 10 데미지.'**
+  String get cardDescAtkU03;
+
+  /// No description provided for @cardNameAtkU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'처형+'**
+  String get cardNameAtkU03Up;
+
+  /// No description provided for @cardDescAtkU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 HP 50% 이하면 40 데미지, 아니면 14 데미지.'**
+  String get cardDescAtkU03Up;
+
+  /// No description provided for @cardNameAtkU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'광폭화'**
+  String get cardNameAtkU04;
+
+  /// No description provided for @cardDescAtkU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 +2를 획득한다 (영구).'**
+  String get cardDescAtkU04;
+
+  /// No description provided for @cardNameAtkU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'광폭화+'**
+  String get cardNameAtkU04Up;
+
+  /// No description provided for @cardDescAtkU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 +3을 획득한다 (영구).'**
+  String get cardDescAtkU04Up;
+
+  /// No description provided for @cardNameAtkU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'피의 맹세'**
+  String get cardNameAtkU05;
+
+  /// No description provided for @cardDescAtkU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 3을 잃고, 8 데미지를 주고, 힘 +1을 얻는다.'**
+  String get cardDescAtkU05;
+
+  /// No description provided for @cardNameAtkU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'피의 맹세+'**
+  String get cardNameAtkU05Up;
+
+  /// No description provided for @cardDescAtkU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 3을 잃고, 12 데미지를 주고, 힘 +1을 얻는다.'**
+  String get cardDescAtkU05Up;
+
+  /// No description provided for @cardNameAtkU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'회전 베기'**
+  String get cardNameAtkU06;
+
+  /// No description provided for @cardDescAtkU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 8 데미지를 준다.'**
+  String get cardDescAtkU06;
+
+  /// No description provided for @cardNameAtkU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'회전 베기+'**
+  String get cardNameAtkU06Up;
+
+  /// No description provided for @cardDescAtkU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 12 데미지를 준다.'**
+  String get cardDescAtkU06Up;
+
+  /// No description provided for @cardNameAtkU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'분쇄'**
+  String get cardNameAtkU07;
+
+  /// No description provided for @cardDescAtkU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'10 데미지를 주고, 약화 2턴을 부여한다.'**
+  String get cardDescAtkU07;
+
+  /// No description provided for @cardNameAtkU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'분쇄+'**
+  String get cardNameAtkU07Up;
+
+  /// No description provided for @cardDescAtkU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'14 데미지를 주고, 약화 2턴을 부여한다.'**
+  String get cardDescAtkU07Up;
+
+  /// No description provided for @cardNameAtkU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'무자비'**
+  String get cardNameAtkU08;
+
+  /// No description provided for @cardDescAtkU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'취약 상태 적에게 데미지 2배 (기본 6 데미지).'**
+  String get cardDescAtkU08;
+
+  /// No description provided for @cardNameAtkU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'무자비+'**
+  String get cardNameAtkU08Up;
+
+  /// No description provided for @cardDescAtkU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'취약 상태 적에게 데미지 2배 (기본 9 데미지).'**
+  String get cardDescAtkU08Up;
 }
 
 class _AppLocalizationsDelegate

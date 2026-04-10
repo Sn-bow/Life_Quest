@@ -1731,4 +1731,100 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cardDescAtkC10Up => '적 전체에 5 데미지를 준다.';
+
+  @override
+  String get cardNameAtkU01 => '파워 슬래시';
+
+  @override
+  String get cardDescAtkU01 => '14 데미지를 주고, 취약 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU01Up => '파워 슬래시+';
+
+  @override
+  String get cardDescAtkU01Up => '18 데미지를 주고, 취약 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU02 => '칼날 춤';
+
+  @override
+  String get cardDescAtkU02 => '3 데미지를 3회 주고, 방어도 3을 얻는다.';
+
+  @override
+  String get cardNameAtkU02Up => '칼날 춤+';
+
+  @override
+  String get cardDescAtkU02Up => '4 데미지를 3회 주고, 방어도 5를 얻는다.';
+
+  @override
+  String get cardNameAtkU03 => '처형';
+
+  @override
+  String get cardDescAtkU03 => '적 HP 50% 이하면 30 데미지, 아니면 10 데미지.';
+
+  @override
+  String get cardNameAtkU03Up => '처형+';
+
+  @override
+  String get cardDescAtkU03Up => '적 HP 50% 이하면 40 데미지, 아니면 14 데미지.';
+
+  @override
+  String get cardNameAtkU04 => '광폭화';
+
+  @override
+  String get cardDescAtkU04 => '힘 +2를 획득한다 (영구).';
+
+  @override
+  String get cardNameAtkU04Up => '광폭화+';
+
+  @override
+  String get cardDescAtkU04Up => '힘 +3을 획득한다 (영구).';
+
+  @override
+  String get cardNameAtkU05 => '피의 맹세';
+
+  @override
+  String get cardDescAtkU05 => 'HP 3을 잃고, 8 데미지를 주고, 힘 +1을 얻는다.';
+
+  @override
+  String get cardNameAtkU05Up => '피의 맹세+';
+
+  @override
+  String get cardDescAtkU05Up => 'HP 3을 잃고, 12 데미지를 주고, 힘 +1을 얻는다.';
+
+  @override
+  String get cardNameAtkU06 => '회전 베기';
+
+  @override
+  String get cardDescAtkU06 => '적 전체에 8 데미지를 준다.';
+
+  @override
+  String get cardNameAtkU06Up => '회전 베기+';
+
+  @override
+  String get cardDescAtkU06Up => '적 전체에 12 데미지를 준다.';
+
+  @override
+  String get cardNameAtkU07 => '분쇄';
+
+  @override
+  String get cardDescAtkU07 => '10 데미지를 주고, 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU07Up => '분쇄+';
+
+  @override
+  String get cardDescAtkU07Up => '14 데미지를 주고, 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU08 => '무자비';
+
+  @override
+  String get cardDescAtkU08 => '취약 상태 적에게 데미지 2배 (기본 6 데미지).';
+
+  @override
+  String get cardNameAtkU08Up => '무자비+';
+
+  @override
+  String get cardDescAtkU08Up => '취약 상태 적에게 데미지 2배 (기본 9 데미지).';
 }

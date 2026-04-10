@@ -1711,4 +1711,100 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardDescAtkC10Up => '对所有敌人造成5点伤害。';
+
+  @override
+  String get cardNameAtkU01 => '强力斩击';
+
+  @override
+  String get cardDescAtkU01 => '造成14点伤害，施加脆弱2回合。';
+
+  @override
+  String get cardNameAtkU01Up => '强力斩击+';
+
+  @override
+  String get cardDescAtkU01Up => '造成18点伤害，施加脆弱2回合。';
+
+  @override
+  String get cardNameAtkU02 => '刀刃之舞';
+
+  @override
+  String get cardDescAtkU02 => '造成3次3点伤害，获得3格挡。';
+
+  @override
+  String get cardNameAtkU02Up => '刀刃之舞+';
+
+  @override
+  String get cardDescAtkU02Up => '造成3次4点伤害，获得5格挡。';
+
+  @override
+  String get cardNameAtkU03 => '处决';
+
+  @override
+  String get cardDescAtkU03 => '敌人HP低于50%时造成30点伤害，否则10点伤害。';
+
+  @override
+  String get cardNameAtkU03Up => '处决+';
+
+  @override
+  String get cardDescAtkU03Up => '敌人HP低于50%时造成40点伤害，否则14点伤害。';
+
+  @override
+  String get cardNameAtkU04 => '狂暴';
+
+  @override
+  String get cardDescAtkU04 => '获得力量+2（永久）。';
+
+  @override
+  String get cardNameAtkU04Up => '狂暴+';
+
+  @override
+  String get cardDescAtkU04Up => '获得力量+3（永久）。';
+
+  @override
+  String get cardNameAtkU05 => '血誓';
+
+  @override
+  String get cardDescAtkU05 => '失去3HP，造成8点伤害，获得力量+1。';
+
+  @override
+  String get cardNameAtkU05Up => '血誓+';
+
+  @override
+  String get cardDescAtkU05Up => '失去3HP，造成12点伤害，获得力量+1。';
+
+  @override
+  String get cardNameAtkU06 => '旋风斩';
+
+  @override
+  String get cardDescAtkU06 => '对所有敌人造成8点伤害。';
+
+  @override
+  String get cardNameAtkU06Up => '旋风斩+';
+
+  @override
+  String get cardDescAtkU06Up => '对所有敌人造成12点伤害。';
+
+  @override
+  String get cardNameAtkU07 => '粉碎';
+
+  @override
+  String get cardDescAtkU07 => '造成10点伤害，施加虚弱2回合。';
+
+  @override
+  String get cardNameAtkU07Up => '粉碎+';
+
+  @override
+  String get cardDescAtkU07Up => '造成14点伤害，施加虚弱2回合。';
+
+  @override
+  String get cardNameAtkU08 => '无情';
+
+  @override
+  String get cardDescAtkU08 => '对脆弱状态敌人造成双倍伤害（基础6点伤害）。';
+
+  @override
+  String get cardNameAtkU08Up => '无情+';
+
+  @override
+  String get cardDescAtkU08Up => '对脆弱状态敌人造成双倍伤害（基础9点伤害）。';
 }
