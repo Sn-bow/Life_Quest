@@ -1569,4 +1569,166 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get cardCollectionDefaultDeckMessage =>
       '기본 스타터 덱 사용 중\n컬렉션에서 카드를 추가하세요';
+
+  @override
+  String get cardNameBaseStrike => '기본 공격';
+
+  @override
+  String get cardDescBaseStrike => '6 데미지를 준다.';
+
+  @override
+  String get cardNameBaseDefend => '기본 방어';
+
+  @override
+  String get cardDescBaseDefend => '방어도 5를 얻는다.';
+
+  @override
+  String get cardNameBaseFocus => '집중';
+
+  @override
+  String get cardDescBaseFocus => '카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameCursePain => '고통';
+
+  @override
+  String get cardDescCursePain => '사용 불가. 패에 잡히면 HP 1을 잃는다.';
+
+  @override
+  String get cardNameCurseDoubt => '의심';
+
+  @override
+  String get cardDescCurseDoubt => '사용 불가. 패에 있으면 드로우 -1.';
+
+  @override
+  String get cardNameCurseBurden => '짐';
+
+  @override
+  String get cardDescCurseBurden => '사용 불가. 패에 있으면 에너지 -1.';
+
+  @override
+  String get cardNameCurseDecay => '부식';
+
+  @override
+  String get cardDescCurseDecay => '사용 불가. 매 턴 방어 -3.';
+
+  @override
+  String get cardNameAtkC01 => '강타';
+
+  @override
+  String get cardDescAtkC01 => '6 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC01Up => '강타+';
+
+  @override
+  String get cardDescAtkC01Up => '9 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC02 => '베기';
+
+  @override
+  String get cardDescAtkC02 => '4 데미지를 주고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameAtkC02Up => '베기+';
+
+  @override
+  String get cardDescAtkC02Up => '6 데미지를 주고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameAtkC03 => '연속 공격';
+
+  @override
+  String get cardDescAtkC03 => '3 데미지를 2회 준다.';
+
+  @override
+  String get cardNameAtkC03Up => '연속 공격+';
+
+  @override
+  String get cardDescAtkC03Up => '3 데미지를 3회 준다.';
+
+  @override
+  String get cardNameAtkC04 => '분노의 일격';
+
+  @override
+  String get cardDescAtkC04 => '3 데미지를 주고, 분노 카드 1장을 디스카드에 추가한다.';
+
+  @override
+  String get cardNameAtkC04Up => '분노의 일격+';
+
+  @override
+  String get cardDescAtkC04Up => '5 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC05 => '돌진';
+
+  @override
+  String get cardDescAtkC05 => '12 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC05Up => '돌진+';
+
+  @override
+  String get cardDescAtkC05Up => '16 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC06 => '출혈 공격';
+
+  @override
+  String get cardDescAtkC06 => '4 데미지를 주고, 독 2를 부여한다.';
+
+  @override
+  String get cardNameAtkC06Up => '출혈 공격+';
+
+  @override
+  String get cardDescAtkC06Up => '4 데미지를 주고, 독 4를 부여한다.';
+
+  @override
+  String get cardNameAtkC07 => '빠른 찌르기';
+
+  @override
+  String get cardDescAtkC07 => '3 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC07Up => '빠른 찌르기+';
+
+  @override
+  String get cardDescAtkC07Up => '5 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC08 => '도발';
+
+  @override
+  String get cardDescAtkC08 => '5 데미지를 주고, 취약 1턴을 부여한다.';
+
+  @override
+  String get cardNameAtkC08Up => '도발+';
+
+  @override
+  String get cardDescAtkC08Up => '8 데미지를 주고, 취약 1턴을 부여한다.';
+
+  @override
+  String get cardNameAtkC09 => '기습';
+
+  @override
+  String get cardDescAtkC09 => '첫 턴이면 12 데미지, 아니면 6 데미지.';
+
+  @override
+  String get cardNameAtkC09Up => '기습+';
+
+  @override
+  String get cardDescAtkC09Up => '첫 턴이면 18 데미지, 아니면 9 데미지.';
+
+  @override
+  String get cardNameAtkC10 => '칼날 바람';
+
+  @override
+  String get cardDescAtkC10 => '적 전체에 3 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC10Up => '칼날 바람+';
+
+  @override
+  String get cardDescAtkC10Up => '적 전체에 5 데미지를 준다.';
 }

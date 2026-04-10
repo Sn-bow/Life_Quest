@@ -1549,4 +1549,166 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardCollectionDefaultDeckMessage => '当前使用默认初始牌组\n从收藏中添加卡牌';
+
+  @override
+  String get cardNameBaseStrike => '基础攻击';
+
+  @override
+  String get cardDescBaseStrike => '造成6点伤害。';
+
+  @override
+  String get cardNameBaseDefend => '基础格挡';
+
+  @override
+  String get cardDescBaseDefend => '获得5点格挡。';
+
+  @override
+  String get cardNameBaseFocus => '集中';
+
+  @override
+  String get cardDescBaseFocus => '抽1张牌。';
+
+  @override
+  String get cardNameCursePain => '痛苦';
+
+  @override
+  String get cardDescCursePain => '无法使用。每次抽到时失去1HP。';
+
+  @override
+  String get cardNameCurseDoubt => '疑虑';
+
+  @override
+  String get cardDescCurseDoubt => '无法使用。每回合少抽1张牌。';
+
+  @override
+  String get cardNameCurseBurden => '负担';
+
+  @override
+  String get cardDescCurseBurden => '无法使用。每回合开始时失去1能量。';
+
+  @override
+  String get cardNameCurseDecay => '腐蚀';
+
+  @override
+  String get cardDescCurseDecay => '无法使用。每回合失去3点格挡。';
+
+  @override
+  String get cardNameAtkC01 => '重击';
+
+  @override
+  String get cardDescAtkC01 => '造成6点伤害。';
+
+  @override
+  String get cardNameAtkC01Up => '重击+';
+
+  @override
+  String get cardDescAtkC01Up => '造成9点伤害。';
+
+  @override
+  String get cardNameAtkC02 => '斩击';
+
+  @override
+  String get cardDescAtkC02 => '造成4点伤害，抽1张牌。';
+
+  @override
+  String get cardNameAtkC02Up => '斩击+';
+
+  @override
+  String get cardDescAtkC02Up => '造成6点伤害，抽1张牌。';
+
+  @override
+  String get cardNameAtkC03 => '连击';
+
+  @override
+  String get cardDescAtkC03 => '造成3点伤害，共2次。';
+
+  @override
+  String get cardNameAtkC03Up => '连击+';
+
+  @override
+  String get cardDescAtkC03Up => '造成3点伤害，共3次。';
+
+  @override
+  String get cardNameAtkC04 => '怒击';
+
+  @override
+  String get cardDescAtkC04 => '造成3点伤害，将1张愤怒牌加入弃牌堆。';
+
+  @override
+  String get cardNameAtkC04Up => '怒击+';
+
+  @override
+  String get cardDescAtkC04Up => '造成5点伤害。';
+
+  @override
+  String get cardNameAtkC05 => '冲锋';
+
+  @override
+  String get cardDescAtkC05 => '造成12点伤害。';
+
+  @override
+  String get cardNameAtkC05Up => '冲锋+';
+
+  @override
+  String get cardDescAtkC05Up => '造成16点伤害。';
+
+  @override
+  String get cardNameAtkC06 => '流血攻击';
+
+  @override
+  String get cardDescAtkC06 => '造成4点伤害，施加2层中毒。';
+
+  @override
+  String get cardNameAtkC06Up => '流血攻击+';
+
+  @override
+  String get cardDescAtkC06Up => '造成4点伤害，施加4层中毒。';
+
+  @override
+  String get cardNameAtkC07 => '快刺';
+
+  @override
+  String get cardDescAtkC07 => '造成3点伤害。';
+
+  @override
+  String get cardNameAtkC07Up => '快刺+';
+
+  @override
+  String get cardDescAtkC07Up => '造成5点伤害。';
+
+  @override
+  String get cardNameAtkC08 => '挑衅';
+
+  @override
+  String get cardDescAtkC08 => '造成5点伤害，施加1回合易伤。';
+
+  @override
+  String get cardNameAtkC08Up => '挑衅+';
+
+  @override
+  String get cardDescAtkC08Up => '造成8点伤害，施加1回合易伤。';
+
+  @override
+  String get cardNameAtkC09 => '突袭';
+
+  @override
+  String get cardDescAtkC09 => '第1回合造成12点伤害，否则造成6点伤害。';
+
+  @override
+  String get cardNameAtkC09Up => '突袭+';
+
+  @override
+  String get cardDescAtkC09Up => '第1回合造成18点伤害，否则造成9点伤害。';
+
+  @override
+  String get cardNameAtkC10 => '刀刃风暴';
+
+  @override
+  String get cardDescAtkC10 => '对所有敌人造成3点伤害。';
+
+  @override
+  String get cardNameAtkC10Up => '刀刃风暴+';
+
+  @override
+  String get cardDescAtkC10Up => '对所有敌人造成5点伤害。';
 }

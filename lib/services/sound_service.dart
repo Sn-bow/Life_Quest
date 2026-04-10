@@ -47,8 +47,8 @@ class SoundService {
       final pool = _getPool();
       final player = pool[_poolIndex];
       _poolIndex = (_poolIndex + 1) % _poolSize;
-      player.stop();
-      player.play(AssetSource(assetPath));
+      player.stop().ignore();
+      player.play(AssetSource(assetPath)).ignore();
     } catch (e) {
       debugPrint('Error playing sound $assetPath: $e');
     }

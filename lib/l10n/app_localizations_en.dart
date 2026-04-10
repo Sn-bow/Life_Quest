@@ -1599,4 +1599,168 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cardCollectionDefaultDeckMessage =>
       'Using default starter deck\nAdd cards from your collection';
+
+  @override
+  String get cardNameBaseStrike => 'Basic Strike';
+
+  @override
+  String get cardDescBaseStrike => 'Deal 6 damage.';
+
+  @override
+  String get cardNameBaseDefend => 'Basic Block';
+
+  @override
+  String get cardDescBaseDefend => 'Gain 5 Block.';
+
+  @override
+  String get cardNameBaseFocus => 'Focus';
+
+  @override
+  String get cardDescBaseFocus => 'Draw 1 card.';
+
+  @override
+  String get cardNameCursePain => 'Pain';
+
+  @override
+  String get cardDescCursePain => 'Unplayable. Lose 1 HP whenever drawn.';
+
+  @override
+  String get cardNameCurseDoubt => 'Doubt';
+
+  @override
+  String get cardDescCurseDoubt => 'Unplayable. Draw 1 less card each turn.';
+
+  @override
+  String get cardNameCurseBurden => 'Burden';
+
+  @override
+  String get cardDescCurseBurden =>
+      'Unplayable. Lose 1 Energy at the start of each turn.';
+
+  @override
+  String get cardNameCurseDecay => 'Decay';
+
+  @override
+  String get cardDescCurseDecay => 'Unplayable. Lose 3 Block each turn.';
+
+  @override
+  String get cardNameAtkC01 => 'Strike';
+
+  @override
+  String get cardDescAtkC01 => 'Deal 6 damage.';
+
+  @override
+  String get cardNameAtkC01Up => 'Strike+';
+
+  @override
+  String get cardDescAtkC01Up => 'Deal 9 damage.';
+
+  @override
+  String get cardNameAtkC02 => 'Slash';
+
+  @override
+  String get cardDescAtkC02 => 'Deal 4 damage. Draw 1 card.';
+
+  @override
+  String get cardNameAtkC02Up => 'Slash+';
+
+  @override
+  String get cardDescAtkC02Up => 'Deal 6 damage. Draw 1 card.';
+
+  @override
+  String get cardNameAtkC03 => 'Twin Strike';
+
+  @override
+  String get cardDescAtkC03 => 'Deal 3 damage twice.';
+
+  @override
+  String get cardNameAtkC03Up => 'Twin Strike+';
+
+  @override
+  String get cardDescAtkC03Up => 'Deal 3 damage three times.';
+
+  @override
+  String get cardNameAtkC04 => 'Rage Strike';
+
+  @override
+  String get cardDescAtkC04 => 'Deal 3 damage. Add 1 Rage card to discard.';
+
+  @override
+  String get cardNameAtkC04Up => 'Rage Strike+';
+
+  @override
+  String get cardDescAtkC04Up => 'Deal 5 damage.';
+
+  @override
+  String get cardNameAtkC05 => 'Charge';
+
+  @override
+  String get cardDescAtkC05 => 'Deal 12 damage.';
+
+  @override
+  String get cardNameAtkC05Up => 'Charge+';
+
+  @override
+  String get cardDescAtkC05Up => 'Deal 16 damage.';
+
+  @override
+  String get cardNameAtkC06 => 'Bleed';
+
+  @override
+  String get cardDescAtkC06 => 'Deal 4 damage. Apply 2 Poison.';
+
+  @override
+  String get cardNameAtkC06Up => 'Bleed+';
+
+  @override
+  String get cardDescAtkC06Up => 'Deal 4 damage. Apply 4 Poison.';
+
+  @override
+  String get cardNameAtkC07 => 'Quick Stab';
+
+  @override
+  String get cardDescAtkC07 => 'Deal 3 damage.';
+
+  @override
+  String get cardNameAtkC07Up => 'Quick Stab+';
+
+  @override
+  String get cardDescAtkC07Up => 'Deal 5 damage.';
+
+  @override
+  String get cardNameAtkC08 => 'Taunt';
+
+  @override
+  String get cardDescAtkC08 => 'Deal 5 damage. Apply 1 turn Vulnerable.';
+
+  @override
+  String get cardNameAtkC08Up => 'Taunt+';
+
+  @override
+  String get cardDescAtkC08Up => 'Deal 8 damage. Apply 1 turn Vulnerable.';
+
+  @override
+  String get cardNameAtkC09 => 'Ambush';
+
+  @override
+  String get cardDescAtkC09 => 'Deal 12 damage on the first turn, otherwise 6.';
+
+  @override
+  String get cardNameAtkC09Up => 'Ambush+';
+
+  @override
+  String get cardDescAtkC09Up =>
+      'Deal 18 damage on the first turn, otherwise 9.';
+
+  @override
+  String get cardNameAtkC10 => 'Blade Storm';
+
+  @override
+  String get cardDescAtkC10 => 'Deal 3 damage to all enemies.';
+
+  @override
+  String get cardNameAtkC10Up => 'Blade Storm+';
+
+  @override
+  String get cardDescAtkC10Up => 'Deal 5 damage to all enemies.';
 }

@@ -325,7 +325,9 @@ class CharacterState extends ChangeNotifier {
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
-    unawaited(NotificationService().cancelAllNotifications());
+    NotificationService().cancelAllNotifications().catchError((e) {
+      debugPrint('Notification cancel error (non-fatal): $e');
+    });
   }
 
   Future<void> changeThemeMode(ThemeMode mode) async {
@@ -1073,11 +1075,11 @@ class CharacterState extends ChangeNotifier {
       _pendingSave = true;
       return;
     }
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
     _isSaving = true;
 
     try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
       final lastLoginDate = _character!.lastLoginDate;
       final docRef = _firestore.collection('users').doc(user.uid);
       final data = {

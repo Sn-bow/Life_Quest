@@ -1562,4 +1562,166 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get cardCollectionDefaultDeckMessage =>
       'デフォルトのスターターデッキを使用中\nコレクションからカードを追加しましょう';
+
+  @override
+  String get cardNameBaseStrike => 'ベーシックストライク';
+
+  @override
+  String get cardDescBaseStrike => '6ダメージを与える。';
+
+  @override
+  String get cardNameBaseDefend => 'ベーシックブロック';
+
+  @override
+  String get cardDescBaseDefend => 'ブロック5を得る。';
+
+  @override
+  String get cardNameBaseFocus => '集中';
+
+  @override
+  String get cardDescBaseFocus => 'カードを1枚引く。';
+
+  @override
+  String get cardNameCursePain => '苦痛';
+
+  @override
+  String get cardDescCursePain => '使用不可。引くたびにHP1を失う。';
+
+  @override
+  String get cardNameCurseDoubt => '疑念';
+
+  @override
+  String get cardDescCurseDoubt => '使用不可。毎ターンドロー-1。';
+
+  @override
+  String get cardNameCurseBurden => '重荷';
+
+  @override
+  String get cardDescCurseBurden => '使用不可。毎ターン開始時エナジー-1。';
+
+  @override
+  String get cardNameCurseDecay => '腐食';
+
+  @override
+  String get cardDescCurseDecay => '使用不可。毎ターンブロック-3。';
+
+  @override
+  String get cardNameAtkC01 => '強打';
+
+  @override
+  String get cardDescAtkC01 => '6ダメージを与える。';
+
+  @override
+  String get cardNameAtkC01Up => '強打+';
+
+  @override
+  String get cardDescAtkC01Up => '9ダメージを与える。';
+
+  @override
+  String get cardNameAtkC02 => '斬撃';
+
+  @override
+  String get cardDescAtkC02 => '4ダメージを与え、カードを1枚引く。';
+
+  @override
+  String get cardNameAtkC02Up => '斬撃+';
+
+  @override
+  String get cardDescAtkC02Up => '6ダメージを与え、カードを1枚引く。';
+
+  @override
+  String get cardNameAtkC03 => '連続攻撃';
+
+  @override
+  String get cardDescAtkC03 => '3ダメージを2回与える。';
+
+  @override
+  String get cardNameAtkC03Up => '連続攻撃+';
+
+  @override
+  String get cardDescAtkC03Up => '3ダメージを3回与える。';
+
+  @override
+  String get cardNameAtkC04 => '怒りの一撃';
+
+  @override
+  String get cardDescAtkC04 => '3ダメージを与え、怒りカード1枚をディスカードに追加する。';
+
+  @override
+  String get cardNameAtkC04Up => '怒りの一撃+';
+
+  @override
+  String get cardDescAtkC04Up => '5ダメージを与える。';
+
+  @override
+  String get cardNameAtkC05 => '突進';
+
+  @override
+  String get cardDescAtkC05 => '12ダメージを与える。';
+
+  @override
+  String get cardNameAtkC05Up => '突進+';
+
+  @override
+  String get cardDescAtkC05Up => '16ダメージを与える。';
+
+  @override
+  String get cardNameAtkC06 => '出血攻撃';
+
+  @override
+  String get cardDescAtkC06 => '4ダメージを与え、毒2を付与する。';
+
+  @override
+  String get cardNameAtkC06Up => '出血攻撃+';
+
+  @override
+  String get cardDescAtkC06Up => '4ダメージを与え、毒4を付与する。';
+
+  @override
+  String get cardNameAtkC07 => '素早い刺し';
+
+  @override
+  String get cardDescAtkC07 => '3ダメージを与える。';
+
+  @override
+  String get cardNameAtkC07Up => '素早い刺し+';
+
+  @override
+  String get cardDescAtkC07Up => '5ダメージを与える。';
+
+  @override
+  String get cardNameAtkC08 => '挑発';
+
+  @override
+  String get cardDescAtkC08 => '5ダメージを与え、脆弱1ターンを付与する。';
+
+  @override
+  String get cardNameAtkC08Up => '挑発+';
+
+  @override
+  String get cardDescAtkC08Up => '8ダメージを与え、脆弱1ターンを付与する。';
+
+  @override
+  String get cardNameAtkC09 => '奇襲';
+
+  @override
+  String get cardDescAtkC09 => '1ターン目なら12ダメージ、それ以外は6ダメージ。';
+
+  @override
+  String get cardNameAtkC09Up => '奇襲+';
+
+  @override
+  String get cardDescAtkC09Up => '1ターン目なら18ダメージ、それ以外は9ダメージ。';
+
+  @override
+  String get cardNameAtkC10 => '刃の嵐';
+
+  @override
+  String get cardDescAtkC10 => '全ての敵に3ダメージを与える。';
+
+  @override
+  String get cardNameAtkC10Up => '刃の嵐+';
+
+  @override
+  String get cardDescAtkC10Up => '全ての敵に5ダメージを与える。';
 }
