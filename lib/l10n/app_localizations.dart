@@ -3665,6 +3665,606 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'12 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.'**
   String get cardDescAtkL02Up;
+
+  /// No description provided for @cardNameMagC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'화염탄'**
+  String get cardNameMagC01;
+
+  /// No description provided for @cardDescMagC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'4 데미지를 주고, 화상 2턴을 부여한다.'**
+  String get cardDescMagC01;
+
+  /// No description provided for @cardNameMagC01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'화염탄+'**
+  String get cardNameMagC01Up;
+
+  /// No description provided for @cardDescMagC01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'6 데미지를 주고, 화상 3턴을 부여한다.'**
+  String get cardDescMagC01Up;
+
+  /// No description provided for @cardNameMagC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'서리 화살'**
+  String get cardNameMagC02;
+
+  /// No description provided for @cardDescMagC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'5 데미지를 주고, 약화 1턴을 부여한다.'**
+  String get cardDescMagC02;
+
+  /// No description provided for @cardNameMagC02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'서리 화살+'**
+  String get cardNameMagC02Up;
+
+  /// No description provided for @cardDescMagC02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'8 데미지를 주고, 약화 1턴을 부여한다.'**
+  String get cardDescMagC02Up;
+
+  /// No description provided for @cardNameMagC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'마나 집중'**
+  String get cardNameMagC03;
+
+  /// No description provided for @cardDescMagC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 +1, 카드 1장을 드로우한다.'**
+  String get cardDescMagC03;
+
+  /// No description provided for @cardNameMagC03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'마나 집중+'**
+  String get cardNameMagC03Up;
+
+  /// No description provided for @cardDescMagC03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 +1, 카드 2장을 드로우한다.'**
+  String get cardDescMagC03Up;
+
+  /// No description provided for @cardNameMagC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'전기 충격'**
+  String get cardNameMagC04;
+
+  /// No description provided for @cardDescMagC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'7 데미지를 준다 (랜덤 적).'**
+  String get cardDescMagC04;
+
+  /// No description provided for @cardNameMagC04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'전기 충격+'**
+  String get cardNameMagC04Up;
+
+  /// No description provided for @cardDescMagC04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'10 데미지를 준다 (랜덤 적).'**
+  String get cardDescMagC04Up;
+
+  /// No description provided for @cardNameMagC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법 화살'**
+  String get cardNameMagC05;
+
+  /// No description provided for @cardDescMagC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'4 데미지를 2회 준다 (랜덤 대상).'**
+  String get cardDescMagC05;
+
+  /// No description provided for @cardNameMagC05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법 화살+'**
+  String get cardNameMagC05Up;
+
+  /// No description provided for @cardDescMagC05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'4 데미지를 3회 준다 (랜덤 대상).'**
+  String get cardDescMagC05Up;
+
+  /// No description provided for @cardNameMagC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'명상'**
+  String get cardNameMagC06;
+
+  /// No description provided for @cardDescMagC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 2장을 드로우한다.'**
+  String get cardDescMagC06;
+
+  /// No description provided for @cardNameMagC06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'명상+'**
+  String get cardNameMagC06Up;
+
+  /// No description provided for @cardDescMagC06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 3장을 드로우한다.'**
+  String get cardDescMagC06Up;
+
+  /// No description provided for @cardNameMagC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'지식의 빛'**
+  String get cardNameMagC07;
+
+  /// No description provided for @cardDescMagC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'드로우 파일 상위 3장을 확인하고, 1장을 패로 가져온다.'**
+  String get cardDescMagC07;
+
+  /// No description provided for @cardNameMagC07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'지식의 빛+'**
+  String get cardNameMagC07Up;
+
+  /// No description provided for @cardDescMagC07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'드로우 파일 상위 3장 중 2장을 패로 가져온다.'**
+  String get cardDescMagC07Up;
+
+  /// No description provided for @cardNameMagC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'독안개'**
+  String get cardNameMagC08;
+
+  /// No description provided for @cardDescMagC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 독 3을 부여한다.'**
+  String get cardDescMagC08;
+
+  /// No description provided for @cardNameMagC08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'독안개+'**
+  String get cardNameMagC08Up;
+
+  /// No description provided for @cardDescMagC08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 독 5를 부여한다.'**
+  String get cardDescMagC08Up;
+
+  /// No description provided for @cardNameMagC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'마력 폭발'**
+  String get cardNameMagC09;
+
+  /// No description provided for @cardDescMagC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'10 데미지를 주고, 집중 +1을 얻는다.'**
+  String get cardDescMagC09;
+
+  /// No description provided for @cardNameMagC09Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'마력 폭발+'**
+  String get cardNameMagC09Up;
+
+  /// No description provided for @cardDescMagC09Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'14 데미지를 주고, 집중 +1을 얻는다.'**
+  String get cardDescMagC09Up;
+
+  /// No description provided for @cardNameMagC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'원소 조화'**
+  String get cardNameMagC10;
+
+  /// No description provided for @cardDescMagC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 카드 효과를 50% 증가시킨다.'**
+  String get cardDescMagC10;
+
+  /// No description provided for @cardNameMagC10Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'원소 조화+'**
+  String get cardNameMagC10Up;
+
+  /// No description provided for @cardDescMagC10Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 카드 효과를 100% 증가시킨다.'**
+  String get cardDescMagC10Up;
+
+  /// No description provided for @cardNameMagU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'연쇄 번개'**
+  String get cardNameMagU01;
+
+  /// No description provided for @cardDescMagU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'8 데미지를 주고, 적 전체에 4 데미지를 준다.'**
+  String get cardDescMagU01;
+
+  /// No description provided for @cardNameMagU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'연쇄 번개+'**
+  String get cardNameMagU01Up;
+
+  /// No description provided for @cardDescMagU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'12 데미지를 주고, 적 전체에 6 데미지를 준다.'**
+  String get cardDescMagU01Up;
+
+  /// No description provided for @cardNameMagU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'빙결의 눈'**
+  String get cardNameMagU02;
+
+  /// No description provided for @cardDescMagU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'12 데미지를 주고, 빙결 1회를 부여한다.'**
+  String get cardDescMagU02;
+
+  /// No description provided for @cardNameMagU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'빙결의 눈+'**
+  String get cardNameMagU02Up;
+
+  /// No description provided for @cardDescMagU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'16 데미지를 주고, 빙결 1회를 부여한다.'**
+  String get cardDescMagU02Up;
+
+  /// No description provided for @cardNameMagU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜의 책'**
+  String get cardNameMagU03;
+
+  /// No description provided for @cardDescMagU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 3장을 드로우하고, 1장을 소멸시킨다.'**
+  String get cardDescMagU03;
+
+  /// No description provided for @cardNameMagU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜의 책+'**
+  String get cardNameMagU03Up;
+
+  /// No description provided for @cardDescMagU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 4장을 드로우한다.'**
+  String get cardDescMagU03Up;
+
+  /// No description provided for @cardNameMagU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'마나 과부하'**
+  String get cardNameMagU04;
+
+  /// No description provided for @cardDescMagU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 +2를 얻는다. 다음 턴 에너지 -1.'**
+  String get cardDescMagU04;
+
+  /// No description provided for @cardNameMagU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'마나 과부하+'**
+  String get cardNameMagU04Up;
+
+  /// No description provided for @cardDescMagU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 +3을 얻는다.'**
+  String get cardDescMagU04Up;
+
+  /// No description provided for @cardNameMagU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'원소 폭풍'**
+  String get cardNameMagU05;
+
+  /// No description provided for @cardDescMagU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 15 데미지를 준다.'**
+  String get cardDescMagU05;
+
+  /// No description provided for @cardNameMagU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'원소 폭풍+'**
+  String get cardNameMagU05Up;
+
+  /// No description provided for @cardDescMagU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 20 데미지를 준다.'**
+  String get cardDescMagU05Up;
+
+  /// No description provided for @cardNameMagU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'시간 왜곡'**
+  String get cardNameMagU06;
+
+  /// No description provided for @cardDescMagU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'추가 턴 1회를 얻는다 (에너지 0, 카드 유지).'**
+  String get cardDescMagU06;
+
+  /// No description provided for @cardNameMagU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'시간 왜곡+'**
+  String get cardNameMagU06Up;
+
+  /// No description provided for @cardDescMagU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'추가 턴 1회를 얻는다 (에너지 1로 시작).'**
+  String get cardDescMagU06Up;
+
+  /// No description provided for @cardNameMagU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법 증폭'**
+  String get cardNameMagU07;
+
+  /// No description provided for @cardDescMagU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'집중 +2를 얻는다 (영구).'**
+  String get cardDescMagU07;
+
+  /// No description provided for @cardNameMagU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법 증폭+'**
+  String get cardNameMagU07Up;
+
+  /// No description provided for @cardDescMagU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'집중 +3을 얻는다 (영구).'**
+  String get cardDescMagU07Up;
+
+  /// No description provided for @cardNameMagU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'복제술'**
+  String get cardNameMagU08;
+
+  /// No description provided for @cardDescMagU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'패의 카드 1장을 복사한다 (이번 턴만).'**
+  String get cardDescMagU08;
+
+  /// No description provided for @cardNameMagU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'복제술+'**
+  String get cardNameMagU08Up;
+
+  /// No description provided for @cardDescMagU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'패의 카드 1장을 비용 0으로 복사한다 (이번 턴만).'**
+  String get cardDescMagU08Up;
+
+  /// No description provided for @cardNameMagR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'메테오'**
+  String get cardNameMagR01;
+
+  /// No description provided for @cardDescMagR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 25 데미지를 주고, 화상 3턴을 부여한다.'**
+  String get cardDescMagR01;
+
+  /// No description provided for @cardNameMagR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'메테오+'**
+  String get cardNameMagR01Up;
+
+  /// No description provided for @cardDescMagR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 35 데미지를 주고, 화상 3턴을 부여한다.'**
+  String get cardDescMagR01Up;
+
+  /// No description provided for @cardNameMagR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'마나 폭주'**
+  String get cardNameMagR02;
+
+  /// No description provided for @cardDescMagR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'패의 모든 카드 비용이 이번 턴 0이 된다.'**
+  String get cardDescMagR02;
+
+  /// No description provided for @cardNameMagR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'마나 폭주+'**
+  String get cardNameMagR02Up;
+
+  /// No description provided for @cardDescMagR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'패의 모든 카드 비용이 다음 턴까지 0이 된다.'**
+  String get cardDescMagR02Up;
+
+  /// No description provided for @cardNameMagR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'차원의 균열'**
+  String get cardNameMagR03;
+
+  /// No description provided for @cardDescMagR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'디스카드 파일에서 3장을 패로 가져온다.'**
+  String get cardDescMagR03;
+
+  /// No description provided for @cardNameMagR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'차원의 균열+'**
+  String get cardNameMagR03Up;
+
+  /// No description provided for @cardDescMagR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'디스카드 파일에서 5장을 패로 가져온다.'**
+  String get cardDescMagR03Up;
+
+  /// No description provided for @cardNameMagR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'영혼 흡수'**
+  String get cardNameMagR04;
+
+  /// No description provided for @cardDescMagR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'12 데미지를 주고, 같은 양 HP를 회복한다.'**
+  String get cardDescMagR04;
+
+  /// No description provided for @cardNameMagR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'영혼 흡수+'**
+  String get cardNameMagR04Up;
+
+  /// No description provided for @cardDescMagR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'18 데미지를 주고, 같은 양 HP를 회복한다.'**
+  String get cardDescMagR04Up;
+
+  /// No description provided for @cardNameMagR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'절대영도'**
+  String get cardNameMagR05;
+
+  /// No description provided for @cardDescMagR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체를 빙결시키고, 10 데미지를 준다.'**
+  String get cardDescMagR05;
+
+  /// No description provided for @cardNameMagR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'절대영도+'**
+  String get cardNameMagR05Up;
+
+  /// No description provided for @cardDescMagR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체를 빙결시키고, 15 데미지를 준다.'**
+  String get cardDescMagR05Up;
+
+  /// No description provided for @cardNameMagL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'아마겟돈'**
+  String get cardNameMagL01;
+
+  /// No description provided for @cardDescMagL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 99 데미지를 준다. 자신도 30 데미지. 사용 후 소멸.'**
+  String get cardDescMagL01;
+
+  /// No description provided for @cardNameMagL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'아마겟돈+'**
+  String get cardNameMagL01Up;
+
+  /// No description provided for @cardDescMagL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 99 데미지를 준다. 자신 15 데미지. 사용 후 소멸.'**
+  String get cardDescMagL01Up;
+
+  /// No description provided for @cardNameMagL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'무한의 지혜'**
+  String get cardNameMagL02;
+
+  /// No description provided for @cardDescMagL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 5장을 드로우하고, 에너지 +2를 얻는다. 사용 후 소멸.'**
+  String get cardDescMagL02;
+
+  /// No description provided for @cardNameMagL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'무한의 지혜+'**
+  String get cardNameMagL02Up;
+
+  /// No description provided for @cardDescMagL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 7장을 드로우하고, 에너지 +3을 얻는다. 사용 후 소멸.'**
+  String get cardDescMagL02Up;
 }
 
 class _AppLocalizationsDelegate

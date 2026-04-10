@@ -1904,4 +1904,304 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cardDescAtkL02Up => '12ダメージを与える。使用するたびに永久+2ダメージ。';
+
+  @override
+  String get cardNameMagC01 => '火炎弾';
+
+  @override
+  String get cardDescMagC01 => '4ダメージを与え、炎上2ターンを付与する。';
+
+  @override
+  String get cardNameMagC01Up => '火炎弾+';
+
+  @override
+  String get cardDescMagC01Up => '6ダメージを与え、炎上3ターンを付与する。';
+
+  @override
+  String get cardNameMagC02 => '霜の矢';
+
+  @override
+  String get cardDescMagC02 => '5ダメージを与え、脱力1ターンを付与する。';
+
+  @override
+  String get cardNameMagC02Up => '霜の矢+';
+
+  @override
+  String get cardDescMagC02Up => '8ダメージを与え、脱力1ターンを付与する。';
+
+  @override
+  String get cardNameMagC03 => 'マナ集中';
+
+  @override
+  String get cardDescMagC03 => 'エネルギー+1を得て、カードを1枚引く。';
+
+  @override
+  String get cardNameMagC03Up => 'マナ集中+';
+
+  @override
+  String get cardDescMagC03Up => 'エネルギー+1を得て、カードを2枚引く。';
+
+  @override
+  String get cardNameMagC04 => '電撃';
+
+  @override
+  String get cardDescMagC04 => 'ランダムな敵に7ダメージを与える。';
+
+  @override
+  String get cardNameMagC04Up => '電撃+';
+
+  @override
+  String get cardDescMagC04Up => 'ランダムな敵に10ダメージを与える。';
+
+  @override
+  String get cardNameMagC05 => 'マジックミサイル';
+
+  @override
+  String get cardDescMagC05 => 'ランダムな対象に4ダメージを2回与える。';
+
+  @override
+  String get cardNameMagC05Up => 'マジックミサイル+';
+
+  @override
+  String get cardDescMagC05Up => 'ランダムな対象に4ダメージを3回与える。';
+
+  @override
+  String get cardNameMagC06 => '瞑想';
+
+  @override
+  String get cardDescMagC06 => 'カードを2枚引く。';
+
+  @override
+  String get cardNameMagC06Up => '瞑想+';
+
+  @override
+  String get cardDescMagC06Up => 'カードを3枚引く。';
+
+  @override
+  String get cardNameMagC07 => '知識の光';
+
+  @override
+  String get cardDescMagC07 => 'ドロー山の上3枚を確認し、1枚を手札に加える。';
+
+  @override
+  String get cardNameMagC07Up => '知識の光+';
+
+  @override
+  String get cardDescMagC07Up => 'ドロー山の上3枚から2枚を手札に加える。';
+
+  @override
+  String get cardNameMagC08 => '毒の霧';
+
+  @override
+  String get cardDescMagC08 => '全ての敵に毒3を付与する。';
+
+  @override
+  String get cardNameMagC08Up => '毒の霧+';
+
+  @override
+  String get cardDescMagC08Up => '全ての敵に毒5を付与する。';
+
+  @override
+  String get cardNameMagC09 => '魔力爆発';
+
+  @override
+  String get cardDescMagC09 => '10ダメージを与え、集中+1を得る。';
+
+  @override
+  String get cardNameMagC09Up => '魔力爆発+';
+
+  @override
+  String get cardDescMagC09Up => '14ダメージを与え、集中+1を得る。';
+
+  @override
+  String get cardNameMagC10 => '元素調和';
+
+  @override
+  String get cardDescMagC10 => '次のカードの効果を50%増加させる。';
+
+  @override
+  String get cardNameMagC10Up => '元素調和+';
+
+  @override
+  String get cardDescMagC10Up => '次のカードの効果を100%増加させる。';
+
+  @override
+  String get cardNameMagU01 => '連鎖雷';
+
+  @override
+  String get cardDescMagU01 => '8ダメージを与え、全ての敵に4ダメージを与える。';
+
+  @override
+  String get cardNameMagU01Up => '連鎖雷+';
+
+  @override
+  String get cardDescMagU01Up => '12ダメージを与え、全ての敵に6ダメージを与える。';
+
+  @override
+  String get cardNameMagU02 => '氷結の眼';
+
+  @override
+  String get cardDescMagU02 => '12ダメージを与え、氷結を1回付与する。';
+
+  @override
+  String get cardNameMagU02Up => '氷結の眼+';
+
+  @override
+  String get cardDescMagU02Up => '16ダメージを与え、氷結を1回付与する。';
+
+  @override
+  String get cardNameMagU03 => '知恵の書';
+
+  @override
+  String get cardDescMagU03 => 'カードを3枚引き、1枚を消滅させる。';
+
+  @override
+  String get cardNameMagU03Up => '知恵の書+';
+
+  @override
+  String get cardDescMagU03Up => 'カードを4枚引く。';
+
+  @override
+  String get cardNameMagU04 => 'マナ過負荷';
+
+  @override
+  String get cardDescMagU04 => 'エネルギー+2を得る。次のターンエネルギー-1。';
+
+  @override
+  String get cardNameMagU04Up => 'マナ過負荷+';
+
+  @override
+  String get cardDescMagU04Up => 'エネルギー+3を得る。';
+
+  @override
+  String get cardNameMagU05 => '元素嵐';
+
+  @override
+  String get cardDescMagU05 => '全ての敵に15ダメージを与える。';
+
+  @override
+  String get cardNameMagU05Up => '元素嵐+';
+
+  @override
+  String get cardDescMagU05Up => '全ての敵に20ダメージを与える。';
+
+  @override
+  String get cardNameMagU06 => '時間歪曲';
+
+  @override
+  String get cardDescMagU06 => '追加ターンを1回得る（エネルギー0、手札維持）。';
+
+  @override
+  String get cardNameMagU06Up => '時間歪曲+';
+
+  @override
+  String get cardDescMagU06Up => '追加ターンを1回得る（エネルギー1でスタート）。';
+
+  @override
+  String get cardNameMagU07 => '魔法増幅';
+
+  @override
+  String get cardDescMagU07 => '集中+2を得る（永続）。';
+
+  @override
+  String get cardNameMagU07Up => '魔法増幅+';
+
+  @override
+  String get cardDescMagU07Up => '集中+3を得る（永続）。';
+
+  @override
+  String get cardNameMagU08 => '複製術';
+
+  @override
+  String get cardDescMagU08 => '手札のカード1枚をコピーする（このターンのみ）。';
+
+  @override
+  String get cardNameMagU08Up => '複製術+';
+
+  @override
+  String get cardDescMagU08Up => '手札のカード1枚をコスト0でコピーする（このターンのみ）。';
+
+  @override
+  String get cardNameMagR01 => 'メテオ';
+
+  @override
+  String get cardDescMagR01 => '全ての敵に25ダメージを与え、炎上3ターンを付与する。';
+
+  @override
+  String get cardNameMagR01Up => 'メテオ+';
+
+  @override
+  String get cardDescMagR01Up => '全ての敵に35ダメージを与え、炎上3ターンを付与する。';
+
+  @override
+  String get cardNameMagR02 => 'マナ暴走';
+
+  @override
+  String get cardDescMagR02 => '手札の全カードのコストがこのターン0になる。';
+
+  @override
+  String get cardNameMagR02Up => 'マナ暴走+';
+
+  @override
+  String get cardDescMagR02Up => '手札の全カードのコストが次のターンまで0になる。';
+
+  @override
+  String get cardNameMagR03 => '次元の亀裂';
+
+  @override
+  String get cardDescMagR03 => '捨て山から3枚を手札に加える。';
+
+  @override
+  String get cardNameMagR03Up => '次元の亀裂+';
+
+  @override
+  String get cardDescMagR03Up => '捨て山から5枚を手札に加える。';
+
+  @override
+  String get cardNameMagR04 => '魂吸収';
+
+  @override
+  String get cardDescMagR04 => '12ダメージを与え、同量のHPを回復する。';
+
+  @override
+  String get cardNameMagR04Up => '魂吸収+';
+
+  @override
+  String get cardDescMagR04Up => '18ダメージを与え、同量のHPを回復する。';
+
+  @override
+  String get cardNameMagR05 => '絶対零度';
+
+  @override
+  String get cardDescMagR05 => '全ての敵を氷結させ、10ダメージを与える。';
+
+  @override
+  String get cardNameMagR05Up => '絶対零度+';
+
+  @override
+  String get cardDescMagR05Up => '全ての敵を氷結させ、15ダメージを与える。';
+
+  @override
+  String get cardNameMagL01 => 'アルマゲドン';
+
+  @override
+  String get cardDescMagL01 => '全ての敵に99ダメージを与える。自分も30ダメージ。使用後消滅。';
+
+  @override
+  String get cardNameMagL01Up => 'アルマゲドン+';
+
+  @override
+  String get cardDescMagL01Up => '全ての敵に99ダメージを与える。自分15ダメージ。使用後消滅。';
+
+  @override
+  String get cardNameMagL02 => '無限の知恵';
+
+  @override
+  String get cardDescMagL02 => 'カードを5枚引き、エネルギー+2を得る。使用後消滅。';
+
+  @override
+  String get cardNameMagL02Up => '無限の知恵+';
+
+  @override
+  String get cardDescMagL02Up => 'カードを7枚引き、エネルギー+3を得る。使用後消滅。';
 }

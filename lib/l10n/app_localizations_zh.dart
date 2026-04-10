@@ -1891,4 +1891,304 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardDescAtkL02Up => '造成12点伤害。每次使用永久+2伤害。';
+
+  @override
+  String get cardNameMagC01 => '火球';
+
+  @override
+  String get cardDescMagC01 => '造成4点伤害，施加燃烧2回合。';
+
+  @override
+  String get cardNameMagC01Up => '火球+';
+
+  @override
+  String get cardDescMagC01Up => '造成6点伤害，施加燃烧3回合。';
+
+  @override
+  String get cardNameMagC02 => '霜矢';
+
+  @override
+  String get cardDescMagC02 => '造成5点伤害，施加虚弱1回合。';
+
+  @override
+  String get cardNameMagC02Up => '霜矢+';
+
+  @override
+  String get cardDescMagC02Up => '造成8点伤害，施加虚弱1回合。';
+
+  @override
+  String get cardNameMagC03 => '法力集中';
+
+  @override
+  String get cardDescMagC03 => '获得能量+1，抽1张牌。';
+
+  @override
+  String get cardNameMagC03Up => '法力集中+';
+
+  @override
+  String get cardDescMagC03Up => '获得能量+1，抽2张牌。';
+
+  @override
+  String get cardNameMagC04 => '电击';
+
+  @override
+  String get cardDescMagC04 => '对随机敌人造成7点伤害。';
+
+  @override
+  String get cardNameMagC04Up => '电击+';
+
+  @override
+  String get cardDescMagC04Up => '对随机敌人造成10点伤害。';
+
+  @override
+  String get cardNameMagC05 => '魔法飞弹';
+
+  @override
+  String get cardDescMagC05 => '对随机目标造成2次4点伤害。';
+
+  @override
+  String get cardNameMagC05Up => '魔法飞弹+';
+
+  @override
+  String get cardDescMagC05Up => '对随机目标造成3次4点伤害。';
+
+  @override
+  String get cardNameMagC06 => '冥想';
+
+  @override
+  String get cardDescMagC06 => '抽2张牌。';
+
+  @override
+  String get cardNameMagC06Up => '冥想+';
+
+  @override
+  String get cardDescMagC06Up => '抽3张牌。';
+
+  @override
+  String get cardNameMagC07 => '知识之光';
+
+  @override
+  String get cardDescMagC07 => '查看牌库顶3张牌，将1张加入手牌。';
+
+  @override
+  String get cardNameMagC07Up => '知识之光+';
+
+  @override
+  String get cardDescMagC07Up => '查看牌库顶3张牌，将2张加入手牌。';
+
+  @override
+  String get cardNameMagC08 => '毒雾';
+
+  @override
+  String get cardDescMagC08 => '对所有敌人施加毒3。';
+
+  @override
+  String get cardNameMagC08Up => '毒雾+';
+
+  @override
+  String get cardDescMagC08Up => '对所有敌人施加毒5。';
+
+  @override
+  String get cardNameMagC09 => '魔力爆发';
+
+  @override
+  String get cardDescMagC09 => '造成10点伤害，获得专注+1。';
+
+  @override
+  String get cardNameMagC09Up => '魔力爆发+';
+
+  @override
+  String get cardDescMagC09Up => '造成14点伤害，获得专注+1。';
+
+  @override
+  String get cardNameMagC10 => '元素和谐';
+
+  @override
+  String get cardDescMagC10 => '使下一张牌的效果提高50%。';
+
+  @override
+  String get cardNameMagC10Up => '元素和谐+';
+
+  @override
+  String get cardDescMagC10Up => '使下一张牌的效果提高100%。';
+
+  @override
+  String get cardNameMagU01 => '连锁闪电';
+
+  @override
+  String get cardDescMagU01 => '造成8点伤害，对所有敌人造成4点伤害。';
+
+  @override
+  String get cardNameMagU01Up => '连锁闪电+';
+
+  @override
+  String get cardDescMagU01Up => '造成12点伤害，对所有敌人造成6点伤害。';
+
+  @override
+  String get cardNameMagU02 => '冰晶之眼';
+
+  @override
+  String get cardDescMagU02 => '造成12点伤害，施加冰结1次。';
+
+  @override
+  String get cardNameMagU02Up => '冰晶之眼+';
+
+  @override
+  String get cardDescMagU02Up => '造成16点伤害，施加冰结1次。';
+
+  @override
+  String get cardNameMagU03 => '智慧之书';
+
+  @override
+  String get cardDescMagU03 => '抽3张牌，消耗1张。';
+
+  @override
+  String get cardNameMagU03Up => '智慧之书+';
+
+  @override
+  String get cardDescMagU03Up => '抽4张牌。';
+
+  @override
+  String get cardNameMagU04 => '法力过载';
+
+  @override
+  String get cardDescMagU04 => '获得能量+2。下回合能量-1。';
+
+  @override
+  String get cardNameMagU04Up => '法力过载+';
+
+  @override
+  String get cardDescMagU04Up => '获得能量+3。';
+
+  @override
+  String get cardNameMagU05 => '元素风暴';
+
+  @override
+  String get cardDescMagU05 => '对所有敌人造成15点伤害。';
+
+  @override
+  String get cardNameMagU05Up => '元素风暴+';
+
+  @override
+  String get cardDescMagU05Up => '对所有敌人造成20点伤害。';
+
+  @override
+  String get cardNameMagU06 => '时间扭曲';
+
+  @override
+  String get cardDescMagU06 => '获得额外回合1次（能量0，保留手牌）。';
+
+  @override
+  String get cardNameMagU06Up => '时间扭曲+';
+
+  @override
+  String get cardDescMagU06Up => '获得额外回合1次（以1能量开始）。';
+
+  @override
+  String get cardNameMagU07 => '魔法增幅';
+
+  @override
+  String get cardDescMagU07 => '获得专注+2（永久）。';
+
+  @override
+  String get cardNameMagU07Up => '魔法增幅+';
+
+  @override
+  String get cardDescMagU07Up => '获得专注+3（永久）。';
+
+  @override
+  String get cardNameMagU08 => '复制术';
+
+  @override
+  String get cardDescMagU08 => '复制手牌中1张牌（仅本回合）。';
+
+  @override
+  String get cardNameMagU08Up => '复制术+';
+
+  @override
+  String get cardDescMagU08Up => '以费用0复制手牌中1张牌（仅本回合）。';
+
+  @override
+  String get cardNameMagR01 => '陨石';
+
+  @override
+  String get cardDescMagR01 => '对所有敌人造成25点伤害，施加燃烧3回合。';
+
+  @override
+  String get cardNameMagR01Up => '陨石+';
+
+  @override
+  String get cardDescMagR01Up => '对所有敌人造成35点伤害，施加燃烧3回合。';
+
+  @override
+  String get cardNameMagR02 => '法力暴走';
+
+  @override
+  String get cardDescMagR02 => '手牌中所有牌本回合费用变为0。';
+
+  @override
+  String get cardNameMagR02Up => '法力暴走+';
+
+  @override
+  String get cardDescMagR02Up => '手牌中所有牌的费用下回合前变为0。';
+
+  @override
+  String get cardNameMagR03 => '次元裂隙';
+
+  @override
+  String get cardDescMagR03 => '从弃牌堆取回3张牌。';
+
+  @override
+  String get cardNameMagR03Up => '次元裂隙+';
+
+  @override
+  String get cardDescMagR03Up => '从弃牌堆取回5张牌。';
+
+  @override
+  String get cardNameMagR04 => '灵魂吸收';
+
+  @override
+  String get cardDescMagR04 => '造成12点伤害，回复等量HP。';
+
+  @override
+  String get cardNameMagR04Up => '灵魂吸收+';
+
+  @override
+  String get cardDescMagR04Up => '造成18点伤害，回复等量HP。';
+
+  @override
+  String get cardNameMagR05 => '绝对零度';
+
+  @override
+  String get cardDescMagR05 => '使所有敌人冰结，造成10点伤害。';
+
+  @override
+  String get cardNameMagR05Up => '绝对零度+';
+
+  @override
+  String get cardDescMagR05Up => '使所有敌人冰结，造成15点伤害。';
+
+  @override
+  String get cardNameMagL01 => '末日审判';
+
+  @override
+  String get cardDescMagL01 => '对所有敌人造成99点伤害。自身受到30点伤害。使用后消耗。';
+
+  @override
+  String get cardNameMagL01Up => '末日审判+';
+
+  @override
+  String get cardDescMagL01Up => '对所有敌人造成99点伤害。自身受到15点伤害。使用后消耗。';
+
+  @override
+  String get cardNameMagL02 => '无限智慧';
+
+  @override
+  String get cardDescMagL02 => '抽5张牌，获得能量+2。使用后消耗。';
+
+  @override
+  String get cardNameMagL02Up => '无限智慧+';
+
+  @override
+  String get cardDescMagL02Up => '抽7张牌，获得能量+3。使用后消耗。';
 }

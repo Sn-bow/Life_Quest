@@ -1911,4 +1911,304 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cardDescAtkL02Up => '12 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.';
+
+  @override
+  String get cardNameMagC01 => '화염탄';
+
+  @override
+  String get cardDescMagC01 => '4 데미지를 주고, 화상 2턴을 부여한다.';
+
+  @override
+  String get cardNameMagC01Up => '화염탄+';
+
+  @override
+  String get cardDescMagC01Up => '6 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameMagC02 => '서리 화살';
+
+  @override
+  String get cardDescMagC02 => '5 데미지를 주고, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameMagC02Up => '서리 화살+';
+
+  @override
+  String get cardDescMagC02Up => '8 데미지를 주고, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameMagC03 => '마나 집중';
+
+  @override
+  String get cardDescMagC03 => '에너지 +1, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameMagC03Up => '마나 집중+';
+
+  @override
+  String get cardDescMagC03Up => '에너지 +1, 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameMagC04 => '전기 충격';
+
+  @override
+  String get cardDescMagC04 => '7 데미지를 준다 (랜덤 적).';
+
+  @override
+  String get cardNameMagC04Up => '전기 충격+';
+
+  @override
+  String get cardDescMagC04Up => '10 데미지를 준다 (랜덤 적).';
+
+  @override
+  String get cardNameMagC05 => '마법 화살';
+
+  @override
+  String get cardDescMagC05 => '4 데미지를 2회 준다 (랜덤 대상).';
+
+  @override
+  String get cardNameMagC05Up => '마법 화살+';
+
+  @override
+  String get cardDescMagC05Up => '4 데미지를 3회 준다 (랜덤 대상).';
+
+  @override
+  String get cardNameMagC06 => '명상';
+
+  @override
+  String get cardDescMagC06 => '카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameMagC06Up => '명상+';
+
+  @override
+  String get cardDescMagC06Up => '카드 3장을 드로우한다.';
+
+  @override
+  String get cardNameMagC07 => '지식의 빛';
+
+  @override
+  String get cardDescMagC07 => '드로우 파일 상위 3장을 확인하고, 1장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagC07Up => '지식의 빛+';
+
+  @override
+  String get cardDescMagC07Up => '드로우 파일 상위 3장 중 2장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagC08 => '독안개';
+
+  @override
+  String get cardDescMagC08 => '적 전체에 독 3을 부여한다.';
+
+  @override
+  String get cardNameMagC08Up => '독안개+';
+
+  @override
+  String get cardDescMagC08Up => '적 전체에 독 5를 부여한다.';
+
+  @override
+  String get cardNameMagC09 => '마력 폭발';
+
+  @override
+  String get cardDescMagC09 => '10 데미지를 주고, 집중 +1을 얻는다.';
+
+  @override
+  String get cardNameMagC09Up => '마력 폭발+';
+
+  @override
+  String get cardDescMagC09Up => '14 데미지를 주고, 집중 +1을 얻는다.';
+
+  @override
+  String get cardNameMagC10 => '원소 조화';
+
+  @override
+  String get cardDescMagC10 => '다음 카드 효과를 50% 증가시킨다.';
+
+  @override
+  String get cardNameMagC10Up => '원소 조화+';
+
+  @override
+  String get cardDescMagC10Up => '다음 카드 효과를 100% 증가시킨다.';
+
+  @override
+  String get cardNameMagU01 => '연쇄 번개';
+
+  @override
+  String get cardDescMagU01 => '8 데미지를 주고, 적 전체에 4 데미지를 준다.';
+
+  @override
+  String get cardNameMagU01Up => '연쇄 번개+';
+
+  @override
+  String get cardDescMagU01Up => '12 데미지를 주고, 적 전체에 6 데미지를 준다.';
+
+  @override
+  String get cardNameMagU02 => '빙결의 눈';
+
+  @override
+  String get cardDescMagU02 => '12 데미지를 주고, 빙결 1회를 부여한다.';
+
+  @override
+  String get cardNameMagU02Up => '빙결의 눈+';
+
+  @override
+  String get cardDescMagU02Up => '16 데미지를 주고, 빙결 1회를 부여한다.';
+
+  @override
+  String get cardNameMagU03 => '지혜의 책';
+
+  @override
+  String get cardDescMagU03 => '카드 3장을 드로우하고, 1장을 소멸시킨다.';
+
+  @override
+  String get cardNameMagU03Up => '지혜의 책+';
+
+  @override
+  String get cardDescMagU03Up => '카드 4장을 드로우한다.';
+
+  @override
+  String get cardNameMagU04 => '마나 과부하';
+
+  @override
+  String get cardDescMagU04 => '에너지 +2를 얻는다. 다음 턴 에너지 -1.';
+
+  @override
+  String get cardNameMagU04Up => '마나 과부하+';
+
+  @override
+  String get cardDescMagU04Up => '에너지 +3을 얻는다.';
+
+  @override
+  String get cardNameMagU05 => '원소 폭풍';
+
+  @override
+  String get cardDescMagU05 => '적 전체에 15 데미지를 준다.';
+
+  @override
+  String get cardNameMagU05Up => '원소 폭풍+';
+
+  @override
+  String get cardDescMagU05Up => '적 전체에 20 데미지를 준다.';
+
+  @override
+  String get cardNameMagU06 => '시간 왜곡';
+
+  @override
+  String get cardDescMagU06 => '추가 턴 1회를 얻는다 (에너지 0, 카드 유지).';
+
+  @override
+  String get cardNameMagU06Up => '시간 왜곡+';
+
+  @override
+  String get cardDescMagU06Up => '추가 턴 1회를 얻는다 (에너지 1로 시작).';
+
+  @override
+  String get cardNameMagU07 => '마법 증폭';
+
+  @override
+  String get cardDescMagU07 => '집중 +2를 얻는다 (영구).';
+
+  @override
+  String get cardNameMagU07Up => '마법 증폭+';
+
+  @override
+  String get cardDescMagU07Up => '집중 +3을 얻는다 (영구).';
+
+  @override
+  String get cardNameMagU08 => '복제술';
+
+  @override
+  String get cardDescMagU08 => '패의 카드 1장을 복사한다 (이번 턴만).';
+
+  @override
+  String get cardNameMagU08Up => '복제술+';
+
+  @override
+  String get cardDescMagU08Up => '패의 카드 1장을 비용 0으로 복사한다 (이번 턴만).';
+
+  @override
+  String get cardNameMagR01 => '메테오';
+
+  @override
+  String get cardDescMagR01 => '적 전체에 25 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameMagR01Up => '메테오+';
+
+  @override
+  String get cardDescMagR01Up => '적 전체에 35 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameMagR02 => '마나 폭주';
+
+  @override
+  String get cardDescMagR02 => '패의 모든 카드 비용이 이번 턴 0이 된다.';
+
+  @override
+  String get cardNameMagR02Up => '마나 폭주+';
+
+  @override
+  String get cardDescMagR02Up => '패의 모든 카드 비용이 다음 턴까지 0이 된다.';
+
+  @override
+  String get cardNameMagR03 => '차원의 균열';
+
+  @override
+  String get cardDescMagR03 => '디스카드 파일에서 3장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagR03Up => '차원의 균열+';
+
+  @override
+  String get cardDescMagR03Up => '디스카드 파일에서 5장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagR04 => '영혼 흡수';
+
+  @override
+  String get cardDescMagR04 => '12 데미지를 주고, 같은 양 HP를 회복한다.';
+
+  @override
+  String get cardNameMagR04Up => '영혼 흡수+';
+
+  @override
+  String get cardDescMagR04Up => '18 데미지를 주고, 같은 양 HP를 회복한다.';
+
+  @override
+  String get cardNameMagR05 => '절대영도';
+
+  @override
+  String get cardDescMagR05 => '적 전체를 빙결시키고, 10 데미지를 준다.';
+
+  @override
+  String get cardNameMagR05Up => '절대영도+';
+
+  @override
+  String get cardDescMagR05Up => '적 전체를 빙결시키고, 15 데미지를 준다.';
+
+  @override
+  String get cardNameMagL01 => '아마겟돈';
+
+  @override
+  String get cardDescMagL01 => '적 전체에 99 데미지를 준다. 자신도 30 데미지. 사용 후 소멸.';
+
+  @override
+  String get cardNameMagL01Up => '아마겟돈+';
+
+  @override
+  String get cardDescMagL01Up => '적 전체에 99 데미지를 준다. 자신 15 데미지. 사용 후 소멸.';
+
+  @override
+  String get cardNameMagL02 => '무한의 지혜';
+
+  @override
+  String get cardDescMagL02 => '카드 5장을 드로우하고, 에너지 +2를 얻는다. 사용 후 소멸.';
+
+  @override
+  String get cardNameMagL02Up => '무한의 지혜+';
+
+  @override
+  String get cardDescMagL02Up => '카드 7장을 드로우하고, 에너지 +3을 얻는다. 사용 후 소멸.';
 }

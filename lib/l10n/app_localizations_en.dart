@@ -1958,4 +1958,315 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cardDescAtkL02Up =>
       'Deal 12 damage. Permanently gains +2 damage on each use.';
+
+  @override
+  String get cardNameMagC01 => 'Fireball';
+
+  @override
+  String get cardDescMagC01 => 'Deal 4 damage and apply Burn for 2 turns.';
+
+  @override
+  String get cardNameMagC01Up => 'Fireball+';
+
+  @override
+  String get cardDescMagC01Up => 'Deal 6 damage and apply Burn for 3 turns.';
+
+  @override
+  String get cardNameMagC02 => 'Frost Arrow';
+
+  @override
+  String get cardDescMagC02 => 'Deal 5 damage and apply Weak for 1 turn.';
+
+  @override
+  String get cardNameMagC02Up => 'Frost Arrow+';
+
+  @override
+  String get cardDescMagC02Up => 'Deal 8 damage and apply Weak for 1 turn.';
+
+  @override
+  String get cardNameMagC03 => 'Mana Focus';
+
+  @override
+  String get cardDescMagC03 => 'Gain Energy +1 and draw 1 card.';
+
+  @override
+  String get cardNameMagC03Up => 'Mana Focus+';
+
+  @override
+  String get cardDescMagC03Up => 'Gain Energy +1 and draw 2 cards.';
+
+  @override
+  String get cardNameMagC04 => 'Shock';
+
+  @override
+  String get cardDescMagC04 => 'Deal 7 damage to a random enemy.';
+
+  @override
+  String get cardNameMagC04Up => 'Shock+';
+
+  @override
+  String get cardDescMagC04Up => 'Deal 10 damage to a random enemy.';
+
+  @override
+  String get cardNameMagC05 => 'Magic Missile';
+
+  @override
+  String get cardDescMagC05 => 'Deal 4 damage twice to random targets.';
+
+  @override
+  String get cardNameMagC05Up => 'Magic Missile+';
+
+  @override
+  String get cardDescMagC05Up => 'Deal 4 damage 3 times to random targets.';
+
+  @override
+  String get cardNameMagC06 => 'Meditate';
+
+  @override
+  String get cardDescMagC06 => 'Draw 2 cards.';
+
+  @override
+  String get cardNameMagC06Up => 'Meditate+';
+
+  @override
+  String get cardDescMagC06Up => 'Draw 3 cards.';
+
+  @override
+  String get cardNameMagC07 => 'Enlightenment';
+
+  @override
+  String get cardDescMagC07 =>
+      'Look at the top 3 cards of your draw pile and take 1 into hand.';
+
+  @override
+  String get cardNameMagC07Up => 'Enlightenment+';
+
+  @override
+  String get cardDescMagC07Up =>
+      'Look at the top 3 cards of your draw pile and take 2 into hand.';
+
+  @override
+  String get cardNameMagC08 => 'Toxic Mist';
+
+  @override
+  String get cardDescMagC08 => 'Apply 3 Poison to all enemies.';
+
+  @override
+  String get cardNameMagC08Up => 'Toxic Mist+';
+
+  @override
+  String get cardDescMagC08Up => 'Apply 5 Poison to all enemies.';
+
+  @override
+  String get cardNameMagC09 => 'Arcane Burst';
+
+  @override
+  String get cardDescMagC09 => 'Deal 10 damage and gain Focus +1.';
+
+  @override
+  String get cardNameMagC09Up => 'Arcane Burst+';
+
+  @override
+  String get cardDescMagC09Up => 'Deal 14 damage and gain Focus +1.';
+
+  @override
+  String get cardNameMagC10 => 'Elemental Harmony';
+
+  @override
+  String get cardDescMagC10 => 'Increase the next card\'s effect by 50%.';
+
+  @override
+  String get cardNameMagC10Up => 'Elemental Harmony+';
+
+  @override
+  String get cardDescMagC10Up => 'Increase the next card\'s effect by 100%.';
+
+  @override
+  String get cardNameMagU01 => 'Chain Lightning';
+
+  @override
+  String get cardDescMagU01 =>
+      'Deal 8 damage and deal 4 damage to all enemies.';
+
+  @override
+  String get cardNameMagU01Up => 'Chain Lightning+';
+
+  @override
+  String get cardDescMagU01Up =>
+      'Deal 12 damage and deal 6 damage to all enemies.';
+
+  @override
+  String get cardNameMagU02 => 'Glacial Eye';
+
+  @override
+  String get cardDescMagU02 => 'Deal 12 damage and apply Freeze.';
+
+  @override
+  String get cardNameMagU02Up => 'Glacial Eye+';
+
+  @override
+  String get cardDescMagU02Up => 'Deal 16 damage and apply Freeze.';
+
+  @override
+  String get cardNameMagU03 => 'Book of Wisdom';
+
+  @override
+  String get cardDescMagU03 => 'Draw 3 cards and exhaust 1.';
+
+  @override
+  String get cardNameMagU03Up => 'Book of Wisdom+';
+
+  @override
+  String get cardDescMagU03Up => 'Draw 4 cards.';
+
+  @override
+  String get cardNameMagU04 => 'Mana Overload';
+
+  @override
+  String get cardDescMagU04 => 'Gain Energy +2. Lose Energy -1 next turn.';
+
+  @override
+  String get cardNameMagU04Up => 'Mana Overload+';
+
+  @override
+  String get cardDescMagU04Up => 'Gain Energy +3.';
+
+  @override
+  String get cardNameMagU05 => 'Elemental Storm';
+
+  @override
+  String get cardDescMagU05 => 'Deal 15 damage to all enemies.';
+
+  @override
+  String get cardNameMagU05Up => 'Elemental Storm+';
+
+  @override
+  String get cardDescMagU05Up => 'Deal 20 damage to all enemies.';
+
+  @override
+  String get cardNameMagU06 => 'Time Warp';
+
+  @override
+  String get cardDescMagU06 => 'Gain an extra turn (0 Energy, keep hand).';
+
+  @override
+  String get cardNameMagU06Up => 'Time Warp+';
+
+  @override
+  String get cardDescMagU06Up => 'Gain an extra turn (start with 1 Energy).';
+
+  @override
+  String get cardNameMagU07 => 'Arcane Amplify';
+
+  @override
+  String get cardDescMagU07 => 'Gain Focus +2 (permanent).';
+
+  @override
+  String get cardNameMagU07Up => 'Arcane Amplify+';
+
+  @override
+  String get cardDescMagU07Up => 'Gain Focus +3 (permanent).';
+
+  @override
+  String get cardNameMagU08 => 'Replicate';
+
+  @override
+  String get cardDescMagU08 => 'Copy a card from your hand (this turn only).';
+
+  @override
+  String get cardNameMagU08Up => 'Replicate+';
+
+  @override
+  String get cardDescMagU08Up =>
+      'Copy a card at cost 0 from your hand (this turn only).';
+
+  @override
+  String get cardNameMagR01 => 'Meteor';
+
+  @override
+  String get cardDescMagR01 =>
+      'Deal 25 damage to all enemies and apply Burn for 3 turns.';
+
+  @override
+  String get cardNameMagR01Up => 'Meteor+';
+
+  @override
+  String get cardDescMagR01Up =>
+      'Deal 35 damage to all enemies and apply Burn for 3 turns.';
+
+  @override
+  String get cardNameMagR02 => 'Mana Surge';
+
+  @override
+  String get cardDescMagR02 => 'All cards in hand cost 0 this turn.';
+
+  @override
+  String get cardNameMagR02Up => 'Mana Surge+';
+
+  @override
+  String get cardDescMagR02Up => 'All cards in hand cost 0 until next turn.';
+
+  @override
+  String get cardNameMagR03 => 'Rift';
+
+  @override
+  String get cardDescMagR03 => 'Retrieve 3 cards from your discard pile.';
+
+  @override
+  String get cardNameMagR03Up => 'Rift+';
+
+  @override
+  String get cardDescMagR03Up => 'Retrieve 5 cards from your discard pile.';
+
+  @override
+  String get cardNameMagR04 => 'Soul Drain';
+
+  @override
+  String get cardDescMagR04 =>
+      'Deal 12 damage and restore the same amount as HP.';
+
+  @override
+  String get cardNameMagR04Up => 'Soul Drain+';
+
+  @override
+  String get cardDescMagR04Up =>
+      'Deal 18 damage and restore the same amount as HP.';
+
+  @override
+  String get cardNameMagR05 => 'Absolute Zero';
+
+  @override
+  String get cardDescMagR05 => 'Freeze all enemies and deal 10 damage.';
+
+  @override
+  String get cardNameMagR05Up => 'Absolute Zero+';
+
+  @override
+  String get cardDescMagR05Up => 'Freeze all enemies and deal 15 damage.';
+
+  @override
+  String get cardNameMagL01 => 'Armageddon';
+
+  @override
+  String get cardDescMagL01 =>
+      'Deal 99 damage to all enemies. Take 30 damage yourself. Exhaust.';
+
+  @override
+  String get cardNameMagL01Up => 'Armageddon+';
+
+  @override
+  String get cardDescMagL01Up =>
+      'Deal 99 damage to all enemies. Take 15 damage yourself. Exhaust.';
+
+  @override
+  String get cardNameMagL02 => 'Infinite Wisdom';
+
+  @override
+  String get cardDescMagL02 => 'Draw 5 cards and gain Energy +2. Exhaust.';
+
+  @override
+  String get cardNameMagL02Up => 'Infinite Wisdom+';
+
+  @override
+  String get cardDescMagL02Up => 'Draw 7 cards and gain Energy +3. Exhaust.';
 }
