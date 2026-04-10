@@ -4865,6 +4865,606 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'HP를 완전 회복하고, 최대 HP +20 (영구). 사용 후 소멸.'**
   String get cardDescDefL02Up;
+
+  /// No description provided for @cardNameTacC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'관찰'**
+  String get cardNameTacC01;
+
+  /// No description provided for @cardDescTacC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 의도를 확인하고, 카드 1장을 드로우한다.'**
+  String get cardDescTacC01;
+
+  /// No description provided for @cardNameTacC01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'관찰+'**
+  String get cardNameTacC01Up;
+
+  /// No description provided for @cardDescTacC01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 의도를 확인하고, 카드 2장을 드로우한다.'**
+  String get cardDescTacC01Up;
+
+  /// No description provided for @cardNameTacC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'보물 사냥'**
+  String get cardNameTacC02;
+
+  /// No description provided for @cardDescTacC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 골드 +15.'**
+  String get cardDescTacC02;
+
+  /// No description provided for @cardNameTacC02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'보물 사냥+'**
+  String get cardNameTacC02Up;
+
+  /// No description provided for @cardDescTacC02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 골드 +25.'**
+  String get cardDescTacC02Up;
+
+  /// No description provided for @cardNameTacC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'약점 간파'**
+  String get cardNameTacC03;
+
+  /// No description provided for @cardDescTacC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'취약 2턴, 약화 1턴을 부여한다.'**
+  String get cardDescTacC03;
+
+  /// No description provided for @cardNameTacC03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'약점 간파+'**
+  String get cardNameTacC03Up;
+
+  /// No description provided for @cardDescTacC03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'취약 2턴, 약화 2턴을 부여한다.'**
+  String get cardDescTacC03Up;
+
+  /// No description provided for @cardNameTacC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'재빠른 손'**
+  String get cardNameTacC04;
+
+  /// No description provided for @cardDescTacC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 2장을 드로우한다.'**
+  String get cardDescTacC04;
+
+  /// No description provided for @cardNameTacC04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'재빠른 손+'**
+  String get cardNameTacC04Up;
+
+  /// No description provided for @cardDescTacC04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 3장을 드로우한다.'**
+  String get cardDescTacC04Up;
+
+  /// No description provided for @cardNameTacC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'덫 설치'**
+  String get cardNameTacC05;
+
+  /// No description provided for @cardDescTacC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 적 공격 시 10 데미지를 반사한다.'**
+  String get cardDescTacC05;
+
+  /// No description provided for @cardNameTacC05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'덫 설치+'**
+  String get cardNameTacC05Up;
+
+  /// No description provided for @cardDescTacC05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 적 공격 시 15 데미지를 반사한다.'**
+  String get cardDescTacC05Up;
+
+  /// No description provided for @cardNameTacC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'교란'**
+  String get cardNameTacC06;
+
+  /// No description provided for @cardDescTacC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 의도를 변경한다 (랜덤).'**
+  String get cardDescTacC06;
+
+  /// No description provided for @cardNameTacC06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'교란+'**
+  String get cardNameTacC06Up;
+
+  /// No description provided for @cardDescTacC06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 의도를 변경하고, 약화 1턴을 부여한다.'**
+  String get cardDescTacC06Up;
+
+  /// No description provided for @cardNameTacC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'도둑질'**
+  String get cardNameTacC07;
+
+  /// No description provided for @cardDescTacC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'3 데미지를 주고, 골드 5~15를 획득한다.'**
+  String get cardDescTacC07;
+
+  /// No description provided for @cardNameTacC07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'도둑질+'**
+  String get cardNameTacC07Up;
+
+  /// No description provided for @cardDescTacC07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'6 데미지를 주고, 골드 10~25를 획득한다.'**
+  String get cardDescTacC07Up;
+
+  /// No description provided for @cardNameTacC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'연막탄'**
+  String get cardNameTacC08;
+
+  /// No description provided for @cardDescTacC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 4를 얻고, 적 전체에 약화 1턴을 부여한다.'**
+  String get cardDescTacC08;
+
+  /// No description provided for @cardNameTacC08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'연막탄+'**
+  String get cardNameTacC08Up;
+
+  /// No description provided for @cardDescTacC08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 6을 얻고, 적 전체에 약화 2턴을 부여한다.'**
+  String get cardDescTacC08Up;
+
+  /// No description provided for @cardNameTacC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'격려'**
+  String get cardNameTacC09;
+
+  /// No description provided for @cardDescTacC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'임의 카드 1장을 이번 전투 동안 업그레이드한다.'**
+  String get cardDescTacC09;
+
+  /// No description provided for @cardNameTacC09Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'격려+'**
+  String get cardNameTacC09Up;
+
+  /// No description provided for @cardDescTacC09Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'임의 카드 2장을 이번 전투 동안 업그레이드한다.'**
+  String get cardDescTacC09Up;
+
+  /// No description provided for @cardNameTacC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'행운의 동전'**
+  String get cardNameTacC10;
+
+  /// No description provided for @cardDescTacC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'50% 확률로 카드 2장을 드로우한다.'**
+  String get cardDescTacC10;
+
+  /// No description provided for @cardNameTacC10Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'행운의 동전+'**
+  String get cardNameTacC10Up;
+
+  /// No description provided for @cardDescTacC10Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'70% 확률로 카드 2장을 드로우한다.'**
+  String get cardDescTacC10Up;
+
+  /// No description provided for @cardNameTacU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'전장 분석'**
+  String get cardNameTacU01;
+
+  /// No description provided for @cardDescTacU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 3장을 드로우하고, 비용이 가장 높은 카드의 이번 턴 비용을 0으로 만든다.'**
+  String get cardDescTacU01;
+
+  /// No description provided for @cardNameTacU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'전장 분석+'**
+  String get cardNameTacU01Up;
+
+  /// No description provided for @cardDescTacU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 4장을 드로우하고, 비용이 가장 높은 카드의 이번 턴 비용을 0으로 만든다.'**
+  String get cardDescTacU01Up;
+
+  /// No description provided for @cardNameTacU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'그림자 이동'**
+  String get cardNameTacU02;
+
+  /// No description provided for @cardDescTacU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 턴까지 받는 데미지가 50% 감소한다.'**
+  String get cardDescTacU02;
+
+  /// No description provided for @cardNameTacU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'그림자 이동+'**
+  String get cardNameTacU02Up;
+
+  /// No description provided for @cardDescTacU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 턴까지 받는 데미지가 50% 감소하고, 카드 1장을 드로우한다.'**
+  String get cardDescTacU02Up;
+
+  /// No description provided for @cardNameTacU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'보물 상자'**
+  String get cardNameTacU03;
+
+  /// No description provided for @cardDescTacU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'랜덤 렐릭 효과를 1회 발동한다. 사용 후 소멸.'**
+  String get cardDescTacU03;
+
+  /// No description provided for @cardNameTacU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'보물 상자+'**
+  String get cardNameTacU03Up;
+
+  /// No description provided for @cardDescTacU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'랜덤 렐릭 효과를 2회 발동한다. 사용 후 소멸.'**
+  String get cardDescTacU03Up;
+
+  /// No description provided for @cardNameTacU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 조작'**
+  String get cardNameTacU04;
+
+  /// No description provided for @cardDescTacU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'드로우 파일 상위 3장을 원하는 순서로 정렬한다.'**
+  String get cardDescTacU04;
+
+  /// No description provided for @cardNameTacU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 조작+'**
+  String get cardNameTacU04Up;
+
+  /// No description provided for @cardDescTacU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'드로우 파일 상위 5장을 원하는 순서로 정렬한다.'**
+  String get cardDescTacU04Up;
+
+  /// No description provided for @cardNameTacU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'이중 스파이'**
+  String get cardNameTacU05;
+
+  /// No description provided for @cardDescTacU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'적의 버프를 복사하고, 적의 버프를 제거한다.'**
+  String get cardDescTacU05;
+
+  /// No description provided for @cardNameTacU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'이중 스파이+'**
+  String get cardNameTacU05Up;
+
+  /// No description provided for @cardDescTacU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적의 버프를 복사하고, 적의 버프를 제거하고, 5 데미지를 준다.'**
+  String get cardDescTacU05Up;
+
+  /// No description provided for @cardNameTacU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'전략적 후퇴'**
+  String get cardNameTacU06;
+
+  /// No description provided for @cardDescTacU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'패 전부를 셔플하고, 새로 5장을 드로우한다.'**
+  String get cardDescTacU06;
+
+  /// No description provided for @cardNameTacU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'전략적 후퇴+'**
+  String get cardNameTacU06Up;
+
+  /// No description provided for @cardDescTacU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'패 전부를 셔플하고, 새로 6장을 드로우한다.'**
+  String get cardDescTacU06Up;
+
+  /// No description provided for @cardNameTacU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'물물교환'**
+  String get cardNameTacU07;
+
+  /// No description provided for @cardDescTacU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'패에서 1장을 소멸시키고, 랜덤 카드 2장을 생성한다.'**
+  String get cardDescTacU07;
+
+  /// No description provided for @cardNameTacU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'물물교환+'**
+  String get cardNameTacU07Up;
+
+  /// No description provided for @cardDescTacU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'패에서 1장을 소멸시키고, 랜덤 카드 3장을 생성한다.'**
+  String get cardDescTacU07Up;
+
+  /// No description provided for @cardNameTacU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'연쇄 함정'**
+  String get cardNameTacU08;
+
+  /// No description provided for @cardDescTacU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'가시 3을 얻는다 (영구). 적 공격 시 약화 1턴을 부여한다.'**
+  String get cardDescTacU08;
+
+  /// No description provided for @cardNameTacU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'연쇄 함정+'**
+  String get cardNameTacU08Up;
+
+  /// No description provided for @cardDescTacU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'가시 5를 얻는다 (영구). 적 공격 시 약화 1턴을 부여한다.'**
+  String get cardDescTacU08Up;
+
+  /// No description provided for @cardNameTacR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'완벽한 계획'**
+  String get cardNameTacR01;
+
+  /// No description provided for @cardDescTacR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 +3, 카드 3장을 드로우한다. 다음 턴 드로우 0.'**
+  String get cardDescTacR01;
+
+  /// No description provided for @cardNameTacR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'완벽한 계획+'**
+  String get cardNameTacR01Up;
+
+  /// No description provided for @cardDescTacR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 +3, 카드 3장을 드로우한다. 다음 턴 드로우 2.'**
+  String get cardDescTacR01Up;
+
+  /// No description provided for @cardNameTacR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'운명의 바퀴'**
+  String get cardNameTacR02;
+
+  /// No description provided for @cardDescTacR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'랜덤 효과 1회: 데미지 15, 방어 15, 회복 15, 에너지 +2 중 하나.'**
+  String get cardDescTacR02;
+
+  /// No description provided for @cardNameTacR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'운명의 바퀴+'**
+  String get cardNameTacR02Up;
+
+  /// No description provided for @cardDescTacR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'랜덤 효과 2회: 데미지 15, 방어 15, 회복 15, 에너지 +2 중 하나.'**
+  String get cardDescTacR02Up;
+
+  /// No description provided for @cardNameTacR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'도플갱어'**
+  String get cardNameTacR03;
+
+  /// No description provided for @cardDescTacR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 턴 사용한 카드 전부를 다시 패로 가져온다.'**
+  String get cardDescTacR03;
+
+  /// No description provided for @cardNameTacR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'도플갱어+'**
+  String get cardNameTacR03Up;
+
+  /// No description provided for @cardDescTacR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 턴 사용한 카드 전부를 다시 패로 가져오고, 에너지 +2를 얻는다.'**
+  String get cardDescTacR03Up;
+
+  /// No description provided for @cardNameTacR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'탐욕의 손'**
+  String get cardNameTacR04;
+
+  /// No description provided for @cardDescTacR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'6 데미지를 준다. 킬 시 카드 보상 1장을 추가로 받는다.'**
+  String get cardDescTacR04;
+
+  /// No description provided for @cardNameTacR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'탐욕의 손+'**
+  String get cardNameTacR04Up;
+
+  /// No description provided for @cardDescTacR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'10 데미지를 준다. 킬 시 카드 보상 1장을 추가로 받는다.'**
+  String get cardDescTacR04Up;
+
+  /// No description provided for @cardNameTacR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'대혼란'**
+  String get cardNameTacR05;
+
+  /// No description provided for @cardDescTacR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 취약+약화 2턴, 독 3을 부여한다.'**
+  String get cardDescTacR05;
+
+  /// No description provided for @cardNameTacR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'대혼란+'**
+  String get cardNameTacR05Up;
+
+  /// No description provided for @cardDescTacR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 전체에 취약+약화 3턴, 독 3을 부여한다.'**
+  String get cardDescTacR05Up;
+
+  /// No description provided for @cardNameTacL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'시간의 주인'**
+  String get cardNameTacL01;
+
+  /// No description provided for @cardDescTacL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'추가 턴 2회를 얻는다 (에너지 2씩). 사용 후 소멸.'**
+  String get cardDescTacL01;
+
+  /// No description provided for @cardNameTacL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'시간의 주인+'**
+  String get cardNameTacL01Up;
+
+  /// No description provided for @cardDescTacL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'추가 턴 2회를 얻는다 (에너지 3씩). 사용 후 소멸.'**
+  String get cardDescTacL01Up;
+
+  /// No description provided for @cardNameTacL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'운명 변환'**
+  String get cardNameTacL02;
+
+  /// No description provided for @cardDescTacL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'덱의 모든 카드를 이번 전투 동안 업그레이드한다. 사용 후 소멸.'**
+  String get cardDescTacL02;
+
+  /// No description provided for @cardNameTacL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'운명 변환+'**
+  String get cardNameTacL02Up;
+
+  /// No description provided for @cardDescTacL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'덱의 모든 카드를 이번 전투 동안 업그레이드하고, 에너지 +2를 얻는다. 사용 후 소멸.'**
+  String get cardDescTacL02Up;
 }
 
 class _AppLocalizationsDelegate

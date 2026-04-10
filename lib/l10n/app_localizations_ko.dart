@@ -2513,4 +2513,306 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cardDescDefL02Up => 'HP를 완전 회복하고, 최대 HP +20 (영구). 사용 후 소멸.';
+
+  @override
+  String get cardNameTacC01 => '관찰';
+
+  @override
+  String get cardDescTacC01 => '적 의도를 확인하고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameTacC01Up => '관찰+';
+
+  @override
+  String get cardDescTacC01Up => '적 의도를 확인하고, 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacC02 => '보물 사냥';
+
+  @override
+  String get cardDescTacC02 => '전투 골드 +15.';
+
+  @override
+  String get cardNameTacC02Up => '보물 사냥+';
+
+  @override
+  String get cardDescTacC02Up => '전투 골드 +25.';
+
+  @override
+  String get cardNameTacC03 => '약점 간파';
+
+  @override
+  String get cardDescTacC03 => '취약 2턴, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacC03Up => '약점 간파+';
+
+  @override
+  String get cardDescTacC03Up => '취약 2턴, 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameTacC04 => '재빠른 손';
+
+  @override
+  String get cardDescTacC04 => '카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacC04Up => '재빠른 손+';
+
+  @override
+  String get cardDescTacC04Up => '카드 3장을 드로우한다.';
+
+  @override
+  String get cardNameTacC05 => '덫 설치';
+
+  @override
+  String get cardDescTacC05 => '다음 적 공격 시 10 데미지를 반사한다.';
+
+  @override
+  String get cardNameTacC05Up => '덫 설치+';
+
+  @override
+  String get cardDescTacC05Up => '다음 적 공격 시 15 데미지를 반사한다.';
+
+  @override
+  String get cardNameTacC06 => '교란';
+
+  @override
+  String get cardDescTacC06 => '적 의도를 변경한다 (랜덤).';
+
+  @override
+  String get cardNameTacC06Up => '교란+';
+
+  @override
+  String get cardDescTacC06Up => '적 의도를 변경하고, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacC07 => '도둑질';
+
+  @override
+  String get cardDescTacC07 => '3 데미지를 주고, 골드 5~15를 획득한다.';
+
+  @override
+  String get cardNameTacC07Up => '도둑질+';
+
+  @override
+  String get cardDescTacC07Up => '6 데미지를 주고, 골드 10~25를 획득한다.';
+
+  @override
+  String get cardNameTacC08 => '연막탄';
+
+  @override
+  String get cardDescTacC08 => '방어도 4를 얻고, 적 전체에 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacC08Up => '연막탄+';
+
+  @override
+  String get cardDescTacC08Up => '방어도 6을 얻고, 적 전체에 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameTacC09 => '격려';
+
+  @override
+  String get cardDescTacC09 => '임의 카드 1장을 이번 전투 동안 업그레이드한다.';
+
+  @override
+  String get cardNameTacC09Up => '격려+';
+
+  @override
+  String get cardDescTacC09Up => '임의 카드 2장을 이번 전투 동안 업그레이드한다.';
+
+  @override
+  String get cardNameTacC10 => '행운의 동전';
+
+  @override
+  String get cardDescTacC10 => '50% 확률로 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacC10Up => '행운의 동전+';
+
+  @override
+  String get cardDescTacC10Up => '70% 확률로 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacU01 => '전장 분석';
+
+  @override
+  String get cardDescTacU01 => '카드 3장을 드로우하고, 비용이 가장 높은 카드의 이번 턴 비용을 0으로 만든다.';
+
+  @override
+  String get cardNameTacU01Up => '전장 분석+';
+
+  @override
+  String get cardDescTacU01Up =>
+      '카드 4장을 드로우하고, 비용이 가장 높은 카드의 이번 턴 비용을 0으로 만든다.';
+
+  @override
+  String get cardNameTacU02 => '그림자 이동';
+
+  @override
+  String get cardDescTacU02 => '다음 턴까지 받는 데미지가 50% 감소한다.';
+
+  @override
+  String get cardNameTacU02Up => '그림자 이동+';
+
+  @override
+  String get cardDescTacU02Up => '다음 턴까지 받는 데미지가 50% 감소하고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameTacU03 => '보물 상자';
+
+  @override
+  String get cardDescTacU03 => '랜덤 렐릭 효과를 1회 발동한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameTacU03Up => '보물 상자+';
+
+  @override
+  String get cardDescTacU03Up => '랜덤 렐릭 효과를 2회 발동한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameTacU04 => '카드 조작';
+
+  @override
+  String get cardDescTacU04 => '드로우 파일 상위 3장을 원하는 순서로 정렬한다.';
+
+  @override
+  String get cardNameTacU04Up => '카드 조작+';
+
+  @override
+  String get cardDescTacU04Up => '드로우 파일 상위 5장을 원하는 순서로 정렬한다.';
+
+  @override
+  String get cardNameTacU05 => '이중 스파이';
+
+  @override
+  String get cardDescTacU05 => '적의 버프를 복사하고, 적의 버프를 제거한다.';
+
+  @override
+  String get cardNameTacU05Up => '이중 스파이+';
+
+  @override
+  String get cardDescTacU05Up => '적의 버프를 복사하고, 적의 버프를 제거하고, 5 데미지를 준다.';
+
+  @override
+  String get cardNameTacU06 => '전략적 후퇴';
+
+  @override
+  String get cardDescTacU06 => '패 전부를 셔플하고, 새로 5장을 드로우한다.';
+
+  @override
+  String get cardNameTacU06Up => '전략적 후퇴+';
+
+  @override
+  String get cardDescTacU06Up => '패 전부를 셔플하고, 새로 6장을 드로우한다.';
+
+  @override
+  String get cardNameTacU07 => '물물교환';
+
+  @override
+  String get cardDescTacU07 => '패에서 1장을 소멸시키고, 랜덤 카드 2장을 생성한다.';
+
+  @override
+  String get cardNameTacU07Up => '물물교환+';
+
+  @override
+  String get cardDescTacU07Up => '패에서 1장을 소멸시키고, 랜덤 카드 3장을 생성한다.';
+
+  @override
+  String get cardNameTacU08 => '연쇄 함정';
+
+  @override
+  String get cardDescTacU08 => '가시 3을 얻는다 (영구). 적 공격 시 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacU08Up => '연쇄 함정+';
+
+  @override
+  String get cardDescTacU08Up => '가시 5를 얻는다 (영구). 적 공격 시 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacR01 => '완벽한 계획';
+
+  @override
+  String get cardDescTacR01 => '에너지 +3, 카드 3장을 드로우한다. 다음 턴 드로우 0.';
+
+  @override
+  String get cardNameTacR01Up => '완벽한 계획+';
+
+  @override
+  String get cardDescTacR01Up => '에너지 +3, 카드 3장을 드로우한다. 다음 턴 드로우 2.';
+
+  @override
+  String get cardNameTacR02 => '운명의 바퀴';
+
+  @override
+  String get cardDescTacR02 => '랜덤 효과 1회: 데미지 15, 방어 15, 회복 15, 에너지 +2 중 하나.';
+
+  @override
+  String get cardNameTacR02Up => '운명의 바퀴+';
+
+  @override
+  String get cardDescTacR02Up => '랜덤 효과 2회: 데미지 15, 방어 15, 회복 15, 에너지 +2 중 하나.';
+
+  @override
+  String get cardNameTacR03 => '도플갱어';
+
+  @override
+  String get cardDescTacR03 => '이번 턴 사용한 카드 전부를 다시 패로 가져온다.';
+
+  @override
+  String get cardNameTacR03Up => '도플갱어+';
+
+  @override
+  String get cardDescTacR03Up => '이번 턴 사용한 카드 전부를 다시 패로 가져오고, 에너지 +2를 얻는다.';
+
+  @override
+  String get cardNameTacR04 => '탐욕의 손';
+
+  @override
+  String get cardDescTacR04 => '6 데미지를 준다. 킬 시 카드 보상 1장을 추가로 받는다.';
+
+  @override
+  String get cardNameTacR04Up => '탐욕의 손+';
+
+  @override
+  String get cardDescTacR04Up => '10 데미지를 준다. 킬 시 카드 보상 1장을 추가로 받는다.';
+
+  @override
+  String get cardNameTacR05 => '대혼란';
+
+  @override
+  String get cardDescTacR05 => '적 전체에 취약+약화 2턴, 독 3을 부여한다.';
+
+  @override
+  String get cardNameTacR05Up => '대혼란+';
+
+  @override
+  String get cardDescTacR05Up => '적 전체에 취약+약화 3턴, 독 3을 부여한다.';
+
+  @override
+  String get cardNameTacL01 => '시간의 주인';
+
+  @override
+  String get cardDescTacL01 => '추가 턴 2회를 얻는다 (에너지 2씩). 사용 후 소멸.';
+
+  @override
+  String get cardNameTacL01Up => '시간의 주인+';
+
+  @override
+  String get cardDescTacL01Up => '추가 턴 2회를 얻는다 (에너지 3씩). 사용 후 소멸.';
+
+  @override
+  String get cardNameTacL02 => '운명 변환';
+
+  @override
+  String get cardDescTacL02 => '덱의 모든 카드를 이번 전투 동안 업그레이드한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameTacL02Up => '운명 변환+';
+
+  @override
+  String get cardDescTacL02Up =>
+      '덱의 모든 카드를 이번 전투 동안 업그레이드하고, 에너지 +2를 얻는다. 사용 후 소멸.';
 }

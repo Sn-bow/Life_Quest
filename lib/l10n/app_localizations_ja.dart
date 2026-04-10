@@ -2504,4 +2504,304 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cardDescDefL02Up => 'HPを全回復し、最大HP+20（永続）。消滅。';
+
+  @override
+  String get cardNameTacC01 => '観察';
+
+  @override
+  String get cardDescTacC01 => '敵の意図を確認し、カードを1枚引く。';
+
+  @override
+  String get cardNameTacC01Up => '観察+';
+
+  @override
+  String get cardDescTacC01Up => '敵の意図を確認し、カードを2枚引く。';
+
+  @override
+  String get cardNameTacC02 => '宝探し';
+
+  @override
+  String get cardDescTacC02 => '戦闘ゴールド+15。';
+
+  @override
+  String get cardNameTacC02Up => '宝探し+';
+
+  @override
+  String get cardDescTacC02Up => '戦闘ゴールド+25。';
+
+  @override
+  String get cardNameTacC03 => '弱点看破';
+
+  @override
+  String get cardDescTacC03 => '脆弱2ターン、衰弱1ターンを付与する。';
+
+  @override
+  String get cardNameTacC03Up => '弱点看破+';
+
+  @override
+  String get cardDescTacC03Up => '脆弱2ターン、衰弱2ターンを付与する。';
+
+  @override
+  String get cardNameTacC04 => 'すばやい手';
+
+  @override
+  String get cardDescTacC04 => 'カードを2枚引く。';
+
+  @override
+  String get cardNameTacC04Up => 'すばやい手+';
+
+  @override
+  String get cardDescTacC04Up => 'カードを3枚引く。';
+
+  @override
+  String get cardNameTacC05 => '罠設置';
+
+  @override
+  String get cardDescTacC05 => '次の敵攻撃時に10ダメージを反射する。';
+
+  @override
+  String get cardNameTacC05Up => '罠設置+';
+
+  @override
+  String get cardDescTacC05Up => '次の敵攻撃時に15ダメージを反射する。';
+
+  @override
+  String get cardNameTacC06 => '撹乱';
+
+  @override
+  String get cardDescTacC06 => '敵の意図を変更する（ランダム）。';
+
+  @override
+  String get cardNameTacC06Up => '撹乱+';
+
+  @override
+  String get cardDescTacC06Up => '敵の意図を変更し、衰弱1ターンを付与する。';
+
+  @override
+  String get cardNameTacC07 => 'スリ';
+
+  @override
+  String get cardDescTacC07 => '3ダメージを与え、ゴールド5~15を獲得する。';
+
+  @override
+  String get cardNameTacC07Up => 'スリ+';
+
+  @override
+  String get cardDescTacC07Up => '6ダメージを与え、ゴールド10~25を獲得する。';
+
+  @override
+  String get cardNameTacC08 => '煙幕弾';
+
+  @override
+  String get cardDescTacC08 => '防御4を得て、全敵に衰弱1ターンを付与する。';
+
+  @override
+  String get cardNameTacC08Up => '煙幕弾+';
+
+  @override
+  String get cardDescTacC08Up => '防御6を得て、全敵に衰弱2ターンを付与する。';
+
+  @override
+  String get cardNameTacC09 => '激励';
+
+  @override
+  String get cardDescTacC09 => 'この戦闘中にランダムなカード1枚をアップグレードする。';
+
+  @override
+  String get cardNameTacC09Up => '激励+';
+
+  @override
+  String get cardDescTacC09Up => 'この戦闘中にランダムなカード2枚をアップグレードする。';
+
+  @override
+  String get cardNameTacC10 => 'ラッキーコイン';
+
+  @override
+  String get cardDescTacC10 => '50%の確率でカードを2枚引く。';
+
+  @override
+  String get cardNameTacC10Up => 'ラッキーコイン+';
+
+  @override
+  String get cardDescTacC10Up => '70%の確率でカードを2枚引く。';
+
+  @override
+  String get cardNameTacU01 => '戦場分析';
+
+  @override
+  String get cardDescTacU01 => 'カードを3枚引き、最もコストの高いカードのこのターンのコストを0にする。';
+
+  @override
+  String get cardNameTacU01Up => '戦場分析+';
+
+  @override
+  String get cardDescTacU01Up => 'カードを4枚引き、最もコストの高いカードのこのターンのコストを0にする。';
+
+  @override
+  String get cardNameTacU02 => 'シャドーステップ';
+
+  @override
+  String get cardDescTacU02 => '次のターンまで受けるダメージが50%減少する。';
+
+  @override
+  String get cardNameTacU02Up => 'シャドーステップ+';
+
+  @override
+  String get cardDescTacU02Up => '次のターンまで受けるダメージが50%減少し、カードを1枚引く。';
+
+  @override
+  String get cardNameTacU03 => '宝箱';
+
+  @override
+  String get cardDescTacU03 => 'ランダムなレリック効果を1回発動する。使用後消滅。';
+
+  @override
+  String get cardNameTacU03Up => '宝箱+';
+
+  @override
+  String get cardDescTacU03Up => 'ランダムなレリック効果を2回発動する。使用後消滅。';
+
+  @override
+  String get cardNameTacU04 => 'カード操作';
+
+  @override
+  String get cardDescTacU04 => 'ドローパイルの上位3枚を任意の順序に並べる。';
+
+  @override
+  String get cardNameTacU04Up => 'カード操作+';
+
+  @override
+  String get cardDescTacU04Up => 'ドローパイルの上位5枚を任意の順序に並べる。';
+
+  @override
+  String get cardNameTacU05 => '二重スパイ';
+
+  @override
+  String get cardDescTacU05 => '敵のバフをコピーし、敵のバフを除去する。';
+
+  @override
+  String get cardNameTacU05Up => '二重スパイ+';
+
+  @override
+  String get cardDescTacU05Up => '敵のバフをコピーし、敵のバフを除去し、5ダメージを与える。';
+
+  @override
+  String get cardNameTacU06 => '戦略的撤退';
+
+  @override
+  String get cardDescTacU06 => '手札をシャッフルし、新たに5枚引く。';
+
+  @override
+  String get cardNameTacU06Up => '戦略的撤退+';
+
+  @override
+  String get cardDescTacU06Up => '手札をシャッフルし、新たに6枚引く。';
+
+  @override
+  String get cardNameTacU07 => '物々交換';
+
+  @override
+  String get cardDescTacU07 => '手札から1枚消滅させ、ランダムカード2枚を生成する。';
+
+  @override
+  String get cardNameTacU07Up => '物々交換+';
+
+  @override
+  String get cardDescTacU07Up => '手札から1枚消滅させ、ランダムカード3枚を生成する。';
+
+  @override
+  String get cardNameTacU08 => '連鎖罠';
+
+  @override
+  String get cardDescTacU08 => '棘3を得る（永続）。被撃時に衰弱1ターンを付与する。';
+
+  @override
+  String get cardNameTacU08Up => '連鎖罠+';
+
+  @override
+  String get cardDescTacU08Up => '棘5を得る（永続）。被撃時に衰弱1ターンを付与する。';
+
+  @override
+  String get cardNameTacR01 => '完璧な計画';
+
+  @override
+  String get cardDescTacR01 => 'エネルギー+3、カードを3枚引く。次のターンドロー0。';
+
+  @override
+  String get cardNameTacR01Up => '完璧な計画+';
+
+  @override
+  String get cardDescTacR01Up => 'エネルギー+3、カードを3枚引く。次のターンドロー2。';
+
+  @override
+  String get cardNameTacR02 => '運命の輪';
+
+  @override
+  String get cardDescTacR02 => 'ランダム効果1回: ダメージ15、防御15、回復15、エネルギー+2のいずれか。';
+
+  @override
+  String get cardNameTacR02Up => '運命の輪+';
+
+  @override
+  String get cardDescTacR02Up => 'ランダム効果2回: ダメージ15、防御15、回復15、エネルギー+2のいずれか。';
+
+  @override
+  String get cardNameTacR03 => 'ドッペルゲンガー';
+
+  @override
+  String get cardDescTacR03 => 'このターン使用したカード全てを手札に戻す。';
+
+  @override
+  String get cardNameTacR03Up => 'ドッペルゲンガー+';
+
+  @override
+  String get cardDescTacR03Up => 'このターン使用したカード全てを手札に戻し、エネルギー+2を得る。';
+
+  @override
+  String get cardNameTacR04 => '強欲の手';
+
+  @override
+  String get cardDescTacR04 => '6ダメージを与える。キル時にカード報酬1枚を追加で得る。';
+
+  @override
+  String get cardNameTacR04Up => '強欲の手+';
+
+  @override
+  String get cardDescTacR04Up => '10ダメージを与える。キル時にカード報酬1枚を追加で得る。';
+
+  @override
+  String get cardNameTacR05 => '大混乱';
+
+  @override
+  String get cardDescTacR05 => '全敵に脆弱+衰弱2ターン、毒3を付与する。';
+
+  @override
+  String get cardNameTacR05Up => '大混乱+';
+
+  @override
+  String get cardDescTacR05Up => '全敵に脆弱+衰弱3ターン、毒3を付与する。';
+
+  @override
+  String get cardNameTacL01 => '時の支配者';
+
+  @override
+  String get cardDescTacL01 => '追加ターン2回を得る（エネルギー2ずつ）。使用後消滅。';
+
+  @override
+  String get cardNameTacL01Up => '時の支配者+';
+
+  @override
+  String get cardDescTacL01Up => '追加ターン2回を得る（エネルギー3ずつ）。使用後消滅。';
+
+  @override
+  String get cardNameTacL02 => '運命変換';
+
+  @override
+  String get cardDescTacL02 => 'デッキ全カードをこの戦闘中アップグレードする。使用後消滅。';
+
+  @override
+  String get cardNameTacL02Up => '運命変換+';
+
+  @override
+  String get cardDescTacL02Up => 'デッキ全カードをこの戦闘中アップグレードし、エネルギー+2を得る。使用後消滅。';
 }

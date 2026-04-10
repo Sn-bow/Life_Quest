@@ -2582,4 +2582,329 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cardDescDefL02Up =>
       'Fully restore HP and gain max HP +20 (permanent). Exhaust.';
+
+  @override
+  String get cardNameTacC01 => 'Observe';
+
+  @override
+  String get cardDescTacC01 => 'Check enemy intent and draw 1 card.';
+
+  @override
+  String get cardNameTacC01Up => 'Observe+';
+
+  @override
+  String get cardDescTacC01Up => 'Check enemy intent and draw 2 cards.';
+
+  @override
+  String get cardNameTacC02 => 'Treasure Hunt';
+
+  @override
+  String get cardDescTacC02 => 'Battle gold +15.';
+
+  @override
+  String get cardNameTacC02Up => 'Treasure Hunt+';
+
+  @override
+  String get cardDescTacC02Up => 'Battle gold +25.';
+
+  @override
+  String get cardNameTacC03 => 'Weak Point Scan';
+
+  @override
+  String get cardDescTacC03 => 'Apply Vulnerable 2 turns and Weak 1 turn.';
+
+  @override
+  String get cardNameTacC03Up => 'Weak Point Scan+';
+
+  @override
+  String get cardDescTacC03Up => 'Apply Vulnerable 2 turns and Weak 2 turns.';
+
+  @override
+  String get cardNameTacC04 => 'Quick Hands';
+
+  @override
+  String get cardDescTacC04 => 'Draw 2 cards.';
+
+  @override
+  String get cardNameTacC04Up => 'Quick Hands+';
+
+  @override
+  String get cardDescTacC04Up => 'Draw 3 cards.';
+
+  @override
+  String get cardNameTacC05 => 'Set Trap';
+
+  @override
+  String get cardDescTacC05 => 'Reflect 10 damage on the next enemy attack.';
+
+  @override
+  String get cardNameTacC05Up => 'Set Trap+';
+
+  @override
+  String get cardDescTacC05Up => 'Reflect 15 damage on the next enemy attack.';
+
+  @override
+  String get cardNameTacC06 => 'Disrupt';
+
+  @override
+  String get cardDescTacC06 => 'Change enemy intent (random).';
+
+  @override
+  String get cardNameTacC06Up => 'Disrupt+';
+
+  @override
+  String get cardDescTacC06Up => 'Change enemy intent and apply Weak 1 turn.';
+
+  @override
+  String get cardNameTacC07 => 'Pickpocket';
+
+  @override
+  String get cardDescTacC07 => 'Deal 3 damage and gain 5~15 gold.';
+
+  @override
+  String get cardNameTacC07Up => 'Pickpocket+';
+
+  @override
+  String get cardDescTacC07Up => 'Deal 6 damage and gain 10~25 gold.';
+
+  @override
+  String get cardNameTacC08 => 'Smoke Bomb';
+
+  @override
+  String get cardDescTacC08 =>
+      'Gain 4 Block and apply Weak 1 turn to all enemies.';
+
+  @override
+  String get cardNameTacC08Up => 'Smoke Bomb+';
+
+  @override
+  String get cardDescTacC08Up =>
+      'Gain 6 Block and apply Weak 2 turns to all enemies.';
+
+  @override
+  String get cardNameTacC09 => 'Encourage';
+
+  @override
+  String get cardDescTacC09 => 'Upgrade a random card for this combat.';
+
+  @override
+  String get cardNameTacC09Up => 'Encourage+';
+
+  @override
+  String get cardDescTacC09Up => 'Upgrade 2 random cards for this combat.';
+
+  @override
+  String get cardNameTacC10 => 'Lucky Coin';
+
+  @override
+  String get cardDescTacC10 => '50% chance to draw 2 cards.';
+
+  @override
+  String get cardNameTacC10Up => 'Lucky Coin+';
+
+  @override
+  String get cardDescTacC10Up => '70% chance to draw 2 cards.';
+
+  @override
+  String get cardNameTacU01 => 'Battlefield Analysis';
+
+  @override
+  String get cardDescTacU01 =>
+      'Draw 3 cards and reduce the cost of the highest-cost card to 0 this turn.';
+
+  @override
+  String get cardNameTacU01Up => 'Battlefield Analysis+';
+
+  @override
+  String get cardDescTacU01Up =>
+      'Draw 4 cards and reduce the cost of the highest-cost card to 0 this turn.';
+
+  @override
+  String get cardNameTacU02 => 'Shadow Step';
+
+  @override
+  String get cardDescTacU02 => 'Reduce incoming damage by 50% until next turn.';
+
+  @override
+  String get cardNameTacU02Up => 'Shadow Step+';
+
+  @override
+  String get cardDescTacU02Up =>
+      'Reduce incoming damage by 50% until next turn and draw 1 card.';
+
+  @override
+  String get cardNameTacU03 => 'Treasure Chest';
+
+  @override
+  String get cardDescTacU03 => 'Activate a random relic effect once. Exhaust.';
+
+  @override
+  String get cardNameTacU03Up => 'Treasure Chest+';
+
+  @override
+  String get cardDescTacU03Up =>
+      'Activate a random relic effect twice. Exhaust.';
+
+  @override
+  String get cardNameTacU04 => 'Card Manipulation';
+
+  @override
+  String get cardDescTacU04 =>
+      'Arrange the top 3 cards of your draw pile in any order.';
+
+  @override
+  String get cardNameTacU04Up => 'Card Manipulation+';
+
+  @override
+  String get cardDescTacU04Up =>
+      'Arrange the top 5 cards of your draw pile in any order.';
+
+  @override
+  String get cardNameTacU05 => 'Double Agent';
+
+  @override
+  String get cardDescTacU05 => 'Copy and remove an enemy buff.';
+
+  @override
+  String get cardNameTacU05Up => 'Double Agent+';
+
+  @override
+  String get cardDescTacU05Up =>
+      'Copy and remove an enemy buff and deal 5 damage.';
+
+  @override
+  String get cardNameTacU06 => 'Strategic Retreat';
+
+  @override
+  String get cardDescTacU06 => 'Shuffle your hand and draw 5 new cards.';
+
+  @override
+  String get cardNameTacU06Up => 'Strategic Retreat+';
+
+  @override
+  String get cardDescTacU06Up => 'Shuffle your hand and draw 6 new cards.';
+
+  @override
+  String get cardNameTacU07 => 'Barter';
+
+  @override
+  String get cardDescTacU07 =>
+      'Exhaust 1 card from hand and create 2 random cards.';
+
+  @override
+  String get cardNameTacU07Up => 'Barter+';
+
+  @override
+  String get cardDescTacU07Up =>
+      'Exhaust 1 card from hand and create 3 random cards.';
+
+  @override
+  String get cardNameTacU08 => 'Chain Trap';
+
+  @override
+  String get cardDescTacU08 =>
+      'Gain Thorns 3 (permanent). Apply Weak 1 turn when struck.';
+
+  @override
+  String get cardNameTacU08Up => 'Chain Trap+';
+
+  @override
+  String get cardDescTacU08Up =>
+      'Gain Thorns 5 (permanent). Apply Weak 1 turn when struck.';
+
+  @override
+  String get cardNameTacR01 => 'Perfect Plan';
+
+  @override
+  String get cardDescTacR01 =>
+      'Gain Energy +3 and draw 3 cards. Draw 0 next turn.';
+
+  @override
+  String get cardNameTacR01Up => 'Perfect Plan+';
+
+  @override
+  String get cardDescTacR01Up =>
+      'Gain Energy +3 and draw 3 cards. Draw 2 next turn.';
+
+  @override
+  String get cardNameTacR02 => 'Wheel of Fate';
+
+  @override
+  String get cardDescTacR02 =>
+      'Apply a random effect once: 15 damage, 15 Block, 15 HP, or Energy +2.';
+
+  @override
+  String get cardNameTacR02Up => 'Wheel of Fate+';
+
+  @override
+  String get cardDescTacR02Up =>
+      'Apply a random effect twice: 15 damage, 15 Block, 15 HP, or Energy +2.';
+
+  @override
+  String get cardNameTacR03 => 'Doppelganger';
+
+  @override
+  String get cardDescTacR03 =>
+      'Return all cards played this turn to your hand.';
+
+  @override
+  String get cardNameTacR03Up => 'Doppelganger+';
+
+  @override
+  String get cardDescTacR03Up =>
+      'Return all cards played this turn to your hand and gain Energy +2.';
+
+  @override
+  String get cardNameTacR04 => 'Greedy Hand';
+
+  @override
+  String get cardDescTacR04 =>
+      'Deal 6 damage. On kill, gain 1 additional card reward.';
+
+  @override
+  String get cardNameTacR04Up => 'Greedy Hand+';
+
+  @override
+  String get cardDescTacR04Up =>
+      'Deal 10 damage. On kill, gain 1 additional card reward.';
+
+  @override
+  String get cardNameTacR05 => 'Total Chaos';
+
+  @override
+  String get cardDescTacR05 =>
+      'Apply Vulnerable + Weak 2 turns and Poison 3 to all enemies.';
+
+  @override
+  String get cardNameTacR05Up => 'Total Chaos+';
+
+  @override
+  String get cardDescTacR05Up =>
+      'Apply Vulnerable + Weak 3 turns and Poison 3 to all enemies.';
+
+  @override
+  String get cardNameTacL01 => 'Master of Time';
+
+  @override
+  String get cardDescTacL01 => 'Gain 2 extra turns (Energy 2 each). Exhaust.';
+
+  @override
+  String get cardNameTacL01Up => 'Master of Time+';
+
+  @override
+  String get cardDescTacL01Up => 'Gain 2 extra turns (Energy 3 each). Exhaust.';
+
+  @override
+  String get cardNameTacL02 => 'Fate Conversion';
+
+  @override
+  String get cardDescTacL02 =>
+      'Upgrade all cards in your deck for this combat. Exhaust.';
+
+  @override
+  String get cardNameTacL02Up => 'Fate Conversion+';
+
+  @override
+  String get cardDescTacL02Up =>
+      'Upgrade all cards in your deck for this combat and gain Energy +2. Exhaust.';
 }

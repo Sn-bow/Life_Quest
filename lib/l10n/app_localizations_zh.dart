@@ -2491,4 +2491,304 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardDescDefL02Up => '完全回复HP并获得最大HP+20（永久）。消耗。';
+
+  @override
+  String get cardNameTacC01 => '观察';
+
+  @override
+  String get cardDescTacC01 => '查看敌人意图并抽1张牌。';
+
+  @override
+  String get cardNameTacC01Up => '观察+';
+
+  @override
+  String get cardDescTacC01Up => '查看敌人意图并抽2张牌。';
+
+  @override
+  String get cardNameTacC02 => '寻宝';
+
+  @override
+  String get cardDescTacC02 => '战斗金币+15。';
+
+  @override
+  String get cardNameTacC02Up => '寻宝+';
+
+  @override
+  String get cardDescTacC02Up => '战斗金币+25。';
+
+  @override
+  String get cardNameTacC03 => '看破弱点';
+
+  @override
+  String get cardDescTacC03 => '施加易伤2回合和虚弱1回合。';
+
+  @override
+  String get cardNameTacC03Up => '看破弱点+';
+
+  @override
+  String get cardDescTacC03Up => '施加易伤2回合和虚弱2回合。';
+
+  @override
+  String get cardNameTacC04 => '灵巧之手';
+
+  @override
+  String get cardDescTacC04 => '抽2张牌。';
+
+  @override
+  String get cardNameTacC04Up => '灵巧之手+';
+
+  @override
+  String get cardDescTacC04Up => '抽3张牌。';
+
+  @override
+  String get cardNameTacC05 => '设陷阱';
+
+  @override
+  String get cardDescTacC05 => '下次敌人攻击时反射10点伤害。';
+
+  @override
+  String get cardNameTacC05Up => '设陷阱+';
+
+  @override
+  String get cardDescTacC05Up => '下次敌人攻击时反射15点伤害。';
+
+  @override
+  String get cardNameTacC06 => '扰乱';
+
+  @override
+  String get cardDescTacC06 => '随机改变敌人意图。';
+
+  @override
+  String get cardNameTacC06Up => '扰乱+';
+
+  @override
+  String get cardDescTacC06Up => '改变敌人意图并施加虚弱1回合。';
+
+  @override
+  String get cardNameTacC07 => '扒窃';
+
+  @override
+  String get cardDescTacC07 => '造成3点伤害，获得5~15金币。';
+
+  @override
+  String get cardNameTacC07Up => '扒窃+';
+
+  @override
+  String get cardDescTacC07Up => '造成6点伤害，获得10~25金币。';
+
+  @override
+  String get cardNameTacC08 => '烟雾弹';
+
+  @override
+  String get cardDescTacC08 => '获得4格挡，对所有敌人施加虚弱1回合。';
+
+  @override
+  String get cardNameTacC08Up => '烟雾弹+';
+
+  @override
+  String get cardDescTacC08Up => '获得6格挡，对所有敌人施加虚弱2回合。';
+
+  @override
+  String get cardNameTacC09 => '鼓励';
+
+  @override
+  String get cardDescTacC09 => '本次战斗随机升级1张牌。';
+
+  @override
+  String get cardNameTacC09Up => '鼓励+';
+
+  @override
+  String get cardDescTacC09Up => '本次战斗随机升级2张牌。';
+
+  @override
+  String get cardNameTacC10 => '幸运硬币';
+
+  @override
+  String get cardDescTacC10 => '50%概率抽2张牌。';
+
+  @override
+  String get cardNameTacC10Up => '幸运硬币+';
+
+  @override
+  String get cardDescTacC10Up => '70%概率抽2张牌。';
+
+  @override
+  String get cardNameTacU01 => '战场分析';
+
+  @override
+  String get cardDescTacU01 => '抽3张牌，将最高费用牌本回合费用降为0。';
+
+  @override
+  String get cardNameTacU01Up => '战场分析+';
+
+  @override
+  String get cardDescTacU01Up => '抽4张牌，将最高费用牌本回合费用降为0。';
+
+  @override
+  String get cardNameTacU02 => '影步';
+
+  @override
+  String get cardDescTacU02 => '下回合前受到的伤害减少50%。';
+
+  @override
+  String get cardNameTacU02Up => '影步+';
+
+  @override
+  String get cardDescTacU02Up => '下回合前受到的伤害减少50%并抽1张牌。';
+
+  @override
+  String get cardNameTacU03 => '宝箱';
+
+  @override
+  String get cardDescTacU03 => '激活一次随机圣物效果。消耗。';
+
+  @override
+  String get cardNameTacU03Up => '宝箱+';
+
+  @override
+  String get cardDescTacU03Up => '激活两次随机圣物效果。消耗。';
+
+  @override
+  String get cardNameTacU04 => '操纵牌库';
+
+  @override
+  String get cardDescTacU04 => '将牌库顶部3张牌按任意顺序排列。';
+
+  @override
+  String get cardNameTacU04Up => '操纵牌库+';
+
+  @override
+  String get cardDescTacU04Up => '将牌库顶部5张牌按任意顺序排列。';
+
+  @override
+  String get cardNameTacU05 => '双面间谍';
+
+  @override
+  String get cardDescTacU05 => '复制并移除敌人的增益。';
+
+  @override
+  String get cardNameTacU05Up => '双面间谍+';
+
+  @override
+  String get cardDescTacU05Up => '复制并移除敌人的增益，还造成5点伤害。';
+
+  @override
+  String get cardNameTacU06 => '战略撤退';
+
+  @override
+  String get cardDescTacU06 => '洗回手牌并抽5张新牌。';
+
+  @override
+  String get cardNameTacU06Up => '战略撤退+';
+
+  @override
+  String get cardDescTacU06Up => '洗回手牌并抽6张新牌。';
+
+  @override
+  String get cardNameTacU07 => '以物换物';
+
+  @override
+  String get cardDescTacU07 => '消耗手中1张牌，生成2张随机牌。';
+
+  @override
+  String get cardNameTacU07Up => '以物换物+';
+
+  @override
+  String get cardDescTacU07Up => '消耗手中1张牌，生成3张随机牌。';
+
+  @override
+  String get cardNameTacU08 => '连环陷阱';
+
+  @override
+  String get cardDescTacU08 => '获得3荆棘（永久）。被击中时施加虚弱1回合。';
+
+  @override
+  String get cardNameTacU08Up => '连环陷阱+';
+
+  @override
+  String get cardDescTacU08Up => '获得5荆棘（永久）。被击中时施加虚弱1回合。';
+
+  @override
+  String get cardNameTacR01 => '完美计划';
+
+  @override
+  String get cardDescTacR01 => '获得能量+3并抽3张牌。下回合抽牌数为0。';
+
+  @override
+  String get cardNameTacR01Up => '完美计划+';
+
+  @override
+  String get cardDescTacR01Up => '获得能量+3并抽3张牌。下回合抽2张牌。';
+
+  @override
+  String get cardNameTacR02 => '命运之轮';
+
+  @override
+  String get cardDescTacR02 => '随机效果1次：15伤害、15格挡、回复15HP或能量+2之一。';
+
+  @override
+  String get cardNameTacR02Up => '命运之轮+';
+
+  @override
+  String get cardDescTacR02Up => '随机效果2次：15伤害、15格挡、回复15HP或能量+2之一。';
+
+  @override
+  String get cardNameTacR03 => '替身';
+
+  @override
+  String get cardDescTacR03 => '将本回合使用的所有牌放回手中。';
+
+  @override
+  String get cardNameTacR03Up => '替身+';
+
+  @override
+  String get cardDescTacR03Up => '将本回合使用的所有牌放回手中并获得能量+2。';
+
+  @override
+  String get cardNameTacR04 => '贪婪之手';
+
+  @override
+  String get cardDescTacR04 => '造成6点伤害。击杀时额外获得1张牌奖励。';
+
+  @override
+  String get cardNameTacR04Up => '贪婪之手+';
+
+  @override
+  String get cardDescTacR04Up => '造成10点伤害。击杀时额外获得1张牌奖励。';
+
+  @override
+  String get cardNameTacR05 => '大混乱';
+
+  @override
+  String get cardDescTacR05 => '对所有敌人施加易伤+虚弱2回合和毒3。';
+
+  @override
+  String get cardNameTacR05Up => '大混乱+';
+
+  @override
+  String get cardDescTacR05Up => '对所有敌人施加易伤+虚弱3回合和毒3。';
+
+  @override
+  String get cardNameTacL01 => '时间主宰';
+
+  @override
+  String get cardDescTacL01 => '获得2个额外回合（每回合能量2）。消耗。';
+
+  @override
+  String get cardNameTacL01Up => '时间主宰+';
+
+  @override
+  String get cardDescTacL01Up => '获得2个额外回合（每回合能量3）。消耗。';
+
+  @override
+  String get cardNameTacL02 => '命运转化';
+
+  @override
+  String get cardDescTacL02 => '本次战斗升级所有牌。消耗。';
+
+  @override
+  String get cardNameTacL02Up => '命运转化+';
+
+  @override
+  String get cardDescTacL02Up => '本次战斗升级所有牌并获得能量+2。消耗。';
 }
