@@ -2269,4 +2269,317 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cardDescMagL02Up => 'Draw 7 cards and gain Energy +3. Exhaust.';
+
+  @override
+  String get cardNameDefC01 => 'Guard';
+
+  @override
+  String get cardDescDefC01 => 'Gain 5 Block.';
+
+  @override
+  String get cardNameDefC01Up => 'Guard+';
+
+  @override
+  String get cardDescDefC01Up => 'Gain 8 Block.';
+
+  @override
+  String get cardNameDefC02 => 'Iron Wall';
+
+  @override
+  String get cardDescDefC02 => 'Gain 12 Block.';
+
+  @override
+  String get cardNameDefC02Up => 'Iron Wall+';
+
+  @override
+  String get cardDescDefC02Up => 'Gain 16 Block.';
+
+  @override
+  String get cardNameDefC03 => 'Counter';
+
+  @override
+  String get cardDescDefC03 => 'Gain 4 Block and gain 2 Thorns.';
+
+  @override
+  String get cardNameDefC03Up => 'Counter+';
+
+  @override
+  String get cardDescDefC03Up => 'Gain 6 Block and gain 3 Thorns.';
+
+  @override
+  String get cardNameDefC04 => 'Prayer of Recovery';
+
+  @override
+  String get cardDescDefC04 => 'Restore 4 HP.';
+
+  @override
+  String get cardNameDefC04Up => 'Prayer of Recovery+';
+
+  @override
+  String get cardDescDefC04Up => 'Restore 7 HP.';
+
+  @override
+  String get cardNameDefC05 => 'Battle Stance';
+
+  @override
+  String get cardDescDefC05 => 'Gain 6 Block and draw 1 card.';
+
+  @override
+  String get cardNameDefC05Up => 'Battle Stance+';
+
+  @override
+  String get cardDescDefC05Up => 'Gain 8 Block and draw 1 card.';
+
+  @override
+  String get cardNameDefC06 => 'Roll';
+
+  @override
+  String get cardDescDefC06 => 'Gain 3 Block. Gain 6 Block next turn.';
+
+  @override
+  String get cardNameDefC06Up => 'Roll+';
+
+  @override
+  String get cardDescDefC06Up => 'Gain 5 Block. Gain 8 Block next turn.';
+
+  @override
+  String get cardNameDefC07 => 'First Aid';
+
+  @override
+  String get cardDescDefC07 => 'Restore 3 HP.';
+
+  @override
+  String get cardNameDefC07Up => 'First Aid+';
+
+  @override
+  String get cardDescDefC07Up => 'Restore 5 HP.';
+
+  @override
+  String get cardNameDefC08 => 'Endurance';
+
+  @override
+  String get cardDescDefC08 => 'Gain 5 Block and Stalwart for 1 turn.';
+
+  @override
+  String get cardNameDefC08Up => 'Endurance+';
+
+  @override
+  String get cardDescDefC08Up => 'Gain 7 Block and Stalwart for 2 turns.';
+
+  @override
+  String get cardNameDefC09 => 'Vitality';
+
+  @override
+  String get cardDescDefC09 => 'Gain Regeneration 3 for 3 turns.';
+
+  @override
+  String get cardNameDefC09Up => 'Vitality+';
+
+  @override
+  String get cardDescDefC09Up => 'Gain Regeneration 4 for 4 turns.';
+
+  @override
+  String get cardNameDefC10 => 'Taunt Shield';
+
+  @override
+  String get cardDescDefC10 => 'Gain 6 Block and taunt 1 enemy.';
+
+  @override
+  String get cardNameDefC10Up => 'Taunt Shield+';
+
+  @override
+  String get cardDescDefC10Up => 'Gain 9 Block and taunt 1 enemy.';
+
+  @override
+  String get cardNameDefU01 => 'Barricade';
+
+  @override
+  String get cardDescDefU01 => 'Gain 12 Block and Stalwart for 2 turns.';
+
+  @override
+  String get cardNameDefU01Up => 'Barricade+';
+
+  @override
+  String get cardDescDefU01Up => 'Gain 16 Block and Stalwart for 3 turns.';
+
+  @override
+  String get cardNameDefU02 => 'Reflective Shield';
+
+  @override
+  String get cardDescDefU02 => 'Gain 8 Block and 5 Thorns this turn.';
+
+  @override
+  String get cardNameDefU02Up => 'Reflective Shield+';
+
+  @override
+  String get cardDescDefU02Up => 'Gain 12 Block and 7 Thorns this turn.';
+
+  @override
+  String get cardNameDefU03 => 'Prayer of Healing';
+
+  @override
+  String get cardDescDefU03 =>
+      'Restore 10 HP and gain Regeneration 2 for 3 turns.';
+
+  @override
+  String get cardNameDefU03Up => 'Prayer of Healing+';
+
+  @override
+  String get cardDescDefU03Up =>
+      'Restore 15 HP and gain Regeneration 3 for 3 turns.';
+
+  @override
+  String get cardNameDefU04 => 'Indomitable Will';
+
+  @override
+  String get cardDescDefU04 => 'Gain Dexterity +2 (permanent).';
+
+  @override
+  String get cardNameDefU04Up => 'Indomitable Will+';
+
+  @override
+  String get cardDescDefU04Up => 'Gain Dexterity +3 (permanent).';
+
+  @override
+  String get cardNameDefU05 => 'Protective Barrier';
+
+  @override
+  String get cardDescDefU05 => 'Gain Block equal to 25% of missing HP.';
+
+  @override
+  String get cardNameDefU05Up => 'Protective Barrier+';
+
+  @override
+  String get cardDescDefU05Up => 'Gain Block equal to 30% of missing HP.';
+
+  @override
+  String get cardNameDefU06 => 'Survival Instinct';
+
+  @override
+  String get cardDescDefU06 => 'Gain 15 Block if HP ≤ 50%, otherwise 5.';
+
+  @override
+  String get cardNameDefU06Up => 'Survival Instinct+';
+
+  @override
+  String get cardDescDefU06Up => 'Gain 20 Block if HP ≤ 50%, otherwise 8.';
+
+  @override
+  String get cardNameDefU07 => 'Vampiric Thorns';
+
+  @override
+  String get cardDescDefU07 =>
+      'Gain 3 Thorns (permanent). Restore 1 HP when struck.';
+
+  @override
+  String get cardNameDefU07Up => 'Vampiric Thorns+';
+
+  @override
+  String get cardDescDefU07Up =>
+      'Gain 4 Thorns (permanent). Restore 2 HP when struck.';
+
+  @override
+  String get cardNameDefU08 => 'Reinforced Armor';
+
+  @override
+  String get cardDescDefU08 => 'Gain 20 Block. Gain 10 Block next turn.';
+
+  @override
+  String get cardNameDefU08Up => 'Reinforced Armor+';
+
+  @override
+  String get cardDescDefU08Up => 'Gain 25 Block. Gain 15 Block next turn.';
+
+  @override
+  String get cardNameDefR01 => 'Invincible';
+
+  @override
+  String get cardDescDefR01 => 'Reduce all damage to 0 this turn. Exhaust.';
+
+  @override
+  String get cardNameDefR01Up => 'Invincible+';
+
+  @override
+  String get cardDescDefR01Up =>
+      'Reduce all damage to 0 this turn and next. Exhaust.';
+
+  @override
+  String get cardNameDefR02 => 'Tree of Life';
+
+  @override
+  String get cardDescDefR02 => 'Restore 30% of max HP.';
+
+  @override
+  String get cardNameDefR02Up => 'Tree of Life+';
+
+  @override
+  String get cardDescDefR02Up => 'Restore 40% of max HP.';
+
+  @override
+  String get cardNameDefR03 => 'Holy Shield';
+
+  @override
+  String get cardDescDefR03 => 'Gain 20 Block and remove all debuffs.';
+
+  @override
+  String get cardNameDefR03Up => 'Holy Shield+';
+
+  @override
+  String get cardDescDefR03Up => 'Gain 28 Block and remove all debuffs.';
+
+  @override
+  String get cardNameDefR04 => 'Iron Body';
+
+  @override
+  String get cardDescDefR04 =>
+      'Automatically gain 8 Block each turn (during combat).';
+
+  @override
+  String get cardNameDefR04Up => 'Iron Body+';
+
+  @override
+  String get cardDescDefR04Up =>
+      'Automatically gain 12 Block each turn (during combat).';
+
+  @override
+  String get cardNameDefR05 => 'Elixir of Rebirth';
+
+  @override
+  String get cardDescDefR05 =>
+      'Revive with 30% HP on death this combat. Exhaust.';
+
+  @override
+  String get cardNameDefR05Up => 'Elixir of Rebirth+';
+
+  @override
+  String get cardDescDefR05Up =>
+      'Revive with 50% HP on death this combat. Exhaust.';
+
+  @override
+  String get cardNameDefL01 => 'Eternal Shield';
+
+  @override
+  String get cardDescDefL01 =>
+      'Gain 30 Block and automatically gain 5 Block each turn (during combat). Exhaust.';
+
+  @override
+  String get cardNameDefL01Up => 'Eternal Shield+';
+
+  @override
+  String get cardDescDefL01Up =>
+      'Gain 40 Block and automatically gain 8 Block each turn (during combat). Exhaust.';
+
+  @override
+  String get cardNameDefL02 => 'Font of Life';
+
+  @override
+  String get cardDescDefL02 =>
+      'Fully restore HP and gain max HP +10 (permanent). Exhaust.';
+
+  @override
+  String get cardNameDefL02Up => 'Font of Life+';
+
+  @override
+  String get cardDescDefL02Up =>
+      'Fully restore HP and gain max HP +20 (permanent). Exhaust.';
 }

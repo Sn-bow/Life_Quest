@@ -2204,4 +2204,304 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cardDescMagL02Up => 'カードを7枚引き、エネルギー+3を得る。使用後消滅。';
+
+  @override
+  String get cardNameDefC01 => '守備';
+
+  @override
+  String get cardDescDefC01 => '防御5を得る。';
+
+  @override
+  String get cardNameDefC01Up => '守備+';
+
+  @override
+  String get cardDescDefC01Up => '防御8を得る。';
+
+  @override
+  String get cardNameDefC02 => '鉄壁';
+
+  @override
+  String get cardDescDefC02 => '防御12を得る。';
+
+  @override
+  String get cardNameDefC02Up => '鉄壁+';
+
+  @override
+  String get cardDescDefC02Up => '防御16を得る。';
+
+  @override
+  String get cardNameDefC03 => '反撃';
+
+  @override
+  String get cardDescDefC03 => '防御4を得て、棘2を得る。';
+
+  @override
+  String get cardNameDefC03Up => '反撃+';
+
+  @override
+  String get cardDescDefC03Up => '防御6を得て、棘3を得る。';
+
+  @override
+  String get cardNameDefC04 => '回復の祈り';
+
+  @override
+  String get cardDescDefC04 => 'HP4を回復する。';
+
+  @override
+  String get cardNameDefC04Up => '回復の祈り+';
+
+  @override
+  String get cardDescDefC04Up => 'HP7を回復する。';
+
+  @override
+  String get cardNameDefC05 => '戦闘態勢';
+
+  @override
+  String get cardDescDefC05 => '防御6を得て、カードを1枚引く。';
+
+  @override
+  String get cardNameDefC05Up => '戦闘態勢+';
+
+  @override
+  String get cardDescDefC05Up => '防御8を得て、カードを1枚引く。';
+
+  @override
+  String get cardNameDefC06 => '回転';
+
+  @override
+  String get cardDescDefC06 => '防御3を得る。次のターン防御6を得る。';
+
+  @override
+  String get cardNameDefC06Up => '回転+';
+
+  @override
+  String get cardDescDefC06Up => '防御5を得る。次のターン防御8を得る。';
+
+  @override
+  String get cardNameDefC07 => '応急処置';
+
+  @override
+  String get cardDescDefC07 => 'HP3を回復する。';
+
+  @override
+  String get cardNameDefC07Up => '応急処置+';
+
+  @override
+  String get cardDescDefC07Up => 'HP5を回復する。';
+
+  @override
+  String get cardNameDefC08 => '忍耐';
+
+  @override
+  String get cardDescDefC08 => '防御5を得て、不屈1ターンを得る。';
+
+  @override
+  String get cardNameDefC08Up => '忍耐+';
+
+  @override
+  String get cardDescDefC08Up => '防御7を得て、不屈2ターンを得る。';
+
+  @override
+  String get cardNameDefC09 => '生命力';
+
+  @override
+  String get cardDescDefC09 => '再生3を得る（3ターン）。';
+
+  @override
+  String get cardNameDefC09Up => '生命力+';
+
+  @override
+  String get cardDescDefC09Up => '再生4を得る（4ターン）。';
+
+  @override
+  String get cardNameDefC10 => '挑発の盾';
+
+  @override
+  String get cardDescDefC10 => '防御6を得て、敵1体を挑発する。';
+
+  @override
+  String get cardNameDefC10Up => '挑発の盾+';
+
+  @override
+  String get cardDescDefC10Up => '防御9を得て、敵1体を挑発する。';
+
+  @override
+  String get cardNameDefU01 => 'バリケード';
+
+  @override
+  String get cardDescDefU01 => '防御12を得て、不屈2ターンを得る。';
+
+  @override
+  String get cardNameDefU01Up => 'バリケード+';
+
+  @override
+  String get cardDescDefU01Up => '防御16を得て、不屈3ターンを得る。';
+
+  @override
+  String get cardNameDefU02 => '反射の盾';
+
+  @override
+  String get cardDescDefU02 => '防御8を得て、このターン棘5を得る。';
+
+  @override
+  String get cardNameDefU02Up => '反射の盾+';
+
+  @override
+  String get cardDescDefU02Up => '防御12を得て、このターン棘7を得る。';
+
+  @override
+  String get cardNameDefU03 => '癒しの祈り';
+
+  @override
+  String get cardDescDefU03 => 'HP10を回復し、3ターン再生2を得る。';
+
+  @override
+  String get cardNameDefU03Up => '癒しの祈り+';
+
+  @override
+  String get cardDescDefU03Up => 'HP15を回復し、3ターン再生3を得る。';
+
+  @override
+  String get cardNameDefU04 => '不屈の意志';
+
+  @override
+  String get cardDescDefU04 => '敏捷性+2（永続）。';
+
+  @override
+  String get cardNameDefU04Up => '不屈の意志+';
+
+  @override
+  String get cardDescDefU04Up => '敏捷性+3（永続）。';
+
+  @override
+  String get cardNameDefU05 => '守護の壁';
+
+  @override
+  String get cardDescDefU05 => '不足HPの25%分の防御を得る。';
+
+  @override
+  String get cardNameDefU05Up => '守護の壁+';
+
+  @override
+  String get cardDescDefU05Up => '不足HPの30%分の防御を得る。';
+
+  @override
+  String get cardNameDefU06 => '生存本能';
+
+  @override
+  String get cardDescDefU06 => 'HP≤50%なら防御15、そうでなければ防御5を得る。';
+
+  @override
+  String get cardNameDefU06Up => '生存本能+';
+
+  @override
+  String get cardDescDefU06Up => 'HP≤50%なら防御20、そうでなければ防御8を得る。';
+
+  @override
+  String get cardNameDefU07 => '吸血の棘';
+
+  @override
+  String get cardDescDefU07 => '棘3を得る（永続）。被撃時HP1を回復する。';
+
+  @override
+  String get cardNameDefU07Up => '吸血の棘+';
+
+  @override
+  String get cardDescDefU07Up => '棘4を得る（永続）。被撃時HP2を回復する。';
+
+  @override
+  String get cardNameDefU08 => '強化アーマー';
+
+  @override
+  String get cardDescDefU08 => '防御20を得る。次のターン防御10を得る。';
+
+  @override
+  String get cardNameDefU08Up => '強化アーマー+';
+
+  @override
+  String get cardDescDefU08Up => '防御25を得る。次のターン防御15を得る。';
+
+  @override
+  String get cardNameDefR01 => '無敵';
+
+  @override
+  String get cardDescDefR01 => 'このターン全ダメージを0にする。消滅。';
+
+  @override
+  String get cardNameDefR01Up => '無敵+';
+
+  @override
+  String get cardDescDefR01Up => 'このターンと次のターン全ダメージを0にする。消滅。';
+
+  @override
+  String get cardNameDefR02 => '生命の木';
+
+  @override
+  String get cardDescDefR02 => '最大HPの30%を回復する。';
+
+  @override
+  String get cardNameDefR02Up => '生命の木+';
+
+  @override
+  String get cardDescDefR02Up => '最大HPの40%を回復する。';
+
+  @override
+  String get cardNameDefR03 => '聖なる盾';
+
+  @override
+  String get cardDescDefR03 => '防御20を得て、全デバフを除去する。';
+
+  @override
+  String get cardNameDefR03Up => '聖なる盾+';
+
+  @override
+  String get cardDescDefR03Up => '防御28を得て、全デバフを除去する。';
+
+  @override
+  String get cardNameDefR04 => '鉄の体';
+
+  @override
+  String get cardDescDefR04 => '毎ターン自動で防御8を得る（戦闘中）。';
+
+  @override
+  String get cardNameDefR04Up => '鉄の体+';
+
+  @override
+  String get cardDescDefR04Up => '毎ターン自動で防御12を得る（戦闘中）。';
+
+  @override
+  String get cardNameDefR05 => '再生の霊薬';
+
+  @override
+  String get cardDescDefR05 => 'この戦闘で死亡時、HP30%で復活する。消滅。';
+
+  @override
+  String get cardNameDefR05Up => '再生の霊薬+';
+
+  @override
+  String get cardDescDefR05Up => 'この戦闘で死亡時、HP50%で復活する。消滅。';
+
+  @override
+  String get cardNameDefL01 => '永遠の盾';
+
+  @override
+  String get cardDescDefL01 => '防御30を得て、毎ターン自動で防御5を得る（戦闘中）。消滅。';
+
+  @override
+  String get cardNameDefL01Up => '永遠の盾+';
+
+  @override
+  String get cardDescDefL01Up => '防御40を得て、毎ターン自動で防御8を得る（戦闘中）。消滅。';
+
+  @override
+  String get cardNameDefL02 => '生命の泉';
+
+  @override
+  String get cardDescDefL02 => 'HPを全回復し、最大HP+10（永続）。消滅。';
+
+  @override
+  String get cardNameDefL02Up => '生命の泉+';
+
+  @override
+  String get cardDescDefL02Up => 'HPを全回復し、最大HP+20（永続）。消滅。';
 }

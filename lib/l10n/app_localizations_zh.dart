@@ -2191,4 +2191,304 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardDescMagL02Up => '抽7张牌，获得能量+3。使用后消耗。';
+
+  @override
+  String get cardNameDefC01 => '防御';
+
+  @override
+  String get cardDescDefC01 => '获得5格挡。';
+
+  @override
+  String get cardNameDefC01Up => '防御+';
+
+  @override
+  String get cardDescDefC01Up => '获得8格挡。';
+
+  @override
+  String get cardNameDefC02 => '铁壁';
+
+  @override
+  String get cardDescDefC02 => '获得12格挡。';
+
+  @override
+  String get cardNameDefC02Up => '铁壁+';
+
+  @override
+  String get cardDescDefC02Up => '获得16格挡。';
+
+  @override
+  String get cardNameDefC03 => '反击';
+
+  @override
+  String get cardDescDefC03 => '获得4格挡和2荆棘。';
+
+  @override
+  String get cardNameDefC03Up => '反击+';
+
+  @override
+  String get cardDescDefC03Up => '获得6格挡和3荆棘。';
+
+  @override
+  String get cardNameDefC04 => '回复祈祷';
+
+  @override
+  String get cardDescDefC04 => '回复4HP。';
+
+  @override
+  String get cardNameDefC04Up => '回复祈祷+';
+
+  @override
+  String get cardDescDefC04Up => '回复7HP。';
+
+  @override
+  String get cardNameDefC05 => '战斗姿态';
+
+  @override
+  String get cardDescDefC05 => '获得6格挡并抽1张牌。';
+
+  @override
+  String get cardNameDefC05Up => '战斗姿态+';
+
+  @override
+  String get cardDescDefC05Up => '获得8格挡并抽1张牌。';
+
+  @override
+  String get cardNameDefC06 => '滚动';
+
+  @override
+  String get cardDescDefC06 => '获得3格挡。下回合获得6格挡。';
+
+  @override
+  String get cardNameDefC06Up => '滚动+';
+
+  @override
+  String get cardDescDefC06Up => '获得5格挡。下回合获得8格挡。';
+
+  @override
+  String get cardNameDefC07 => '急救';
+
+  @override
+  String get cardDescDefC07 => '回复3HP。';
+
+  @override
+  String get cardNameDefC07Up => '急救+';
+
+  @override
+  String get cardDescDefC07Up => '回复5HP。';
+
+  @override
+  String get cardNameDefC08 => '忍耐';
+
+  @override
+  String get cardDescDefC08 => '获得5格挡和1回合坚定。';
+
+  @override
+  String get cardNameDefC08Up => '忍耐+';
+
+  @override
+  String get cardDescDefC08Up => '获得7格挡和2回合坚定。';
+
+  @override
+  String get cardNameDefC09 => '生命力';
+
+  @override
+  String get cardDescDefC09 => '获得再生3（3回合）。';
+
+  @override
+  String get cardNameDefC09Up => '生命力+';
+
+  @override
+  String get cardDescDefC09Up => '获得再生4（4回合）。';
+
+  @override
+  String get cardNameDefC10 => '嘲讽盾';
+
+  @override
+  String get cardDescDefC10 => '获得6格挡并嘲讽1个敌人。';
+
+  @override
+  String get cardNameDefC10Up => '嘲讽盾+';
+
+  @override
+  String get cardDescDefC10Up => '获得9格挡并嘲讽1个敌人。';
+
+  @override
+  String get cardNameDefU01 => '路障';
+
+  @override
+  String get cardDescDefU01 => '获得12格挡和2回合坚定。';
+
+  @override
+  String get cardNameDefU01Up => '路障+';
+
+  @override
+  String get cardDescDefU01Up => '获得16格挡和3回合坚定。';
+
+  @override
+  String get cardNameDefU02 => '反射盾';
+
+  @override
+  String get cardDescDefU02 => '获得8格挡和本回合5荆棘。';
+
+  @override
+  String get cardNameDefU02Up => '反射盾+';
+
+  @override
+  String get cardDescDefU02Up => '获得12格挡和本回合7荆棘。';
+
+  @override
+  String get cardNameDefU03 => '治愈祈祷';
+
+  @override
+  String get cardDescDefU03 => '回复10HP并获得3回合再生2。';
+
+  @override
+  String get cardNameDefU03Up => '治愈祈祷+';
+
+  @override
+  String get cardDescDefU03Up => '回复15HP并获得3回合再生3。';
+
+  @override
+  String get cardNameDefU04 => '不屈意志';
+
+  @override
+  String get cardDescDefU04 => '获得敏捷性+2（永久）。';
+
+  @override
+  String get cardNameDefU04Up => '不屈意志+';
+
+  @override
+  String get cardDescDefU04Up => '获得敏捷性+3（永久）。';
+
+  @override
+  String get cardNameDefU05 => '守护屏障';
+
+  @override
+  String get cardDescDefU05 => '获得等于缺失HP25%的格挡。';
+
+  @override
+  String get cardNameDefU05Up => '守护屏障+';
+
+  @override
+  String get cardDescDefU05Up => '获得等于缺失HP30%的格挡。';
+
+  @override
+  String get cardNameDefU06 => '求生本能';
+
+  @override
+  String get cardDescDefU06 => 'HP≤50%时获得15格挡，否则获得5格挡。';
+
+  @override
+  String get cardNameDefU06Up => '求生本能+';
+
+  @override
+  String get cardDescDefU06Up => 'HP≤50%时获得20格挡，否则获得8格挡。';
+
+  @override
+  String get cardNameDefU07 => '吸血荆棘';
+
+  @override
+  String get cardDescDefU07 => '获得3荆棘（永久）。被击中时回复1HP。';
+
+  @override
+  String get cardNameDefU07Up => '吸血荆棘+';
+
+  @override
+  String get cardDescDefU07Up => '获得4荆棘（永久）。被击中时回复2HP。';
+
+  @override
+  String get cardNameDefU08 => '强化盔甲';
+
+  @override
+  String get cardDescDefU08 => '获得20格挡。下回合获得10格挡。';
+
+  @override
+  String get cardNameDefU08Up => '强化盔甲+';
+
+  @override
+  String get cardDescDefU08Up => '获得25格挡。下回合获得15格挡。';
+
+  @override
+  String get cardNameDefR01 => '无敌';
+
+  @override
+  String get cardDescDefR01 => '本回合所有伤害降为0。消耗。';
+
+  @override
+  String get cardNameDefR01Up => '无敌+';
+
+  @override
+  String get cardDescDefR01Up => '本回合和下回合所有伤害降为0。消耗。';
+
+  @override
+  String get cardNameDefR02 => '生命之树';
+
+  @override
+  String get cardDescDefR02 => '回复最大HP的30%。';
+
+  @override
+  String get cardNameDefR02Up => '生命之树+';
+
+  @override
+  String get cardDescDefR02Up => '回复最大HP的40%。';
+
+  @override
+  String get cardNameDefR03 => '神圣盾';
+
+  @override
+  String get cardDescDefR03 => '获得20格挡并移除所有减益。';
+
+  @override
+  String get cardNameDefR03Up => '神圣盾+';
+
+  @override
+  String get cardDescDefR03Up => '获得28格挡并移除所有减益。';
+
+  @override
+  String get cardNameDefR04 => '铁甲身';
+
+  @override
+  String get cardDescDefR04 => '每回合自动获得8格挡（战斗中）。';
+
+  @override
+  String get cardNameDefR04Up => '铁甲身+';
+
+  @override
+  String get cardDescDefR04Up => '每回合自动获得12格挡（战斗中）。';
+
+  @override
+  String get cardNameDefR05 => '重生药水';
+
+  @override
+  String get cardDescDefR05 => '本次战斗死亡时以30%HP复活。消耗。';
+
+  @override
+  String get cardNameDefR05Up => '重生药水+';
+
+  @override
+  String get cardDescDefR05Up => '本次战斗死亡时以50%HP复活。消耗。';
+
+  @override
+  String get cardNameDefL01 => '永恒盾';
+
+  @override
+  String get cardDescDefL01 => '获得30格挡并每回合自动获得5格挡（战斗中）。消耗。';
+
+  @override
+  String get cardNameDefL01Up => '永恒盾+';
+
+  @override
+  String get cardDescDefL01Up => '获得40格挡并每回合自动获得8格挡（战斗中）。消耗。';
+
+  @override
+  String get cardNameDefL02 => '生命之泉';
+
+  @override
+  String get cardDescDefL02 => '完全回复HP并获得最大HP+10（永久）。消耗。';
+
+  @override
+  String get cardNameDefL02Up => '生命之泉+';
+
+  @override
+  String get cardDescDefL02Up => '完全回复HP并获得最大HP+20（永久）。消耗。';
 }

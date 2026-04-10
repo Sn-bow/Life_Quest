@@ -4265,6 +4265,606 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'카드 7장을 드로우하고, 에너지 +3을 얻는다. 사용 후 소멸.'**
   String get cardDescMagL02Up;
+
+  /// No description provided for @cardNameDefC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어'**
+  String get cardNameDefC01;
+
+  /// No description provided for @cardDescDefC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 5를 얻는다.'**
+  String get cardDescDefC01;
+
+  /// No description provided for @cardNameDefC01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어+'**
+  String get cardNameDefC01Up;
+
+  /// No description provided for @cardDescDefC01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 8을 얻는다.'**
+  String get cardDescDefC01Up;
+
+  /// No description provided for @cardNameDefC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'철벽'**
+  String get cardNameDefC02;
+
+  /// No description provided for @cardDescDefC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 12를 얻는다.'**
+  String get cardDescDefC02;
+
+  /// No description provided for @cardNameDefC02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'철벽+'**
+  String get cardNameDefC02Up;
+
+  /// No description provided for @cardDescDefC02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 16을 얻는다.'**
+  String get cardDescDefC02Up;
+
+  /// No description provided for @cardNameDefC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'반격'**
+  String get cardNameDefC03;
+
+  /// No description provided for @cardDescDefC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 4를 얻고, 가시 2를 얻는다.'**
+  String get cardDescDefC03;
+
+  /// No description provided for @cardNameDefC03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'반격+'**
+  String get cardNameDefC03Up;
+
+  /// No description provided for @cardDescDefC03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 6을 얻고, 가시 3을 얻는다.'**
+  String get cardDescDefC03Up;
+
+  /// No description provided for @cardNameDefC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'회복 기도'**
+  String get cardNameDefC04;
+
+  /// No description provided for @cardDescDefC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 4를 회복한다.'**
+  String get cardDescDefC04;
+
+  /// No description provided for @cardNameDefC04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'회복 기도+'**
+  String get cardNameDefC04Up;
+
+  /// No description provided for @cardDescDefC04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 7을 회복한다.'**
+  String get cardDescDefC04Up;
+
+  /// No description provided for @cardNameDefC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 태세'**
+  String get cardNameDefC05;
+
+  /// No description provided for @cardDescDefC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 6을 얻고, 카드 1장을 드로우한다.'**
+  String get cardDescDefC05;
+
+  /// No description provided for @cardNameDefC05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 태세+'**
+  String get cardNameDefC05Up;
+
+  /// No description provided for @cardDescDefC05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 8을 얻고, 카드 1장을 드로우한다.'**
+  String get cardDescDefC05Up;
+
+  /// No description provided for @cardNameDefC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'구르기'**
+  String get cardNameDefC06;
+
+  /// No description provided for @cardDescDefC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 3을 얻고, 다음 턴 방어도 6을 얻는다.'**
+  String get cardDescDefC06;
+
+  /// No description provided for @cardNameDefC06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'구르기+'**
+  String get cardNameDefC06Up;
+
+  /// No description provided for @cardDescDefC06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 5를 얻고, 다음 턴 방어도 8을 얻는다.'**
+  String get cardDescDefC06Up;
+
+  /// No description provided for @cardNameDefC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'응급 처치'**
+  String get cardNameDefC07;
+
+  /// No description provided for @cardDescDefC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 3을 회복한다.'**
+  String get cardDescDefC07;
+
+  /// No description provided for @cardNameDefC07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'응급 처치+'**
+  String get cardNameDefC07Up;
+
+  /// No description provided for @cardDescDefC07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 5를 회복한다.'**
+  String get cardDescDefC07Up;
+
+  /// No description provided for @cardNameDefC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'인내'**
+  String get cardNameDefC08;
+
+  /// No description provided for @cardDescDefC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 5를 얻고, 불굴 1턴을 얻는다.'**
+  String get cardDescDefC08;
+
+  /// No description provided for @cardNameDefC08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'인내+'**
+  String get cardNameDefC08Up;
+
+  /// No description provided for @cardDescDefC08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 7을 얻고, 불굴 2턴을 얻는다.'**
+  String get cardDescDefC08Up;
+
+  /// No description provided for @cardNameDefC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'생명력'**
+  String get cardNameDefC09;
+
+  /// No description provided for @cardDescDefC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'재생 3을 얻는다 (3턴).'**
+  String get cardDescDefC09;
+
+  /// No description provided for @cardNameDefC09Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'생명력+'**
+  String get cardNameDefC09Up;
+
+  /// No description provided for @cardDescDefC09Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'재생 4를 얻는다 (4턴).'**
+  String get cardDescDefC09Up;
+
+  /// No description provided for @cardNameDefC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'도발 방패'**
+  String get cardNameDefC10;
+
+  /// No description provided for @cardDescDefC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 6을 얻고, 적 1체를 도발한다.'**
+  String get cardDescDefC10;
+
+  /// No description provided for @cardNameDefC10Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'도발 방패+'**
+  String get cardNameDefC10Up;
+
+  /// No description provided for @cardDescDefC10Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 9를 얻고, 적 1체를 도발한다.'**
+  String get cardDescDefC10Up;
+
+  /// No description provided for @cardNameDefU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'바리케이드'**
+  String get cardNameDefU01;
+
+  /// No description provided for @cardDescDefU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 12를 얻고, 불굴 2턴을 얻는다.'**
+  String get cardDescDefU01;
+
+  /// No description provided for @cardNameDefU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'바리케이드+'**
+  String get cardNameDefU01Up;
+
+  /// No description provided for @cardDescDefU01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 16을 얻고, 불굴 3턴을 얻는다.'**
+  String get cardDescDefU01Up;
+
+  /// No description provided for @cardNameDefU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'반사 방어막'**
+  String get cardNameDefU02;
+
+  /// No description provided for @cardDescDefU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 8을 얻고, 가시 5를 얻는다 (이번 턴).'**
+  String get cardDescDefU02;
+
+  /// No description provided for @cardNameDefU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'반사 방어막+'**
+  String get cardNameDefU02Up;
+
+  /// No description provided for @cardDescDefU02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 12를 얻고, 가시 7을 얻는다 (이번 턴).'**
+  String get cardDescDefU02Up;
+
+  /// No description provided for @cardNameDefU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'재생의 기도'**
+  String get cardNameDefU03;
+
+  /// No description provided for @cardDescDefU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 10을 회복하고, 재생 2를 얻는다 (3턴).'**
+  String get cardDescDefU03;
+
+  /// No description provided for @cardNameDefU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'재생의 기도+'**
+  String get cardNameDefU03Up;
+
+  /// No description provided for @cardDescDefU03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 15를 회복하고, 재생 3을 얻는다 (3턴).'**
+  String get cardDescDefU03Up;
+
+  /// No description provided for @cardNameDefU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'불굴의 의지'**
+  String get cardNameDefU04;
+
+  /// No description provided for @cardDescDefU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'민첩 +2를 얻는다 (영구).'**
+  String get cardDescDefU04;
+
+  /// No description provided for @cardNameDefU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'불굴의 의지+'**
+  String get cardNameDefU04Up;
+
+  /// No description provided for @cardDescDefU04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'민첩 +3을 얻는다 (영구).'**
+  String get cardDescDefU04Up;
+
+  /// No description provided for @cardNameDefU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'보호막'**
+  String get cardNameDefU05;
+
+  /// No description provided for @cardDescDefU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'잃은 HP의 25%만큼 방어도를 얻는다.'**
+  String get cardDescDefU05;
+
+  /// No description provided for @cardNameDefU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'보호막+'**
+  String get cardNameDefU05Up;
+
+  /// No description provided for @cardDescDefU05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'잃은 HP의 30%만큼 방어도를 얻는다.'**
+  String get cardDescDefU05Up;
+
+  /// No description provided for @cardNameDefU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'생존 본능'**
+  String get cardNameDefU06;
+
+  /// No description provided for @cardDescDefU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 50% 이하면 방어도 15, 아니면 5.'**
+  String get cardDescDefU06;
+
+  /// No description provided for @cardNameDefU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'생존 본능+'**
+  String get cardNameDefU06Up;
+
+  /// No description provided for @cardDescDefU06Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 50% 이하면 방어도 20, 아니면 8.'**
+  String get cardDescDefU06Up;
+
+  /// No description provided for @cardNameDefU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'흡혈 가시'**
+  String get cardNameDefU07;
+
+  /// No description provided for @cardDescDefU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'가시 3을 얻는다 (영구). 피격 시 HP 1을 회복한다.'**
+  String get cardDescDefU07;
+
+  /// No description provided for @cardNameDefU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'흡혈 가시+'**
+  String get cardNameDefU07Up;
+
+  /// No description provided for @cardDescDefU07Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'가시 4를 얻는다 (영구). 피격 시 HP 2를 회복한다.'**
+  String get cardDescDefU07Up;
+
+  /// No description provided for @cardNameDefU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'강화 갑옷'**
+  String get cardNameDefU08;
+
+  /// No description provided for @cardDescDefU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 20을 얻고, 다음 턴 방어도 10을 얻는다.'**
+  String get cardDescDefU08;
+
+  /// No description provided for @cardNameDefU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'강화 갑옷+'**
+  String get cardNameDefU08Up;
+
+  /// No description provided for @cardDescDefU08Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 25를 얻고, 다음 턴 방어도 15를 얻는다.'**
+  String get cardDescDefU08Up;
+
+  /// No description provided for @cardNameDefR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'무적'**
+  String get cardNameDefR01;
+
+  /// No description provided for @cardDescDefR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 턴 모든 데미지를 0으로 만든다. 사용 후 소멸.'**
+  String get cardDescDefR01;
+
+  /// No description provided for @cardNameDefR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'무적+'**
+  String get cardNameDefR01Up;
+
+  /// No description provided for @cardDescDefR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 턴과 다음 턴 모든 데미지를 0으로 만든다. 사용 후 소멸.'**
+  String get cardDescDefR01Up;
+
+  /// No description provided for @cardNameDefR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'생명의 나무'**
+  String get cardNameDefR02;
+
+  /// No description provided for @cardDescDefR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 전체의 30%를 회복한다.'**
+  String get cardDescDefR02;
+
+  /// No description provided for @cardNameDefR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'생명의 나무+'**
+  String get cardNameDefR02Up;
+
+  /// No description provided for @cardDescDefR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP 전체의 40%를 회복한다.'**
+  String get cardDescDefR02Up;
+
+  /// No description provided for @cardNameDefR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'성스러운 방패'**
+  String get cardNameDefR03;
+
+  /// No description provided for @cardDescDefR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 20을 얻고, 디버프를 모두 해제한다.'**
+  String get cardDescDefR03;
+
+  /// No description provided for @cardNameDefR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'성스러운 방패+'**
+  String get cardNameDefR03Up;
+
+  /// No description provided for @cardDescDefR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 28을 얻고, 디버프를 모두 해제한다.'**
+  String get cardDescDefR03Up;
+
+  /// No description provided for @cardNameDefR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'철의 몸'**
+  String get cardNameDefR04;
+
+  /// No description provided for @cardDescDefR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'매 턴 방어도 8을 자동으로 얻는다 (전투 동안).'**
+  String get cardDescDefR04;
+
+  /// No description provided for @cardNameDefR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'철의 몸+'**
+  String get cardNameDefR04Up;
+
+  /// No description provided for @cardDescDefR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'매 턴 방어도 12를 자동으로 얻는다 (전투 동안).'**
+  String get cardDescDefR04Up;
+
+  /// No description provided for @cardNameDefR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'부활의 비약'**
+  String get cardNameDefR05;
+
+  /// No description provided for @cardDescDefR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 전투에서 사망 시 HP 30%로 부활한다. 사용 후 소멸.'**
+  String get cardDescDefR05;
+
+  /// No description provided for @cardNameDefR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'부활의 비약+'**
+  String get cardNameDefR05Up;
+
+  /// No description provided for @cardDescDefR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 전투에서 사망 시 HP 50%로 부활한다. 사용 후 소멸.'**
+  String get cardDescDefR05Up;
+
+  /// No description provided for @cardNameDefL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'영원의 방패'**
+  String get cardNameDefL01;
+
+  /// No description provided for @cardDescDefL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 30을 얻고, 매 턴 방어도 5를 자동으로 얻는다 (전투 동안). 사용 후 소멸.'**
+  String get cardDescDefL01;
+
+  /// No description provided for @cardNameDefL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'영원의 방패+'**
+  String get cardNameDefL01Up;
+
+  /// No description provided for @cardDescDefL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어도 40을 얻고, 매 턴 방어도 8을 자동으로 얻는다 (전투 동안). 사용 후 소멸.'**
+  String get cardDescDefL01Up;
+
+  /// No description provided for @cardNameDefL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'생명의 원천'**
+  String get cardNameDefL02;
+
+  /// No description provided for @cardDescDefL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP를 완전 회복하고, 최대 HP +10 (영구). 사용 후 소멸.'**
+  String get cardDescDefL02;
+
+  /// No description provided for @cardNameDefL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'생명의 원천+'**
+  String get cardNameDefL02Up;
+
+  /// No description provided for @cardDescDefL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'HP를 완전 회복하고, 최대 HP +20 (영구). 사용 후 소멸.'**
+  String get cardDescDefL02Up;
 }
 
 class _AppLocalizationsDelegate

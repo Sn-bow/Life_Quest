@@ -2211,4 +2211,306 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cardDescMagL02Up => '카드 7장을 드로우하고, 에너지 +3을 얻는다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefC01 => '방어';
+
+  @override
+  String get cardDescDefC01 => '방어도 5를 얻는다.';
+
+  @override
+  String get cardNameDefC01Up => '방어+';
+
+  @override
+  String get cardDescDefC01Up => '방어도 8을 얻는다.';
+
+  @override
+  String get cardNameDefC02 => '철벽';
+
+  @override
+  String get cardDescDefC02 => '방어도 12를 얻는다.';
+
+  @override
+  String get cardNameDefC02Up => '철벽+';
+
+  @override
+  String get cardDescDefC02Up => '방어도 16을 얻는다.';
+
+  @override
+  String get cardNameDefC03 => '반격';
+
+  @override
+  String get cardDescDefC03 => '방어도 4를 얻고, 가시 2를 얻는다.';
+
+  @override
+  String get cardNameDefC03Up => '반격+';
+
+  @override
+  String get cardDescDefC03Up => '방어도 6을 얻고, 가시 3을 얻는다.';
+
+  @override
+  String get cardNameDefC04 => '회복 기도';
+
+  @override
+  String get cardDescDefC04 => 'HP 4를 회복한다.';
+
+  @override
+  String get cardNameDefC04Up => '회복 기도+';
+
+  @override
+  String get cardDescDefC04Up => 'HP 7을 회복한다.';
+
+  @override
+  String get cardNameDefC05 => '전투 태세';
+
+  @override
+  String get cardDescDefC05 => '방어도 6을 얻고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameDefC05Up => '전투 태세+';
+
+  @override
+  String get cardDescDefC05Up => '방어도 8을 얻고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameDefC06 => '구르기';
+
+  @override
+  String get cardDescDefC06 => '방어도 3을 얻고, 다음 턴 방어도 6을 얻는다.';
+
+  @override
+  String get cardNameDefC06Up => '구르기+';
+
+  @override
+  String get cardDescDefC06Up => '방어도 5를 얻고, 다음 턴 방어도 8을 얻는다.';
+
+  @override
+  String get cardNameDefC07 => '응급 처치';
+
+  @override
+  String get cardDescDefC07 => 'HP 3을 회복한다.';
+
+  @override
+  String get cardNameDefC07Up => '응급 처치+';
+
+  @override
+  String get cardDescDefC07Up => 'HP 5를 회복한다.';
+
+  @override
+  String get cardNameDefC08 => '인내';
+
+  @override
+  String get cardDescDefC08 => '방어도 5를 얻고, 불굴 1턴을 얻는다.';
+
+  @override
+  String get cardNameDefC08Up => '인내+';
+
+  @override
+  String get cardDescDefC08Up => '방어도 7을 얻고, 불굴 2턴을 얻는다.';
+
+  @override
+  String get cardNameDefC09 => '생명력';
+
+  @override
+  String get cardDescDefC09 => '재생 3을 얻는다 (3턴).';
+
+  @override
+  String get cardNameDefC09Up => '생명력+';
+
+  @override
+  String get cardDescDefC09Up => '재생 4를 얻는다 (4턴).';
+
+  @override
+  String get cardNameDefC10 => '도발 방패';
+
+  @override
+  String get cardDescDefC10 => '방어도 6을 얻고, 적 1체를 도발한다.';
+
+  @override
+  String get cardNameDefC10Up => '도발 방패+';
+
+  @override
+  String get cardDescDefC10Up => '방어도 9를 얻고, 적 1체를 도발한다.';
+
+  @override
+  String get cardNameDefU01 => '바리케이드';
+
+  @override
+  String get cardDescDefU01 => '방어도 12를 얻고, 불굴 2턴을 얻는다.';
+
+  @override
+  String get cardNameDefU01Up => '바리케이드+';
+
+  @override
+  String get cardDescDefU01Up => '방어도 16을 얻고, 불굴 3턴을 얻는다.';
+
+  @override
+  String get cardNameDefU02 => '반사 방어막';
+
+  @override
+  String get cardDescDefU02 => '방어도 8을 얻고, 가시 5를 얻는다 (이번 턴).';
+
+  @override
+  String get cardNameDefU02Up => '반사 방어막+';
+
+  @override
+  String get cardDescDefU02Up => '방어도 12를 얻고, 가시 7을 얻는다 (이번 턴).';
+
+  @override
+  String get cardNameDefU03 => '재생의 기도';
+
+  @override
+  String get cardDescDefU03 => 'HP 10을 회복하고, 재생 2를 얻는다 (3턴).';
+
+  @override
+  String get cardNameDefU03Up => '재생의 기도+';
+
+  @override
+  String get cardDescDefU03Up => 'HP 15를 회복하고, 재생 3을 얻는다 (3턴).';
+
+  @override
+  String get cardNameDefU04 => '불굴의 의지';
+
+  @override
+  String get cardDescDefU04 => '민첩 +2를 얻는다 (영구).';
+
+  @override
+  String get cardNameDefU04Up => '불굴의 의지+';
+
+  @override
+  String get cardDescDefU04Up => '민첩 +3을 얻는다 (영구).';
+
+  @override
+  String get cardNameDefU05 => '보호막';
+
+  @override
+  String get cardDescDefU05 => '잃은 HP의 25%만큼 방어도를 얻는다.';
+
+  @override
+  String get cardNameDefU05Up => '보호막+';
+
+  @override
+  String get cardDescDefU05Up => '잃은 HP의 30%만큼 방어도를 얻는다.';
+
+  @override
+  String get cardNameDefU06 => '생존 본능';
+
+  @override
+  String get cardDescDefU06 => 'HP 50% 이하면 방어도 15, 아니면 5.';
+
+  @override
+  String get cardNameDefU06Up => '생존 본능+';
+
+  @override
+  String get cardDescDefU06Up => 'HP 50% 이하면 방어도 20, 아니면 8.';
+
+  @override
+  String get cardNameDefU07 => '흡혈 가시';
+
+  @override
+  String get cardDescDefU07 => '가시 3을 얻는다 (영구). 피격 시 HP 1을 회복한다.';
+
+  @override
+  String get cardNameDefU07Up => '흡혈 가시+';
+
+  @override
+  String get cardDescDefU07Up => '가시 4를 얻는다 (영구). 피격 시 HP 2를 회복한다.';
+
+  @override
+  String get cardNameDefU08 => '강화 갑옷';
+
+  @override
+  String get cardDescDefU08 => '방어도 20을 얻고, 다음 턴 방어도 10을 얻는다.';
+
+  @override
+  String get cardNameDefU08Up => '강화 갑옷+';
+
+  @override
+  String get cardDescDefU08Up => '방어도 25를 얻고, 다음 턴 방어도 15를 얻는다.';
+
+  @override
+  String get cardNameDefR01 => '무적';
+
+  @override
+  String get cardDescDefR01 => '이번 턴 모든 데미지를 0으로 만든다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefR01Up => '무적+';
+
+  @override
+  String get cardDescDefR01Up => '이번 턴과 다음 턴 모든 데미지를 0으로 만든다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefR02 => '생명의 나무';
+
+  @override
+  String get cardDescDefR02 => 'HP 전체의 30%를 회복한다.';
+
+  @override
+  String get cardNameDefR02Up => '생명의 나무+';
+
+  @override
+  String get cardDescDefR02Up => 'HP 전체의 40%를 회복한다.';
+
+  @override
+  String get cardNameDefR03 => '성스러운 방패';
+
+  @override
+  String get cardDescDefR03 => '방어도 20을 얻고, 디버프를 모두 해제한다.';
+
+  @override
+  String get cardNameDefR03Up => '성스러운 방패+';
+
+  @override
+  String get cardDescDefR03Up => '방어도 28을 얻고, 디버프를 모두 해제한다.';
+
+  @override
+  String get cardNameDefR04 => '철의 몸';
+
+  @override
+  String get cardDescDefR04 => '매 턴 방어도 8을 자동으로 얻는다 (전투 동안).';
+
+  @override
+  String get cardNameDefR04Up => '철의 몸+';
+
+  @override
+  String get cardDescDefR04Up => '매 턴 방어도 12를 자동으로 얻는다 (전투 동안).';
+
+  @override
+  String get cardNameDefR05 => '부활의 비약';
+
+  @override
+  String get cardDescDefR05 => '이번 전투에서 사망 시 HP 30%로 부활한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefR05Up => '부활의 비약+';
+
+  @override
+  String get cardDescDefR05Up => '이번 전투에서 사망 시 HP 50%로 부활한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL01 => '영원의 방패';
+
+  @override
+  String get cardDescDefL01 =>
+      '방어도 30을 얻고, 매 턴 방어도 5를 자동으로 얻는다 (전투 동안). 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL01Up => '영원의 방패+';
+
+  @override
+  String get cardDescDefL01Up =>
+      '방어도 40을 얻고, 매 턴 방어도 8을 자동으로 얻는다 (전투 동안). 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL02 => '생명의 원천';
+
+  @override
+  String get cardDescDefL02 => 'HP를 완전 회복하고, 최대 HP +10 (영구). 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL02Up => '생명의 원천+';
+
+  @override
+  String get cardDescDefL02Up => 'HP를 완전 회복하고, 최대 HP +20 (영구). 사용 후 소멸.';
 }
