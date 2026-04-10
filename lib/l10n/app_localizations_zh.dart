@@ -1807,4 +1807,88 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardDescAtkU08Up => '对脆弱状态敌人造成双倍伤害（基础9点伤害）。';
+
+  @override
+  String get cardNameAtkR01 => '龙之一击';
+
+  @override
+  String get cardDescAtkR01 => '造成30点伤害，施加燃烧3回合。';
+
+  @override
+  String get cardNameAtkR01Up => '龙之一击+';
+
+  @override
+  String get cardDescAtkR01Up => '造成40点伤害，施加燃烧4回合。';
+
+  @override
+  String get cardNameAtkR02 => '千刀万剐';
+
+  @override
+  String get cardDescAtkR02 => '对手牌中每张牌造成1点伤害。';
+
+  @override
+  String get cardNameAtkR02Up => '千刀万剐+';
+
+  @override
+  String get cardDescAtkR02Up => '对手牌中每张牌造成2点伤害。';
+
+  @override
+  String get cardNameAtkR03 => '风暴之剑';
+
+  @override
+  String get cardDescAtkR03 => '对本回合已使用的每张牌造成5点伤害。';
+
+  @override
+  String get cardNameAtkR03Up => '风暴之剑+';
+
+  @override
+  String get cardDescAtkR03Up => '对本回合已使用的每张牌造成7点伤害。';
+
+  @override
+  String get cardNameAtkR04 => '死神镰刀';
+
+  @override
+  String get cardDescAtkR04 => '造成15点伤害。击杀时回复10HP。';
+
+  @override
+  String get cardNameAtkR04Up => '死神镰刀+';
+
+  @override
+  String get cardDescAtkR04Up => '造成20点伤害。击杀时回复15HP。';
+
+  @override
+  String get cardNameAtkR05 => '狂战士';
+
+  @override
+  String get cardDescAtkR05 => '获得力量+5，3回合后力量-5。';
+
+  @override
+  String get cardNameAtkR05Up => '狂战士+';
+
+  @override
+  String get cardDescAtkR05Up => '获得力量+7，3回合后力量-5。';
+
+  @override
+  String get cardNameAtkL01 => '王者之剑';
+
+  @override
+  String get cardDescAtkL01 => '造成50点伤害，施加脆弱+虚弱3回合。使用后消耗。';
+
+  @override
+  String get cardNameAtkL01Up => '王者之剑+';
+
+  @override
+  String get cardDescAtkL01Up => '造成60点伤害，施加脆弱+虚弱3回合。使用后消耗。';
+
+  @override
+  String get cardNameAtkL02 => '无限之刃';
+
+  @override
+  String get cardDescAtkL02 => '造成8点伤害。每次使用永久+2伤害。';
+
+  @override
+  String get cardNameAtkL02Up => '无限之刃+';
+
+  @override
+  String get cardDescAtkL02Up => '造成12点伤害。每次使用永久+2伤害。';
 }

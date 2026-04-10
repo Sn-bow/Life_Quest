@@ -1820,4 +1820,88 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cardDescAtkU08Up => '脆弱状態の敵に2倍ダメージ（基本9ダメージ）。';
+
+  @override
+  String get cardNameAtkR01 => 'ドラゴンストライク';
+
+  @override
+  String get cardDescAtkR01 => '30ダメージを与え、炎上3ターンを付与する。';
+
+  @override
+  String get cardNameAtkR01Up => 'ドラゴンストライク+';
+
+  @override
+  String get cardDescAtkR01Up => '40ダメージを与え、炎上4ターンを付与する。';
+
+  @override
+  String get cardNameAtkR02 => '千の斬撃';
+
+  @override
+  String get cardDescAtkR02 => '手札のカード数分1ダメージを与える。';
+
+  @override
+  String get cardNameAtkR02Up => '千の斬撃+';
+
+  @override
+  String get cardDescAtkR02Up => '手札のカード数分2ダメージを与える。';
+
+  @override
+  String get cardNameAtkR03 => '嵐の剣';
+
+  @override
+  String get cardDescAtkR03 => 'このターンに使用したカード数分5ダメージを与える。';
+
+  @override
+  String get cardNameAtkR03Up => '嵐の剣+';
+
+  @override
+  String get cardDescAtkR03Up => 'このターンに使用したカード数分7ダメージを与える。';
+
+  @override
+  String get cardNameAtkR04 => '死神の大鎌';
+
+  @override
+  String get cardDescAtkR04 => '15ダメージを与える。キル時HP10を回復する。';
+
+  @override
+  String get cardNameAtkR04Up => '死神の大鎌+';
+
+  @override
+  String get cardDescAtkR04Up => '20ダメージを与える。キル時HP15を回復する。';
+
+  @override
+  String get cardNameAtkR05 => 'バーサーク';
+
+  @override
+  String get cardDescAtkR05 => '力+5を得る。3ターン後に力-5。';
+
+  @override
+  String get cardNameAtkR05Up => 'バーサーク+';
+
+  @override
+  String get cardDescAtkR05Up => '力+7を得る。3ターン後に力-5。';
+
+  @override
+  String get cardNameAtkL01 => 'エクスカリバー';
+
+  @override
+  String get cardDescAtkL01 => '50ダメージを与え、脆弱+脱力3ターンを付与する。使用後消滅。';
+
+  @override
+  String get cardNameAtkL01Up => 'エクスカリバー+';
+
+  @override
+  String get cardDescAtkL01Up => '60ダメージを与え、脆弱+脱力3ターンを付与する。使用後消滅。';
+
+  @override
+  String get cardNameAtkL02 => '無限の刃';
+
+  @override
+  String get cardDescAtkL02 => '8ダメージを与える。使用するたびに永久+2ダメージ。';
+
+  @override
+  String get cardNameAtkL02Up => '無限の刃+';
+
+  @override
+  String get cardDescAtkL02Up => '12ダメージを与える。使用するたびに永久+2ダメージ。';
 }

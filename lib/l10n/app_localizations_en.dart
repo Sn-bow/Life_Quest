@@ -1867,4 +1867,95 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cardDescAtkU08Up =>
       'Deal double damage to Vulnerable enemies (base 9 damage).';
+
+  @override
+  String get cardNameAtkR01 => 'Dragon Strike';
+
+  @override
+  String get cardDescAtkR01 => 'Deal 30 damage and apply Burn for 3 turns.';
+
+  @override
+  String get cardNameAtkR01Up => 'Dragon Strike+';
+
+  @override
+  String get cardDescAtkR01Up => 'Deal 40 damage and apply Burn for 4 turns.';
+
+  @override
+  String get cardNameAtkR02 => 'Thousand Cuts';
+
+  @override
+  String get cardDescAtkR02 => 'Deal 1 damage for each card in hand.';
+
+  @override
+  String get cardNameAtkR02Up => 'Thousand Cuts+';
+
+  @override
+  String get cardDescAtkR02Up => 'Deal 2 damage for each card in hand.';
+
+  @override
+  String get cardNameAtkR03 => 'Storm Blade';
+
+  @override
+  String get cardDescAtkR03 => 'Deal 5 damage for each card played this turn.';
+
+  @override
+  String get cardNameAtkR03Up => 'Storm Blade+';
+
+  @override
+  String get cardDescAtkR03Up =>
+      'Deal 7 damage for each card played this turn.';
+
+  @override
+  String get cardNameAtkR04 => 'Reaper\'s Scythe';
+
+  @override
+  String get cardDescAtkR04 => 'Deal 15 damage. Restore 10 HP on kill.';
+
+  @override
+  String get cardNameAtkR04Up => 'Reaper\'s Scythe+';
+
+  @override
+  String get cardDescAtkR04Up => 'Deal 20 damage. Restore 15 HP on kill.';
+
+  @override
+  String get cardNameAtkR05 => 'Berserk';
+
+  @override
+  String get cardDescAtkR05 =>
+      'Gain Strength +5 for 3 turns, then lose Strength -5.';
+
+  @override
+  String get cardNameAtkR05Up => 'Berserk+';
+
+  @override
+  String get cardDescAtkR05Up =>
+      'Gain Strength +7 for 3 turns, then lose Strength -5.';
+
+  @override
+  String get cardNameAtkL01 => 'Excalibur';
+
+  @override
+  String get cardDescAtkL01 =>
+      'Deal 50 damage, apply Vulnerable+Weak for 3 turns. Exhaust.';
+
+  @override
+  String get cardNameAtkL01Up => 'Excalibur+';
+
+  @override
+  String get cardDescAtkL01Up =>
+      'Deal 60 damage, apply Vulnerable+Weak for 3 turns. Exhaust.';
+
+  @override
+  String get cardNameAtkL02 => 'Infinite Blade';
+
+  @override
+  String get cardDescAtkL02 =>
+      'Deal 8 damage. Permanently gains +2 damage on each use.';
+
+  @override
+  String get cardNameAtkL02Up => 'Infinite Blade+';
+
+  @override
+  String get cardDescAtkL02Up =>
+      'Deal 12 damage. Permanently gains +2 damage on each use.';
 }

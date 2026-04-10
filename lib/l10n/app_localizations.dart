@@ -3497,6 +3497,174 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'취약 상태 적에게 데미지 2배 (기본 9 데미지).'**
   String get cardDescAtkU08Up;
+
+  /// No description provided for @cardNameAtkR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'용의 일격'**
+  String get cardNameAtkR01;
+
+  /// No description provided for @cardDescAtkR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'30 데미지를 주고, 화상 3턴을 부여한다.'**
+  String get cardDescAtkR01;
+
+  /// No description provided for @cardNameAtkR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'용의 일격+'**
+  String get cardNameAtkR01Up;
+
+  /// No description provided for @cardDescAtkR01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'40 데미지를 주고, 화상 4턴을 부여한다.'**
+  String get cardDescAtkR01Up;
+
+  /// No description provided for @cardNameAtkR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'천 번의 베기'**
+  String get cardNameAtkR02;
+
+  /// No description provided for @cardDescAtkR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'1 데미지를 패에 든 카드 수만큼 준다.'**
+  String get cardDescAtkR02;
+
+  /// No description provided for @cardNameAtkR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'천 번의 베기+'**
+  String get cardNameAtkR02Up;
+
+  /// No description provided for @cardDescAtkR02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'2 데미지를 패에 든 카드 수만큼 준다.'**
+  String get cardDescAtkR02Up;
+
+  /// No description provided for @cardNameAtkR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'폭풍의 검'**
+  String get cardNameAtkR03;
+
+  /// No description provided for @cardDescAtkR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'5 데미지를 이번 턴 사용한 카드 수만큼 준다.'**
+  String get cardDescAtkR03;
+
+  /// No description provided for @cardNameAtkR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'폭풍의 검+'**
+  String get cardNameAtkR03Up;
+
+  /// No description provided for @cardDescAtkR03Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'7 데미지를 이번 턴 사용한 카드 수만큼 준다.'**
+  String get cardDescAtkR03Up;
+
+  /// No description provided for @cardNameAtkR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'사신의 낫'**
+  String get cardNameAtkR04;
+
+  /// No description provided for @cardDescAtkR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'15 데미지를 주고, 킬 시 HP 10을 회복한다.'**
+  String get cardDescAtkR04;
+
+  /// No description provided for @cardNameAtkR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'사신의 낫+'**
+  String get cardNameAtkR04Up;
+
+  /// No description provided for @cardDescAtkR04Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'20 데미지를 주고, 킬 시 HP 15를 회복한다.'**
+  String get cardDescAtkR04Up;
+
+  /// No description provided for @cardNameAtkR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'버서크'**
+  String get cardNameAtkR05;
+
+  /// No description provided for @cardDescAtkR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 +5를 얻는다. 3턴 뒤 힘 -5.'**
+  String get cardDescAtkR05;
+
+  /// No description provided for @cardNameAtkR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'버서크+'**
+  String get cardNameAtkR05Up;
+
+  /// No description provided for @cardDescAtkR05Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 +7을 얻는다. 3턴 뒤 힘 -5.'**
+  String get cardDescAtkR05Up;
+
+  /// No description provided for @cardNameAtkL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'엑스칼리버'**
+  String get cardNameAtkL01;
+
+  /// No description provided for @cardDescAtkL01.
+  ///
+  /// In ko, this message translates to:
+  /// **'50 데미지를 주고, 취약+약화 3턴을 부여한다. 사용 후 소멸.'**
+  String get cardDescAtkL01;
+
+  /// No description provided for @cardNameAtkL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'엑스칼리버+'**
+  String get cardNameAtkL01Up;
+
+  /// No description provided for @cardDescAtkL01Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'60 데미지를 주고, 취약+약화 3턴을 부여한다. 사용 후 소멸.'**
+  String get cardDescAtkL01Up;
+
+  /// No description provided for @cardNameAtkL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'무한의 칼날'**
+  String get cardNameAtkL02;
+
+  /// No description provided for @cardDescAtkL02.
+  ///
+  /// In ko, this message translates to:
+  /// **'8 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.'**
+  String get cardDescAtkL02;
+
+  /// No description provided for @cardNameAtkL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'무한의 칼날+'**
+  String get cardNameAtkL02Up;
+
+  /// No description provided for @cardDescAtkL02Up.
+  ///
+  /// In ko, this message translates to:
+  /// **'12 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.'**
+  String get cardDescAtkL02Up;
 }
 
 class _AppLocalizationsDelegate

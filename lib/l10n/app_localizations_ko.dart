@@ -1827,4 +1827,88 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cardDescAtkU08Up => '취약 상태 적에게 데미지 2배 (기본 9 데미지).';
+
+  @override
+  String get cardNameAtkR01 => '용의 일격';
+
+  @override
+  String get cardDescAtkR01 => '30 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameAtkR01Up => '용의 일격+';
+
+  @override
+  String get cardDescAtkR01Up => '40 데미지를 주고, 화상 4턴을 부여한다.';
+
+  @override
+  String get cardNameAtkR02 => '천 번의 베기';
+
+  @override
+  String get cardDescAtkR02 => '1 데미지를 패에 든 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR02Up => '천 번의 베기+';
+
+  @override
+  String get cardDescAtkR02Up => '2 데미지를 패에 든 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR03 => '폭풍의 검';
+
+  @override
+  String get cardDescAtkR03 => '5 데미지를 이번 턴 사용한 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR03Up => '폭풍의 검+';
+
+  @override
+  String get cardDescAtkR03Up => '7 데미지를 이번 턴 사용한 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR04 => '사신의 낫';
+
+  @override
+  String get cardDescAtkR04 => '15 데미지를 주고, 킬 시 HP 10을 회복한다.';
+
+  @override
+  String get cardNameAtkR04Up => '사신의 낫+';
+
+  @override
+  String get cardDescAtkR04Up => '20 데미지를 주고, 킬 시 HP 15를 회복한다.';
+
+  @override
+  String get cardNameAtkR05 => '버서크';
+
+  @override
+  String get cardDescAtkR05 => '힘 +5를 얻는다. 3턴 뒤 힘 -5.';
+
+  @override
+  String get cardNameAtkR05Up => '버서크+';
+
+  @override
+  String get cardDescAtkR05Up => '힘 +7을 얻는다. 3턴 뒤 힘 -5.';
+
+  @override
+  String get cardNameAtkL01 => '엑스칼리버';
+
+  @override
+  String get cardDescAtkL01 => '50 데미지를 주고, 취약+약화 3턴을 부여한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameAtkL01Up => '엑스칼리버+';
+
+  @override
+  String get cardDescAtkL01Up => '60 데미지를 주고, 취약+약화 3턴을 부여한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameAtkL02 => '무한의 칼날';
+
+  @override
+  String get cardDescAtkL02 => '8 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.';
+
+  @override
+  String get cardNameAtkL02Up => '무한의 칼날+';
+
+  @override
+  String get cardDescAtkL02Up => '12 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.';
 }

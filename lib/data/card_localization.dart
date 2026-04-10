@@ -97,6 +97,34 @@ class CardLocalization {
         return l10n.cardNameAtkU08;
       case 'atk_u08_up':
         return l10n.cardNameAtkU08Up;
+      case 'atk_r01':
+        return l10n.cardNameAtkR01;
+      case 'atk_r01_up':
+        return l10n.cardNameAtkR01Up;
+      case 'atk_r02':
+        return l10n.cardNameAtkR02;
+      case 'atk_r02_up':
+        return l10n.cardNameAtkR02Up;
+      case 'atk_r03':
+        return l10n.cardNameAtkR03;
+      case 'atk_r03_up':
+        return l10n.cardNameAtkR03Up;
+      case 'atk_r04':
+        return l10n.cardNameAtkR04;
+      case 'atk_r04_up':
+        return l10n.cardNameAtkR04Up;
+      case 'atk_r05':
+        return l10n.cardNameAtkR05;
+      case 'atk_r05_up':
+        return l10n.cardNameAtkR05Up;
+      case 'atk_l01':
+        return l10n.cardNameAtkL01;
+      case 'atk_l01_up':
+        return l10n.cardNameAtkL01Up;
+      case 'atk_l02':
+        return l10n.cardNameAtkL02;
+      case 'atk_l02_up':
+        return l10n.cardNameAtkL02Up;
       default:
         return card.name;
     }
@@ -190,6 +218,34 @@ class CardLocalization {
         return l10n.cardDescAtkU08;
       case 'atk_u08_up':
         return l10n.cardDescAtkU08Up;
+      case 'atk_r01':
+        return l10n.cardDescAtkR01;
+      case 'atk_r01_up':
+        return l10n.cardDescAtkR01Up;
+      case 'atk_r02':
+        return l10n.cardDescAtkR02;
+      case 'atk_r02_up':
+        return l10n.cardDescAtkR02Up;
+      case 'atk_r03':
+        return l10n.cardDescAtkR03;
+      case 'atk_r03_up':
+        return l10n.cardDescAtkR03Up;
+      case 'atk_r04':
+        return l10n.cardDescAtkR04;
+      case 'atk_r04_up':
+        return l10n.cardDescAtkR04Up;
+      case 'atk_r05':
+        return l10n.cardDescAtkR05;
+      case 'atk_r05_up':
+        return l10n.cardDescAtkR05Up;
+      case 'atk_l01':
+        return l10n.cardDescAtkL01;
+      case 'atk_l01_up':
+        return l10n.cardDescAtkL01Up;
+      case 'atk_l02':
+        return l10n.cardDescAtkL02;
+      case 'atk_l02_up':
+        return l10n.cardDescAtkL02Up;
       default:
         return card.description;
     }
