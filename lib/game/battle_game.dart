@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/game/components/damage_text.dart';
 import 'package:life_quest_final_v2/game/components/particle_effect.dart';
 
@@ -116,18 +115,36 @@ class BattleGame extends FlameGame {
   // ───────────────────────────────────────────
 
   /// Plays a melee slash animation toward the enemy.
+  ///
+  /// Draws three diagonal lines (primary + two parallels) that quickly
+  /// appear and fade — no sprite assets required.
   void playAttackAnimation() {
-    // TODO: Add slash sprite / tween once assets are available.
+    final playerSide = Vector2(size.x * 0.28, size.y * 0.40);
+    final enemySide  = Vector2(size.x * 0.72, size.y * 0.32);
+    add(_SlashEffect(start: playerSide, end: enemySide));
   }
 
   /// Plays a shield-raise animation on the player.
+  ///
+  /// Draws a pentagon-shaped shield outline that expands and floats upward
+  /// before fading — no sprite assets required.
   void playDefendAnimation() {
-    // TODO: Add shield sprite / tween once assets are available.
+    final playerPos = Vector2(size.x * 0.28, size.y * 0.38);
+    add(_ShieldRaiseEffect(center: playerPos));
   }
 
   /// Plays a magic projectile animation toward the enemy.
+  ///
+  /// A glowing orb with a trailing tail travels from the player to the
+  /// enemy position, then triggers a hit-particle burst on arrival.
   void playMagicAnimation() {
-    // TODO: Add magic particle effect once assets are available.
+    final start  = Vector2(size.x * 0.30, size.y * 0.38);
+    final target = Vector2(size.x * 0.72, size.y * 0.32);
+    add(_MagicProjectile(
+      start: start,
+      target: target,
+      onHit: () => playHitParticle(position: target),
+    ));
   }
 
   /// Shows a floating damage number at the enemy position.
@@ -157,9 +174,11 @@ class BattleGame extends FlameGame {
 
   /// Called when the current enemy is defeated.
   ///
-  /// Triggers a fade-out / shatter animation on the enemy sprite.
+  /// Triggers a white flash followed by coloured shards flying outward
+  /// from the enemy position — no sprite assets required.
   void onEnemyDefeated() {
-    // TODO: Play enemy defeat animation once sprites are ready.
+    final enemyPos = Vector2(size.x * 0.72, size.y * 0.35);
+    add(_EnemyDeathEffect(center: enemyPos));
   }
 
   // ───────────────────────────────────────────
@@ -209,6 +228,274 @@ class BattleGame extends FlameGame {
     // Also add a brief shield flash ring
     add(_ShieldFlash(center: pos));
   }
+}
+
+// =============================================================================
+// Slash animation (attack)
+// =============================================================================
+
+/// Three diagonal lines (primary + two offset parallels) that flash
+/// across the screen from the player toward the enemy.
+class _SlashEffect extends Component {
+  final Vector2 start;
+  final Vector2 end;
+
+  double _elapsed = 0;
+  static const double _duration = 0.22;
+
+  _SlashEffect({required this.start, required this.end})
+      : super(priority: 90);
+
+  @override
+  void update(double dt) {
+    _elapsed += dt;
+    if (_elapsed >= _duration) removeFromParent();
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final progress = (_elapsed / _duration).clamp(0.0, 1.0);
+    // Quick in (first 25%) then fade out (remaining 75%)
+    final alpha = progress < 0.25
+        ? progress / 0.25
+        : (1.0 - (progress - 0.25) / 0.75).clamp(0.0, 1.0);
+
+    final dx = end.x - start.x;
+    final dy = end.y - start.y;
+    final perpX = -dy * 0.08;
+    final perpY =  dx * 0.08;
+    final strokeW = 3.0 + (1.0 - progress) * 2.0;
+
+    // Primary slash — bright white/yellow
+    canvas.drawLine(
+      Offset(start.x, start.y),
+      Offset(end.x, end.y),
+      Paint()
+        ..color = Color.fromRGBO(255, 245, 180, alpha)
+        ..strokeWidth = strokeW
+        ..strokeCap = StrokeCap.round
+        ..style = PaintingStyle.stroke,
+    );
+    // Upper parallel
+    canvas.drawLine(
+      Offset(start.x + perpX, start.y + perpY),
+      Offset(end.x   + perpX, end.y   + perpY),
+      Paint()
+        ..color = Color.fromRGBO(255, 180, 0, alpha * 0.55)
+        ..strokeWidth = strokeW * 0.6
+        ..strokeCap = StrokeCap.round
+        ..style = PaintingStyle.stroke,
+    );
+    // Lower parallel
+    canvas.drawLine(
+      Offset(start.x - perpX, start.y - perpY),
+      Offset(end.x   - perpX, end.y   - perpY),
+      Paint()
+        ..color = Color.fromRGBO(255, 180, 0, alpha * 0.55)
+        ..strokeWidth = strokeW * 0.6
+        ..strokeCap = StrokeCap.round
+        ..style = PaintingStyle.stroke,
+    );
+  }
+}
+
+// =============================================================================
+// Shield raise animation (defend)
+// =============================================================================
+
+/// A pentagon-shaped shield outline that expands from the player position,
+/// floats upward slightly, then fades out.
+class _ShieldRaiseEffect extends Component {
+  final Vector2 center;
+
+  double _elapsed = 0;
+  static const double _duration = 0.42;
+
+  _ShieldRaiseEffect({required this.center}) : super(priority: 90);
+
+  @override
+  void update(double dt) {
+    _elapsed += dt;
+    if (_elapsed >= _duration) removeFromParent();
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final progress = (_elapsed / _duration).clamp(0.0, 1.0);
+    final alpha = progress < 0.2
+        ? progress / 0.2
+        : (1.0 - (progress - 0.2) / 0.8).clamp(0.0, 1.0);
+
+    final rise   = -22.0 * progress;
+    final scale  = 0.6 + 0.4 * min(progress / 0.25, 1.0);
+    final sz     = 30.0 * scale;
+    final cx     = center.x;
+    final cy     = center.y + rise;
+
+    // Pentagon-style shield path
+    final path = Path()
+      ..moveTo(cx - sz * 0.6, cy - sz * 0.5)
+      ..lineTo(cx + sz * 0.6, cy - sz * 0.5)
+      ..lineTo(cx + sz * 0.6, cy + sz * 0.15)
+      ..lineTo(cx,             cy + sz * 0.65)
+      ..lineTo(cx - sz * 0.6, cy + sz * 0.15)
+      ..close();
+
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = Color.fromRGBO(64, 180, 255, alpha * 0.18)
+        ..style = PaintingStyle.fill,
+    );
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = Color.fromRGBO(64, 180, 255, alpha)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.4,
+    );
+  }
+}
+
+// =============================================================================
+// Magic projectile animation
+// =============================================================================
+
+/// A glowing orb with a fading trail that flies from the player toward the
+/// enemy.  Calls [onHit] when it arrives, then removes itself.
+class _MagicProjectile extends Component {
+  final Vector2 start;
+  final Vector2 target;
+  final VoidCallback onHit;
+
+  double _elapsed = 0;
+  static const double _travelTime = 0.30;
+  bool _hitFired = false;
+
+  _MagicProjectile({
+    required this.start,
+    required this.target,
+    required this.onHit,
+  }) : super(priority: 90);
+
+  @override
+  void update(double dt) {
+    _elapsed += dt;
+    if (_elapsed >= _travelTime) {
+      if (!_hitFired) {
+        _hitFired = true;
+        onHit();
+      }
+      removeFromParent();
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final t = (_elapsed / _travelTime).clamp(0.0, 1.0);
+    final cx = lerpDouble(start.x, target.x, t)!;
+    final cy = lerpDouble(start.y, target.y, t)!;
+
+    // Soft glow (blur mask)
+    canvas.drawCircle(
+      Offset(cx, cy),
+      14.0,
+      Paint()
+        ..color = const Color(0x55BB44FF)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7),
+    );
+    // Core orb
+    canvas.drawCircle(
+      Offset(cx, cy),
+      6.0,
+      Paint()..color = const Color(0xFFDD88FF),
+    );
+
+    // Trail — three ghost copies fading behind the orb
+    for (int i = 1; i <= 3; i++) {
+      final tt = (t - i * 0.06).clamp(0.0, 1.0);
+      final tx = lerpDouble(start.x, target.x, tt)!;
+      final ty = lerpDouble(start.y, target.y, tt)!;
+      canvas.drawCircle(
+        Offset(tx, ty),
+        (5.5 - i * 1.3).clamp(0.0, 6.0),
+        Paint()
+          ..color = Color.fromRGBO(187, 68, 255, 0.28 / i),
+      );
+    }
+  }
+}
+
+// =============================================================================
+// Enemy defeat animation (shatter + flash)
+// =============================================================================
+
+/// White flash followed by 12 rectangular shards flying outward with gravity,
+/// all fading to nothing over ~0.6 s.
+class _EnemyDeathEffect extends Component {
+  final Vector2 center;
+
+  double _elapsed = 0;
+  static const double _duration = 0.60;
+
+  final List<_Shard> _shards = [];
+
+  _EnemyDeathEffect({required this.center}) : super(priority: 95) {
+    final rng = Random();
+    for (int i = 0; i < 12; i++) {
+      final base  = (i / 12) * 2 * pi;
+      final jitter = rng.nextDouble() * 0.4;
+      _shards.add(_Shard(
+        angle: base + jitter,
+        speed: 55.0 + rng.nextDouble() * 90.0,
+        size:  4.0  + rng.nextDouble() * 9.0,
+      ));
+    }
+  }
+
+  @override
+  void update(double dt) {
+    _elapsed += dt;
+    if (_elapsed >= _duration) removeFromParent();
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final progress = (_elapsed / _duration).clamp(0.0, 1.0);
+    final alpha    = (1.0 - progress).clamp(0.0, 1.0);
+
+    // Brief white flash at the start
+    if (progress < 0.18) {
+      final flashA = (1.0 - progress / 0.18) * 0.75;
+      canvas.drawCircle(
+        Offset(center.x, center.y),
+        60.0 * (progress / 0.18),
+        Paint()..color = Color.fromRGBO(255, 255, 255, flashA),
+      );
+    }
+
+    // Shards
+    for (final shard in _shards) {
+      final dist = shard.speed * _elapsed;
+      final sx   = center.x + cos(shard.angle) * dist;
+      final sy   = center.y + sin(shard.angle) * dist
+                   + 50.0 * progress * progress; // gravity pull
+
+      final sz = shard.size * (1.0 - progress * 0.6);
+      canvas.drawRect(
+        Rect.fromCenter(center: Offset(sx, sy), width: sz, height: sz),
+        Paint()..color = Color.fromRGBO(200, 140, 255, alpha),
+      );
+    }
+  }
+}
+
+class _Shard {
+  final double angle;
+  final double speed;
+  final double size;
+
+  _Shard({required this.angle, required this.speed, required this.size});
 }
 
 // =============================================================================

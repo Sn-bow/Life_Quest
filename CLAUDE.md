@@ -20,7 +20,7 @@
 
 ---
 
-## 3단계 로컬라이제이션 계획 진행 현황
+## 3단계 계획 진행 현황 (전체 완료)
 
 ### Step 1: 던전 UI 로컬라이제이션 ✅ 완료
 - 9개 던전 화면의 하드코딩 문자열 → ARB 키 추가
@@ -28,38 +28,39 @@
 - 각 화면에 AppLocalizations.of(context)! 적용
 - 커밋: `014affe` (Step 1-A), `fa22e98` (Step 1-B)
 
-### Step 2: 데이터 모델 다국어 리팩토링 🔄 절반 완료
+### Step 2: 데이터 모델 다국어 리팩토링 ✅ 완료
 
-#### 완료
 - **CardData (207장)** → ARB + CardLocalization 헬퍼 방식으로 완료
-  - `lib/data/card_localization.dart` — CardLocalization.localizedName/Description()
-  - `lib/l10n/app_en/ko/ja/zh.arb` — 모든 카드 키 추가됨
   - 커밋: `5e155f2`(2-A) → `c1d3497`(2-B) → `6c1458a`(2-C) → `adbbe20`(2-D) → `d0b1145`(2-E) → `7a0bb67`(2-F) → `afc3759`(2-G)
+- **RelicData (31개), Monster (31+5챕터), Achievement (25개), Title (28개), Skill (24개)** → ARB + 헬퍼 클래스 완료
+  - `lib/data/relic_localization.dart` — RelicLocalization.localizedName/Description()
+  - `lib/data/achievement_localization.dart` — AchievementLocalization
+  - `lib/data/title_localization.dart` — TitleLocalization
+  - `lib/data/skill_localization.dart` — SkillLocalization
+  - `lib/data/monster_localization.dart` — MonsterLocalization (name + chapterName)
+  - app_en/ko/ja/zh.arb에 총 252 키 × 4언어 = 1,008 entries 추가
+  - 커밋: `026ab30` (Step 2-H)
 
-#### 미완료 (다음 세션에서 진행)
-- **RelicData (31개)** → ❌ 번역 없음
-  - 파일: `lib/data/relic_database.dart`, `lib/models/relic_data.dart`
-  - 방식: CardLocalization과 동일하게 ARB + RelicLocalization 헬퍼 생성
-- **Monster** → ❌ 번역 없음
-  - 파일: `lib/data/monster_database.dart`, `lib/models/monster.dart`
-- **Achievement (업적)** → ❌ 번역 없음
-  - 파일: `lib/data/achievement_database.dart`, `lib/models/achievement.dart`
-- **Title (칭호)** → ❌ 번역 없음
-  - 파일: `lib/data/title_database.dart`, `lib/models/title.dart`
-- **Skill (스킬)** → ❌ 번역 없음
-  - 파일: `lib/data/skill_database.dart`, `lib/models/skill.dart`
+### Step 3: Soul Deck 전투 애니메이션 ✅ 완료 (코드 전용, 에셋 불필요)
 
-#### Step 2 구현 전략 (다음 세션 참고)
-CardData와 동일한 패턴으로 진행:
-1. 각 데이터 파일에서 name/description 한국어 원문 수집
-2. app_en/ko/ja/zh.arb에 번역 키 추가 (`relicNameXxx`, `achievementNameXxx` 등)
-3. `flutter gen-l10n` 실행
-4. `lib/data/relic_localization.dart` 등 헬퍼 클래스 생성
-5. 해당 UI 화면에서 헬퍼 클래스 적용
+구현 위치: `lib/game/battle_game.dart`
 
-### Step 3: Soul Deck 미구현 부분 완성 ❌ 미착수
-- **전투 애니메이션 스텁 4개 구현** (에셋 불필요, 코드만)
-- **스프라이트/사운드** — 에셋 필요, Claude 단독 작업 불가
+| 메서드 | 구현 내용 | 컴포넌트 클래스 |
+|--------|-----------|-----------------|
+| `playAttackAnimation()` | 3중 슬래시 라인 (흰/노란 대각선) | `_SlashEffect` |
+| `playDefendAnimation()` | 오각형 방패 윤곽선 + 위로 부상 | `_ShieldRaiseEffect` |
+| `playMagicAnimation()` | 보라색 마법 구슬 + 꼬리 → 도착 시 히트 파티클 | `_MagicProjectile` |
+| `onEnemyDefeated()` | 흰 섬광 + 12개 파편 폭발 + 중력 낙하 | `_EnemyDeathEffect` + `_Shard` |
+
+- **에셋 없이 Canvas 드로잉만으로 구현** (Paint, Path, drawLine, drawCircle, drawRect)
+- `playAttackAnimation()`은 card_battle_screen.dart에서 공격 카드 사용 시 호출 가능
+- `onEnemyDefeated()`는 card_combat_state.dart에서 적 사망 시 호출 가능
+- 커밋: `(이번 세션)`
+
+#### Step 3 남은 작업 (에셋 필요 — Claude 단독 불가)
+- 캐릭터 스프라이트 / 몬스터 스프라이트 실제 PNG 에셋 추가
+- 배틀 배경 일러스트 에셋
+- 전투 효과음 (공격, 방어, 마법, 적 사망)
 
 ---
 
