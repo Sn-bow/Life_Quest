@@ -100,13 +100,13 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      _statChip('STR ${character.strength}', Colors.red, isDark),
+                      _statChip('STR ${character.strength.toInt()}', Colors.red, isDark),
                       const SizedBox(width: 8),
-                      _statChip('WIS ${character.wisdom}', Colors.purple, isDark),
+                      _statChip('WIS ${character.wisdom.toInt()}', Colors.purple, isDark),
                       const SizedBox(width: 8),
-                      _statChip('HP ${character.health}', Colors.blue, isDark),
+                      _statChip('HP ${character.health.toInt()}', Colors.blue, isDark),
                       const SizedBox(width: 8),
-                      _statChip('CHA ${character.charisma}', Colors.amber, isDark),
+                      _statChip('CHA ${character.charisma.toInt()}', Colors.amber, isDark),
                     ],
                   ),
                 ],
