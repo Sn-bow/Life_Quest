@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame/flame.dart';
 import 'package:life_quest_final_v2/game/components/damage_text.dart';
 import 'package:life_quest_final_v2/game/components/particle_effect.dart';
 
@@ -15,10 +16,18 @@ class BattleGame extends FlameGame {
   /// The current dungeon zone (determines background palette).
   int currentZone;
 
-  BattleGame({this.currentZone = 1});
+  /// Optional monster ID — used to load the monster sprite if present.
+  String? monsterId;
+
+  BattleGame({this.currentZone = 1, this.monsterId});
 
   // Parallax layers
   final List<_ParallaxLayer> _parallaxLayers = [];
+
+  // Sprite components (nullable — graceful fallback to Canvas drawing)
+  SpriteComponent? _bgSprite;
+  SpriteComponent? _playerSprite;
+  SpriteComponent? _monsterSprite;
 
   // ───────────────────────────────────────────
   // Lifecycle
@@ -27,7 +36,88 @@ class BattleGame extends FlameGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    await _loadSprites();
     _initParallaxBackground();
+  }
+
+  /// Attempts to load background / player / monster sprites.
+  /// Failures are silently ignored — the Canvas-drawn fallback is always shown.
+  Future<void> _loadSprites() async {
+    // Background
+    final bgPath = _zoneBgPath(currentZone);
+    try {
+      final bgImg = await Flame.images.load(bgPath);
+      _bgSprite = SpriteComponent(
+        sprite: Sprite(bgImg),
+        size: size,
+        priority: -10,
+      );
+      add(_bgSprite!);
+    } catch (_) {
+      // No background image — parallax Canvas fallback handles it.
+    }
+
+    // Player hero sprite
+    try {
+      final heroImg = await Flame.images.load('images/player/hero_idle.png');
+      _playerSprite = SpriteComponent(
+        sprite: Sprite(heroImg),
+        size: Vector2(120, 120),
+        position: Vector2(size.x * 0.18, size.y * 0.28),
+        priority: 10,
+      );
+      add(_playerSprite!);
+    } catch (_) {
+      // No hero sprite — battle still works without it.
+    }
+
+    // Monster sprite (if monsterId provided)
+    if (monsterId != null) {
+      final monsterPath = 'images/monsters/${monsterId!.replaceAll(RegExp(r'_f\d+$'), '')}.png';
+      try {
+        final monsterImg = await Flame.images.load(monsterPath);
+        _monsterSprite = SpriteComponent(
+          sprite: Sprite(monsterImg),
+          size: Vector2(130, 130),
+          position: Vector2(size.x * 0.60, size.y * 0.20),
+          priority: 10,
+        );
+        add(_monsterSprite!);
+      } catch (_) {
+        // No monster sprite — the Flutter overlay draws the enemy name/HP bar.
+      }
+    }
+  }
+
+  /// Returns the asset path for a zone background image.
+  String _zoneBgPath(int zone) {
+    switch (zone) {
+      case 1: return 'images/backgrounds/bg_zone1_meadow.png';
+      case 2: return 'images/backgrounds/bg_zone2_dark_forest.png';
+      case 3: return 'images/backgrounds/bg_zone3_stone_castle.png';
+      case 4: return 'images/backgrounds/bg_zone4_lava_cavern.png';
+      case 5: return 'images/backgrounds/bg_zone5_abyss.png';
+      default: return 'images/backgrounds/bg_zone1_meadow.png';
+    }
+  }
+
+  /// Call this to swap the monster sprite when moving to the next enemy.
+  Future<void> updateMonster(String newMonsterId) async {
+    monsterId = newMonsterId;
+    _monsterSprite?.removeFromParent();
+    _monsterSprite = null;
+
+    final monsterPath = 'images/monsters/${newMonsterId.replaceAll(RegExp(r'_f\d+$'), '')}.png';
+    try {
+      final monsterImg = await Flame.images.load(monsterPath);
+      _monsterSprite = SpriteComponent(
+        sprite: Sprite(monsterImg),
+        size: Vector2(130, 130),
+        position: Vector2(size.x * 0.60, size.y * 0.20),
+        priority: 10,
+      );
+      add(_monsterSprite!);
+    } catch (_) {}
   }
 
   @override

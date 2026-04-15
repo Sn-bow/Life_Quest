@@ -71,6 +71,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/monsters/
+    - assets/images/backgrounds/
+    - assets/images/player/
     - assets/images/game/
     - assets/images/game/player/
     - assets/images/game/monsters/
@@ -83,3 +86,4 @@ flutter:
     - assets/images/game/map/
     - assets/sounds/
     - assets/sounds/game/
+    - assets/sounds/sfx/

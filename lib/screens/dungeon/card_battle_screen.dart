@@ -65,7 +65,10 @@ class _CardBattleScreenState extends State<CardBattleScreen>
   @override
   void initState() {
     super.initState();
-    _game = BattleGame(currentZone: widget.zone);
+    _game = BattleGame(
+      currentZone: widget.zone,
+      monsterId: widget.enemies.isNotEmpty ? widget.enemies.first.monster.id : null,
+    );
     _previousPlayerHp = widget.playerHp;
 
     // Turn overlay animation (fade in -> hold -> fade out over 1s)
