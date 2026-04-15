@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_map_screen.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 /// Infinite Tower mode — an endless roguelike challenge that scales
 /// difficulty every 5 floors and records the player's highest floor.
@@ -56,6 +57,7 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final charState = context.watch<CharacterState>();
     final bestFloor = charState.infiniteTowerFloor;
@@ -71,7 +73,7 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
                 color: isDark ? Colors.amber : Colors.deepOrange, size: 24),
             const SizedBox(width: 8),
             Text(
-              '무한의 탑',
+              l10n.infiniteTowerTitle,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: isDark ? Colors.amber : Colors.deepOrange,
@@ -91,7 +93,7 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
 
             // Floor selector
             _SectionTitle(
-                title: '도전할 층 선택', icon: Icons.layers, isDark: isDark),
+                title: l10n.infiniteTowerSelectFloor, icon: Icons.layers, isDark: isDark),
             const SizedBox(height: 12),
             _FloorSelector(
               targetFloor: _targetFloor,
@@ -105,7 +107,7 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
 
             // Current floor info card
             _SectionTitle(
-                title: '층 정보', icon: Icons.info_outline, isDark: isDark),
+                title: l10n.infiniteTowerFloorInfo, icon: Icons.info_outline, isDark: isDark),
             const SizedBox(height: 12),
             _FloorInfoCard(
               floor: _targetFloor,
@@ -123,7 +125,7 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
                 onPressed: () => _startTowerRun(context),
                 icon: const Icon(Icons.arrow_upward),
                 label: Text(
-                  '$_targetFloor층 도전하기',
+                  l10n.infiniteTowerChallengeFloor(_targetFloor),
                   style: const TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 18,
@@ -147,7 +149,7 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
 
             // Floor progression guide
             _SectionTitle(
-                title: '층 구성', icon: Icons.map_outlined, isDark: isDark),
+                title: l10n.infiniteTowerFloorComposition, icon: Icons.map_outlined, isDark: isDark),
             const SizedBox(height: 8),
             _FloorGuide(isDark: isDark),
           ],
@@ -169,6 +171,7 @@ class _BestFloorBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -204,7 +207,7 @@ class _BestFloorBanner extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '최고 기록',
+                l10n.infiniteTowerBestFloorLabel,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 12,
@@ -212,7 +215,7 @@ class _BestFloorBanner extends StatelessWidget {
                 ),
               ),
               Text(
-                '$bestFloor층',
+                l10n.infiniteTowerFloorDisplay(bestFloor),
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 32,
@@ -273,6 +276,7 @@ class _FloorSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -298,7 +302,7 @@ class _FloorSelector extends StatelessWidget {
             iconSize: 32,
           ),
           Text(
-            '$targetFloor층',
+            l10n.infiniteTowerFloorDisplay(targetFloor),
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 36,
@@ -333,14 +337,6 @@ class _FloorInfoCard extends StatelessWidget {
     required this.isDark,
   });
 
-  static const _zoneNames = [
-    '푸른 초원',
-    '어둠의 숲',
-    '폐허의 성',
-    '용암 동굴',
-    '심연의 차원',
-  ];
-
   static const _zoneColors = [
     Colors.green,
     Colors.teal,
@@ -349,8 +345,21 @@ class _FloorInfoCard extends StatelessWidget {
     Colors.deepPurple,
   ];
 
+  String _getZoneName(BuildContext context, int z) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (z % 5) {
+      case 1: return l10n.zone1Name;
+      case 2: return l10n.zone2Name;
+      case 3: return l10n.zone3Name;
+      case 4: return l10n.zone4Name;
+      case 0: return l10n.zone5Name;
+      default: return l10n.zone1Name;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final zoneColor = _zoneColors[(zone - 1).clamp(0, 4)];
     return Container(
       width: double.infinity,
@@ -370,24 +379,24 @@ class _FloorInfoCard extends StatelessWidget {
         children: [
           _infoRow(
             Icons.terrain,
-            '지역',
-            'Zone $zone: ${_zoneNames[(zone - 1).clamp(0, 4)]}',
+            l10n.infiniteTowerFloorInfo,
+            'Zone $zone: ${_getZoneName(context, zone)}',
             zoneColor,
             isDark,
           ),
           const SizedBox(height: 10),
           _infoRow(
             Icons.favorite_border,
-            '적 HP',
-            scalingPct > 0 ? '+$scalingPct%' : '기본',
+            l10n.infiniteTowerEnemyHp,
+            scalingPct > 0 ? '+$scalingPct%' : l10n.infiniteTowerDefault,
             Colors.red,
             isDark,
           ),
           const SizedBox(height: 10),
           _infoRow(
             Icons.bolt,
-            '적 공격력',
-            scalingPct > 0 ? '+$scalingPct%' : '기본',
+            l10n.infiniteTowerEnemyAttack,
+            scalingPct > 0 ? '+$scalingPct%' : l10n.infiniteTowerDefault,
             Colors.orange,
             isDark,
           ),
@@ -430,15 +439,28 @@ class _FloorGuide extends StatelessWidget {
 
   const _FloorGuide({required this.isDark});
 
+  String _getZoneName(BuildContext context, int zone) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (zone % 5) {
+      case 1: return l10n.zone1Name;
+      case 2: return l10n.zone2Name;
+      case 3: return l10n.zone3Name;
+      case 4: return l10n.zone4Name;
+      case 0: return l10n.zone5Name;
+      default: return l10n.zone1Name;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final entries = [
-      ('1-5층', 'Zone 1: 푸른 초원', Colors.green),
-      ('6-10층', 'Zone 2: 어둠의 숲', Colors.teal),
-      ('11-15층', 'Zone 3: 폐허의 성', Colors.blueGrey),
-      ('16-20층', 'Zone 4: 용암 동굴', Colors.deepOrange),
-      ('21-25층', 'Zone 5: 심연의 차원', Colors.deepPurple),
-      ('26층+', '이후 Zone 1부터 반복 (난이도 계속 상승)', Colors.amber),
+      (l10n.infiniteTowerFloor1To5, 'Zone 1: ${_getZoneName(context, 1)}', Colors.green),
+      (l10n.infiniteTowerFloor6To10, 'Zone 2: ${_getZoneName(context, 2)}', Colors.teal),
+      (l10n.infiniteTowerFloor11To15, 'Zone 3: ${_getZoneName(context, 3)}', Colors.blueGrey),
+      (l10n.infiniteTowerFloor16To20, 'Zone 4: ${_getZoneName(context, 4)}', Colors.deepOrange),
+      (l10n.infiniteTowerFloor21To25, 'Zone 5: ${_getZoneName(context, 5)}', Colors.deepPurple),
+      (l10n.infiniteTowerFloor26Plus, l10n.infiniteTowerRepeatZones, Colors.amber),
     ];
 
     return Container(

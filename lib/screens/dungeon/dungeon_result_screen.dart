@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class DungeonResultScreen extends StatefulWidget {
   final bool isVictory;
@@ -40,6 +41,7 @@ class _DungeonResultScreenState extends State<DungeonResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final primaryColor = widget.isVictory ? Colors.amber : Colors.red;
@@ -106,7 +108,7 @@ class _DungeonResultScreenState extends State<DungeonResultScreen> {
 
                   // Title
                   Text(
-                    widget.isVictory ? '던전 클리어!' : '모험 실패...',
+                    widget.isVictory ? l10n.dungeonResultVictoryTitle : l10n.dungeonResultDefeatTitle,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 28,
@@ -117,8 +119,8 @@ class _DungeonResultScreenState extends State<DungeonResultScreen> {
                   const SizedBox(height: 8),
                   Text(
                     widget.isVictory
-                        ? '축하합니다! 모든 적을 물리치고 던전을 정복했습니다.'
-                        : '아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.',
+                        ? l10n.dungeonResultVictoryMessage
+                        : l10n.dungeonResultDefeatMessage,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 13,
@@ -170,9 +172,9 @@ class _DungeonResultScreenState extends State<DungeonResultScreen> {
                         ),
                         elevation: 4,
                       ),
-                      child: const Text(
-                        '홈으로 돌아가기',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.dungeonResultReturnHomeButton,
+                        style: const TextStyle(
                           fontFamily: 'monospace',
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -211,6 +213,7 @@ class _StatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -229,7 +232,7 @@ class _StatsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '모험 기록',
+            l10n.dungeonResultStatsTitle,
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 15,
@@ -238,13 +241,13 @@ class _StatsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          _statRow(Icons.terrain, '지역',
+          _statRow(Icons.terrain, l10n.dungeonResultStatsZone,
               'Zone $zone', Colors.teal, isDark),
           const SizedBox(height: 8),
-          _statRow(Icons.location_on, '노드 완료',
+          _statRow(Icons.location_on, l10n.dungeonResultStatsNodesCompleted,
               '$nodesCompleted', Colors.blue, isDark),
           const SizedBox(height: 8),
-          _statRow(Icons.sports_martial_arts, '몬스터 처치',
+          _statRow(Icons.sports_martial_arts, l10n.dungeonResultStatsMonsterKilled,
               '$monstersKilled', Colors.red, isDark),
         ],
       ),
@@ -299,6 +302,7 @@ class _RewardsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -325,7 +329,7 @@ class _RewardsCard extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                '보상',
+                l10n.dungeonResultRewardsTitle,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 15,
@@ -356,7 +360,7 @@ class _RewardsCard extends StatelessWidget {
                     const Icon(Icons.star, size: 14, color: Colors.blue),
                     const SizedBox(width: 4),
                     Text(
-                      '+$xpGained XP',
+                      l10n.dungeonResultXpReward(xpGained),
                       style: const TextStyle(
                         fontFamily: 'monospace',
                         fontSize: 13,
@@ -383,7 +387,7 @@ class _RewardsCard extends StatelessWidget {
                         size: 14, color: Colors.amber),
                     const SizedBox(width: 4),
                     Text(
-                      '+$goldGained 골드',
+                      l10n.dungeonResultGoldReward(goldGained),
                       style: const TextStyle(
                         fontFamily: 'monospace',
                         fontSize: 13,
@@ -406,14 +410,14 @@ class _RewardsCard extends StatelessWidget {
                 color: Colors.green.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.check_circle, size: 14, color: Colors.green),
-                  SizedBox(width: 4),
+                  const Icon(Icons.check_circle, size: 14, color: Colors.green),
+                  const SizedBox(width: 4),
                   Text(
-                    '클리어 보너스 x1.5 + 보스 처치 보너스',
-                    style: TextStyle(
+                    l10n.dungeonResultVictoryBonus,
+                    style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -432,14 +436,14 @@ class _RewardsCard extends StatelessWidget {
                 color: Colors.red.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.info_outline, size: 14, color: Colors.red),
-                  SizedBox(width: 4),
+                  const Icon(Icons.info_outline, size: 14, color: Colors.red),
+                  const SizedBox(width: 4),
                   Text(
-                    '패배 페널티: 보상 x0.5',
-                    style: TextStyle(
+                    l10n.dungeonResultDefeatPenalty,
+                    style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

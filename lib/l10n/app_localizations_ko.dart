@@ -1128,4 +1128,2447 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get statusReportTooltip => '상세 리포트 보기';
+
+  @override
+  String get dungeonHomeTitle => '소울 덱';
+
+  @override
+  String get dungeonHomeCardCollectionTooltip => '카드 컬렉션';
+
+  @override
+  String get dungeonHomeDungeonSelection => '던전 선택';
+
+  @override
+  String dungeonHomeRequiredLevel(int requiredLevel) {
+    return '레벨 $requiredLevel 이상 필요합니다';
+  }
+
+  @override
+  String get zone1Name => '푸른 초원';
+
+  @override
+  String get zone1Description => '초보 모험가를 위한 첫 번째 던전';
+
+  @override
+  String get zone2Name => '어둠의 숲';
+
+  @override
+  String get zone2Description => '독과 디버프를 사용하는 적들이 도사리는 곳';
+
+  @override
+  String get zone3Name => '폐허의 성';
+
+  @override
+  String get zone3Description => '방어 특화 적과 다중 전투가 기다린다';
+
+  @override
+  String get zone4Name => '용암 동굴';
+
+  @override
+  String get zone4Description => '화상과 고데미지의 지옥';
+
+  @override
+  String get zone5Name => '심연의 차원';
+
+  @override
+  String get zone5Description => '의도를 숨기는 적들, 저주가 내리는 최종 던전';
+
+  @override
+  String get seasonName => '시즌 1: 영혼의 각성';
+
+  @override
+  String get seasonEnded => '종료';
+
+  @override
+  String seasonCountdown(int days) {
+    return 'D-$days';
+  }
+
+  @override
+  String get ascensionModeTitle => '어센션 모드';
+
+  @override
+  String get ascensionInactive => '미활성';
+
+  @override
+  String get ascensionActiveModifiers => '적용 중인 페널티:';
+
+  @override
+  String get ascensionSliderHint => '슬라이더를 올려 난이도를 높이세요';
+
+  @override
+  String get ascensionLevel1Modifier => 'Lv 1: 적 HP +10%';
+
+  @override
+  String get ascensionLevel2Modifier => 'Lv 2: 적 공격력 +10%';
+
+  @override
+  String get ascensionLevel3Modifier => 'Lv 3: 시작 골드 -30';
+
+  @override
+  String get ascensionLevel4Modifier => 'Lv 4: 저주 카드 1장 추가';
+
+  @override
+  String get ascensionLevel5Modifier => 'Lv 5: 엘리트 처치 후 카드 선택 없음';
+
+  @override
+  String get ascensionLevel6Modifier => 'Lv 6: 상점 가격 +25%';
+
+  @override
+  String get ascensionLevel7Modifier => 'Lv 7: 시작 HP -10%';
+
+  @override
+  String get ascensionLevel8Modifier => 'Lv 8: 보스 HP +25%';
+
+  @override
+  String get ascensionLevel9Modifier => 'Lv 9: 이벤트 불이익 선택지 강화';
+
+  @override
+  String get ascensionLevel10Modifier => 'Lv 10: 모든 적 HP +20%';
+
+  @override
+  String get infiniteTowerTitle => '무한의 탑';
+
+  @override
+  String infiniteTowerBestFloorDesc(int bestFloor) {
+    return '끝없는 도전 · 최고 기록: $bestFloor층';
+  }
+
+  @override
+  String get infiniteTowerSelectFloor => '도전할 층 선택';
+
+  @override
+  String get infiniteTowerFloorInfo => '층 정보';
+
+  @override
+  String infiniteTowerChallengeFloor(int targetFloor) {
+    return '$targetFloor층 도전하기';
+  }
+
+  @override
+  String get infiniteTowerFloorComposition => '층 구성';
+
+  @override
+  String get infiniteTowerBestFloorLabel => '최고 기록';
+
+  @override
+  String infiniteTowerFloorDisplay(int floor) {
+    return '$floor층';
+  }
+
+  @override
+  String get infiniteTowerEnemyHp => '적 HP';
+
+  @override
+  String get infiniteTowerEnemyAttack => '적 공격력';
+
+  @override
+  String get infiniteTowerDefault => '기본';
+
+  @override
+  String get infiniteTowerFloor1To5 => '1-5층';
+
+  @override
+  String get infiniteTowerFloor6To10 => '6-10층';
+
+  @override
+  String get infiniteTowerFloor11To15 => '11-15층';
+
+  @override
+  String get infiniteTowerFloor16To20 => '16-20층';
+
+  @override
+  String get infiniteTowerFloor21To25 => '21-25층';
+
+  @override
+  String get infiniteTowerFloor26Plus => '26층+';
+
+  @override
+  String get infiniteTowerRepeatZones => '이후 Zone 1부터 반복 (난이도 계속 상승)';
+
+  @override
+  String get dungeonMapTitle => '던전 지도';
+
+  @override
+  String get dungeonMapNoData => '던전 데이터가 없습니다';
+
+  @override
+  String get dungeonRestTitle => '휴식처';
+
+  @override
+  String get dungeonRestDescription =>
+      '조용한 휴식처를 발견했다. 따뜻한 모닥불이 타오르고 있다.\n무엇을 하겠는가?';
+
+  @override
+  String get dungeonRestRestTitle => '휴식';
+
+  @override
+  String get dungeonRestRestDescription => 'HP의 30%를 회복합니다';
+
+  @override
+  String dungeonRestHealResult(int healAmount) {
+    return 'HP가 $healAmount 회복되었습니다!';
+  }
+
+  @override
+  String get dungeonRestTrainTitle => '수련';
+
+  @override
+  String get dungeonRestTrainDescription => '카드 1장을 강화합니다';
+
+  @override
+  String get dungeonRestNoCardsToUpgrade => '강화할 카드가 없습니다';
+
+  @override
+  String get dungeonRestContinueButton => '계속';
+
+  @override
+  String get dungeonRestSelectCardToUpgrade => '강화할 카드를 선택하세요';
+
+  @override
+  String get dungeonRestCardUpgraded => '강화됨';
+
+  @override
+  String get dungeonShopTitle => '던전 상점';
+
+  @override
+  String get dungeonShopCardsSection => '카드';
+
+  @override
+  String get dungeonShopNoCards => '판매 중인 카드가 없습니다';
+
+  @override
+  String get dungeonShopRelicsSection => '유물';
+
+  @override
+  String get dungeonShopNoRelics => '판매 중인 유물이 없습니다';
+
+  @override
+  String get dungeonShopCardRemovalSection => '카드 제거';
+
+  @override
+  String get dungeonShopLeaveButton => '상점 나가기';
+
+  @override
+  String get dungeonShopSelectCardToRemove => '제거할 카드를 선택하세요';
+
+  @override
+  String dungeonShopRemovalCost(int cost) {
+    return '비용: $cost 골드';
+  }
+
+  @override
+  String get dungeonShopPurchaseComplete => '구매 완료';
+
+  @override
+  String get dungeonShopRemoveOneCard => '카드 1장 제거';
+
+  @override
+  String dungeonShopRemovalDescription(int deckSize) {
+    return '덱에서 원하지 않는 카드를 제거합니다 (현재 덱: $deckSize장)';
+  }
+
+  @override
+  String get dungeonEventTitle => '이벤트';
+
+  @override
+  String get dungeonEventNoData => '이벤트 데이터가 없습니다';
+
+  @override
+  String get dungeonEventChooseAction => '선택하세요';
+
+  @override
+  String get dungeonEventContinueButton => '계속';
+
+  @override
+  String get dungeonEventOutcomeTitle => '결과';
+
+  @override
+  String get dungeonEventEffectCardReward => '카드 획득';
+
+  @override
+  String get dungeonEventEffectRelicReward => '유물 획득';
+
+  @override
+  String get dungeonEventEffectCardRemove => '카드 제거';
+
+  @override
+  String get dungeonEventEffectCardUpgrade => '카드 강화';
+
+  @override
+  String get dungeonEventEffectCurseAdded => '저주 추가';
+
+  @override
+  String get dungeonResultVictoryTitle => '던전 클리어!';
+
+  @override
+  String get dungeonResultDefeatTitle => '모험 실패...';
+
+  @override
+  String get dungeonResultVictoryMessage => '축하합니다! 모든 적을 물리치고 던전을 정복했습니다.';
+
+  @override
+  String get dungeonResultDefeatMessage => '아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.';
+
+  @override
+  String get dungeonResultStatsTitle => '모험 기록';
+
+  @override
+  String get dungeonResultStatsZone => '지역';
+
+  @override
+  String get dungeonResultStatsNodesCompleted => '노드 완료';
+
+  @override
+  String get dungeonResultStatsMonsterKilled => '몬스터 처치';
+
+  @override
+  String get dungeonResultRewardsTitle => '보상';
+
+  @override
+  String dungeonResultXpReward(int xpGained) {
+    return '+$xpGained XP';
+  }
+
+  @override
+  String dungeonResultGoldReward(int goldGained) {
+    return '+$goldGained 골드';
+  }
+
+  @override
+  String get dungeonResultVictoryBonus => '클리어 보너스 x1.5 + 보스 처치 보너스';
+
+  @override
+  String get dungeonResultDefeatPenalty => '패배 페널티: 보상 x0.5';
+
+  @override
+  String get dungeonResultReturnHomeButton => '홈으로 돌아가기';
+
+  @override
+  String get cardBattleYourTurn => '당신의 턴';
+
+  @override
+  String get cardBattleEnemyTurn => '적의 턴';
+
+  @override
+  String cardBattleTurnCount(int turnCount) {
+    return '턴 $turnCount';
+  }
+
+  @override
+  String get cardBattleAbandonDialog => '전투 포기';
+
+  @override
+  String get cardBattleAbandonConfirmation => '전투를 포기하시겠습니까? 진행 사항이 사라집니다.';
+
+  @override
+  String get cardBattleAbandonButton => '포기';
+
+  @override
+  String get cardBattleNoEnemies => '적이 없습니다';
+
+  @override
+  String get cardBattleEndTurnButton => '턴 종료';
+
+  @override
+  String get cardBattleNoCardsInHand => '손에 카드가 없습니다';
+
+  @override
+  String get cardBattleVictory => '승리!';
+
+  @override
+  String cardBattleGoldReward(int gold) {
+    return '+$gold 골드';
+  }
+
+  @override
+  String get cardBattleSelectCard => '카드를 선택하세요';
+
+  @override
+  String get cardBattleSkipButton => '건너뛰기';
+
+  @override
+  String get cardRarityCommon => '일반';
+
+  @override
+  String get cardRarityUncommon => '고급';
+
+  @override
+  String get cardRarityRare => '희귀';
+
+  @override
+  String get cardRarityLegendary => '전설';
+
+  @override
+  String get cardCategoryAttack => '공격';
+
+  @override
+  String get cardCategoryMagic => '마법';
+
+  @override
+  String get cardCategoryDefense => '방어';
+
+  @override
+  String get cardCategoryTactical => '전술';
+
+  @override
+  String get cardCollectionTitle => '카드 컬렉션';
+
+  @override
+  String get cardCollectionFilterAll => '전체';
+
+  @override
+  String get cardCollectionMyCollection => '내 컬렉션';
+
+  @override
+  String cardCollectionCardCount(int count) {
+    return '($count장)';
+  }
+
+  @override
+  String get cardCollectionNoCards =>
+      '보유한 카드가 없습니다.\n퀘스트를 완료하면 카드를 획득할 수 있습니다!';
+
+  @override
+  String cardCollectionDeckInclusion(int copyCount) {
+    return '덱에 $copyCount장 포함됨';
+  }
+
+  @override
+  String get cardCollectionAddToDeck => '덱에 추가';
+
+  @override
+  String get cardCollectionDeckFull => '덱이 가득 참 (20장)';
+
+  @override
+  String get cardCollectionMaxCopies => '최대 3장까지 추가 가능';
+
+  @override
+  String cardCollectionAddedToDeck(String cardName) {
+    return '$cardName 덱에 추가됨';
+  }
+
+  @override
+  String get cardCollectionMyDeck => '내 덱';
+
+  @override
+  String cardCollectionDeckSize(int deckSize) {
+    return '($deckSize/20장)';
+  }
+
+  @override
+  String get cardCollectionResetDeckDialog => '덱 초기화';
+
+  @override
+  String get cardCollectionResetDeckConfirmation =>
+      '커스텀 덱을 삭제하고 기본 스타터 덱으로 되돌리겠습니까?';
+
+  @override
+  String get cardCollectionResetButton => '초기화';
+
+  @override
+  String get cardCollectionDefaultDeckMessage =>
+      '기본 스타터 덱 사용 중\n컬렉션에서 카드를 추가하세요';
+
+  @override
+  String get cardNameBaseStrike => '기본 공격';
+
+  @override
+  String get cardDescBaseStrike => '6 데미지를 준다.';
+
+  @override
+  String get cardNameBaseDefend => '기본 방어';
+
+  @override
+  String get cardDescBaseDefend => '방어도 5를 얻는다.';
+
+  @override
+  String get cardNameBaseFocus => '집중';
+
+  @override
+  String get cardDescBaseFocus => '카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameCursePain => '고통';
+
+  @override
+  String get cardDescCursePain => '사용 불가. 패에 잡히면 HP 1을 잃는다.';
+
+  @override
+  String get cardNameCurseDoubt => '의심';
+
+  @override
+  String get cardDescCurseDoubt => '사용 불가. 패에 있으면 드로우 -1.';
+
+  @override
+  String get cardNameCurseBurden => '짐';
+
+  @override
+  String get cardDescCurseBurden => '사용 불가. 패에 있으면 에너지 -1.';
+
+  @override
+  String get cardNameCurseDecay => '부식';
+
+  @override
+  String get cardDescCurseDecay => '사용 불가. 매 턴 방어 -3.';
+
+  @override
+  String get cardNameAtkC01 => '강타';
+
+  @override
+  String get cardDescAtkC01 => '6 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC01Up => '강타+';
+
+  @override
+  String get cardDescAtkC01Up => '9 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC02 => '베기';
+
+  @override
+  String get cardDescAtkC02 => '4 데미지를 주고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameAtkC02Up => '베기+';
+
+  @override
+  String get cardDescAtkC02Up => '6 데미지를 주고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameAtkC03 => '연속 공격';
+
+  @override
+  String get cardDescAtkC03 => '3 데미지를 2회 준다.';
+
+  @override
+  String get cardNameAtkC03Up => '연속 공격+';
+
+  @override
+  String get cardDescAtkC03Up => '3 데미지를 3회 준다.';
+
+  @override
+  String get cardNameAtkC04 => '분노의 일격';
+
+  @override
+  String get cardDescAtkC04 => '3 데미지를 주고, 분노 카드 1장을 디스카드에 추가한다.';
+
+  @override
+  String get cardNameAtkC04Up => '분노의 일격+';
+
+  @override
+  String get cardDescAtkC04Up => '5 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC05 => '돌진';
+
+  @override
+  String get cardDescAtkC05 => '12 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC05Up => '돌진+';
+
+  @override
+  String get cardDescAtkC05Up => '16 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC06 => '출혈 공격';
+
+  @override
+  String get cardDescAtkC06 => '4 데미지를 주고, 독 2를 부여한다.';
+
+  @override
+  String get cardNameAtkC06Up => '출혈 공격+';
+
+  @override
+  String get cardDescAtkC06Up => '4 데미지를 주고, 독 4를 부여한다.';
+
+  @override
+  String get cardNameAtkC07 => '빠른 찌르기';
+
+  @override
+  String get cardDescAtkC07 => '3 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC07Up => '빠른 찌르기+';
+
+  @override
+  String get cardDescAtkC07Up => '5 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC08 => '도발';
+
+  @override
+  String get cardDescAtkC08 => '5 데미지를 주고, 취약 1턴을 부여한다.';
+
+  @override
+  String get cardNameAtkC08Up => '도발+';
+
+  @override
+  String get cardDescAtkC08Up => '8 데미지를 주고, 취약 1턴을 부여한다.';
+
+  @override
+  String get cardNameAtkC09 => '기습';
+
+  @override
+  String get cardDescAtkC09 => '첫 턴이면 12 데미지, 아니면 6 데미지.';
+
+  @override
+  String get cardNameAtkC09Up => '기습+';
+
+  @override
+  String get cardDescAtkC09Up => '첫 턴이면 18 데미지, 아니면 9 데미지.';
+
+  @override
+  String get cardNameAtkC10 => '칼날 바람';
+
+  @override
+  String get cardDescAtkC10 => '적 전체에 3 데미지를 준다.';
+
+  @override
+  String get cardNameAtkC10Up => '칼날 바람+';
+
+  @override
+  String get cardDescAtkC10Up => '적 전체에 5 데미지를 준다.';
+
+  @override
+  String get cardNameAtkU01 => '파워 슬래시';
+
+  @override
+  String get cardDescAtkU01 => '14 데미지를 주고, 취약 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU01Up => '파워 슬래시+';
+
+  @override
+  String get cardDescAtkU01Up => '18 데미지를 주고, 취약 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU02 => '칼날 춤';
+
+  @override
+  String get cardDescAtkU02 => '3 데미지를 3회 주고, 방어도 3을 얻는다.';
+
+  @override
+  String get cardNameAtkU02Up => '칼날 춤+';
+
+  @override
+  String get cardDescAtkU02Up => '4 데미지를 3회 주고, 방어도 5를 얻는다.';
+
+  @override
+  String get cardNameAtkU03 => '처형';
+
+  @override
+  String get cardDescAtkU03 => '적 HP 50% 이하면 30 데미지, 아니면 10 데미지.';
+
+  @override
+  String get cardNameAtkU03Up => '처형+';
+
+  @override
+  String get cardDescAtkU03Up => '적 HP 50% 이하면 40 데미지, 아니면 14 데미지.';
+
+  @override
+  String get cardNameAtkU04 => '광폭화';
+
+  @override
+  String get cardDescAtkU04 => '힘 +2를 획득한다 (영구).';
+
+  @override
+  String get cardNameAtkU04Up => '광폭화+';
+
+  @override
+  String get cardDescAtkU04Up => '힘 +3을 획득한다 (영구).';
+
+  @override
+  String get cardNameAtkU05 => '피의 맹세';
+
+  @override
+  String get cardDescAtkU05 => 'HP 3을 잃고, 8 데미지를 주고, 힘 +1을 얻는다.';
+
+  @override
+  String get cardNameAtkU05Up => '피의 맹세+';
+
+  @override
+  String get cardDescAtkU05Up => 'HP 3을 잃고, 12 데미지를 주고, 힘 +1을 얻는다.';
+
+  @override
+  String get cardNameAtkU06 => '회전 베기';
+
+  @override
+  String get cardDescAtkU06 => '적 전체에 8 데미지를 준다.';
+
+  @override
+  String get cardNameAtkU06Up => '회전 베기+';
+
+  @override
+  String get cardDescAtkU06Up => '적 전체에 12 데미지를 준다.';
+
+  @override
+  String get cardNameAtkU07 => '분쇄';
+
+  @override
+  String get cardDescAtkU07 => '10 데미지를 주고, 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU07Up => '분쇄+';
+
+  @override
+  String get cardDescAtkU07Up => '14 데미지를 주고, 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameAtkU08 => '무자비';
+
+  @override
+  String get cardDescAtkU08 => '취약 상태 적에게 데미지 2배 (기본 6 데미지).';
+
+  @override
+  String get cardNameAtkU08Up => '무자비+';
+
+  @override
+  String get cardDescAtkU08Up => '취약 상태 적에게 데미지 2배 (기본 9 데미지).';
+
+  @override
+  String get cardNameAtkR01 => '용의 일격';
+
+  @override
+  String get cardDescAtkR01 => '30 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameAtkR01Up => '용의 일격+';
+
+  @override
+  String get cardDescAtkR01Up => '40 데미지를 주고, 화상 4턴을 부여한다.';
+
+  @override
+  String get cardNameAtkR02 => '천 번의 베기';
+
+  @override
+  String get cardDescAtkR02 => '1 데미지를 패에 든 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR02Up => '천 번의 베기+';
+
+  @override
+  String get cardDescAtkR02Up => '2 데미지를 패에 든 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR03 => '폭풍의 검';
+
+  @override
+  String get cardDescAtkR03 => '5 데미지를 이번 턴 사용한 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR03Up => '폭풍의 검+';
+
+  @override
+  String get cardDescAtkR03Up => '7 데미지를 이번 턴 사용한 카드 수만큼 준다.';
+
+  @override
+  String get cardNameAtkR04 => '사신의 낫';
+
+  @override
+  String get cardDescAtkR04 => '15 데미지를 주고, 킬 시 HP 10을 회복한다.';
+
+  @override
+  String get cardNameAtkR04Up => '사신의 낫+';
+
+  @override
+  String get cardDescAtkR04Up => '20 데미지를 주고, 킬 시 HP 15를 회복한다.';
+
+  @override
+  String get cardNameAtkR05 => '버서크';
+
+  @override
+  String get cardDescAtkR05 => '힘 +5를 얻는다. 3턴 뒤 힘 -5.';
+
+  @override
+  String get cardNameAtkR05Up => '버서크+';
+
+  @override
+  String get cardDescAtkR05Up => '힘 +7을 얻는다. 3턴 뒤 힘 -5.';
+
+  @override
+  String get cardNameAtkL01 => '엑스칼리버';
+
+  @override
+  String get cardDescAtkL01 => '50 데미지를 주고, 취약+약화 3턴을 부여한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameAtkL01Up => '엑스칼리버+';
+
+  @override
+  String get cardDescAtkL01Up => '60 데미지를 주고, 취약+약화 3턴을 부여한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameAtkL02 => '무한의 칼날';
+
+  @override
+  String get cardDescAtkL02 => '8 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.';
+
+  @override
+  String get cardNameAtkL02Up => '무한의 칼날+';
+
+  @override
+  String get cardDescAtkL02Up => '12 데미지를 준다. 사용 시 이 카드 영구 +2 데미지.';
+
+  @override
+  String get cardNameMagC01 => '화염탄';
+
+  @override
+  String get cardDescMagC01 => '4 데미지를 주고, 화상 2턴을 부여한다.';
+
+  @override
+  String get cardNameMagC01Up => '화염탄+';
+
+  @override
+  String get cardDescMagC01Up => '6 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameMagC02 => '서리 화살';
+
+  @override
+  String get cardDescMagC02 => '5 데미지를 주고, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameMagC02Up => '서리 화살+';
+
+  @override
+  String get cardDescMagC02Up => '8 데미지를 주고, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameMagC03 => '마나 집중';
+
+  @override
+  String get cardDescMagC03 => '에너지 +1, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameMagC03Up => '마나 집중+';
+
+  @override
+  String get cardDescMagC03Up => '에너지 +1, 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameMagC04 => '전기 충격';
+
+  @override
+  String get cardDescMagC04 => '7 데미지를 준다 (랜덤 적).';
+
+  @override
+  String get cardNameMagC04Up => '전기 충격+';
+
+  @override
+  String get cardDescMagC04Up => '10 데미지를 준다 (랜덤 적).';
+
+  @override
+  String get cardNameMagC05 => '마법 화살';
+
+  @override
+  String get cardDescMagC05 => '4 데미지를 2회 준다 (랜덤 대상).';
+
+  @override
+  String get cardNameMagC05Up => '마법 화살+';
+
+  @override
+  String get cardDescMagC05Up => '4 데미지를 3회 준다 (랜덤 대상).';
+
+  @override
+  String get cardNameMagC06 => '명상';
+
+  @override
+  String get cardDescMagC06 => '카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameMagC06Up => '명상+';
+
+  @override
+  String get cardDescMagC06Up => '카드 3장을 드로우한다.';
+
+  @override
+  String get cardNameMagC07 => '지식의 빛';
+
+  @override
+  String get cardDescMagC07 => '드로우 파일 상위 3장을 확인하고, 1장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagC07Up => '지식의 빛+';
+
+  @override
+  String get cardDescMagC07Up => '드로우 파일 상위 3장 중 2장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagC08 => '독안개';
+
+  @override
+  String get cardDescMagC08 => '적 전체에 독 3을 부여한다.';
+
+  @override
+  String get cardNameMagC08Up => '독안개+';
+
+  @override
+  String get cardDescMagC08Up => '적 전체에 독 5를 부여한다.';
+
+  @override
+  String get cardNameMagC09 => '마력 폭발';
+
+  @override
+  String get cardDescMagC09 => '10 데미지를 주고, 집중 +1을 얻는다.';
+
+  @override
+  String get cardNameMagC09Up => '마력 폭발+';
+
+  @override
+  String get cardDescMagC09Up => '14 데미지를 주고, 집중 +1을 얻는다.';
+
+  @override
+  String get cardNameMagC10 => '원소 조화';
+
+  @override
+  String get cardDescMagC10 => '다음 카드 효과를 50% 증가시킨다.';
+
+  @override
+  String get cardNameMagC10Up => '원소 조화+';
+
+  @override
+  String get cardDescMagC10Up => '다음 카드 효과를 100% 증가시킨다.';
+
+  @override
+  String get cardNameMagU01 => '연쇄 번개';
+
+  @override
+  String get cardDescMagU01 => '8 데미지를 주고, 적 전체에 4 데미지를 준다.';
+
+  @override
+  String get cardNameMagU01Up => '연쇄 번개+';
+
+  @override
+  String get cardDescMagU01Up => '12 데미지를 주고, 적 전체에 6 데미지를 준다.';
+
+  @override
+  String get cardNameMagU02 => '빙결의 눈';
+
+  @override
+  String get cardDescMagU02 => '12 데미지를 주고, 빙결 1회를 부여한다.';
+
+  @override
+  String get cardNameMagU02Up => '빙결의 눈+';
+
+  @override
+  String get cardDescMagU02Up => '16 데미지를 주고, 빙결 1회를 부여한다.';
+
+  @override
+  String get cardNameMagU03 => '지혜의 책';
+
+  @override
+  String get cardDescMagU03 => '카드 3장을 드로우하고, 1장을 소멸시킨다.';
+
+  @override
+  String get cardNameMagU03Up => '지혜의 책+';
+
+  @override
+  String get cardDescMagU03Up => '카드 4장을 드로우한다.';
+
+  @override
+  String get cardNameMagU04 => '마나 과부하';
+
+  @override
+  String get cardDescMagU04 => '에너지 +2를 얻는다. 다음 턴 에너지 -1.';
+
+  @override
+  String get cardNameMagU04Up => '마나 과부하+';
+
+  @override
+  String get cardDescMagU04Up => '에너지 +3을 얻는다.';
+
+  @override
+  String get cardNameMagU05 => '원소 폭풍';
+
+  @override
+  String get cardDescMagU05 => '적 전체에 15 데미지를 준다.';
+
+  @override
+  String get cardNameMagU05Up => '원소 폭풍+';
+
+  @override
+  String get cardDescMagU05Up => '적 전체에 20 데미지를 준다.';
+
+  @override
+  String get cardNameMagU06 => '시간 왜곡';
+
+  @override
+  String get cardDescMagU06 => '추가 턴 1회를 얻는다 (에너지 0, 카드 유지).';
+
+  @override
+  String get cardNameMagU06Up => '시간 왜곡+';
+
+  @override
+  String get cardDescMagU06Up => '추가 턴 1회를 얻는다 (에너지 1로 시작).';
+
+  @override
+  String get cardNameMagU07 => '마법 증폭';
+
+  @override
+  String get cardDescMagU07 => '집중 +2를 얻는다 (영구).';
+
+  @override
+  String get cardNameMagU07Up => '마법 증폭+';
+
+  @override
+  String get cardDescMagU07Up => '집중 +3을 얻는다 (영구).';
+
+  @override
+  String get cardNameMagU08 => '복제술';
+
+  @override
+  String get cardDescMagU08 => '패의 카드 1장을 복사한다 (이번 턴만).';
+
+  @override
+  String get cardNameMagU08Up => '복제술+';
+
+  @override
+  String get cardDescMagU08Up => '패의 카드 1장을 비용 0으로 복사한다 (이번 턴만).';
+
+  @override
+  String get cardNameMagR01 => '메테오';
+
+  @override
+  String get cardDescMagR01 => '적 전체에 25 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameMagR01Up => '메테오+';
+
+  @override
+  String get cardDescMagR01Up => '적 전체에 35 데미지를 주고, 화상 3턴을 부여한다.';
+
+  @override
+  String get cardNameMagR02 => '마나 폭주';
+
+  @override
+  String get cardDescMagR02 => '패의 모든 카드 비용이 이번 턴 0이 된다.';
+
+  @override
+  String get cardNameMagR02Up => '마나 폭주+';
+
+  @override
+  String get cardDescMagR02Up => '패의 모든 카드 비용이 다음 턴까지 0이 된다.';
+
+  @override
+  String get cardNameMagR03 => '차원의 균열';
+
+  @override
+  String get cardDescMagR03 => '디스카드 파일에서 3장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagR03Up => '차원의 균열+';
+
+  @override
+  String get cardDescMagR03Up => '디스카드 파일에서 5장을 패로 가져온다.';
+
+  @override
+  String get cardNameMagR04 => '영혼 흡수';
+
+  @override
+  String get cardDescMagR04 => '12 데미지를 주고, 같은 양 HP를 회복한다.';
+
+  @override
+  String get cardNameMagR04Up => '영혼 흡수+';
+
+  @override
+  String get cardDescMagR04Up => '18 데미지를 주고, 같은 양 HP를 회복한다.';
+
+  @override
+  String get cardNameMagR05 => '절대영도';
+
+  @override
+  String get cardDescMagR05 => '적 전체를 빙결시키고, 10 데미지를 준다.';
+
+  @override
+  String get cardNameMagR05Up => '절대영도+';
+
+  @override
+  String get cardDescMagR05Up => '적 전체를 빙결시키고, 15 데미지를 준다.';
+
+  @override
+  String get cardNameMagL01 => '아마겟돈';
+
+  @override
+  String get cardDescMagL01 => '적 전체에 99 데미지를 준다. 자신도 30 데미지. 사용 후 소멸.';
+
+  @override
+  String get cardNameMagL01Up => '아마겟돈+';
+
+  @override
+  String get cardDescMagL01Up => '적 전체에 99 데미지를 준다. 자신 15 데미지. 사용 후 소멸.';
+
+  @override
+  String get cardNameMagL02 => '무한의 지혜';
+
+  @override
+  String get cardDescMagL02 => '카드 5장을 드로우하고, 에너지 +2를 얻는다. 사용 후 소멸.';
+
+  @override
+  String get cardNameMagL02Up => '무한의 지혜+';
+
+  @override
+  String get cardDescMagL02Up => '카드 7장을 드로우하고, 에너지 +3을 얻는다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefC01 => '방어';
+
+  @override
+  String get cardDescDefC01 => '방어도 5를 얻는다.';
+
+  @override
+  String get cardNameDefC01Up => '방어+';
+
+  @override
+  String get cardDescDefC01Up => '방어도 8을 얻는다.';
+
+  @override
+  String get cardNameDefC02 => '철벽';
+
+  @override
+  String get cardDescDefC02 => '방어도 12를 얻는다.';
+
+  @override
+  String get cardNameDefC02Up => '철벽+';
+
+  @override
+  String get cardDescDefC02Up => '방어도 16을 얻는다.';
+
+  @override
+  String get cardNameDefC03 => '반격';
+
+  @override
+  String get cardDescDefC03 => '방어도 4를 얻고, 가시 2를 얻는다.';
+
+  @override
+  String get cardNameDefC03Up => '반격+';
+
+  @override
+  String get cardDescDefC03Up => '방어도 6을 얻고, 가시 3을 얻는다.';
+
+  @override
+  String get cardNameDefC04 => '회복 기도';
+
+  @override
+  String get cardDescDefC04 => 'HP 4를 회복한다.';
+
+  @override
+  String get cardNameDefC04Up => '회복 기도+';
+
+  @override
+  String get cardDescDefC04Up => 'HP 7을 회복한다.';
+
+  @override
+  String get cardNameDefC05 => '전투 태세';
+
+  @override
+  String get cardDescDefC05 => '방어도 6을 얻고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameDefC05Up => '전투 태세+';
+
+  @override
+  String get cardDescDefC05Up => '방어도 8을 얻고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameDefC06 => '구르기';
+
+  @override
+  String get cardDescDefC06 => '방어도 3을 얻고, 다음 턴 방어도 6을 얻는다.';
+
+  @override
+  String get cardNameDefC06Up => '구르기+';
+
+  @override
+  String get cardDescDefC06Up => '방어도 5를 얻고, 다음 턴 방어도 8을 얻는다.';
+
+  @override
+  String get cardNameDefC07 => '응급 처치';
+
+  @override
+  String get cardDescDefC07 => 'HP 3을 회복한다.';
+
+  @override
+  String get cardNameDefC07Up => '응급 처치+';
+
+  @override
+  String get cardDescDefC07Up => 'HP 5를 회복한다.';
+
+  @override
+  String get cardNameDefC08 => '인내';
+
+  @override
+  String get cardDescDefC08 => '방어도 5를 얻고, 불굴 1턴을 얻는다.';
+
+  @override
+  String get cardNameDefC08Up => '인내+';
+
+  @override
+  String get cardDescDefC08Up => '방어도 7을 얻고, 불굴 2턴을 얻는다.';
+
+  @override
+  String get cardNameDefC09 => '생명력';
+
+  @override
+  String get cardDescDefC09 => '재생 3을 얻는다 (3턴).';
+
+  @override
+  String get cardNameDefC09Up => '생명력+';
+
+  @override
+  String get cardDescDefC09Up => '재생 4를 얻는다 (4턴).';
+
+  @override
+  String get cardNameDefC10 => '도발 방패';
+
+  @override
+  String get cardDescDefC10 => '방어도 6을 얻고, 적 1체를 도발한다.';
+
+  @override
+  String get cardNameDefC10Up => '도발 방패+';
+
+  @override
+  String get cardDescDefC10Up => '방어도 9를 얻고, 적 1체를 도발한다.';
+
+  @override
+  String get cardNameDefU01 => '바리케이드';
+
+  @override
+  String get cardDescDefU01 => '방어도 12를 얻고, 불굴 2턴을 얻는다.';
+
+  @override
+  String get cardNameDefU01Up => '바리케이드+';
+
+  @override
+  String get cardDescDefU01Up => '방어도 16을 얻고, 불굴 3턴을 얻는다.';
+
+  @override
+  String get cardNameDefU02 => '반사 방어막';
+
+  @override
+  String get cardDescDefU02 => '방어도 8을 얻고, 가시 5를 얻는다 (이번 턴).';
+
+  @override
+  String get cardNameDefU02Up => '반사 방어막+';
+
+  @override
+  String get cardDescDefU02Up => '방어도 12를 얻고, 가시 7을 얻는다 (이번 턴).';
+
+  @override
+  String get cardNameDefU03 => '재생의 기도';
+
+  @override
+  String get cardDescDefU03 => 'HP 10을 회복하고, 재생 2를 얻는다 (3턴).';
+
+  @override
+  String get cardNameDefU03Up => '재생의 기도+';
+
+  @override
+  String get cardDescDefU03Up => 'HP 15를 회복하고, 재생 3을 얻는다 (3턴).';
+
+  @override
+  String get cardNameDefU04 => '불굴의 의지';
+
+  @override
+  String get cardDescDefU04 => '민첩 +2를 얻는다 (영구).';
+
+  @override
+  String get cardNameDefU04Up => '불굴의 의지+';
+
+  @override
+  String get cardDescDefU04Up => '민첩 +3을 얻는다 (영구).';
+
+  @override
+  String get cardNameDefU05 => '보호막';
+
+  @override
+  String get cardDescDefU05 => '잃은 HP의 25%만큼 방어도를 얻는다.';
+
+  @override
+  String get cardNameDefU05Up => '보호막+';
+
+  @override
+  String get cardDescDefU05Up => '잃은 HP의 30%만큼 방어도를 얻는다.';
+
+  @override
+  String get cardNameDefU06 => '생존 본능';
+
+  @override
+  String get cardDescDefU06 => 'HP 50% 이하면 방어도 15, 아니면 5.';
+
+  @override
+  String get cardNameDefU06Up => '생존 본능+';
+
+  @override
+  String get cardDescDefU06Up => 'HP 50% 이하면 방어도 20, 아니면 8.';
+
+  @override
+  String get cardNameDefU07 => '흡혈 가시';
+
+  @override
+  String get cardDescDefU07 => '가시 3을 얻는다 (영구). 피격 시 HP 1을 회복한다.';
+
+  @override
+  String get cardNameDefU07Up => '흡혈 가시+';
+
+  @override
+  String get cardDescDefU07Up => '가시 4를 얻는다 (영구). 피격 시 HP 2를 회복한다.';
+
+  @override
+  String get cardNameDefU08 => '강화 갑옷';
+
+  @override
+  String get cardDescDefU08 => '방어도 20을 얻고, 다음 턴 방어도 10을 얻는다.';
+
+  @override
+  String get cardNameDefU08Up => '강화 갑옷+';
+
+  @override
+  String get cardDescDefU08Up => '방어도 25를 얻고, 다음 턴 방어도 15를 얻는다.';
+
+  @override
+  String get cardNameDefR01 => '무적';
+
+  @override
+  String get cardDescDefR01 => '이번 턴 모든 데미지를 0으로 만든다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefR01Up => '무적+';
+
+  @override
+  String get cardDescDefR01Up => '이번 턴과 다음 턴 모든 데미지를 0으로 만든다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefR02 => '생명의 나무';
+
+  @override
+  String get cardDescDefR02 => 'HP 전체의 30%를 회복한다.';
+
+  @override
+  String get cardNameDefR02Up => '생명의 나무+';
+
+  @override
+  String get cardDescDefR02Up => 'HP 전체의 40%를 회복한다.';
+
+  @override
+  String get cardNameDefR03 => '성스러운 방패';
+
+  @override
+  String get cardDescDefR03 => '방어도 20을 얻고, 디버프를 모두 해제한다.';
+
+  @override
+  String get cardNameDefR03Up => '성스러운 방패+';
+
+  @override
+  String get cardDescDefR03Up => '방어도 28을 얻고, 디버프를 모두 해제한다.';
+
+  @override
+  String get cardNameDefR04 => '철의 몸';
+
+  @override
+  String get cardDescDefR04 => '매 턴 방어도 8을 자동으로 얻는다 (전투 동안).';
+
+  @override
+  String get cardNameDefR04Up => '철의 몸+';
+
+  @override
+  String get cardDescDefR04Up => '매 턴 방어도 12를 자동으로 얻는다 (전투 동안).';
+
+  @override
+  String get cardNameDefR05 => '부활의 비약';
+
+  @override
+  String get cardDescDefR05 => '이번 전투에서 사망 시 HP 30%로 부활한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefR05Up => '부활의 비약+';
+
+  @override
+  String get cardDescDefR05Up => '이번 전투에서 사망 시 HP 50%로 부활한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL01 => '영원의 방패';
+
+  @override
+  String get cardDescDefL01 =>
+      '방어도 30을 얻고, 매 턴 방어도 5를 자동으로 얻는다 (전투 동안). 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL01Up => '영원의 방패+';
+
+  @override
+  String get cardDescDefL01Up =>
+      '방어도 40을 얻고, 매 턴 방어도 8을 자동으로 얻는다 (전투 동안). 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL02 => '생명의 원천';
+
+  @override
+  String get cardDescDefL02 => 'HP를 완전 회복하고, 최대 HP +10 (영구). 사용 후 소멸.';
+
+  @override
+  String get cardNameDefL02Up => '생명의 원천+';
+
+  @override
+  String get cardDescDefL02Up => 'HP를 완전 회복하고, 최대 HP +20 (영구). 사용 후 소멸.';
+
+  @override
+  String get cardNameTacC01 => '관찰';
+
+  @override
+  String get cardDescTacC01 => '적 의도를 확인하고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameTacC01Up => '관찰+';
+
+  @override
+  String get cardDescTacC01Up => '적 의도를 확인하고, 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacC02 => '보물 사냥';
+
+  @override
+  String get cardDescTacC02 => '전투 골드 +15.';
+
+  @override
+  String get cardNameTacC02Up => '보물 사냥+';
+
+  @override
+  String get cardDescTacC02Up => '전투 골드 +25.';
+
+  @override
+  String get cardNameTacC03 => '약점 간파';
+
+  @override
+  String get cardDescTacC03 => '취약 2턴, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacC03Up => '약점 간파+';
+
+  @override
+  String get cardDescTacC03Up => '취약 2턴, 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameTacC04 => '재빠른 손';
+
+  @override
+  String get cardDescTacC04 => '카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacC04Up => '재빠른 손+';
+
+  @override
+  String get cardDescTacC04Up => '카드 3장을 드로우한다.';
+
+  @override
+  String get cardNameTacC05 => '덫 설치';
+
+  @override
+  String get cardDescTacC05 => '다음 적 공격 시 10 데미지를 반사한다.';
+
+  @override
+  String get cardNameTacC05Up => '덫 설치+';
+
+  @override
+  String get cardDescTacC05Up => '다음 적 공격 시 15 데미지를 반사한다.';
+
+  @override
+  String get cardNameTacC06 => '교란';
+
+  @override
+  String get cardDescTacC06 => '적 의도를 변경한다 (랜덤).';
+
+  @override
+  String get cardNameTacC06Up => '교란+';
+
+  @override
+  String get cardDescTacC06Up => '적 의도를 변경하고, 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacC07 => '도둑질';
+
+  @override
+  String get cardDescTacC07 => '3 데미지를 주고, 골드 5~15를 획득한다.';
+
+  @override
+  String get cardNameTacC07Up => '도둑질+';
+
+  @override
+  String get cardDescTacC07Up => '6 데미지를 주고, 골드 10~25를 획득한다.';
+
+  @override
+  String get cardNameTacC08 => '연막탄';
+
+  @override
+  String get cardDescTacC08 => '방어도 4를 얻고, 적 전체에 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacC08Up => '연막탄+';
+
+  @override
+  String get cardDescTacC08Up => '방어도 6을 얻고, 적 전체에 약화 2턴을 부여한다.';
+
+  @override
+  String get cardNameTacC09 => '격려';
+
+  @override
+  String get cardDescTacC09 => '임의 카드 1장을 이번 전투 동안 업그레이드한다.';
+
+  @override
+  String get cardNameTacC09Up => '격려+';
+
+  @override
+  String get cardDescTacC09Up => '임의 카드 2장을 이번 전투 동안 업그레이드한다.';
+
+  @override
+  String get cardNameTacC10 => '행운의 동전';
+
+  @override
+  String get cardDescTacC10 => '50% 확률로 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacC10Up => '행운의 동전+';
+
+  @override
+  String get cardDescTacC10Up => '70% 확률로 카드 2장을 드로우한다.';
+
+  @override
+  String get cardNameTacU01 => '전장 분석';
+
+  @override
+  String get cardDescTacU01 => '카드 3장을 드로우하고, 비용이 가장 높은 카드의 이번 턴 비용을 0으로 만든다.';
+
+  @override
+  String get cardNameTacU01Up => '전장 분석+';
+
+  @override
+  String get cardDescTacU01Up =>
+      '카드 4장을 드로우하고, 비용이 가장 높은 카드의 이번 턴 비용을 0으로 만든다.';
+
+  @override
+  String get cardNameTacU02 => '그림자 이동';
+
+  @override
+  String get cardDescTacU02 => '다음 턴까지 받는 데미지가 50% 감소한다.';
+
+  @override
+  String get cardNameTacU02Up => '그림자 이동+';
+
+  @override
+  String get cardDescTacU02Up => '다음 턴까지 받는 데미지가 50% 감소하고, 카드 1장을 드로우한다.';
+
+  @override
+  String get cardNameTacU03 => '보물 상자';
+
+  @override
+  String get cardDescTacU03 => '랜덤 렐릭 효과를 1회 발동한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameTacU03Up => '보물 상자+';
+
+  @override
+  String get cardDescTacU03Up => '랜덤 렐릭 효과를 2회 발동한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameTacU04 => '카드 조작';
+
+  @override
+  String get cardDescTacU04 => '드로우 파일 상위 3장을 원하는 순서로 정렬한다.';
+
+  @override
+  String get cardNameTacU04Up => '카드 조작+';
+
+  @override
+  String get cardDescTacU04Up => '드로우 파일 상위 5장을 원하는 순서로 정렬한다.';
+
+  @override
+  String get cardNameTacU05 => '이중 스파이';
+
+  @override
+  String get cardDescTacU05 => '적의 버프를 복사하고, 적의 버프를 제거한다.';
+
+  @override
+  String get cardNameTacU05Up => '이중 스파이+';
+
+  @override
+  String get cardDescTacU05Up => '적의 버프를 복사하고, 적의 버프를 제거하고, 5 데미지를 준다.';
+
+  @override
+  String get cardNameTacU06 => '전략적 후퇴';
+
+  @override
+  String get cardDescTacU06 => '패 전부를 셔플하고, 새로 5장을 드로우한다.';
+
+  @override
+  String get cardNameTacU06Up => '전략적 후퇴+';
+
+  @override
+  String get cardDescTacU06Up => '패 전부를 셔플하고, 새로 6장을 드로우한다.';
+
+  @override
+  String get cardNameTacU07 => '물물교환';
+
+  @override
+  String get cardDescTacU07 => '패에서 1장을 소멸시키고, 랜덤 카드 2장을 생성한다.';
+
+  @override
+  String get cardNameTacU07Up => '물물교환+';
+
+  @override
+  String get cardDescTacU07Up => '패에서 1장을 소멸시키고, 랜덤 카드 3장을 생성한다.';
+
+  @override
+  String get cardNameTacU08 => '연쇄 함정';
+
+  @override
+  String get cardDescTacU08 => '가시 3을 얻는다 (영구). 적 공격 시 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacU08Up => '연쇄 함정+';
+
+  @override
+  String get cardDescTacU08Up => '가시 5를 얻는다 (영구). 적 공격 시 약화 1턴을 부여한다.';
+
+  @override
+  String get cardNameTacR01 => '완벽한 계획';
+
+  @override
+  String get cardDescTacR01 => '에너지 +3, 카드 3장을 드로우한다. 다음 턴 드로우 0.';
+
+  @override
+  String get cardNameTacR01Up => '완벽한 계획+';
+
+  @override
+  String get cardDescTacR01Up => '에너지 +3, 카드 3장을 드로우한다. 다음 턴 드로우 2.';
+
+  @override
+  String get cardNameTacR02 => '운명의 바퀴';
+
+  @override
+  String get cardDescTacR02 => '랜덤 효과 1회: 데미지 15, 방어 15, 회복 15, 에너지 +2 중 하나.';
+
+  @override
+  String get cardNameTacR02Up => '운명의 바퀴+';
+
+  @override
+  String get cardDescTacR02Up => '랜덤 효과 2회: 데미지 15, 방어 15, 회복 15, 에너지 +2 중 하나.';
+
+  @override
+  String get cardNameTacR03 => '도플갱어';
+
+  @override
+  String get cardDescTacR03 => '이번 턴 사용한 카드 전부를 다시 패로 가져온다.';
+
+  @override
+  String get cardNameTacR03Up => '도플갱어+';
+
+  @override
+  String get cardDescTacR03Up => '이번 턴 사용한 카드 전부를 다시 패로 가져오고, 에너지 +2를 얻는다.';
+
+  @override
+  String get cardNameTacR04 => '탐욕의 손';
+
+  @override
+  String get cardDescTacR04 => '6 데미지를 준다. 킬 시 카드 보상 1장을 추가로 받는다.';
+
+  @override
+  String get cardNameTacR04Up => '탐욕의 손+';
+
+  @override
+  String get cardDescTacR04Up => '10 데미지를 준다. 킬 시 카드 보상 1장을 추가로 받는다.';
+
+  @override
+  String get cardNameTacR05 => '대혼란';
+
+  @override
+  String get cardDescTacR05 => '적 전체에 취약+약화 2턴, 독 3을 부여한다.';
+
+  @override
+  String get cardNameTacR05Up => '대혼란+';
+
+  @override
+  String get cardDescTacR05Up => '적 전체에 취약+약화 3턴, 독 3을 부여한다.';
+
+  @override
+  String get cardNameTacL01 => '시간의 주인';
+
+  @override
+  String get cardDescTacL01 => '추가 턴 2회를 얻는다 (에너지 2씩). 사용 후 소멸.';
+
+  @override
+  String get cardNameTacL01Up => '시간의 주인+';
+
+  @override
+  String get cardDescTacL01Up => '추가 턴 2회를 얻는다 (에너지 3씩). 사용 후 소멸.';
+
+  @override
+  String get cardNameTacL02 => '운명 변환';
+
+  @override
+  String get cardDescTacL02 => '덱의 모든 카드를 이번 전투 동안 업그레이드한다. 사용 후 소멸.';
+
+  @override
+  String get cardNameTacL02Up => '운명 변환+';
+
+  @override
+  String get cardDescTacL02Up =>
+      '덱의 모든 카드를 이번 전투 동안 업그레이드하고, 에너지 +2를 얻는다. 사용 후 소멸.';
+
+  @override
+  String get relicNameStart01 => '모험자의 가방';
+
+  @override
+  String get relicDescStart01 => '전투 보상 카드 선택지 +1장 (3→4)';
+
+  @override
+  String get relicNameStart02 => '낡은 부적';
+
+  @override
+  String get relicDescStart02 => '시작 HP +15';
+
+  @override
+  String get relicNameStart03 => '행운의 동전';
+
+  @override
+  String get relicDescStart03 => '전투 골드 +30%';
+
+  @override
+  String get relicNameC01 => '앵커';
+
+  @override
+  String get relicDescC01 => '매 턴 시작 시 방어 4 자동 획득';
+
+  @override
+  String get relicNameC02 => '빨간 물약';
+
+  @override
+  String get relicDescC02 => '전투 시작 시 HP 5 회복';
+
+  @override
+  String get relicNameC03 => '마나 구슬';
+
+  @override
+  String get relicDescC03 => '3턴마다 에너지 +1';
+
+  @override
+  String get relicNameC04 => '날카로운 숫돌';
+
+  @override
+  String get relicDescC04 => '첫 번째 공격 카드 데미지 +3';
+
+  @override
+  String get relicNameC05 => '도둑의 장갑';
+
+  @override
+  String get relicDescC05 => '전투 보상 골드 +15';
+
+  @override
+  String get relicNameC06 => '가벼운 신발';
+
+  @override
+  String get relicDescC06 => '첫 턴 카드 드로우 +2';
+
+  @override
+  String get relicNameC07 => '독 주머니';
+
+  @override
+  String get relicDescC07 => '전투 시작 시 적 전체 독 2';
+
+  @override
+  String get relicNameC08 => '가시 방패';
+
+  @override
+  String get relicDescC08 => '가시 1 (영구)';
+
+  @override
+  String get relicNameC09 => '집중의 반지';
+
+  @override
+  String get relicDescC09 => '비용 0 카드 사용 시 방어 2';
+
+  @override
+  String get relicNameC10 => '전사의 팔찌';
+
+  @override
+  String get relicDescC10 => '패에 공격 카드만 있으면 에너지 +1';
+
+  @override
+  String get relicNameU01 => '서리의 심장';
+
+  @override
+  String get relicDescU01 => '공격 카드 사용 시 20% 확률 약화 1턴';
+
+  @override
+  String get relicNameU02 => '현자의 돌';
+
+  @override
+  String get relicDescU02 => '마법 카드 데미지 +25%';
+
+  @override
+  String get relicNameU03 => '불사조의 깃털';
+
+  @override
+  String get relicDescU03 => '사망 시 1회 HP 30%로 부활';
+
+  @override
+  String get relicNameU04 => '시간의 모래';
+
+  @override
+  String get relicDescU04 => '첫 3턴 에너지 +1';
+
+  @override
+  String get relicNameU05 => '영혼 수확자';
+
+  @override
+  String get relicDescU05 => '적 처치 시 HP 5 회복';
+
+  @override
+  String get relicNameU06 => '마법 거울';
+
+  @override
+  String get relicDescU06 => '첫 번째 디버프 반사 (1회)';
+
+  @override
+  String get relicNameU07 => '탐험가의 지도';
+
+  @override
+  String get relicDescU07 => '맵에서 다음 층 전체 공개';
+
+  @override
+  String get relicNameU08 => '연금술사의 가방';
+
+  @override
+  String get relicDescU08 => '상점에서 무료 카드 제거 1회';
+
+  @override
+  String get relicNameR01 => '드래곤의 비늘';
+
+  @override
+  String get relicDescR01 => '받는 데미지 -1 (모든 공격)';
+
+  @override
+  String get relicNameR02 => '제3의 눈';
+
+  @override
+  String get relicDescR02 => '적 의도를 정확한 숫자로 표시';
+
+  @override
+  String get relicNameR03 => '무한 주머니';
+
+  @override
+  String get relicDescR03 => '카드 최대 보유 +1 (패에 6장)';
+
+  @override
+  String get relicNameR04 => '각성의 오브';
+
+  @override
+  String get relicDescR04 => '에너지 최대 +1 (3→4)';
+
+  @override
+  String get relicNameR05 => '운명의 실';
+
+  @override
+  String get relicDescR05 => '카드 보상에서 레어 이상 확률 2배';
+
+  @override
+  String get relicNameB01 => '왕관';
+
+  @override
+  String get relicDescB01 => '에너지 최대 +1, 시작 시 저주 1장';
+
+  @override
+  String get relicNameB02 => '마왕의 심장';
+
+  @override
+  String get relicDescB02 => '모든 카드 데미지 +5, 받는 데미지 +5';
+
+  @override
+  String get relicNameB03 => '부활의 성배';
+
+  @override
+  String get relicDescB03 => '휴식 노드에서 HP 완전 회복';
+
+  @override
+  String get relicNameB04 => '혼돈의 구체';
+
+  @override
+  String get relicDescB04 => '매 턴 랜덤 카드 1장 패에 생성';
+
+  @override
+  String get relicNameB05 => '시간의 왕관';
+
+  @override
+  String get relicDescB05 => '첫 턴 추가 턴 1회';
+
+  @override
+  String get achievementNameAc1 => '첫 걸음';
+
+  @override
+  String get achievementDescAc1 => '퀘스트 1회 완료';
+
+  @override
+  String get achievementNameAc2 => '성실의 증표';
+
+  @override
+  String get achievementDescAc2 => '퀘스트 10회 완료';
+
+  @override
+  String get achievementNameAc3 => '레벨 5 달성';
+
+  @override
+  String get achievementDescAc3 => '초보 모험가 탈출';
+
+  @override
+  String get achievementNameAc4 => '힘의 각성';
+
+  @override
+  String get achievementDescAc4 => '힘 스탯 10 달성';
+
+  @override
+  String get achievementNameAc5 => '지혜의 시작';
+
+  @override
+  String get achievementDescAc5 => '지혜 스탯 10 달성';
+
+  @override
+  String get achievementNameAc6 => '고지를 향하여';
+
+  @override
+  String get achievementDescAc6 => '레벨 20 달성';
+
+  @override
+  String get achievementNameAc7 => '기술의 탐구자';
+
+  @override
+  String get achievementDescAc7 => '스킬 5개 습득';
+
+  @override
+  String get achievementNameAc8 => '건강의 달인';
+
+  @override
+  String get achievementDescAc8 => '건강 스탯 50 달성';
+
+  @override
+  String get achievementNameAc9 => '지혜의 대가';
+
+  @override
+  String get achievementDescAc9 => '지혜 스탯 50 달성';
+
+  @override
+  String get achievementNameAc10 => '퀘스트 중독자';
+
+  @override
+  String get achievementDescAc10 => '퀘스트 500회 완료';
+
+  @override
+  String get achievementNameAc11 => '꾸준한 실천가';
+
+  @override
+  String get achievementDescAc11 => '퀘스트 50회 완료';
+
+  @override
+  String get achievementNameAc12 => '습관의 달인';
+
+  @override
+  String get achievementDescAc12 => '퀘스트 100회 완료';
+
+  @override
+  String get achievementNameAc13 => '베테랑 모험가';
+
+  @override
+  String get achievementDescAc13 => '레벨 30 달성';
+
+  @override
+  String get achievementNameAc14 => '전설의 영웅';
+
+  @override
+  String get achievementDescAc14 => '레벨 50 달성';
+
+  @override
+  String get achievementNameAc15 => '근육의 제왕';
+
+  @override
+  String get achievementDescAc15 => '힘 스탯 100 달성';
+
+  @override
+  String get achievementNameAc16 => '스킬 마스터';
+
+  @override
+  String get achievementDescAc16 => '스킬 12개 습득';
+
+  @override
+  String get achievementNameAc17 => '만능 전문가';
+
+  @override
+  String get achievementDescAc17 => '스킬 20개 습득';
+
+  @override
+  String get achievementNameAc18 => '첫 사냥';
+
+  @override
+  String get achievementDescAc18 => '몬스터 1마리 처치';
+
+  @override
+  String get achievementNameAc19 => '초보 사냥꾼';
+
+  @override
+  String get achievementDescAc19 => '몬스터 10마리 처치';
+
+  @override
+  String get achievementNameAc20 => '숙련된 전사';
+
+  @override
+  String get achievementDescAc20 => '몬스터 50마리 처치';
+
+  @override
+  String get achievementNameAc21 => '학살자';
+
+  @override
+  String get achievementDescAc21 => '몬스터 200마리 처치';
+
+  @override
+  String get achievementNameAc22 => '전설의 탐험가';
+
+  @override
+  String get achievementDescAc22 => '퀘스트 1000회 완료';
+
+  @override
+  String get achievementNameAc23 => '레벨 10 달성';
+
+  @override
+  String get achievementDescAc23 => '초보딱지 탈출!';
+
+  @override
+  String get achievementNameAc24 => '매력 스타';
+
+  @override
+  String get achievementDescAc24 => '매력 스탯 30 달성';
+
+  @override
+  String get achievementNameAc25 => '카리스마의 왕';
+
+  @override
+  String get achievementDescAc25 => '매력 스탯 80 달성';
+
+  @override
+  String get titleNameT0 => '새싹 모험가';
+
+  @override
+  String get titleDescT0 => '모든 것이 새로운 시작';
+
+  @override
+  String get titleNameT1 => '성실한 모험가';
+
+  @override
+  String get titleDescT1 => '꾸준함이 미덕';
+
+  @override
+  String get titleNameT2 => '숙련된 개척자';
+
+  @override
+  String get titleDescT2 => '자신만의 길을 걷는 자';
+
+  @override
+  String get titleNameT3 => '근력 마니아';
+
+  @override
+  String get titleDescT3 => '힘 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT4 => '현자 지망생';
+
+  @override
+  String get titleDescT4 => '지혜 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT5 => '강철 체력';
+
+  @override
+  String get titleDescT5 => '건강 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT6 => '만인의 연인';
+
+  @override
+  String get titleDescT6 => '매력 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT7 => '성실의 화신';
+
+  @override
+  String get titleDescT7 => '퀘스트 100회 완료';
+
+  @override
+  String get titleNameT8 => '만능 재주꾼';
+
+  @override
+  String get titleDescT8 => '모든 스탯 20 달성';
+
+  @override
+  String get titleNameT9 => '퀘스트 장인';
+
+  @override
+  String get titleDescT9 => '퀘스트 250회 완료';
+
+  @override
+  String get titleNameT10 => '만렙을 향하여';
+
+  @override
+  String get titleDescT10 => '레벨 30 달성';
+
+  @override
+  String get titleNameT11 => '전설의 용사';
+
+  @override
+  String get titleDescT11 => '레벨 40 달성';
+
+  @override
+  String get titleNameT12 => '세계의 영웅';
+
+  @override
+  String get titleDescT12 => '레벨 50 달성';
+
+  @override
+  String get titleNameT13 => '파괴의 화신';
+
+  @override
+  String get titleDescT13 => '힘 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT14 => '대현자';
+
+  @override
+  String get titleDescT14 => '지혜 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT15 => '불멸의 전사';
+
+  @override
+  String get titleDescT15 => '건강 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT16 => '절대 카리스마';
+
+  @override
+  String get titleDescT16 => '매력 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT17 => '퀘스트 전설';
+
+  @override
+  String get titleDescT17 => '퀘스트 500회 완료';
+
+  @override
+  String get titleNameT18 => '퀘스트의 신';
+
+  @override
+  String get titleDescT18 => '퀘스트 1000회 완료';
+
+  @override
+  String get titleNameT19 => '마스터 오브 올';
+
+  @override
+  String get titleDescT19 => '모든 스탯 50 달성';
+
+  @override
+  String get titleNameT20 => '초보 캠퍼';
+
+  @override
+  String get titleDescT20 => '레벨 3 달성';
+
+  @override
+  String get titleNameT21 => '경험 많은 여행자';
+
+  @override
+  String get titleDescT21 => '레벨 20 달성';
+
+  @override
+  String get titleNameT22 => '힘의 정점';
+
+  @override
+  String get titleDescT22 => '힘 100 달성!';
+
+  @override
+  String get titleNameT23 => '지혜의 정점';
+
+  @override
+  String get titleDescT23 => '지혜 100 달성!';
+
+  @override
+  String get titleNameT24 => '월간 레이드 돌파자';
+
+  @override
+  String get titleDescT24 => '월간 레이드 1회 클리어';
+
+  @override
+  String get titleNameT25 => '월간 레이드 정복자';
+
+  @override
+  String get titleDescT25 => '월간 레이드 5회 클리어';
+
+  @override
+  String get titleNameT26 => '연간 레이드 생존자';
+
+  @override
+  String get titleDescT26 => '연간 레이드 1회 클리어';
+
+  @override
+  String get titleNameT27 => '연간 레이드 군주';
+
+  @override
+  String get titleDescT27 => '연간 레이드 3회 클리어';
+
+  @override
+  String get skillNameSk1 => '근력 강화';
+
+  @override
+  String get skillDescSk1 => '힘 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk2 => '지혜의 빛';
+
+  @override
+  String get skillDescSk2 => '지혜 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk3 => '건강한 신체';
+
+  @override
+  String get skillDescSk3 => '건강 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk4 => '매력 발산';
+
+  @override
+  String get skillDescSk4 => '매력 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk5 => '퀘스트 전문가';
+
+  @override
+  String get skillDescSk5 => '모든 퀘스트 XP +5%';
+
+  @override
+  String get skillNameSk6 => '성장의 기쁨';
+
+  @override
+  String get skillDescSk6 => '레벨업 시 추가 SP 1';
+
+  @override
+  String get skillNameSk7 => '집중 훈련';
+
+  @override
+  String get skillDescSk7 => 'SP 1 소모 시 스탯 2 증가';
+
+  @override
+  String get skillNameSk8 => '학습 가속';
+
+  @override
+  String get skillDescSk8 => '모든 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk9 => '초월적인 성장';
+
+  @override
+  String get skillDescSk9 => '레벨업 시 기본 SP 5 → 7';
+
+  @override
+  String get skillNameSk10 => '화염 검격';
+
+  @override
+  String get skillDescSk10 => '전투 사용: 25 추가 대미지';
+
+  @override
+  String get skillNameSk11 => '치유의 빛';
+
+  @override
+  String get skillDescSk11 => '전투 사용: HP 20 회복';
+
+  @override
+  String get skillNameSk12 => '번개 일격';
+
+  @override
+  String get skillDescSk12 => '전투 사용: 50 대미지';
+
+  @override
+  String get skillNameSk13 => '빙결 마법';
+
+  @override
+  String get skillDescSk13 => '전투 사용: 35 대미지';
+
+  @override
+  String get skillNameSk14 => '독안개';
+
+  @override
+  String get skillDescSk14 => '전투 사용: 30 대미지';
+
+  @override
+  String get skillNameSk15 => '보호막';
+
+  @override
+  String get skillDescSk15 => '전투 사용: HP 40 회복';
+
+  @override
+  String get skillNameSk16 => '대지진';
+
+  @override
+  String get skillDescSk16 => '전투 사용: 70 대미지';
+
+  @override
+  String get skillNameSk17 => '성스러운 기도';
+
+  @override
+  String get skillDescSk17 => '전투 사용: HP 60 회복';
+
+  @override
+  String get skillNameSk18 => '전투 본능';
+
+  @override
+  String get skillDescSk18 => '힘 퀘스트 XP +15%';
+
+  @override
+  String get skillNameSk19 => '명상의 경지';
+
+  @override
+  String get skillDescSk19 => '지혜 퀘스트 XP +15%';
+
+  @override
+  String get skillNameSk20 => '어둠의 검';
+
+  @override
+  String get skillDescSk20 => '전투 사용: 100 대미지';
+
+  @override
+  String get skillNameSk21 => '완전한 재생';
+
+  @override
+  String get skillDescSk21 => '전투 사용: HP 80 회복';
+
+  @override
+  String get skillNameSk22 => '극한 효율';
+
+  @override
+  String get skillDescSk22 => 'SP 1 소모 시 스탯 3 증가';
+
+  @override
+  String get skillNameSk23 => '초월 가속';
+
+  @override
+  String get skillDescSk23 => '모든 퀘스트 XP +20%';
+
+  @override
+  String get skillNameSk24 => '신의 축복';
+
+  @override
+  String get skillDescSk24 => '레벨업 시 추가 SP 3';
+
+  @override
+  String get monsterSlimeGreen => '초록 슬라임';
+
+  @override
+  String get monsterBat => '동굴 박쥐';
+
+  @override
+  String get monsterMushroom => '독버섯';
+
+  @override
+  String get monsterSlimeBlue => '파랑 슬라임';
+
+  @override
+  String get monsterRat => '거대 쥐';
+
+  @override
+  String get monsterGoblin => '고블린';
+
+  @override
+  String get monsterSkeleton => '해골 전사';
+
+  @override
+  String get monsterWolf => '그림자 늑대';
+
+  @override
+  String get monsterSpiderGiant => '거대 독거미';
+
+  @override
+  String get monsterTreant => '움직이는 나무';
+
+  @override
+  String get monsterOrc => '오크 전사';
+
+  @override
+  String get monsterDarkMage => '다크 마법사';
+
+  @override
+  String get monsterGolem => '스톤 골렘';
+
+  @override
+  String get monsterHarpy => '하피';
+
+  @override
+  String get monsterMimic => '미믹';
+
+  @override
+  String get monsterLavaGolem => '용암 골렘';
+
+  @override
+  String get monsterFireSpirit => '화염 정령';
+
+  @override
+  String get monsterDemonWarrior => '마족 전사';
+
+  @override
+  String get monsterSalamander => '살라만더';
+
+  @override
+  String get monsterCerberus => '케르베로스';
+
+  @override
+  String get monsterShadowKnight => '그림자 기사';
+
+  @override
+  String get monsterLich => '리치';
+
+  @override
+  String get monsterBehemoth => '베히모스';
+
+  @override
+  String get monsterDarkPhoenix => '어둠의 불사조';
+
+  @override
+  String get monsterVoidWorm => '차원 벌레';
+
+  @override
+  String get monsterBossTroll => '트롤 대장';
+
+  @override
+  String get monsterBossDragon => '화염 드래곤';
+
+  @override
+  String get monsterBossDemonLord => '마왕';
+
+  @override
+  String get monsterBossHydra => '히드라';
+
+  @override
+  String get monsterBossFallenAngel => '타락 천사';
+
+  @override
+  String get monsterBossDeathKnight => '죽음의 기사';
+
+  @override
+  String get chapterName1 => '초원 방어선';
+
+  @override
+  String get chapterName2 => '어둠의 숲';
+
+  @override
+  String get chapterName3 => '폐허의 성';
+
+  @override
+  String get chapterName4 => '용암 던전';
+
+  @override
+  String get chapterName5 => '심연의 차원';
 }

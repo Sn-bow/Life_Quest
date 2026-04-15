@@ -1,7 +1,9 @@
-﻿import 'package:cloud_firestore/cloud_firestore.dart';
+﻿import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/firebase_options.dart';
@@ -24,47 +26,58 @@ const _homeWidgetAppGroupId = String.fromEnvironment(
   defaultValue: 'group.com.example.lifeQuestWidget',
 );
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+void main() {
+  // runZonedGuarded을 가장 먼저 시작해야 Flutter 바인딩 Zone 충돌을 방지함
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
-  // Firestore 오프라인 persistence 활성화 (네트워크 없이도 캐시 데이터 사용 가능)
-  try {
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
-      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-    );
-  } catch (e) {
-    debugPrint('Firestore persistence 설정 실패: $e');
-  }
+      // Crashlytics: Flutter 프레임워크 에러 캡처
+      FlutterError.onError = (errorDetails) {
+        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      };
 
-  try {
-    await FirebaseAppCheck.instance.activate(
-      androidProvider:
-          kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
-    );
-  } catch (e) {
-    debugPrint('FirebaseAppCheck activation failed: $e');
-  }
-  await NotificationService().init();
-  await SoundService().init();
-  await AdService().init(); // Init AdMob
+      // Firestore 오프라인 persistence 활성화
+      try {
+        FirebaseFirestore.instance.settings = const Settings(
+          persistenceEnabled: true,
+          cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+        );
+      } catch (e) {
+        debugPrint('Firestore persistence 설정 실패: $e');
+      }
 
-  // Setup HomeWidget (iOS / Android) App Group
-  await HomeWidget.setAppGroupId(_homeWidgetAppGroupId);
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => CharacterState()),
-        ChangeNotifierProvider(create: (context) => CombatState()),
-        ChangeNotifierProvider(create: (context) => CardCombatState()),
-        ChangeNotifierProvider(create: (context) => DungeonState()),
-        Provider<SoundService>.value(value: SoundService()),
-      ],
-      child: const LifeQuestApp(),
-    ),
+      try {
+        await FirebaseAppCheck.instance.activate(
+          androidProvider:
+              kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
+        );
+      } catch (e) {
+        debugPrint('FirebaseAppCheck activation failed: $e');
+      }
+      await NotificationService().init();
+      await SoundService().init();
+      await AdService().init();
+
+      await HomeWidget.setAppGroupId(_homeWidgetAppGroupId);
+
+      runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => CharacterState()),
+            ChangeNotifierProvider(create: (context) => CombatState()),
+            ChangeNotifierProvider(create: (context) => CardCombatState()),
+            ChangeNotifierProvider(create: (context) => DungeonState()),
+            Provider<SoundService>.value(value: SoundService()),
+          ],
+          child: const LifeQuestApp(),
+        ),
+      );
+    },
+    (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
   );
 }
 

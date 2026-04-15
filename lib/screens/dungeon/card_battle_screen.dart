@@ -2,13 +2,17 @@ import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/status_effect.dart';
 import 'package:life_quest_final_v2/state/card_combat_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/game/battle_game.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
 
 // ============================================================================
 // CardBattleScreen
@@ -61,7 +65,10 @@ class _CardBattleScreenState extends State<CardBattleScreen>
   @override
   void initState() {
     super.initState();
-    _game = BattleGame(currentZone: widget.zone);
+    _game = BattleGame(
+      currentZone: widget.zone,
+      monsterId: widget.enemies.isNotEmpty ? widget.enemies.first.monster.id : null,
+    );
     _previousPlayerHp = widget.playerHp;
 
     // Turn overlay animation (fade in -> hold -> fade out over 1s)
@@ -130,10 +137,12 @@ class _CardBattleScreenState extends State<CardBattleScreen>
     if (combat.phase != _previousPhase) {
       if (combat.phase == CombatPhase.playerTurn &&
           _previousPhase == CombatPhase.enemyTurn) {
-        _showTurnTransition('당신의 턴');
+        final l10n = AppLocalizations.of(context)!;
+        _showTurnTransition(l10n.cardBattleYourTurn);
       } else if (combat.phase == CombatPhase.enemyTurn &&
           _previousPhase == CombatPhase.playerTurn) {
-        _showTurnTransition('적의 턴');
+        final l10n = AppLocalizations.of(context)!;
+        _showTurnTransition(l10n.cardBattleEnemyTurn);
       }
       _previousPhase = combat.phase;
     }
@@ -155,6 +164,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
       _turnOverlayText = text;
       _showTurnOverlay = true;
     });
+    SoundService().playTurnChange();
     _turnOverlayController.forward(from: 0.0);
   }
 
@@ -229,17 +239,30 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                   card.category == CardCategory.magic) {
                                 _triggerEnemyFlash(enemyIdx);
                                 _game.playHitParticle();
+                                HapticFeedback.mediumImpact(); // 공격 햅틱
                               }
                               if (card.effects.any(
                                   (e) => e.effectType == CardEffectType.block)) {
                                 _game.playBlockParticle();
+                                HapticFeedback.lightImpact(); // 방어 햅틱
                               }
                               if (card.effects.any(
                                   (e) => e.effectType == CardEffectType.heal)) {
                                 _game.playHealParticle();
+                                HapticFeedback.lightImpact(); // 힐 햅틱
                               }
 
-                              // TODO: SoundService.playCardSound(card.category)
+                              // 카드 카테고리별 사운드
+                              switch (card.category) {
+                                case CardCategory.attack:
+                                  SoundService().playCardPlayAttack();
+                                case CardCategory.magic:
+                                  SoundService().playCardPlayMagic();
+                                case CardCategory.defense:
+                                  SoundService().playCardPlayDefense();
+                                case CardCategory.tactical:
+                                  SoundService().playCardPlayTactical();
+                              }
                               combat.playCard(cardIndex,
                                   targetEnemyIndex: enemyIdx);
                             },
@@ -278,7 +301,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                   fontWeight: FontWeight.bold,
                                   shadows: [
                                     Shadow(
-                                      color: _turnOverlayText == '적의 턴'
+                                      color: _turnOverlayText == AppLocalizations.of(context)!.cardBattleEnemyTurn
                                           ? Colors.red.withValues(alpha: 0.8)
                                           : Colors.blue.withValues(alpha: 0.8),
                                       blurRadius: 20,
@@ -342,6 +365,7 @@ class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
@@ -370,7 +394,7 @@ class _TopBar extends StatelessWidget {
 
           // Turn count
           Text(
-            '턴 ${combat.turnCount + 1}',
+            l10n.cardBattleTurnCount(combat.turnCount + 1),
             style: TextStyle(
               color: isDark ? Colors.white70 : Colors.black87,
               fontSize: 14,
@@ -393,15 +417,16 @@ class _TopBar extends StatelessWidget {
   }
 
   void _showExitDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('전투 포기'),
-        content: const Text('전투를 포기하시겠습니까? 진행 사항이 사라집니다.'),
+        title: Text(l10n.cardBattleAbandonDialog),
+        content: Text(l10n.cardBattleAbandonConfirmation),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('취소'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -409,7 +434,7 @@ class _TopBar extends StatelessWidget {
               context.read<CardCombatState>().resetCombat();
               Navigator.of(context).pop(false);
             },
-            child: const Text('포기', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.cardBattleAbandonButton, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -509,11 +534,12 @@ class _EnemyArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (combat.enemies.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
-          '적이 없습니다',
-          style: TextStyle(color: Colors.white54, fontSize: 16),
+          l10n.cardBattleNoEnemies,
+          style: const TextStyle(color: Colors.white54, fontSize: 16),
         ),
       );
     }
@@ -828,11 +854,15 @@ class _EndTurnButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final enabled = combat.phase == CombatPhase.playerTurn;
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: enabled ? () => combat.endTurn() : null,
+        onTap: enabled ? () {
+          HapticFeedback.selectionClick();
+          combat.endTurn();
+        } : null,
         borderRadius: BorderRadius.circular(24),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -846,7 +876,7 @@ class _EndTurnButton extends StatelessWidget {
             color: enabled ? null : Colors.grey.shade700,
           ),
           child: Text(
-            '턴 종료',
+            l10n.cardBattleEndTurnButton,
             style: TextStyle(
               color: enabled ? Colors.white : Colors.white38,
               fontSize: 13,
@@ -878,11 +908,12 @@ class _CardHand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final hand = combat.hand;
     if (hand.isEmpty) {
       return Center(
         child: Text(
-          combat.phase == CombatPhase.playerTurn ? '손에 카드가 없습니다' : '',
+          combat.phase == CombatPhase.playerTurn ? l10n.cardBattleNoCardsInHand : '',
           style: const TextStyle(color: Colors.white38, fontSize: 14),
         ),
       );
@@ -1177,16 +1208,19 @@ class _HandCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Expanded(
-                      child: Text(
-                        card.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: Builder(builder: (ctx) {
+                        final l10n = AppLocalizations.of(ctx)!;
+                        return Text(
+                          CardLocalization.localizedName(card, l10n),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        );
+                      }),
                     ),
                   ],
                 ),
@@ -1196,16 +1230,19 @@ class _HandCard extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(6),
-                  child: Text(
-                    card.description,
-                    style: TextStyle(
-                      color: isDark ? Colors.white70 : Colors.black87,
-                      fontSize: 10,
-                      height: 1.3,
-                    ),
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Builder(builder: (ctx) {
+                    final l10n = AppLocalizations.of(ctx)!;
+                    return Text(
+                      CardLocalization.localizedDescription(card, l10n),
+                      style: TextStyle(
+                        color: isDark ? Colors.white70 : Colors.black87,
+                        fontSize: 10,
+                        height: 1.3,
+                      ),
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  }),
                 ),
               ),
 
@@ -1215,7 +1252,7 @@ class _HandCard extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 4),
                   child: Center(
                     child: Text(
-                      _rarityLabel(card.rarity),
+                      _rarityLabel(context, card.rarity),
                       style: TextStyle(
                         color: _rarityColor(card.rarity),
                         fontSize: 9,
@@ -1231,16 +1268,17 @@ class _HandCard extends StatelessWidget {
     );
   }
 
-  String _rarityLabel(CardRarity rarity) {
+  String _rarityLabel(BuildContext context, CardRarity rarity) {
+    final l10n = AppLocalizations.of(context)!;
     switch (rarity) {
       case CardRarity.common:
         return '';
       case CardRarity.uncommon:
-        return '고급';
+        return l10n.cardRarityUncommon;
       case CardRarity.rare:
-        return '희귀';
+        return l10n.cardRarityRare;
       case CardRarity.legendary:
-        return '전설';
+        return l10n.cardRarityLegendary;
     }
   }
 
@@ -1468,6 +1506,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = widget.isDark;
 
     return Container(
@@ -1507,7 +1546,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
                 const Icon(Icons.emoji_events, size: 48, color: Colors.amber),
                 const SizedBox(height: 12),
                 Text(
-                  '승리!',
+                  l10n.cardBattleVictory,
                   style: TextStyle(
                     color: isDark ? Colors.white : Colors.black87,
                     fontSize: 24,
@@ -1524,7 +1563,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
                         color: Colors.amber, size: 18),
                     const SizedBox(width: 4),
                     Text(
-                      '+${widget.gold} 골드',
+                      l10n.cardBattleGoldReward(widget.gold),
                       style: TextStyle(
                         color: isDark ? Colors.white70 : Colors.black54,
                         fontSize: 15,
@@ -1537,7 +1576,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
 
                 // Card selection header
                 Text(
-                  '카드를 선택하세요',
+                  l10n.cardBattleSelectCard,
                   style: TextStyle(
                     color: isDark ? Colors.white60 : Colors.black54,
                     fontSize: 13,
@@ -1569,7 +1608,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
                 TextButton(
                   onPressed: _cardSelected ? null : _skipCardReward,
                   child: Text(
-                    '건너뛰기',
+                    l10n.cardBattleSkipButton,
                     style: TextStyle(
                       color: _cardSelected
                           ? Colors.grey
@@ -1684,33 +1723,39 @@ class _CardRewardChoice extends StatelessWidget {
               const SizedBox(height: 6),
 
               // Name
-              Text(
-                card.name,
-                style: TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white : Colors.black87,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Builder(builder: (ctx) {
+                final l10n = AppLocalizations.of(ctx)!;
+                return Text(
+                  CardLocalization.localizedName(card, l10n),
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                );
+              }),
               const SizedBox(height: 4),
 
               // Description
               Expanded(
-                child: Text(
-                  card.description,
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 9,
-                    color: isDark ? Colors.white54 : Colors.black45,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: Builder(builder: (ctx) {
+                  final l10n = AppLocalizations.of(ctx)!;
+                  return Text(
+                    CardLocalization.localizedDescription(card, l10n),
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 9,
+                      color: isDark ? Colors.white54 : Colors.black45,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                }),
               ),
 
               // Rarity label
@@ -1757,6 +1802,7 @@ class _ResultOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       color: Colors.black.withValues(alpha: 0.7),
       child: Center(
@@ -1802,7 +1848,7 @@ class _ResultOverlay extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  isVictory ? '승리!' : '패배...',
+                  isVictory ? l10n.cardBattleVictory : l10n.dungeonResultDefeatTitle,
                   style: TextStyle(
                     color: isDark ? Colors.white : Colors.black87,
                     fontSize: 28,
@@ -1818,7 +1864,7 @@ class _ResultOverlay extends StatelessWidget {
                           color: Colors.amber, size: 20),
                       const SizedBox(width: 6),
                       Text(
-                        '$gold 골드 획득',
+                        l10n.cardBattleGoldReward(gold),
                         style: TextStyle(
                           color: isDark ? Colors.white70 : Colors.black54,
                           fontSize: 16,
@@ -1841,10 +1887,10 @@ class _ResultOverlay extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      '계속',
+                    child: Text(
+                      l10n.dungeonRestContinueButton,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

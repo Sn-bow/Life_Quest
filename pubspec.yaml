@@ -1,5 +1,5 @@
 ﻿name: life_quest_final_v2
-description: "A new Flutter project."
+description: "Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱 (applicationId: com.lifequest.app)"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -26,6 +26,7 @@ dependencies:
   image_picker: ^1.1.2 # --- 추가된 부분 ---
   firebase_storage: ^12.1.0 # --- 추가된 부분 ---
   firebase_app_check: ^0.3.0 # --- 추가된 부분 ---
+  firebase_crashlytics: ^4.1.0 # 크래시 모니터링
   timezone: ^0.9.4
   audioplayers: ^6.6.0
   home_widget: ^0.9.0
@@ -70,6 +71,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/monsters/
+    - assets/images/backgrounds/
+    - assets/images/player/
     - assets/images/game/
     - assets/images/game/player/
     - assets/images/game/monsters/
@@ -82,3 +86,4 @@ flutter:
     - assets/images/game/map/
     - assets/sounds/
     - assets/sounds/game/
+    - assets/sounds/sfx/

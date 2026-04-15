@@ -2,129 +2,123 @@
 
 ## 프로젝트 개요
 - **앱 이름**: Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱
-- **프레임워크**: Flutter (Dart)
-- **백엔드**: Firebase (Auth, Firestore, Storage, App Check)
+- **프레임워크**: Flutter (Dart) + Flame 엔진 (Soul Deck 전투)
+- **백엔드**: Firebase (Auth, Firestore, Storage, App Check, Crashlytics)
 - **상태 관리**: Provider
 - **GitHub**: https://github.com/Sn-bow/Life_Quest.git (branch: main)
 - **applicationId**: `com.lifequest.app` (2026-04-01 변경, 이전: com.example.life_quest_final_v2)
+- **플랫폼**: Android 전용 (Google Play Store, iOS 미지원)
 
-## 현재 상태 (2026-04-06 기준)
+---
 
-### 완료된 작업
-- Phase A~E: 버그 수정, 코드 품질, 테스트, 배포 준비 완료
-- 아바타/캐릭터 커스터마이징 시스템 전면 제거 (2026-03-28)
-- **Android 릴리스 빌드 설정 완료** (2026-04-01)
-  - applicationId: `com.example.life_quest_final_v2` → `com.lifequest.app`
-  - namespace, google-services.json, Kotlin 파일 패키지명 모두 변경
-  - Kotlin 소스 `com/example/life_quest_final_v2/` → `com/lifequest/app/` 이동
-  - compileSdk: 35 → 36 (플러그인 요구사항)
-  - 릴리스 키스토어 생성 (`android/upload-keystore.jks`, alias: upload)
-  - `android/key.properties` 설정 완료
-  - AAB 빌드 성공 (`build/app/outputs/bundle/release/app-release.aab`, 64MB)
-- **코드 품질 분석 완료** (2026-04-01) - 아래 "다음 작업" 섹션 참조
-- **Soul Deck 게임 시스템 전면 재설계 완료** (2026-04-06)
-  - 기존 단순 턴제 전투 → Slay the Spire 스타일 덱빌딩 로그라이크로 교체
-  - Flame 엔진 기반 전투 씬 + Flutter 오버레이 UI
+## 현재 상태 (2026-04-15 기준)
 
-### Soul Deck 구현 현황 (2026-04-06)
-#### Phase 1 - 핵심 시스템 ✅
-- **모델**: `card_data.dart`, `status_effect.dart`, `relic_data.dart`, `dungeon_map.dart`, `dungeon_event.dart`
-- **데이터**: `card_database.dart` (207장: Common 40+Uncommon 32+Rare 20+Legendary 8+Starter 10+Curse 4+업그레이드), `relic_database.dart` (31개), `event_database.dart` (10개), `dungeon_generator.dart` (6행 노드맵)
-- **상태**: `card_combat_state.dart` (에너지/핸드/덱/상태이상/데미지 전투 로직), `dungeon_state.dart` (런 관리, 노드 플로우, 저장/불러오기)
-- **게임**: `battle_game.dart` (Flame), `damage_text.dart`
-- **화면**: dungeon_home, dungeon_map, card_battle, dungeon_event, dungeon_shop, dungeon_rest, dungeon_result (7개)
+### 검증 결과 (최신)
+- `flutter analyze` → **No issues found** ✅
+- `flutter test` → **73개 전체 통과** ✅
+- `flutter build appbundle --release` → 성공 (64MB) ✅
 
-#### Phase 2 - 전투 이펙트 ✅
-- 카드 재생 애니메이션 (위로 올라가며 페이드), 카드 드로우 슬라이드인
-- 적 히트 플래시 (빨간색), 방어도 실드 아이콘
-- 턴 전환 오버레이 ("Your Turn"/"Enemy Turn"), 빅히트 스크린 쉐이크
-- Flame 파티클 이펙트 (히트/힐/블록), 존별 배경 파랄랙스
-- 상태이상 아이콘 컴포넌트 (11종), 결과 팝업 스케일 애니메이션
+---
 
-#### Phase 3 - 던전↔캐릭터 보상 연동 ✅
-- `calculateRunRewards()`: 존/몬스터/노드 기반 XP+골드 계산 (승리 x1.5, 패배 x0.5)
-- `character_state.addDungeonReward()`: 레벨업/칭호 체크 포함
-- 전투 승리 → 카드 3장 선택 보상 UI
-- 결과 화면: XP/골드 표시, 중복 적용 방지, 홈 복귀
+## 3단계 계획 진행 현황 (전체 완료)
 
-#### Phase 4 - 카드 컬렉션 시스템 🔄 (진행 중)
+### Step 1: 던전 UI 로컬라이제이션 ✅ 완료
+- 9개 던전 화면의 하드코딩 문자열 → ARB 키 추가
+- app_en/ko/ja/zh.arb 각각 업데이트
+- 각 화면에 AppLocalizations.of(context)! 적용
+- 커밋: `014affe` (Step 1-A), `fa22e98` (Step 1-B)
 
-### 검증 결과
-- `flutter analyze` → No issues found (Phase 1 시점)
-- `flutter test` → 67개 전체 통과 (Phase 1 시점)
-- `flutter build appbundle --release` → 성공 (64MB, Phase 1 시점)
-- **Phase 2~4 이후 재검증 필요**
+### Step 2: 데이터 모델 다국어 리팩토링 ✅ 완료
 
-## 주요 기능
-- 퀘스트 시스템 (일간/주간/월간/연간)
-- 캐릭터 성장 (레벨업, 스탯 분배: 힘/지혜/건강/매력, 칭호)
-- **Soul Deck 던전** (덱빌딩 로그라이크, 5존, 보스, 어센션)
-  - 카드 207장 (4카테고리×4등급), 렐릭 31개, 이벤트 10개
-  - Flame 엔진 전투씬 + Flutter 오버레이 UI
-  - 에너지 시스템, 상태이상 11종, 적 인텐트
-- 카드 컬렉션 (퀘스트 완료 → 카드 획득, 덱 커스텀)
-- 장비 & 인벤토리
-- 상점 (골드로 장비 구매, 코스메틱)
-- 스킬 트리
-- 업적 시스템
-- 성장 리포트
-- 집중 타이머 (포모도로)
-- 홈 위젯 (Android)
-- 알림 (퀘스트 리마인더)
-- 광고 & 인앱결제 (Google AdMob, IAP)
+- **CardData (207장)** → ARB + CardLocalization 헬퍼 방식으로 완료
+  - 커밋: `5e155f2`(2-A) → `c1d3497`(2-B) → `6c1458a`(2-C) → `adbbe20`(2-D) → `d0b1145`(2-E) → `7a0bb67`(2-F) → `afc3759`(2-G)
+- **RelicData (31개), Monster (31+5챕터), Achievement (25개), Title (28개), Skill (24개)** → ARB + 헬퍼 클래스 완료
+  - `lib/data/relic_localization.dart` — RelicLocalization.localizedName/Description()
+  - `lib/data/achievement_localization.dart` — AchievementLocalization
+  - `lib/data/title_localization.dart` — TitleLocalization
+  - `lib/data/skill_localization.dart` — SkillLocalization
+  - `lib/data/monster_localization.dart` — MonsterLocalization (name + chapterName)
+  - app_en/ko/ja/zh.arb에 총 252 키 × 4언어 = 1,008 entries 추가
+  - 커밋: `026ab30` (Step 2-H)
 
-## 프로젝트 구조
-```
-lib/
-├── main.dart
-├── firebase_options.dart
-├── models/          # character, quest, item, monster, skill, achievement, title, cosmetic, custom_reward
-│                    # + card_data, status_effect, relic_data, dungeon_map, dungeon_event (신규)
-├── screens/
-│   ├── [기존]       # main, status, quests, hunt, inventory, shop, skill, achievement, report, timer, settings, login, signup, loading, cosmetic_shop
-│   └── dungeon/     # dungeon_home, dungeon_map, card_battle, dungeon_event, dungeon_shop, dungeon_rest, dungeon_result, card_collection (신규)
-├── state/           # character_state, combat_state
-│                    # + card_combat_state, dungeon_state (신규)
-├── services/        # sound, notification, ad, purchase
-├── data/            # monster_database, achievement_database, skill_database, title_database, loot_table
-│                    # + card_database, relic_database, event_database, dungeon_generator (신규)
-├── game/            # battle_game.dart (신규 - Flame)
-│   └── components/  # damage_text, particle_effect, status_icon (신규)
-└── widgets/         # translucent_card, xp_bar, quest_tile, stat_bar, player_profile_sprite, combat/
-```
+### Step 3: Soul Deck 전투 애니메이션 ✅ 완료 (코드 전용, 에셋 불필요)
 
-## 버그 수정 현황 (2026-04-06 기준)
+구현 위치: `lib/game/battle_game.dart`
 
-### CRITICAL (1-5) - 모두 수정 완료 ✅
-- 소모 아이템 삭제 버그, 장비 중복 삭제, Firestore 역직렬화, CustomReward 캐스팅, Enum 직렬화 → 이미 이전 Phase에서 수정됨
+| 메서드 | 구현 내용 | 컴포넌트 클래스 |
+|--------|-----------|-----------------|
+| `playAttackAnimation()` | 3중 슬래시 라인 (흰/노란 대각선) | `_SlashEffect` |
+| `playDefendAnimation()` | 오각형 방패 윤곽선 + 위로 부상 | `_ShieldRaiseEffect` |
+| `playMagicAnimation()` | 보라색 마법 구슬 + 꼬리 → 도착 시 히트 파티클 | `_MagicProjectile` |
+| `onEnemyDefeated()` | 흰 섬광 + 12개 파편 폭발 + 중력 낙하 | `_EnemyDeathEffect` + `_Shard` |
 
-### HIGH (6-11) - 모두 수정 완료 ✅
-- Firebase 오프라인, 인증 라우트 가드, Android 13+ 알림, GDPR UMP → 이미 구현됨
-- IAP 영수증 검증: TODO/WARNING 코멘트 추가 (서버 인프라 필요)
-- Save/Load 레이스 컨디션: `_pendingSave` 플래그 메커니즘 추가
+- **에셋 없이 Canvas 드로잉만으로 구현** (Paint, Path, drawLine, drawCircle, drawRect)
+- `playAttackAnimation()`은 card_battle_screen.dart에서 공격 카드 사용 시 호출 가능
+- `onEnemyDefeated()`는 card_combat_state.dart에서 적 사망 시 호출 가능
+- 커밋: `(이번 세션)`
 
-### MEDIUM (12-18) - 모두 수정 완료 ✅
-- 전투로그 높이, 이름 길이 제한, 텍스트 overflow, NaN 방지 → 이미 구현됨
-- 전투 버튼 연타 방지: `_isActionBusy` + 300ms 딜레이 추가
-- 광고 시간 기반: TODO 코멘트 추가
-- _saveData await: 3초 디바운스 확인 + 코멘트 추가
+#### Step 3 남은 작업 (에셋 필요 — Claude 단독 불가)
+- 캐릭터 스프라이트 / 몬스터 스프라이트 실제 PNG 에셋 추가
+- 배틀 배경 일러스트 에셋
+- 전투 효과음 (공격, 방어, 마법, 적 사망)
 
-### 테스트 커버리지 현황
-- Models: 5/9 테스트됨 (cosmetic, custom_reward, monster, title 미테스트)
-- State: 2/2 양호
-- **Services: 0/4 전부 미테스트** (ad, purchase, notification, sound)
-- **Screens: 0/15 전부 미테스트**
-- **Data: 0/5 전부 미테스트**
+---
 
-## 남은 수동 작업
-1. **iOS Firebase 설정** (`flutterfire configure` 실행)
-2. **AdMob 프로덕션 ID 교체** (ad_service.dart, AndroidManifest.xml, Info.plist)
-3. **Firebase 콘솔에서 Android 앱 패키지명을 `com.lifequest.app`으로 업데이트**
-4. **Google Play Console에 AAB 업로드** (파일: `build/app/outputs/bundle/release/app-release.aab`)
+## 완료된 전체 작업 이력
+
+### Phase A~E (버그수정/품질/테스트/배포)
+- 소모 아이템 삭제 버그, 장비 중복, Firestore 역직렬화 등 CRITICAL 5건 수정
+- Firebase 오프라인, 인증 라우트, Android 13+ 알림 등 HIGH 6건 수정
+- Android 릴리스 빌드 완료 (applicationId: com.lifequest.app, compileSdk: 36)
+- 릴리스 키스토어 생성 (`android/upload-keystore.jks`, alias: upload)
+- 테스트 67개 → 73개로 확장
+
+### Soul Deck 시스템 (2026-04-06)
+- Phase 1: 핵심 모델/데이터/상태/화면 7개
+- Phase 2: 전투 이펙트 (파티클, 화면 흔들림, 상태이상 아이콘 등)
+- Phase 3: 던전↔캐릭터 보상 연동 (XP/골드 계산, 카드 보상 UI)
+- Phase 4: 카드 컬렉션 화면 + 무한 타워 화면
+
+### 버그 수정 (2026-04-15)
+- `dungeon_home_screen.dart`: `character.strength` 등 double → `.toInt()` 누락 버그 수정
+  - `STR 10.0` → `STR 10` 으로 정상 표시
+  - 커밋: `58ac52e`
+
+### 문서화 (2026-04-15)
+- README.md 전면 재작성 (기술 스택, Soul Deck 시스템, double 스탯 설계 이유 등)
+- 커밋: `4b3c720`
+
+---
+
+## 주요 설계 결정 사항
+
+### 캐릭터 스탯이 double인 이유
+`strength`, `wisdom`, `health`, `charisma`는 `int`가 아닌 `double`:
+- 레벨업 시 퀘스트 카테고리 누적 가중치(`levelGrowthWeights`)를 비율로 배분할 때 소수점 연산 필수
+- 예: weight [str:0.6, wis:0.4] × 자동포인트 3 = str 1.8 → 2, wis 1.2 → 1 (소수점 반올림)
+- 정수로 하면 레벨업마다 반올림 오차 누적
+- UI 표시 시 `.toInt()` 또는 `.toStringAsFixed(0)` 사용 (정수처럼 보임)
+
+### 카드 번역 방식 (ARB + 헬퍼 클래스)
+데이터 모델의 필드를 Map<String, String>으로 바꾸는 대신:
+- ARB 파일에 번역 키 추가 (`cardNameAtkC01`, `cardDescAtkC01` 등)
+- `lib/data/card_localization.dart`의 `CardLocalization` 헬퍼로 switch-case 라우팅
+- 장점: 타입 안전, IDE 자동완성, Firestore 저장 구조 불변
+- RelicData/Monster 등도 동일 패턴 적용 예정
+
+---
+
+## 남은 수동 작업 (코드 외)
+1. **AdMob 프로덕션 ID 교체** (`ad_service.dart`, `AndroidManifest.xml`)
+2. **Firebase 콘솔에서 Android 패키지명 `com.lifequest.app`으로 업데이트**
+3. **Google Play Console에 AAB 업로드** (`build/app/outputs/bundle/release/app-release.aab`)
+
+---
 
 ## 주의사항
 - 아바타/캐릭터 커스터마이징 기능은 의도적으로 제거됨 (다시 만들지 말 것)
-- image_picker, firebase_storage, firebase_app_check는 pubspec에 유지 (각각 프로필 사진, App Check용)
-- 릴리스 키스토어(`upload-keystore.jks`)와 `key.properties`는 `.gitignore`에 포함 (git에 올라가지 않음)
+- image_picker, firebase_storage, firebase_app_check는 pubspec에 유지
+- 릴리스 키스토어(`upload-keystore.jks`)와 `key.properties`는 `.gitignore`에 포함
 - Dart 패키지명은 `life_quest_final_v2` 그대로 유지 (Android applicationId만 변경)
-- WORK_INSTRUCTIONS.md에 이전 Phase A~E 작업 상세 내역 있음
+- iOS 미지원 확정 (비용 문제)
+- WORK_INSTRUCTIONS.md에 Phase A~E 상세 내역 있음

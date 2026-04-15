@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
 
 class DungeonRestScreen extends StatefulWidget {
   const DungeonRestScreen({super.key});
@@ -17,6 +19,7 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
     final dungeonState = context.watch<DungeonState>();
@@ -28,7 +31,7 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
             Icon(Icons.local_fire_department, color: accent, size: 22),
             const SizedBox(width: 8),
             Text(
-              '휴식처',
+              l10n.dungeonRestTitle,
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontWeight: FontWeight.bold,
@@ -67,23 +70,12 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    '조용한 휴식처를 발견했다.',
+                    l10n.dungeonRestDescription,
                     style: TextStyle(
                       fontFamily: 'monospace',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? Colors.white : Colors.black87,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '따뜻한 모닥불이 타오르고 있다. 잠시 쉬어갈 수 있을 것 같다.\n무엇을 하겠는가?',
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 13,
+                      fontSize: 14,
                       height: 1.6,
-                      color: isDark ? Colors.white60 : Colors.black54,
+                      color: isDark ? Colors.white70 : Colors.black87,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -123,8 +115,8 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
               // Choice buttons
               _RestChoiceButton(
                 icon: Icons.hotel,
-                title: '휴식',
-                description: 'HP의 30%를 회복합니다',
+                title: l10n.dungeonRestRestTitle,
+                description: l10n.dungeonRestRestDescription,
                 color: Colors.green,
                 isDark: isDark,
                 onTap: () {
@@ -133,23 +125,23 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                   dungeonState.healPlayerPercent(0.3);
                   setState(() {
                     _choiceMade = true;
-                    _choiceResult = 'HP가 $healAmount 회복되었습니다!';
+                    _choiceResult = l10n.dungeonRestHealResult(healAmount);
                   });
                 },
               ),
               const SizedBox(height: 12),
               _RestChoiceButton(
                 icon: Icons.fitness_center,
-                title: '수련',
-                description: '카드 1장을 강화합니다',
+                title: l10n.dungeonRestTrainTitle,
+                description: l10n.dungeonRestTrainDescription,
                 color: Colors.orange,
                 isDark: isDark,
                 onTap: () {
                   if (dungeonState.currentDeck.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('강화할 카드가 없습니다',
-                            style: TextStyle(fontFamily: 'monospace')),
+                      SnackBar(
+                        content: Text(l10n.dungeonRestNoCardsToUpgrade,
+                            style: const TextStyle(fontFamily: 'monospace')),
                       ),
                     );
                     return;
@@ -209,9 +201,9 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
-                    '계속',
-                    style: TextStyle(
+                  child: Text(
+                    l10n.dungeonRestContinueButton,
+                    style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -394,6 +386,7 @@ class _CardSelectionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,7 +395,7 @@ class _CardSelectionGrid extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '강화할 카드를 선택하세요',
+                l10n.dungeonRestSelectCardToUpgrade,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 14,
@@ -491,6 +484,7 @@ class _UpgradeCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -533,7 +527,7 @@ class _UpgradeCardWidget extends StatelessWidget {
                   const SizedBox(width: 3),
                   Expanded(
                     child: Text(
-                      card.name,
+                      CardLocalization.localizedName(card, l10n),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -551,7 +545,7 @@ class _UpgradeCardWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(4),
                 child: Text(
-                  card.description,
+                  CardLocalization.localizedDescription(card, l10n),
                   style: TextStyle(
                     color: isDark ? Colors.white70 : Colors.black87,
                     fontSize: 9,
@@ -567,10 +561,10 @@ class _UpgradeCardWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 color: Colors.green.withValues(alpha: 0.2),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    '강화됨',
-                    style: TextStyle(
+                    l10n.dungeonRestCardUpgraded,
+                    style: const TextStyle(
                       color: Colors.green,
                       fontSize: 9,
                       fontWeight: FontWeight.bold,

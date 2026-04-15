@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/models/dungeon_event.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class DungeonEventScreen extends StatefulWidget {
   const DungeonEventScreen({super.key});
@@ -17,6 +18,7 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
     final dungeonState = context.watch<DungeonState>();
@@ -24,8 +26,8 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
 
     if (event == null) {
       return Scaffold(
-        appBar: AppBar(title: Text('이벤트', style: TextStyle(color: accent))),
-        body: const Center(child: Text('이벤트 데이터가 없습니다')),
+        appBar: AppBar(title: Text(l10n.dungeonEventTitle, style: TextStyle(color: accent))),
+        body: Center(child: Text(l10n.dungeonEventNoData)),
       );
     }
 
@@ -36,7 +38,7 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
             Icon(Icons.auto_stories, color: accent, size: 22),
             const SizedBox(width: 8),
             Text(
-              '이벤트',
+              l10n.dungeonEventTitle,
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontWeight: FontWeight.bold,
@@ -95,7 +97,7 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
             // Choices or outcome
             if (!_choiceMade) ...[
               Text(
-                '선택하세요',
+                l10n.dungeonEventChooseAction,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 14,
@@ -143,9 +145,9 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
-                    '계속',
-                    style: TextStyle(
+                  child: Text(
+                    l10n.dungeonEventContinueButton,
+                    style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -311,6 +313,7 @@ class _OutcomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -330,7 +333,7 @@ class _OutcomeCard extends StatelessWidget {
               const Icon(Icons.auto_awesome, size: 20, color: Colors.amber),
               const SizedBox(width: 8),
               Text(
-                '결과',
+                l10n.dungeonEventOutcomeTitle,
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 16,
@@ -378,15 +381,15 @@ class _OutcomeCard extends StatelessWidget {
                   outcome.hpPercentChange > 0 ? Colors.green : Colors.red,
                 ),
               if (outcome.cardReward)
-                _effectChip(Icons.style, '카드 획득', Colors.blue),
+                _effectChip(Icons.style, l10n.dungeonEventEffectCardReward, Colors.blue),
               if (outcome.relicReward)
-                _effectChip(Icons.diamond, '유물 획득', Colors.purple),
+                _effectChip(Icons.diamond, l10n.dungeonEventEffectRelicReward, Colors.purple),
               if (outcome.cardRemove)
-                _effectChip(Icons.delete_outline, '카드 제거', Colors.orange),
+                _effectChip(Icons.delete_outline, l10n.dungeonEventEffectCardRemove, Colors.orange),
               if (outcome.cardUpgrade)
-                _effectChip(Icons.upgrade, '카드 강화', Colors.teal),
+                _effectChip(Icons.upgrade, l10n.dungeonEventEffectCardUpgrade, Colors.teal),
               if (outcome.curseAdded)
-                _effectChip(Icons.warning, '저주 추가', Colors.red),
+                _effectChip(Icons.warning, l10n.dungeonEventEffectCurseAdded, Colors.red),
             ],
           ),
         ],

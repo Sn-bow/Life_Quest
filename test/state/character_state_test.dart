@@ -3,9 +3,11 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
+import 'package:life_quest_final_v2/services/sound_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  SoundService.muteForTesting();
 
   group('CharacterState Business Logic Tests', () {
     late FakeFirebaseFirestore mockFirestore;
@@ -14,6 +16,7 @@ void main() {
     setUp(() {
       mockFirestore = FakeFirebaseFirestore();
       characterState = CharacterState(firestore: mockFirestore);
+      characterState.initializeForTesting();
     });
 
     test('Custom Reward addition increments the list', () {

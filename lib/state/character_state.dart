@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
@@ -90,6 +91,27 @@ class CharacterState extends ChangeNotifier {
           icon: '🎬',
         ),
       ];
+  /// For testing only: initialises a default Character without Firebase.
+  @visibleForTesting
+  void initializeForTesting() {
+    _character = Character(
+      name: 'Test',
+      level: 1,
+      title: '새싹 모험가',
+      xp: 0,
+      maxXp: 150,
+      strength: 0,
+      wisdom: 0,
+      health: 0,
+      charisma: 0,
+      statPoints: 0,
+      skillPoints: 0,
+      customRewards: _buildDefaultCustomRewards(),
+    );
+    _isDataLoaded = true;
+    _isLoading = false;
+  }
+
   /// Public method for external callers to trigger a UI rebuild.
   /// Use this instead of calling notifyListeners() from outside the class.
   void refreshState() {
@@ -303,7 +325,9 @@ class CharacterState extends ChangeNotifier {
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
-    unawaited(NotificationService().cancelAllNotifications());
+    NotificationService().cancelAllNotifications().catchError((e) {
+      debugPrint('Notification cancel error (non-fatal): $e');
+    });
   }
 
   Future<void> changeThemeMode(ThemeMode mode) async {
@@ -314,7 +338,11 @@ class CharacterState extends ChangeNotifier {
 
   Future<void> changeNotificationSetting(bool isEnabled) async {
     _isNotificationEnabled = isEnabled;
-    await _syncNotificationSchedule();
+    try {
+      await _syncNotificationSchedule();
+    } catch (e) {
+      debugPrint('Notification schedule error (non-fatal): $e');
+    }
     await _saveData();
     notifyListeners();
   }
@@ -689,6 +717,7 @@ class CharacterState extends ChangeNotifier {
       _character!.skillPoints += 1;
     }
     SoundService().playLevelUp();
+    HapticFeedback.heavyImpact(); // 레벨업 강한 진동
     onLevelUp?.call();
     _checkTitleUnlock();
     _updateAchievement(AchievementCondition.levelReached, _character!.level);
@@ -1046,11 +1075,11 @@ class CharacterState extends ChangeNotifier {
       _pendingSave = true;
       return;
     }
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
     _isSaving = true;
 
     try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
       final lastLoginDate = _character!.lastLoginDate;
       final docRef = _firestore.collection('users').doc(user.uid);
       final data = {
@@ -1218,7 +1247,11 @@ class CharacterState extends ChangeNotifier {
         _themeMode =
             ThemeMode.values[data['themeMode'] ?? ThemeMode.dark.index];
         _isNotificationEnabled = data['isNotificationEnabled'] ?? true;
-        await _syncNotificationSchedule();
+        try {
+          await _syncNotificationSchedule();
+        } catch (e) {
+          debugPrint('Notification schedule error (non-fatal): $e');
+        }
 
         final lastLogin = _parseLastLoginDate(data);
         if (lastLogin != null) {
@@ -1243,7 +1276,11 @@ class CharacterState extends ChangeNotifier {
         _startHpRegenLoop();
       } else {
         _initializeNewData(freshUser);
-        await _syncNotificationSchedule();
+        try {
+          await _syncNotificationSchedule();
+        } catch (e) {
+          debugPrint('Notification schedule error (non-fatal): $e');
+        }
         // Save initial data immediately instead of debouncing
         await _performSaveData();
         _isDataLoaded = true;
