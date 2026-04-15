@@ -5465,6 +5465,1518 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'덱의 모든 카드를 이번 전투 동안 업그레이드하고, 에너지 +2를 얻는다. 사용 후 소멸.'**
   String get cardDescTacL02Up;
+
+  /// No description provided for @relicNameStart01.
+  ///
+  /// In ko, this message translates to:
+  /// **'모험자의 가방'**
+  String get relicNameStart01;
+
+  /// No description provided for @relicDescStart01.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 보상 카드 선택지 +1장 (3→4)'**
+  String get relicDescStart01;
+
+  /// No description provided for @relicNameStart02.
+  ///
+  /// In ko, this message translates to:
+  /// **'낡은 부적'**
+  String get relicNameStart02;
+
+  /// No description provided for @relicDescStart02.
+  ///
+  /// In ko, this message translates to:
+  /// **'시작 HP +15'**
+  String get relicDescStart02;
+
+  /// No description provided for @relicNameStart03.
+  ///
+  /// In ko, this message translates to:
+  /// **'행운의 동전'**
+  String get relicNameStart03;
+
+  /// No description provided for @relicDescStart03.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 골드 +30%'**
+  String get relicDescStart03;
+
+  /// No description provided for @relicNameC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'앵커'**
+  String get relicNameC01;
+
+  /// No description provided for @relicDescC01.
+  ///
+  /// In ko, this message translates to:
+  /// **'매 턴 시작 시 방어 4 자동 획득'**
+  String get relicDescC01;
+
+  /// No description provided for @relicNameC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'빨간 물약'**
+  String get relicNameC02;
+
+  /// No description provided for @relicDescC02.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 시작 시 HP 5 회복'**
+  String get relicDescC02;
+
+  /// No description provided for @relicNameC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'마나 구슬'**
+  String get relicNameC03;
+
+  /// No description provided for @relicDescC03.
+  ///
+  /// In ko, this message translates to:
+  /// **'3턴마다 에너지 +1'**
+  String get relicDescC03;
+
+  /// No description provided for @relicNameC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'날카로운 숫돌'**
+  String get relicNameC04;
+
+  /// No description provided for @relicDescC04.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 번째 공격 카드 데미지 +3'**
+  String get relicDescC04;
+
+  /// No description provided for @relicNameC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'도둑의 장갑'**
+  String get relicNameC05;
+
+  /// No description provided for @relicDescC05.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 보상 골드 +15'**
+  String get relicDescC05;
+
+  /// No description provided for @relicNameC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'가벼운 신발'**
+  String get relicNameC06;
+
+  /// No description provided for @relicDescC06.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 턴 카드 드로우 +2'**
+  String get relicDescC06;
+
+  /// No description provided for @relicNameC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'독 주머니'**
+  String get relicNameC07;
+
+  /// No description provided for @relicDescC07.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 시작 시 적 전체 독 2'**
+  String get relicDescC07;
+
+  /// No description provided for @relicNameC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'가시 방패'**
+  String get relicNameC08;
+
+  /// No description provided for @relicDescC08.
+  ///
+  /// In ko, this message translates to:
+  /// **'가시 1 (영구)'**
+  String get relicDescC08;
+
+  /// No description provided for @relicNameC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'집중의 반지'**
+  String get relicNameC09;
+
+  /// No description provided for @relicDescC09.
+  ///
+  /// In ko, this message translates to:
+  /// **'비용 0 카드 사용 시 방어 2'**
+  String get relicDescC09;
+
+  /// No description provided for @relicNameC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'전사의 팔찌'**
+  String get relicNameC10;
+
+  /// No description provided for @relicDescC10.
+  ///
+  /// In ko, this message translates to:
+  /// **'패에 공격 카드만 있으면 에너지 +1'**
+  String get relicDescC10;
+
+  /// No description provided for @relicNameU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'서리의 심장'**
+  String get relicNameU01;
+
+  /// No description provided for @relicDescU01.
+  ///
+  /// In ko, this message translates to:
+  /// **'공격 카드 사용 시 20% 확률 약화 1턴'**
+  String get relicDescU01;
+
+  /// No description provided for @relicNameU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'현자의 돌'**
+  String get relicNameU02;
+
+  /// No description provided for @relicDescU02.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법 카드 데미지 +25%'**
+  String get relicDescU02;
+
+  /// No description provided for @relicNameU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'불사조의 깃털'**
+  String get relicNameU03;
+
+  /// No description provided for @relicDescU03.
+  ///
+  /// In ko, this message translates to:
+  /// **'사망 시 1회 HP 30%로 부활'**
+  String get relicDescU03;
+
+  /// No description provided for @relicNameU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'시간의 모래'**
+  String get relicNameU04;
+
+  /// No description provided for @relicDescU04.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 3턴 에너지 +1'**
+  String get relicDescU04;
+
+  /// No description provided for @relicNameU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'영혼 수확자'**
+  String get relicNameU05;
+
+  /// No description provided for @relicDescU05.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 처치 시 HP 5 회복'**
+  String get relicDescU05;
+
+  /// No description provided for @relicNameU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법 거울'**
+  String get relicNameU06;
+
+  /// No description provided for @relicDescU06.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 번째 디버프 반사 (1회)'**
+  String get relicDescU06;
+
+  /// No description provided for @relicNameU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'탐험가의 지도'**
+  String get relicNameU07;
+
+  /// No description provided for @relicDescU07.
+  ///
+  /// In ko, this message translates to:
+  /// **'맵에서 다음 층 전체 공개'**
+  String get relicDescU07;
+
+  /// No description provided for @relicNameU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'연금술사의 가방'**
+  String get relicNameU08;
+
+  /// No description provided for @relicDescU08.
+  ///
+  /// In ko, this message translates to:
+  /// **'상점에서 무료 카드 제거 1회'**
+  String get relicDescU08;
+
+  /// No description provided for @relicNameR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'드래곤의 비늘'**
+  String get relicNameR01;
+
+  /// No description provided for @relicDescR01.
+  ///
+  /// In ko, this message translates to:
+  /// **'받는 데미지 -1 (모든 공격)'**
+  String get relicDescR01;
+
+  /// No description provided for @relicNameR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'제3의 눈'**
+  String get relicNameR02;
+
+  /// No description provided for @relicDescR02.
+  ///
+  /// In ko, this message translates to:
+  /// **'적 의도를 정확한 숫자로 표시'**
+  String get relicDescR02;
+
+  /// No description provided for @relicNameR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'무한 주머니'**
+  String get relicNameR03;
+
+  /// No description provided for @relicDescR03.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 최대 보유 +1 (패에 6장)'**
+  String get relicDescR03;
+
+  /// No description provided for @relicNameR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'각성의 오브'**
+  String get relicNameR04;
+
+  /// No description provided for @relicDescR04.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 최대 +1 (3→4)'**
+  String get relicDescR04;
+
+  /// No description provided for @relicNameR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'운명의 실'**
+  String get relicNameR05;
+
+  /// No description provided for @relicDescR05.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 보상에서 레어 이상 확률 2배'**
+  String get relicDescR05;
+
+  /// No description provided for @relicNameB01.
+  ///
+  /// In ko, this message translates to:
+  /// **'왕관'**
+  String get relicNameB01;
+
+  /// No description provided for @relicDescB01.
+  ///
+  /// In ko, this message translates to:
+  /// **'에너지 최대 +1, 시작 시 저주 1장'**
+  String get relicDescB01;
+
+  /// No description provided for @relicNameB02.
+  ///
+  /// In ko, this message translates to:
+  /// **'마왕의 심장'**
+  String get relicNameB02;
+
+  /// No description provided for @relicDescB02.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 카드 데미지 +5, 받는 데미지 +5'**
+  String get relicDescB02;
+
+  /// No description provided for @relicNameB03.
+  ///
+  /// In ko, this message translates to:
+  /// **'부활의 성배'**
+  String get relicNameB03;
+
+  /// No description provided for @relicDescB03.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴식 노드에서 HP 완전 회복'**
+  String get relicDescB03;
+
+  /// No description provided for @relicNameB04.
+  ///
+  /// In ko, this message translates to:
+  /// **'혼돈의 구체'**
+  String get relicNameB04;
+
+  /// No description provided for @relicDescB04.
+  ///
+  /// In ko, this message translates to:
+  /// **'매 턴 랜덤 카드 1장 패에 생성'**
+  String get relicDescB04;
+
+  /// No description provided for @relicNameB05.
+  ///
+  /// In ko, this message translates to:
+  /// **'시간의 왕관'**
+  String get relicNameB05;
+
+  /// No description provided for @relicDescB05.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 턴 추가 턴 1회'**
+  String get relicDescB05;
+
+  /// No description provided for @achievementNameAc1.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 걸음'**
+  String get achievementNameAc1;
+
+  /// No description provided for @achievementDescAc1.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 1회 완료'**
+  String get achievementDescAc1;
+
+  /// No description provided for @achievementNameAc2.
+  ///
+  /// In ko, this message translates to:
+  /// **'성실의 증표'**
+  String get achievementNameAc2;
+
+  /// No description provided for @achievementDescAc2.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 10회 완료'**
+  String get achievementDescAc2;
+
+  /// No description provided for @achievementNameAc3.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 5 달성'**
+  String get achievementNameAc3;
+
+  /// No description provided for @achievementDescAc3.
+  ///
+  /// In ko, this message translates to:
+  /// **'초보 모험가 탈출'**
+  String get achievementDescAc3;
+
+  /// No description provided for @achievementNameAc4.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘의 각성'**
+  String get achievementNameAc4;
+
+  /// No description provided for @achievementDescAc4.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 스탯 10 달성'**
+  String get achievementDescAc4;
+
+  /// No description provided for @achievementNameAc5.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜의 시작'**
+  String get achievementNameAc5;
+
+  /// No description provided for @achievementDescAc5.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜 스탯 10 달성'**
+  String get achievementDescAc5;
+
+  /// No description provided for @achievementNameAc6.
+  ///
+  /// In ko, this message translates to:
+  /// **'고지를 향하여'**
+  String get achievementNameAc6;
+
+  /// No description provided for @achievementDescAc6.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 20 달성'**
+  String get achievementDescAc6;
+
+  /// No description provided for @achievementNameAc7.
+  ///
+  /// In ko, this message translates to:
+  /// **'기술의 탐구자'**
+  String get achievementNameAc7;
+
+  /// No description provided for @achievementDescAc7.
+  ///
+  /// In ko, this message translates to:
+  /// **'스킬 5개 습득'**
+  String get achievementDescAc7;
+
+  /// No description provided for @achievementNameAc8.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강의 달인'**
+  String get achievementNameAc8;
+
+  /// No description provided for @achievementDescAc8.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강 스탯 50 달성'**
+  String get achievementDescAc8;
+
+  /// No description provided for @achievementNameAc9.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜의 대가'**
+  String get achievementNameAc9;
+
+  /// No description provided for @achievementDescAc9.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜 스탯 50 달성'**
+  String get achievementDescAc9;
+
+  /// No description provided for @achievementNameAc10.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 중독자'**
+  String get achievementNameAc10;
+
+  /// No description provided for @achievementDescAc10.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 500회 완료'**
+  String get achievementDescAc10;
+
+  /// No description provided for @achievementNameAc11.
+  ///
+  /// In ko, this message translates to:
+  /// **'꾸준한 실천가'**
+  String get achievementNameAc11;
+
+  /// No description provided for @achievementDescAc11.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 50회 완료'**
+  String get achievementDescAc11;
+
+  /// No description provided for @achievementNameAc12.
+  ///
+  /// In ko, this message translates to:
+  /// **'습관의 달인'**
+  String get achievementNameAc12;
+
+  /// No description provided for @achievementDescAc12.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 100회 완료'**
+  String get achievementDescAc12;
+
+  /// No description provided for @achievementNameAc13.
+  ///
+  /// In ko, this message translates to:
+  /// **'베테랑 모험가'**
+  String get achievementNameAc13;
+
+  /// No description provided for @achievementDescAc13.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 30 달성'**
+  String get achievementDescAc13;
+
+  /// No description provided for @achievementNameAc14.
+  ///
+  /// In ko, this message translates to:
+  /// **'전설의 영웅'**
+  String get achievementNameAc14;
+
+  /// No description provided for @achievementDescAc14.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 50 달성'**
+  String get achievementDescAc14;
+
+  /// No description provided for @achievementNameAc15.
+  ///
+  /// In ko, this message translates to:
+  /// **'근육의 제왕'**
+  String get achievementNameAc15;
+
+  /// No description provided for @achievementDescAc15.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 스탯 100 달성'**
+  String get achievementDescAc15;
+
+  /// No description provided for @achievementNameAc16.
+  ///
+  /// In ko, this message translates to:
+  /// **'스킬 마스터'**
+  String get achievementNameAc16;
+
+  /// No description provided for @achievementDescAc16.
+  ///
+  /// In ko, this message translates to:
+  /// **'스킬 12개 습득'**
+  String get achievementDescAc16;
+
+  /// No description provided for @achievementNameAc17.
+  ///
+  /// In ko, this message translates to:
+  /// **'만능 전문가'**
+  String get achievementNameAc17;
+
+  /// No description provided for @achievementDescAc17.
+  ///
+  /// In ko, this message translates to:
+  /// **'스킬 20개 습득'**
+  String get achievementDescAc17;
+
+  /// No description provided for @achievementNameAc18.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 사냥'**
+  String get achievementNameAc18;
+
+  /// No description provided for @achievementDescAc18.
+  ///
+  /// In ko, this message translates to:
+  /// **'몬스터 1마리 처치'**
+  String get achievementDescAc18;
+
+  /// No description provided for @achievementNameAc19.
+  ///
+  /// In ko, this message translates to:
+  /// **'초보 사냥꾼'**
+  String get achievementNameAc19;
+
+  /// No description provided for @achievementDescAc19.
+  ///
+  /// In ko, this message translates to:
+  /// **'몬스터 10마리 처치'**
+  String get achievementDescAc19;
+
+  /// No description provided for @achievementNameAc20.
+  ///
+  /// In ko, this message translates to:
+  /// **'숙련된 전사'**
+  String get achievementNameAc20;
+
+  /// No description provided for @achievementDescAc20.
+  ///
+  /// In ko, this message translates to:
+  /// **'몬스터 50마리 처치'**
+  String get achievementDescAc20;
+
+  /// No description provided for @achievementNameAc21.
+  ///
+  /// In ko, this message translates to:
+  /// **'학살자'**
+  String get achievementNameAc21;
+
+  /// No description provided for @achievementDescAc21.
+  ///
+  /// In ko, this message translates to:
+  /// **'몬스터 200마리 처치'**
+  String get achievementDescAc21;
+
+  /// No description provided for @achievementNameAc22.
+  ///
+  /// In ko, this message translates to:
+  /// **'전설의 탐험가'**
+  String get achievementNameAc22;
+
+  /// No description provided for @achievementDescAc22.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 1000회 완료'**
+  String get achievementDescAc22;
+
+  /// No description provided for @achievementNameAc23.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 10 달성'**
+  String get achievementNameAc23;
+
+  /// No description provided for @achievementDescAc23.
+  ///
+  /// In ko, this message translates to:
+  /// **'초보딱지 탈출!'**
+  String get achievementDescAc23;
+
+  /// No description provided for @achievementNameAc24.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력 스타'**
+  String get achievementNameAc24;
+
+  /// No description provided for @achievementDescAc24.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력 스탯 30 달성'**
+  String get achievementDescAc24;
+
+  /// No description provided for @achievementNameAc25.
+  ///
+  /// In ko, this message translates to:
+  /// **'카리스마의 왕'**
+  String get achievementNameAc25;
+
+  /// No description provided for @achievementDescAc25.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력 스탯 80 달성'**
+  String get achievementDescAc25;
+
+  /// No description provided for @titleNameT0.
+  ///
+  /// In ko, this message translates to:
+  /// **'새싹 모험가'**
+  String get titleNameT0;
+
+  /// No description provided for @titleDescT0.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 것이 새로운 시작'**
+  String get titleDescT0;
+
+  /// No description provided for @titleNameT1.
+  ///
+  /// In ko, this message translates to:
+  /// **'성실한 모험가'**
+  String get titleNameT1;
+
+  /// No description provided for @titleDescT1.
+  ///
+  /// In ko, this message translates to:
+  /// **'꾸준함이 미덕'**
+  String get titleDescT1;
+
+  /// No description provided for @titleNameT2.
+  ///
+  /// In ko, this message translates to:
+  /// **'숙련된 개척자'**
+  String get titleNameT2;
+
+  /// No description provided for @titleDescT2.
+  ///
+  /// In ko, this message translates to:
+  /// **'자신만의 길을 걷는 자'**
+  String get titleDescT2;
+
+  /// No description provided for @titleNameT3.
+  ///
+  /// In ko, this message translates to:
+  /// **'근력 마니아'**
+  String get titleNameT3;
+
+  /// No description provided for @titleDescT3.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 퀘스트 XP +5%'**
+  String get titleDescT3;
+
+  /// No description provided for @titleNameT4.
+  ///
+  /// In ko, this message translates to:
+  /// **'현자 지망생'**
+  String get titleNameT4;
+
+  /// No description provided for @titleDescT4.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜 퀘스트 XP +5%'**
+  String get titleDescT4;
+
+  /// No description provided for @titleNameT5.
+  ///
+  /// In ko, this message translates to:
+  /// **'강철 체력'**
+  String get titleNameT5;
+
+  /// No description provided for @titleDescT5.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강 퀘스트 XP +5%'**
+  String get titleDescT5;
+
+  /// No description provided for @titleNameT6.
+  ///
+  /// In ko, this message translates to:
+  /// **'만인의 연인'**
+  String get titleNameT6;
+
+  /// No description provided for @titleDescT6.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력 퀘스트 XP +5%'**
+  String get titleDescT6;
+
+  /// No description provided for @titleNameT7.
+  ///
+  /// In ko, this message translates to:
+  /// **'성실의 화신'**
+  String get titleNameT7;
+
+  /// No description provided for @titleDescT7.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 100회 완료'**
+  String get titleDescT7;
+
+  /// No description provided for @titleNameT8.
+  ///
+  /// In ko, this message translates to:
+  /// **'만능 재주꾼'**
+  String get titleNameT8;
+
+  /// No description provided for @titleDescT8.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 스탯 20 달성'**
+  String get titleDescT8;
+
+  /// No description provided for @titleNameT9.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 장인'**
+  String get titleNameT9;
+
+  /// No description provided for @titleDescT9.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 250회 완료'**
+  String get titleDescT9;
+
+  /// No description provided for @titleNameT10.
+  ///
+  /// In ko, this message translates to:
+  /// **'만렙을 향하여'**
+  String get titleNameT10;
+
+  /// No description provided for @titleDescT10.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 30 달성'**
+  String get titleDescT10;
+
+  /// No description provided for @titleNameT11.
+  ///
+  /// In ko, this message translates to:
+  /// **'전설의 용사'**
+  String get titleNameT11;
+
+  /// No description provided for @titleDescT11.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 40 달성'**
+  String get titleDescT11;
+
+  /// No description provided for @titleNameT12.
+  ///
+  /// In ko, this message translates to:
+  /// **'세계의 영웅'**
+  String get titleNameT12;
+
+  /// No description provided for @titleDescT12.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 50 달성'**
+  String get titleDescT12;
+
+  /// No description provided for @titleNameT13.
+  ///
+  /// In ko, this message translates to:
+  /// **'파괴의 화신'**
+  String get titleNameT13;
+
+  /// No description provided for @titleDescT13.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 퀘스트 XP +10%'**
+  String get titleDescT13;
+
+  /// No description provided for @titleNameT14.
+  ///
+  /// In ko, this message translates to:
+  /// **'대현자'**
+  String get titleNameT14;
+
+  /// No description provided for @titleDescT14.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜 퀘스트 XP +10%'**
+  String get titleDescT14;
+
+  /// No description provided for @titleNameT15.
+  ///
+  /// In ko, this message translates to:
+  /// **'불멸의 전사'**
+  String get titleNameT15;
+
+  /// No description provided for @titleDescT15.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강 퀘스트 XP +10%'**
+  String get titleDescT15;
+
+  /// No description provided for @titleNameT16.
+  ///
+  /// In ko, this message translates to:
+  /// **'절대 카리스마'**
+  String get titleNameT16;
+
+  /// No description provided for @titleDescT16.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력 퀘스트 XP +10%'**
+  String get titleDescT16;
+
+  /// No description provided for @titleNameT17.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 전설'**
+  String get titleNameT17;
+
+  /// No description provided for @titleDescT17.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 500회 완료'**
+  String get titleDescT17;
+
+  /// No description provided for @titleNameT18.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트의 신'**
+  String get titleNameT18;
+
+  /// No description provided for @titleDescT18.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 1000회 완료'**
+  String get titleDescT18;
+
+  /// No description provided for @titleNameT19.
+  ///
+  /// In ko, this message translates to:
+  /// **'마스터 오브 올'**
+  String get titleNameT19;
+
+  /// No description provided for @titleDescT19.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 스탯 50 달성'**
+  String get titleDescT19;
+
+  /// No description provided for @titleNameT20.
+  ///
+  /// In ko, this message translates to:
+  /// **'초보 캠퍼'**
+  String get titleNameT20;
+
+  /// No description provided for @titleDescT20.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 3 달성'**
+  String get titleDescT20;
+
+  /// No description provided for @titleNameT21.
+  ///
+  /// In ko, this message translates to:
+  /// **'경험 많은 여행자'**
+  String get titleNameT21;
+
+  /// No description provided for @titleDescT21.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨 20 달성'**
+  String get titleDescT21;
+
+  /// No description provided for @titleNameT22.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘의 정점'**
+  String get titleNameT22;
+
+  /// No description provided for @titleDescT22.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 100 달성!'**
+  String get titleDescT22;
+
+  /// No description provided for @titleNameT23.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜의 정점'**
+  String get titleNameT23;
+
+  /// No description provided for @titleDescT23.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜 100 달성!'**
+  String get titleDescT23;
+
+  /// No description provided for @titleNameT24.
+  ///
+  /// In ko, this message translates to:
+  /// **'월간 레이드 돌파자'**
+  String get titleNameT24;
+
+  /// No description provided for @titleDescT24.
+  ///
+  /// In ko, this message translates to:
+  /// **'월간 레이드 1회 클리어'**
+  String get titleDescT24;
+
+  /// No description provided for @titleNameT25.
+  ///
+  /// In ko, this message translates to:
+  /// **'월간 레이드 정복자'**
+  String get titleNameT25;
+
+  /// No description provided for @titleDescT25.
+  ///
+  /// In ko, this message translates to:
+  /// **'월간 레이드 5회 클리어'**
+  String get titleDescT25;
+
+  /// No description provided for @titleNameT26.
+  ///
+  /// In ko, this message translates to:
+  /// **'연간 레이드 생존자'**
+  String get titleNameT26;
+
+  /// No description provided for @titleDescT26.
+  ///
+  /// In ko, this message translates to:
+  /// **'연간 레이드 1회 클리어'**
+  String get titleDescT26;
+
+  /// No description provided for @titleNameT27.
+  ///
+  /// In ko, this message translates to:
+  /// **'연간 레이드 군주'**
+  String get titleNameT27;
+
+  /// No description provided for @titleDescT27.
+  ///
+  /// In ko, this message translates to:
+  /// **'연간 레이드 3회 클리어'**
+  String get titleDescT27;
+
+  /// No description provided for @skillNameSk1.
+  ///
+  /// In ko, this message translates to:
+  /// **'근력 강화'**
+  String get skillNameSk1;
+
+  /// No description provided for @skillDescSk1.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 퀘스트 XP +10%'**
+  String get skillDescSk1;
+
+  /// No description provided for @skillNameSk2.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜의 빛'**
+  String get skillNameSk2;
+
+  /// No description provided for @skillDescSk2.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜 퀘스트 XP +10%'**
+  String get skillDescSk2;
+
+  /// No description provided for @skillNameSk3.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강한 신체'**
+  String get skillNameSk3;
+
+  /// No description provided for @skillDescSk3.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강 퀘스트 XP +10%'**
+  String get skillDescSk3;
+
+  /// No description provided for @skillNameSk4.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력 발산'**
+  String get skillNameSk4;
+
+  /// No description provided for @skillDescSk4.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력 퀘스트 XP +10%'**
+  String get skillDescSk4;
+
+  /// No description provided for @skillNameSk5.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 전문가'**
+  String get skillNameSk5;
+
+  /// No description provided for @skillDescSk5.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 퀘스트 XP +5%'**
+  String get skillDescSk5;
+
+  /// No description provided for @skillNameSk6.
+  ///
+  /// In ko, this message translates to:
+  /// **'성장의 기쁨'**
+  String get skillNameSk6;
+
+  /// No description provided for @skillDescSk6.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨업 시 추가 SP 1'**
+  String get skillDescSk6;
+
+  /// No description provided for @skillNameSk7.
+  ///
+  /// In ko, this message translates to:
+  /// **'집중 훈련'**
+  String get skillNameSk7;
+
+  /// No description provided for @skillDescSk7.
+  ///
+  /// In ko, this message translates to:
+  /// **'SP 1 소모 시 스탯 2 증가'**
+  String get skillDescSk7;
+
+  /// No description provided for @skillNameSk8.
+  ///
+  /// In ko, this message translates to:
+  /// **'학습 가속'**
+  String get skillNameSk8;
+
+  /// No description provided for @skillDescSk8.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 퀘스트 XP +10%'**
+  String get skillDescSk8;
+
+  /// No description provided for @skillNameSk9.
+  ///
+  /// In ko, this message translates to:
+  /// **'초월적인 성장'**
+  String get skillNameSk9;
+
+  /// No description provided for @skillDescSk9.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨업 시 기본 SP 5 → 7'**
+  String get skillDescSk9;
+
+  /// No description provided for @skillNameSk10.
+  ///
+  /// In ko, this message translates to:
+  /// **'화염 검격'**
+  String get skillNameSk10;
+
+  /// No description provided for @skillDescSk10.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: 25 추가 대미지'**
+  String get skillDescSk10;
+
+  /// No description provided for @skillNameSk11.
+  ///
+  /// In ko, this message translates to:
+  /// **'치유의 빛'**
+  String get skillNameSk11;
+
+  /// No description provided for @skillDescSk11.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: HP 20 회복'**
+  String get skillDescSk11;
+
+  /// No description provided for @skillNameSk12.
+  ///
+  /// In ko, this message translates to:
+  /// **'번개 일격'**
+  String get skillNameSk12;
+
+  /// No description provided for @skillDescSk12.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: 50 대미지'**
+  String get skillDescSk12;
+
+  /// No description provided for @skillNameSk13.
+  ///
+  /// In ko, this message translates to:
+  /// **'빙결 마법'**
+  String get skillNameSk13;
+
+  /// No description provided for @skillDescSk13.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: 35 대미지'**
+  String get skillDescSk13;
+
+  /// No description provided for @skillNameSk14.
+  ///
+  /// In ko, this message translates to:
+  /// **'독안개'**
+  String get skillNameSk14;
+
+  /// No description provided for @skillDescSk14.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: 30 대미지'**
+  String get skillDescSk14;
+
+  /// No description provided for @skillNameSk15.
+  ///
+  /// In ko, this message translates to:
+  /// **'보호막'**
+  String get skillNameSk15;
+
+  /// No description provided for @skillDescSk15.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: HP 40 회복'**
+  String get skillDescSk15;
+
+  /// No description provided for @skillNameSk16.
+  ///
+  /// In ko, this message translates to:
+  /// **'대지진'**
+  String get skillNameSk16;
+
+  /// No description provided for @skillDescSk16.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: 70 대미지'**
+  String get skillDescSk16;
+
+  /// No description provided for @skillNameSk17.
+  ///
+  /// In ko, this message translates to:
+  /// **'성스러운 기도'**
+  String get skillNameSk17;
+
+  /// No description provided for @skillDescSk17.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: HP 60 회복'**
+  String get skillDescSk17;
+
+  /// No description provided for @skillNameSk18.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 본능'**
+  String get skillNameSk18;
+
+  /// No description provided for @skillDescSk18.
+  ///
+  /// In ko, this message translates to:
+  /// **'힘 퀘스트 XP +15%'**
+  String get skillDescSk18;
+
+  /// No description provided for @skillNameSk19.
+  ///
+  /// In ko, this message translates to:
+  /// **'명상의 경지'**
+  String get skillNameSk19;
+
+  /// No description provided for @skillDescSk19.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜 퀘스트 XP +15%'**
+  String get skillDescSk19;
+
+  /// No description provided for @skillNameSk20.
+  ///
+  /// In ko, this message translates to:
+  /// **'어둠의 검'**
+  String get skillNameSk20;
+
+  /// No description provided for @skillDescSk20.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: 100 대미지'**
+  String get skillDescSk20;
+
+  /// No description provided for @skillNameSk21.
+  ///
+  /// In ko, this message translates to:
+  /// **'완전한 재생'**
+  String get skillNameSk21;
+
+  /// No description provided for @skillDescSk21.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 사용: HP 80 회복'**
+  String get skillDescSk21;
+
+  /// No description provided for @skillNameSk22.
+  ///
+  /// In ko, this message translates to:
+  /// **'극한 효율'**
+  String get skillNameSk22;
+
+  /// No description provided for @skillDescSk22.
+  ///
+  /// In ko, this message translates to:
+  /// **'SP 1 소모 시 스탯 3 증가'**
+  String get skillDescSk22;
+
+  /// No description provided for @skillNameSk23.
+  ///
+  /// In ko, this message translates to:
+  /// **'초월 가속'**
+  String get skillNameSk23;
+
+  /// No description provided for @skillDescSk23.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 퀘스트 XP +20%'**
+  String get skillDescSk23;
+
+  /// No description provided for @skillNameSk24.
+  ///
+  /// In ko, this message translates to:
+  /// **'신의 축복'**
+  String get skillNameSk24;
+
+  /// No description provided for @skillDescSk24.
+  ///
+  /// In ko, this message translates to:
+  /// **'레벨업 시 추가 SP 3'**
+  String get skillDescSk24;
+
+  /// No description provided for @monsterSlimeGreen.
+  ///
+  /// In ko, this message translates to:
+  /// **'초록 슬라임'**
+  String get monsterSlimeGreen;
+
+  /// No description provided for @monsterBat.
+  ///
+  /// In ko, this message translates to:
+  /// **'동굴 박쥐'**
+  String get monsterBat;
+
+  /// No description provided for @monsterMushroom.
+  ///
+  /// In ko, this message translates to:
+  /// **'독버섯'**
+  String get monsterMushroom;
+
+  /// No description provided for @monsterSlimeBlue.
+  ///
+  /// In ko, this message translates to:
+  /// **'파랑 슬라임'**
+  String get monsterSlimeBlue;
+
+  /// No description provided for @monsterRat.
+  ///
+  /// In ko, this message translates to:
+  /// **'거대 쥐'**
+  String get monsterRat;
+
+  /// No description provided for @monsterGoblin.
+  ///
+  /// In ko, this message translates to:
+  /// **'고블린'**
+  String get monsterGoblin;
+
+  /// No description provided for @monsterSkeleton.
+  ///
+  /// In ko, this message translates to:
+  /// **'해골 전사'**
+  String get monsterSkeleton;
+
+  /// No description provided for @monsterWolf.
+  ///
+  /// In ko, this message translates to:
+  /// **'그림자 늑대'**
+  String get monsterWolf;
+
+  /// No description provided for @monsterSpiderGiant.
+  ///
+  /// In ko, this message translates to:
+  /// **'거대 독거미'**
+  String get monsterSpiderGiant;
+
+  /// No description provided for @monsterTreant.
+  ///
+  /// In ko, this message translates to:
+  /// **'움직이는 나무'**
+  String get monsterTreant;
+
+  /// No description provided for @monsterOrc.
+  ///
+  /// In ko, this message translates to:
+  /// **'오크 전사'**
+  String get monsterOrc;
+
+  /// No description provided for @monsterDarkMage.
+  ///
+  /// In ko, this message translates to:
+  /// **'다크 마법사'**
+  String get monsterDarkMage;
+
+  /// No description provided for @monsterGolem.
+  ///
+  /// In ko, this message translates to:
+  /// **'스톤 골렘'**
+  String get monsterGolem;
+
+  /// No description provided for @monsterHarpy.
+  ///
+  /// In ko, this message translates to:
+  /// **'하피'**
+  String get monsterHarpy;
+
+  /// No description provided for @monsterMimic.
+  ///
+  /// In ko, this message translates to:
+  /// **'미믹'**
+  String get monsterMimic;
+
+  /// No description provided for @monsterLavaGolem.
+  ///
+  /// In ko, this message translates to:
+  /// **'용암 골렘'**
+  String get monsterLavaGolem;
+
+  /// No description provided for @monsterFireSpirit.
+  ///
+  /// In ko, this message translates to:
+  /// **'화염 정령'**
+  String get monsterFireSpirit;
+
+  /// No description provided for @monsterDemonWarrior.
+  ///
+  /// In ko, this message translates to:
+  /// **'마족 전사'**
+  String get monsterDemonWarrior;
+
+  /// No description provided for @monsterSalamander.
+  ///
+  /// In ko, this message translates to:
+  /// **'살라만더'**
+  String get monsterSalamander;
+
+  /// No description provided for @monsterCerberus.
+  ///
+  /// In ko, this message translates to:
+  /// **'케르베로스'**
+  String get monsterCerberus;
+
+  /// No description provided for @monsterShadowKnight.
+  ///
+  /// In ko, this message translates to:
+  /// **'그림자 기사'**
+  String get monsterShadowKnight;
+
+  /// No description provided for @monsterLich.
+  ///
+  /// In ko, this message translates to:
+  /// **'리치'**
+  String get monsterLich;
+
+  /// No description provided for @monsterBehemoth.
+  ///
+  /// In ko, this message translates to:
+  /// **'베히모스'**
+  String get monsterBehemoth;
+
+  /// No description provided for @monsterDarkPhoenix.
+  ///
+  /// In ko, this message translates to:
+  /// **'어둠의 불사조'**
+  String get monsterDarkPhoenix;
+
+  /// No description provided for @monsterVoidWorm.
+  ///
+  /// In ko, this message translates to:
+  /// **'차원 벌레'**
+  String get monsterVoidWorm;
+
+  /// No description provided for @monsterBossTroll.
+  ///
+  /// In ko, this message translates to:
+  /// **'트롤 대장'**
+  String get monsterBossTroll;
+
+  /// No description provided for @monsterBossDragon.
+  ///
+  /// In ko, this message translates to:
+  /// **'화염 드래곤'**
+  String get monsterBossDragon;
+
+  /// No description provided for @monsterBossDemonLord.
+  ///
+  /// In ko, this message translates to:
+  /// **'마왕'**
+  String get monsterBossDemonLord;
+
+  /// No description provided for @monsterBossHydra.
+  ///
+  /// In ko, this message translates to:
+  /// **'히드라'**
+  String get monsterBossHydra;
+
+  /// No description provided for @monsterBossFallenAngel.
+  ///
+  /// In ko, this message translates to:
+  /// **'타락 천사'**
+  String get monsterBossFallenAngel;
+
+  /// No description provided for @monsterBossDeathKnight.
+  ///
+  /// In ko, this message translates to:
+  /// **'죽음의 기사'**
+  String get monsterBossDeathKnight;
+
+  /// No description provided for @chapterName1.
+  ///
+  /// In ko, this message translates to:
+  /// **'초원 방어선'**
+  String get chapterName1;
+
+  /// No description provided for @chapterName2.
+  ///
+  /// In ko, this message translates to:
+  /// **'어둠의 숲'**
+  String get chapterName2;
+
+  /// No description provided for @chapterName3.
+  ///
+  /// In ko, this message translates to:
+  /// **'폐허의 성'**
+  String get chapterName3;
+
+  /// No description provided for @chapterName4.
+  ///
+  /// In ko, this message translates to:
+  /// **'용암 던전'**
+  String get chapterName4;
+
+  /// No description provided for @chapterName5.
+  ///
+  /// In ko, this message translates to:
+  /// **'심연의 차원'**
+  String get chapterName5;
 }
 
 class _AppLocalizationsDelegate

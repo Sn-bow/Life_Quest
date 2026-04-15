@@ -2815,4 +2815,760 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get cardDescTacL02Up =>
       '덱의 모든 카드를 이번 전투 동안 업그레이드하고, 에너지 +2를 얻는다. 사용 후 소멸.';
+
+  @override
+  String get relicNameStart01 => '모험자의 가방';
+
+  @override
+  String get relicDescStart01 => '전투 보상 카드 선택지 +1장 (3→4)';
+
+  @override
+  String get relicNameStart02 => '낡은 부적';
+
+  @override
+  String get relicDescStart02 => '시작 HP +15';
+
+  @override
+  String get relicNameStart03 => '행운의 동전';
+
+  @override
+  String get relicDescStart03 => '전투 골드 +30%';
+
+  @override
+  String get relicNameC01 => '앵커';
+
+  @override
+  String get relicDescC01 => '매 턴 시작 시 방어 4 자동 획득';
+
+  @override
+  String get relicNameC02 => '빨간 물약';
+
+  @override
+  String get relicDescC02 => '전투 시작 시 HP 5 회복';
+
+  @override
+  String get relicNameC03 => '마나 구슬';
+
+  @override
+  String get relicDescC03 => '3턴마다 에너지 +1';
+
+  @override
+  String get relicNameC04 => '날카로운 숫돌';
+
+  @override
+  String get relicDescC04 => '첫 번째 공격 카드 데미지 +3';
+
+  @override
+  String get relicNameC05 => '도둑의 장갑';
+
+  @override
+  String get relicDescC05 => '전투 보상 골드 +15';
+
+  @override
+  String get relicNameC06 => '가벼운 신발';
+
+  @override
+  String get relicDescC06 => '첫 턴 카드 드로우 +2';
+
+  @override
+  String get relicNameC07 => '독 주머니';
+
+  @override
+  String get relicDescC07 => '전투 시작 시 적 전체 독 2';
+
+  @override
+  String get relicNameC08 => '가시 방패';
+
+  @override
+  String get relicDescC08 => '가시 1 (영구)';
+
+  @override
+  String get relicNameC09 => '집중의 반지';
+
+  @override
+  String get relicDescC09 => '비용 0 카드 사용 시 방어 2';
+
+  @override
+  String get relicNameC10 => '전사의 팔찌';
+
+  @override
+  String get relicDescC10 => '패에 공격 카드만 있으면 에너지 +1';
+
+  @override
+  String get relicNameU01 => '서리의 심장';
+
+  @override
+  String get relicDescU01 => '공격 카드 사용 시 20% 확률 약화 1턴';
+
+  @override
+  String get relicNameU02 => '현자의 돌';
+
+  @override
+  String get relicDescU02 => '마법 카드 데미지 +25%';
+
+  @override
+  String get relicNameU03 => '불사조의 깃털';
+
+  @override
+  String get relicDescU03 => '사망 시 1회 HP 30%로 부활';
+
+  @override
+  String get relicNameU04 => '시간의 모래';
+
+  @override
+  String get relicDescU04 => '첫 3턴 에너지 +1';
+
+  @override
+  String get relicNameU05 => '영혼 수확자';
+
+  @override
+  String get relicDescU05 => '적 처치 시 HP 5 회복';
+
+  @override
+  String get relicNameU06 => '마법 거울';
+
+  @override
+  String get relicDescU06 => '첫 번째 디버프 반사 (1회)';
+
+  @override
+  String get relicNameU07 => '탐험가의 지도';
+
+  @override
+  String get relicDescU07 => '맵에서 다음 층 전체 공개';
+
+  @override
+  String get relicNameU08 => '연금술사의 가방';
+
+  @override
+  String get relicDescU08 => '상점에서 무료 카드 제거 1회';
+
+  @override
+  String get relicNameR01 => '드래곤의 비늘';
+
+  @override
+  String get relicDescR01 => '받는 데미지 -1 (모든 공격)';
+
+  @override
+  String get relicNameR02 => '제3의 눈';
+
+  @override
+  String get relicDescR02 => '적 의도를 정확한 숫자로 표시';
+
+  @override
+  String get relicNameR03 => '무한 주머니';
+
+  @override
+  String get relicDescR03 => '카드 최대 보유 +1 (패에 6장)';
+
+  @override
+  String get relicNameR04 => '각성의 오브';
+
+  @override
+  String get relicDescR04 => '에너지 최대 +1 (3→4)';
+
+  @override
+  String get relicNameR05 => '운명의 실';
+
+  @override
+  String get relicDescR05 => '카드 보상에서 레어 이상 확률 2배';
+
+  @override
+  String get relicNameB01 => '왕관';
+
+  @override
+  String get relicDescB01 => '에너지 최대 +1, 시작 시 저주 1장';
+
+  @override
+  String get relicNameB02 => '마왕의 심장';
+
+  @override
+  String get relicDescB02 => '모든 카드 데미지 +5, 받는 데미지 +5';
+
+  @override
+  String get relicNameB03 => '부활의 성배';
+
+  @override
+  String get relicDescB03 => '휴식 노드에서 HP 완전 회복';
+
+  @override
+  String get relicNameB04 => '혼돈의 구체';
+
+  @override
+  String get relicDescB04 => '매 턴 랜덤 카드 1장 패에 생성';
+
+  @override
+  String get relicNameB05 => '시간의 왕관';
+
+  @override
+  String get relicDescB05 => '첫 턴 추가 턴 1회';
+
+  @override
+  String get achievementNameAc1 => '첫 걸음';
+
+  @override
+  String get achievementDescAc1 => '퀘스트 1회 완료';
+
+  @override
+  String get achievementNameAc2 => '성실의 증표';
+
+  @override
+  String get achievementDescAc2 => '퀘스트 10회 완료';
+
+  @override
+  String get achievementNameAc3 => '레벨 5 달성';
+
+  @override
+  String get achievementDescAc3 => '초보 모험가 탈출';
+
+  @override
+  String get achievementNameAc4 => '힘의 각성';
+
+  @override
+  String get achievementDescAc4 => '힘 스탯 10 달성';
+
+  @override
+  String get achievementNameAc5 => '지혜의 시작';
+
+  @override
+  String get achievementDescAc5 => '지혜 스탯 10 달성';
+
+  @override
+  String get achievementNameAc6 => '고지를 향하여';
+
+  @override
+  String get achievementDescAc6 => '레벨 20 달성';
+
+  @override
+  String get achievementNameAc7 => '기술의 탐구자';
+
+  @override
+  String get achievementDescAc7 => '스킬 5개 습득';
+
+  @override
+  String get achievementNameAc8 => '건강의 달인';
+
+  @override
+  String get achievementDescAc8 => '건강 스탯 50 달성';
+
+  @override
+  String get achievementNameAc9 => '지혜의 대가';
+
+  @override
+  String get achievementDescAc9 => '지혜 스탯 50 달성';
+
+  @override
+  String get achievementNameAc10 => '퀘스트 중독자';
+
+  @override
+  String get achievementDescAc10 => '퀘스트 500회 완료';
+
+  @override
+  String get achievementNameAc11 => '꾸준한 실천가';
+
+  @override
+  String get achievementDescAc11 => '퀘스트 50회 완료';
+
+  @override
+  String get achievementNameAc12 => '습관의 달인';
+
+  @override
+  String get achievementDescAc12 => '퀘스트 100회 완료';
+
+  @override
+  String get achievementNameAc13 => '베테랑 모험가';
+
+  @override
+  String get achievementDescAc13 => '레벨 30 달성';
+
+  @override
+  String get achievementNameAc14 => '전설의 영웅';
+
+  @override
+  String get achievementDescAc14 => '레벨 50 달성';
+
+  @override
+  String get achievementNameAc15 => '근육의 제왕';
+
+  @override
+  String get achievementDescAc15 => '힘 스탯 100 달성';
+
+  @override
+  String get achievementNameAc16 => '스킬 마스터';
+
+  @override
+  String get achievementDescAc16 => '스킬 12개 습득';
+
+  @override
+  String get achievementNameAc17 => '만능 전문가';
+
+  @override
+  String get achievementDescAc17 => '스킬 20개 습득';
+
+  @override
+  String get achievementNameAc18 => '첫 사냥';
+
+  @override
+  String get achievementDescAc18 => '몬스터 1마리 처치';
+
+  @override
+  String get achievementNameAc19 => '초보 사냥꾼';
+
+  @override
+  String get achievementDescAc19 => '몬스터 10마리 처치';
+
+  @override
+  String get achievementNameAc20 => '숙련된 전사';
+
+  @override
+  String get achievementDescAc20 => '몬스터 50마리 처치';
+
+  @override
+  String get achievementNameAc21 => '학살자';
+
+  @override
+  String get achievementDescAc21 => '몬스터 200마리 처치';
+
+  @override
+  String get achievementNameAc22 => '전설의 탐험가';
+
+  @override
+  String get achievementDescAc22 => '퀘스트 1000회 완료';
+
+  @override
+  String get achievementNameAc23 => '레벨 10 달성';
+
+  @override
+  String get achievementDescAc23 => '초보딱지 탈출!';
+
+  @override
+  String get achievementNameAc24 => '매력 스타';
+
+  @override
+  String get achievementDescAc24 => '매력 스탯 30 달성';
+
+  @override
+  String get achievementNameAc25 => '카리스마의 왕';
+
+  @override
+  String get achievementDescAc25 => '매력 스탯 80 달성';
+
+  @override
+  String get titleNameT0 => '새싹 모험가';
+
+  @override
+  String get titleDescT0 => '모든 것이 새로운 시작';
+
+  @override
+  String get titleNameT1 => '성실한 모험가';
+
+  @override
+  String get titleDescT1 => '꾸준함이 미덕';
+
+  @override
+  String get titleNameT2 => '숙련된 개척자';
+
+  @override
+  String get titleDescT2 => '자신만의 길을 걷는 자';
+
+  @override
+  String get titleNameT3 => '근력 마니아';
+
+  @override
+  String get titleDescT3 => '힘 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT4 => '현자 지망생';
+
+  @override
+  String get titleDescT4 => '지혜 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT5 => '강철 체력';
+
+  @override
+  String get titleDescT5 => '건강 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT6 => '만인의 연인';
+
+  @override
+  String get titleDescT6 => '매력 퀘스트 XP +5%';
+
+  @override
+  String get titleNameT7 => '성실의 화신';
+
+  @override
+  String get titleDescT7 => '퀘스트 100회 완료';
+
+  @override
+  String get titleNameT8 => '만능 재주꾼';
+
+  @override
+  String get titleDescT8 => '모든 스탯 20 달성';
+
+  @override
+  String get titleNameT9 => '퀘스트 장인';
+
+  @override
+  String get titleDescT9 => '퀘스트 250회 완료';
+
+  @override
+  String get titleNameT10 => '만렙을 향하여';
+
+  @override
+  String get titleDescT10 => '레벨 30 달성';
+
+  @override
+  String get titleNameT11 => '전설의 용사';
+
+  @override
+  String get titleDescT11 => '레벨 40 달성';
+
+  @override
+  String get titleNameT12 => '세계의 영웅';
+
+  @override
+  String get titleDescT12 => '레벨 50 달성';
+
+  @override
+  String get titleNameT13 => '파괴의 화신';
+
+  @override
+  String get titleDescT13 => '힘 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT14 => '대현자';
+
+  @override
+  String get titleDescT14 => '지혜 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT15 => '불멸의 전사';
+
+  @override
+  String get titleDescT15 => '건강 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT16 => '절대 카리스마';
+
+  @override
+  String get titleDescT16 => '매력 퀘스트 XP +10%';
+
+  @override
+  String get titleNameT17 => '퀘스트 전설';
+
+  @override
+  String get titleDescT17 => '퀘스트 500회 완료';
+
+  @override
+  String get titleNameT18 => '퀘스트의 신';
+
+  @override
+  String get titleDescT18 => '퀘스트 1000회 완료';
+
+  @override
+  String get titleNameT19 => '마스터 오브 올';
+
+  @override
+  String get titleDescT19 => '모든 스탯 50 달성';
+
+  @override
+  String get titleNameT20 => '초보 캠퍼';
+
+  @override
+  String get titleDescT20 => '레벨 3 달성';
+
+  @override
+  String get titleNameT21 => '경험 많은 여행자';
+
+  @override
+  String get titleDescT21 => '레벨 20 달성';
+
+  @override
+  String get titleNameT22 => '힘의 정점';
+
+  @override
+  String get titleDescT22 => '힘 100 달성!';
+
+  @override
+  String get titleNameT23 => '지혜의 정점';
+
+  @override
+  String get titleDescT23 => '지혜 100 달성!';
+
+  @override
+  String get titleNameT24 => '월간 레이드 돌파자';
+
+  @override
+  String get titleDescT24 => '월간 레이드 1회 클리어';
+
+  @override
+  String get titleNameT25 => '월간 레이드 정복자';
+
+  @override
+  String get titleDescT25 => '월간 레이드 5회 클리어';
+
+  @override
+  String get titleNameT26 => '연간 레이드 생존자';
+
+  @override
+  String get titleDescT26 => '연간 레이드 1회 클리어';
+
+  @override
+  String get titleNameT27 => '연간 레이드 군주';
+
+  @override
+  String get titleDescT27 => '연간 레이드 3회 클리어';
+
+  @override
+  String get skillNameSk1 => '근력 강화';
+
+  @override
+  String get skillDescSk1 => '힘 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk2 => '지혜의 빛';
+
+  @override
+  String get skillDescSk2 => '지혜 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk3 => '건강한 신체';
+
+  @override
+  String get skillDescSk3 => '건강 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk4 => '매력 발산';
+
+  @override
+  String get skillDescSk4 => '매력 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk5 => '퀘스트 전문가';
+
+  @override
+  String get skillDescSk5 => '모든 퀘스트 XP +5%';
+
+  @override
+  String get skillNameSk6 => '성장의 기쁨';
+
+  @override
+  String get skillDescSk6 => '레벨업 시 추가 SP 1';
+
+  @override
+  String get skillNameSk7 => '집중 훈련';
+
+  @override
+  String get skillDescSk7 => 'SP 1 소모 시 스탯 2 증가';
+
+  @override
+  String get skillNameSk8 => '학습 가속';
+
+  @override
+  String get skillDescSk8 => '모든 퀘스트 XP +10%';
+
+  @override
+  String get skillNameSk9 => '초월적인 성장';
+
+  @override
+  String get skillDescSk9 => '레벨업 시 기본 SP 5 → 7';
+
+  @override
+  String get skillNameSk10 => '화염 검격';
+
+  @override
+  String get skillDescSk10 => '전투 사용: 25 추가 대미지';
+
+  @override
+  String get skillNameSk11 => '치유의 빛';
+
+  @override
+  String get skillDescSk11 => '전투 사용: HP 20 회복';
+
+  @override
+  String get skillNameSk12 => '번개 일격';
+
+  @override
+  String get skillDescSk12 => '전투 사용: 50 대미지';
+
+  @override
+  String get skillNameSk13 => '빙결 마법';
+
+  @override
+  String get skillDescSk13 => '전투 사용: 35 대미지';
+
+  @override
+  String get skillNameSk14 => '독안개';
+
+  @override
+  String get skillDescSk14 => '전투 사용: 30 대미지';
+
+  @override
+  String get skillNameSk15 => '보호막';
+
+  @override
+  String get skillDescSk15 => '전투 사용: HP 40 회복';
+
+  @override
+  String get skillNameSk16 => '대지진';
+
+  @override
+  String get skillDescSk16 => '전투 사용: 70 대미지';
+
+  @override
+  String get skillNameSk17 => '성스러운 기도';
+
+  @override
+  String get skillDescSk17 => '전투 사용: HP 60 회복';
+
+  @override
+  String get skillNameSk18 => '전투 본능';
+
+  @override
+  String get skillDescSk18 => '힘 퀘스트 XP +15%';
+
+  @override
+  String get skillNameSk19 => '명상의 경지';
+
+  @override
+  String get skillDescSk19 => '지혜 퀘스트 XP +15%';
+
+  @override
+  String get skillNameSk20 => '어둠의 검';
+
+  @override
+  String get skillDescSk20 => '전투 사용: 100 대미지';
+
+  @override
+  String get skillNameSk21 => '완전한 재생';
+
+  @override
+  String get skillDescSk21 => '전투 사용: HP 80 회복';
+
+  @override
+  String get skillNameSk22 => '극한 효율';
+
+  @override
+  String get skillDescSk22 => 'SP 1 소모 시 스탯 3 증가';
+
+  @override
+  String get skillNameSk23 => '초월 가속';
+
+  @override
+  String get skillDescSk23 => '모든 퀘스트 XP +20%';
+
+  @override
+  String get skillNameSk24 => '신의 축복';
+
+  @override
+  String get skillDescSk24 => '레벨업 시 추가 SP 3';
+
+  @override
+  String get monsterSlimeGreen => '초록 슬라임';
+
+  @override
+  String get monsterBat => '동굴 박쥐';
+
+  @override
+  String get monsterMushroom => '독버섯';
+
+  @override
+  String get monsterSlimeBlue => '파랑 슬라임';
+
+  @override
+  String get monsterRat => '거대 쥐';
+
+  @override
+  String get monsterGoblin => '고블린';
+
+  @override
+  String get monsterSkeleton => '해골 전사';
+
+  @override
+  String get monsterWolf => '그림자 늑대';
+
+  @override
+  String get monsterSpiderGiant => '거대 독거미';
+
+  @override
+  String get monsterTreant => '움직이는 나무';
+
+  @override
+  String get monsterOrc => '오크 전사';
+
+  @override
+  String get monsterDarkMage => '다크 마법사';
+
+  @override
+  String get monsterGolem => '스톤 골렘';
+
+  @override
+  String get monsterHarpy => '하피';
+
+  @override
+  String get monsterMimic => '미믹';
+
+  @override
+  String get monsterLavaGolem => '용암 골렘';
+
+  @override
+  String get monsterFireSpirit => '화염 정령';
+
+  @override
+  String get monsterDemonWarrior => '마족 전사';
+
+  @override
+  String get monsterSalamander => '살라만더';
+
+  @override
+  String get monsterCerberus => '케르베로스';
+
+  @override
+  String get monsterShadowKnight => '그림자 기사';
+
+  @override
+  String get monsterLich => '리치';
+
+  @override
+  String get monsterBehemoth => '베히모스';
+
+  @override
+  String get monsterDarkPhoenix => '어둠의 불사조';
+
+  @override
+  String get monsterVoidWorm => '차원 벌레';
+
+  @override
+  String get monsterBossTroll => '트롤 대장';
+
+  @override
+  String get monsterBossDragon => '화염 드래곤';
+
+  @override
+  String get monsterBossDemonLord => '마왕';
+
+  @override
+  String get monsterBossHydra => '히드라';
+
+  @override
+  String get monsterBossFallenAngel => '타락 천사';
+
+  @override
+  String get monsterBossDeathKnight => '죽음의 기사';
+
+  @override
+  String get chapterName1 => '초원 방어선';
+
+  @override
+  String get chapterName2 => '어둠의 숲';
+
+  @override
+  String get chapterName3 => '폐허의 성';
+
+  @override
+  String get chapterName4 => '용암 던전';
+
+  @override
+  String get chapterName5 => '심연의 차원';
 }

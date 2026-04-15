@@ -2804,4 +2804,760 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cardDescTacL02Up => 'デッキ全カードをこの戦闘中アップグレードし、エネルギー+2を得る。使用後消滅。';
+
+  @override
+  String get relicNameStart01 => '冒険者のバッグ';
+
+  @override
+  String get relicDescStart01 => '戦闘報酬カード選択肢+1枚(3→4)';
+
+  @override
+  String get relicNameStart02 => '古びたお守り';
+
+  @override
+  String get relicDescStart02 => '開始時HP+15';
+
+  @override
+  String get relicNameStart03 => '幸運のコイン';
+
+  @override
+  String get relicDescStart03 => '戦闘ゴールド+30%';
+
+  @override
+  String get relicNameC01 => '錨';
+
+  @override
+  String get relicDescC01 => 'ターン開始時に防御4を自動取得';
+
+  @override
+  String get relicNameC02 => '赤いポーション';
+
+  @override
+  String get relicDescC02 => '戦闘開始時にHP5回復';
+
+  @override
+  String get relicNameC03 => 'マナオーブ';
+
+  @override
+  String get relicDescC03 => '3ターンごとにエネルギー+1';
+
+  @override
+  String get relicNameC04 => '鋭い砥石';
+
+  @override
+  String get relicDescC04 => '最初の攻撃カードのダメージ+3';
+
+  @override
+  String get relicNameC05 => '盗賊の手袋';
+
+  @override
+  String get relicDescC05 => '戦闘報酬ゴールド+15';
+
+  @override
+  String get relicNameC06 => '軽い靴';
+
+  @override
+  String get relicDescC06 => '初ターンのカードドロー+2';
+
+  @override
+  String get relicNameC07 => '毒袋';
+
+  @override
+  String get relicDescC07 => '戦闘開始時に全敵に毒2';
+
+  @override
+  String get relicNameC08 => 'トゲの盾';
+
+  @override
+  String get relicDescC08 => 'トゲ1(永続)';
+
+  @override
+  String get relicNameC09 => '集中の指輪';
+
+  @override
+  String get relicDescC09 => 'コスト0カード使用時に防御2';
+
+  @override
+  String get relicNameC10 => '戦士の腕輪';
+
+  @override
+  String get relicDescC10 => '手札が攻撃カードのみの場合エネルギー+1';
+
+  @override
+  String get relicNameU01 => '霜の心臓';
+
+  @override
+  String get relicDescU01 => '攻撃カード使用時20%確率で弱体化1ターン';
+
+  @override
+  String get relicNameU02 => '賢者の石';
+
+  @override
+  String get relicDescU02 => '魔法カードダメージ+25%';
+
+  @override
+  String get relicNameU03 => '不死鳥の羽';
+
+  @override
+  String get relicDescU03 => '死亡時に1回HP30%で復活';
+
+  @override
+  String get relicNameU04 => '時の砂';
+
+  @override
+  String get relicDescU04 => '最初の3ターンエネルギー+1';
+
+  @override
+  String get relicNameU05 => '魂の収穫者';
+
+  @override
+  String get relicDescU05 => '敵撃破時にHP5回復';
+
+  @override
+  String get relicNameU06 => '魔法の鏡';
+
+  @override
+  String get relicDescU06 => '最初のデバフを反射(1回)';
+
+  @override
+  String get relicNameU07 => '探検家の地図';
+
+  @override
+  String get relicDescU07 => 'マップで次の階全体を公開';
+
+  @override
+  String get relicNameU08 => '錬金術師のバッグ';
+
+  @override
+  String get relicDescU08 => 'ショップで無料カード除去1回';
+
+  @override
+  String get relicNameR01 => '竜の鱗';
+
+  @override
+  String get relicDescR01 => '受けるダメージ-1(全攻撃)';
+
+  @override
+  String get relicNameR02 => '第三の目';
+
+  @override
+  String get relicDescR02 => '敵の意図を正確な数値で表示';
+
+  @override
+  String get relicNameR03 => '無限の袋';
+
+  @override
+  String get relicDescR03 => 'カード最大所持数+1(手札6枚)';
+
+  @override
+  String get relicNameR04 => '覚醒のオーブ';
+
+  @override
+  String get relicDescR04 => 'エネルギー最大+1(3→4)';
+
+  @override
+  String get relicNameR05 => '運命の糸';
+
+  @override
+  String get relicDescR05 => 'カード報酬でレア以上の確率2倍';
+
+  @override
+  String get relicNameB01 => '王冠';
+
+  @override
+  String get relicDescB01 => 'エネルギー最大+1、開始時に呪い1枚';
+
+  @override
+  String get relicNameB02 => '魔王の心臓';
+
+  @override
+  String get relicDescB02 => '全カードダメージ+5、受けるダメージ+5';
+
+  @override
+  String get relicNameB03 => '復活の聖杯';
+
+  @override
+  String get relicDescB03 => '休憩ノードでHPを完全回復';
+
+  @override
+  String get relicNameB04 => '混沌の球体';
+
+  @override
+  String get relicDescB04 => '毎ターンランダムカード1枚を手札に生成';
+
+  @override
+  String get relicNameB05 => '時の王冠';
+
+  @override
+  String get relicDescB05 => '初ターンに追加ターン1回';
+
+  @override
+  String get achievementNameAc1 => '最初の一歩';
+
+  @override
+  String get achievementDescAc1 => 'クエスト1回完了';
+
+  @override
+  String get achievementNameAc2 => '誠実の証';
+
+  @override
+  String get achievementDescAc2 => 'クエスト10回完了';
+
+  @override
+  String get achievementNameAc3 => 'レベル5達成';
+
+  @override
+  String get achievementDescAc3 => '初心者冒険者脱出';
+
+  @override
+  String get achievementNameAc4 => '力の覚醒';
+
+  @override
+  String get achievementDescAc4 => '力ステータス10達成';
+
+  @override
+  String get achievementNameAc5 => '知恵の始まり';
+
+  @override
+  String get achievementDescAc5 => '知恵ステータス10達成';
+
+  @override
+  String get achievementNameAc6 => '頂上を目指して';
+
+  @override
+  String get achievementDescAc6 => 'レベル20達成';
+
+  @override
+  String get achievementNameAc7 => 'スキルの探求者';
+
+  @override
+  String get achievementDescAc7 => 'スキル5個習得';
+
+  @override
+  String get achievementNameAc8 => '健康の達人';
+
+  @override
+  String get achievementDescAc8 => '健康ステータス50達成';
+
+  @override
+  String get achievementNameAc9 => '知恵の大家';
+
+  @override
+  String get achievementDescAc9 => '知恵ステータス50達成';
+
+  @override
+  String get achievementNameAc10 => 'クエスト中毒者';
+
+  @override
+  String get achievementDescAc10 => 'クエスト500回完了';
+
+  @override
+  String get achievementNameAc11 => '継続の実践者';
+
+  @override
+  String get achievementDescAc11 => 'クエスト50回完了';
+
+  @override
+  String get achievementNameAc12 => '習慣の達人';
+
+  @override
+  String get achievementDescAc12 => 'クエスト100回完了';
+
+  @override
+  String get achievementNameAc13 => 'ベテラン冒険者';
+
+  @override
+  String get achievementDescAc13 => 'レベル30達成';
+
+  @override
+  String get achievementNameAc14 => '伝説の英雄';
+
+  @override
+  String get achievementDescAc14 => 'レベル50達成';
+
+  @override
+  String get achievementNameAc15 => '筋肉の王';
+
+  @override
+  String get achievementDescAc15 => '力ステータス100達成';
+
+  @override
+  String get achievementNameAc16 => 'スキルマスター';
+
+  @override
+  String get achievementDescAc16 => 'スキル12個習得';
+
+  @override
+  String get achievementNameAc17 => '万能の専門家';
+
+  @override
+  String get achievementDescAc17 => 'スキル20個習得';
+
+  @override
+  String get achievementNameAc18 => '初めての狩り';
+
+  @override
+  String get achievementDescAc18 => 'モンスター1体撃破';
+
+  @override
+  String get achievementNameAc19 => '新米ハンター';
+
+  @override
+  String get achievementDescAc19 => 'モンスター10体撃破';
+
+  @override
+  String get achievementNameAc20 => '熟練の戦士';
+
+  @override
+  String get achievementDescAc20 => 'モンスター50体撃破';
+
+  @override
+  String get achievementNameAc21 => '虐殺者';
+
+  @override
+  String get achievementDescAc21 => 'モンスター200体撃破';
+
+  @override
+  String get achievementNameAc22 => '伝説の探検家';
+
+  @override
+  String get achievementDescAc22 => 'クエスト1000回完了';
+
+  @override
+  String get achievementNameAc23 => 'レベル10達成';
+
+  @override
+  String get achievementDescAc23 => '初心者卒業！';
+
+  @override
+  String get achievementNameAc24 => '魅力スター';
+
+  @override
+  String get achievementDescAc24 => '魅力ステータス30達成';
+
+  @override
+  String get achievementNameAc25 => 'カリスマの王';
+
+  @override
+  String get achievementDescAc25 => '魅力ステータス80達成';
+
+  @override
+  String get titleNameT0 => '新芽の冒険者';
+
+  @override
+  String get titleDescT0 => '全てが新しい始まり';
+
+  @override
+  String get titleNameT1 => '誠実な冒険者';
+
+  @override
+  String get titleDescT1 => '継続は力なり';
+
+  @override
+  String get titleNameT2 => '熟練の開拓者';
+
+  @override
+  String get titleDescT2 => '自分だけの道を歩む者';
+
+  @override
+  String get titleNameT3 => '筋力マニア';
+
+  @override
+  String get titleDescT3 => '力クエストXP+5%';
+
+  @override
+  String get titleNameT4 => '賢者志望';
+
+  @override
+  String get titleDescT4 => '知恵クエストXP+5%';
+
+  @override
+  String get titleNameT5 => '鋼の体力';
+
+  @override
+  String get titleDescT5 => '健康クエストXP+5%';
+
+  @override
+  String get titleNameT6 => '万人に愛される者';
+
+  @override
+  String get titleDescT6 => '魅力クエストXP+5%';
+
+  @override
+  String get titleNameT7 => '誠実の化身';
+
+  @override
+  String get titleDescT7 => 'クエスト100回完了';
+
+  @override
+  String get titleNameT8 => '万能の才';
+
+  @override
+  String get titleDescT8 => '全ステータス20達成';
+
+  @override
+  String get titleNameT9 => 'クエスト職人';
+
+  @override
+  String get titleDescT9 => 'クエスト250回完了';
+
+  @override
+  String get titleNameT10 => '頂上へ向けて';
+
+  @override
+  String get titleDescT10 => 'レベル30達成';
+
+  @override
+  String get titleNameT11 => '伝説の勇者';
+
+  @override
+  String get titleDescT11 => 'レベル40達成';
+
+  @override
+  String get titleNameT12 => '世界の英雄';
+
+  @override
+  String get titleDescT12 => 'レベル50達成';
+
+  @override
+  String get titleNameT13 => '破壊の化身';
+
+  @override
+  String get titleDescT13 => '力クエストXP+10%';
+
+  @override
+  String get titleNameT14 => '大賢者';
+
+  @override
+  String get titleDescT14 => '知恵クエストXP+10%';
+
+  @override
+  String get titleNameT15 => '不死の戦士';
+
+  @override
+  String get titleDescT15 => '健康クエストXP+10%';
+
+  @override
+  String get titleNameT16 => '絶対カリスマ';
+
+  @override
+  String get titleDescT16 => '魅力クエストXP+10%';
+
+  @override
+  String get titleNameT17 => 'クエスト伝説';
+
+  @override
+  String get titleDescT17 => 'クエスト500回完了';
+
+  @override
+  String get titleNameT18 => 'クエストの神';
+
+  @override
+  String get titleDescT18 => 'クエスト1000回完了';
+
+  @override
+  String get titleNameT19 => 'マスターオブオール';
+
+  @override
+  String get titleDescT19 => '全ステータス50達成';
+
+  @override
+  String get titleNameT20 => '初心者キャンパー';
+
+  @override
+  String get titleDescT20 => 'レベル3達成';
+
+  @override
+  String get titleNameT21 => '経験豊かな旅人';
+
+  @override
+  String get titleDescT21 => 'レベル20達成';
+
+  @override
+  String get titleNameT22 => '力の極致';
+
+  @override
+  String get titleDescT22 => '力100達成！';
+
+  @override
+  String get titleNameT23 => '知恵の極致';
+
+  @override
+  String get titleDescT23 => '知恵100達成！';
+
+  @override
+  String get titleNameT24 => '月間レイド突破者';
+
+  @override
+  String get titleDescT24 => '月間レイド1回クリア';
+
+  @override
+  String get titleNameT25 => '月間レイド征服者';
+
+  @override
+  String get titleDescT25 => '月間レイド5回クリア';
+
+  @override
+  String get titleNameT26 => '年間レイド生存者';
+
+  @override
+  String get titleDescT26 => '年間レイド1回クリア';
+
+  @override
+  String get titleNameT27 => '年間レイド君主';
+
+  @override
+  String get titleDescT27 => '年間レイド3回クリア';
+
+  @override
+  String get skillNameSk1 => '筋力強化';
+
+  @override
+  String get skillDescSk1 => '力クエストXP+10%';
+
+  @override
+  String get skillNameSk2 => '知恵の光';
+
+  @override
+  String get skillDescSk2 => '知恵クエストXP+10%';
+
+  @override
+  String get skillNameSk3 => '健康な身体';
+
+  @override
+  String get skillDescSk3 => '健康クエストXP+10%';
+
+  @override
+  String get skillNameSk4 => '魅力発散';
+
+  @override
+  String get skillDescSk4 => '魅力クエストXP+10%';
+
+  @override
+  String get skillNameSk5 => 'クエスト専門家';
+
+  @override
+  String get skillDescSk5 => '全クエストXP+5%';
+
+  @override
+  String get skillNameSk6 => '成長の喜び';
+
+  @override
+  String get skillDescSk6 => 'レベルアップ時SP+1';
+
+  @override
+  String get skillNameSk7 => '集中訓練';
+
+  @override
+  String get skillDescSk7 => 'SP1消費時スタット2増加';
+
+  @override
+  String get skillNameSk8 => '学習加速';
+
+  @override
+  String get skillDescSk8 => '全クエストXP+10%';
+
+  @override
+  String get skillNameSk9 => '超越的な成長';
+
+  @override
+  String get skillDescSk9 => 'レベルアップ時基本SP5→7';
+
+  @override
+  String get skillNameSk10 => '炎の剣撃';
+
+  @override
+  String get skillDescSk10 => '戦闘使用: 追加ダメージ25';
+
+  @override
+  String get skillNameSk11 => '癒しの光';
+
+  @override
+  String get skillDescSk11 => '戦闘使用: HP20回復';
+
+  @override
+  String get skillNameSk12 => '雷撃';
+
+  @override
+  String get skillDescSk12 => '戦闘使用: ダメージ50';
+
+  @override
+  String get skillNameSk13 => '氷結魔法';
+
+  @override
+  String get skillDescSk13 => '戦闘使用: ダメージ35';
+
+  @override
+  String get skillNameSk14 => '毒霧';
+
+  @override
+  String get skillDescSk14 => '戦闘使用: ダメージ30';
+
+  @override
+  String get skillNameSk15 => 'シールド';
+
+  @override
+  String get skillDescSk15 => '戦闘使用: HP40回復';
+
+  @override
+  String get skillNameSk16 => '大地震';
+
+  @override
+  String get skillDescSk16 => '戦闘使用: ダメージ70';
+
+  @override
+  String get skillNameSk17 => '聖なる祈り';
+
+  @override
+  String get skillDescSk17 => '戦闘使用: HP60回復';
+
+  @override
+  String get skillNameSk18 => '戦闘本能';
+
+  @override
+  String get skillDescSk18 => '力クエストXP+15%';
+
+  @override
+  String get skillNameSk19 => '瞑想の境地';
+
+  @override
+  String get skillDescSk19 => '知恵クエストXP+15%';
+
+  @override
+  String get skillNameSk20 => '闇の剣';
+
+  @override
+  String get skillDescSk20 => '戦闘使用: ダメージ100';
+
+  @override
+  String get skillNameSk21 => '完全なる再生';
+
+  @override
+  String get skillDescSk21 => '戦闘使用: HP80回復';
+
+  @override
+  String get skillNameSk22 => '極限効率';
+
+  @override
+  String get skillDescSk22 => 'SP1消費時スタット3増加';
+
+  @override
+  String get skillNameSk23 => '超越加速';
+
+  @override
+  String get skillDescSk23 => '全クエストXP+20%';
+
+  @override
+  String get skillNameSk24 => '神の祝福';
+
+  @override
+  String get skillDescSk24 => 'レベルアップ時SP+3';
+
+  @override
+  String get monsterSlimeGreen => '緑スライム';
+
+  @override
+  String get monsterBat => '洞窟コウモリ';
+
+  @override
+  String get monsterMushroom => '毒キノコ';
+
+  @override
+  String get monsterSlimeBlue => '青スライム';
+
+  @override
+  String get monsterRat => '巨大ネズミ';
+
+  @override
+  String get monsterGoblin => 'ゴブリン';
+
+  @override
+  String get monsterSkeleton => '骸骨戦士';
+
+  @override
+  String get monsterWolf => '影狼';
+
+  @override
+  String get monsterSpiderGiant => '巨大毒蜘蛛';
+
+  @override
+  String get monsterTreant => '動く木';
+
+  @override
+  String get monsterOrc => 'オーク戦士';
+
+  @override
+  String get monsterDarkMage => 'ダーク魔法使い';
+
+  @override
+  String get monsterGolem => 'ストーンゴーレム';
+
+  @override
+  String get monsterHarpy => 'ハーピー';
+
+  @override
+  String get monsterMimic => 'ミミック';
+
+  @override
+  String get monsterLavaGolem => '溶岩ゴーレム';
+
+  @override
+  String get monsterFireSpirit => '炎の精霊';
+
+  @override
+  String get monsterDemonWarrior => '魔族戦士';
+
+  @override
+  String get monsterSalamander => 'サラマンダー';
+
+  @override
+  String get monsterCerberus => 'ケルベロス';
+
+  @override
+  String get monsterShadowKnight => '影の騎士';
+
+  @override
+  String get monsterLich => 'リッチ';
+
+  @override
+  String get monsterBehemoth => 'ベヒモス';
+
+  @override
+  String get monsterDarkPhoenix => '闇の不死鳥';
+
+  @override
+  String get monsterVoidWorm => '虚空の虫';
+
+  @override
+  String get monsterBossTroll => 'トロール大将';
+
+  @override
+  String get monsterBossDragon => '炎のドラゴン';
+
+  @override
+  String get monsterBossDemonLord => '魔王';
+
+  @override
+  String get monsterBossHydra => 'ヒドラ';
+
+  @override
+  String get monsterBossFallenAngel => '堕天使';
+
+  @override
+  String get monsterBossDeathKnight => '死の騎士';
+
+  @override
+  String get chapterName1 => '草原の防衛線';
+
+  @override
+  String get chapterName2 => '闇の森';
+
+  @override
+  String get chapterName3 => '廃墟の城';
+
+  @override
+  String get chapterName4 => '溶岩ダンジョン';
+
+  @override
+  String get chapterName5 => '深淵の次元';
 }

@@ -2907,4 +2907,762 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cardDescTacL02Up =>
       'Upgrade all cards in your deck for this combat and gain Energy +2. Exhaust.';
+
+  @override
+  String get relicNameStart01 => 'Adventurer\'s Bag';
+
+  @override
+  String get relicDescStart01 => 'Combat card reward choices +1 (3→4)';
+
+  @override
+  String get relicNameStart02 => 'Worn Amulet';
+
+  @override
+  String get relicDescStart02 => 'Start with +15 HP';
+
+  @override
+  String get relicNameStart03 => 'Lucky Coin';
+
+  @override
+  String get relicDescStart03 => 'Combat gold reward +30%';
+
+  @override
+  String get relicNameC01 => 'Anchor';
+
+  @override
+  String get relicDescC01 => 'Gain 4 Block at the start of each turn';
+
+  @override
+  String get relicNameC02 => 'Red Potion';
+
+  @override
+  String get relicDescC02 => 'Restore 5 HP at combat start';
+
+  @override
+  String get relicNameC03 => 'Mana Orb';
+
+  @override
+  String get relicDescC03 => 'Gain Energy +1 every 3 turns';
+
+  @override
+  String get relicNameC04 => 'Sharp Whetstone';
+
+  @override
+  String get relicDescC04 => 'First attack card deals +3 damage';
+
+  @override
+  String get relicNameC05 => 'Thief\'s Gloves';
+
+  @override
+  String get relicDescC05 => 'Gain +15 gold from combat rewards';
+
+  @override
+  String get relicNameC06 => 'Light Boots';
+
+  @override
+  String get relicDescC06 => 'Draw +2 cards on the first turn';
+
+  @override
+  String get relicNameC07 => 'Poison Sack';
+
+  @override
+  String get relicDescC07 => 'Apply Poison 2 to all enemies at combat start';
+
+  @override
+  String get relicNameC08 => 'Thorn Shield';
+
+  @override
+  String get relicDescC08 => 'Thorns 1 (permanent)';
+
+  @override
+  String get relicNameC09 => 'Focus Ring';
+
+  @override
+  String get relicDescC09 => 'Playing a 0-cost card grants 2 Block';
+
+  @override
+  String get relicNameC10 => 'Warrior\'s Bracelet';
+
+  @override
+  String get relicDescC10 =>
+      'Gain Energy +1 if hand contains only attack cards';
+
+  @override
+  String get relicNameU01 => 'Frost Heart';
+
+  @override
+  String get relicDescU01 =>
+      '20% chance to apply Weak 1 turn on attack card play';
+
+  @override
+  String get relicNameU02 => 'Philosopher\'s Stone';
+
+  @override
+  String get relicDescU02 => 'Magic card damage +25%';
+
+  @override
+  String get relicNameU03 => 'Phoenix Feather';
+
+  @override
+  String get relicDescU03 => 'Revive once with 30% HP on death';
+
+  @override
+  String get relicNameU04 => 'Sands of Time';
+
+  @override
+  String get relicDescU04 => 'Gain Energy +1 for the first 3 turns';
+
+  @override
+  String get relicNameU05 => 'Soul Harvester';
+
+  @override
+  String get relicDescU05 => 'Restore 5 HP on enemy kill';
+
+  @override
+  String get relicNameU06 => 'Magic Mirror';
+
+  @override
+  String get relicDescU06 => 'Reflect the first debuff (once)';
+
+  @override
+  String get relicNameU07 => 'Explorer\'s Map';
+
+  @override
+  String get relicDescU07 => 'Reveal all nodes on the next floor';
+
+  @override
+  String get relicNameU08 => 'Alchemist\'s Bag';
+
+  @override
+  String get relicDescU08 => 'Remove one card at the shop for free (once)';
+
+  @override
+  String get relicNameR01 => 'Dragon Scale';
+
+  @override
+  String get relicDescR01 => 'Reduce incoming damage by 1 (all attacks)';
+
+  @override
+  String get relicNameR02 => 'Third Eye';
+
+  @override
+  String get relicDescR02 => 'Show enemy intent as exact numbers';
+
+  @override
+  String get relicNameR03 => 'Infinite Pouch';
+
+  @override
+  String get relicDescR03 => 'Maximum hand size +1 (6 cards)';
+
+  @override
+  String get relicNameR04 => 'Awakening Orb';
+
+  @override
+  String get relicDescR04 => 'Maximum energy +1 (3→4)';
+
+  @override
+  String get relicNameR05 => 'Thread of Fate';
+
+  @override
+  String get relicDescR05 => 'Double the chance of Rare+ card rewards';
+
+  @override
+  String get relicNameB01 => 'Crown';
+
+  @override
+  String get relicDescB01 => 'Max energy +1, start with 1 curse';
+
+  @override
+  String get relicNameB02 => 'Demon King\'s Heart';
+
+  @override
+  String get relicDescB02 => 'All card damage +5, incoming damage +5';
+
+  @override
+  String get relicNameB03 => 'Holy Grail';
+
+  @override
+  String get relicDescB03 => 'Fully restore HP at rest nodes';
+
+  @override
+  String get relicNameB04 => 'Chaos Orb';
+
+  @override
+  String get relicDescB04 => 'Generate 1 random card in hand each turn';
+
+  @override
+  String get relicNameB05 => 'Crown of Time';
+
+  @override
+  String get relicDescB05 => 'Gain 1 extra turn on the first turn';
+
+  @override
+  String get achievementNameAc1 => 'First Step';
+
+  @override
+  String get achievementDescAc1 => 'Complete 1 quest';
+
+  @override
+  String get achievementNameAc2 => 'Diligence Emblem';
+
+  @override
+  String get achievementDescAc2 => 'Complete 10 quests';
+
+  @override
+  String get achievementNameAc3 => 'Level 5 Achieved';
+
+  @override
+  String get achievementDescAc3 => 'Escape novice adventurer status';
+
+  @override
+  String get achievementNameAc4 => 'Strength Awakening';
+
+  @override
+  String get achievementDescAc4 => 'Reach Strength stat 10';
+
+  @override
+  String get achievementNameAc5 => 'Wisdom Begins';
+
+  @override
+  String get achievementDescAc5 => 'Reach Wisdom stat 10';
+
+  @override
+  String get achievementNameAc6 => 'Reaching the Summit';
+
+  @override
+  String get achievementDescAc6 => 'Reach level 20';
+
+  @override
+  String get achievementNameAc7 => 'Skill Seeker';
+
+  @override
+  String get achievementDescAc7 => 'Learn 5 skills';
+
+  @override
+  String get achievementNameAc8 => 'Health Master';
+
+  @override
+  String get achievementDescAc8 => 'Reach Health stat 50';
+
+  @override
+  String get achievementNameAc9 => 'Grand Sage';
+
+  @override
+  String get achievementDescAc9 => 'Reach Wisdom stat 50';
+
+  @override
+  String get achievementNameAc10 => 'Quest Addict';
+
+  @override
+  String get achievementDescAc10 => 'Complete 500 quests';
+
+  @override
+  String get achievementNameAc11 => 'Consistent Practitioner';
+
+  @override
+  String get achievementDescAc11 => 'Complete 50 quests';
+
+  @override
+  String get achievementNameAc12 => 'Habit Master';
+
+  @override
+  String get achievementDescAc12 => 'Complete 100 quests';
+
+  @override
+  String get achievementNameAc13 => 'Veteran Adventurer';
+
+  @override
+  String get achievementDescAc13 => 'Reach level 30';
+
+  @override
+  String get achievementNameAc14 => 'Legendary Hero';
+
+  @override
+  String get achievementDescAc14 => 'Reach level 50';
+
+  @override
+  String get achievementNameAc15 => 'King of Muscles';
+
+  @override
+  String get achievementDescAc15 => 'Reach Strength stat 100';
+
+  @override
+  String get achievementNameAc16 => 'Skill Master';
+
+  @override
+  String get achievementDescAc16 => 'Learn 12 skills';
+
+  @override
+  String get achievementNameAc17 => 'Jack of All Trades';
+
+  @override
+  String get achievementDescAc17 => 'Learn 20 skills';
+
+  @override
+  String get achievementNameAc18 => 'First Hunt';
+
+  @override
+  String get achievementDescAc18 => 'Defeat 1 monster';
+
+  @override
+  String get achievementNameAc19 => 'Novice Hunter';
+
+  @override
+  String get achievementDescAc19 => 'Defeat 10 monsters';
+
+  @override
+  String get achievementNameAc20 => 'Veteran Warrior';
+
+  @override
+  String get achievementDescAc20 => 'Defeat 50 monsters';
+
+  @override
+  String get achievementNameAc21 => 'Slayer';
+
+  @override
+  String get achievementDescAc21 => 'Defeat 200 monsters';
+
+  @override
+  String get achievementNameAc22 => 'Legendary Explorer';
+
+  @override
+  String get achievementDescAc22 => 'Complete 1000 quests';
+
+  @override
+  String get achievementNameAc23 => 'Level 10 Achieved';
+
+  @override
+  String get achievementDescAc23 => 'Shed the beginner label!';
+
+  @override
+  String get achievementNameAc24 => 'Charm Star';
+
+  @override
+  String get achievementDescAc24 => 'Reach Charisma stat 30';
+
+  @override
+  String get achievementNameAc25 => 'King of Charisma';
+
+  @override
+  String get achievementDescAc25 => 'Reach Charisma stat 80';
+
+  @override
+  String get titleNameT0 => 'Sprout Adventurer';
+
+  @override
+  String get titleDescT0 => 'Everything is a new beginning';
+
+  @override
+  String get titleNameT1 => 'Diligent Adventurer';
+
+  @override
+  String get titleDescT1 => 'Perseverance is a virtue';
+
+  @override
+  String get titleNameT2 => 'Seasoned Pioneer';
+
+  @override
+  String get titleDescT2 => 'One who walks their own path';
+
+  @override
+  String get titleNameT3 => 'Strength Maniac';
+
+  @override
+  String get titleDescT3 => 'Strength quest XP +5%';
+
+  @override
+  String get titleNameT4 => 'Aspiring Sage';
+
+  @override
+  String get titleDescT4 => 'Wisdom quest XP +5%';
+
+  @override
+  String get titleNameT5 => 'Iron Stamina';
+
+  @override
+  String get titleDescT5 => 'Health quest XP +5%';
+
+  @override
+  String get titleNameT6 => 'Beloved by All';
+
+  @override
+  String get titleDescT6 => 'Charisma quest XP +5%';
+
+  @override
+  String get titleNameT7 => 'Incarnation of Diligence';
+
+  @override
+  String get titleDescT7 => 'Complete 100 quests';
+
+  @override
+  String get titleNameT8 => 'Jack of All Trades';
+
+  @override
+  String get titleDescT8 => 'Reach all stats 20';
+
+  @override
+  String get titleNameT9 => 'Quest Artisan';
+
+  @override
+  String get titleDescT9 => 'Complete 250 quests';
+
+  @override
+  String get titleNameT10 => 'Toward the Peak';
+
+  @override
+  String get titleDescT10 => 'Reach level 30';
+
+  @override
+  String get titleNameT11 => 'Legendary Warrior';
+
+  @override
+  String get titleDescT11 => 'Reach level 40';
+
+  @override
+  String get titleNameT12 => 'Hero of the World';
+
+  @override
+  String get titleDescT12 => 'Reach level 50';
+
+  @override
+  String get titleNameT13 => 'Avatar of Destruction';
+
+  @override
+  String get titleDescT13 => 'Strength quest XP +10%';
+
+  @override
+  String get titleNameT14 => 'Grand Sage';
+
+  @override
+  String get titleDescT14 => 'Wisdom quest XP +10%';
+
+  @override
+  String get titleNameT15 => 'Immortal Warrior';
+
+  @override
+  String get titleDescT15 => 'Health quest XP +10%';
+
+  @override
+  String get titleNameT16 => 'Absolute Charisma';
+
+  @override
+  String get titleDescT16 => 'Charisma quest XP +10%';
+
+  @override
+  String get titleNameT17 => 'Quest Legend';
+
+  @override
+  String get titleDescT17 => 'Complete 500 quests';
+
+  @override
+  String get titleNameT18 => 'God of Quests';
+
+  @override
+  String get titleDescT18 => 'Complete 1000 quests';
+
+  @override
+  String get titleNameT19 => 'Master of All';
+
+  @override
+  String get titleDescT19 => 'Reach all stats 50';
+
+  @override
+  String get titleNameT20 => 'Novice Camper';
+
+  @override
+  String get titleDescT20 => 'Reach level 3';
+
+  @override
+  String get titleNameT21 => 'Experienced Traveler';
+
+  @override
+  String get titleDescT21 => 'Reach level 20';
+
+  @override
+  String get titleNameT22 => 'Pinnacle of Strength';
+
+  @override
+  String get titleDescT22 => 'Reach Strength 100!';
+
+  @override
+  String get titleNameT23 => 'Pinnacle of Wisdom';
+
+  @override
+  String get titleDescT23 => 'Reach Wisdom 100!';
+
+  @override
+  String get titleNameT24 => 'Monthly Raid Breaker';
+
+  @override
+  String get titleDescT24 => 'Clear Monthly Raid 1 time';
+
+  @override
+  String get titleNameT25 => 'Monthly Raid Conqueror';
+
+  @override
+  String get titleDescT25 => 'Clear Monthly Raid 5 times';
+
+  @override
+  String get titleNameT26 => 'Yearly Raid Survivor';
+
+  @override
+  String get titleDescT26 => 'Clear Yearly Raid 1 time';
+
+  @override
+  String get titleNameT27 => 'Yearly Raid Lord';
+
+  @override
+  String get titleDescT27 => 'Clear Yearly Raid 3 times';
+
+  @override
+  String get skillNameSk1 => 'Strength Training';
+
+  @override
+  String get skillDescSk1 => 'Strength quest XP +10%';
+
+  @override
+  String get skillNameSk2 => 'Light of Wisdom';
+
+  @override
+  String get skillDescSk2 => 'Wisdom quest XP +10%';
+
+  @override
+  String get skillNameSk3 => 'Healthy Body';
+
+  @override
+  String get skillDescSk3 => 'Health quest XP +10%';
+
+  @override
+  String get skillNameSk4 => 'Charm Release';
+
+  @override
+  String get skillDescSk4 => 'Charisma quest XP +10%';
+
+  @override
+  String get skillNameSk5 => 'Quest Expert';
+
+  @override
+  String get skillDescSk5 => 'All quest XP +5%';
+
+  @override
+  String get skillNameSk6 => 'Joy of Growth';
+
+  @override
+  String get skillDescSk6 => 'Gain +1 SP on level up';
+
+  @override
+  String get skillNameSk7 => 'Focused Training';
+
+  @override
+  String get skillDescSk7 => 'Gain +2 stats per SP spent';
+
+  @override
+  String get skillNameSk8 => 'Accelerated Learning';
+
+  @override
+  String get skillDescSk8 => 'All quest XP +10%';
+
+  @override
+  String get skillNameSk9 => 'Transcendent Growth';
+
+  @override
+  String get skillDescSk9 => 'Base SP on level up: 5 → 7';
+
+  @override
+  String get skillNameSk10 => 'Flame Slash';
+
+  @override
+  String get skillDescSk10 => 'Combat: Deal 25 bonus damage';
+
+  @override
+  String get skillNameSk11 => 'Healing Light';
+
+  @override
+  String get skillDescSk11 => 'Combat: Restore 20 HP';
+
+  @override
+  String get skillNameSk12 => 'Lightning Strike';
+
+  @override
+  String get skillDescSk12 => 'Combat: Deal 50 damage';
+
+  @override
+  String get skillNameSk13 => 'Blizzard Magic';
+
+  @override
+  String get skillDescSk13 => 'Combat: Deal 35 damage';
+
+  @override
+  String get skillNameSk14 => 'Poison Mist';
+
+  @override
+  String get skillDescSk14 => 'Combat: Deal 30 damage';
+
+  @override
+  String get skillNameSk15 => 'Shield';
+
+  @override
+  String get skillDescSk15 => 'Combat: Restore 40 HP';
+
+  @override
+  String get skillNameSk16 => 'Earthquake';
+
+  @override
+  String get skillDescSk16 => 'Combat: Deal 70 damage';
+
+  @override
+  String get skillNameSk17 => 'Holy Prayer';
+
+  @override
+  String get skillDescSk17 => 'Combat: Restore 60 HP';
+
+  @override
+  String get skillNameSk18 => 'Combat Instinct';
+
+  @override
+  String get skillDescSk18 => 'Strength quest XP +15%';
+
+  @override
+  String get skillNameSk19 => 'Meditative State';
+
+  @override
+  String get skillDescSk19 => 'Wisdom quest XP +15%';
+
+  @override
+  String get skillNameSk20 => 'Sword of Darkness';
+
+  @override
+  String get skillDescSk20 => 'Combat: Deal 100 damage';
+
+  @override
+  String get skillNameSk21 => 'Perfect Regeneration';
+
+  @override
+  String get skillDescSk21 => 'Combat: Restore 80 HP';
+
+  @override
+  String get skillNameSk22 => 'Extreme Efficiency';
+
+  @override
+  String get skillDescSk22 => 'Gain +3 stats per SP spent';
+
+  @override
+  String get skillNameSk23 => 'Transcendence Boost';
+
+  @override
+  String get skillDescSk23 => 'All quest XP +20%';
+
+  @override
+  String get skillNameSk24 => 'God\'s Blessing';
+
+  @override
+  String get skillDescSk24 => 'Gain +3 SP on level up';
+
+  @override
+  String get monsterSlimeGreen => 'Green Slime';
+
+  @override
+  String get monsterBat => 'Cave Bat';
+
+  @override
+  String get monsterMushroom => 'Poison Mushroom';
+
+  @override
+  String get monsterSlimeBlue => 'Blue Slime';
+
+  @override
+  String get monsterRat => 'Giant Rat';
+
+  @override
+  String get monsterGoblin => 'Goblin';
+
+  @override
+  String get monsterSkeleton => 'Skeleton Warrior';
+
+  @override
+  String get monsterWolf => 'Shadow Wolf';
+
+  @override
+  String get monsterSpiderGiant => 'Giant Tarantula';
+
+  @override
+  String get monsterTreant => 'Walking Tree';
+
+  @override
+  String get monsterOrc => 'Orc Warrior';
+
+  @override
+  String get monsterDarkMage => 'Dark Mage';
+
+  @override
+  String get monsterGolem => 'Stone Golem';
+
+  @override
+  String get monsterHarpy => 'Harpy';
+
+  @override
+  String get monsterMimic => 'Mimic';
+
+  @override
+  String get monsterLavaGolem => 'Lava Golem';
+
+  @override
+  String get monsterFireSpirit => 'Fire Spirit';
+
+  @override
+  String get monsterDemonWarrior => 'Demon Warrior';
+
+  @override
+  String get monsterSalamander => 'Salamander';
+
+  @override
+  String get monsterCerberus => 'Cerberus';
+
+  @override
+  String get monsterShadowKnight => 'Shadow Knight';
+
+  @override
+  String get monsterLich => 'Lich';
+
+  @override
+  String get monsterBehemoth => 'Behemoth';
+
+  @override
+  String get monsterDarkPhoenix => 'Dark Phoenix';
+
+  @override
+  String get monsterVoidWorm => 'Void Worm';
+
+  @override
+  String get monsterBossTroll => 'Troll Chief';
+
+  @override
+  String get monsterBossDragon => 'Fire Dragon';
+
+  @override
+  String get monsterBossDemonLord => 'Demon Lord';
+
+  @override
+  String get monsterBossHydra => 'Hydra';
+
+  @override
+  String get monsterBossFallenAngel => 'Fallen Angel';
+
+  @override
+  String get monsterBossDeathKnight => 'Death Knight';
+
+  @override
+  String get chapterName1 => 'Meadow Defense Line';
+
+  @override
+  String get chapterName2 => 'Dark Forest';
+
+  @override
+  String get chapterName3 => 'Ruined Castle';
+
+  @override
+  String get chapterName4 => 'Lava Dungeon';
+
+  @override
+  String get chapterName5 => 'Abyssal Dimension';
 }

@@ -2791,4 +2791,760 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardDescTacL02Up => '本次战斗升级所有牌并获得能量+2。消耗。';
+
+  @override
+  String get relicNameStart01 => '冒险者背包';
+
+  @override
+  String get relicDescStart01 => '战斗奖励卡牌选项+1张(3→4)';
+
+  @override
+  String get relicNameStart02 => '旧护符';
+
+  @override
+  String get relicDescStart02 => '开始时HP+15';
+
+  @override
+  String get relicNameStart03 => '幸运硬币';
+
+  @override
+  String get relicDescStart03 => '战斗金币+30%';
+
+  @override
+  String get relicNameC01 => '锚';
+
+  @override
+  String get relicDescC01 => '每回合开始时自动获得防御4';
+
+  @override
+  String get relicNameC02 => '红色药水';
+
+  @override
+  String get relicDescC02 => '战斗开始时恢复HP5';
+
+  @override
+  String get relicNameC03 => '魔法球';
+
+  @override
+  String get relicDescC03 => '每3回合能量+1';
+
+  @override
+  String get relicNameC04 => '锋利磨刀石';
+
+  @override
+  String get relicDescC04 => '第一张攻击卡伤害+3';
+
+  @override
+  String get relicNameC05 => '盗贼手套';
+
+  @override
+  String get relicDescC05 => '战斗奖励金币+15';
+
+  @override
+  String get relicNameC06 => '轻便鞋';
+
+  @override
+  String get relicDescC06 => '第一回合抽牌+2';
+
+  @override
+  String get relicNameC07 => '毒素袋';
+
+  @override
+  String get relicDescC07 => '战斗开始时对所有敌人施加毒素2';
+
+  @override
+  String get relicNameC08 => '荆棘盾';
+
+  @override
+  String get relicDescC08 => '荆棘1(永久)';
+
+  @override
+  String get relicNameC09 => '专注戒指';
+
+  @override
+  String get relicDescC09 => '使用费用为0的卡牌时获得防御2';
+
+  @override
+  String get relicNameC10 => '战士手环';
+
+  @override
+  String get relicDescC10 => '手牌全为攻击卡时能量+1';
+
+  @override
+  String get relicNameU01 => '霜之心脏';
+
+  @override
+  String get relicDescU01 => '使用攻击卡时有20%概率施加虚弱1回合';
+
+  @override
+  String get relicNameU02 => '贤者之石';
+
+  @override
+  String get relicDescU02 => '魔法卡伤害+25%';
+
+  @override
+  String get relicNameU03 => '不死鸟羽毛';
+
+  @override
+  String get relicDescU03 => '死亡时以30%HP复活一次';
+
+  @override
+  String get relicNameU04 => '时之沙';
+
+  @override
+  String get relicDescU04 => '前3回合能量+1';
+
+  @override
+  String get relicNameU05 => '灵魂收割者';
+
+  @override
+  String get relicDescU05 => '击杀敌人时恢复HP5';
+
+  @override
+  String get relicNameU06 => '魔法镜';
+
+  @override
+  String get relicDescU06 => '反射第一个减益效果(一次)';
+
+  @override
+  String get relicNameU07 => '探险家地图';
+
+  @override
+  String get relicDescU07 => '在地图上显示下一层全部节点';
+
+  @override
+  String get relicNameU08 => '炼金术士背包';
+
+  @override
+  String get relicDescU08 => '在商店免费移除一张卡牌';
+
+  @override
+  String get relicNameR01 => '龙鳞';
+
+  @override
+  String get relicDescR01 => '所有攻击受到的伤害-1';
+
+  @override
+  String get relicNameR02 => '第三只眼';
+
+  @override
+  String get relicDescR02 => '以精确数值显示敌人意图';
+
+  @override
+  String get relicNameR03 => '无限袋';
+
+  @override
+  String get relicDescR03 => '最大持牌数+1(手牌6张)';
+
+  @override
+  String get relicNameR04 => '觉醒法球';
+
+  @override
+  String get relicDescR04 => '能量上限+1(3→4)';
+
+  @override
+  String get relicNameR05 => '命运之线';
+
+  @override
+  String get relicDescR05 => '卡牌奖励中稀有以上概率翻倍';
+
+  @override
+  String get relicNameB01 => '王冠';
+
+  @override
+  String get relicDescB01 => '能量上限+1，开始时获得1张诅咒';
+
+  @override
+  String get relicNameB02 => '魔王之心';
+
+  @override
+  String get relicDescB02 => '所有卡牌伤害+5，受到伤害+5';
+
+  @override
+  String get relicNameB03 => '复活圣杯';
+
+  @override
+  String get relicDescB03 => '在休息节点完全恢复HP';
+
+  @override
+  String get relicNameB04 => '混沌球体';
+
+  @override
+  String get relicDescB04 => '每回合在手牌中生成1张随机卡牌';
+
+  @override
+  String get relicNameB05 => '时间王冠';
+
+  @override
+  String get relicDescB05 => '第一回合额外再来一回合';
+
+  @override
+  String get achievementNameAc1 => '第一步';
+
+  @override
+  String get achievementDescAc1 => '完成1次任务';
+
+  @override
+  String get achievementNameAc2 => '勤勉证明';
+
+  @override
+  String get achievementDescAc2 => '完成10次任务';
+
+  @override
+  String get achievementNameAc3 => '达到5级';
+
+  @override
+  String get achievementDescAc3 => '脱离新手冒险者';
+
+  @override
+  String get achievementNameAc4 => '力量觉醒';
+
+  @override
+  String get achievementDescAc4 => '力量属性达到10';
+
+  @override
+  String get achievementNameAc5 => '智慧之始';
+
+  @override
+  String get achievementDescAc5 => '智慧属性达到10';
+
+  @override
+  String get achievementNameAc6 => '向顶峰进发';
+
+  @override
+  String get achievementDescAc6 => '达到20级';
+
+  @override
+  String get achievementNameAc7 => '技能探索者';
+
+  @override
+  String get achievementDescAc7 => '学习5个技能';
+
+  @override
+  String get achievementNameAc8 => '健康达人';
+
+  @override
+  String get achievementDescAc8 => '健康属性达到50';
+
+  @override
+  String get achievementNameAc9 => '智慧大师';
+
+  @override
+  String get achievementDescAc9 => '智慧属性达到50';
+
+  @override
+  String get achievementNameAc10 => '任务狂热者';
+
+  @override
+  String get achievementDescAc10 => '完成500次任务';
+
+  @override
+  String get achievementNameAc11 => '持续实践者';
+
+  @override
+  String get achievementDescAc11 => '完成50次任务';
+
+  @override
+  String get achievementNameAc12 => '习惯大师';
+
+  @override
+  String get achievementDescAc12 => '完成100次任务';
+
+  @override
+  String get achievementNameAc13 => '老练冒险者';
+
+  @override
+  String get achievementDescAc13 => '达到30级';
+
+  @override
+  String get achievementNameAc14 => '传奇英雄';
+
+  @override
+  String get achievementDescAc14 => '达到50级';
+
+  @override
+  String get achievementNameAc15 => '肌肉之王';
+
+  @override
+  String get achievementDescAc15 => '力量属性达到100';
+
+  @override
+  String get achievementNameAc16 => '技能大师';
+
+  @override
+  String get achievementDescAc16 => '学习12个技能';
+
+  @override
+  String get achievementNameAc17 => '全能专家';
+
+  @override
+  String get achievementDescAc17 => '学习20个技能';
+
+  @override
+  String get achievementNameAc18 => '初次狩猎';
+
+  @override
+  String get achievementDescAc18 => '击杀1只怪物';
+
+  @override
+  String get achievementNameAc19 => '新手猎人';
+
+  @override
+  String get achievementDescAc19 => '击杀10只怪物';
+
+  @override
+  String get achievementNameAc20 => '熟练战士';
+
+  @override
+  String get achievementDescAc20 => '击杀50只怪物';
+
+  @override
+  String get achievementNameAc21 => '屠杀者';
+
+  @override
+  String get achievementDescAc21 => '击杀200只怪物';
+
+  @override
+  String get achievementNameAc22 => '传奇探险家';
+
+  @override
+  String get achievementDescAc22 => '完成1000次任务';
+
+  @override
+  String get achievementNameAc23 => '达到10级';
+
+  @override
+  String get achievementDescAc23 => '摆脱新手标签！';
+
+  @override
+  String get achievementNameAc24 => '魅力之星';
+
+  @override
+  String get achievementDescAc24 => '魅力属性达到30';
+
+  @override
+  String get achievementNameAc25 => '魅力之王';
+
+  @override
+  String get achievementDescAc25 => '魅力属性达到80';
+
+  @override
+  String get titleNameT0 => '嫩芽冒险者';
+
+  @override
+  String get titleDescT0 => '一切都是新的开始';
+
+  @override
+  String get titleNameT1 => '勤勉冒险者';
+
+  @override
+  String get titleDescT1 => '坚持不懈是美德';
+
+  @override
+  String get titleNameT2 => '熟练开拓者';
+
+  @override
+  String get titleDescT2 => '走自己道路的人';
+
+  @override
+  String get titleNameT3 => '力量狂热者';
+
+  @override
+  String get titleDescT3 => '力量任务XP+5%';
+
+  @override
+  String get titleNameT4 => '志向贤者';
+
+  @override
+  String get titleDescT4 => '智慧任务XP+5%';
+
+  @override
+  String get titleNameT5 => '钢铁体力';
+
+  @override
+  String get titleDescT5 => '健康任务XP+5%';
+
+  @override
+  String get titleNameT6 => '万人迷';
+
+  @override
+  String get titleDescT6 => '魅力任务XP+5%';
+
+  @override
+  String get titleNameT7 => '勤勉化身';
+
+  @override
+  String get titleDescT7 => '完成100次任务';
+
+  @override
+  String get titleNameT8 => '全能才子';
+
+  @override
+  String get titleDescT8 => '所有属性达到20';
+
+  @override
+  String get titleNameT9 => '任务工匠';
+
+  @override
+  String get titleDescT9 => '完成250次任务';
+
+  @override
+  String get titleNameT10 => '向顶峰迈进';
+
+  @override
+  String get titleDescT10 => '达到30级';
+
+  @override
+  String get titleNameT11 => '传奇勇士';
+
+  @override
+  String get titleDescT11 => '达到40级';
+
+  @override
+  String get titleNameT12 => '世界英雄';
+
+  @override
+  String get titleDescT12 => '达到50级';
+
+  @override
+  String get titleNameT13 => '破坏化身';
+
+  @override
+  String get titleDescT13 => '力量任务XP+10%';
+
+  @override
+  String get titleNameT14 => '大贤者';
+
+  @override
+  String get titleDescT14 => '智慧任务XP+10%';
+
+  @override
+  String get titleNameT15 => '不死战士';
+
+  @override
+  String get titleDescT15 => '健康任务XP+10%';
+
+  @override
+  String get titleNameT16 => '绝对魅力';
+
+  @override
+  String get titleDescT16 => '魅力任务XP+10%';
+
+  @override
+  String get titleNameT17 => '任务传奇';
+
+  @override
+  String get titleDescT17 => '完成500次任务';
+
+  @override
+  String get titleNameT18 => '任务之神';
+
+  @override
+  String get titleDescT18 => '完成1000次任务';
+
+  @override
+  String get titleNameT19 => '全能掌控者';
+
+  @override
+  String get titleDescT19 => '所有属性达到50';
+
+  @override
+  String get titleNameT20 => '新手营员';
+
+  @override
+  String get titleDescT20 => '达到3级';
+
+  @override
+  String get titleNameT21 => '经验丰富的旅者';
+
+  @override
+  String get titleDescT21 => '达到20级';
+
+  @override
+  String get titleNameT22 => '力量之巅';
+
+  @override
+  String get titleDescT22 => '力量达到100！';
+
+  @override
+  String get titleNameT23 => '智慧之巅';
+
+  @override
+  String get titleDescT23 => '智慧达到100！';
+
+  @override
+  String get titleNameT24 => '月间突袭突破者';
+
+  @override
+  String get titleDescT24 => '月间突袭通关1次';
+
+  @override
+  String get titleNameT25 => '月间突袭征服者';
+
+  @override
+  String get titleDescT25 => '月间突袭通关5次';
+
+  @override
+  String get titleNameT26 => '年间突袭生存者';
+
+  @override
+  String get titleDescT26 => '年间突袭通关1次';
+
+  @override
+  String get titleNameT27 => '年间突袭君主';
+
+  @override
+  String get titleDescT27 => '年间突袭通关3次';
+
+  @override
+  String get skillNameSk1 => '力量强化';
+
+  @override
+  String get skillDescSk1 => '力量任务XP+10%';
+
+  @override
+  String get skillNameSk2 => '智慧之光';
+
+  @override
+  String get skillDescSk2 => '智慧任务XP+10%';
+
+  @override
+  String get skillNameSk3 => '健康体魄';
+
+  @override
+  String get skillDescSk3 => '健康任务XP+10%';
+
+  @override
+  String get skillNameSk4 => '魅力散发';
+
+  @override
+  String get skillDescSk4 => '魅力任务XP+10%';
+
+  @override
+  String get skillNameSk5 => '任务专家';
+
+  @override
+  String get skillDescSk5 => '所有任务XP+5%';
+
+  @override
+  String get skillNameSk6 => '成长的喜悦';
+
+  @override
+  String get skillDescSk6 => '升级时额外获得SP1';
+
+  @override
+  String get skillNameSk7 => '专注训练';
+
+  @override
+  String get skillDescSk7 => '消耗SP1时属性增加2';
+
+  @override
+  String get skillNameSk8 => '学习加速';
+
+  @override
+  String get skillDescSk8 => '所有任务XP+10%';
+
+  @override
+  String get skillNameSk9 => '超越成长';
+
+  @override
+  String get skillDescSk9 => '升级时基础SP5→7';
+
+  @override
+  String get skillNameSk10 => '火焰剑击';
+
+  @override
+  String get skillDescSk10 => '战斗使用：造成额外25伤害';
+
+  @override
+  String get skillNameSk11 => '治愈之光';
+
+  @override
+  String get skillDescSk11 => '战斗使用：恢复HP20';
+
+  @override
+  String get skillNameSk12 => '雷电一击';
+
+  @override
+  String get skillDescSk12 => '战斗使用：造成50伤害';
+
+  @override
+  String get skillNameSk13 => '冰结魔法';
+
+  @override
+  String get skillDescSk13 => '战斗使用：造成35伤害';
+
+  @override
+  String get skillNameSk14 => '毒雾';
+
+  @override
+  String get skillDescSk14 => '战斗使用：造成30伤害';
+
+  @override
+  String get skillNameSk15 => '护盾';
+
+  @override
+  String get skillDescSk15 => '战斗使用：恢复HP40';
+
+  @override
+  String get skillNameSk16 => '大地震';
+
+  @override
+  String get skillDescSk16 => '战斗使用：造成70伤害';
+
+  @override
+  String get skillNameSk17 => '神圣祈祷';
+
+  @override
+  String get skillDescSk17 => '战斗使用：恢复HP60';
+
+  @override
+  String get skillNameSk18 => '战斗本能';
+
+  @override
+  String get skillDescSk18 => '力量任务XP+15%';
+
+  @override
+  String get skillNameSk19 => '冥想境界';
+
+  @override
+  String get skillDescSk19 => '智慧任务XP+15%';
+
+  @override
+  String get skillNameSk20 => '黑暗之剑';
+
+  @override
+  String get skillDescSk20 => '战斗使用：造成100伤害';
+
+  @override
+  String get skillNameSk21 => '完全再生';
+
+  @override
+  String get skillDescSk21 => '战斗使用：恢复HP80';
+
+  @override
+  String get skillNameSk22 => '极限效率';
+
+  @override
+  String get skillDescSk22 => '消耗SP1时属性增加3';
+
+  @override
+  String get skillNameSk23 => '超越加速';
+
+  @override
+  String get skillDescSk23 => '所有任务XP+20%';
+
+  @override
+  String get skillNameSk24 => '神的祝福';
+
+  @override
+  String get skillDescSk24 => '升级时额外获得SP3';
+
+  @override
+  String get monsterSlimeGreen => '绿色史莱姆';
+
+  @override
+  String get monsterBat => '洞穴蝙蝠';
+
+  @override
+  String get monsterMushroom => '毒蘑菇';
+
+  @override
+  String get monsterSlimeBlue => '蓝色史莱姆';
+
+  @override
+  String get monsterRat => '巨鼠';
+
+  @override
+  String get monsterGoblin => '哥布林';
+
+  @override
+  String get monsterSkeleton => '骷髅战士';
+
+  @override
+  String get monsterWolf => '暗影之狼';
+
+  @override
+  String get monsterSpiderGiant => '巨毒蜘蛛';
+
+  @override
+  String get monsterTreant => '行走之树';
+
+  @override
+  String get monsterOrc => '兽人战士';
+
+  @override
+  String get monsterDarkMage => '暗黑法师';
+
+  @override
+  String get monsterGolem => '石头魔像';
+
+  @override
+  String get monsterHarpy => '鸟妖';
+
+  @override
+  String get monsterMimic => '拟态怪';
+
+  @override
+  String get monsterLavaGolem => '熔岩魔像';
+
+  @override
+  String get monsterFireSpirit => '火焰精灵';
+
+  @override
+  String get monsterDemonWarrior => '魔族战士';
+
+  @override
+  String get monsterSalamander => '蝾螈';
+
+  @override
+  String get monsterCerberus => '地狱犬';
+
+  @override
+  String get monsterShadowKnight => '暗影骑士';
+
+  @override
+  String get monsterLich => '巫妖';
+
+  @override
+  String get monsterBehemoth => '庞然大物';
+
+  @override
+  String get monsterDarkPhoenix => '黑暗不死鸟';
+
+  @override
+  String get monsterVoidWorm => '虚空蠕虫';
+
+  @override
+  String get monsterBossTroll => '山怪首领';
+
+  @override
+  String get monsterBossDragon => '火焰龙';
+
+  @override
+  String get monsterBossDemonLord => '魔王';
+
+  @override
+  String get monsterBossHydra => '九头蛇';
+
+  @override
+  String get monsterBossFallenAngel => '堕天使';
+
+  @override
+  String get monsterBossDeathKnight => '死亡骑士';
+
+  @override
+  String get chapterName1 => '草原防线';
+
+  @override
+  String get chapterName2 => '黑暗森林';
+
+  @override
+  String get chapterName3 => '废墟城堡';
+
+  @override
+  String get chapterName4 => '熔岩地牢';
+
+  @override
+  String get chapterName5 => '深渊次元';
 }
