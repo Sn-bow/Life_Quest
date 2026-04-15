@@ -186,11 +186,28 @@ class _CardBattleScreenState extends State<CardBattleScreen>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Transform.translate(
         offset: Offset(_shakeOffsetX, _shakeOffsetY),
         child: Stack(
           children: [
-            // ---- Flame game background ----
+            // ---- Zone background image (Flutter layer) ----
+            Positioned.fill(
+              child: Image.asset(
+                _zoneBgAsset(widget.zone),
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: _zoneGradient(widget.zone),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // ---- Flame game (animations & effects only) ----
             Positioned.fill(
               child: GameWidget(game: _game),
             ),
@@ -350,6 +367,28 @@ class _CardBattleScreenState extends State<CardBattleScreen>
         ),
       ),
     );
+  }
+
+  static String _zoneBgAsset(int zone) {
+    switch (zone) {
+      case 1: return 'assets/images/backgrounds/bg_zone1_meadow.png';
+      case 2: return 'assets/images/backgrounds/bg_zone2_dark_forest.png';
+      case 3: return 'assets/images/backgrounds/bg_zone3_stone_castle.png';
+      case 4: return 'assets/images/backgrounds/bg_zone4_lava_cavern.png';
+      case 5: return 'assets/images/backgrounds/bg_zone5_abyss.png';
+      default: return 'assets/images/backgrounds/bg_zone1_meadow.png';
+    }
+  }
+
+  static List<Color> _zoneGradient(int zone) {
+    switch (zone) {
+      case 1: return [const Color(0xFF6FB5E8), const Color(0xFF50A050)];
+      case 2: return [const Color(0xFF141428), const Color(0xFF1A2A1A)];
+      case 3: return [const Color(0xFF1E1218), const Color(0xFF2D1F1A)];
+      case 4: return [const Color(0xFF280A00), const Color(0xFF500A00)];
+      case 5: return [const Color(0xFF050014), const Color(0xFF0F0328)];
+      default: return [const Color(0xFF1A1A2E), const Color(0xFF0D0D1A)];
+    }
   }
 }
 
