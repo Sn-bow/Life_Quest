@@ -171,14 +171,28 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
       if (outcome.goldChange > 0) {
         dungeonState.addGold(outcome.goldChange);
       } else {
-        dungeonState.spendGold(-outcome.goldChange);
+        // spendGold returns false if insufficient gold — clamp to 0
+        final cost = -outcome.goldChange;
+        if (!dungeonState.spendGold(cost)) {
+          // Can't afford — spend all remaining gold
+          dungeonState.spendGold(dungeonState.dungeonGold);
+        }
       }
     }
     if (outcome.hpChange != 0) {
-      dungeonState.healPlayer(outcome.hpChange);
+      if (outcome.hpChange > 0) {
+        dungeonState.healPlayer(outcome.hpChange);
+      } else {
+        dungeonState.damagePlayer(-outcome.hpChange);
+      }
     }
     if (outcome.hpPercentChange != 0) {
-      dungeonState.healPlayerPercent(outcome.hpPercentChange);
+      if (outcome.hpPercentChange > 0) {
+        dungeonState.healPlayerPercent(outcome.hpPercentChange);
+      } else {
+        final dmg = (dungeonState.playerMaxHp * (-outcome.hpPercentChange)).round();
+        dungeonState.damagePlayer(dmg);
+      }
     }
 
     setState(() {

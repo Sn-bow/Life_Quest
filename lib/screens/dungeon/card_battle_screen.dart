@@ -644,27 +644,52 @@ class _EnemyCard extends StatelessWidget {
             _IntentIcon(intent: enemy.currentIntent),
             const SizedBox(height: 6),
 
-            // Monster sprite placeholder
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: isFlashing
-                    ? Colors.red.shade600
-                    : Colors.grey.shade800,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Text(
-                  enemy.monster.name.isNotEmpty
-                      ? enemy.monster.name.characters.first
-                      : '?',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+            // Monster sprite
+            SizedBox(
+              width: 72,
+              height: 72,
+              child: Stack(
+                children: [
+                  // Sprite image — falls back to letter tile on error
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: ColorFiltered(
+                      colorFilter: isFlashing
+                          ? const ColorFilter.mode(
+                              Colors.red, BlendMode.srcATop)
+                          : const ColorFilter.mode(
+                              Colors.transparent, BlendMode.multiply),
+                      child: Image.asset(
+                        enemy.monster.spritePath,
+                        width: 72,
+                        height: 72,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            color: isFlashing
+                                ? Colors.red.shade600
+                                : Colors.grey.shade800,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Text(
+                              enemy.monster.name.isNotEmpty
+                                  ? enemy.monster.name.characters.first
+                                  : '?',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             const SizedBox(height: 4),
@@ -1018,7 +1043,7 @@ class _AnimatedHandCardState extends State<_AnimatedHandCard>
     // Card draw animation: slide up from bottom and fade in
     _drawController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300 + widget.index * 80),
+      duration: Duration(milliseconds: 200 + widget.index * 50),
     );
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0.0, 1.5),
@@ -1106,6 +1131,11 @@ class _PlayableCardState extends State<_PlayableCard>
     _playController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.onTap();
+        // Reset so the card can be re-used if it stays in hand
+        if (mounted) {
+          setState(() => _isPlaying = false);
+          _playController.reset();
+        }
       }
     });
   }
