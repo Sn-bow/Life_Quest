@@ -185,185 +185,182 @@ class _CardBattleScreenState extends State<CardBattleScreen>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Transform.translate(
-        offset: Offset(_shakeOffsetX, _shakeOffsetY),
-        child: Stack(
-          children: [
-            // ---- Zone background image (Flutter layer) ----
-            Positioned.fill(
-              child: Image.asset(
-                _zoneBgAsset(widget.zone),
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: _zoneGradient(widget.zone),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            // ---- Flame game (animations & effects only) ----
-            Positioned.fill(
-              child: GameWidget(game: _game),
-            ),
-
-            // ---- UI overlay ----
-            Positioned.fill(
-              child: Consumer<CardCombatState>(
-                builder: (context, combat, _) {
-                  _onCombatStateChanged(combat);
-                  return SafeArea(
-                    child: Column(
+    // Container renders the zone background (image + gradient fallback).
+    // Scaffold is transparent so the Container shows through.
+    // GameWidget uses overlayBuilderMap so Flutter UI renders ABOVE Flame canvas —
+    // this bypasses the Impeller/OpenGL compositing quirk on Android where
+    // Positioned.fill widgets inside a Stack with GameWidget go invisible.
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(_zoneBgAsset(widget.zone)),
+          fit: BoxFit.cover,
+          onError: (_, __) {},
+        ),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: _zoneGradient(widget.zone),
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Transform.translate(
+          offset: Offset(_shakeOffsetX, _shakeOffsetY),
+          child: GameWidget(
+            game: _game,
+            overlayBuilderMap: {
+              'battleUI': (context, game) {
+                return Consumer<CardCombatState>(
+                  builder: (context, combat, _) {
+                    _onCombatStateChanged(combat);
+                    return Stack(
                       children: [
-                        // -- Top bar --
-                        _TopBar(combat: combat, isDark: isDark),
-
-                        const SizedBox(height: 8),
-
-                        // -- Enemy area --
-                        Expanded(
-                          flex: 3,
-                          child: _EnemyArea(
-                            combat: combat,
-                            isDark: isDark,
-                            enemyFlashing: _enemyFlashing,
-                          ),
-                        ),
-
-                        // -- Player info --
-                        _PlayerInfoBar(combat: combat, isDark: isDark),
-
-                        const SizedBox(height: 4),
-
-                        // -- Card hand --
-                        SizedBox(
-                          height: 160,
-                          child: _CardHand(
-                            combat: combat,
-                            isDark: isDark,
-                            game: _game,
-                            onCardPlayed: (cardIndex) {
-                              final card = combat.hand[cardIndex];
-                              final enemyIdx = combat.selectedEnemyIndex;
-
-                              // Trigger enemy flash for attack cards
-                              if (card.category == CardCategory.attack ||
-                                  card.category == CardCategory.magic) {
-                                _triggerEnemyFlash(enemyIdx);
-                                _game.playHitParticle();
-                                HapticFeedback.mediumImpact(); // 공격 햅틱
-                              }
-                              if (card.effects.any(
-                                  (e) => e.effectType == CardEffectType.block)) {
-                                _game.playBlockParticle();
-                                HapticFeedback.lightImpact(); // 방어 햅틱
-                              }
-                              if (card.effects.any(
-                                  (e) => e.effectType == CardEffectType.heal)) {
-                                _game.playHealParticle();
-                                HapticFeedback.lightImpact(); // 힐 햅틱
-                              }
-
-                              // 카드 카테고리별 사운드
-                              switch (card.category) {
-                                case CardCategory.attack:
-                                  SoundService().playCardPlayAttack();
-                                case CardCategory.magic:
-                                  SoundService().playCardPlayMagic();
-                                case CardCategory.defense:
-                                  SoundService().playCardPlayDefense();
-                                case CardCategory.tactical:
-                                  SoundService().playCardPlayTactical();
-                              }
-                              combat.playCard(cardIndex,
-                                  targetEnemyIndex: enemyIdx);
-                            },
-                          ),
-                        ),
-
-                        const SizedBox(height: 4),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            // ---- Turn transition overlay ----
-            if (_showTurnOverlay)
-              Positioned.fill(
-                child: AnimatedBuilder(
-                  animation: _turnOverlayOpacity,
-                  builder: (context, child) {
-                    return IgnorePointer(
-                      child: Container(
-                        color: Colors.black
-                            .withValues(alpha: 0.4 * _turnOverlayOpacity.value),
-                        child: Center(
-                          child: Opacity(
-                            opacity: _turnOverlayOpacity.value,
-                            child: Transform.scale(
-                              scale:
-                                  0.8 + 0.2 * _turnOverlayOpacity.value,
-                              child: Text(
-                                _turnOverlayText,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold,
-                                  shadows: [
-                                    Shadow(
-                                      color: _turnOverlayText == AppLocalizations.of(context)!.cardBattleEnemyTurn
-                                          ? Colors.red.withValues(alpha: 0.8)
-                                          : Colors.blue.withValues(alpha: 0.8),
-                                      blurRadius: 20,
-                                    ),
-                                  ],
+                        // ---- UI column ----
+                        SafeArea(
+                          child: Column(
+                            children: [
+                              _TopBar(combat: combat, isDark: isDark),
+                              const SizedBox(height: 8),
+                              Expanded(
+                                flex: 3,
+                                child: _EnemyArea(
+                                  combat: combat,
+                                  isDark: isDark,
+                                  enemyFlashing: _enemyFlashing,
                                 ),
                               ),
-                            ),
+                              _PlayerInfoBar(combat: combat, isDark: isDark),
+                              const SizedBox(height: 4),
+                              SizedBox(
+                                height: 160,
+                                child: _CardHand(
+                                  combat: combat,
+                                  isDark: isDark,
+                                  game: _game,
+                                  onCardPlayed: (cardIndex) {
+                                    final card = combat.hand[cardIndex];
+                                    final enemyIdx =
+                                        combat.selectedEnemyIndex;
+
+                                    if (card.category ==
+                                            CardCategory.attack ||
+                                        card.category ==
+                                            CardCategory.magic) {
+                                      _triggerEnemyFlash(enemyIdx);
+                                      _game.playHitParticle();
+                                      HapticFeedback.mediumImpact();
+                                    }
+                                    if (card.effects.any((e) =>
+                                        e.effectType ==
+                                        CardEffectType.block)) {
+                                      _game.playBlockParticle();
+                                      HapticFeedback.lightImpact();
+                                    }
+                                    if (card.effects.any((e) =>
+                                        e.effectType ==
+                                        CardEffectType.heal)) {
+                                      _game.playHealParticle();
+                                      HapticFeedback.lightImpact();
+                                    }
+
+                                    switch (card.category) {
+                                      case CardCategory.attack:
+                                        SoundService().playCardPlayAttack();
+                                      case CardCategory.magic:
+                                        SoundService().playCardPlayMagic();
+                                      case CardCategory.defense:
+                                        SoundService().playCardPlayDefense();
+                                      case CardCategory.tactical:
+                                        SoundService().playCardPlayTactical();
+                                    }
+                                    combat.playCard(cardIndex,
+                                        targetEnemyIndex: enemyIdx);
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                            ],
                           ),
                         ),
-                      ),
+
+                        // ---- Turn transition overlay ----
+                        if (_showTurnOverlay)
+                          Positioned.fill(
+                            child: AnimatedBuilder(
+                              animation: _turnOverlayOpacity,
+                              builder: (context, child) {
+                                return IgnorePointer(
+                                  child: Container(
+                                    color: Colors.black.withValues(
+                                        alpha:
+                                            0.4 * _turnOverlayOpacity.value),
+                                    child: Center(
+                                      child: Opacity(
+                                        opacity: _turnOverlayOpacity.value,
+                                        child: Transform.scale(
+                                          scale: 0.8 +
+                                              0.2 *
+                                                  _turnOverlayOpacity.value,
+                                          child: Text(
+                                            _turnOverlayText,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 36,
+                                              fontWeight: FontWeight.bold,
+                                              shadows: [
+                                                Shadow(
+                                                  color: _turnOverlayText ==
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .cardBattleEnemyTurn
+                                                      ? Colors.red.withValues(
+                                                          alpha: 0.8)
+                                                      : Colors.blue.withValues(
+                                                          alpha: 0.8),
+                                                  blurRadius: 20,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+                        // ---- Victory / Defeat overlay ----
+                        if (combat.phase == CombatPhase.victory)
+                          _VictoryRewardOverlay(
+                            gold: combat.goldReward,
+                            zone: widget.zone,
+                            isDark: isDark,
+                            onComplete: () {
+                              combat.resetCombat();
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        if (combat.phase == CombatPhase.defeat)
+                          _ResultOverlay(
+                            isVictory: false,
+                            gold: 0,
+                            isDark: isDark,
+                            onContinue: () {
+                              combat.resetCombat();
+                              Navigator.of(context).pop(false);
+                            },
+                          ),
+                      ],
                     );
                   },
-                ),
-              ),
-
-            // ---- Victory / Defeat overlay ----
-            Consumer<CardCombatState>(
-              builder: (context, combat, _) {
-                if (combat.phase == CombatPhase.victory) {
-                  return _VictoryRewardOverlay(
-                    gold: combat.goldReward,
-                    zone: widget.zone,
-                    isDark: isDark,
-                    onComplete: () {
-                      combat.resetCombat();
-                      Navigator.of(context).pop(true);
-                    },
-                  );
-                }
-                if (combat.phase == CombatPhase.defeat) {
-                  return _ResultOverlay(
-                    isVictory: false,
-                    gold: 0,
-                    isDark: isDark,
-                    onContinue: () {
-                      combat.resetCombat();
-                      Navigator.of(context).pop(false);
-                    },
-                  );
-                }
-                return const SizedBox.shrink();
+                );
               },
-            ),
-          ],
+            },
+            initialActiveOverlays: const ['battleUI'],
+          ),
         ),
       ),
     );
@@ -644,27 +641,52 @@ class _EnemyCard extends StatelessWidget {
             _IntentIcon(intent: enemy.currentIntent),
             const SizedBox(height: 6),
 
-            // Monster sprite placeholder
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: isFlashing
-                    ? Colors.red.shade600
-                    : Colors.grey.shade800,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Text(
-                  enemy.monster.name.isNotEmpty
-                      ? enemy.monster.name.characters.first
-                      : '?',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+            // Monster sprite
+            SizedBox(
+              width: 72,
+              height: 72,
+              child: Stack(
+                children: [
+                  // Sprite image — falls back to letter tile on error
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: ColorFiltered(
+                      colorFilter: isFlashing
+                          ? const ColorFilter.mode(
+                              Colors.red, BlendMode.srcATop)
+                          : const ColorFilter.mode(
+                              Colors.transparent, BlendMode.multiply),
+                      child: Image.asset(
+                        enemy.monster.spritePath,
+                        width: 72,
+                        height: 72,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            color: isFlashing
+                                ? Colors.red.shade600
+                                : Colors.grey.shade800,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Text(
+                              enemy.monster.name.isNotEmpty
+                                  ? enemy.monster.name.characters.first
+                                  : '?',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             const SizedBox(height: 4),
@@ -1018,7 +1040,7 @@ class _AnimatedHandCardState extends State<_AnimatedHandCard>
     // Card draw animation: slide up from bottom and fade in
     _drawController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300 + widget.index * 80),
+      duration: Duration(milliseconds: 200 + widget.index * 50),
     );
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0.0, 1.5),
@@ -1106,6 +1128,11 @@ class _PlayableCardState extends State<_PlayableCard>
     _playController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.onTap();
+        // Reset so the card can be re-used if it stays in hand
+        if (mounted) {
+          setState(() => _isPlaying = false);
+          _playController.reset();
+        }
       }
     });
   }

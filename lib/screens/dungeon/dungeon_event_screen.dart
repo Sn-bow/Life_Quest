@@ -109,6 +109,11 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
               ...event.choices.asMap().entries.map((entry) {
                 final index = entry.key;
                 final choice = entry.value;
+                // Determine if player can afford the gold cost
+                final goldCost = choice.outcomes
+                    .where((o) => o.goldChange < 0)
+                    .fold<int>(0, (max, o) => (-o.goldChange) > max ? (-o.goldChange) : max);
+                final canAfford = goldCost == 0 || dungeonState.dungeonGold >= goldCost;
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: _ChoiceButton(
@@ -116,7 +121,8 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
                     index: index,
                     isDark: isDark,
                     accent: accent,
-                    onTap: () => _makeChoice(choice, dungeonState),
+                    canAfford: canAfford,
+                    onTap: canAfford ? () => _makeChoice(choice, dungeonState) : null,
                   ),
                 );
               }),
@@ -171,14 +177,25 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
       if (outcome.goldChange > 0) {
         dungeonState.addGold(outcome.goldChange);
       } else {
+        // Button was already disabled if player can't afford, so this
+        // should succeed. Guard still present as safety net.
         dungeonState.spendGold(-outcome.goldChange);
       }
     }
     if (outcome.hpChange != 0) {
-      dungeonState.healPlayer(outcome.hpChange);
+      if (outcome.hpChange > 0) {
+        dungeonState.healPlayer(outcome.hpChange);
+      } else {
+        dungeonState.damagePlayer(-outcome.hpChange);
+      }
     }
     if (outcome.hpPercentChange != 0) {
-      dungeonState.healPlayerPercent(outcome.hpPercentChange);
+      if (outcome.hpPercentChange > 0) {
+        dungeonState.healPlayerPercent(outcome.hpPercentChange);
+      } else {
+        final dmg = (dungeonState.playerMaxHp * (-outcome.hpPercentChange)).round();
+        dungeonState.damagePlayer(dmg);
+      }
     }
 
     setState(() {
@@ -197,13 +214,15 @@ class _ChoiceButton extends StatelessWidget {
   final int index;
   final bool isDark;
   final Color accent;
-  final VoidCallback onTap;
+  final bool canAfford;
+  final VoidCallback? onTap;
 
   const _ChoiceButton({
     required this.choice,
     required this.index,
     required this.isDark,
     required this.accent,
+    required this.canAfford,
     required this.onTap,
   });
 
@@ -218,17 +237,23 @@ class _ChoiceButton extends StatelessWidget {
             .first
         : 0;
 
-    return GestureDetector(
+    return Opacity(
+      opacity: canAfford ? 1.0 : 0.45,
+      child: GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: isDark
-              ? accent.withValues(alpha: 0.1)
-              : accent.withValues(alpha: 0.05),
+          color: canAfford
+              ? (isDark
+                  ? accent.withValues(alpha: 0.1)
+                  : accent.withValues(alpha: 0.05))
+              : Colors.grey.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: accent.withValues(alpha: 0.4),
+            color: canAfford
+                ? accent.withValues(alpha: 0.4)
+                : Colors.grey.withValues(alpha: 0.3),
             width: 1.5,
           ),
         ),
@@ -292,6 +317,7 @@ class _ChoiceButton extends StatelessWidget {
           ],
         ),
       ),
+      ), // closes Opacity
     );
   }
 }

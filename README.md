@@ -7,6 +7,16 @@
 
 ---
 
+## 현재 상태 (2026-04-16 기준)
+
+| 항목 | 결과 |
+|------|------|
+| `flutter analyze` | **No issues found** ✅ |
+| `flutter test` | **73개 전체 통과** ✅ |
+| `flutter build appbundle --release` | 성공 (64MB) ✅ |
+
+---
+
 ## 주요 기능
 
 | 기능 | 설명 |
@@ -120,22 +130,39 @@ Slay the Spire에서 영감을 받은 덱빌딩 로그라이크 전투 시스템
 - **에너지 시스템**: 턴당 에너지 3 (기본)
 - **상태이상 11종**: Thorns, Poison, Burn, Freeze, Weak, Vulnerable, Strength, Dexterity, Stalwart, Regeneration, Stun
 - **렐릭 31개**: 전투 전반에 영향을 주는 패시브 아이템
-- **이벤트 10개**: 선택지 기반 랜덤 이벤트
+- **이벤트 10개**: 선택지 기반 랜덤 이벤트 (골드 부족 시 선택지 비활성화)
 - **5존 구조**: 존마다 배경 / 몬스터 / 보스 차별화
 - **어센션 10단계**: Zone 5 클리어 후 해금, 단계별 패널티 부여
 - **무한 타워**: 층수가 올라갈수록 적 스탯 상승 (5층마다 존 순환)
 
-### 전투 화면 구성
+### 에셋 현황
+
+| 에셋 | 수량 | 위치 | 상태 |
+|------|------|------|------|
+| 몬스터 스프라이트 | 31종 PNG | `assets/images/monsters/` | ✅ 인게임 표시 |
+| 배경 이미지 | 5존 PNG | `assets/images/backgrounds/` | ✅ 로드 실패 시 그라디언트 fallback |
+| 전투 SFX | 9개 WAV | `assets/sounds/sfx/` | ✅ 카드 사용·턴 전환 시 재생 |
+| 전투 애니메이션 | 4종 | `battle_game.dart` (Canvas) | ✅ 에셋 없이 Canvas 드로잉 구현 |
+
+### 전투 화면 구조 (Impeller 호환)
+
+Android Impeller(OpenGL) 백엔드에서는 `Stack + Positioned.fill` 패턴에서 Flame의 `GameWidget`과 Flutter 위젯이 올바르게 합성되지 않습니다.  
+**반드시 아래 구조를 유지해야 합니다:**
 
 ```
-Flame 엔진 (BattleGame)
-  └── Flutter 오버레이 UI
-       ├── 손패 (Hand) — 드래그/탭으로 카드 사용
-       ├── 에너지 표시
-       ├── 적 의도 (Intent)
-       ├── 상태이상 아이콘
-       └── 턴 종료 버튼
+Container(decoration: 배경 이미지 + 그라디언트)
+  └── Scaffold(backgroundColor: transparent)
+       └── GameWidget(
+             game: BattleGame,               ← backgroundColor() = Color(0x00000000)
+             overlayBuilderMap: {
+               'battleUI': 손패/HP바/턴버튼  ← Flame 오버레이 API로 UI 렌더링
+             },
+             initialActiveOverlays: ['battleUI'],
+           )
 ```
+
+> ⚠️ `BattleGame.backgroundColor()`는 반드시 `Color(0x00000000)` (완전 투명)을 반환해야 합니다.  
+> `Scaffold` 내부 `Stack`에 `GameWidget`과 Flutter 위젯을 함께 배치하면 **UI가 보이지 않는 버그**가 발생합니다.
 
 ---
 
@@ -171,8 +198,6 @@ exact_cha = (0.0 / 1.0) * 3 = 0.0  → 배분: 0
 
 이 비례 배분 과정에서 **소수점 연산이 필수**입니다. 스탯이 `int`이면 반올림 오차가 레벨업마다 누적되어 플레이어의 퀘스트 패턴이 스탯에 정확히 반영되지 않습니다.
 
-### 추가 이유
-
 | 상황 | 소수점이 필요한 이유 |
 |------|---------------------|
 | 퀘스트 XP 보너스 계산 | `streakBonusRate = streak * 0.10` (연속 접속) |
@@ -180,7 +205,7 @@ exact_cha = (0.0 / 1.0) * 3 = 0.0  → 배분: 0
 | 장비 소수점 보너스 | 장비가 +0.5 strength 등을 부여할 수 있음 |
 | 업적 체크 | `.toInt()`로 변환해 정수 값과 비교 |
 
-> **요약**: 스탯은 내부에서 소수점 정밀도로 관리되고, UI 표시 시에는 `.toInt()` 또는 반올림하여 사용자에게는 정수로 보여줍니다. 이 설계 덕분에 플레이어의 실제 활동 패턴이 스탯에 정확하게 누적됩니다.
+> **요약**: 스탯은 내부에서 소수점 정밀도로 관리되고, UI 표시 시에는 `.toInt()` 또는 반올림하여 사용자에게는 정수로 보여줍니다.
 
 ---
 
@@ -255,13 +280,18 @@ lib/
 ├── data/                            # 정적 데이터 / DB
 │   ├── card_database.dart           # 카드 207장 정의
 │   ├── card_localization.dart       # 카드 다국어 헬퍼 (CardLocalization)
+│   ├── monster_localization.dart    # 몬스터 다국어 헬퍼
+│   ├── relic_localization.dart      # 렐릭 다국어 헬퍼
+│   ├── achievement_localization.dart
+│   ├── title_localization.dart
+│   ├── skill_localization.dart
 │   ├── relic_database.dart          # 렐릭 31개
 │   ├── event_database.dart          # 이벤트 10개
 │   ├── dungeon_generator.dart       # 던전 맵 생성기
-│   ├── monster_database.dart        # 몬스터 DB
-│   ├── achievement_database.dart    # 업적 DB
-│   ├── skill_database.dart          # 스킬 DB
-│   ├── title_database.dart          # 칭호 DB
+│   ├── monster_database.dart        # 몬스터 DB (31종, 5존)
+│   ├── achievement_database.dart    # 업적 DB (25개)
+│   ├── skill_database.dart          # 스킬 DB (24개)
+│   ├── title_database.dart          # 칭호 DB (28개)
 │   └── loot_table.dart              # 전리품 테이블
 └── widgets/                         # 공통 위젯
     ├── translucent_card.dart

@@ -79,10 +79,21 @@ class DungeonMapScreen extends StatelessWidget {
 
           // Map area
           Expanded(
-            child: SingleChildScrollView(
-              reverse: true, // row 0 at bottom
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: _buildMap(context, map, maxRow, isDark, accent, dungeonState),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  reverse: true, // row 0 at bottom, boss at top
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: ConstrainedBox(
+                    // Ensure content fills the viewport so nodes spread vertically
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight - 32,
+                    ),
+                    child: _buildMap(
+                        context, map, maxRow, isDark, accent, dungeonState),
+                  ),
+                );
+              },
             ),
           ),
 
@@ -141,7 +152,11 @@ class DungeonMapScreen extends StatelessWidget {
       );
     }
 
-    return Column(children: rowWidgets);
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: rowWidgets,
+    );
   }
 
   void _onNodeTap(BuildContext context, DungeonNode node, DungeonState dungeonState) {

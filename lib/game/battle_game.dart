@@ -36,8 +36,8 @@ class BattleGame extends FlameGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    _initParallaxBackground();   // 즉시 Canvas 배경 시작
-    _loadSprites();              // 스프라이트는 비동기 로드 (화면 블로킹 없음)
+    await _loadSprites();
+    _initParallaxBackground();
   }
 
   /// Attempts to load background / player / monster sprites.
@@ -122,9 +122,8 @@ class BattleGame extends FlameGame {
 
   @override
   Color backgroundColor() {
-    // Transparent — the Flutter Stack layer below GameWidget
-    // renders the zone background image (with gradient fallback),
-    // so the Flame canvas must be see-through.
+    // Fully transparent — the Flutter Container wrapping the Scaffold
+    // renders the zone gradient/image background instead.
     return const Color(0x00000000);
   }
 
