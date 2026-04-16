@@ -122,21 +122,9 @@ class BattleGame extends FlameGame {
 
   @override
   Color backgroundColor() {
-    // Each zone gets a slightly different atmosphere.
-    switch (currentZone) {
-      case 1:
-        return const Color(0xFF1A1A2E); // dark indigo  - forest
-      case 2:
-        return const Color(0xFF1B2838); // steel blue   - cave
-      case 3:
-        return const Color(0xFF2D1B2E); // dark purple  - crypt
-      case 4:
-        return const Color(0xFF0D1117); // near-black   - abyss
-      case 5:
-        return const Color(0xFF2E1A1A); // dark crimson - inferno
-      default:
-        return const Color(0xFF1A1A2E);
-    }
+    // Fully transparent — the Flutter Container wrapping the Scaffold
+    // renders the zone gradient/image background instead.
+    return const Color(0x00000000);
   }
 
   // ───────────────────────────────────────────
