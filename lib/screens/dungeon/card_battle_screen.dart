@@ -434,6 +434,7 @@ class _TopBar extends StatelessWidget {
                 .where((c) => c.cost <= combat.currentEnergy)
                 .length,
             totalInHand: combat.hand.length,
+            currentEnergy: combat.currentEnergy,
             isDark: isDark,
           ),
 
@@ -589,30 +590,40 @@ class _EnergyDisplay extends StatelessWidget {
 class _PlayableCardsBadge extends StatelessWidget {
   final int playableCount;
   final int totalInHand;
+  final int currentEnergy;
   final bool isDark;
 
   const _PlayableCardsBadge({
     required this.playableCount,
     required this.totalInHand,
+    required this.currentEnergy,
     required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
     final canPlay = playableCount > 0;
+    final noEnergy = currentEnergy == 0;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: canPlay
-            ? Colors.green.shade800.withValues(alpha: 0.85)
-            : Colors.grey.shade800.withValues(alpha: 0.7),
+        color: noEnergy
+            ? Colors.red.shade900.withValues(alpha: 0.85)
+            : canPlay
+                ? Colors.green.shade800.withValues(alpha: 0.85)
+                : Colors.orange.shade900.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: canPlay ? Colors.greenAccent.withValues(alpha: 0.6) : Colors.grey.shade600,
+          color: noEnergy
+              ? Colors.red.shade400.withValues(alpha: 0.7)
+              : canPlay
+                  ? Colors.greenAccent.withValues(alpha: 0.6)
+                  : Colors.orange.shade400.withValues(alpha: 0.6),
           width: 1,
         ),
-        boxShadow: canPlay
+        boxShadow: canPlay && !noEnergy
             ? [BoxShadow(color: Colors.greenAccent.withValues(alpha: 0.3), blurRadius: 6)]
             : null,
       ),
@@ -620,27 +631,28 @@ class _PlayableCardsBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.style,
+            noEnergy ? Icons.block : Icons.style,
             size: 12,
-            color: canPlay ? Colors.greenAccent : Colors.grey.shade500,
+            color: noEnergy
+                ? Colors.red.shade300
+                : canPlay
+                    ? Colors.greenAccent
+                    : Colors.orange.shade300,
           ),
           const SizedBox(width: 4),
+          // 핵심: EP가 얼마고 카드가 몇 장 나오는지 명확하게 표시
           Text(
-            '$playableCount / $totalInHand',
+            noEnergy
+                ? 'EP 부족'
+                : '$playableCount장 출격 가능',
             style: TextStyle(
-              color: canPlay ? Colors.white : Colors.grey.shade500,
-              fontSize: 12,
+              color: noEnergy
+                  ? Colors.red.shade200
+                  : canPlay
+                      ? Colors.white
+                      : Colors.orange.shade200,
+              fontSize: 11,
               fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            '사용가능',
-            style: TextStyle(
-              color: canPlay
-                  ? Colors.greenAccent.withValues(alpha: 0.9)
-                  : Colors.grey.shade600,
-              fontSize: 9,
             ),
           ),
         ],
