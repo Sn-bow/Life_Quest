@@ -124,7 +124,7 @@ class DungeonState extends ChangeNotifier {
 
     _playerMaxHp = playerMaxHp;
     _playerHp = playerMaxHp;
-    _maxEnergy = 3;
+    _maxEnergy = _computeMaxEnergy();
 
     // Ascension 7: start HP -10%
     if (_ascensionLevel >= 7) {
@@ -372,7 +372,26 @@ class DungeonState extends ChangeNotifier {
   /// Add a relic to the current run.
   void addRelic(RelicData relic) {
     _currentRelics.add(relic);
+    // 에너지 관련 렐릭이면 즉시 반영
+    _maxEnergy = _computeMaxEnergy();
     notifyListeners();
+  }
+
+  /// 현재 보유 렐릭에서 최대 EP를 계산한다.
+  /// 기본값 3에서 에너지 증가 렐릭을 모두 합산한다.
+  int _computeMaxEnergy() {
+    int energy = 3;
+    for (final relic in _currentRelics) {
+      switch (relic.id) {
+        case 'relic_r04': // 각성의 오브: 에너지 최대 +1
+          energy += 1;
+          break;
+        case 'relic_b01': // 왕관: 에너지 최대 +1 (저주는 startCombat 시 처리)
+          energy += 1;
+          break;
+      }
+    }
+    return energy;
   }
 
   // ===========================================================================

@@ -113,13 +113,14 @@ class _CardBattleScreenState extends State<CardBattleScreen>
 
     // Start combat after first frame so Provider is available
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final state = context.read<CardCombatState>();
-      state.startCombat(
+      final combatState = context.read<CardCombatState>();
+      final dungeonState = context.read<DungeonState>();
+      combatState.startCombat(
         widget.deck,
         widget.enemies,
         maxHp: widget.playerMaxHp,
         hp: widget.playerHp,
-        maxEnergy: 3,
+        maxEnergy: dungeonState.maxEnergy, // 렐릭 효과 반영
       );
     });
   }
