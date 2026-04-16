@@ -36,8 +36,8 @@ class BattleGame extends FlameGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprites();
-    _initParallaxBackground();
+    _initParallaxBackground();   // 즉시 Canvas 배경 시작
+    _loadSprites();              // 스프라이트는 비동기 로드 (화면 블로킹 없음)
   }
 
   /// Attempts to load background / player / monster sprites.
@@ -122,21 +122,10 @@ class BattleGame extends FlameGame {
 
   @override
   Color backgroundColor() {
-    // Each zone gets a slightly different atmosphere.
-    switch (currentZone) {
-      case 1:
-        return const Color(0xFF1A1A2E); // dark indigo  - forest
-      case 2:
-        return const Color(0xFF1B2838); // steel blue   - cave
-      case 3:
-        return const Color(0xFF2D1B2E); // dark purple  - crypt
-      case 4:
-        return const Color(0xFF0D1117); // near-black   - abyss
-      case 5:
-        return const Color(0xFF2E1A1A); // dark crimson - inferno
-      default:
-        return const Color(0xFF1A1A2E);
-    }
+    // Transparent — the Flutter Stack layer below GameWidget
+    // renders the zone background image (with gradient fallback),
+    // so the Flame canvas must be see-through.
+    return const Color(0x00000000);
   }
 
   // ───────────────────────────────────────────
