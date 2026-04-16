@@ -421,11 +421,22 @@ class _TopBar extends StatelessWidget {
           ),
           const SizedBox(width: 12),
 
-          // Energy
+          // Energy orb
           _EnergyDisplay(
             current: combat.currentEnergy,
             max: combat.maxEnergy,
           ),
+          const SizedBox(width: 10),
+
+          // Playable cards count
+          _PlayableCardsBadge(
+            playableCount: combat.hand
+                .where((c) => c.cost <= combat.currentEnergy)
+                .length,
+            totalInHand: combat.hand.length,
+            isDark: isDark,
+          ),
+
           const Spacer(),
 
           // Turn count
@@ -433,20 +444,27 @@ class _TopBar extends StatelessWidget {
             l10n.cardBattleTurnCount(combat.turnCount + 1),
             style: TextStyle(
               color: isDark ? Colors.white70 : Colors.black87,
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
 
-          // Draw / Discard counts
+          // Draw pile
           _PileCount(
-              icon: Icons.layers, count: combat.drawPile.length, isDark: isDark),
+            icon: Icons.layers,
+            count: combat.drawPile.length,
+            isDark: isDark,
+            label: '드로우',
+          ),
           const SizedBox(width: 8),
+          // Discard pile
           _PileCount(
-              icon: Icons.delete_outline,
-              count: combat.discardPile.length,
-              isDark: isDark),
+            icon: Icons.delete_outline,
+            count: combat.discardPile.length,
+            isDark: isDark,
+            label: '버린덱',
+          ),
         ],
       ),
     );
@@ -490,33 +508,138 @@ class _EnergyDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.amber.shade600, Colors.orange.shade800],
+    final isEmpty = current == 0;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: isEmpty
+                  ? [Colors.grey.shade700, Colors.grey.shade900]
+                  : [Colors.amber.shade400, Colors.orange.shade800],
+            ),
+            boxShadow: isEmpty
+                ? null
+                : [
+                    BoxShadow(
+                      color: Colors.amber.withValues(alpha: 0.6),
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                    ),
+                  ],
+            border: Border.all(
+              color: isEmpty ? Colors.grey.shade600 : Colors.amber.shade300,
+              width: 2,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '$current',
+                style: TextStyle(
+                  color: isEmpty ? Colors.grey.shade400 : Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  height: 1.0,
+                ),
+              ),
+              Text(
+                '/$max',
+                style: TextStyle(
+                  color: isEmpty
+                      ? Colors.grey.shade600
+                      : Colors.amber.shade200,
+                  fontSize: 10,
+                  height: 1.0,
+                ),
+              ),
+            ],
+          ),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.amber.withValues(alpha: 0.5),
-            blurRadius: 8,
-            spreadRadius: 1,
+        const SizedBox(height: 2),
+        Text(
+          'EP',
+          style: TextStyle(
+            color: isEmpty ? Colors.grey.shade600 : Colors.amber.shade300,
+            fontSize: 9,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ============================================================================
+// Playable cards badge — shows how many cards in hand can be played now
+// ============================================================================
+
+class _PlayableCardsBadge extends StatelessWidget {
+  final int playableCount;
+  final int totalInHand;
+  final bool isDark;
+
+  const _PlayableCardsBadge({
+    required this.playableCount,
+    required this.totalInHand,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final canPlay = playableCount > 0;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: canPlay
+            ? Colors.green.shade800.withValues(alpha: 0.85)
+            : Colors.grey.shade800.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: canPlay ? Colors.greenAccent.withValues(alpha: 0.6) : Colors.grey.shade600,
+          width: 1,
+        ),
+        boxShadow: canPlay
+            ? [BoxShadow(color: Colors.greenAccent.withValues(alpha: 0.3), blurRadius: 6)]
+            : null,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.style,
+            size: 12,
+            color: canPlay ? Colors.greenAccent : Colors.grey.shade500,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            '$playableCount / $totalInHand',
+            style: TextStyle(
+              color: canPlay ? Colors.white : Colors.grey.shade500,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            '사용가능',
+            style: TextStyle(
+              color: canPlay
+                  ? Colors.greenAccent.withValues(alpha: 0.9)
+                  : Colors.grey.shade600,
+              fontSize: 9,
+            ),
           ),
         ],
-      ),
-      child: Center(
-        child: Text(
-          '$current/$max',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
     );
   }
@@ -530,23 +653,39 @@ class _PileCount extends StatelessWidget {
   final IconData icon;
   final int count;
   final bool isDark;
+  final String label;
 
-  const _PileCount(
-      {required this.icon, required this.count, required this.isDark});
+  const _PileCount({
+    required this.icon,
+    required this.count,
+    required this.isDark,
+    required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final color = isDark ? Colors.white54 : Colors.black45;
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 16, color: isDark ? Colors.white54 : Colors.black45),
-        const SizedBox(width: 2),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 15, color: color),
+            const SizedBox(width: 2),
+            Text(
+              '$count',
+              style: TextStyle(
+                color: isDark ? Colors.white : Colors.black87,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
         Text(
-          '$count',
-          style: TextStyle(
-            color: isDark ? Colors.white54 : Colors.black45,
-            fontSize: 12,
-          ),
+          label,
+          style: TextStyle(color: color, fontSize: 8, letterSpacing: 0.5),
         ),
       ],
     );
@@ -704,11 +843,28 @@ class _EnemyCard extends StatelessWidget {
             ),
             const SizedBox(height: 2),
 
-            // HP bar
+            // HP text + bar
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.favorite, size: 10, color: Colors.redAccent),
+                const SizedBox(width: 3),
+                Text(
+                  '${enemy.currentHp}/${enemy.maxHp}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    shadows: [Shadow(color: Colors.black, blurRadius: 2)],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 2),
             _HpBar(
               current: enemy.currentHp,
               max: enemy.maxHp,
-              height: 8,
+              height: 6,
               color: Colors.redAccent,
             ),
             const SizedBox(height: 2),
@@ -818,17 +974,53 @@ class _IntentIcon extends StatelessWidget {
         break;
     }
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 16, color: color),
-        const SizedBox(width: 2),
-        Text(
-          intent.displayText,
-          style: TextStyle(
-              color: color, fontSize: 12, fontWeight: FontWeight.bold),
-        ),
-      ],
+    final typeLabel = switch (intent.type) {
+      EnemyIntentType.attack => '공격',
+      EnemyIntentType.multiAttack => '연속공격',
+      EnemyIntentType.defend => '방어',
+      EnemyIntentType.buff => '강화',
+      EnemyIntentType.debuff => '약화',
+      EnemyIntentType.unknown => '?',
+    };
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withValues(alpha: 0.4), width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 13, color: color),
+          const SizedBox(width: 3),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                typeLabel,
+                style: TextStyle(
+                  color: color.withValues(alpha: 0.8),
+                  fontSize: 8,
+                  height: 1.0,
+                ),
+              ),
+              if (intent.displayText.isNotEmpty)
+                Text(
+                  intent.displayText,
+                  style: TextStyle(
+                    color: color,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    height: 1.1,
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
