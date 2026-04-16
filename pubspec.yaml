@@ -73,6 +73,8 @@ flutter:
     - assets/images/
     - assets/images/monsters/
     - assets/images/backgrounds/
+    - assets/images/cards/
+    - assets/images/ui/
     - assets/images/player/
     - assets/images/game/
     - assets/images/game/player/

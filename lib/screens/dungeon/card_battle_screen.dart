@@ -113,13 +113,14 @@ class _CardBattleScreenState extends State<CardBattleScreen>
 
     // Start combat after first frame so Provider is available
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final state = context.read<CardCombatState>();
-      state.startCombat(
+      final combatState = context.read<CardCombatState>();
+      final dungeonState = context.read<DungeonState>();
+      combatState.startCombat(
         widget.deck,
         widget.enemies,
         maxHp: widget.playerMaxHp,
         hp: widget.playerHp,
-        maxEnergy: 3,
+        maxEnergy: dungeonState.maxEnergy, // 렐릭 효과 반영
       );
     });
   }
@@ -421,11 +422,23 @@ class _TopBar extends StatelessWidget {
           ),
           const SizedBox(width: 12),
 
-          // Energy
+          // Energy orb
           _EnergyDisplay(
             current: combat.currentEnergy,
             max: combat.maxEnergy,
           ),
+          const SizedBox(width: 10),
+
+          // Playable cards count
+          _PlayableCardsBadge(
+            playableCount: combat.hand
+                .where((c) => c.cost <= combat.currentEnergy)
+                .length,
+            totalInHand: combat.hand.length,
+            currentEnergy: combat.currentEnergy,
+            isDark: isDark,
+          ),
+
           const Spacer(),
 
           // Turn count
@@ -433,20 +446,27 @@ class _TopBar extends StatelessWidget {
             l10n.cardBattleTurnCount(combat.turnCount + 1),
             style: TextStyle(
               color: isDark ? Colors.white70 : Colors.black87,
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
 
-          // Draw / Discard counts
+          // Draw pile
           _PileCount(
-              icon: Icons.layers, count: combat.drawPile.length, isDark: isDark),
+            icon: Icons.layers,
+            count: combat.drawPile.length,
+            isDark: isDark,
+            label: '드로우',
+          ),
           const SizedBox(width: 8),
+          // Discard pile
           _PileCount(
-              icon: Icons.delete_outline,
-              count: combat.discardPile.length,
-              isDark: isDark),
+            icon: Icons.delete_outline,
+            count: combat.discardPile.length,
+            isDark: isDark,
+            label: '버린덱',
+          ),
         ],
       ),
     );
@@ -490,33 +510,153 @@ class _EnergyDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.amber.shade600, Colors.orange.shade800],
+    final isEmpty = current == 0;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: 56,
+          height: 56,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // 오브 배경 이미지
+              Image.asset(
+                isEmpty
+                    ? 'assets/images/ui/ui_energy_orb_empty.png'
+                    : 'assets/images/ui/ui_energy_orb.png',
+                width: 56,
+                height: 56,
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: isEmpty
+                          ? [Colors.grey.shade700, Colors.grey.shade900]
+                          : [Colors.amber.shade400, Colors.orange.shade800],
+                    ),
+                  ),
+                ),
+              ),
+              // 숫자 오버레이
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '$current',
+                    style: TextStyle(
+                      color: isEmpty ? Colors.grey.shade400 : Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      height: 1.0,
+                      shadows: const [Shadow(color: Colors.black, blurRadius: 4)],
+                    ),
+                  ),
+                  Text(
+                    '/$max',
+                    style: TextStyle(
+                      color: isEmpty ? Colors.grey.shade600 : Colors.amber.shade200,
+                      fontSize: 9,
+                      height: 1.0,
+                      shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.amber.withValues(alpha: 0.5),
-            blurRadius: 8,
-            spreadRadius: 1,
+        const SizedBox(height: 2),
+        Text(
+          'EP',
+          style: TextStyle(
+            color: isEmpty ? Colors.grey.shade600 : Colors.amber.shade300,
+            fontSize: 9,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ============================================================================
+// Playable cards badge — shows how many cards in hand can be played now
+// ============================================================================
+
+class _PlayableCardsBadge extends StatelessWidget {
+  final int playableCount;
+  final int totalInHand;
+  final int currentEnergy;
+  final bool isDark;
+
+  const _PlayableCardsBadge({
+    required this.playableCount,
+    required this.totalInHand,
+    required this.currentEnergy,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final canPlay = playableCount > 0;
+    final noEnergy = currentEnergy == 0;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: noEnergy
+            ? Colors.red.shade900.withValues(alpha: 0.85)
+            : canPlay
+                ? Colors.green.shade800.withValues(alpha: 0.85)
+                : Colors.orange.shade900.withValues(alpha: 0.85),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: noEnergy
+              ? Colors.red.shade400.withValues(alpha: 0.7)
+              : canPlay
+                  ? Colors.greenAccent.withValues(alpha: 0.6)
+                  : Colors.orange.shade400.withValues(alpha: 0.6),
+          width: 1,
+        ),
+        boxShadow: canPlay && !noEnergy
+            ? [BoxShadow(color: Colors.greenAccent.withValues(alpha: 0.3), blurRadius: 6)]
+            : null,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            noEnergy ? Icons.block : Icons.style,
+            size: 12,
+            color: noEnergy
+                ? Colors.red.shade300
+                : canPlay
+                    ? Colors.greenAccent
+                    : Colors.orange.shade300,
+          ),
+          const SizedBox(width: 4),
+          // 핵심: EP가 얼마고 카드가 몇 장 나오는지 명확하게 표시
+          Text(
+            noEnergy
+                ? 'EP 부족'
+                : '$playableCount장 출격 가능',
+            style: TextStyle(
+              color: noEnergy
+                  ? Colors.red.shade200
+                  : canPlay
+                      ? Colors.white
+                      : Colors.orange.shade200,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
-      ),
-      child: Center(
-        child: Text(
-          '$current/$max',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
     );
   }
@@ -530,23 +670,39 @@ class _PileCount extends StatelessWidget {
   final IconData icon;
   final int count;
   final bool isDark;
+  final String label;
 
-  const _PileCount(
-      {required this.icon, required this.count, required this.isDark});
+  const _PileCount({
+    required this.icon,
+    required this.count,
+    required this.isDark,
+    required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final color = isDark ? Colors.white54 : Colors.black45;
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 16, color: isDark ? Colors.white54 : Colors.black45),
-        const SizedBox(width: 2),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 15, color: color),
+            const SizedBox(width: 2),
+            Text(
+              '$count',
+              style: TextStyle(
+                color: isDark ? Colors.white : Colors.black87,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
         Text(
-          '$count',
-          style: TextStyle(
-            color: isDark ? Colors.white54 : Colors.black45,
-            fontSize: 12,
-          ),
+          label,
+          style: TextStyle(color: color, fontSize: 8, letterSpacing: 0.5),
         ),
       ],
     );
@@ -704,11 +860,28 @@ class _EnemyCard extends StatelessWidget {
             ),
             const SizedBox(height: 2),
 
-            // HP bar
+            // HP text + bar
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.favorite, size: 10, color: Colors.redAccent),
+                const SizedBox(width: 3),
+                Text(
+                  '${enemy.currentHp}/${enemy.maxHp}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    shadows: [Shadow(color: Colors.black, blurRadius: 2)],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 2),
             _HpBar(
               current: enemy.currentHp,
               max: enemy.maxHp,
-              height: 8,
+              height: 6,
               color: Colors.redAccent,
             ),
             const SizedBox(height: 2),
@@ -818,17 +991,53 @@ class _IntentIcon extends StatelessWidget {
         break;
     }
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 16, color: color),
-        const SizedBox(width: 2),
-        Text(
-          intent.displayText,
-          style: TextStyle(
-              color: color, fontSize: 12, fontWeight: FontWeight.bold),
-        ),
-      ],
+    final typeLabel = switch (intent.type) {
+      EnemyIntentType.attack => '공격',
+      EnemyIntentType.multiAttack => '연속공격',
+      EnemyIntentType.defend => '방어',
+      EnemyIntentType.buff => '강화',
+      EnemyIntentType.debuff => '약화',
+      EnemyIntentType.unknown => '?',
+    };
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withValues(alpha: 0.4), width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 13, color: color),
+          const SizedBox(width: 3),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                typeLabel,
+                style: TextStyle(
+                  color: color.withValues(alpha: 0.8),
+                  fontSize: 8,
+                  height: 1.0,
+                ),
+              ),
+              if (intent.displayText.isNotEmpty)
+                Text(
+                  intent.displayText,
+                  style: TextStyle(
+                    color: color,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    height: 1.1,
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -854,7 +1063,7 @@ class _PlayerInfoBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // HP bar
+          // HP bar (이미지 프레임 사용)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -865,10 +1074,11 @@ class _PlayerInfoBar extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       '${combat.playerHp} / ${combat.playerMaxHp}',
-                      style: TextStyle(
-                        color: isDark ? Colors.white : Colors.black87,
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
+                        shadows: [Shadow(color: Colors.black, blurRadius: 3)],
                       ),
                     ),
                     if (combat.playerBlock > 0) ...[
@@ -878,11 +1088,9 @@ class _PlayerInfoBar extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 4),
-                _HpBar(
+                _PlayerHpBar(
                   current: combat.playerHp,
                   max: combat.playerMaxHp,
-                  height: 10,
-                  color: Colors.green,
                 ),
               ],
             ),
@@ -917,32 +1125,50 @@ class _EndTurnButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final enabled = combat.phase == CombatPhase.playerTurn;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: enabled ? () {
-          HapticFeedback.selectionClick();
-          combat.endTurn();
-        } : null,
-        borderRadius: BorderRadius.circular(24),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-            gradient: enabled
-                ? const LinearGradient(
-                    colors: [Color(0xFFE65100), Color(0xFFBF360C)],
-                  )
-                : null,
-            color: enabled ? null : Colors.grey.shade700,
-          ),
-          child: Text(
-            l10n.cardBattleEndTurnButton,
-            style: TextStyle(
-              color: enabled ? Colors.white : Colors.white38,
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-            ),
+    return GestureDetector(
+      onTap: enabled ? () {
+        HapticFeedback.selectionClick();
+        combat.endTurn();
+      } : null,
+      child: Opacity(
+        opacity: enabled ? 1.0 : 0.45,
+        child: SizedBox(
+          height: 44,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // 버튼 배경 이미지
+              Image.asset(
+                'assets/images/ui/ui_turn_end_button.png',
+                height: 44,
+                fit: BoxFit.fitHeight,
+                errorBuilder: (_, __, ___) => Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: enabled
+                        ? const LinearGradient(
+                            colors: [Color(0xFFE65100), Color(0xFFBF360C)],
+                          )
+                        : null,
+                    color: enabled ? null : Colors.grey.shade700,
+                  ),
+                ),
+              ),
+              // 텍스트 오버레이 (이미지에 이미 END TURN이 있으므로 한국어 소자막만)
+              Positioned(
+                bottom: 4,
+                child: Text(
+                  l10n.cardBattleEndTurnButton,
+                  style: TextStyle(
+                    color: enabled ? Colors.amber.shade200 : Colors.white38,
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                    shadows: const [Shadow(color: Colors.black, blurRadius: 3)],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -1189,6 +1415,19 @@ class _HandCard extends StatelessWidget {
     required this.isDark,
   });
 
+  String get _frameAsset {
+    switch (card.category) {
+      case CardCategory.attack:
+        return 'assets/images/cards/card_frame_attack.png';
+      case CardCategory.defense:
+        return 'assets/images/cards/card_frame_defense.png';
+      case CardCategory.magic:
+        return 'assets/images/cards/card_frame_magic.png';
+      case CardCategory.tactical:
+        return 'assets/images/cards/card_frame_tactical.png';
+    }
+  }
+
   Color get _borderColor {
     switch (card.category) {
       case CardCategory.attack:
@@ -1202,128 +1441,125 @@ class _HandCard extends StatelessWidget {
     }
   }
 
-  Color get _headerColor {
-    switch (card.category) {
-      case CardCategory.attack:
-        return Colors.red.shade800;
-      case CardCategory.magic:
-        return Colors.purple.shade800;
-      case CardCategory.defense:
-        return Colors.blue.shade800;
-      case CardCategory.tactical:
-        return Colors.amber.shade800;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: onTap,
       child: Opacity(
-        opacity: canPlay ? 1.0 : 0.5,
-        child: Container(
+        opacity: canPlay ? 1.0 : 0.45,
+        child: SizedBox(
           width: 110,
-          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-          decoration: BoxDecoration(
-            color: isDark
-                ? const Color(0xFF1E1E2E)
-                : const Color(0xFFF5F5F0),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: _borderColor, width: 2),
-            boxShadow: canPlay
-                ? [
-                    BoxShadow(
-                      color: _borderColor.withValues(alpha: 0.4),
-                      blurRadius: 6,
-                      spreadRadius: 1,
-                    ),
-                  ]
-                : null,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Stack(
             children: [
-              // Header: cost + name
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _headerColor,
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(8)),
+              // ── 카드 프레임 배경 이미지 ──
+              Positioned.fill(
+                child: Image.asset(
+                  _frameAsset,
+                  fit: BoxFit.fill,
+                  // 파일 없으면 색상 fallback
+                  errorBuilder: (_, __, ___) => Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1E1E2E),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: _borderColor, width: 2),
+                    ),
+                  ),
                 ),
-                child: Row(
+              ),
+
+              // ── 카드 내용 오버레이 ──
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Cost circle
-                    Container(
-                      width: 22,
-                      height: 22,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.amber.shade600,
-                      ),
-                      child: Center(
+                    // 코스트 + 이름
+                    Row(
+                      children: [
+                        Container(
+                          width: 22,
+                          height: 22,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xCC000000),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${card.cost}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            CardLocalization.localizedName(card, l10n),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              shadows: [Shadow(color: Colors.black, blurRadius: 3)],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    // 설명
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.45),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                         child: Text(
-                          '${card.cost}',
+                          CardLocalization.localizedDescription(card, l10n),
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 9,
+                            height: 1.3,
+                            shadows: [Shadow(color: Colors.black, blurRadius: 2)],
                           ),
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Builder(builder: (ctx) {
-                        final l10n = AppLocalizations.of(ctx)!;
-                        return Text(
-                          CardLocalization.localizedName(card, l10n),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                    // 레어도
+                    if (card.rarity != CardRarity.common)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Center(
+                          child: Text(
+                            _rarityLabel(context, card.rarity),
+                            style: TextStyle(
+                              color: _rarityColor(card.rarity),
+                              fontSize: 9,
+                              fontWeight: FontWeight.w600,
+                              shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
+                            ),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        );
-                      }),
-                    ),
+                        ),
+                      ),
                   ],
                 ),
               ),
 
-              // Description
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Builder(builder: (ctx) {
-                    final l10n = AppLocalizations.of(ctx)!;
-                    return Text(
-                      CardLocalization.localizedDescription(card, l10n),
-                      style: TextStyle(
-                        color: isDark ? Colors.white70 : Colors.black87,
-                        fontSize: 10,
-                        height: 1.3,
-                      ),
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
-                    );
-                  }),
-                ),
-              ),
-
-              // Rarity indicator
-              if (card.rarity != CardRarity.common)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: Center(
-                    child: Text(
-                      _rarityLabel(context, card.rarity),
-                      style: TextStyle(
-                        color: _rarityColor(card.rarity),
-                        fontSize: 9,
-                        fontWeight: FontWeight.w600,
-                      ),
+              // ── 사용 불가 시 어둡게 ──
+              if (!canPlay)
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -1365,6 +1601,66 @@ class _HandCard extends StatelessWidget {
 // ============================================================================
 // Shared widgets
 // ============================================================================
+
+// ============================================================================
+// Player HP bar — uses ui_hp_bar.png as frame
+// ============================================================================
+
+class _PlayerHpBar extends StatelessWidget {
+  final int current;
+  final int max;
+
+  const _PlayerHpBar({required this.current, required this.max});
+
+  @override
+  Widget build(BuildContext context) {
+    final ratio = max > 0 ? (current / max).clamp(0.0, 1.0) : 0.0;
+    final barColor = ratio > 0.5
+        ? Colors.green
+        : ratio > 0.25
+            ? Colors.orange
+            : Colors.red;
+
+    return SizedBox(
+      height: 22,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // HP바 프레임 이미지
+          Image.asset(
+            'assets/images/ui/ui_hp_bar.png',
+            fit: BoxFit.fill,
+            errorBuilder: (_, __, ___) => Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade800,
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
+          ),
+          // 채워지는 내부 바
+          Padding(
+            padding: const EdgeInsets.fromLTRB(28, 4, 6, 4),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor: ratio,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOut,
+                  decoration: BoxDecoration(
+                    color: barColor,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _HpBar extends StatelessWidget {
   final int current;
