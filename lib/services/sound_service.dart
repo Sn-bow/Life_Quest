@@ -26,118 +26,103 @@ class SoundService {
     _isInitialized = true;
   }
 
-  static const int _poolSize = 4;
-  List<AudioPlayer>? _playerPool;
-  int _poolIndex = 0;
+  // ── 볼륨 상수 ────────────────────────────────────────────────────────────
+  final double _bgmVolume       = 0.55; // BGM
+  static const double _sfxVol   = 0.38; // 일반 SFX
+  static const double _sfxVictory = 0.22; // 승리 팡파르 (1.5s 길어서 따로 낮춤)
 
-  // ── BGM 전용 플레이어 ────────────────────────────────────────────────────
-  AudioPlayer? _bgmPlayer;
-  String? _currentBgm;
-  final double _bgmVolume = 0.65; // BGM 볼륨
-  static const double _sfxVolume = 0.60;        // 일반 SFX 볼륨
-  static const double _sfxVolumeVictory = 0.38; // 승리 팡파르 — 길어서 따로 낮춤
-
-  // SFX용 AudioContext: gainTransientMayDuck → BGM이 끊기지 않고 살짝 줄어들었다 복귀
+  // ── SFX AudioContext ─────────────────────────────────────────────────────
+  // AndroidAudioFocus.none: SFX가 포커스를 요청하지 않아
+  // BGM(gain)에 아무 포커스 이벤트를 발생시키지 않음 → BGM 끊김 없음
   // ignore: prefer_const_constructors
-  static final AudioContext _sfxContext = AudioContext(
+  static final AudioContext _sfxCtx = AudioContext(
     // ignore: prefer_const_constructors
     android: AudioContextAndroid(
       contentType: AndroidContentType.sonification,
-      usageType: AndroidUsageType.game,
-      audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+      usageType:   AndroidUsageType.game,
+      audioFocus:  AndroidAudioFocus.none, // ★ 포커스 관리 안 함
       isSpeakerphoneOn: false,
-      stayAwake: false,
+      stayAwake:   false,
     ),
-    // ignore: prefer_const_constructors,prefer_const_literals_to_create_immutables
+    // ignore: prefer_const_constructors
     iOS: AudioContextIOS(
       category: AVAudioSessionCategory.ambient,
-      options: const {AVAudioSessionOptions.mixWithOthers},
+      options:  const {AVAudioSessionOptions.mixWithOthers},
     ),
   );
 
-  // BGM용 AudioContext: gain (장기 점유) + mixWithOthers(iOS)
+  // ── BGM AudioContext ──────────────────────────────────────────────────────
   // ignore: prefer_const_constructors
-  static final AudioContext _bgmContext = AudioContext(
+  static final AudioContext _bgmCtx = AudioContext(
     // ignore: prefer_const_constructors
     android: AudioContextAndroid(
       contentType: AndroidContentType.music,
-      usageType: AndroidUsageType.game,
-      audioFocus: AndroidAudioFocus.gain,
+      usageType:   AndroidUsageType.game,
+      audioFocus:  AndroidAudioFocus.gain,
       isSpeakerphoneOn: false,
-      stayAwake: false,
+      stayAwake:   false,
     ),
-    // ignore: prefer_const_constructors,prefer_const_literals_to_create_immutables
+    // ignore: prefer_const_constructors
     iOS: AudioContextIOS(
       category: AVAudioSessionCategory.playback,
-      options: const {AVAudioSessionOptions.mixWithOthers},
+      options:  const {AVAudioSessionOptions.mixWithOthers},
     ),
   );
 
-  List<AudioPlayer> _getPool() {
-    if (_playerPool == null) {
-      _playerPool = List.generate(_poolSize, (_) => AudioPlayer());
-      // SFX 플레이어에 오디오 컨텍스트 + 볼륨 미리 설정
-      for (final p in _playerPool!) {
-        p.setAudioContext(_sfxContext).ignore();
-        p.setVolume(_sfxVolume).ignore();
-      }
-    }
-    return _playerPool!;
-  }
+  // ── BGM 전용 플레이어 ─────────────────────────────────────────────────────
+  AudioPlayer? _bgmPlayer;
+  String? _currentBgm;
 
-  void playSfx(String assetPath, {double? volume}) {
+  // ── SFX: 호출마다 새 플레이어 생성 → onComplete 시 자동 dispose ──────────
+  // 풀(pool) 방식을 버리고 1회용 패턴으로 변경.
+  // 이유: 풀 플레이어가 AudioFocus 이벤트를 BGM 플레이어와 공유하며
+  //       서로 간섭하는 문제를 근본적으로 차단.
+  void playSfx(String assetPath, {double vol = _sfxVol}) {
     if (_isMuted) return;
-    try {
-      final pool = _getPool();
-      final player = pool[_poolIndex];
-      _poolIndex = (_poolIndex + 1) % _poolSize;
-      player.stop().ignore();
-      if (volume != null) player.setVolume(volume).ignore();
-      player.play(AssetSource(assetPath)).ignore();
-    } catch (e) {
-      debugPrint('Error playing sound $assetPath: $e');
-    }
+    final player = AudioPlayer();
+    player
+      ..setAudioContext(_sfxCtx)
+      ..play(AssetSource(assetPath), volume: vol)
+          .catchError((e) => debugPrint('SFX error $assetPath: $e'));
+    // 재생 완료 시 자동 해제
+    player.onPlayerComplete.first
+        .then((_) => player.dispose())
+        .catchError((_) => player.dispose());
   }
 
-  /// BGM 재생 (루프). 이미 같은 곡이 재생 중이면 무시.
+  // ── BGM ───────────────────────────────────────────────────────────────────
   Future<void> playBgm(String assetPath) async {
     if (_isMuted) return;
-    if (_currentBgm == assetPath) return; // 같은 곡 중복 재생 방지
+    if (_currentBgm == assetPath) return;
     try {
-      _bgmPlayer ??= AudioPlayer();
-      await _bgmPlayer!.setAudioContext(_bgmContext);
-      await _bgmPlayer!.stop();
-      await _bgmPlayer!.setVolume(_bgmVolume);
+      // 항상 새 인스턴스로 시작 (이전 상태 오염 방지)
+      await _bgmPlayer?.dispose();
+      _bgmPlayer = AudioPlayer();
+      await _bgmPlayer!.setAudioContext(_bgmCtx);
       await _bgmPlayer!.setReleaseMode(ReleaseMode.loop);
-      await _bgmPlayer!.play(AssetSource(assetPath));
+      await _bgmPlayer!.play(AssetSource(assetPath), volume: _bgmVolume);
       _currentBgm = assetPath;
     } catch (e) {
-      debugPrint('Error playing BGM $assetPath: $e');
-    }
-  }
-
-  /// BGM 정지 — player를 완전히 dispose해서 다음 던전에서 깨끗하게 재생
-  Future<void> stopBgm() async {
-    try {
-      await _bgmPlayer?.stop();
-      await _bgmPlayer?.dispose();
-      _bgmPlayer = null;   // 다음 playBgm() 호출 시 새 인스턴스 생성
-      _currentBgm = null;
-    } catch (e) {
-      debugPrint('Error stopping BGM: $e');
+      debugPrint('BGM error $assetPath: $e');
       _bgmPlayer = null;
       _currentBgm = null;
     }
   }
 
-  /// BGM 일시정지 / 재개
-  Future<void> pauseBgm() async => _bgmPlayer?.pause().ignore();
-  Future<void> resumeBgm() async {
-    if (_isMuted) return;
-    _bgmPlayer?.resume().ignore();
+  Future<void> stopBgm() async {
+    try {
+      await _bgmPlayer?.stop();
+      await _bgmPlayer?.dispose();
+    } catch (_) {}
+    _bgmPlayer = null;
+    _currentBgm = null;
   }
 
-  /// 뮤트 토글 시 BGM도 함께 처리
+  Future<void> pauseBgm() async => _bgmPlayer?.pause().ignore();
+  Future<void> resumeBgm() async {
+    if (!_isMuted) _bgmPlayer?.resume().ignore();
+  }
+
   Future<void> toggleMute() async {
     _isMuted = !_isMuted;
     final prefs = await SharedPreferences.getInstance();
@@ -149,51 +134,38 @@ class SoundService {
     }
   }
 
-  void dispose() {
-    if (_playerPool != null) {
-      for (final player in _playerPool!) {
-        player.dispose();
-      }
-    }
-    _bgmPlayer?.dispose();
-  }
+  void dispose() => _bgmPlayer?.dispose();
 
-  // Pre-defined SFX triggers
-  void playLevelUp() => playSfx('sounds/sfx/level_up.wav');
-  void playQuestComplete() => playSfx('sounds/quest_complete.mp3');
-  void playAttack() => playSfx('sounds/hit.mp3');
-  void playClick() => playSfx('sounds/click.mp3');
+  // ── 편의 메서드 ───────────────────────────────────────────────────────────
+  void playLevelUp()           => playSfx('sounds/sfx/level_up.wav');
+  void playQuestComplete()     => playSfx('sounds/quest_complete.mp3');
+  void playAttack()            => playSfx('sounds/hit.mp3');
+  void playClick()             => playSfx('sounds/click.mp3');
 
-  // ── Soul Deck SFX ─────────────────────────────────────────────────────────
-  // 파일이 없을 경우 무시됨 (playSfx 내부 try/catch).
-  void playCardDraw() => playSfx('sounds/game/card_draw.mp3');
-  void playCardPlayAttack() => playSfx('sounds/sfx/attack_swing.wav');
-  void playCardPlayMagic() => playSfx('sounds/sfx/magic_cast.wav');
-  void playCardPlayDefense() => playSfx('sounds/sfx/defend_block.wav');
-  void playCardPlayTactical() => playSfx('sounds/game/card_tactical.mp3');
-  void playBlock() => playSfx('sounds/sfx/defend_block.wav');
-  void playHeal() => playSfx('sounds/game/heal.mp3');
-  void playEnemyAttack() => playSfx('sounds/sfx/attack_swing.wav');
-  void playEnemyDefeat() => playSfx('sounds/sfx/enemy_death.wav');
-  void playBossAppear() => playSfx('sounds/game/boss_appear.mp3');
-  void playVictory() => playSfx('sounds/sfx/victory.wav', volume: _sfxVolumeVictory);
-  void playDefeat() => playSfx('sounds/game/defeat.mp3');
-  void playTurnChange() => playSfx('sounds/game/turn_change.mp3');
-  void playRelicPickup() => playSfx('sounds/game/relic_pickup.mp3');
-  void playShopBuy() => playSfx('sounds/game/shop_buy.mp3');
-  void playStatusEffect() => playSfx('sounds/game/status_effect.mp3');
+  // Soul Deck SFX
+  void playCardDraw()          => playSfx('sounds/game/card_draw.mp3');
+  void playCardPlayAttack()    => playSfx('sounds/sfx/attack_swing.wav');
+  void playCardPlayMagic()     => playSfx('sounds/sfx/magic_cast.wav');
+  void playCardPlayDefense()   => playSfx('sounds/sfx/defend_block.wav');
+  void playCardPlayTactical()  => playSfx('sounds/game/card_tactical.mp3');
+  void playBlock()             => playSfx('sounds/sfx/defend_block.wav');
+  void playHeal()              => playSfx('sounds/game/heal.mp3');
+  void playEnemyAttack()       => playSfx('sounds/sfx/attack_swing.wav');
+  void playEnemyDefeat()       => playSfx('sounds/sfx/enemy_death.wav');
+  void playBossAppear()        => playSfx('sounds/game/boss_appear.mp3');
+  void playVictory()           => playSfx('sounds/sfx/victory.wav', vol: _sfxVictory);
+  void playDefeat()            => playSfx('sounds/game/defeat.mp3');
+  void playTurnChange()        => playSfx('sounds/game/turn_change.mp3');
+  void playRelicPickup()       => playSfx('sounds/game/relic_pickup.mp3');
+  void playShopBuy()           => playSfx('sounds/game/shop_buy.mp3');
+  void playStatusEffect()      => playSfx('sounds/game/status_effect.mp3');
 
-  // ── Battle SFX (WAV — 직접 생성) ───────────────────────────────────────
-  void playMagicHit() => playSfx('sounds/sfx/magic_hit.wav');
+  // Battle SFX
+  void playMagicHit()          => playSfx('sounds/sfx/magic_hit.wav');
   void playBattleButtonClick() => playSfx('sounds/sfx/button_click.wav');
-  void playCardPlay() => playSfx('sounds/sfx/card_play.wav');
+  void playCardPlay()          => playSfx('sounds/sfx/card_play.wav');
 
-  // ── BGM 편의 메서드 ──────────────────────────────────────────────────────
-  /// 던전/전투 배경음악 시작
-  Future<void> playDungeonBgm() =>
-      playBgm('sounds/bgm/Before_the_Siege.mp3');
-
-  /// 던전 나갈 때 BGM 정지
-  Future<void> stopDungeonBgm() => stopBgm();
-
+  // BGM
+  Future<void> playDungeonBgm()  => playBgm('sounds/bgm/Before_the_Siege.mp3');
+  Future<void> stopDungeonBgm()  => stopBgm();
 }
