@@ -430,8 +430,10 @@ class CharacterState extends ChangeNotifier {
       statBonusRate = (statValue / 10) * 0.05;
       if (statBonusRate > 0.5) statBonusRate = 0.5;
       double titleBonusRate = 0;
-      final currentTitle =
-          _allTitles.firstWhere((t) => t.name == _character!.title);
+      final currentTitle = _allTitles.firstWhere(
+        (t) => t.name == _character!.title,
+        orElse: () => _allTitles.first,
+      );
       if (currentTitle.bonusType == quest.category) {
         titleBonusRate = currentTitle.bonusValue ?? 0;
       }
@@ -1165,6 +1167,14 @@ class CharacterState extends ChangeNotifier {
         final expectedMaxXp = xpRequiredForLevel(_character!.level);
         if (_character!.maxXp != expectedMaxXp) {
           _character!.maxXp = expectedMaxXp;
+          needsSave = true;
+        }
+        // Title name migration: if stored title doesn't exist in TitleDatabase
+        // (e.g. was saved in a different locale), reset to the Korean name for t0.
+        final titleExists =
+            _allTitles.any((t) => t.name == _character!.title);
+        if (!titleExists) {
+          _character!.title = _allTitles.first.name; // '새싹 모험가'
           needsSave = true;
         }
 

@@ -1123,7 +1123,6 @@ class _EndTurnButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final enabled = combat.phase == CombatPhase.playerTurn;
     return GestureDetector(
       onTap: enabled ? () {
@@ -1152,19 +1151,6 @@ class _EndTurnButton extends StatelessWidget {
                           )
                         : null,
                     color: enabled ? null : Colors.grey.shade700,
-                  ),
-                ),
-              ),
-              // 텍스트 오버레이 (이미지에 이미 END TURN이 있으므로 한국어 소자막만)
-              Positioned(
-                bottom: 4,
-                child: Text(
-                  l10n.cardBattleEndTurnButton,
-                  style: TextStyle(
-                    color: enabled ? Colors.amber.shade200 : Colors.white38,
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                    shadows: const [Shadow(color: Colors.black, blurRadius: 3)],
                   ),
                 ),
               ),
