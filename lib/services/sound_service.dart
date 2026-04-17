@@ -33,8 +33,9 @@ class SoundService {
   // ── BGM 전용 플레이어 ────────────────────────────────────────────────────
   AudioPlayer? _bgmPlayer;
   String? _currentBgm;
-  final double _bgmVolume = 0.60; // BGM 볼륨
-  static const double _sfxVolume = 0.75; // SFX 볼륨
+  final double _bgmVolume = 0.65; // BGM 볼륨
+  static const double _sfxVolume = 0.60;        // 일반 SFX 볼륨
+  static const double _sfxVolumeVictory = 0.38; // 승리 팡파르 — 길어서 따로 낮춤
 
   // SFX용 AudioContext: gainTransientMayDuck → BGM이 끊기지 않고 살짝 줄어들었다 복귀
   // ignore: prefer_const_constructors
@@ -84,13 +85,14 @@ class SoundService {
     return _playerPool!;
   }
 
-  void playSfx(String assetPath) {
+  void playSfx(String assetPath, {double? volume}) {
     if (_isMuted) return;
     try {
       final pool = _getPool();
       final player = pool[_poolIndex];
       _poolIndex = (_poolIndex + 1) % _poolSize;
       player.stop().ignore();
+      if (volume != null) player.setVolume(volume).ignore();
       player.play(AssetSource(assetPath)).ignore();
     } catch (e) {
       debugPrint('Error playing sound $assetPath: $e');
@@ -114,13 +116,17 @@ class SoundService {
     }
   }
 
-  /// BGM 정지
+  /// BGM 정지 — player를 완전히 dispose해서 다음 던전에서 깨끗하게 재생
   Future<void> stopBgm() async {
     try {
       await _bgmPlayer?.stop();
+      await _bgmPlayer?.dispose();
+      _bgmPlayer = null;   // 다음 playBgm() 호출 시 새 인스턴스 생성
       _currentBgm = null;
     } catch (e) {
       debugPrint('Error stopping BGM: $e');
+      _bgmPlayer = null;
+      _currentBgm = null;
     }
   }
 
@@ -170,7 +176,7 @@ class SoundService {
   void playEnemyAttack() => playSfx('sounds/sfx/attack_swing.wav');
   void playEnemyDefeat() => playSfx('sounds/sfx/enemy_death.wav');
   void playBossAppear() => playSfx('sounds/game/boss_appear.mp3');
-  void playVictory() => playSfx('sounds/sfx/victory.wav');
+  void playVictory() => playSfx('sounds/sfx/victory.wav', volume: _sfxVolumeVictory);
   void playDefeat() => playSfx('sounds/game/defeat.mp3');
   void playTurnChange() => playSfx('sounds/game/turn_change.mp3');
   void playRelicPickup() => playSfx('sounds/game/relic_pickup.mp3');
