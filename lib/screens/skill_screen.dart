@@ -46,11 +46,23 @@ class SkillScreen extends StatelessWidget {
           String requirementText = l10n.skillRequiredLevel(skill.requiredLevel);
           if (skill.requiredStatType != null &&
               skill.requiredStatValue != null) {
-            String statName = skill.requiredStatType!.name;
-            String capitalizedStatName =
-                statName.substring(0, 1).toUpperCase() + statName.substring(1);
+            String localizedStatName;
+            switch (skill.requiredStatType!) {
+              case StatType.strength:
+                localizedStatName = l10n.questsCategoryStrength;
+                break;
+              case StatType.wisdom:
+                localizedStatName = l10n.questsCategoryWisdom;
+                break;
+              case StatType.health:
+                localizedStatName = l10n.questsCategoryHealth;
+                break;
+              case StatType.charisma:
+                localizedStatName = l10n.questsCategoryCharm;
+                break;
+            }
             requirementText +=
-                ' / $capitalizedStatName ${skill.requiredStatValue}';
+                ' / $localizedStatName ${skill.requiredStatValue}';
           }
 
           return Padding(
