@@ -33,10 +33,54 @@ class SoundService {
   // ── BGM 전용 플레이어 ────────────────────────────────────────────────────
   AudioPlayer? _bgmPlayer;
   String? _currentBgm;
-  final double _bgmVolume = 0.45; // BGM은 SFX보다 낮게
+  final double _bgmVolume = 0.60; // BGM 볼륨
+  static const double _sfxVolume = 0.75; // SFX 볼륨
+
+  // SFX용 AudioContext: gainTransientMayDuck → BGM이 끊기지 않고 살짝 줄어들었다 복귀
+  // ignore: prefer_const_constructors
+  static final AudioContext _sfxContext = AudioContext(
+    // ignore: prefer_const_constructors
+    android: AudioContextAndroid(
+      contentType: AndroidContentType.sonification,
+      usageType: AndroidUsageType.game,
+      audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+      isSpeakerphoneOn: false,
+      stayAwake: false,
+    ),
+    // ignore: prefer_const_constructors,prefer_const_literals_to_create_immutables
+    iOS: AudioContextIOS(
+      category: AVAudioSessionCategory.ambient,
+      options: const {AVAudioSessionOptions.mixWithOthers},
+    ),
+  );
+
+  // BGM용 AudioContext: gain (장기 점유) + mixWithOthers(iOS)
+  // ignore: prefer_const_constructors
+  static final AudioContext _bgmContext = AudioContext(
+    // ignore: prefer_const_constructors
+    android: AudioContextAndroid(
+      contentType: AndroidContentType.music,
+      usageType: AndroidUsageType.game,
+      audioFocus: AndroidAudioFocus.gain,
+      isSpeakerphoneOn: false,
+      stayAwake: false,
+    ),
+    // ignore: prefer_const_constructors,prefer_const_literals_to_create_immutables
+    iOS: AudioContextIOS(
+      category: AVAudioSessionCategory.playback,
+      options: const {AVAudioSessionOptions.mixWithOthers},
+    ),
+  );
 
   List<AudioPlayer> _getPool() {
-    _playerPool ??= List.generate(_poolSize, (_) => AudioPlayer());
+    if (_playerPool == null) {
+      _playerPool = List.generate(_poolSize, (_) => AudioPlayer());
+      // SFX 플레이어에 오디오 컨텍스트 + 볼륨 미리 설정
+      for (final p in _playerPool!) {
+        p.setAudioContext(_sfxContext).ignore();
+        p.setVolume(_sfxVolume).ignore();
+      }
+    }
     return _playerPool!;
   }
 
@@ -59,6 +103,7 @@ class SoundService {
     if (_currentBgm == assetPath) return; // 같은 곡 중복 재생 방지
     try {
       _bgmPlayer ??= AudioPlayer();
+      await _bgmPlayer!.setAudioContext(_bgmContext);
       await _bgmPlayer!.stop();
       await _bgmPlayer!.setVolume(_bgmVolume);
       await _bgmPlayer!.setReleaseMode(ReleaseMode.loop);
