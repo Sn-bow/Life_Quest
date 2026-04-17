@@ -26,15 +26,14 @@ class SoundService {
     _isInitialized = true;
   }
 
-  Future<void> toggleMute() async {
-    _isMuted = !_isMuted;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('sound_muted', _isMuted);
-  }
-
   static const int _poolSize = 4;
   List<AudioPlayer>? _playerPool;
   int _poolIndex = 0;
+
+  // ── BGM 전용 플레이어 ────────────────────────────────────────────────────
+  AudioPlayer? _bgmPlayer;
+  String? _currentBgm;
+  final double _bgmVolume = 0.45; // BGM은 SFX보다 낮게
 
   List<AudioPlayer> _getPool() {
     _playerPool ??= List.generate(_poolSize, (_) => AudioPlayer());
@@ -54,12 +53,58 @@ class SoundService {
     }
   }
 
+  /// BGM 재생 (루프). 이미 같은 곡이 재생 중이면 무시.
+  Future<void> playBgm(String assetPath) async {
+    if (_isMuted) return;
+    if (_currentBgm == assetPath) return; // 같은 곡 중복 재생 방지
+    try {
+      _bgmPlayer ??= AudioPlayer();
+      await _bgmPlayer!.stop();
+      await _bgmPlayer!.setVolume(_bgmVolume);
+      await _bgmPlayer!.setReleaseMode(ReleaseMode.loop);
+      await _bgmPlayer!.play(AssetSource(assetPath));
+      _currentBgm = assetPath;
+    } catch (e) {
+      debugPrint('Error playing BGM $assetPath: $e');
+    }
+  }
+
+  /// BGM 정지
+  Future<void> stopBgm() async {
+    try {
+      await _bgmPlayer?.stop();
+      _currentBgm = null;
+    } catch (e) {
+      debugPrint('Error stopping BGM: $e');
+    }
+  }
+
+  /// BGM 일시정지 / 재개
+  Future<void> pauseBgm() async => _bgmPlayer?.pause().ignore();
+  Future<void> resumeBgm() async {
+    if (_isMuted) return;
+    _bgmPlayer?.resume().ignore();
+  }
+
+  /// 뮤트 토글 시 BGM도 함께 처리
+  Future<void> toggleMute() async {
+    _isMuted = !_isMuted;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('sound_muted', _isMuted);
+    if (_isMuted) {
+      await _bgmPlayer?.setVolume(0);
+    } else {
+      await _bgmPlayer?.setVolume(_bgmVolume);
+    }
+  }
+
   void dispose() {
     if (_playerPool != null) {
       for (final player in _playerPool!) {
         player.dispose();
       }
     }
+    _bgmPlayer?.dispose();
   }
 
   // Pre-defined SFX triggers
@@ -91,5 +136,13 @@ class SoundService {
   void playMagicHit() => playSfx('sounds/sfx/magic_hit.wav');
   void playBattleButtonClick() => playSfx('sounds/sfx/button_click.wav');
   void playCardPlay() => playSfx('sounds/sfx/card_play.wav');
+
+  // ── BGM 편의 메서드 ──────────────────────────────────────────────────────
+  /// 던전/전투 배경음악 시작
+  Future<void> playDungeonBgm() =>
+      playBgm('sounds/bgm/Before_the_Siege.mp3');
+
+  /// 던전 나갈 때 BGM 정지
+  Future<void> stopDungeonBgm() => stopBgm();
 
 }

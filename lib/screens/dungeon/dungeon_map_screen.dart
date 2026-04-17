@@ -8,9 +8,29 @@ import 'package:life_quest_final_v2/screens/dungeon/dungeon_shop_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_rest_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_result_screen.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/services/sound_service.dart';
 
-class DungeonMapScreen extends StatelessWidget {
+class DungeonMapScreen extends StatefulWidget {
   const DungeonMapScreen({super.key});
+
+  @override
+  State<DungeonMapScreen> createState() => _DungeonMapScreenState();
+}
+
+class _DungeonMapScreenState extends State<DungeonMapScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // 던전 맵 진입 시 BGM 시작
+    SoundService().playDungeonBgm();
+  }
+
+  @override
+  void dispose() {
+    // 던전 완전히 나갈 때 BGM 정지
+    SoundService().stopDungeonBgm();
+    super.dispose();
+  }
 
   String _getZoneName(BuildContext context, int zone) {
     final l10n = AppLocalizations.of(context)!;
