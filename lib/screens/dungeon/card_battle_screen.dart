@@ -244,39 +244,46 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                     final enemyIdx =
                                         combat.selectedEnemyIndex;
 
-                                    if (card.category ==
-                                            CardCategory.attack ||
-                                        card.category ==
-                                            CardCategory.magic) {
-                                      _triggerEnemyFlash(enemyIdx);
-                                      _game.playHitParticle();
-                                      HapticFeedback.mediumImpact();
-                                    }
-                                    if (card.effects.any((e) =>
-                                        e.effectType ==
-                                        CardEffectType.block)) {
-                                      _game.playBlockParticle();
-                                      HapticFeedback.lightImpact();
-                                    }
-                                    if (card.effects.any((e) =>
-                                        e.effectType ==
-                                        CardEffectType.heal)) {
-                                      _game.playHealParticle();
-                                      HapticFeedback.lightImpact();
-                                    }
-
-                                    switch (card.category) {
-                                      case CardCategory.attack:
-                                        SoundService().playCardPlayAttack();
-                                      case CardCategory.magic:
-                                        SoundService().playCardPlayMagic();
-                                      case CardCategory.defense:
-                                        SoundService().playCardPlayDefense();
-                                      case CardCategory.tactical:
-                                        SoundService().playCardPlayTactical();
-                                    }
+                                    // 카드 효과 먼저 적용 (핵심 로직)
                                     combat.playCard(cardIndex,
                                         targetEnemyIndex: enemyIdx);
+
+                                    // 시각/청각 효과 (실패해도 무방)
+                                    try {
+                                      if (card.category ==
+                                              CardCategory.attack ||
+                                          card.category ==
+                                              CardCategory.magic) {
+                                        _triggerEnemyFlash(enemyIdx);
+                                        _game.playHitParticle();
+                                        HapticFeedback.mediumImpact();
+                                      }
+                                      if (card.effects.any((e) =>
+                                          e.effectType ==
+                                          CardEffectType.block)) {
+                                        _game.playBlockParticle();
+                                        HapticFeedback.lightImpact();
+                                      }
+                                      if (card.effects.any((e) =>
+                                          e.effectType ==
+                                          CardEffectType.heal)) {
+                                        _game.playHealParticle();
+                                        HapticFeedback.lightImpact();
+                                      }
+                                      switch (card.category) {
+                                        case CardCategory.attack:
+                                          SoundService().playCardPlayAttack();
+                                        case CardCategory.magic:
+                                          SoundService().playCardPlayMagic();
+                                        case CardCategory.defense:
+                                          SoundService().playCardPlayDefense();
+                                        case CardCategory.tactical:
+                                          SoundService()
+                                              .playCardPlayTactical();
+                                      }
+                                    } catch (_) {
+                                      // 이펙트 실패해도 게임 진행 보장
+                                    }
                                   },
                                 ),
                               ),
@@ -1339,7 +1346,6 @@ class _PlayableCardState extends State<_PlayableCard>
     );
     _playController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        widget.onTap();
         // Reset so the card can be re-used if it stays in hand
         if (mounted) {
           setState(() => _isPlaying = false);
@@ -1358,7 +1364,8 @@ class _PlayableCardState extends State<_PlayableCard>
   void _handleTap() {
     if (!widget.canPlay || _isPlaying) return;
     setState(() => _isPlaying = true);
-    _playController.forward(from: 0.0);
+    _playController.forward(from: 0.0); // 애니메이션 먼저 시작
+    widget.onTap(); // 즉시 카드 효과 적용
   }
 
   @override
