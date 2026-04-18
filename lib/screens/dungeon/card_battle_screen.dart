@@ -248,28 +248,8 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                     combat.playCard(cardIndex,
                                         targetEnemyIndex: enemyIdx);
 
-                                    // 시각/청각 효과 (실패해도 무방)
+                                    // ① 사운드 (Flame과 독립, 항상 실행)
                                     try {
-                                      if (card.category ==
-                                              CardCategory.attack ||
-                                          card.category ==
-                                              CardCategory.magic) {
-                                        _triggerEnemyFlash(enemyIdx);
-                                        _game.playHitParticle();
-                                        HapticFeedback.mediumImpact();
-                                      }
-                                      if (card.effects.any((e) =>
-                                          e.effectType ==
-                                          CardEffectType.block)) {
-                                        _game.playBlockParticle();
-                                        HapticFeedback.lightImpact();
-                                      }
-                                      if (card.effects.any((e) =>
-                                          e.effectType ==
-                                          CardEffectType.heal)) {
-                                        _game.playHealParticle();
-                                        HapticFeedback.lightImpact();
-                                      }
                                       switch (card.category) {
                                         case CardCategory.attack:
                                           SoundService().playCardPlayAttack();
@@ -281,9 +261,40 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                           SoundService()
                                               .playCardPlayTactical();
                                       }
-                                    } catch (_) {
-                                      // 이펙트 실패해도 게임 진행 보장
-                                    }
+                                    } catch (_) {}
+
+                                    // ② 햅틱 (독립)
+                                    try {
+                                      if (card.category ==
+                                              CardCategory.attack ||
+                                          card.category ==
+                                              CardCategory.magic) {
+                                        HapticFeedback.mediumImpact();
+                                      } else {
+                                        HapticFeedback.lightImpact();
+                                      }
+                                    } catch (_) {}
+
+                                    // ③ Flame 파티클 + 적 플래시 (독립)
+                                    try {
+                                      if (card.category ==
+                                              CardCategory.attack ||
+                                          card.category ==
+                                              CardCategory.magic) {
+                                        _triggerEnemyFlash(enemyIdx);
+                                        _game.playHitParticle();
+                                      }
+                                      if (card.effects.any((e) =>
+                                          e.effectType ==
+                                          CardEffectType.block)) {
+                                        _game.playBlockParticle();
+                                      }
+                                      if (card.effects.any((e) =>
+                                          e.effectType ==
+                                          CardEffectType.heal)) {
+                                        _game.playHealParticle();
+                                      }
+                                    } catch (_) {}
                                   },
                                 ),
                               ),

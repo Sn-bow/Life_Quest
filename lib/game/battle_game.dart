@@ -265,46 +265,52 @@ class BattleGame extends FlameGame {
 
   /// Spawns a hit particle burst at the enemy position (red/orange particles).
   void playHitParticle({Vector2? position}) {
-    final pos = position ?? Vector2(size.x * 0.7, size.y * 0.35);
-    add(ParticleEffect(
-      spawnPosition: pos,
-      color: const Color(0xFFFF4444),
-      count: 15,
-      speed: 140.0,
-      lifetime: 0.5,
-      particleRadius: 3.0,
-      gravity: 100.0,
-    ));
+    try {
+      final pos = position ?? Vector2(size.x * 0.7, size.y * 0.35);
+      add(ParticleEffect(
+        spawnPosition: pos,
+        color: const Color(0xFFFF4444),
+        count: 15,
+        speed: 140.0,
+        lifetime: 0.5,
+        particleRadius: 3.0,
+        gravity: 100.0,
+      ));
+    } catch (_) {}
   }
 
   /// Spawns green floating heal particles at the player position.
   void playHealParticle({Vector2? position}) {
-    final pos = position ?? Vector2(size.x * 0.3, size.y * 0.35);
-    add(ParticleEffect(
-      spawnPosition: pos,
-      color: const Color(0xFF44FF88),
-      count: 10,
-      speed: 60.0,
-      lifetime: 0.7,
-      particleRadius: 2.5,
-      gravity: -30.0, // float upward
-    ));
+    try {
+      final pos = position ?? Vector2(size.x * 0.3, size.y * 0.35);
+      add(ParticleEffect(
+        spawnPosition: pos,
+        color: const Color(0xFF44FF88),
+        count: 10,
+        speed: 60.0,
+        lifetime: 0.7,
+        particleRadius: 2.5,
+        gravity: -30.0, // float upward
+      ));
+    } catch (_) {}
   }
 
   /// Spawns a blue shield flash effect at the player position.
   void playBlockParticle({Vector2? position}) {
-    final pos = position ?? Vector2(size.x * 0.3, size.y * 0.35);
-    add(ParticleEffect(
-      spawnPosition: pos,
-      color: const Color(0xFF4488FF),
-      count: 8,
-      speed: 80.0,
-      lifetime: 0.4,
-      particleRadius: 3.5,
-      gravity: 0.0, // no gravity for shield effect - radial burst
-    ));
-    // Also add a brief shield flash ring
-    add(_ShieldFlash(center: pos));
+    try {
+      final pos = position ?? Vector2(size.x * 0.3, size.y * 0.35);
+      add(ParticleEffect(
+        spawnPosition: pos,
+        color: const Color(0xFF4488FF),
+        count: 8,
+        speed: 80.0,
+        lifetime: 0.4,
+        particleRadius: 3.5,
+        gravity: 0.0, // no gravity for shield effect - radial burst
+      ));
+      // Also add a brief shield flash ring
+      add(_ShieldFlash(center: pos));
+    } catch (_) {}
   }
 }
 
