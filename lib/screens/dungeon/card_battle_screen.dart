@@ -165,7 +165,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
       _turnOverlayText = text;
       _showTurnOverlay = true;
     });
-    SoundService().playTurnChange();
+    try { SoundService().playTurnChange(); } catch (_) {}
     _turnOverlayController.forward(from: 0.0);
   }
 
@@ -214,7 +214,10 @@ class _CardBattleScreenState extends State<CardBattleScreen>
               'battleUI': (context, game) {
                 return Consumer<CardCombatState>(
                   builder: (context, combat, _) {
-                    _onCombatStateChanged(combat);
+                    // build 완료 후 setState 호출 → "setState during build" 방지
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (mounted) _onCombatStateChanged(combat);
+                    });
                     return Stack(
                       children: [
                         // ---- UI column ----
@@ -504,9 +507,15 @@ class _TopBar extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(ctx).pop();
-              context.read<CardCombatState>().resetCombat();
-              Navigator.of(context).pop(false);
+              // async gap 전에 참조 캡처 (use_build_context_synchronously 대응)
+              final combatState = context.read<CardCombatState>();
+              Navigator.of(ctx).pop();   // 다이얼로그 닫기
+              Navigator.of(context).pop(false); // 배틀 화면 먼저 팝
+              // resetCombat은 화면이 스택에서 제거된 뒤 실행
+              // (빌드 중 notifyListeners 호출로 인한 에러 방지)
+              Future.microtask(() {
+                try { combatState.resetCombat(); } catch (_) {}
+              });
             },
             child: Text(l10n.cardBattleAbandonButton, style: const TextStyle(color: Colors.red)),
           ),

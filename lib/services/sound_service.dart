@@ -46,8 +46,10 @@ class SoundService {
     ),
     // ignore: prefer_const_constructors
     iOS: AudioContextIOS(
+      // ambient 카테고리는 자체적으로 다른 오디오와 혼합됨
+      // mixWithOthers 옵션은 playback/playAndRecord/multiRoute 에서만 유효
       category: AVAudioSessionCategory.ambient,
-      options:  const {AVAudioSessionOptions.mixWithOthers},
+      options:  const {},
     ),
   );
 
