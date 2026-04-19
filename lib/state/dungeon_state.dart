@@ -202,8 +202,7 @@ class DungeonState extends ChangeNotifier {
             (_ascensionLevel >= 1 ? 0.1 : 0.0) +
             (_ascensionLevel >= 10 ? 0.2 : 0.0)) *
         _towerStatMult;
-    final atkMult =
-        (1.0 + (_ascensionLevel >= 2 ? 0.1 : 0.0)) * _towerStatMult;
+    final atkMult = (1.0 + (_ascensionLevel >= 2 ? 0.1 : 0.0)) * _towerStatMult;
     final bossHpMult = hpMult + (_ascensionLevel >= 8 ? 0.25 : 0.0);
 
     switch (node.type) {
@@ -265,7 +264,8 @@ class DungeonState extends ChangeNotifier {
 
     // Also sometimes include a rare/legendary
     final rarePool = CardDatabase.allCards
-        .where((c) => c.rarity == CardRarity.rare || c.rarity == CardRarity.legendary)
+        .where((c) =>
+            c.rarity == CardRarity.rare || c.rarity == CardRarity.legendary)
         .toList();
     if (rarePool.isNotEmpty) {
       rarePool.shuffle();
@@ -452,8 +452,10 @@ class DungeonState extends ChangeNotifier {
   /// Calculate rewards for the completed/failed run.
   Map<String, dynamic> calculateRunRewards() {
     final isVictory = _runPhase == RunPhase.completed;
-    final baseXp = (_currentZone * 50) + (_monstersKilled * 20) + (_nodesCompleted * 10);
-    final baseGold = (_currentZone * 30) + (_monstersKilled * 15);
+    final zoneXp = isVictory ? _currentZone * 50 : 0;
+    final zoneGold = isVictory ? _currentZone * 30 : 0;
+    final baseXp = zoneXp + (_monstersKilled * 20) + (_nodesCompleted * 10);
+    final baseGold = zoneGold + (_monstersKilled * 15);
     final multiplier = isVictory ? 1.5 : 0.5;
 
     // Boss kill bonus

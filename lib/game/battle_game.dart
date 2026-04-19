@@ -59,7 +59,7 @@ class BattleGame extends FlameGame {
 
     // Player hero sprite
     try {
-      final heroImg = await Flame.images.load('images/player/hero_idle.png');
+      final heroImg = await Flame.images.load('player/hero_idle.png');
       _playerSprite = SpriteComponent(
         sprite: Sprite(heroImg),
         size: Vector2(120, 120),
@@ -73,7 +73,7 @@ class BattleGame extends FlameGame {
 
     // Monster sprite (if monsterId provided)
     if (monsterId != null) {
-      final monsterPath = 'images/monsters/${monsterId!.replaceAll(RegExp(r'_f\d+$'), '')}.png';
+      final monsterPath = _monsterSpritePath(monsterId!);
       try {
         final monsterImg = await Flame.images.load(monsterPath);
         _monsterSprite = SpriteComponent(
@@ -92,13 +92,24 @@ class BattleGame extends FlameGame {
   /// Returns the asset path for a zone background image.
   String _zoneBgPath(int zone) {
     switch (zone) {
-      case 1: return 'images/backgrounds/bg_zone1_meadow.png';
-      case 2: return 'images/backgrounds/bg_zone2_dark_forest.png';
-      case 3: return 'images/backgrounds/bg_zone3_stone_castle.png';
-      case 4: return 'images/backgrounds/bg_zone4_lava_cavern.png';
-      case 5: return 'images/backgrounds/bg_zone5_abyss.png';
-      default: return 'images/backgrounds/bg_zone1_meadow.png';
+      case 1:
+        return 'backgrounds/bg_zone1_meadow.png';
+      case 2:
+        return 'backgrounds/bg_zone2_dark_forest.png';
+      case 3:
+        return 'backgrounds/bg_zone3_stone_castle.png';
+      case 4:
+        return 'backgrounds/bg_zone4_lava_cavern.png';
+      case 5:
+        return 'backgrounds/bg_zone5_abyss.png';
+      default:
+        return 'backgrounds/bg_zone1_meadow.png';
     }
+  }
+
+  String _monsterSpritePath(String id) {
+    final assetId = id.replaceAll(RegExp(r'_f\d+$'), '');
+    return 'monsters/$assetId.png';
   }
 
   /// Call this to swap the monster sprite when moving to the next enemy.
@@ -107,7 +118,7 @@ class BattleGame extends FlameGame {
     _monsterSprite?.removeFromParent();
     _monsterSprite = null;
 
-    final monsterPath = 'images/monsters/${newMonsterId.replaceAll(RegExp(r'_f\d+$'), '')}.png';
+    final monsterPath = _monsterSpritePath(newMonsterId);
     try {
       final monsterImg = await Flame.images.load(monsterPath);
       _monsterSprite = SpriteComponent(
@@ -198,7 +209,7 @@ class BattleGame extends FlameGame {
   /// appear and fade — no sprite assets required.
   void playAttackAnimation() {
     final playerSide = Vector2(size.x * 0.28, size.y * 0.40);
-    final enemySide  = Vector2(size.x * 0.72, size.y * 0.32);
+    final enemySide = Vector2(size.x * 0.72, size.y * 0.32);
     add(_SlashEffect(start: playerSide, end: enemySide));
   }
 
@@ -216,7 +227,7 @@ class BattleGame extends FlameGame {
   /// A glowing orb with a trailing tail travels from the player to the
   /// enemy position, then triggers a hit-particle burst on arrival.
   void playMagicAnimation() {
-    final start  = Vector2(size.x * 0.30, size.y * 0.38);
+    final start = Vector2(size.x * 0.30, size.y * 0.38);
     final target = Vector2(size.x * 0.72, size.y * 0.32);
     add(_MagicProjectile(
       start: start,
@@ -327,8 +338,7 @@ class _SlashEffect extends Component {
   double _elapsed = 0;
   static const double _duration = 0.22;
 
-  _SlashEffect({required this.start, required this.end})
-      : super(priority: 90);
+  _SlashEffect({required this.start, required this.end}) : super(priority: 90);
 
   @override
   void update(double dt) {
@@ -347,7 +357,7 @@ class _SlashEffect extends Component {
     final dx = end.x - start.x;
     final dy = end.y - start.y;
     final perpX = -dy * 0.08;
-    final perpY =  dx * 0.08;
+    final perpY = dx * 0.08;
     final strokeW = 3.0 + (1.0 - progress) * 2.0;
 
     // Primary slash — bright white/yellow
@@ -363,7 +373,7 @@ class _SlashEffect extends Component {
     // Upper parallel
     canvas.drawLine(
       Offset(start.x + perpX, start.y + perpY),
-      Offset(end.x   + perpX, end.y   + perpY),
+      Offset(end.x + perpX, end.y + perpY),
       Paint()
         ..color = Color.fromRGBO(255, 180, 0, alpha * 0.55)
         ..strokeWidth = strokeW * 0.6
@@ -373,7 +383,7 @@ class _SlashEffect extends Component {
     // Lower parallel
     canvas.drawLine(
       Offset(start.x - perpX, start.y - perpY),
-      Offset(end.x   - perpX, end.y   - perpY),
+      Offset(end.x - perpX, end.y - perpY),
       Paint()
         ..color = Color.fromRGBO(255, 180, 0, alpha * 0.55)
         ..strokeWidth = strokeW * 0.6
@@ -410,18 +420,18 @@ class _ShieldRaiseEffect extends Component {
         ? progress / 0.2
         : (1.0 - (progress - 0.2) / 0.8).clamp(0.0, 1.0);
 
-    final rise   = -22.0 * progress;
-    final scale  = 0.6 + 0.4 * min(progress / 0.25, 1.0);
-    final sz     = 30.0 * scale;
-    final cx     = center.x;
-    final cy     = center.y + rise;
+    final rise = -22.0 * progress;
+    final scale = 0.6 + 0.4 * min(progress / 0.25, 1.0);
+    final sz = 30.0 * scale;
+    final cx = center.x;
+    final cy = center.y + rise;
 
     // Pentagon-style shield path
     final path = Path()
       ..moveTo(cx - sz * 0.6, cy - sz * 0.5)
       ..lineTo(cx + sz * 0.6, cy - sz * 0.5)
       ..lineTo(cx + sz * 0.6, cy + sz * 0.15)
-      ..lineTo(cx,             cy + sz * 0.65)
+      ..lineTo(cx, cy + sz * 0.65)
       ..lineTo(cx - sz * 0.6, cy + sz * 0.15)
       ..close();
 
@@ -503,8 +513,7 @@ class _MagicProjectile extends Component {
       canvas.drawCircle(
         Offset(tx, ty),
         (5.5 - i * 1.3).clamp(0.0, 6.0),
-        Paint()
-          ..color = Color.fromRGBO(187, 68, 255, 0.28 / i),
+        Paint()..color = Color.fromRGBO(187, 68, 255, 0.28 / i),
       );
     }
   }
@@ -527,12 +536,12 @@ class _EnemyDeathEffect extends Component {
   _EnemyDeathEffect({required this.center}) : super(priority: 95) {
     final rng = Random();
     for (int i = 0; i < 12; i++) {
-      final base  = (i / 12) * 2 * pi;
+      final base = (i / 12) * 2 * pi;
       final jitter = rng.nextDouble() * 0.4;
       _shards.add(_Shard(
         angle: base + jitter,
         speed: 55.0 + rng.nextDouble() * 90.0,
-        size:  4.0  + rng.nextDouble() * 9.0,
+        size: 4.0 + rng.nextDouble() * 9.0,
       ));
     }
   }
@@ -546,7 +555,7 @@ class _EnemyDeathEffect extends Component {
   @override
   void render(Canvas canvas) {
     final progress = (_elapsed / _duration).clamp(0.0, 1.0);
-    final alpha    = (1.0 - progress).clamp(0.0, 1.0);
+    final alpha = (1.0 - progress).clamp(0.0, 1.0);
 
     // Brief white flash at the start
     if (progress < 0.18) {
@@ -561,9 +570,10 @@ class _EnemyDeathEffect extends Component {
     // Shards
     for (final shard in _shards) {
       final dist = shard.speed * _elapsed;
-      final sx   = center.x + cos(shard.angle) * dist;
-      final sy   = center.y + sin(shard.angle) * dist
-                   + 50.0 * progress * progress; // gravity pull
+      final sx = center.x + cos(shard.angle) * dist;
+      final sy = center.y +
+          sin(shard.angle) * dist +
+          50.0 * progress * progress; // gravity pull
 
       final sz = shard.size * (1.0 - progress * 0.6);
       canvas.drawRect(

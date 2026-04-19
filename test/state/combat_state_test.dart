@@ -1,4 +1,4 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/models/monster.dart';
@@ -89,8 +89,8 @@ void main() {
       combatState.playerAttack(character);
 
       if (combatState.status == CombatStatus.fighting) {
-        expect(combatState.currentMonster!.currentHp,
-            lessThan(monsterHpBefore));
+        expect(
+            combatState.currentMonster!.currentHp, lessThan(monsterHpBefore));
       } else {
         expect(combatState.status, CombatStatus.victory);
       }
@@ -165,7 +165,12 @@ void main() {
           _createTestCharacter(strength: 1, health: 1, hp: 1, charisma: 0);
 
       combatState.startCombat(strongMonster, weakChar);
-      combatState.playerAttack(weakChar);
+      // Loop to handle the 5% per-turn dodge chance.
+      for (int i = 0;
+          i < 20 && combatState.status != CombatStatus.defeat;
+          i++) {
+        combatState.playerAttack(weakChar);
+      }
 
       expect(combatState.status, CombatStatus.defeat);
       expect(weakChar.characterHp, 0);
@@ -180,7 +185,9 @@ void main() {
       combatState.startCombat(strongMonster, weakChar);
       // Loop to handle the 5% per-turn dodge chance — statistically guaranteed
       // to reach defeat within a few iterations.
-      for (int i = 0; i < 20 && combatState.status != CombatStatus.defeat; i++) {
+      for (int i = 0;
+          i < 20 && combatState.status != CombatStatus.defeat;
+          i++) {
         combatState.playerAttack(weakChar);
       }
 
