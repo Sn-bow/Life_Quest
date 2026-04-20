@@ -1,4 +1,6 @@
 ﻿import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform, TargetPlatform, debugPrint;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +39,13 @@ class AdService {
   final Map<String, int> _dailyAdCounts = {};
   String? _lastResetDate;
 
+  // --- Server-time anchor (anti-tampering) ---
+  // 앱 세션 내에서 DateTime.now() 조작을 무시하기 위해
+  // 서버 시각을 앵커로 잡고 모노토닉 Stopwatch로 경과시간을 측정한다.
+  DateTime? _serverAnchor;
+  final Stopwatch _anchorElapsed = Stopwatch();
+  DateTime? _lastKnownServerTime;
+
   static const Map<String, int> dailyLimits = {
     'ap_recovery': 3,
     'quest_double': 2,
@@ -50,10 +59,62 @@ class AdService {
   Future<void> init() async {
     await _loadAdRemovalStatus();
     await _loadDailyCounts();
+    // 서버 시각 앵커를 먼저 확보한 뒤 리셋 판정 — 실패 시 폴백(아래 _serverNow 참고)
+    await _syncServerTime();
     _resetDailyCountsIfNeeded();
 
     // UMP(User Messaging Platform) - GDPR 동의 플로우
     await _requestConsentAndInitAds();
+  }
+
+  /// Firestore 서버 타임스탬프로 시각 앵커를 확보한다.
+  /// 성공 시 [_serverAnchor] 와 모노토닉 [_anchorElapsed] 를 세팅하고
+  /// [_lastKnownServerTime] 을 영속 저장한다.
+  /// 실패(오프라인/미인증 등)해도 조용히 통과 — 호출부는 [_serverNow] 폴백을 사용.
+  Future<void> _syncServerTime() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        debugPrint('[AdService] Server time sync skipped: no auth user.');
+        return;
+      }
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('_meta')
+          .doc('adServerTime');
+      await docRef
+          .set({'t': FieldValue.serverTimestamp()}, SetOptions(merge: true))
+          .timeout(const Duration(seconds: 5));
+      final snap = await docRef
+          .get(const GetOptions(source: Source.server))
+          .timeout(const Duration(seconds: 5));
+      final ts = (snap.data()?['t'] as Timestamp?)?.toDate();
+      if (ts != null) {
+        _serverAnchor = ts;
+        _anchorElapsed
+          ..reset()
+          ..start();
+        _lastKnownServerTime = ts;
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('ad_last_server_ms', ts.millisecondsSinceEpoch);
+      }
+    } catch (e) {
+      debugPrint('[AdService] Server time sync failed: $e');
+    }
+  }
+
+  /// 서버 기준 현재 시각.
+  /// 우선순위: (1) 세션 시작 시 확보한 서버 앵커 + 모노토닉 경과,
+  /// (2) max(디바이스 시각, 영속 저장된 마지막 서버 시각) — 시각 되감기 방지.
+  DateTime _serverNow() {
+    if (_serverAnchor != null) {
+      return _serverAnchor!.add(_anchorElapsed.elapsed);
+    }
+    final device = DateTime.now();
+    final last = _lastKnownServerTime;
+    if (last != null && device.isBefore(last)) return last;
+    return device;
   }
 
   Future<void> _requestConsentAndInitAds() async {
@@ -123,6 +184,11 @@ class AdService {
   Future<void> _loadDailyCounts() async {
     final prefs = await SharedPreferences.getInstance();
     _lastResetDate = prefs.getString('ad_last_reset_date');
+    final lastServerMs = prefs.getInt('ad_last_server_ms');
+    if (lastServerMs != null) {
+      _lastKnownServerTime =
+          DateTime.fromMillisecondsSinceEpoch(lastServerMs, isUtc: true);
+    }
     final keys = dailyLimits.keys;
     for (final key in keys) {
       _dailyAdCounts[key] = prefs.getInt('ad_count_$key') ?? 0;
@@ -139,11 +205,13 @@ class AdService {
     }
   }
 
-  // TODO: 광고 일일 횟수 초기화가 기기 시간(DateTime.now()) 기반 - 조작 가능
-  // 서버사이드 시간 기반 초기화로 변경 권장 (프로덕션 배포 시)
+  /// 일일 카운트 초기화. 시각 조작 방지를 위해:
+  /// - [_serverNow] 로 오늘 날짜를 계산 (세션 내 앵커 + 모노토닉 경과)
+  /// - `_lastResetDate` 는 사전순 강증가만 허용 (클럭 롤백 공격 차단)
   void _resetDailyCountsIfNeeded() {
-    final today = DateTime.now().toIso8601String().substring(0, 10);
-    if (_lastResetDate != today) {
+    final today = _serverNow().toIso8601String().substring(0, 10);
+    final last = _lastResetDate;
+    if (last == null || today.compareTo(last) > 0) {
       _dailyAdCounts.clear();
       _lastResetDate = today;
       _saveDailyCounts();
