@@ -49,10 +49,12 @@ class _TimerScreenState extends State<TimerScreen>
       }
     } else if (state == AppLifecycleState.resumed) {
       if (_backgroundTimestamp != null && _isRunning) {
-        final elapsed = DateTime.now().difference(_backgroundTimestamp!).inSeconds;
+        final elapsed =
+            DateTime.now().difference(_backgroundTimestamp!).inSeconds;
         _backgroundTimestamp = null;
         setState(() {
-          _remainingSeconds = (_remainingSeconds - elapsed).clamp(0, _remainingSeconds);
+          _remainingSeconds =
+              (_remainingSeconds - elapsed).clamp(0, _remainingSeconds);
           if (_remainingSeconds <= 0) {
             _isRunning = false;
             if (_isFocusPhase) {
@@ -141,7 +143,8 @@ class _TimerScreenState extends State<TimerScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.auto_awesome, size: 16, color: Colors.blue.shade300),
+                  Icon(Icons.auto_awesome,
+                      size: 16, color: Colors.blue.shade300),
                   const SizedBox(width: 4),
                   const Text('XP +', style: TextStyle(fontSize: 14)),
                   const Text('30',
@@ -199,197 +202,223 @@ class _TimerScreenState extends State<TimerScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isFocusPhase ? l10n.timerScreenFocus : l10n.timerScreenBreak),
+        title:
+            Text(_isFocusPhase ? l10n.timerScreenFocus : l10n.timerScreenBreak),
       ),
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Phase indicator
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: accentColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: accentColor, width: 1.5),
-                  ),
-                  child: Text(
-                    _isFocusPhase ? l10n.timerFocusMode : l10n.timerBreakMode,
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: accentColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 40),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final compact = constraints.maxHeight < 640;
+            final timerSize = compact ? 220.0 : 240.0;
+            final timerFontSize = compact ? 48.0 : 52.0;
+            final modeTimerGap = compact ? 28.0 : 40.0;
+            final timerControlsGap = compact ? 34.0 : 48.0;
+            final controlButtonGap = compact ? 20.0 : 24.0;
+            final controlsDurationGap = compact ? 28.0 : 40.0;
+            final durationPadding = compact ? 12.0 : 16.0;
+            final rewardGap = compact ? 12.0 : 16.0;
+            final rewardPadding = compact ? 10.0 : 12.0;
 
-                // Circular timer
-                SizedBox(
-                  width: 240,
-                  height: 240,
-                  child: Stack(
-                    alignment: Alignment.center,
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
-                        width: 240,
-                        height: 240,
-                        child: CircularProgressIndicator(
-                          value: progress,
-                          strokeWidth: 8,
-                          backgroundColor:
-                              isDark ? Colors.white10 : Colors.grey.shade200,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(accentColor),
+                      // Phase indicator
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: accentColor.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: accentColor, width: 1.5),
+                        ),
+                        child: Text(
+                          _isFocusPhase
+                              ? l10n.timerFocusMode
+                              : l10n.timerBreakMode,
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: accentColor,
+                          ),
                         ),
                       ),
-                      Column(
+                      SizedBox(height: modeTimerGap),
+
+                      // Circular timer
+                      SizedBox(
+                        width: timerSize,
+                        height: timerSize,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: timerSize,
+                              height: timerSize,
+                              child: CircularProgressIndicator(
+                                value: progress,
+                                strokeWidth: compact ? 7 : 8,
+                                backgroundColor: isDark
+                                    ? Colors.white10
+                                    : Colors.grey.shade200,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(accentColor),
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  _formatTime(_remainingSeconds),
+                                  style: TextStyle(
+                                    fontFamily: 'monospace',
+                                    fontSize: timerFontSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDark
+                                        ? Colors.white
+                                        : Colors.grey.shade800,
+                                  ),
+                                ),
+                                Text(
+                                  l10n.timerSessionCount(_completedSessions),
+                                  style: TextStyle(
+                                    fontFamily: 'monospace',
+                                    fontSize: 13,
+                                    color: isDark
+                                        ? Colors.white54
+                                        : Colors.grey.shade500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: timerControlsGap),
+
+                      // Control buttons
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            _formatTime(_remainingSeconds),
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 52,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  isDark ? Colors.white : Colors.grey.shade800,
-                            ),
+                          // Reset
+                          _circleButton(
+                            icon: Icons.refresh,
+                            color: Colors.grey,
+                            isDark: isDark,
+                            onTap: _resetTimer,
                           ),
-                          Text(
-                            l10n.timerSessionCount(_completedSessions),
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 13,
-                              color: isDark
-                                  ? Colors.white54
-                                  : Colors.grey.shade500,
-                            ),
+                          SizedBox(width: controlButtonGap),
+                          // Play/Pause
+                          _circleButton(
+                            icon: _isRunning ? Icons.pause : Icons.play_arrow,
+                            color: accentColor,
+                            isDark: isDark,
+                            size: 72,
+                            iconSize: 36,
+                            onTap: _isRunning ? _pauseTimer : _startTimer,
+                          ),
+                          SizedBox(width: controlButtonGap),
+                          // Skip
+                          _circleButton(
+                            icon: Icons.skip_next,
+                            color: Colors.grey,
+                            isDark: isDark,
+                            onTap: () {
+                              _timer?.cancel();
+                              setState(() {
+                                _isRunning = false;
+                                if (_isFocusPhase) {
+                                  _isFocusPhase = false;
+                                  _remainingSeconds = _breakMinutes * 60;
+                                } else {
+                                  _isFocusPhase = true;
+                                  _remainingSeconds = _focusMinutes * 60;
+                                }
+                              });
+                            },
                           ),
                         ],
+                      ),
+                      SizedBox(height: controlsDurationGap),
+
+                      // Duration settings
+                      Container(
+                        padding: EdgeInsets.all(durationPadding),
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.white10 : Colors.grey.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color:
+                                isDark ? Colors.white12 : Colors.grey.shade200,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _durationChip('15분', 15, isDark),
+                            _durationChip('25분', 25, isDark),
+                            _durationChip('45분', 45, isDark),
+                            _durationChip('60분', 60, isDark),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: rewardGap),
+
+                      // Reward preview
+                      Container(
+                        padding: EdgeInsets.all(rewardPadding),
+                        decoration: BoxDecoration(
+                          color: Colors.amber
+                              .withValues(alpha: isDark ? 0.1 : 0.05),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: Colors.amber.withValues(alpha: 0.3),
+                              width: 1),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(l10n.timerFocusRewardLabel,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: isDark
+                                        ? Colors.white54
+                                        : Colors.grey.shade600)),
+                            Row(
+                              children: [
+                                Icon(Icons.auto_awesome,
+                                    size: 14, color: Colors.blue.shade300),
+                                const SizedBox(width: 4),
+                                const Text('XP +30',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.amber)),
+                                const SizedBox(width: 12),
+                                const Icon(Icons.monetization_on,
+                                    size: 14, color: Colors.amber),
+                                const SizedBox(width: 4),
+                                Text('${l10n.timerGoldRewardLabel}15',
+                                    style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.amber)),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 48),
-
-                // Control buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Reset
-                    _circleButton(
-                      icon: Icons.refresh,
-                      color: Colors.grey,
-                      isDark: isDark,
-                      onTap: _resetTimer,
-                    ),
-                    const SizedBox(width: 24),
-                    // Play/Pause
-                    _circleButton(
-                      icon: _isRunning ? Icons.pause : Icons.play_arrow,
-                      color: accentColor,
-                      isDark: isDark,
-                      size: 72,
-                      iconSize: 36,
-                      onTap: _isRunning ? _pauseTimer : _startTimer,
-                    ),
-                    const SizedBox(width: 24),
-                    // Skip
-                    _circleButton(
-                      icon: Icons.skip_next,
-                      color: Colors.grey,
-                      isDark: isDark,
-                      onTap: () {
-                        _timer?.cancel();
-                        setState(() {
-                          _isRunning = false;
-                          if (_isFocusPhase) {
-                            _isFocusPhase = false;
-                            _remainingSeconds = _breakMinutes * 60;
-                          } else {
-                            _isFocusPhase = true;
-                            _remainingSeconds = _focusMinutes * 60;
-                          }
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 40),
-
-                // Duration settings
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: isDark ? Colors.white10 : Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isDark ? Colors.white12 : Colors.grey.shade200,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _durationChip('15분', 15, isDark),
-                      _durationChip('25분', 25, isDark),
-                      _durationChip('45분', 45, isDark),
-                      _durationChip('60분', 60, isDark),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Reward preview
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.amber.withValues(alpha: isDark ? 0.1 : 0.05),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        color: Colors.amber.withValues(alpha: 0.3), width: 1),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(l10n.timerFocusRewardLabel,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: isDark
-                                  ? Colors.white54
-                                  : Colors.grey.shade600)),
-                      Row(
-                        children: [
-                          Icon(Icons.auto_awesome,
-                              size: 14, color: Colors.blue.shade300),
-                          const SizedBox(width: 4),
-                          const Text('XP +30',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.amber)),
-                          const SizedBox(width: 12),
-                          const Icon(Icons.monetization_on,
-                              size: 14, color: Colors.amber),
-                          const SizedBox(width: 4),
-                          Text('${l10n.timerGoldRewardLabel}15',
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.amber)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

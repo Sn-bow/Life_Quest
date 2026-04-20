@@ -16,18 +16,13 @@ class BattleGame extends FlameGame {
   /// The current dungeon zone (determines background palette).
   int currentZone;
 
-  /// Optional monster ID — used to load the monster sprite if present.
-  String? monsterId;
-
-  BattleGame({this.currentZone = 1, this.monsterId});
+  BattleGame({this.currentZone = 1});
 
   // Parallax layers
   final List<_ParallaxLayer> _parallaxLayers = [];
 
-  // Sprite components (nullable — graceful fallback to Canvas drawing)
+  // 배경 스프라이트 (Flame 레이어)
   SpriteComponent? _bgSprite;
-  SpriteComponent? _playerSprite;
-  SpriteComponent? _monsterSprite;
 
   // ───────────────────────────────────────────
   // Lifecycle
@@ -57,36 +52,8 @@ class BattleGame extends FlameGame {
       // No background image — parallax Canvas fallback handles it.
     }
 
-    // Player hero sprite
-    try {
-      final heroImg = await Flame.images.load('player/hero_idle.png');
-      _playerSprite = SpriteComponent(
-        sprite: Sprite(heroImg),
-        size: Vector2(120, 120),
-        position: Vector2(size.x * 0.18, size.y * 0.28),
-        priority: 10,
-      );
-      add(_playerSprite!);
-    } catch (_) {
-      // No hero sprite — battle still works without it.
-    }
-
-    // Monster sprite (if monsterId provided)
-    if (monsterId != null) {
-      final monsterPath = _monsterSpritePath(monsterId!);
-      try {
-        final monsterImg = await Flame.images.load(monsterPath);
-        _monsterSprite = SpriteComponent(
-          sprite: Sprite(monsterImg),
-          size: Vector2(130, 130),
-          position: Vector2(size.x * 0.60, size.y * 0.20),
-          priority: 10,
-        );
-        add(_monsterSprite!);
-      } catch (_) {
-        // No monster sprite — the Flutter overlay draws the enemy name/HP bar.
-      }
-    }
+    // 플레이어/몬스터 스프라이트는 Flutter 오버레이(_EnemyCard)에서 렌더링하므로
+    // Flame 레이어에서는 로드하지 않음 (중복 표시 방지)
   }
 
   /// Returns the asset path for a zone background image.
@@ -107,29 +74,6 @@ class BattleGame extends FlameGame {
     }
   }
 
-  String _monsterSpritePath(String id) {
-    final assetId = id.replaceAll(RegExp(r'_f\d+$'), '');
-    return 'monsters/$assetId.png';
-  }
-
-  /// Call this to swap the monster sprite when moving to the next enemy.
-  Future<void> updateMonster(String newMonsterId) async {
-    monsterId = newMonsterId;
-    _monsterSprite?.removeFromParent();
-    _monsterSprite = null;
-
-    final monsterPath = _monsterSpritePath(newMonsterId);
-    try {
-      final monsterImg = await Flame.images.load(monsterPath);
-      _monsterSprite = SpriteComponent(
-        sprite: Sprite(monsterImg),
-        size: Vector2(130, 130),
-        position: Vector2(size.x * 0.60, size.y * 0.20),
-        priority: 10,
-      );
-      add(_monsterSprite!);
-    } catch (_) {}
-  }
 
   @override
   Color backgroundColor() {

@@ -419,10 +419,10 @@ class _CardSelectionGrid extends StatelessWidget {
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.7,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
+                crossAxisCount: 2,
+                childAspectRatio: 0.72,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
               itemCount: deck.length,
               itemBuilder: (context, index) {
@@ -498,7 +498,7 @@ class _UpgradeCardWidget extends StatelessWidget {
           children: [
             // Header
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
                 color: _headerColor,
                 borderRadius:
@@ -507,8 +507,8 @@ class _UpgradeCardWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: 18,
-                    height: 18,
+                    width: 26,
+                    height: 26,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.amber.shade600,
@@ -518,19 +518,19 @@ class _UpgradeCardWidget extends StatelessWidget {
                         '${card.cost}',
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 10,
+                          fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 3),
+                  const SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       CardLocalization.localizedName(card, l10n),
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 10,
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                       ),
                       maxLines: 1,
@@ -543,15 +543,15 @@ class _UpgradeCardWidget extends StatelessWidget {
             // Description
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(4),
+                padding: const EdgeInsets.all(8),
                 child: Text(
                   CardLocalization.localizedDescription(card, l10n),
                   style: TextStyle(
                     color: isDark ? Colors.white70 : Colors.black87,
-                    fontSize: 9,
-                    height: 1.3,
+                    fontSize: 12,
+                    height: 1.4,
                   ),
-                  maxLines: 4,
+                  maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -559,14 +559,14 @@ class _UpgradeCardWidget extends StatelessWidget {
             // Upgrade indicator
             if (card.isUpgraded)
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 2),
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 color: Colors.green.withValues(alpha: 0.2),
                 child: Center(
                   child: Text(
                     l10n.dungeonRestCardUpgraded,
                     style: const TextStyle(
                       color: Colors.green,
-                      fontSize: 9,
+                      fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

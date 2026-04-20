@@ -37,9 +37,9 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
-    // 안드로이드 초기화 설정
+    // 안드로이드 초기화 설정 — 알림 소형 아이콘은 모노크롬(흰색+투명) drawable 사용
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@drawable/ic_notification');
 
     // iOS 초기화 설정 (권한 요청 포함)
     const DarwinInitializationSettings initializationSettingsIOS =
@@ -103,6 +103,7 @@ class NotificationService {
           channelDescription: 'Channel for daily quest reminders',
           importance: Importance.max,
           priority: Priority.high,
+          icon: '@drawable/ic_notification',
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
@@ -147,6 +148,7 @@ class NotificationService {
           channelDescription: 'Channel for night quest reminders',
           importance: Importance.max,
           priority: Priority.high,
+          icon: '@drawable/ic_notification',
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
