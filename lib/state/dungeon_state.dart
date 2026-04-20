@@ -414,6 +414,12 @@ class DungeonState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Set the player's HP directly (used to sync HP after a battle).
+  void setPlayerHp(int hp) {
+    _playerHp = hp.clamp(0, _playerMaxHp);
+    notifyListeners();
+  }
+
   /// Heal the player by a flat amount. Capped at max HP.
   void healPlayer(int amount) {
     if (amount <= 0) return;

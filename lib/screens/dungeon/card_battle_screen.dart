@@ -65,10 +65,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
   @override
   void initState() {
     super.initState();
-    _game = BattleGame(
-      currentZone: widget.zone,
-      monsterId: widget.enemies.isNotEmpty ? widget.enemies.first.monster.id : null,
-    );
+    _game = BattleGame(currentZone: widget.zone);
     _previousPlayerHp = widget.playerHp;
 
     // Turn overlay animation (fade in -> hold -> fade out over 1s)
@@ -361,8 +358,10 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                             zone: widget.zone,
                             isDark: isDark,
                             onComplete: () {
+                              // 최종 HP를 dungeon_map_screen으로 전달
+                              final finalHp = combat.playerHp;
                               combat.resetCombat();
-                              Navigator.of(context).pop(true);
+                              Navigator.of(context).pop({'won': true, 'hp': finalHp});
                             },
                           ),
                         if (combat.phase == CombatPhase.defeat)
@@ -826,43 +825,41 @@ class _EnemyCard extends StatelessWidget {
 
             // Monster sprite
             SizedBox(
-              width: 72,
-              height: 72,
+              width: 160,
+              height: 160,
               child: Stack(
                 children: [
                   // Sprite image — falls back to letter tile on error
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: ColorFiltered(
-                      colorFilter: isFlashing
-                          ? const ColorFilter.mode(
-                              Colors.red, BlendMode.srcATop)
-                          : const ColorFilter.mode(
-                              Colors.transparent, BlendMode.multiply),
-                      child: Image.asset(
-                        enemy.monster.spritePath,
-                        width: 72,
-                        height: 72,
-                        fit: BoxFit.contain,
-                        errorBuilder: (_, __, ___) => Container(
-                          width: 72,
-                          height: 72,
-                          decoration: BoxDecoration(
-                            color: isFlashing
-                                ? Colors.red.shade600
-                                : Colors.grey.shade800,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(
-                              enemy.monster.name.isNotEmpty
-                                  ? enemy.monster.name.characters.first
-                                  : '?',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                              ),
+                  ColorFiltered(
+                    colorFilter: isFlashing
+                        ? const ColorFilter.mode(
+                            Colors.red, BlendMode.srcATop)
+                        : const ColorFilter.mode(
+                            Colors.transparent, BlendMode.multiply),
+                    child: Image.asset(
+                      enemy.monster.spritePath,
+                      width: 160,
+                      height: 160,
+                      fit: BoxFit.contain,
+                      filterQuality: FilterQuality.none, // 픽셀아트 선명도 유지
+                      errorBuilder: (_, __, ___) => Container(
+                        width: 160,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          color: isFlashing
+                              ? Colors.red.shade600
+                              : Colors.grey.shade800,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Text(
+                            enemy.monster.name.isNotEmpty
+                                ? enemy.monster.name.characters.first
+                                : '?',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 56,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -872,43 +869,44 @@ class _EnemyCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
 
             // Name
             Text(
               enemy.monster.name,
               style: TextStyle(
                 color: isDark ? Colors.white : Colors.black87,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                shadows: const [Shadow(color: Colors.black, blurRadius: 4)],
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 4),
 
             // HP text + bar
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.favorite, size: 10, color: Colors.redAccent),
-                const SizedBox(width: 3),
+                const Icon(Icons.favorite, size: 12, color: Colors.redAccent),
+                const SizedBox(width: 4),
                 Text(
                   '${enemy.currentHp}/${enemy.maxHp}',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                     shadows: [Shadow(color: Colors.black, blurRadius: 2)],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 3),
             _HpBar(
               current: enemy.currentHp,
               max: enemy.maxHp,
-              height: 6,
+              height: 8,
               color: Colors.redAccent,
             ),
             const SizedBox(height: 2),
@@ -1089,11 +1087,13 @@ class _PlayerInfoBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // HP bar (이미지 프레임 사용)
+          // HP bar + 상태효과 (Expanded로 나머지 공간 전부 사용)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
@@ -1109,9 +1109,13 @@ class _PlayerInfoBar extends StatelessWidget {
                       ),
                     ),
                     if (combat.playerBlock > 0) ...[
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       _BlockIndicator(block: combat.playerBlock),
                     ],
+                    const Spacer(),
+                    // 상태효과를 HP 수치 오른쪽에 배치 (Row 안에서 overflow 방지)
+                    if (combat.playerStatus.isNotEmpty)
+                      _StatusRow(statusEffects: combat.playerStatus),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -1122,12 +1126,6 @@ class _PlayerInfoBar extends StatelessWidget {
               ],
             ),
           ),
-
-          const SizedBox(width: 8),
-
-          // Status effects
-          if (combat.playerStatus.isNotEmpty)
-            _StatusRow(statusEffects: combat.playerStatus),
 
           const SizedBox(width: 8),
 
@@ -1628,21 +1626,18 @@ class _PlayerHpBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ratio = max > 0 ? (current / max).clamp(0.0, 1.0) : 0.0;
-    final barColor = ratio > 0.5
-        ? Colors.green
-        : ratio > 0.25
-            ? Colors.orange
-            : Colors.red;
 
     return SizedBox(
-      height: 22,
+      height: 26,
+      width: double.infinity,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // HP바 프레임 이미지
+          // ui_hp_bar.png — 이미 빨간 HP 바 디자인이 담긴 이미지 (꽉 찬 상태)
           Image.asset(
             'assets/images/ui/ui_hp_bar.png',
             fit: BoxFit.fill,
+            filterQuality: FilterQuality.medium,
             errorBuilder: (_, __, ___) => Container(
               decoration: BoxDecoration(
                 color: Colors.grey.shade800,
@@ -1650,20 +1645,23 @@ class _PlayerHpBar extends StatelessWidget {
               ),
             ),
           ),
-          // 채워지는 내부 바
+          // 소진된 HP 부분 — 오른쪽에서부터 어두운 마스크로 덮어서
+          // 이미지의 빨간 바가 HP 비율만큼만 보이도록 함
           Padding(
-            padding: const EdgeInsets.fromLTRB(28, 4, 6, 4),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+            padding: const EdgeInsets.fromLTRB(30, 4, 6, 4),
+            child: Align(
+              alignment: Alignment.centerRight,
               child: FractionallySizedBox(
-                alignment: Alignment.centerLeft,
-                widthFactor: ratio,
+                widthFactor: 1.0 - ratio,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOut,
                   decoration: BoxDecoration(
-                    color: barColor,
-                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.black.withValues(alpha: 0.80),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(4),
+                      bottomRight: Radius.circular(4),
+                    ),
                   ),
                 ),
               ),

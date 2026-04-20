@@ -199,9 +199,14 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
             ),
           ),
         ).then((result) {
-          if (result == true) {
+          // result = {'won': true, 'hp': finalHp} or false
+          if (result is Map && result['won'] == true) {
+            // 배틀 후 최종 HP를 dungeon state에 동기화
+            if (result['hp'] is int) {
+              dungeonState.setPlayerHp(result['hp'] as int);
+            }
             dungeonState.completeCurrentNode();
-          } else if (result == false) {
+          } else if (result == false || (result is Map && result['won'] == false)) {
             // Player died or forfeited combat
             dungeonState.endRun(victory: false);
             nav.push(MaterialPageRoute(
@@ -223,12 +228,15 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
             ),
           ),
         ).then((result) {
-          if (result == true) {
+          if (result is Map && result['won'] == true) {
+            if (result['hp'] is int) {
+              dungeonState.setPlayerHp(result['hp'] as int);
+            }
             dungeonState.completeCurrentNode();
             nav.push(MaterialPageRoute(
               builder: (_) => const DungeonResultScreen(isVictory: true),
             ));
-          } else if (result == false) {
+          } else if (result == false || (result is Map && result['won'] == false)) {
             dungeonState.endRun(victory: false);
             nav.push(MaterialPageRoute(
               builder: (_) => const DungeonResultScreen(isVictory: false),
