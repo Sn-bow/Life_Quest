@@ -65,3 +65,11 @@ android/key.properties
 /analyze_report_utf8.txt
 /out.txt
 /flutter_01.log
+
+# QA/마케팅 스크린샷 — 로컬 검증용, 리포에 포함하지 않음
+/qa_artifacts/
+/marketing_screenshots/
+/marketing_screenshots_pro/
+
+# JVM heap dump (Gradle/JVM 크래시 시 자동 생성, 수 GB 크기 가능)
+*.hprof

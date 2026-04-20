@@ -70,9 +70,11 @@ class QuestTile extends StatelessWidget {
                 ),
                 title: Text(
                   quest.name,
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
+                    fontSize: 15,
+                    height: 1.25,
                     decoration: quest.isCompleted
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
@@ -129,16 +131,26 @@ class QuestTile extends StatelessWidget {
                     if (!quest.isCompleted && onEdited != null)
                       IconButton(
                         icon: Icon(Icons.edit,
+                            size: 20,
                             color: theme.colorScheme.primary
                                 .withValues(alpha: 0.7)),
                         onPressed: onEdited,
                         tooltip: l10n.questTileEditTooltip,
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints.tightFor(
+                            width: 32, height: 32),
                       ),
                     IconButton(
                       icon: Icon(Icons.delete,
+                          size: 20,
                           color: Colors.redAccent.withValues(alpha: 0.7)),
                       onPressed: onDeleted,
                       tooltip: l10n.questTileDeleteTooltip,
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints:
+                          const BoxConstraints.tightFor(width: 32, height: 32),
                     ),
                   ],
                 ),

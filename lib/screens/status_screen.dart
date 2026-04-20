@@ -225,12 +225,12 @@ class _StatusScreenState extends State<StatusScreen> {
                                       Expanded(
                                         child: Text(
                                           'Lv. ${character.level} | ${character.title}',
-                                          maxLines: 1,
+                                          maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: titleStyle,
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: 4),
                                       const Icon(PhosphorIcons.caretDown,
                                           size: 16, color: Colors.grey),
                                     ],
