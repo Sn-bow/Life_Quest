@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/screens/main_screen.dart';
+import 'package:life_quest_final_v2/screens/onboarding_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -60,10 +61,13 @@ class _LoadingScreenState extends State<LoadingScreen>
     await Future.wait([loadFuture, minimumFuture]);
 
     if (!mounted) return;
+    final charState = context.read<CharacterState>();
+    final nextScreen = charState.hasSeenOnboarding
+        ? const MainScreen()
+        : const OnboardingScreen();
     Navigator.of(context).pushReplacement(
       PageRouteBuilder<void>(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const MainScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => nextScreen,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },

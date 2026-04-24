@@ -763,6 +763,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
+  String get onboardingPage1Title => 'Daily Life as Quests';
+
+  @override
+  String get onboardingPage1Body =>
+      'Register your tasks as quests.\nEarn XP and gold each time you complete one\nand watch your character grow.';
+
+  @override
+  String get onboardingPage2Title => 'Explore the Dungeon';
+
+  @override
+  String get onboardingPage2Body =>
+      'Enter the Soul Deck dungeon\nand battle monsters with card combat.\nThe strength you build from quests becomes real power.';
+
+  @override
+  String get onboardingPage3Title => 'Start Your Adventure';
+
+  @override
+  String get onboardingPage3Body =>
+      'Complete quests, clear dungeons,\nand collect achievements and titles.\nYour everyday life becomes an RPG.';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingStart => 'Start';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
   String get settingsAdSupportSection => 'Ad Support Info';
 
   @override

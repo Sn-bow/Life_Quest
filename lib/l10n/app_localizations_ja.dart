@@ -744,6 +744,36 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
+  String get onboardingPage1Title => '日常をクエストに';
+
+  @override
+  String get onboardingPage1Body =>
+      'やることをクエストとして登録しましょう。\n完了するたびにXPとゴールドを獲得し\nキャラクターが成長します。';
+
+  @override
+  String get onboardingPage2Title => 'ダンジョンを探索せよ';
+
+  @override
+  String get onboardingPage2Body =>
+      'Soul Deckダンジョンに入り\nカードバトルでモンスターと戦いましょう。\nクエストで積んだ力が実力になります。';
+
+  @override
+  String get onboardingPage3Title => '冒険を始めよう';
+
+  @override
+  String get onboardingPage3Body =>
+      'クエストをこなし、ダンジョンをクリアして\n実績や称号を集めましょう。\nあなたの日常がRPGになります。';
+
+  @override
+  String get onboardingNext => '次へ';
+
+  @override
+  String get onboardingStart => '始める';
+
+  @override
+  String get onboardingSkip => 'スキップ';
+
+  @override
   String get settingsAdSupportSection => '広告支援のご案内';
 
   @override

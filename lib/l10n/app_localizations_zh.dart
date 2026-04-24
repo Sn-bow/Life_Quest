@@ -740,6 +740,34 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
+  String get onboardingPage1Title => '将日常变成任务';
+
+  @override
+  String get onboardingPage1Body => '将待办事项注册为任务吧。\n每次完成都能获得经验和金币，\n让角色不断成长。';
+
+  @override
+  String get onboardingPage2Title => '探索地下城';
+
+  @override
+  String get onboardingPage2Body =>
+      '进入灵魂牌组地下城，\n用卡牌战斗与怪物对决。\n通过任务积累的力量将成为真实的战力。';
+
+  @override
+  String get onboardingPage3Title => '开始你的冒险';
+
+  @override
+  String get onboardingPage3Body => '完成任务，通关地下城，\n收集成就与称号。\n你的日常将变成一场RPG。';
+
+  @override
+  String get onboardingNext => '下一步';
+
+  @override
+  String get onboardingStart => '开始';
+
+  @override
+  String get onboardingSkip => '跳过';
+
+  @override
   String get settingsAdSupportSection => '广告支持说明';
 
   @override

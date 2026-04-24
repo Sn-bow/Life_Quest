@@ -747,6 +747,36 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
+  String get onboardingPage1Title => '일상을 퀘스트로';
+
+  @override
+  String get onboardingPage1Body =>
+      '할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n캐릭터가 성장합니다.';
+
+  @override
+  String get onboardingPage2Title => '던전을 탐험하라';
+
+  @override
+  String get onboardingPage2Body =>
+      'Soul Deck 던전에 입장하면\n카드 전투로 몬스터와 싸웁니다.\n퀘스트로 쌓은 힘이 실력이 됩니다.';
+
+  @override
+  String get onboardingPage3Title => '모험을 시작하세요';
+
+  @override
+  String get onboardingPage3Body =>
+      '퀘스트를 완료하고, 던전을 클리어하고\n업적과 칭호를 수집하세요.\n당신의 일상이 RPG가 됩니다.';
+
+  @override
+  String get onboardingNext => '다음';
+
+  @override
+  String get onboardingStart => '시작하기';
+
+  @override
+  String get onboardingSkip => '건너뛰기';
+
+  @override
   String get settingsAdSupportSection => '광고 후원 안내';
 
   @override

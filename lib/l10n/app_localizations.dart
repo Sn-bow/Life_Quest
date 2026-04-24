@@ -1476,6 +1476,60 @@ abstract class AppLocalizations {
   /// **'中文'**
   String get settingsLanguageChinese;
 
+  /// No description provided for @onboardingPage1Title.
+  ///
+  /// In ko, this message translates to:
+  /// **'일상을 퀘스트로'**
+  String get onboardingPage1Title;
+
+  /// No description provided for @onboardingPage1Body.
+  ///
+  /// In ko, this message translates to:
+  /// **'할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n캐릭터가 성장합니다.'**
+  String get onboardingPage1Body;
+
+  /// No description provided for @onboardingPage2Title.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전을 탐험하라'**
+  String get onboardingPage2Title;
+
+  /// No description provided for @onboardingPage2Body.
+  ///
+  /// In ko, this message translates to:
+  /// **'Soul Deck 던전에 입장하면\n카드 전투로 몬스터와 싸웁니다.\n퀘스트로 쌓은 힘이 실력이 됩니다.'**
+  String get onboardingPage2Body;
+
+  /// No description provided for @onboardingPage3Title.
+  ///
+  /// In ko, this message translates to:
+  /// **'모험을 시작하세요'**
+  String get onboardingPage3Title;
+
+  /// No description provided for @onboardingPage3Body.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트를 완료하고, 던전을 클리어하고\n업적과 칭호를 수집하세요.\n당신의 일상이 RPG가 됩니다.'**
+  String get onboardingPage3Body;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In ko, this message translates to:
+  /// **'시작하기'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In ko, this message translates to:
+  /// **'건너뛰기'**
+  String get onboardingSkip;
+
   /// No description provided for @settingsAdSupportSection.
   ///
   /// In ko, this message translates to:

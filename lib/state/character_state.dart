@@ -159,6 +159,7 @@ class CharacterState extends ChangeNotifier {
   bool _isLoadingInProgress = false;
   ThemeMode _themeMode = ThemeMode.dark;
   Locale? _locale;
+  bool _hasSeenOnboarding = false;
   bool _isNotificationEnabled = true;
   Timer? _saveTimer;
   Timer? _hpRegenTimer;
@@ -194,6 +195,7 @@ class CharacterState extends ChangeNotifier {
   bool get isDataLoaded => _isDataLoaded;
   ThemeMode get themeMode => _themeMode;
   Locale? get locale => _locale;
+  bool get hasSeenOnboarding => _hasSeenOnboarding;
   bool get isNotificationEnabled => _isNotificationEnabled;
   int get questCompletionCount =>
       _progressCountFor(AchievementCondition.questCompleted);
@@ -319,6 +321,7 @@ class CharacterState extends ChangeNotifier {
     _isLoadingInProgress = false;
     _themeMode = ThemeMode.dark;
     _locale = null;
+    _hasSeenOnboarding = false;
     _isNotificationEnabled = true;
     _isCombatActive = false;
     _dailyQuests = [];
@@ -341,6 +344,12 @@ class CharacterState extends ChangeNotifier {
 
   Future<void> changeLocale(Locale? newLocale) async {
     _locale = newLocale;
+    await _saveData();
+    notifyListeners();
+  }
+
+  Future<void> completeOnboarding() async {
+    _hasSeenOnboarding = true;
     await _saveData();
     notifyListeners();
   }
@@ -1105,6 +1114,7 @@ class CharacterState extends ChangeNotifier {
             _achievementProgress.map((k, v) => MapEntry(k, v.toJson())),
         'themeMode': _themeMode.index,
         'localeCode': _locale?.languageCode,
+        'hasSeenOnboarding': _hasSeenOnboarding,
         'isNotificationEnabled': _isNotificationEnabled,
         'lastLoginDate': lastLoginDate?.toIso8601String(),
       };
@@ -1271,6 +1281,7 @@ class CharacterState extends ChangeNotifier {
                 const {'ko', 'en', 'ja', 'zh'}.contains(savedLocaleCode))
             ? Locale(savedLocaleCode)
             : null;
+        _hasSeenOnboarding = data['hasSeenOnboarding'] ?? false;
         _isNotificationEnabled = data['isNotificationEnabled'] ?? true;
         try {
           await _syncNotificationSchedule();
