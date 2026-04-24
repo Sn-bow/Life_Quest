@@ -81,6 +81,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<void> _pickNotificationHour(
+    BuildContext context,
+    CharacterState characterState, {
+    required bool isMorning,
+  }) async {
+    final initial = TimeOfDay(
+      hour: isMorning
+          ? characterState.notificationMorningHour
+          : characterState.notificationNightHour,
+      minute: 0,
+    );
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: initial,
+      builder: (ctx, child) => MediaQuery(
+        data: MediaQuery.of(ctx).copyWith(alwaysUse24HourFormat: true),
+        child: child!,
+      ),
+    );
+    if (picked == null || !context.mounted) return;
+    await characterState.changeNotificationTime(
+      morningHour:
+          isMorning ? picked.hour : characterState.notificationMorningHour,
+      nightHour:
+          isMorning ? characterState.notificationNightHour : picked.hour,
+    );
+  }
+
   void _showLanguagePicker(
       BuildContext context, CharacterState characterState) {
     final l10n = AppLocalizations.of(context)!;
@@ -272,6 +300,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                 ),
+                if (isNotificationEnabled) ...[
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(PhosphorIcons.sunHorizon),
+                    title: Text(l10n.settingsNotificationMorning),
+                    subtitle: Text(
+                        l10n.settingsNotificationTimeValue(characterState.notificationMorningHour)),
+                    trailing: const Icon(PhosphorIcons.caretRight),
+                    onTap: () => _pickNotificationHour(
+                      context,
+                      characterState,
+                      isMorning: true,
+                    ),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(PhosphorIcons.moon),
+                    title: Text(l10n.settingsNotificationNight),
+                    subtitle: Text(
+                        l10n.settingsNotificationTimeValue(characterState.notificationNightHour)),
+                    trailing: const Icon(PhosphorIcons.caretRight),
+                    onTap: () => _pickNotificationHour(
+                      context,
+                      characterState,
+                      isMorning: false,
+                    ),
+                  ),
+                ],
                 const Divider(),
                 ListTile(
                   leading: const Icon(PhosphorIcons.globe),

@@ -160,6 +160,8 @@ class CharacterState extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.dark;
   Locale? _locale;
   bool _hasSeenOnboarding = false;
+  int _notificationMorningHour = 9;
+  int _notificationNightHour = 20;
   bool _isNotificationEnabled = true;
   Timer? _saveTimer;
   Timer? _hpRegenTimer;
@@ -196,6 +198,8 @@ class CharacterState extends ChangeNotifier {
   ThemeMode get themeMode => _themeMode;
   Locale? get locale => _locale;
   bool get hasSeenOnboarding => _hasSeenOnboarding;
+  int get notificationMorningHour => _notificationMorningHour;
+  int get notificationNightHour => _notificationNightHour;
   bool get isNotificationEnabled => _isNotificationEnabled;
   int get questCompletionCount =>
       _progressCountFor(AchievementCondition.questCompleted);
@@ -322,6 +326,8 @@ class CharacterState extends ChangeNotifier {
     _themeMode = ThemeMode.dark;
     _locale = null;
     _hasSeenOnboarding = false;
+    _notificationMorningHour = 9;
+    _notificationNightHour = 20;
     _isNotificationEnabled = true;
     _isCombatActive = false;
     _dailyQuests = [];
@@ -354,6 +360,21 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> changeNotificationTime({
+    required int morningHour,
+    required int nightHour,
+  }) async {
+    _notificationMorningHour = morningHour;
+    _notificationNightHour = nightHour;
+    try {
+      await _syncNotificationSchedule();
+    } catch (e) {
+      debugPrint('Notification reschedule error (non-fatal): $e');
+    }
+    await _saveData();
+    notifyListeners();
+  }
+
   Future<void> changeNotificationSetting(bool isEnabled) async {
     _isNotificationEnabled = isEnabled;
     try {
@@ -367,8 +388,10 @@ class CharacterState extends ChangeNotifier {
 
   Future<void> _syncNotificationSchedule() async {
     if (_isNotificationEnabled) {
-      await NotificationService().scheduleDailyNotification();
-      await NotificationService().scheduleNightReminder();
+      await NotificationService()
+          .scheduleDailyNotification(hour: _notificationMorningHour);
+      await NotificationService()
+          .scheduleNightReminder(hour: _notificationNightHour);
     } else {
       await NotificationService().cancelAllNotifications();
     }
@@ -1115,6 +1138,8 @@ class CharacterState extends ChangeNotifier {
         'themeMode': _themeMode.index,
         'localeCode': _locale?.languageCode,
         'hasSeenOnboarding': _hasSeenOnboarding,
+        'notificationMorningHour': _notificationMorningHour,
+        'notificationNightHour': _notificationNightHour,
         'isNotificationEnabled': _isNotificationEnabled,
         'lastLoginDate': lastLoginDate?.toIso8601String(),
       };
@@ -1282,6 +1307,8 @@ class CharacterState extends ChangeNotifier {
             ? Locale(savedLocaleCode)
             : null;
         _hasSeenOnboarding = data['hasSeenOnboarding'] ?? false;
+        _notificationMorningHour = data['notificationMorningHour'] ?? 9;
+        _notificationNightHour = data['notificationNightHour'] ?? 20;
         _isNotificationEnabled = data['isNotificationEnabled'] ?? true;
         try {
           await _syncNotificationSchedule();

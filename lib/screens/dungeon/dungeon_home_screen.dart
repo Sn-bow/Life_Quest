@@ -334,12 +334,14 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    description,
+                    isLocked
+                        ? l10n.dungeonHomeLockedHint(requiredLevel)
+                        : description,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 11,
                       color: isLocked
-                          ? Colors.grey.shade500
+                          ? Colors.orange.shade400
                           : (isDark ? Colors.white60 : Colors.black54),
                     ),
                   ),

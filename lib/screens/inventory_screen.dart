@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
 
 class InventoryScreen extends StatelessWidget {
   const InventoryScreen({super.key});
@@ -342,20 +343,39 @@ class InventoryScreen extends StatelessWidget {
           width: 2,
         ),
       ),
-      child: Column(
-        children: [
-          Icon(Icons.inventory_2_outlined,
-              size: 40, color: isDark ? Colors.white38 : Colors.grey.shade400),
-          const SizedBox(height: 8),
-          Text(
-            l10n.inventoryEmptyMessage,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: isDark ? Colors.white54 : Colors.black54,
+      child: Builder(
+        builder: (context) => Column(
+          children: [
+            Icon(Icons.inventory_2_outlined,
+                size: 40, color: isDark ? Colors.white38 : Colors.grey.shade400),
+            const SizedBox(height: 8),
+            Text(
+              l10n.inventoryEmptyMessage,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: isDark ? Colors.white54 : Colors.black54,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                    builder: (_) => const DungeonHomeScreen()),
+              ),
+              icon: const Icon(Icons.castle, size: 16),
+              label: Text(l10n.inventoryGoDungeon),
+              style: OutlinedButton.styleFrom(
+                foregroundColor:
+                    isDark ? Colors.deepPurple.shade200 : Colors.deepPurple,
+                side: BorderSide(
+                    color: isDark
+                        ? Colors.deepPurple.shade300
+                        : Colors.deepPurple.shade200),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

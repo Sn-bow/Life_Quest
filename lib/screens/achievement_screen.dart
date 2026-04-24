@@ -84,8 +84,10 @@ class AchievementScreen extends StatelessWidget {
           child: TranslucentCard(
             child: ListTile(
               leading: Icon(
-                isCompleted ? PhosphorIcons.trophyFill : PhosphorIcons.trophy,
-                color: isCompleted ? Colors.amber.shade600 : (isDarkMode ? Colors.white : Colors.grey.shade800),
+                _achievementIcon(achievement.condition, isCompleted),
+                color: isCompleted
+                    ? _achievementColor(achievement.condition)
+                    : (isDarkMode ? Colors.white38 : Colors.grey.shade400),
                 size: 40,
               ),
               title: Text(
@@ -130,5 +132,55 @@ class AchievementScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  IconData _achievementIcon(AchievementCondition condition, bool isCompleted) {
+    switch (condition) {
+      case AchievementCondition.questCompleted:
+        return isCompleted ? PhosphorIcons.checkCircleFill : PhosphorIcons.checkCircle;
+      case AchievementCondition.levelReached:
+        return isCompleted ? PhosphorIcons.arrowFatLinesUpFill : PhosphorIcons.arrowFatLinesUp;
+      case AchievementCondition.strengthReached:
+        return isCompleted ? PhosphorIcons.swordFill : PhosphorIcons.sword;
+      case AchievementCondition.wisdomReached:
+        return isCompleted ? PhosphorIcons.bookOpenFill : PhosphorIcons.bookOpen;
+      case AchievementCondition.healthReached:
+        return isCompleted ? PhosphorIcons.heartFill : PhosphorIcons.heart;
+      case AchievementCondition.charismaReached:
+        return isCompleted ? PhosphorIcons.starFill : PhosphorIcons.star;
+      case AchievementCondition.skillsLearned:
+        return isCompleted ? PhosphorIcons.lightningFill : PhosphorIcons.lightning;
+      case AchievementCondition.monstersKilled:
+        return isCompleted ? PhosphorIcons.skullFill : PhosphorIcons.skull;
+      case AchievementCondition.goldEarned:
+        return isCompleted ? PhosphorIcons.coinsFill : PhosphorIcons.coins;
+      case AchievementCondition.streakReached:
+        return isCompleted ? PhosphorIcons.flameFill : PhosphorIcons.flame;
+    }
+  }
+
+  Color _achievementColor(AchievementCondition condition) {
+    switch (condition) {
+      case AchievementCondition.questCompleted:
+        return Colors.green.shade400;
+      case AchievementCondition.levelReached:
+        return Colors.amber.shade500;
+      case AchievementCondition.strengthReached:
+        return Colors.red.shade400;
+      case AchievementCondition.wisdomReached:
+        return Colors.blue.shade400;
+      case AchievementCondition.healthReached:
+        return Colors.pink.shade400;
+      case AchievementCondition.charismaReached:
+        return Colors.purple.shade400;
+      case AchievementCondition.skillsLearned:
+        return Colors.cyan.shade400;
+      case AchievementCondition.monstersKilled:
+        return Colors.deepOrange.shade400;
+      case AchievementCondition.goldEarned:
+        return Colors.yellow.shade600;
+      case AchievementCondition.streakReached:
+        return Colors.orange.shade500;
+    }
   }
 }

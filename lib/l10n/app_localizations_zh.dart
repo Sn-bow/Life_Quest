@@ -476,6 +476,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inventoryEmptyMessage => '没有道具\n猎杀怪物来获取装备吧！';
 
   @override
+  String get inventoryGoDungeon => '前往地下城';
+
+  @override
   String get inventoryAttackLabel => '攻击力';
 
   @override
@@ -717,6 +720,17 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsNotificationDisabled => '所有通知已取消。';
+
+  @override
+  String get settingsNotificationMorning => '早晨通知时间';
+
+  @override
+  String get settingsNotificationNight => '晚间通知时间';
+
+  @override
+  String settingsNotificationTimeValue(int hour) {
+    return '每天$hour时';
+  }
 
   @override
   String get settingsLanguage => '语言';
@@ -1174,6 +1188,11 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String dungeonHomeRequiredLevel(int requiredLevel) {
     return '需要$requiredLevel级或以上';
+  }
+
+  @override
+  String dungeonHomeLockedHint(int requiredLevel) {
+    return '达到Lv.$requiredLevel即可解锁 — 完成任务提升等级';
   }
 
   @override

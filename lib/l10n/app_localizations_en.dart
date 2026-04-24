@@ -491,6 +491,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'No items\nHunt monsters to obtain equipment!';
 
   @override
+  String get inventoryGoDungeon => 'Go to Dungeon';
+
+  @override
   String get inventoryAttackLabel => 'Attack';
 
   @override
@@ -740,6 +743,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsNotificationDisabled => 'All notifications cancelled.';
+
+  @override
+  String get settingsNotificationMorning => 'Morning notification time';
+
+  @override
+  String get settingsNotificationNight => 'Evening notification time';
+
+  @override
+  String settingsNotificationTimeValue(int hour) {
+    return 'Daily at $hour:00';
+  }
 
   @override
   String get settingsLanguage => 'Language';
@@ -1214,6 +1228,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String dungeonHomeRequiredLevel(int requiredLevel) {
     return 'Level $requiredLevel or higher required';
+  }
+
+  @override
+  String dungeonHomeLockedHint(int requiredLevel) {
+    return 'Unlocks at Lv.$requiredLevel — complete quests to level up';
   }
 
   @override

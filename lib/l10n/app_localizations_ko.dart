@@ -481,6 +481,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get inventoryEmptyMessage => '아이템이 없습니다\n몬스터를 사냥하여 장비를 획득하세요!';
 
   @override
+  String get inventoryGoDungeon => '던전으로 이동';
+
+  @override
   String get inventoryAttackLabel => '공격력';
 
   @override
@@ -724,6 +727,17 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsNotificationDisabled => '모든 알림이 취소되었습니다.';
+
+  @override
+  String get settingsNotificationMorning => '아침 알림 시간';
+
+  @override
+  String get settingsNotificationNight => '저녁 알림 시간';
+
+  @override
+  String settingsNotificationTimeValue(int hour) {
+    return '매일 $hour시';
+  }
 
   @override
   String get settingsLanguage => '언어';
@@ -1192,6 +1206,11 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String dungeonHomeRequiredLevel(int requiredLevel) {
     return '레벨 $requiredLevel 이상 필요합니다';
+  }
+
+  @override
+  String dungeonHomeLockedHint(int requiredLevel) {
+    return 'Lv.$requiredLevel 달성 시 해제 — 퀘스트를 완료해 레벨업하세요';
   }
 
   @override

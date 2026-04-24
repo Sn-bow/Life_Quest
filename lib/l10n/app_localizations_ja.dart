@@ -480,6 +480,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inventoryEmptyMessage => 'アイテムがありません\nモンスターを狩って装備を入手しましょう！';
 
   @override
+  String get inventoryGoDungeon => 'ダンジョンへ移動';
+
+  @override
   String get inventoryAttackLabel => '攻撃力';
 
   @override
@@ -721,6 +724,17 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsNotificationDisabled => 'すべての通知がキャンセルされました。';
+
+  @override
+  String get settingsNotificationMorning => '朝の通知時間';
+
+  @override
+  String get settingsNotificationNight => '夜の通知時間';
+
+  @override
+  String settingsNotificationTimeValue(int hour) {
+    return '毎日$hour時';
+  }
 
   @override
   String get settingsLanguage => '言語';
@@ -1187,6 +1201,11 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String dungeonHomeRequiredLevel(int requiredLevel) {
     return 'レベル$requiredLevel以上が必要です';
+  }
+
+  @override
+  String dungeonHomeLockedHint(int requiredLevel) {
+    return 'Lv.$requiredLevel達成で解放 — クエストを完了してレベルアップしよう';
   }
 
   @override

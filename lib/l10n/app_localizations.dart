@@ -972,6 +972,12 @@ abstract class AppLocalizations {
   /// **'아이템이 없습니다\n몬스터를 사냥하여 장비를 획득하세요!'**
   String get inventoryEmptyMessage;
 
+  /// No description provided for @inventoryGoDungeon.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전으로 이동'**
+  String get inventoryGoDungeon;
+
   /// No description provided for @inventoryAttackLabel.
   ///
   /// In ko, this message translates to:
@@ -1433,6 +1439,24 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'모든 알림이 취소되었습니다.'**
   String get settingsNotificationDisabled;
+
+  /// No description provided for @settingsNotificationMorning.
+  ///
+  /// In ko, this message translates to:
+  /// **'아침 알림 시간'**
+  String get settingsNotificationMorning;
+
+  /// No description provided for @settingsNotificationNight.
+  ///
+  /// In ko, this message translates to:
+  /// **'저녁 알림 시간'**
+  String get settingsNotificationNight;
+
+  /// No description provided for @settingsNotificationTimeValue.
+  ///
+  /// In ko, this message translates to:
+  /// **'매일 {hour}시'**
+  String settingsNotificationTimeValue(int hour);
 
   /// No description provided for @settingsLanguage.
   ///
@@ -2291,6 +2315,12 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'레벨 {requiredLevel} 이상 필요합니다'**
   String dungeonHomeRequiredLevel(int requiredLevel);
+
+  /// No description provided for @dungeonHomeLockedHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'Lv.{requiredLevel} 달성 시 해제 — 퀘스트를 완료해 레벨업하세요'**
+  String dungeonHomeLockedHint(int requiredLevel);
 
   /// No description provided for @zone1Name.
   ///

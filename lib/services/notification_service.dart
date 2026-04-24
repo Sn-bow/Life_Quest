@@ -79,8 +79,8 @@ class NotificationService {
     }
   }
 
-  // 매일 아침 9시에 알림 예약
-  Future<void> scheduleDailyNotification() async {
+  // 매일 아침 알림 예약 (기본 9시)
+  Future<void> scheduleDailyNotification({int hour = 9}) async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       0, // 알림 ID
       _localizedString(
@@ -95,7 +95,7 @@ class NotificationService {
         ja: '新しい一日が始まりました。あなたの成長を記録しましょう。',
         zh: '新的一天开始了。记录你的成长吧。',
       ),
-      _nextInstanceOfNineAM(),
+      _nextInstanceOf(hour),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'daily_notification_channel_id',
@@ -113,19 +113,18 @@ class NotificationService {
     );
   }
 
-  // 다음 날 아침 9시를 계산
-  tz.TZDateTime _nextInstanceOfNineAM() {
+  tz.TZDateTime _nextInstanceOf(int hour) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 9);
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour);
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
     return scheduledDate;
   }
 
-  // 매일 저녁 8시에 미완료 퀘스트 알림 예약
-  Future<void> scheduleNightReminder() async {
+  // 매일 저녁 알림 예약 (기본 20시)
+  Future<void> scheduleNightReminder({int hour = 20}) async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       1, // 알림 ID (아침 알림과 다르게)
       _localizedString(
@@ -140,7 +139,7 @@ class NotificationService {
         ja: '未完了のクエストがあるとHPが減少することがあります！',
         zh: '还有未完成的任务，可能会减少HP！',
       ),
-      _nextInstanceOfEightPM(),
+      _nextInstanceOf(hour),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'night_reminder_channel_id',
@@ -158,16 +157,6 @@ class NotificationService {
     );
   }
 
-  // 다음 날 저녁 8시를 계산
-  tz.TZDateTime _nextInstanceOfEightPM() {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day, 20); // 20:00 (8 PM)
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
 
   // 모든 예약된 알림 취소
   Future<void> cancelAllNotifications() async {
