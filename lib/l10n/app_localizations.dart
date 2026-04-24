@@ -1434,6 +1434,48 @@ abstract class AppLocalizations {
   /// **'모든 알림이 취소되었습니다.'**
   String get settingsNotificationDisabled;
 
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In ko, this message translates to:
+  /// **'언어'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsLanguageSubtitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'앱 표시 언어를 선택합니다.'**
+  String get settingsLanguageSubtitle;
+
+  /// No description provided for @settingsLanguageSystem.
+  ///
+  /// In ko, this message translates to:
+  /// **'시스템 기본'**
+  String get settingsLanguageSystem;
+
+  /// No description provided for @settingsLanguageKorean.
+  ///
+  /// In ko, this message translates to:
+  /// **'한국어'**
+  String get settingsLanguageKorean;
+
+  /// No description provided for @settingsLanguageEnglish.
+  ///
+  /// In ko, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEnglish;
+
+  /// No description provided for @settingsLanguageJapanese.
+  ///
+  /// In ko, this message translates to:
+  /// **'日本語'**
+  String get settingsLanguageJapanese;
+
+  /// No description provided for @settingsLanguageChinese.
+  ///
+  /// In ko, this message translates to:
+  /// **'中文'**
+  String get settingsLanguageChinese;
+
   /// No description provided for @settingsAdSupportSection.
   ///
   /// In ko, this message translates to:

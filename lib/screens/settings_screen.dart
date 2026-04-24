@@ -81,6 +81,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _showLanguagePicker(
+      BuildContext context, CharacterState characterState) {
+    final l10n = AppLocalizations.of(context)!;
+    final current = characterState.locale?.languageCode;
+    final entries = <MapEntry<String?, String>>[
+      MapEntry(null, l10n.settingsLanguageSystem),
+      MapEntry('ko', l10n.settingsLanguageKorean),
+      MapEntry('en', l10n.settingsLanguageEnglish),
+      MapEntry('ja', l10n.settingsLanguageJapanese),
+      MapEntry('zh', l10n.settingsLanguageChinese),
+    ];
+    showDialog(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        title: Text(l10n.settingsLanguage),
+        children: entries
+            .map((e) => SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    characterState
+                        .changeLocale(e.key == null ? null : Locale(e.key!));
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        e.key == current
+                            ? PhosphorIcons.checkCircleFill
+                            : PhosphorIcons.circle,
+                        size: 20,
+                        color: e.key == current
+                            ? Theme.of(ctx).colorScheme.primary
+                            : Colors.grey,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(child: Text(e.value)),
+                    ],
+                  ),
+                ))
+            .toList(),
+      ),
+    );
+  }
+
+  String _languageLabel(AppLocalizations l10n, String? code) {
+    switch (code) {
+      case 'ko':
+        return l10n.settingsLanguageKorean;
+      case 'en':
+        return l10n.settingsLanguageEnglish;
+      case 'ja':
+        return l10n.settingsLanguageJapanese;
+      case 'zh':
+        return l10n.settingsLanguageChinese;
+      default:
+        return l10n.settingsLanguageSystem;
+    }
+  }
+
   void _showDeleteAccountDialog(
       BuildContext context, CharacterState characterState) {
     showDialog(
@@ -213,6 +271,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }
                     });
                   },
+                ),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(PhosphorIcons.globe),
+                  title: Text(l10n.settingsLanguage),
+                  subtitle: Text(
+                      _languageLabel(l10n, characterState.locale?.languageCode)),
+                  trailing: const Icon(PhosphorIcons.caretRight),
+                  onTap: () => _showLanguagePicker(context, characterState),
                 ),
               ],
             ),

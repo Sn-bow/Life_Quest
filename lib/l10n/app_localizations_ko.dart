@@ -726,6 +726,27 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsNotificationDisabled => '모든 알림이 취소되었습니다.';
 
   @override
+  String get settingsLanguage => '언어';
+
+  @override
+  String get settingsLanguageSubtitle => '앱 표시 언어를 선택합니다.';
+
+  @override
+  String get settingsLanguageSystem => '시스템 기본';
+
+  @override
+  String get settingsLanguageKorean => '한국어';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageJapanese => '日本語';
+
+  @override
+  String get settingsLanguageChinese => '中文';
+
+  @override
   String get settingsAdSupportSection => '광고 후원 안내';
 
   @override

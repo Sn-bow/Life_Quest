@@ -158,6 +158,7 @@ class CharacterState extends ChangeNotifier {
   bool _isDataLoaded = false;
   bool _isLoadingInProgress = false;
   ThemeMode _themeMode = ThemeMode.dark;
+  Locale? _locale;
   bool _isNotificationEnabled = true;
   Timer? _saveTimer;
   Timer? _hpRegenTimer;
@@ -192,6 +193,7 @@ class CharacterState extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isDataLoaded => _isDataLoaded;
   ThemeMode get themeMode => _themeMode;
+  Locale? get locale => _locale;
   bool get isNotificationEnabled => _isNotificationEnabled;
   int get questCompletionCount =>
       _progressCountFor(AchievementCondition.questCompleted);
@@ -316,6 +318,7 @@ class CharacterState extends ChangeNotifier {
     _isDataLoaded = false;
     _isLoadingInProgress = false;
     _themeMode = ThemeMode.dark;
+    _locale = null;
     _isNotificationEnabled = true;
     _isCombatActive = false;
     _dailyQuests = [];
@@ -332,6 +335,12 @@ class CharacterState extends ChangeNotifier {
 
   Future<void> changeThemeMode(ThemeMode mode) async {
     _themeMode = mode;
+    await _saveData();
+    notifyListeners();
+  }
+
+  Future<void> changeLocale(Locale? newLocale) async {
+    _locale = newLocale;
     await _saveData();
     notifyListeners();
   }
@@ -1095,6 +1104,7 @@ class CharacterState extends ChangeNotifier {
         'achievementProgress':
             _achievementProgress.map((k, v) => MapEntry(k, v.toJson())),
         'themeMode': _themeMode.index,
+        'localeCode': _locale?.languageCode,
         'isNotificationEnabled': _isNotificationEnabled,
         'lastLoginDate': lastLoginDate?.toIso8601String(),
       };
@@ -1256,6 +1266,11 @@ class CharacterState extends ChangeNotifier {
 
         _themeMode =
             ThemeMode.values[data['themeMode'] ?? ThemeMode.dark.index];
+        final savedLocaleCode = data['localeCode'] as String?;
+        _locale = (savedLocaleCode != null &&
+                const {'ko', 'en', 'ja', 'zh'}.contains(savedLocaleCode))
+            ? Locale(savedLocaleCode)
+            : null;
         _isNotificationEnabled = data['isNotificationEnabled'] ?? true;
         try {
           await _syncNotificationSchedule();

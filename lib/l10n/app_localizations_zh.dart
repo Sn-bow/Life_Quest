@@ -719,6 +719,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsNotificationDisabled => '所有通知已取消。';
 
   @override
+  String get settingsLanguage => '语言';
+
+  @override
+  String get settingsLanguageSubtitle => '选择应用的显示语言。';
+
+  @override
+  String get settingsLanguageSystem => '系统默认';
+
+  @override
+  String get settingsLanguageKorean => '한국어';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageJapanese => '日本語';
+
+  @override
+  String get settingsLanguageChinese => '中文';
+
+  @override
   String get settingsAdSupportSection => '广告支持说明';
 
   @override

@@ -742,6 +742,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsNotificationDisabled => 'All notifications cancelled.';
 
   @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsLanguageSubtitle => 'Choose the app display language.';
+
+  @override
+  String get settingsLanguageSystem => 'System default';
+
+  @override
+  String get settingsLanguageKorean => '한국어';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageJapanese => '日本語';
+
+  @override
+  String get settingsLanguageChinese => '中文';
+
+  @override
   String get settingsAdSupportSection => 'Ad Support Info';
 
   @override

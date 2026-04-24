@@ -115,6 +115,7 @@ class LifeQuestApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
+          locale: state.locale,
           supportedLocales: const [
             Locale('ko'),
             Locale('en'),
