@@ -43,10 +43,9 @@ class SkillScreen extends StatelessWidget {
           final isLearned = characterState.learnedSkillIds.contains(skill.id);
           final canLearn = characterState.canLearnSkill(skill);
 
-          String requirementText = l10n.skillRequiredLevel(skill.requiredLevel);
+          String? localizedStatName;
           if (skill.requiredStatType != null &&
               skill.requiredStatValue != null) {
-            String localizedStatName;
             switch (skill.requiredStatType!) {
               case StatType.strength:
                 localizedStatName = l10n.questsCategoryStrength;
@@ -61,8 +60,6 @@ class SkillScreen extends StatelessWidget {
                 localizedStatName = l10n.questsCategoryCharm;
                 break;
             }
-            requirementText +=
-                ' / $localizedStatName ${skill.requiredStatValue}';
           }
 
           return Padding(
@@ -99,13 +96,27 @@ class SkillScreen extends StatelessWidget {
                                 ? theme.textTheme.bodyMedium?.color
                                 : Colors.grey.shade600)),
                     const SizedBox(height: 4),
-                    Text(
-                      requirementText,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: canLearn || isLearned
-                              ? theme.colorScheme.secondary
-                              : Colors.grey.shade600),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        Text(
+                          l10n.skillRequiredLevel(skill.requiredLevel),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: canLearn || isLearned
+                                  ? theme.colorScheme.secondary
+                                  : Colors.grey.shade600),
+                        ),
+                        if (localizedStatName != null)
+                          Text(
+                            '$localizedStatName ${skill.requiredStatValue}',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: canLearn || isLearned
+                                    ? theme.colorScheme.secondary
+                                    : Colors.grey.shade600),
+                          ),
+                      ],
                     ),
                   ],
                 ),
