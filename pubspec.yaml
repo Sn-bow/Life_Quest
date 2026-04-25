@@ -37,6 +37,7 @@ dependencies:
   flame: ^1.21.0
   flame_audio: ^2.10.4
   url_launcher: ^6.3.0
+  cloud_functions: ^5.0.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

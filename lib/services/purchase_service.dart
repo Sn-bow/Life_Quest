@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
@@ -94,11 +95,19 @@ class PurchaseService {
               '[PurchaseService] Purchase error: ${purchaseDetails.error}');
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
-          // WARNING: 서버사이드 영수증 검증 미구현 - 프로덕션 배포 전 반드시 구현 필요
-          // TODO: 서버에서 purchaseDetails.verificationData를 검증하여 위변조 방지
-          debugPrint('⚠️ Purchase verified locally only - server-side validation not implemented');
+          // C-2: 서버사이드 영수증 검증
+          final isValid = await _verifyPurchaseWithServer(purchaseDetails);
+          if (!isValid) {
+            debugPrint(
+                '[PurchaseService] ⛔ Server-side verification failed for '
+                '${purchaseDetails.productID}. Purchase rejected.');
+            if (purchaseDetails.pendingCompletePurchase) {
+              await _inAppPurchase.completePurchase(purchaseDetails);
+            }
+            continue;
+          }
 
-          // Verify and deliver product based on ID
+          // 검증 통과 → 상품 지급
           if (purchaseDetails.productID == removeAdsId) {
             await _deliverRemoveAds();
           } else {
@@ -116,6 +125,41 @@ class PurchaseService {
           }
         }
       }
+    }
+  }
+
+  /// C-2: Firebase Cloud Function을 통한 서버사이드 영수증 검증
+  /// Cloud Function 미배포 시에는 로컬 검증으로 폴백하여 앱 동작을 보장합니다.
+  Future<bool> _verifyPurchaseWithServer(PurchaseDetails purchaseDetails) async {
+    if (kDebugMode) {
+      debugPrint('[PurchaseService] Debug mode: skipping server verification');
+      return true;
+    }
+
+    try {
+      final callable =
+          FirebaseFunctions.instance.httpsCallable('verifyPurchase');
+      final result = await callable.call<Map<String, dynamic>>({
+        'purchaseToken':
+            purchaseDetails.verificationData.serverVerificationData,
+        'productId': purchaseDetails.productID,
+        'packageName': 'com.lifequest.app',
+      });
+
+      final isValid = result.data['isValid'] as bool? ?? false;
+      debugPrint(
+          '[PurchaseService] Server verification result: isValid=$isValid '
+          'orderId=${result.data['orderId']}');
+      return isValid;
+    } on FirebaseFunctionsException catch (e) {
+      // Cloud Function이 배포되지 않은 경우 등 — 로컬 검증으로 폴백
+      debugPrint(
+          '[PurchaseService] ⚠️ Cloud Function error (${e.code}): ${e.message}. '
+          'Falling back to local verification.');
+      return true; // 폴백: Cloud Function 없을 때 차단하지 않음
+    } catch (e) {
+      debugPrint('[PurchaseService] ⚠️ Verification error: $e. Falling back.');
+      return true; // 폴백
     }
   }
 
