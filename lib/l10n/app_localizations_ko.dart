@@ -98,6 +98,17 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get loginForgotPassword => '비밀번호를 잊으셨나요?';
+
+  @override
+  String get loginForgotPasswordEmailRequired => '이메일을 먼저 입력해주세요.';
+
+  @override
+  String loginForgotPasswordSent(String email) {
+    return '$email로 비밀번호 재설정 메일을 발송했습니다.';
+  }
+
+  @override
   String get signupTitle => '새 모험가 등록';
 
   @override
@@ -822,6 +833,15 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsWithdrawConfirm => '탈퇴 확인';
+
+  @override
+  String get settingsPrivacyPolicy => '개인정보처리방침';
+
+  @override
+  String get settingsTerms => '이용약관';
+
+  @override
+  String get settingsLegalSection => '약관 및 정책';
 
   @override
   String get loadingSync => '헌터 정보를 동기화하는 중';

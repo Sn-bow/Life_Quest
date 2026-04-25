@@ -98,6 +98,7 @@ class ShopScreen extends StatelessWidget {
     if (character.gold < price) return;
     character.gold -= price;
     character.inventory.add(item);
+    charState.refreshState(); // 즉시 UI 갱신 (gold 반영)
     charState.forceSave();
     _showSnack(context, AppLocalizations.of(context)!.shopItemAcquired(item.name), snackColor);
   }
@@ -198,6 +199,7 @@ class ShopScreen extends StatelessWidget {
               if (character.gold < 100) return;
               character.gold -= 100;
               combatState.openLootBox(character, 1);
+              charState.refreshState(); // 즉시 UI 갱신
               charState.forceSave();
               _showSnack(context, l10n.shopNormalBoxSuccess, Colors.purple);
             },
@@ -214,6 +216,7 @@ class ShopScreen extends StatelessWidget {
               if (character.gold < 300) return;
               character.gold -= 300;
               combatState.openLootBox(character, 2);
+              charState.refreshState(); // 즉시 UI 갱신
               charState.forceSave();
               _showSnack(context, l10n.shopPremiumBoxSuccess, Colors.orange);
             },
@@ -234,6 +237,7 @@ class ShopScreen extends StatelessWidget {
               character.gold -= 500;
               character.characterMaxHp += 10;
               character.characterHp += 10;
+              charState.refreshState(); // 즉시 UI 갱신
               charState.forceSave();
               _showSnack(context, l10n.shopMaxHpSuccess, Colors.red);
             },
@@ -251,6 +255,7 @@ class ShopScreen extends StatelessWidget {
               character.gold -= 500;
               character.maxActionPoints += 2;
               character.actionPoints += 2;
+              charState.refreshState(); // 즉시 UI 갱신
               charState.forceSave();
               _showSnack(context, l10n.shopMaxApSuccess, Colors.blue);
             },

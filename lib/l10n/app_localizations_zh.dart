@@ -98,6 +98,17 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get loginForgotPassword => '忘记密码了吗?';
+
+  @override
+  String get loginForgotPasswordEmailRequired => '请先输入邮箱地址。';
+
+  @override
+  String loginForgotPasswordSent(String email) {
+    return '密码重置邮件已发送至 $email。';
+  }
+
+  @override
   String get signupTitle => '注册新冒险者';
 
   @override
@@ -810,6 +821,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsWithdrawConfirm => '确认注销';
+
+  @override
+  String get settingsPrivacyPolicy => '隐私政策';
+
+  @override
+  String get settingsTerms => '服务条款';
+
+  @override
+  String get settingsLegalSection => '条款与政策';
 
   @override
   String get loadingSync => '正在同步猎人信息';

@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   bool _isLoading = false;
+  bool _obscurePassword = true;
 
   Future<void> _handleLogin() async {
     final l10n = AppLocalizations.of(context)!;
@@ -47,6 +48,25 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
   // --- 여기까지 ---
+
+  Future<void> _handleForgotPassword(AppLocalizations l10n) async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      _showErrorSnackBar(l10n.loginForgotPasswordEmailRequired);
+      return;
+    }
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(l10n.loginForgotPasswordSent(email)),
+        backgroundColor: Colors.green.shade700,
+        duration: const Duration(seconds: 4),
+      ));
+    } on FirebaseAuthException catch (e) {
+      _showErrorSnackBar(e.message ?? l10n.loginErrorFailed);
+    }
+  }
 
   Future<void> _handleGoogleSignIn() async {
     final l10n = AppLocalizations.of(context)!;
@@ -176,10 +196,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         labelText: l10n.loginPasswordLabel,
                         prefixIcon: const Icon(Icons.lock_outline_rounded),
+                        suffixIcon: IconButton(
+                          icon: Icon(_obscurePassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined),
+                          onPressed: () =>
+                              setState(() => _obscurePassword = !_obscurePassword),
+                        ),
                       ),
-                      obscureText: true,
+                      obscureText: _obscurePassword,
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () => _handleForgotPassword(l10n),
+                        child: Text(l10n.loginForgotPassword,
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary)),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
                     if (_isLoading)
                       const CircularProgressIndicator()
                     else

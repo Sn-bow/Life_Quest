@@ -98,6 +98,17 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get loginForgotPassword => 'パスワードをお忘れですか?';
+
+  @override
+  String get loginForgotPasswordEmailRequired => '先にメールアドレスを入力してください。';
+
+  @override
+  String loginForgotPasswordSent(String email) {
+    return '$emailにパスワードリセットメールを送信しました。';
+  }
+
+  @override
   String get signupTitle => '新しい冒険者登録';
 
   @override
@@ -818,6 +829,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsWithdrawConfirm => '削除確認';
+
+  @override
+  String get settingsPrivacyPolicy => 'プライバシーポリシー';
+
+  @override
+  String get settingsTerms => '利用規約';
+
+  @override
+  String get settingsLegalSection => '規約とポリシー';
 
   @override
   String get loadingSync => 'ハンター情報を同期中';

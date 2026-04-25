@@ -25,6 +25,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _nameController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   bool _isLoading = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
   File? _selectedImage;
 
   Future<void> _pickImage() async {
@@ -324,8 +326,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: InputDecoration(
                           labelText: l10n.signupPasswordLabel,
                           prefixIcon: const Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscurePassword
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined),
+                            onPressed: () => setState(
+                                () => _obscurePassword = !_obscurePassword),
+                          ),
                         ),
-                        obscureText: true,
+                        obscureText: _obscurePassword,
                         validator: (value) {
                           if (value == null || value.trim().length < 6) {
                             return l10n.signupPasswordTooShort;
@@ -339,8 +348,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: InputDecoration(
                           labelText: l10n.signupPasswordConfirmLabel,
                           prefixIcon: const Icon(Icons.lock_reset_outlined),
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscureConfirm
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined),
+                            onPressed: () => setState(
+                                () => _obscureConfirm = !_obscureConfirm),
+                          ),
                         ),
-                        obscureText: true,
+                        obscureText: _obscureConfirm,
                         validator: (value) {
                           if (value != _passwordController.text) {
                             return l10n.signupPasswordMismatch;

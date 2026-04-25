@@ -388,10 +388,15 @@ class CharacterState extends ChangeNotifier {
 
   Future<void> _syncNotificationSchedule() async {
     if (_isNotificationEnabled) {
-      await NotificationService()
-          .scheduleDailyNotification(hour: _notificationMorningHour);
-      await NotificationService()
-          .scheduleNightReminder(hour: _notificationNightHour);
+      final langCode = _locale?.languageCode; // M-5: 앱 언어 설정 반영
+      await NotificationService().scheduleDailyNotification(
+        hour: _notificationMorningHour,
+        languageCode: langCode,
+      );
+      await NotificationService().scheduleNightReminder(
+        hour: _notificationNightHour,
+        languageCode: langCode,
+      );
     } else {
       await NotificationService().cancelAllNotifications();
     }
@@ -1113,6 +1118,8 @@ class CharacterState extends ChangeNotifier {
   // the latest data is always saved (race condition prevention).
   Future<void> _performSaveData() async {
     if (_character == null) return;
+    // m-2: gold 음수 방지 — 어떤 경로로든 음수가 됐을 때 저장 직전에 클램프
+    if (_character!.gold < 0) _character!.gold = 0;
     if (_isSaving) {
       // 이미 저장 중이면 대기열에 추가하고 반환
       _pendingSave = true;

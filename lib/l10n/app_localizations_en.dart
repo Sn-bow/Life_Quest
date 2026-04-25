@@ -100,6 +100,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get loginForgotPassword => 'Forgot your password?';
+
+  @override
+  String get loginForgotPasswordEmailRequired =>
+      'Please enter your email first.';
+
+  @override
+  String loginForgotPasswordSent(String email) {
+    return 'Password reset email sent to $email.';
+  }
+
+  @override
   String get signupTitle => 'Register New Adventurer';
 
   @override
@@ -838,6 +850,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsWithdrawConfirm => 'Confirm Deletion';
+
+  @override
+  String get settingsPrivacyPolicy => 'Privacy Policy';
+
+  @override
+  String get settingsTerms => 'Terms of Service';
+
+  @override
+  String get settingsLegalSection => 'Legal';
 
   @override
   String get loadingSync => 'Syncing hunter data';

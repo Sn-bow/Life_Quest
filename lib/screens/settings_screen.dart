@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -188,6 +190,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               onPressed: () async {
                 Navigator.of(ctx).pop();
+                // C-5: 재인증 후 탈퇴
+                final confirmed =
+                    await _reauthenticateAndConfirm(context);
+                if (!confirmed) return;
+                if (!context.mounted) return;
                 await characterState.deleteAccount();
                 if (!context.mounted) return;
                 Navigator.of(context).popUntil((route) => route.isFirst);
@@ -198,6 +205,114 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       },
     );
+  }
+
+  /// C-5: 탈퇴 전 재인증. 이메일/비밀번호 또는 Google로 재인증.
+  /// 재인증 성공 시 true 반환.
+  Future<bool> _reauthenticateAndConfirm(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return false;
+
+    // 사용자 로그인 방법 확인
+    final providerIds =
+        user.providerData.map((p) => p.providerId).toList();
+    final isGoogleUser = providerIds.contains('google.com');
+    final isEmailUser = providerIds.contains('password');
+
+    if (isGoogleUser) {
+      return _reauthWithGoogle(context);
+    } else if (isEmailUser) {
+      return _reauthWithPassword(context);
+    }
+    // 기타 provider는 재인증 없이 진행
+    return true;
+  }
+
+  Future<bool> _reauthWithGoogle(BuildContext context) async {
+    try {
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return false;
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await FirebaseAuth.instance.currentUser!
+          .reauthenticateWithCredential(credential);
+      return true;
+    } catch (e) {
+      if (!context.mounted) return false;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('재인증 실패: ${e.toString()}'),
+          backgroundColor: Colors.red.shade800,
+        ),
+      );
+      return false;
+    }
+  }
+
+  Future<bool> _reauthWithPassword(BuildContext context) async {
+    final passwordController = TextEditingController();
+    bool obscure = true;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setDialogState) {
+            final l10n = AppLocalizations.of(ctx)!;
+            return AlertDialog(
+              title: const Text('비밀번호 확인'),
+              content: TextField(
+                controller: passwordController,
+                obscureText: obscure,
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: l10n.signupPasswordLabel,
+                  suffixIcon: IconButton(
+                    icon: Icon(obscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined),
+                    onPressed: () =>
+                        setDialogState(() => obscure = !obscure),
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(false),
+                  child: Text(l10n.cancel),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(ctx).pop(true),
+                  child: const Text('확인'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+    if (confirmed != true) return false;
+
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: passwordController.text.trim(),
+      );
+      await user.reauthenticateWithCredential(credential);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (!context.mounted) return false;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message ?? '비밀번호가 올바르지 않습니다.'),
+          backgroundColor: Colors.red.shade800,
+        ),
+      );
+      return false;
+    }
   }
 
   @override
@@ -395,6 +510,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   leading: const Icon(PhosphorIcons.coins, color: Colors.teal),
                   title: Text(l10n.settingsAdModelTitle),
                   subtitle: Text(l10n.settingsAdModelDesc),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(l10n.settingsLegalSection,
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          TranslucentCard(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(PhosphorIcons.shieldCheck),
+                  title: Text(l10n.settingsPrivacyPolicy),
+                  trailing: const Icon(PhosphorIcons.arrowSquareOut, size: 18),
+                  onTap: () async {
+                    final uri = Uri.parse(
+                        'https://sites.google.com/view/lifequest-privacy');
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri,
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(PhosphorIcons.fileText),
+                  title: Text(l10n.settingsTerms),
+                  trailing: const Icon(PhosphorIcons.arrowSquareOut, size: 18),
+                  onTap: () async {
+                    final uri = Uri.parse(
+                        'https://sites.google.com/view/lifequest-terms');
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri,
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
                 ),
               ],
             ),

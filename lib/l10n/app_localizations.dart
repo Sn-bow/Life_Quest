@@ -276,6 +276,24 @@ abstract class AppLocalizations {
   /// **'오류가 발생했습니다: {error}'**
   String loginErrorUnknown(String error);
 
+  /// No description provided for @loginForgotPassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호를 잊으셨나요?'**
+  String get loginForgotPassword;
+
+  /// No description provided for @loginForgotPasswordEmailRequired.
+  ///
+  /// In ko, this message translates to:
+  /// **'이메일을 먼저 입력해주세요.'**
+  String get loginForgotPasswordEmailRequired;
+
+  /// No description provided for @loginForgotPasswordSent.
+  ///
+  /// In ko, this message translates to:
+  /// **'{email}로 비밀번호 재설정 메일을 발송했습니다.'**
+  String loginForgotPasswordSent(String email);
+
   /// No description provided for @signupTitle.
   ///
   /// In ko, this message translates to:
@@ -1613,6 +1631,24 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'탈퇴 확인'**
   String get settingsWithdrawConfirm;
+
+  /// No description provided for @settingsPrivacyPolicy.
+  ///
+  /// In ko, this message translates to:
+  /// **'개인정보처리방침'**
+  String get settingsPrivacyPolicy;
+
+  /// No description provided for @settingsTerms.
+  ///
+  /// In ko, this message translates to:
+  /// **'이용약관'**
+  String get settingsTerms;
+
+  /// No description provided for @settingsLegalSection.
+  ///
+  /// In ko, this message translates to:
+  /// **'약관 및 정책'**
+  String get settingsLegalSection;
 
   /// No description provided for @loadingSync.
   ///

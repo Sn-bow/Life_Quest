@@ -386,7 +386,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
 // ─────────────────────────────────────────────
 
 /// 시즌 종료일을 변경하려면 이 날짜를 수정하세요.
-final _seasonEndDate = DateTime(2026, 5, 3);
+final _seasonEndDate = DateTime(2027, 3, 31);
 
 class _SeasonBanner extends StatelessWidget {
   final bool isDark;
