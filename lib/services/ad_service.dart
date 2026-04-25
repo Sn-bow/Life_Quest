@@ -139,18 +139,21 @@ class AdService {
         } catch (e) {
           debugPrint('[AdService] UMP consent form error: $e');
         }
-        completer.complete();
+        if (!completer.isCompleted) completer.complete();
       },
       (FormError error) {
         debugPrint('[AdService] UMP consent info update failed: ${error.message}');
-        completer.complete(); // 실패해도 광고 초기화는 진행
+        if (!completer.isCompleted) completer.complete(); // 실패해도 광고 초기화는 진행
       },
     );
 
     // 최대 5초 대기 (UMP 응답 없을 경우 타임아웃)
     await completer.future.timeout(
       const Duration(seconds: 5),
-      onTimeout: () => debugPrint('[AdService] UMP consent timed out'),
+      onTimeout: () {
+        debugPrint('[AdService] UMP consent timed out');
+        if (!completer.isCompleted) completer.complete();
+      },
     );
 
     // 동의 완료 또는 불필요 지역: 광고 SDK 초기화

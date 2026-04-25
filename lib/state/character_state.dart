@@ -149,6 +149,20 @@ class CharacterState extends ChangeNotifier {
     super.dispose();
   }
 
+  /// Soul Deck 클리어 메시지 (BuildContext 없이 locale 기반 다국어)
+  String _localizedSoulDeckClear() {
+    switch (_locale?.languageCode) {
+      case 'en':
+        return 'Soul Deck Clear!';
+      case 'ja':
+        return 'ソウルデッククリア！';
+      case 'zh':
+        return '灵魂牌组通关！';
+      default: // ko
+        return 'Soul Deck 클리어!';
+    }
+  }
+
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   VoidCallback? onLevelUp;
@@ -964,15 +978,16 @@ class CharacterState extends ChangeNotifier {
     _character!.completedZones.add(zone);
 
     if (isNew && zone == 5) {
+      final clearMsg = _localizedSoulDeckClear();
       scaffoldMessengerKey.currentState?.showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Row(
             children: [
-              Text('🏆', style: TextStyle(fontSize: 20)),
-              SizedBox(width: 8),
+              const Text('🏆', style: TextStyle(fontSize: 20)),
+              const SizedBox(width: 8),
               Text(
-                'Soul Deck 클리어!',
-                style: TextStyle(
+                clearMsg,
+                style: const TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -980,8 +995,8 @@ class CharacterState extends ChangeNotifier {
               ),
             ],
           ),
-          backgroundColor: Color(0xFF6A1B9A),
-          duration: Duration(seconds: 4),
+          backgroundColor: const Color(0xFF6A1B9A),
+          duration: const Duration(seconds: 4),
         ),
       );
     }

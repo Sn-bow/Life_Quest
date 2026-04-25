@@ -262,7 +262,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           builder: (ctx, setDialogState) {
             final l10n = AppLocalizations.of(ctx)!;
             return AlertDialog(
-              title: const Text('비밀번호 확인'),
+              title: Text(l10n.settingsReauthPasswordTitle),
               content: TextField(
                 controller: passwordController,
                 obscureText: obscure,
@@ -285,7 +285,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () => Navigator.of(ctx).pop(true),
-                  child: const Text('확인'),
+                  child: Text(l10n.confirm),
                 ),
               ],
             );

@@ -73,3 +73,4 @@ android/key.properties
 
 # JVM heap dump (Gradle/JVM 크래시 시 자동 생성, 수 GB 크기 가능)
 *.hprof
+functions/node_modules/

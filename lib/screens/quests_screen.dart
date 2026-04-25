@@ -30,12 +30,13 @@ class QuestsScreen extends StatelessWidget {
     final lines = <String>[
       if (result.wasRaid)
         l10n.questsRaidClear(result.raidClearCount),
-      '총 보상: ${result.totalXpAwarded.round()} XP · ${result.totalGoldAwarded} 골드 · AP +${result.actionPointsAwarded}',
-      if (result.statPointsAwarded > 0) '추가 스탯 포인트 +${result.statPointsAwarded}',
+      l10n.questsRewardSummary(result.totalXpAwarded.round(), result.totalGoldAwarded, result.actionPointsAwarded),
+      if (result.statPointsAwarded > 0)
+        l10n.questsRewardStatPoints(result.statPointsAwarded),
       if (result.unlockedTitles.isNotEmpty)
-        '해금 칭호: ${result.unlockedTitles.join(', ')}',
+        l10n.questsRewardUnlockedTitles(result.unlockedTitles.join(', ')),
       if (result.unlockedCosmetics.isNotEmpty)
-        '해금 보상: ${result.unlockedCosmetics.join(', ')}',
+        l10n.questsRewardUnlockedCosmetics(result.unlockedCosmetics.join(', ')),
     ];
     return lines.join('\n');
   }

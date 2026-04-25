@@ -1,7 +1,7 @@
 ﻿name: life_quest_final_v2
 description: "Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱 (applicationId: com.lifequest.app)"
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: '>=3.2.3 <4.0.0'

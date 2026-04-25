@@ -13,8 +13,12 @@ class ShopScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final charState = context.watch<CharacterState>();
     final combatState = context.watch<CombatState>();
-    final character = charState.character;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    if (!charState.isDataLoaded) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    final character = charState.character;
 
     return DefaultTabController(
       length: 2,

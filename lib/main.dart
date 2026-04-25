@@ -16,6 +16,7 @@ import 'package:life_quest_final_v2/state/card_combat_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
+import 'package:life_quest_final_v2/services/purchase_service.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
@@ -23,7 +24,7 @@ import 'package:provider/provider.dart';
 
 const _homeWidgetAppGroupId = String.fromEnvironment(
   'HOME_WIDGET_APP_GROUP_ID',
-  defaultValue: 'group.com.example.lifeQuestWidget',
+  defaultValue: 'group.com.lifequest.app.widget',
 );
 
 void main() {
@@ -61,6 +62,7 @@ void main() {
       await NotificationService().init();
       await SoundService().init();
       await AdService().init();
+      await PurchaseService().init();
 
       await HomeWidget.setAppGroupId(_homeWidgetAppGroupId);
 
