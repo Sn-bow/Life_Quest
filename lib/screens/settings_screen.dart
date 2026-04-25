@@ -526,7 +526,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   trailing: const Icon(PhosphorIcons.arrowSquareOut, size: 18),
                   onTap: () async {
                     final uri = Uri.parse(
-                        'https://sites.google.com/view/lifequest-privacy');
+                        'https://sn-bow.github.io/Life_Quest/#privacy');
                     if (await canLaunchUrl(uri)) {
                       await launchUrl(uri,
                           mode: LaunchMode.externalApplication);
@@ -540,7 +540,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   trailing: const Icon(PhosphorIcons.arrowSquareOut, size: 18),
                   onTap: () async {
                     final uri = Uri.parse(
-                        'https://sites.google.com/view/lifequest-terms');
+                        'https://sn-bow.github.io/Life_Quest/#terms');
                     if (await canLaunchUrl(uri)) {
                       await launchUrl(uri,
                           mode: LaunchMode.externalApplication);
