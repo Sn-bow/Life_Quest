@@ -7,12 +7,12 @@
 
 ---
 
-## 현재 상태 (2026-04-16 기준)
+## 현재 상태 (2026-04-25 기준)
 
 | 항목 | 결과 |
 |------|------|
 | `flutter analyze` | **No issues found** ✅ |
-| `flutter test` | **73개 전체 통과** ✅ |
+| `flutter test` | **76개 전체 통과** ✅ |
 | `flutter build appbundle --release` | 성공 (64MB) ✅ |
 
 ---
@@ -32,8 +32,9 @@
 | **성장 리포트** | 스탯 변화 · 퀘스트 통계 시각화 (fl_chart) |
 | **집중 타이머** | 포모도로 방식 타이머, 완료 시 보너스 XP |
 | **홈 위젯** | Android 홈 화면 위젯 (캐릭터 상태 표시) |
-| **알림** | 퀘스트 리마인더 로컬 알림 |
-| **다국어 지원** | 한국어 / 영어 / 일본어 / 중국어 (ARB 기반 완전 로컬라이제이션) |
+| **온보딩** | 최초 실행 시 3페이지 온보딩 (퀘스트 → 던전 → 시작하기) |
+| **알림** | 퀘스트 리마인더 로컬 알림 (아침/저녁 시간 앱 내 직접 설정 가능) |
+| **다국어 지원** | 한국어 / 영어 / 일본어 / 중국어 (ARB 기반 완전 로컬라이제이션, 앱 내 언어 전환 지원) |
 
 ---
 
@@ -251,6 +252,7 @@ lib/
 │   ├── login_screen.dart            # 로그인
 │   ├── signup_screen.dart           # 회원가입
 │   ├── loading_screen.dart          # 로딩
+│   ├── onboarding_screen.dart       # 최초 실행 온보딩 (3페이지)
 │   └── dungeon/                     # Soul Deck 던전 화면
 │       ├── dungeon_home_screen.dart  # 던전 홈 (존 선택, 어센션)
 │       ├── dungeon_map_screen.dart   # 노드 맵
@@ -359,10 +361,11 @@ test/
 │   └── skill_test.dart        (1개)
 └── state/
     ├── character_state_test.dart  (20개)
-    └── combat_state_test.dart     (25개)
+    ├── combat_state_test.dart     (25개)
+    └── dungeon_state_test.dart    (3개)
 ```
 
-`flutter test` → **73개 전체 통과**
+`flutter test` → **76개 전체 통과**
 
 ---
 
