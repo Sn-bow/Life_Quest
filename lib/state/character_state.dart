@@ -246,6 +246,21 @@ class CharacterState extends ChangeNotifier {
   List<Quest> get weeklyQuests => _weeklyQuests;
   List<Quest> get monthlyQuests => _monthlyQuests;
   List<Quest> get yearlyQuests => _yearlyQuests;
+
+  // build()에서 매번 정렬하지 않도록 정렬된 목록을 제공 (미완료 우선)
+  static List<Quest> _sortedQuests(List<Quest> quests) => quests.isEmpty
+      ? quests
+      : (List<Quest>.from(quests)
+        ..sort((a, b) {
+          if (!a.isCompleted && b.isCompleted) return -1;
+          if (a.isCompleted && !b.isCompleted) return 1;
+          return 0;
+        }));
+
+  List<Quest> get sortedDailyQuests => _sortedQuests(_dailyQuests);
+  List<Quest> get sortedWeeklyQuests => _sortedQuests(_weeklyQuests);
+  List<Quest> get sortedMonthlyQuests => _sortedQuests(_monthlyQuests);
+  List<Quest> get sortedYearlyQuests => _sortedQuests(_yearlyQuests);
   List<GameTitle> get unlockedTitles => _allTitles
       .where((title) => _unlockedTitleIds.contains(title.id))
       .toList();

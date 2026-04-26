@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:life_quest_final_v2/utils/shared_pref_keys.dart';
 
 class SoundService {
   static final SoundService _instance = SoundService._internal();
@@ -22,7 +23,7 @@ class SoundService {
   Future<void> init() async {
     if (_isInitialized) return;
     final prefs = await SharedPreferences.getInstance();
-    _isMuted = prefs.getBool('sound_muted') ?? false;
+    _isMuted = prefs.getBool(SharedPrefKeys.soundMuted) ?? false;
     _isInitialized = true;
   }
 
@@ -128,7 +129,7 @@ class SoundService {
   Future<void> toggleMute() async {
     _isMuted = !_isMuted;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('sound_muted', _isMuted);
+    await prefs.setBool(SharedPrefKeys.soundMuted, _isMuted);
     if (_isMuted) {
       await _bgmPlayer?.setVolume(0);
     } else {

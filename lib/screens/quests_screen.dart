@@ -64,13 +64,13 @@ class QuestsScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             _buildQuestList(
-                context, characterState.dailyQuests, characterState, QuestType.daily, l10n),
+                context, characterState.sortedDailyQuests, characterState, QuestType.daily, l10n),
             _buildQuestList(
-                context, characterState.weeklyQuests, characterState, QuestType.weekly, l10n),
+                context, characterState.sortedWeeklyQuests, characterState, QuestType.weekly, l10n),
             _buildQuestList(
-                context, characterState.monthlyQuests, characterState, QuestType.monthly, l10n),
+                context, characterState.sortedMonthlyQuests, characterState, QuestType.monthly, l10n),
             _buildQuestList(
-                context, characterState.yearlyQuests, characterState, QuestType.yearly, l10n),
+                context, characterState.sortedYearlyQuests, characterState, QuestType.yearly, l10n),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -110,19 +110,11 @@ class QuestsScreen extends StatelessWidget {
       );
     }
 
-    // Sort: Uncompleted first, then completed
-    final sortedQuests = List<Quest>.from(quests)
-      ..sort((a, b) {
-        if (!a.isCompleted && b.isCompleted) return -1;
-        if (a.isCompleted && !b.isCompleted) return 1;
-        return 0; // Keep original order otherwise
-      });
-
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: sortedQuests.length,
+      itemCount: quests.length,
       itemBuilder: (context, index) {
-        final quest = sortedQuests[index];
+        final quest = quests[index];
         return QuestTile(
           quest: quest,
           rewardPreview:

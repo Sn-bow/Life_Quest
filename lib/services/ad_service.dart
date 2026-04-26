@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform, TargetPlatform, debugPrint;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:life_quest_final_v2/utils/shared_pref_keys.dart';
 
 /// Singleton service for managing AdMob rewarded ads.
 class AdService {
@@ -97,7 +98,7 @@ class AdService {
           ..start();
         _lastKnownServerTime = ts;
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('ad_last_server_ms', ts.millisecondsSinceEpoch);
+        await prefs.setInt(SharedPrefKeys.adLastServerMs, ts.millisecondsSinceEpoch);
       }
     } catch (e) {
       debugPrint('[AdService] Server time sync failed: $e');
@@ -168,12 +169,12 @@ class AdService {
   Future<void> setAdRemoved(bool removed) async {
     _isAdRemoved = removed;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('ad_removed', removed);
+    await prefs.setBool(SharedPrefKeys.adRemoved, removed);
   }
 
   Future<void> _loadAdRemovalStatus() async {
     final prefs = await SharedPreferences.getInstance();
-    _isAdRemoved = prefs.getBool('ad_removed') ?? false;
+    _isAdRemoved = prefs.getBool(SharedPrefKeys.adRemoved) ?? false;
   }
 
   /// Get remaining ad views for a specific reward type.
@@ -186,25 +187,25 @@ class AdService {
 
   Future<void> _loadDailyCounts() async {
     final prefs = await SharedPreferences.getInstance();
-    _lastResetDate = prefs.getString('ad_last_reset_date');
-    final lastServerMs = prefs.getInt('ad_last_server_ms');
+    _lastResetDate = prefs.getString(SharedPrefKeys.adLastResetDate);
+    final lastServerMs = prefs.getInt(SharedPrefKeys.adLastServerMs);
     if (lastServerMs != null) {
       _lastKnownServerTime =
           DateTime.fromMillisecondsSinceEpoch(lastServerMs, isUtc: true);
     }
     final keys = dailyLimits.keys;
     for (final key in keys) {
-      _dailyAdCounts[key] = prefs.getInt('ad_count_$key') ?? 0;
+      _dailyAdCounts[key] = prefs.getInt('${SharedPrefKeys.adCountPrefix}$key') ?? 0;
     }
   }
 
   Future<void> _saveDailyCounts() async {
     final prefs = await SharedPreferences.getInstance();
     if (_lastResetDate != null) {
-      await prefs.setString('ad_last_reset_date', _lastResetDate!);
+      await prefs.setString(SharedPrefKeys.adLastResetDate, _lastResetDate!);
     }
     for (final entry in _dailyAdCounts.entries) {
-      await prefs.setInt('ad_count_${entry.key}', entry.value);
+      await prefs.setInt('${SharedPrefKeys.adCountPrefix}${entry.key}', entry.value);
     }
   }
 
