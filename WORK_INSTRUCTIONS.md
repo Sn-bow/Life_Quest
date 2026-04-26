@@ -1,136 +1,200 @@
-# Life Quest 프로젝트 작업 지시서
+# Life Quest - 세션별 작업 이력
 
-## 현재 완료 상태 (2026-03-03 기준)
-
-| Phase | 내용 | 상태 |
-|-------|------|------|
-| A | 치명적 버그 수정 8건 | 완료 |
-| B | 높은 우선순위 수정 7건 | 완료 |
-| C | 코드 품질 개선 10건 | 완료 |
-| D | 테스트 확장 (7개 → 67개) | 완료 |
-| E | 배포 준비 4건 | 코드 완료, 수동 작업 3건 남음 |
-
-### 검증 결과
-- `flutter analyze` → No issues found
-- `flutter test` → 67개 전체 통과
+> 각 세션에서 완료한 작업을 역순으로 기록합니다.
+> 새 세션 시작 시 이 파일을 읽으면 현재 상태를 빠르게 파악할 수 있습니다.
 
 ---
 
-## 사용자 수동 작업 (3건)
+## 세션 #10 — 2026-04-26 (QA 2차 권장사항 완료 + 문서화)
 
-### 1. Android 릴리스 키스토어 생성 및 설정
-```bash
-# 키스토어 생성
-keytool -genkey -v -keystore ~/life-quest-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias life-quest-key
-```
-생성 후 `android/key.properties` 파일 생성:
-```properties
-storePassword=입력한_비밀번호
-keyPassword=입력한_비밀번호
-keyAlias=life-quest-key
-storeFile=키스토어_절대경로/life-quest-release.jks
-```
-참고: `android/key.properties.example` 템플릿 있음
+### 완료 작업
+- **`lib/utils/shared_pref_keys.dart`** 신규: SharedPreferences 키 상수 중앙 관리
+- **`lib/services/ad_service.dart`**: 모든 하드코딩 키 → SharedPrefKeys 상수로 교체
+- **`lib/services/sound_service.dart`**: `'sound_muted'` → `SharedPrefKeys.soundMuted`
+- **`lib/state/character_state.dart`**: `sortedDailyQuests`, `sortedWeeklyQuests`, `sortedMonthlyQuests`, `sortedYearlyQuests` 게터 추가
+- **`lib/screens/quests_screen.dart`**: 인라인 정렬 코드 제거 → CharacterState 정렬 게터 사용
+- **문서 전면 최신화**: `CLAUDE.md`, `WORK_INSTRUCTIONS.md`, `RELEASE_CHECKLIST.md`
 
-### 2. iOS Firebase 설정
-```bash
-# 프로젝트 루트에서 실행
-flutterfire configure
-```
-- Firebase 콘솔에서 iOS 앱 등록 필요 (Bundle ID: com.example.life_quest_final_v2)
-- 실행 후 `lib/firebase_options.dart`에 iOS 옵션이 자동 생성됨
-
-### 3. AdMob 프로덕션 ID 교체 (3곳)
-AdMob 콘솔(https://admob.google.com)에서 앱 등록 후 ID 발급받아 교체:
-
-| 파일 | 현재 값 (테스트 ID) | 교체 대상 |
-|------|---------------------|-----------|
-| `lib/services/ad_service.dart` 17행 | `ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY` | 보상형 광고 단위 ID |
-| `android/app/src/main/AndroidManifest.xml` 40행 | `ca-app-pub-3940256099942544~3347511713` | Android 앱 ID |
-| `ios/Runner/Info.plist` GADApplicationIdentifier | `ca-app-pub-3940256099942544~1458002511` | iOS 앱 ID |
+### 커밋
+- `f72dd20` — QA 2차 권장사항: SharedPrefKeys 중앙화 + 퀘스트 정렬 최적화
+- `docs` 커밋 (이 세션)
 
 ---
 
-## 다음 세션 작업 지시
+## 세션 #9 — 2026-04-25~26 (QA 2차: 게임 경제 무결성 + 보안)
 
-위 수동 작업 완료 후 아래 내용을 Claude에게 전달:
+### 완료 작업
+1. **퀘스트 중복 완료 방지** (`_pendingQuestIds` Set)
+   - `character_state.dart`: `isQuestPending()`, `markQuestPending()`, `clearQuestPending()`
+   - `quests_screen.dart`: 광고 시청 비동기 갭 동안 pending 마킹, `barrierDismissible: false`
 
-```
-수동 작업 완료 상태:
-- [ ] 키스토어 생성 및 key.properties 설정 완료/미완료
-- [ ] flutterfire configure 실행하여 iOS Firebase 설정 완료/미완료
-- [ ] AdMob 프로덕션 ID 교체 완료/미완료
+2. **골드 원자적 저장**
+   - `character_state.dart`: `addCombatReward(int xp, EquipmentItem? loot, {int gold = 0})`
+   - `hunt_screen.dart`: 직접 `character.gold +=` 제거 → `addCombatReward(gold:)` 파라미터 사용
 
-이어서 다음 작업 진행해줘:
+3. **코스메틱 샵 개별 아이템 추적**
+   - `cosmetic_shop_screen.dart`: `bool _isPurchasing` → `String? _purchasingIapId` (어느 아이템이 구매 중인지 추적)
 
-1. 수동 작업 결과 검증
-   - flutter analyze 실행하여 0 issues 확인
-   - flutter test 실행하여 67개 전체 통과 확인
-   - flutter build apk --release 빌드 성공 확인 (키스토어 설정 완료 시)
+4. **AdService 서버 시간 앵커** (시간 조작 방지)
+   - `_syncServerTime()`: Firestore 서버 타임스탬프로 앵커 확보
+   - `_serverNow()`: 앵커 + Stopwatch(단조증가) 기반 현재 시각
+   - `SharedPrefKeys.adLastServerMs` 영속 저장 (앱 재시작 간 롤백 방지)
 
-2. 앱 최종 점검
-   - applicationId를 com.example.life_quest_final_v2에서 실제 패키지명으로 변경 (필요시)
-   - 앱 이름(android:label, CFBundleDisplayName) 최종 확인
-   - 버전 번호 설정 (pubspec.yaml의 version 필드)
+5. **하드코딩 문자열 ARB 처리**
+   - `'골드'` → `l10n.questsGoldUnit`
+   - `'🎉 광고 보상 적용'` → `l10n.questsAdRewardApplied`
+   - `questsRewardSummary`, `questsRewardStatPoints`, `questsRewardUnlockedTitles`, `questsRewardUnlockedCosmetics` 추가
+   - `settingsReauthPasswordTitle`, `cosmeticUnlocked`, `cosmeticPurchaseError` 추가
+   - `defaultReward1/2/3Name/Desc` 추가
+   - 4개 언어 ARB 파일(ko/en/ja/zh) 모두 업데이트
 
-3. 빌드 및 배포
-   - Android: flutter build appbundle --release (Play Store용 AAB)
-   - iOS: flutter build ios --release (flutterfire configure 완료 시)
-
-4. (선택) 추가 개선 사항
-   - 위젯 테스트 추가 (UI 테스트)
-   - 통합 테스트 추가
-   - CI/CD 파이프라인 설정
-   - 앱 아이콘 및 스플래시 스크린 커스터마이징
-```
+### 커밋
+- `d1025a4` — QA 2차 수정: 게임 경제 무결성 + 보안 + l10n
 
 ---
 
-## 수정된 주요 파일 목록 (Phase A~E)
+## 세션 #8 — 2026-04-25 (배포 전 종합 수정 19개)
 
-### 모델
-- `lib/models/character.dart` — fromJson null 안전성
-- `lib/models/quest.dart` — fromJson null 안전성, enum 범위 검증
-- `lib/models/item.dart` — fromJson 방어 코드
-- `lib/models/achievement.dart` — fromJson 방어 코드
+### 완료 작업
 
-### 상태 관리
-- `lib/state/character_state.dart` — 날짜비교, 스킬조회, maxXp, 업적저장, 이중로드방지, 성능최적화, 데이터 추출
-- `lib/state/combat_state.dart` — 음수 데미지 수정
+#### 🔴 배포 불가 항목
+- `firestore.rules` 신규: 사용자 인증 + gold/level 필드 검증
+- `firebase.json` firestore rules 섹션 추가
+- `purchase_service.dart`: `dart:async` import 추가 (`unawaited`)
+- `ad_service.dart`: UMP Completer 이중 complete 방지 (`if (!completer.isCompleted)`)
 
-### 서비스
-- `lib/services/sound_service.dart` — lazy 풀, init 분리, 테스트 지원
-- `lib/services/ad_service.dart` — 일일 횟수 SharedPreferences 저장
+#### 🟠 배포 전 필수 항목
+- `cosmetic_shop_screen.dart`: StatelessWidget → StatefulWidget, 실제 IAP 로직 연결
+  - `PurchaseService.unlockStream` 구독 → `charState.unlockCosmetic()` 호출
+  - `ProductDetails.price` 버튼에 표시
+  - `String? _purchasingIapId`로 개별 아이템 로딩 상태 관리
+- `shop_screen.dart`: `isDataLoaded` guard 추가 (데이터 로딩 전 빈 화면 방지)
+- `inventory_screen.dart`: `isDataLoaded` guard 추가
+- `main.dart`: `PurchaseService().init()` 추가 (AdService 초기화 이후)
+- Home Widget App Group ID 수정: `group.com.example.lifeQuestWidget` → `group.com.lifequest.app.widget`
+- 버전: `1.0.0+1` → `1.0.1+2`
 
-### 화면
-- `lib/main.dart` — 테마 null 가드, AppCheck try-catch, SoundService init
-- `lib/screens/hunt_screen.dart` — 컴포넌트 분리
-- `lib/screens/timer_screen.dart` — 백그라운드 타이머
-- `lib/screens/status_screen.dart` — 터치 타겟 48x48
-- `lib/screens/inventory_screen.dart` — 장비 저장
-- `lib/screens/shop_screen.dart` — 비용 검증
-- `lib/screens/quests_screen.dart` — 광고 실패 피드백
+#### 🟡 권장 항목
+- `character_state.dart`: `_buildDefaultCustomRewards()` → 4개 언어 인라인 (langCode 파라미터)
+- `character_state.dart`: `_localizedSoulDeckClear()` 헬퍼 추가
+- `ad_service.dart`: SharedPrefKeys 상수 도입 (이 세션에서 시작, 세션 #9~10에서 완료)
 
-### 신규 파일
-- `lib/widgets/combat/dungeon_floor_selector.dart`
-- `lib/widgets/combat/combat_arena_view.dart`
-- `lib/data/achievement_database.dart`
-- `lib/data/title_database.dart`
-- `lib/data/skill_database.dart`
+### Cloud Function (C-2)
+- `functions/src/index.ts`: `verifyGooglePlayPurchase` 함수
+  - Google Play Developer API v3 검증
+  - Firestore에 검증 결과 저장 (`purchases/{orderId}`)
+  - GOOGLE_PLAY_SERVICE_ACCOUNT 시크릿 사용
 
-### 테스트
-- `test/models/character_test.dart` (9개)
-- `test/models/quest_test.dart` (9개)
-- `test/models/item_test.dart` (5개)
-- `test/models/achievement_test.dart` (4개)
-- `test/models/skill_test.dart` (1개)
-- `test/state/character_state_test.dart` (16개)
-- `test/state/combat_state_test.dart` (23개)
+### 커밋
+- `268077e` — 배포 전 종합 수정: 배포불가→필수→권장 19개 이슈 해결
+- `4a821fd` — C-2: IAP 서버사이드 영수증 검증 Cloud Function 추가
+- `e461051` — C-4: 개인정보처리방침·이용약관 GitHub Pages URL 적용
 
-### 배포
-- `android/app/build.gradle.kts` — 릴리스 서명 설정
-- `android/key.properties.example` — 템플릿
-- `ios/Runner/Info.plist` — ATT 권한, AdMob TODO
-- `lib/firebase_options.dart` — iOS TODO
-- `.gitignore` — key.properties, keystore 제외
-- `pubspec.yaml` — 중복 assets 제거
+---
+
+## 세션 #7 — 2026-04-25 (QA 1차 감사 + Threads 홍보)
+
+### 완료 작업
+- QA 1차 감사 19개 이슈 발견 및 분류 (배포불가/필수/권장)
+- Threads 홍보 게시물 작성:
+  - 한국어 3부 연작 (개발일기 형식)
+  - 일본어 단편 (ひらがな·카타카나 중심, 가볍고 친근한 톤)
+- Threads 알고리즘 분석: 한국어 계정에서 일본어 테스트 포스트 전략 논의
+
+---
+
+## 세션 #6 — 2026-04-15 (Step 3 완료 + 버그수정 + README)
+
+### 완료 작업
+- **`lib/game/battle_game.dart`**: 전투 애니메이션 4종 Canvas 구현 (에셋 없이)
+  - `_SlashEffect`: 3중 슬래시 라인
+  - `_ShieldRaiseEffect`: 오각형 방패 윤곽선
+  - `_MagicProjectile`: 마법 구슬 + 파티클
+  - `_EnemyDeathEffect` + `_Shard`: 섬광 + 12파편 폭발
+- `dungeon_home_screen.dart`: `character.strength` 등 `double → .toInt()` 버그 수정 (`STR 10.0` → `STR 10`)
+- README.md 전면 재작성
+
+### 커밋
+- `58ac52e` — fix: 던전 홈 스탯 double 표시 버그
+- `4b3c720` — docs: README 최신화
+
+---
+
+## 세션 #5 — 2026-04-12~14 (Step 2-H: 데이터 모델 다국어 완료)
+
+### 완료 작업
+- `lib/data/relic_localization.dart` — RelicLocalization (31개)
+- `lib/data/achievement_localization.dart` — AchievementLocalization (25개)
+- `lib/data/title_localization.dart` — TitleLocalization (28개)
+- `lib/data/skill_localization.dart` — SkillLocalization (24개)
+- `lib/data/monster_localization.dart` — MonsterLocalization (31몬스터 + 5챕터)
+- app_en/ko/ja/zh.arb에 총 252 키 × 4언어 = 1,008 entries 추가
+
+### 커밋
+- `026ab30` — Step 2-H: RelicData/Monster/Achievement/Title/Skill 다국어 완료
+
+---
+
+## 세션 #4 — 2026-04-08~12 (Step 2-A~G: CardData 다국어)
+
+### 완료 작업
+- 카드 207장 전체 → ARB + `CardLocalization` 헬퍼 클래스 방식
+- `lib/data/card_localization.dart` 신규
+
+### 커밋
+- `5e155f2`(2-A) → `c1d3497`(2-B) → `6c1458a`(2-C) → `adbbe20`(2-D) → `d0b1145`(2-E) → `7a0bb67`(2-F) → `afc3759`(2-G)
+
+---
+
+## 세션 #3 — 2026-04-06~08 (Step 1: 던전 UI 로컬라이제이션)
+
+### 완료 작업
+- 던전 화면 9개 하드코딩 문자열 → ARB 키
+- app_en/ko/ja/zh.arb 업데이트
+
+### 커밋
+- `014affe` (Step 1-A), `fa22e98` (Step 1-B)
+
+---
+
+## 세션 #2 — 2026-04-06 (Soul Deck 시스템 Phase 1~4)
+
+### 완료 작업
+- Phase 1: 카드 모델, CardDatabase(207장), CombatState, 전투 화면 등 7개 파일
+- Phase 2: 파티클, 화면 흔들림, 상태이상 아이콘
+- Phase 3: 던전↔캐릭터 보상 연동 (XP/골드)
+- Phase 4: 카드 컬렉션 화면, 무한 타워 화면
+
+---
+
+## 세션 #1 — 2026-03-03 (Phase A~E: 기반 정비)
+
+### 완료 작업
+- CRITICAL 버그 5건: 소모 아이템 삭제, 장비 중복, Firestore 역직렬화 등
+- HIGH 버그 6건: Firebase 오프라인, 인증 라우트, Android 13+ 알림 등
+- 릴리스 빌드 설정 (applicationId: com.lifequest.app, compileSdk: 36)
+- 릴리스 키스토어 (`android/upload-keystore.jks`, alias: upload, pw: lifequest2024!)
+- 테스트 확장: 67개 → (이후 73개)
+
+---
+
+## 다음 세션 우선순위 (2026-04-26 기준)
+
+### 즉시 할 수 있는 것 (Claude 단독)
+1. ProGuard/R8 설정 (`android/app/build.gradle.kts`) — AAB 크기 축소 + 코드 난독화
+2. 햅틱 피드백 추가 (`card_battle_screen.dart`, `card_combat_state.dart`)
+3. 카드 툴팁 시스템 (롱프레스 시 키워드 설명 팝업)
+4. 시즌 카운트다운 하드코딩 수정 (`dungeon_home_screen.dart:419`)
+
+### 수동 작업 완료 후 진행
+5. 실제 기기 테스트 결과 → 발생 버그 수정
+6. Play Store 스토어 등록 텍스트 작성 (Claude가 초안 작성 가능)
+7. 카드 밸런스 조정 (플레이테스트 결과 기반)
+
+### 수동 작업 (사람이 직접)
+- Firebase 콘솔 패키지명 업데이트 + `google-services.json` 재다운로드
+- `firebase deploy --only functions,firestore`
+- Google Play Console 서비스 계정 → `firebase functions:secrets:set GOOGLE_PLAY_SERVICE_ACCOUNT`
+- AdMob 프로덕션 ID 최종 확인
+- Google Play Console AAB 업로드
+- IARC 콘텐츠 등급, 데이터 안전 섹션 작성
