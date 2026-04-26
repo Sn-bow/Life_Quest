@@ -4,7 +4,17 @@ service cloud.firestore {
 
     // 사용자 문서: 본인만 읽기/쓰기 가능
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      allow create: if request.auth != null
+                    && request.auth.uid == userId;
+
+      allow update: if request.auth != null
+                    && request.auth.uid == userId
+                    // 기본 데이터 무결성 검증: gold와 level은 음수/0 불가
+                    && (!('character' in request.resource.data)
+                        || (request.resource.data.character.gold >= 0
+                            && request.resource.data.character.level >= 1));
     }
 
     // 그 외 모든 경로는 기본 차단

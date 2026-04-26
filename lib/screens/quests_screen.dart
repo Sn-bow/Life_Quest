@@ -313,93 +313,94 @@ class QuestsScreen extends StatelessWidget {
 
   void _showCompleteConfirmationDialog(
       BuildContext context, Quest quest, CharacterState state) {
-    if (quest.isCompleted) return; // Prevent double completion
+    // 이미 완료됐거나 광고 시청 중(비동기 갭)이면 차단
+    if (quest.isCompleted) return;
+    if (state.isQuestPending(quest.id)) return;
 
     final adService = AdService();
     final remainingDouble = adService.getRemainingViews('quest_double');
 
     showDialog(
       context: context,
+      barrierDismissible: false, // 처리 중 배경 탭으로 닫기 방지
       builder: (BuildContext dialogContext) {
         final l10n = AppLocalizations.of(dialogContext)!;
-        return AlertDialog(
-          title: Text(l10n.questsCompleteTitle),
-          content: Text(
-            [
-              l10n.questsCompleteConfirm(quest.name),
-              l10n.questsBaseRewardLabel,
-              '- ${quest.xp} XP',
-              '- ${(quest.xp * 0.5).round()} 골드',
-              if (quest.type == QuestType.monthly || quest.type == QuestType.yearly)
-                _raidRewardPreview(quest, l10n),
-            ].join('\n'),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(l10n.cancel),
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-              },
-            ),
-            if (remainingDouble > 0)
-              ElevatedButton.icon(
-                icon: const Icon(Icons.ondemand_video, size: 18),
-                label: Text(l10n.questsDoubleAdButton(remainingDouble)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.amber,
-                  foregroundColor: Colors.black,
-                ),
-                onPressed: () async {
-                  Navigator.of(dialogContext).pop();
-                  final success =
-                      await adService.showRewardedAd('quest_double');
-                  if (success) {
-                    final result =
-                        state.completeQuest(quest, xpMultiplier: 2.0);
-                    if (context.mounted) {
-                      final mountedL10n = AppLocalizations.of(context)!;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '🎉 광고 보상 적용\n${_completionSummary(result, quest, mountedL10n)}',
-                          ),
-                          duration: const Duration(seconds: 5),
-                        ),
-                      );
-                    }
-                  } else {
-                    final result = state.completeQuest(quest);
-                    if (context.mounted) {
-                      final mountedL10n = AppLocalizations.of(context)!;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${mountedL10n.questsAdUnavailable}\n${_completionSummary(result, quest, mountedL10n)}',
-                          ),
-                          duration: const Duration(seconds: 5),
-                        ),
-                      );
-                    }
-                  }
-                },
+        bool _isProcessing = false;
+
+        return StatefulBuilder(
+          builder: (ctx, setDialogState) {
+            return AlertDialog(
+              title: Text(l10n.questsCompleteTitle),
+              content: Text(
+                [
+                  l10n.questsCompleteConfirm(quest.name),
+                  l10n.questsBaseRewardLabel,
+                  '- ${quest.xp} XP',
+                  '- ${(quest.xp * 0.5).round()} ${l10n.questsGoldUnit}',
+                  if (quest.type == QuestType.monthly || quest.type == QuestType.yearly)
+                    _raidRewardPreview(quest, l10n),
+                ].join('\n'),
               ),
-            TextButton(
-              child: Text(l10n.complete),
-              onPressed: () {
-                final result = state.completeQuest(quest);
-                Navigator.of(dialogContext).pop();
-                if (context.mounted) {
-                  final mountedL10n = AppLocalizations.of(context)!;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(_completionSummary(result, quest, mountedL10n)),
-                      duration: const Duration(seconds: 5),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: _isProcessing ? null : () => Navigator.of(dialogContext).pop(),
+                  child: Text(l10n.cancel),
+                ),
+                if (remainingDouble > 0)
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.ondemand_video, size: 18),
+                    label: Text(l10n.questsDoubleAdButton(remainingDouble)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.amber,
+                      foregroundColor: Colors.black,
                     ),
-                  );
-                }
-              },
-            ),
-          ],
+                    onPressed: _isProcessing ? null : () async {
+                      setDialogState(() => _isProcessing = true);
+                      Navigator.of(dialogContext).pop();
+                      // 비동기 갭 시작 전 pending 마킹
+                      state.markQuestPending(quest.id);
+                      try {
+                        final success = await adService.showRewardedAd('quest_double');
+                        if (!context.mounted) return;
+                        final result = state.completeQuest(
+                          quest,
+                          xpMultiplier: success ? 2.0 : 1.0,
+                        );
+                        final mountedL10n = AppLocalizations.of(context)!;
+                        final prefix = success
+                            ? mountedL10n.questsAdRewardApplied
+                            : mountedL10n.questsAdUnavailable;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('$prefix\n${_completionSummary(result, quest, mountedL10n)}'),
+                            duration: const Duration(seconds: 5),
+                          ),
+                        );
+                      } finally {
+                        state.clearQuestPending(quest.id);
+                      }
+                    },
+                  ),
+                TextButton(
+                  onPressed: _isProcessing ? null : () {
+                    setDialogState(() => _isProcessing = true);
+                    final result = state.completeQuest(quest);
+                    Navigator.of(dialogContext).pop();
+                    if (context.mounted) {
+                      final mountedL10n = AppLocalizations.of(context)!;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(_completionSummary(result, quest, mountedL10n)),
+                          duration: const Duration(seconds: 5),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(l10n.complete),
+                ),
+              ],
+            );
+          },
         );
       },
     );

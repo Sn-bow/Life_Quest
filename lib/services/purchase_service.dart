@@ -147,9 +147,12 @@ class PurchaseService {
       });
 
       final isValid = result.data['isValid'] as bool? ?? false;
-      debugPrint(
-          '[PurchaseService] Server verification result: isValid=$isValid '
-          'orderId=${result.data['orderId']}');
+      // 주문 ID 등 민감 정보는 디버그 빌드에서만 로그 출력
+      if (kDebugMode) {
+        debugPrint(
+            '[PurchaseService] Server verification result: isValid=$isValid '
+            'orderId=${result.data['orderId']}');
+      }
       return isValid;
     } on FirebaseFunctionsException catch (e) {
       // Cloud Function이 배포되지 않은 경우 등 — 로컬 검증으로 폴백

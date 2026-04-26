@@ -68,29 +68,36 @@ class _RaidRewardOutcome {
 class CharacterState extends ChangeNotifier {
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
 
-  static List<CustomReward> _buildDefaultCustomRewards() => [
-        const CustomReward(
-          id: 'cr_1',
-          name: '맛있는 간식 먹기',
-          description: '좋아하는 간식 1개 먹기',
-          cost: 50,
-          icon: '🍪',
-        ),
-        const CustomReward(
-          id: 'cr_2',
-          name: '게임 30분 하기',
-          description: '죄책감 없이 30분 플레이하기',
-          cost: 100,
-          icon: '🎮',
-        ),
-        const CustomReward(
-          id: 'cr_3',
-          name: '보고싶던 영상/영화 시청',
-          description: '유튜브나 넷플릭스 1시간 보기',
-          cost: 150,
-          icon: '🎬',
-        ),
-      ];
+  static List<CustomReward> _buildDefaultCustomRewards({String langCode = 'ko'}) {
+    final Map<String, List<List<String>>> _strings = {
+      'en': [
+        ['Eat a tasty snack', 'Enjoy your favorite snack'],
+        ['30 minutes of gaming', 'Play guilt-free for 30 minutes'],
+        ['Watch a video or movie', 'Watch YouTube or Netflix for 1 hour'],
+      ],
+      'ja': [
+        ['美味しいおやつを食べる', 'お気に入りのおやつを1つ楽しむ'],
+        ['30分ゲームをする', '罪悪感なしで30分プレイする'],
+        ['動画・映画を観る', 'YouTubeやNetflixを1時間見る'],
+      ],
+      'zh': [
+        ['吃好吃的零食', '享用一份喜欢的零食'],
+        ['玩30分钟游戏', '无愧疚地玩30分钟'],
+        ['看想看的视频/电影', '看YouTube或Netflix一小时'],
+      ],
+      'ko': [
+        ['맛있는 간식 먹기', '좋아하는 간식 1개 먹기'],
+        ['게임 30분 하기', '죄책감 없이 30분 플레이하기'],
+        ['보고싶던 영상/영화 시청', '유튜브나 넷플릭스 1시간 보기'],
+      ],
+    };
+    final s = _strings[langCode] ?? _strings['ko']!;
+    return [
+      CustomReward(id: 'cr_1', name: s[0][0], description: s[0][1], cost: 50, icon: '🍪'),
+      CustomReward(id: 'cr_2', name: s[1][0], description: s[1][1], cost: 100, icon: '🎮'),
+      CustomReward(id: 'cr_3', name: s[2][0], description: s[2][1], cost: 150, icon: '🎬'),
+    ];
+  }
   /// For testing only: initialises a default Character without Firebase.
   @visibleForTesting
   void initializeForTesting() {
@@ -106,7 +113,7 @@ class CharacterState extends ChangeNotifier {
       charisma: 0,
       statPoints: 0,
       skillPoints: 0,
-      customRewards: _buildDefaultCustomRewards(),
+      customRewards: _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko'),
     );
     _isDataLoaded = true;
     _isLoading = false;
@@ -183,6 +190,9 @@ class CharacterState extends ChangeNotifier {
   bool _isSaving = false;
   bool _pendingSave = false;
 
+  // 퀘스트 중복 완료 방지: 광고 시청 중 비동기 갭에서의 재진입 차단
+  final Set<String> _pendingQuestIds = {};
+
   final FirebaseFirestore _firestore;
 
   CharacterState({FirebaseFirestore? firestore})
@@ -210,6 +220,15 @@ class CharacterState extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isDataLoaded => _isDataLoaded;
   ThemeMode get themeMode => _themeMode;
+
+  /// 퀘스트가 현재 처리 중(광고 시청 등 비동기)인지 확인
+  bool isQuestPending(String questId) => _pendingQuestIds.contains(questId);
+
+  /// 퀘스트를 처리 중 상태로 표시 (광고 시청 시작 시 호출)
+  void markQuestPending(String questId) => _pendingQuestIds.add(questId);
+
+  /// 퀘스트 처리 완료 후 상태 해제
+  void clearQuestPending(String questId) => _pendingQuestIds.remove(questId);
   Locale? get locale => _locale;
   bool get hasSeenOnboarding => _hasSeenOnboarding;
   int get notificationMorningHour => _notificationMorningHour;
@@ -716,8 +735,9 @@ class CharacterState extends ChangeNotifier {
 
   /// Properly apply combat rewards (XP + loot) with full level-up pipeline.
   /// This replaces any inline level-up code in the UI layer.
-  void addCombatReward(int xp, EquipmentItem? loot) {
+  void addCombatReward(int xp, EquipmentItem? loot, {int gold = 0}) {
     _character!.xp += xp;
+    if (gold > 0) _character!.gold += gold;
     if (loot != null) {
       _character!.inventory.add(loot);
     }
@@ -1317,7 +1337,7 @@ class CharacterState extends ChangeNotifier {
               .toList();
           needsSave = true;
         } else if (_character!.customRewards.isEmpty) {
-          _character!.customRewards = _buildDefaultCustomRewards();
+          _character!.customRewards = _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko');
           needsSave = true;
         }
 
@@ -1573,7 +1593,7 @@ class CharacterState extends ChangeNotifier {
     _initializeAchievementProgress();
     _isNotificationEnabled = true;
     if (_character != null) {
-      _character!.customRewards = _buildDefaultCustomRewards();
+      _character!.customRewards = _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko');
       _initStarterCards();
     }
   }

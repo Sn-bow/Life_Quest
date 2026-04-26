@@ -322,8 +322,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   if (success) {
                     final result = combatState.lastResult;
                     if (result != null) {
-                      charState.character.gold += result.goldGained; // 2x Gold
-                      charState.addCombatReward(result.xpGained * 2, result.loot);
+                      // gold와 xp를 addCombatReward에 함께 전달 (원자적 저장)
+                      charState.addCombatReward(result.xpGained * 2, result.loot, gold: result.goldGained * 2);
                     }
                     charState.forceSave();
                     combatState.endCombat();

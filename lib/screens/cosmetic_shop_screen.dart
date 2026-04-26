@@ -18,7 +18,8 @@ class CosmeticShopScreen extends StatefulWidget {
 class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
   final PurchaseService _purchaseService = PurchaseService();
   StreamSubscription<String>? _unlockSub;
-  bool _isPurchasing = false;
+  // 구매 중인 상품 ID 추적 (null이면 구매 중 없음)
+  String? _purchasingIapId;
 
   @override
   void initState() {
@@ -28,7 +29,7 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
       if (!mounted) return;
       final charState = context.read<CharacterState>();
       charState.unlockCosmetic(cosmeticId);
-      setState(() => _isPurchasing = false);
+      setState(() => _purchasingIapId = null);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.cosmeticUnlocked),
@@ -211,7 +212,8 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
           .where((p) => p.id == item.iapId)
           .firstOrNull;
 
-      if (_isPurchasing) {
+      // 이 아이템 구매 중이면 로딩 표시
+      if (_purchasingIapId == item.iapId) {
         return const SizedBox(
           width: 80,
           child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
@@ -223,8 +225,9 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
           backgroundColor: theme.colorScheme.primary,
           foregroundColor: theme.colorScheme.onPrimary,
         ),
-        onPressed: product == null
-            ? null // 상품 로딩 중이거나 미등록
+        // 다른 아이템 구매 중이거나 상품 미등록이면 비활성화
+        onPressed: (product == null || _purchasingIapId != null)
+            ? null
             : () => _handlePurchase(product),
         child: Text(
           product != null ? product.price : l10n.cosmeticComingSoon,
@@ -235,12 +238,14 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
   }
 
   Future<void> _handlePurchase(ProductDetails product) async {
-    setState(() => _isPurchasing = true);
+    if (_purchasingIapId != null) return; // 이중 호출 방어
+    setState(() => _purchasingIapId = product.id);
     try {
       await _purchaseService.buyProduct(product);
+      // 성공 시 unlockStream에서 _purchasingIapId = null 처리
     } catch (e) {
       if (!mounted) return;
-      setState(() => _isPurchasing = false);
+      setState(() => _purchasingIapId = null);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${AppLocalizations.of(context)!.cosmeticPurchaseError}: $e')),
       );
