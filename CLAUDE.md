@@ -11,7 +11,7 @@
 
 ---
 
-## 현재 상태 (2026-04-26 기준)
+## 현재 상태 (2026-04-28 기준)
 
 ### 검증 결과 (최신)
 - `flutter analyze` → **No issues found** ✅
@@ -21,11 +21,11 @@
 
 ### 최신 커밋
 ```
+99c83e5  QA 3차 수정: 비동기 안전성 + 경제 원자성 + 성능 캐싱
+7764074  docs: 2026-04-26 세션 종료 문서 최신화
 f72dd20  QA 2차 권장사항: SharedPrefKeys 중앙화 + 퀘스트 정렬 최적화
 d1025a4  QA 2차 수정: 게임 경제 무결성 + 보안 + l10n
 268077e  배포 전 종합 수정: 배포불가→필수→권장 19개 이슈 해결
-4a821fd  C-2: IAP 서버사이드 영수증 검증 Cloud Function 추가
-e461051  C-4: 개인정보처리방침·이용약관 GitHub Pages URL 적용
 ```
 
 ---
@@ -70,6 +70,17 @@ e461051  C-4: 개인정보처리방침·이용약관 GitHub Pages URL 적용
 - **SharedPrefKeys 중앙화**: `lib/utils/shared_pref_keys.dart` 신규, AdService/SoundService 전부 교체
 - **퀘스트 정렬 최적화**: CharacterState에 `sortedDailyQuests` 등 4개 게터, QuestsScreen 인라인 정렬 제거
 - **하드코딩 문자열 ARB 처리**: `questsGoldUnit`, `questsAdRewardApplied`, `questsRewardSummary` 등 4개 언어 추가
+
+### QA 3차: 비동기 안전성 + 경제 원자성 + 성능 캐싱 (2026-04-28) — 커밋 `99c83e5`
+- **R-1**: `quests_screen` — `markQuestPending()`을 `Navigator.pop()` 이전으로 이동 (비동기 갭 이중완료 방지)
+- **R-2**: `hunt/skill/report/dungeon_home_screen` — `isDataLoaded` guard 추가 (NPE 방지)
+- **R-3**: `character_state` — `loadDataForUser` user==null 분기 디버그 로그 추가
+- **R-4**: `quests_screen` — mounted 체크 후 `AppLocalizations` null-safe 접근
+- **R-5**: `shop_screen` — 골드 차감을 `CharacterState.purchaseItem/spendGold/purchaseStat`에 위임 (원자성 보장)
+- **R-6**: `hunt_screen` — `didChangeDependencies()`에서 `CharacterState` 캐싱, `dispose()` context 접근 제거
+- **O-1**: `character_state` — `hasLoadError` 게터 + `retryLoad()` + SnackBarAction 재시도 버튼
+- **O-3**: `quests_screen` — 4개 static 헬퍼 메서드 추출 (`_categoryName`, `_difficultyName`, `_questTypeName`, `_difficultyColor`)
+- **Y-1**: `character_state` — `questCategoryDistribution` 메모이제이션 (`_cachedCategoryDistribution`)
 
 ---
 
