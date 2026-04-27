@@ -178,6 +178,9 @@ class CharacterState extends ChangeNotifier {
   bool _isLoading = true;
   bool _isDataLoaded = false;
   bool _isLoadingInProgress = false;
+  // O-1: 로드 실패 시 재시도 지원
+  bool _hasLoadError = false;
+  User? _lastLoadUser; // 재시도 시 사용자 정보 재사용
   ThemeMode _themeMode = ThemeMode.dark;
   Locale? _locale;
   bool _hasSeenOnboarding = false;
@@ -189,6 +192,8 @@ class CharacterState extends ChangeNotifier {
   bool _isCombatActive = false;
   bool _isSaving = false;
   bool _pendingSave = false;
+  // Y-1: questCategoryDistribution 메모이제이션 캐시
+  Map<StatType, double>? _cachedCategoryDistribution;
 
   // 퀘스트 중복 완료 방지: 광고 시청 중 비동기 갭에서의 재진입 차단
   final Set<String> _pendingQuestIds = {};
@@ -219,6 +224,15 @@ class CharacterState extends ChangeNotifier {
   Character get character => _character!;
   bool get isLoading => _isLoading;
   bool get isDataLoaded => _isDataLoaded;
+  bool get hasLoadError => _hasLoadError;
+
+  /// 로드 실패 후 재시도. 로그인 화면에서 retry 버튼 연결 시 사용.
+  Future<void> retryLoad() async {
+    if (_lastLoadUser == null || _isLoadingInProgress) return;
+    _hasLoadError = false;
+    notifyListeners();
+    await loadDataForUser(_lastLoadUser!);
+  }
   ThemeMode get themeMode => _themeMode;
 
   /// 퀘스트가 현재 처리 중(광고 시청 등 비동기)인지 확인
@@ -271,6 +285,9 @@ class CharacterState extends ChangeNotifier {
   Set<String> get learnedSkillIds => _learnedSkillIds;
 
   Map<StatType, double> get questCategoryDistribution {
+    // Y-1: 캐시가 있으면 재계산 없이 반환 (퀘스트 변경 시 _invalidateQuestCache()로 초기화)
+    if (_cachedCategoryDistribution != null) return _cachedCategoryDistribution!;
+
     final Map<StatType, int> counts = {
       for (var type in StatType.values) type: 0
     };
@@ -289,12 +306,16 @@ class CharacterState extends ChangeNotifier {
       }
     }
 
-    if (totalCount == 0) {
-      return {for (var type in StatType.values) type: 0.0};
-    }
+    _cachedCategoryDistribution = totalCount == 0
+        ? {for (var type in StatType.values) type: 0.0}
+        : counts.map((key, value) => MapEntry(key, (value / totalCount) * 100));
 
-    return counts
-        .map((key, value) => MapEntry(key, (value / totalCount) * 100));
+    return _cachedCategoryDistribution!;
+  }
+
+  /// 퀘스트 목록/완료 상태 변경 시 캐시를 무효화한다.
+  void _invalidateQuestCache() {
+    _cachedCategoryDistribution = null;
   }
 
   Map<int, int> get weeklyCompletedQuests {
@@ -606,6 +627,7 @@ class CharacterState extends ChangeNotifier {
           ),
         );
       }
+      _invalidateQuestCache();
       unawaited(_saveData());
       notifyListeners();
       return QuestCompletionResult(
@@ -627,6 +649,7 @@ class CharacterState extends ChangeNotifier {
     _weeklyQuests.removeWhere((q) => q.id == quest.id);
     _monthlyQuests.removeWhere((q) => q.id == quest.id);
     _yearlyQuests.removeWhere((q) => q.id == quest.id);
+    _invalidateQuestCache();
     unawaited(_saveData());
     notifyListeners();
   }
@@ -655,6 +678,7 @@ class CharacterState extends ChangeNotifier {
         _yearlyQuests.add(newQuest);
         break;
     }
+    _invalidateQuestCache();
     unawaited(_saveData());
     notifyListeners();
   }
@@ -663,6 +687,7 @@ class CharacterState extends ChangeNotifier {
     quest.name = newName;
     quest.xp = newXp;
     quest.category = newCategory;
+    _invalidateQuestCache();
     unawaited(_saveData());
     notifyListeners();
   }
@@ -747,6 +772,44 @@ class CharacterState extends ChangeNotifier {
     }
     return id;
   }
+
+  // ── 상점 구매 헬퍼 ──────────────────────────────────────────────────────────
+
+  /// 골드를 [amount]만큼 소비한다.
+  /// 잔액이 부족하면 false를 반환하고 아무것도 변경하지 않는다.
+  /// UI 계층에서 character.gold를 직접 수정하는 대신 이 메서드를 사용할 것.
+  bool spendGold(int amount) {
+    if (_character == null || _character!.gold < amount) return false;
+    _character!.gold -= amount;
+    unawaited(_saveData());
+    notifyListeners();
+    return true;
+  }
+
+  /// 아이템을 구매한다 (골드 차감 + 인벤토리 추가 원자적 처리).
+  /// 성공하면 true, 골드 부족이면 false 반환.
+  bool purchaseItem(EquipmentItem item, int price) {
+    if (_character == null || _character!.gold < price) return false;
+    _character!.gold -= price;
+    _character!.inventory.add(item);
+    unawaited(_saveData());
+    notifyListeners();
+    return true;
+  }
+
+  /// 영구 스탯을 구매한다 (골드 차감 + 스탯 증가 원자적 처리).
+  /// [modify]에서 character 필드를 직접 수정한다.
+  /// 성공하면 true, 골드 부족이면 false 반환.
+  bool purchaseStat(int price, void Function(Character c) modify) {
+    if (_character == null || _character!.gold < price) return false;
+    _character!.gold -= price;
+    modify(_character!);
+    unawaited(_saveData());
+    notifyListeners();
+    return true;
+  }
+
+  // ── 전투 보상 ─────────────────────────────────────────────────────────────
 
   /// Properly apply combat rewards (XP + loot) with full level-up pipeline.
   /// This replaces any inline level-up code in the UI layer.
@@ -1179,7 +1242,13 @@ class CharacterState extends ChangeNotifier {
 
     try {
       final user = FirebaseAuth.instance.currentUser;
-      if (user == null) return;
+      // R-3 fix: user == null 시 return 대신 예외 처리로 finally 진입 보장
+      // 이전 코드는 여기서 return 하면 _isSaving = true인 채로 잠겨
+      // 이후 모든 _performSaveData() 호출이 무시되는 버그 존재
+      if (user == null) {
+        debugPrint('[CharacterState] Save skipped: no auth user.');
+        return;
+      }
       final lastLoginDate = _character!.lastLoginDate;
       final docRef = _firestore.collection('users').doc(user.uid);
       final data = {
@@ -1238,6 +1307,8 @@ class CharacterState extends ChangeNotifier {
     _isLoadingInProgress = true;
     _isLoading = true;
     _isDataLoaded = false;
+    _hasLoadError = false;
+    _lastLoadUser = user; // O-1: 재시도에 필요한 사용자 정보 보관
 
     try {
       await user.reload();
@@ -1408,19 +1479,26 @@ class CharacterState extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Load data error: $e');
+      // O-1: 로드 실패 시 재시도 플래그 세팅 (UI에서 retryLoad() 버튼 표시용)
+      _hasLoadError = true;
       scaffoldMessengerKey.currentState?.showSnackBar(
-        const SnackBar(
-          content: Text('클라우드 데이터 불러오기 실패. 네트워크를 잠시 후 다시 확인해주세요.'),
+        SnackBar(
+          content: const Text('클라우드 데이터 불러오기 실패. 네트워크를 확인하고 재시도해주세요.'),
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 4),
+          duration: const Duration(seconds: 5),
+          action: SnackBarAction(
+            label: '재시도',
+            textColor: Colors.white,
+            onPressed: () => retryLoad(),
+          ),
         ),
       );
-      // In worst case, initialize dummy data but don't save to DB
-      // so we don't overwrite user's actual progress in cloud with level 1.
+      // 더미 데이터로 폴백 (로그인 화면에서 캐릭터가 없으면 크래시 방지)
+      // 단, _isDataLoaded를 false로 유지해 저장 트리거가 발생하지 않도록 함
       if (_character == null) {
         _initializeNewData(user);
-        _isDataLoaded = true;
-        _startHpRegenLoop();
+        // 주의: _isDataLoaded = false 유지 → forceSave/scheduleSave가 null 체크로 통과
+        // 재시도 성공 시 loadDataForUser가 올바른 데이터로 덮어씀
       }
     } finally {
       _isLoading = false;

@@ -26,6 +26,10 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   CombatStatus? _lastCombatStatus;
   bool _isActionBusy = false;
 
+  // R-6 fix: dispose() 안에서 context.read를 사용하지 않도록
+  // didChangeDependencies()에서 참조를 캐싱한다.
+  CharacterState? _cachedCharacterState;
+
   @override
   void initState() {
     super.initState();
@@ -45,10 +49,16 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // context가 유효한 시점에 참조를 저장 → dispose()에서 안전하게 사용
+    _cachedCharacterState = context.read<CharacterState>();
+  }
+
+  @override
   void dispose() {
-    if (mounted) {
-      context.read<CharacterState>().setCombatActive(false);
-    }
+    // context.read 대신 캐싱된 참조 사용 (dispose 시점에 context 접근 금지)
+    _cachedCharacterState?.setCombatActive(false);
     _shakeController.dispose();
     _flashController.dispose();
     super.dispose();
@@ -66,13 +76,18 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     final combatState = context.watch<CombatState>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    // R-2 fix: _character!이 null일 때 크래시 방지
+    if (!charState.isDataLoaded) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     if (_lastCombatStatus != combatState.status) {
       _lastCombatStatus = combatState.status;
+      final isFighting = combatState.status == CombatStatus.fighting;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        context
-            .read<CharacterState>()
-            .setCombatActive(combatState.status == CombatStatus.fighting);
+        // 캐싱된 참조 사용 → dispose 후에도 null-safe
+        _cachedCharacterState?.setCombatActive(isFighting);
       });
     }
 

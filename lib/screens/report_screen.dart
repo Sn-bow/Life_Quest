@@ -106,6 +106,9 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final characterState = context.watch<CharacterState>();
+    if (!characterState.isDataLoaded) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final weeklyData = characterState.weeklyCompletedQuests;
     final categoryData = characterState.questCategoryDistribution;
     final growthData = characterState.currentLevelGrowthDistribution;

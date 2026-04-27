@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/models/item.dart';
@@ -90,7 +91,7 @@ class ShopScreen extends StatelessWidget {
     );
   }
 
-  /// 공통 구매 처리 헬퍼: 골드 차감 → 아이템 추가 → 저장 → 알림
+  /// 공통 구매 처리 헬퍼: CharacterState.purchaseItem()으로 원자적 처리
   void _handleItemPurchase({
     required BuildContext context,
     required CharacterState charState,
@@ -98,12 +99,8 @@ class ShopScreen extends StatelessWidget {
     required EquipmentItem item,
     required Color snackColor,
   }) {
-    final character = charState.character;
-    if (character.gold < price) return;
-    character.gold -= price;
-    character.inventory.add(item);
-    charState.refreshState(); // 즉시 UI 갱신 (gold 반영)
-    charState.forceSave();
+    final success = charState.purchaseItem(item, price);
+    if (!success) return; // 골드 부족 or _character null
     _showSnack(context, AppLocalizations.of(context)!.shopItemAcquired(item.name), snackColor);
   }
 
@@ -200,10 +197,8 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold < 100) return;
-              character.gold -= 100;
+              if (!charState.spendGold(100)) return;
               combatState.openLootBox(character, 1);
-              charState.refreshState(); // 즉시 UI 갱신
               charState.forceSave();
               _showSnack(context, l10n.shopNormalBoxSuccess, Colors.purple);
             },
@@ -217,10 +212,8 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold < 300) return;
-              character.gold -= 300;
+              if (!charState.spendGold(300)) return;
               combatState.openLootBox(character, 2);
-              charState.refreshState(); // 즉시 UI 갱신
               charState.forceSave();
               _showSnack(context, l10n.shopPremiumBoxSuccess, Colors.orange);
             },
@@ -237,13 +230,11 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold < 500) return;
-              character.gold -= 500;
-              character.characterMaxHp += 10;
-              character.characterHp += 10;
-              charState.refreshState(); // 즉시 UI 갱신
-              charState.forceSave();
-              _showSnack(context, l10n.shopMaxHpSuccess, Colors.red);
+              final ok = charState.purchaseStat(500, (c) {
+                c.characterMaxHp += 10;
+                c.characterHp += 10;
+              });
+              if (ok) _showSnack(context, l10n.shopMaxHpSuccess, Colors.red);
             },
           ),
           _buildShopItem(
@@ -255,13 +246,11 @@ class ShopScreen extends StatelessWidget {
             gold: character.gold,
             isDark: isDark,
             onBuy: () {
-              if (character.gold < 500) return;
-              character.gold -= 500;
-              character.maxActionPoints += 2;
-              character.actionPoints += 2;
-              charState.refreshState(); // 즉시 UI 갱신
-              charState.forceSave();
-              _showSnack(context, l10n.shopMaxApSuccess, Colors.blue);
+              final ok = charState.purchaseStat(500, (c) {
+                c.maxActionPoints += 2;
+                c.actionPoints += 2;
+              });
+              if (ok) _showSnack(context, l10n.shopMaxApSuccess, Colors.blue);
             },
           ),
         ],

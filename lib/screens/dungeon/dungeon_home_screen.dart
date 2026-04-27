@@ -22,6 +22,9 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final charState = context.watch<CharacterState>();
+    if (!charState.isDataLoaded) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final character = charState.character;
     final hasCompletedZone5 = charState.hasCompletedZone5;
 

@@ -11,6 +11,9 @@ class SkillScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final characterState = context.watch<CharacterState>();
+    if (!characterState.isDataLoaded) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final character = characterState.character;
     final skills = characterState.allSkills;
     final theme = Theme.of(context);

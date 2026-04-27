@@ -148,64 +148,50 @@ class QuestsScreen extends StatelessWidget {
     }
   }
 
+  // ── O-3: 다이얼로그 공통 헬퍼 (edit/add 양쪽에서 재사용) ─────────────────
+  static String _categoryName(StatType category, AppLocalizations l10n) {
+    switch (category) {
+      case StatType.strength: return l10n.questsCategoryStrength;
+      case StatType.wisdom:   return l10n.questsCategoryWisdom;
+      case StatType.health:   return l10n.questsCategoryHealth;
+      case StatType.charisma: return l10n.questsCategoryCharm;
+    }
+  }
+
+  static String _difficultyName(QuestDifficulty d, AppLocalizations l10n) {
+    switch (d) {
+      case QuestDifficulty.easy:     return l10n.questsDifficultyEasy;
+      case QuestDifficulty.normal:   return l10n.questsDifficultyNormal;
+      case QuestDifficulty.hard:     return l10n.questsDifficultyHard;
+      case QuestDifficulty.veryHard: return l10n.questsDifficultyVeryHard;
+    }
+  }
+
+  static String _questTypeName(QuestType type, AppLocalizations l10n) {
+    switch (type) {
+      case QuestType.daily:   return l10n.questsTypeDaily;
+      case QuestType.weekly:  return l10n.questsTypeWeekly;
+      case QuestType.monthly: return l10n.questsTypeMonthly;
+      case QuestType.yearly:  return l10n.questsTypeYearly;
+    }
+  }
+
+  static Color _difficultyColor(QuestDifficulty d) {
+    switch (d) {
+      case QuestDifficulty.easy:     return Colors.green;
+      case QuestDifficulty.normal:   return Colors.blue;
+      case QuestDifficulty.hard:     return Colors.orange;
+      case QuestDifficulty.veryHard: return Colors.red;
+    }
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
   void _showEditQuestDialog(
       BuildContext context, Quest quest, CharacterState state) {
     final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController(text: quest.name);
     StatType selectedCategory = quest.category;
     QuestDifficulty selectedDifficulty = quest.difficulty;
-
-    String getCategoryName(StatType category) {
-      switch (category) {
-        case StatType.strength:
-          return l10n.questsCategoryStrength;
-        case StatType.wisdom:
-          return l10n.questsCategoryWisdom;
-        case StatType.health:
-          return l10n.questsCategoryHealth;
-        case StatType.charisma:
-          return l10n.questsCategoryCharm;
-      }
-    }
-
-    String getDifficultyName(QuestDifficulty d) {
-      switch (d) {
-        case QuestDifficulty.easy:
-          return l10n.questsDifficultyEasy;
-        case QuestDifficulty.normal:
-          return l10n.questsDifficultyNormal;
-        case QuestDifficulty.hard:
-          return l10n.questsDifficultyHard;
-        case QuestDifficulty.veryHard:
-          return l10n.questsDifficultyVeryHard;
-      }
-    }
-
-    String getQuestTypeName(QuestType type) {
-      switch (type) {
-        case QuestType.daily:
-          return l10n.questsTypeDaily;
-        case QuestType.weekly:
-          return l10n.questsTypeWeekly;
-        case QuestType.monthly:
-          return l10n.questsTypeMonthly;
-        case QuestType.yearly:
-          return l10n.questsTypeYearly;
-      }
-    }
-
-    Color getDifficultyColor(QuestDifficulty d) {
-      switch (d) {
-        case QuestDifficulty.easy:
-          return Colors.green;
-        case QuestDifficulty.normal:
-          return Colors.blue;
-        case QuestDifficulty.hard:
-          return Colors.orange;
-        case QuestDifficulty.veryHard:
-          return Colors.red;
-      }
-    }
 
     showDialog(
       context: context,
@@ -235,7 +221,7 @@ class QuestsScreen extends StatelessWidget {
                       spacing: 8.0,
                       children: StatType.values.map((category) {
                         return ChoiceChip(
-                          label: Text(getCategoryName(category)),
+                          label: Text(_categoryName(category, dialogL10n)),
                           selected: selectedCategory == category,
                           onSelected: (bool selected) {
                             setState(() {
@@ -252,10 +238,10 @@ class QuestsScreen extends StatelessWidget {
                       spacing: 8.0,
                       children: QuestDifficulty.values.map((d) {
                         return ChoiceChip(
-                          label: Text(getDifficultyName(d)),
+                          label: Text(_difficultyName(d, dialogL10n)),
                           selected: selectedDifficulty == d,
                           selectedColor:
-                              getDifficultyColor(d).withValues(alpha: 0.3),
+                              _difficultyColor(d).withValues(alpha: 0.3),
                           onSelected: (bool selected) {
                             setState(() {
                               if (selected) selectedDifficulty = d;
@@ -267,7 +253,7 @@ class QuestsScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       dialogL10n.questsRewardPreview(
-                        getQuestTypeName(quest.type),
+                        _questTypeName(quest.type, dialogL10n),
                         previewXp,
                         previewGold,
                       ),
@@ -348,17 +334,20 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     onPressed: _isProcessing ? null : () async {
                       setDialogState(() => _isProcessing = true);
-                      Navigator.of(dialogContext).pop();
-                      // 비동기 갭 시작 전 pending 마킹
+                      // R-1 fix: pending 마킹을 다이얼로그 닫기 전에 수행
+                      // → 닫힌 직후 다른 tap이 들어와도 중복 완료 차단
                       state.markQuestPending(quest.id);
+                      Navigator.of(dialogContext).pop();
                       try {
                         final success = await adService.showRewardedAd('quest_double');
+                        // R-4 fix: mounted 체크 후 l10n을 안전하게 획득
                         if (!context.mounted) return;
+                        final mountedL10n = AppLocalizations.of(context);
+                        if (mountedL10n == null) return;
                         final result = state.completeQuest(
                           quest,
                           xpMultiplier: success ? 2.0 : 1.0,
                         );
-                        final mountedL10n = AppLocalizations.of(context)!;
                         final prefix = success
                             ? mountedL10n.questsAdRewardApplied
                             : mountedL10n.questsAdUnavailable;
@@ -426,63 +415,10 @@ class QuestsScreen extends StatelessWidget {
   }
 
   void _showAddQuestDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController();
     QuestType selectedType = QuestType.daily;
     StatType selectedCategory = StatType.strength;
     QuestDifficulty selectedDifficulty = QuestDifficulty.normal;
-
-    String getCategoryName(StatType category) {
-      switch (category) {
-        case StatType.strength:
-          return l10n.questsCategoryStrength;
-        case StatType.wisdom:
-          return l10n.questsCategoryWisdom;
-        case StatType.health:
-          return l10n.questsCategoryHealth;
-        case StatType.charisma:
-          return l10n.questsCategoryCharm;
-      }
-    }
-
-    String getDifficultyName(QuestDifficulty d) {
-      switch (d) {
-        case QuestDifficulty.easy:
-          return l10n.questsDifficultyEasy;
-        case QuestDifficulty.normal:
-          return l10n.questsDifficultyNormal;
-        case QuestDifficulty.hard:
-          return l10n.questsDifficultyHard;
-        case QuestDifficulty.veryHard:
-          return l10n.questsDifficultyVeryHard;
-      }
-    }
-
-    String getQuestTypeName(QuestType type) {
-      switch (type) {
-        case QuestType.daily:
-          return l10n.questsTypeDaily;
-        case QuestType.weekly:
-          return l10n.questsTypeWeekly;
-        case QuestType.monthly:
-          return l10n.questsTypeMonthly;
-        case QuestType.yearly:
-          return l10n.questsTypeYearly;
-      }
-    }
-
-    Color getDifficultyColor(QuestDifficulty d) {
-      switch (d) {
-        case QuestDifficulty.easy:
-          return Colors.green;
-        case QuestDifficulty.normal:
-          return Colors.blue;
-        case QuestDifficulty.hard:
-          return Colors.orange;
-        case QuestDifficulty.veryHard:
-          return Colors.red;
-      }
-    }
 
     showDialog(
       context: context,
@@ -513,7 +449,7 @@ class QuestsScreen extends StatelessWidget {
                       runSpacing: 8,
                       children: QuestType.values.map((type) {
                         return ChoiceChip(
-                          label: Text(getQuestTypeName(type)),
+                          label: Text(_questTypeName(type, dialogL10n)),
                           selected: selectedType == type,
                           onSelected: (selected) {
                             if (!selected) return;
@@ -531,7 +467,7 @@ class QuestsScreen extends StatelessWidget {
                       spacing: 8.0,
                       children: StatType.values.map((category) {
                         return ChoiceChip(
-                          label: Text(getCategoryName(category)),
+                          label: Text(_categoryName(category, dialogL10n)),
                           selected: selectedCategory == category,
                           onSelected: (bool selected) {
                             setState(() {
@@ -548,10 +484,10 @@ class QuestsScreen extends StatelessWidget {
                       spacing: 8.0,
                       children: QuestDifficulty.values.map((d) {
                         return ChoiceChip(
-                          label: Text(getDifficultyName(d)),
+                          label: Text(_difficultyName(d, dialogL10n)),
                           selected: selectedDifficulty == d,
                           selectedColor:
-                              getDifficultyColor(d).withValues(alpha: 0.3),
+                              _difficultyColor(d).withValues(alpha: 0.3),
                           onSelected: (bool selected) {
                             setState(() {
                               if (selected) selectedDifficulty = d;
@@ -563,7 +499,7 @@ class QuestsScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       dialogL10n.questsRewardPreview(
-                        getQuestTypeName(selectedType),
+                        _questTypeName(selectedType, dialogL10n),
                         previewXp,
                         previewGold,
                       ),
