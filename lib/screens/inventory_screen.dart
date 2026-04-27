@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
+import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
@@ -260,20 +261,10 @@ class InventoryScreen extends StatelessWidget {
 
   Widget _buildCombatStats(
       dynamic character, bool isDark, BuildContext context, AppLocalizations l10n) {
-    double totalAtk = character.strength + 5;
-    double totalDef = character.health * 0.5;
-
-    if (character.equippedWeapon != null) {
-      totalAtk += character.equippedWeapon!.attackPower +
-          character.equippedWeapon!.bonusStrength;
-    }
-    if (character.equippedArmor != null) {
-      totalDef += character.equippedArmor!.defensePower;
-    }
-    if (character.equippedAccessory != null) {
-      totalAtk += character.equippedAccessory!.bonusStrength;
-      totalDef += character.equippedAccessory!.bonusHealth * 0.3;
-    }
+    // Y-3: CombatState의 static 공식 재사용 (인라인 중복 제거)
+    final c = character as Character;
+    final totalAtk = CombatState.effectiveAttack(c);
+    final totalDef = CombatState.effectiveDefense(c);
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -301,7 +292,7 @@ class InventoryScreen extends StatelessWidget {
               height: 40,
               color: isDark ? Colors.white12 : Colors.grey.shade300),
           _buildStatColumn(l10n.inventoryHpLabel, Icons.favorite_border,
-              (50 + character.health * 5).toInt(), isDark),
+              (50 + c.health * 5).toInt(), isDark),
         ],
       ),
     );

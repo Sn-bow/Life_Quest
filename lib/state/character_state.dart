@@ -170,6 +170,48 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
+  /// Y-2: 카드 획득 SnackBar 메시지 (BuildContext 없이 locale 기반 다국어)
+  String _localizedCardUnlock(String cardName) {
+    switch (_locale?.languageCode) {
+      case 'en':
+        return 'Card Unlocked: $cardName!';
+      case 'ja':
+        return 'カード獲得: $cardName！';
+      case 'zh':
+        return '获得卡片: $cardName！';
+      default: // ko
+        return '카드 획득: $cardName!';
+    }
+  }
+
+  /// Y-2: 업적 달성 SnackBar 메시지 (BuildContext 없이 locale 기반 다국어)
+  String _localizedAchievementUnlock(String name, String reward) {
+    switch (_locale?.languageCode) {
+      case 'en':
+        return '🎉 Achievement: $name (Reward: $reward)';
+      case 'ja':
+        return '🎉 実績達成: $name（報酬: $reward）';
+      case 'zh':
+        return '🎉 成就达成: $name（奖励: $reward）';
+      default: // ko
+        return '🎉 업적 달성: $name (보상: $reward)';
+    }
+  }
+
+  /// Y-2: 회원 탈퇴 오류 SnackBar 메시지 (BuildContext 없이 locale 기반 다국어)
+  String _localizedDeleteAccountError() {
+    switch (_locale?.languageCode) {
+      case 'en':
+        return 'An error occurred during account deletion. Please sign in again and retry.';
+      case 'ja':
+        return 'アカウント削除中にエラーが発生しました。再ログイン後、もう一度お試しください。';
+      case 'zh':
+        return '注销账户时发生错误，请重新登录后再试。';
+      default: // ko
+        return '회원 탈퇴 중 오류가 발생했습니다. 다시 로그인 후 시도해주세요.';
+    }
+  }
+
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   VoidCallback? onLevelUp;
@@ -194,6 +236,8 @@ class CharacterState extends ChangeNotifier {
   bool _pendingSave = false;
   // Y-1: questCategoryDistribution 메모이제이션 캐시
   Map<StatType, double>? _cachedCategoryDistribution;
+  // Y-4: 매번 Random() 신규 생성 대신 단일 인스턴스 재사용
+  final math.Random _random = math.Random();
 
   // 퀘스트 중복 완료 방지: 광고 시청 중 비동기 갭에서의 재진입 차단
   final Set<String> _pendingQuestIds = {};
@@ -488,7 +532,7 @@ class CharacterState extends ChangeNotifier {
               Icon(Icons.warning_amber_rounded, color: Colors.white),
               SizedBox(width: 8),
               Expanded(
-                  child: Text('회원 탈퇴 중 오류가 발생했습니다. 다시 로그인 후 시도해주세요.',
+                  child: Text(_localizedDeleteAccountError(),
                       style: TextStyle(color: Colors.white))),
             ],
           ),
@@ -616,7 +660,7 @@ class CharacterState extends ChangeNotifier {
         scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
             content: Text(
-              '카드 획득: $unlockedCardName!',
+              _localizedCardUnlock(unlockedCardName), // Y-2: locale 기반 다국어
               style: const TextStyle(
                   color: Colors.black, fontWeight: FontWeight.bold),
             ),
@@ -814,6 +858,7 @@ class CharacterState extends ChangeNotifier {
   /// Properly apply combat rewards (XP + loot) with full level-up pipeline.
   /// This replaces any inline level-up code in the UI layer.
   void addCombatReward(int xp, EquipmentItem? loot, {int gold = 0}) {
+    if (_character == null) return;
     _character!.xp += xp;
     if (gold > 0) _character!.gold += gold;
     if (loot != null) {
@@ -829,6 +874,7 @@ class CharacterState extends ChangeNotifier {
   }
 
   void addTimerReward(int xp, int gold) {
+    if (_character == null) return;
     _character!.xp += xp;
     _character!.gold += gold;
     while (_character!.xp >= _character!.maxXp) {
@@ -841,6 +887,7 @@ class CharacterState extends ChangeNotifier {
 
   /// Apply dungeon run rewards (XP + gold) with full level-up pipeline.
   void addDungeonReward(int xp, int gold) {
+    if (_character == null) return;
     _character!.xp += xp;
     _character!.gold += gold;
     while (_character!.xp >= _character!.maxXp) {
@@ -1007,7 +1054,7 @@ class CharacterState extends ChangeNotifier {
         scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
             content: Text(
-              '🎉 업적 달성: ${achievement.name} (보상: $rewardText)',
+              _localizedAchievementUnlock(achievement.name, rewardText), // Y-2
               style: const TextStyle(
                   color: Colors.black, fontWeight: FontWeight.bold),
             ),
@@ -1185,7 +1232,8 @@ class CharacterState extends ChangeNotifier {
   /// already owned.
   String? _tryUnlockRandomCard() {
     if (_character == null) return null;
-    final roll = math.Random().nextDouble();
+    // Y-4: 클래스 레벨 _random 재사용 (매번 신규 생성 방지)
+    final roll = _random.nextDouble();
     CardRarity? rarity;
     if (roll < 0.05) {
       rarity = CardRarity.rare;
@@ -1201,7 +1249,7 @@ class CharacterState extends ChangeNotifier {
         .toList();
     if (pool.isEmpty) return null;
 
-    final card = pool[math.Random().nextInt(pool.length)];
+    final card = pool[_random.nextInt(pool.length)];
     _character!.unlockedCardIds.add(card.id);
     return card.name;
   }
@@ -1249,7 +1297,6 @@ class CharacterState extends ChangeNotifier {
         debugPrint('[CharacterState] Save skipped: no auth user.');
         return;
       }
-      final lastLoginDate = _character!.lastLoginDate;
       final docRef = _firestore.collection('users').doc(user.uid);
       final data = {
         'character': _character!.toJson(),
@@ -1267,7 +1314,9 @@ class CharacterState extends ChangeNotifier {
         'notificationMorningHour': _notificationMorningHour,
         'notificationNightHour': _notificationNightHour,
         'isNotificationEnabled': _isNotificationEnabled,
-        'lastLoginDate': lastLoginDate?.toIso8601String(),
+        // O-2: 서버 타임스탬프로 저장 → 클라이언트 시간 조작 방지
+        // Firestore 서버가 현재 시각을 직접 기록하므로 기기 시계를 바꿔도 영향 없음
+        'lastLoginDate': FieldValue.serverTimestamp(),
       };
       await docRef.set(data, SetOptions(merge: true));
 
@@ -1414,6 +1463,24 @@ class CharacterState extends ChangeNotifier {
         if (_character!.unlockedCardIds.isEmpty) {
           _initStarterCards();
           needsSave = true;
+        }
+
+        // O-4: 장착 장비 ↔ 인벤토리 중복 제거 (데이터 무결성 보장)
+        // 저장 도중 인터럽트 등으로 동일 아이템이 양쪽에 남는 경우 인벤토리에서 제거
+        {
+          final equippedIds = <String>{
+            if (_character!.equippedWeapon != null) _character!.equippedWeapon!.id,
+            if (_character!.equippedArmor != null) _character!.equippedArmor!.id,
+            if (_character!.equippedAccessory != null) _character!.equippedAccessory!.id,
+          };
+          if (equippedIds.isNotEmpty) {
+            final before = _character!.inventory.length;
+            _character!.inventory.removeWhere((item) => equippedIds.contains(item.id));
+            if (_character!.inventory.length != before) {
+              debugPrint('[CharacterState] O-4: removed ${before - _character!.inventory.length} duplicate equipped item(s) from inventory.');
+              needsSave = true;
+            }
+          }
         }
 
         if (_character!.customRewards.isEmpty && data.containsKey('customRewards') && data['customRewards'] is List) {
@@ -1978,8 +2045,12 @@ class CharacterState extends ChangeNotifier {
   DateTime? _parseLastLoginDate(Map<String, dynamic> data) {
     final rawLastLogin =
         data['lastLoginDate'] ?? (data['character'] as Map?)?['lastLoginDate'];
+    // O-2: FieldValue.serverTimestamp()로 저장된 경우 Timestamp 타입으로 읽힘
+    if (rawLastLogin is Timestamp) {
+      return rawLastLogin.toDate();
+    }
+    // 레거시 호환: 이전에 ISO 문자열로 저장된 값 처리
     if (rawLastLogin is! String || rawLastLogin.isEmpty) return null;
-
     try {
       return DateTime.parse(rawLastLogin);
     } catch (_) {
