@@ -5,6 +5,42 @@
 
 ---
 
+## 세션 #11 — 2026-04-28 (QA 3차 완료)
+
+### 완료 작업
+
+#### QA 3차 즉시/필수 (커밋 `99c83e5`)
+- **R-1**: `quests_screen` — `markQuestPending()` Navigator.pop 이전으로 이동
+- **R-2**: hunt/skill/report/dungeon_home에 `isDataLoaded` guard
+- **R-3**: `character_state` — user==null 분기 디버그 로그
+- **R-4**: `quests_screen` — mounted 후 AppLocalizations null-safe 접근
+- **R-5**: `shop_screen` — 골드 차감 CharacterState 위임 (purchaseItem/spendGold/purchaseStat)
+- **R-6**: `hunt_screen` — didChangeDependencies 캐싱, dispose 안전화
+- **O-1**: `character_state` — hasLoadError + retryLoad() + SnackBarAction
+- **O-3**: `quests_screen` — 4개 static 헬퍼 메서드 추출
+- **Y-1**: `character_state` — questCategoryDistribution 메모이제이션
+
+#### QA 3차 잔여 (커밋 `cb38fa6`)
+- **O-2**: `character_state` — `lastLoginDate` → `FieldValue.serverTimestamp()` 저장
+  - `_parseLastLoginDate`: Firestore `Timestamp` 타입 처리 추가, 레거시 String 호환 유지
+  - 효과: 클라이언트 기기 시계 조작으로 퀘스트 이중 초기화 불가
+- **O-4**: `character_state` — 로드 시 장착 장비↔인벤토리 중복 제거
+  - equippedWeapon/Armor/Accessory id와 일치하는 inventory 항목 제거
+  - 데이터 손상 시 자동 복구 + needsSave=true 즉시 재저장
+- **Y-2**: `character_state` — SnackBar 하드코딩 → locale 기반 다국어 헬퍼 3개
+  - `_localizedCardUnlock`, `_localizedAchievementUnlock`, `_localizedDeleteAccountError`
+- **Y-3**: `inventory_screen` — `_buildCombatStats` 전투 공식 중복 제거
+  - `CombatState.effectiveAttack/Defense` static 메서드 재사용
+- **Y-4**: `character_state` — `_random` 클래스 레벨 단일 인스턴스 재사용
+- **Y-6**: `character_state` — addCombatReward/addTimerReward/addDungeonReward null guard
+
+### 커밋
+- `99c83e5` — QA 3차 수정: 비동기 안전성 + 경제 원자성 + 성능 캐싱
+- `db905e4` — docs: QA 3차 CLAUDE.md 반영
+- `cb38fa6` — QA 3차 잔여 수정: 서버 시간 검증 + 인벤토리 무결성 + 코드 품질
+
+---
+
 ## 세션 #10 — 2026-04-26 (QA 2차 권장사항 완료 + 문서화)
 
 ### 완료 작업
@@ -178,23 +214,27 @@
 
 ---
 
-## 다음 세션 우선순위 (2026-04-26 기준)
+## 다음 세션 우선순위 (2026-04-28 기준)
+
+### QA 코드 수정 완료 상태
+- QA 1차 (19건), 2차 (7건), 3차 전체 (15건) → **모두 완료** ✅
+- 추가 코드 QA 이슈 없음 — 다음 단계는 기능 개선 또는 배포 준비
 
 ### 즉시 할 수 있는 것 (Claude 단독)
 1. ProGuard/R8 설정 (`android/app/build.gradle.kts`) — AAB 크기 축소 + 코드 난독화
-2. 햅틱 피드백 추가 (`card_battle_screen.dart`, `card_combat_state.dart`)
+2. 햅틱 피드백 추가 (`card_battle_screen.dart`) — 카드 사용/전투 이벤트
 3. 카드 툴팁 시스템 (롱프레스 시 키워드 설명 팝업)
-4. 시즌 카운트다운 하드코딩 수정 (`dungeon_home_screen.dart:419`)
+4. 시즌 카운트다운 하드코딩 수정 (`dungeon_home_screen.dart` 내 hardcoded date)
+5. Play Store 스토어 등록 텍스트 초안 작성
 
 ### 수동 작업 완료 후 진행
-5. 실제 기기 테스트 결과 → 발생 버그 수정
-6. Play Store 스토어 등록 텍스트 작성 (Claude가 초안 작성 가능)
+6. 실제 기기 테스트 결과 → 발생 버그 수정
 7. 카드 밸런스 조정 (플레이테스트 결과 기반)
 
-### 수동 작업 (사람이 직접)
-- Firebase 콘솔 패키지명 업데이트 + `google-services.json` 재다운로드
+### 수동 작업 (사람이 직접) — 🔴 배포 전 필수
+- Firebase 콘솔 패키지명 `com.lifequest.app` 등록 + `google-services.json` 재다운로드
 - `firebase deploy --only functions,firestore`
 - Google Play Console 서비스 계정 → `firebase functions:secrets:set GOOGLE_PLAY_SERVICE_ACCOUNT`
-- AdMob 프로덕션 ID 최종 확인
-- Google Play Console AAB 업로드
+- AdMob 프로덕션 ID 최종 확인 (`ad_service.dart`)
+- Google Play Console AAB 업로드 (`build/app/outputs/bundle/release/app-release.aab`)
 - IARC 콘텐츠 등급, 데이터 안전 섹션 작성

@@ -21,11 +21,11 @@
 
 ### 최신 커밋
 ```
+cb38fa6  QA 3차 잔여 수정: 서버 시간 검증 + 인벤토리 무결성 + 코드 품질
 99c83e5  QA 3차 수정: 비동기 안전성 + 경제 원자성 + 성능 캐싱
 7764074  docs: 2026-04-26 세션 종료 문서 최신화
 f72dd20  QA 2차 권장사항: SharedPrefKeys 중앙화 + 퀘스트 정렬 최적화
 d1025a4  QA 2차 수정: 게임 경제 무결성 + 보안 + l10n
-268077e  배포 전 종합 수정: 배포불가→필수→권장 19개 이슈 해결
 ```
 
 ---
@@ -81,6 +81,14 @@ d1025a4  QA 2차 수정: 게임 경제 무결성 + 보안 + l10n
 - **O-1**: `character_state` — `hasLoadError` 게터 + `retryLoad()` + SnackBarAction 재시도 버튼
 - **O-3**: `quests_screen` — 4개 static 헬퍼 메서드 추출 (`_categoryName`, `_difficultyName`, `_questTypeName`, `_difficultyColor`)
 - **Y-1**: `character_state` — `questCategoryDistribution` 메모이제이션 (`_cachedCategoryDistribution`)
+
+### QA 3차 잔여: 서버 시간 검증 + 인벤토리 무결성 + 코드 품질 (2026-04-28) — 커밋 `cb38fa6`
+- **O-2**: `character_state` — `lastLoginDate` → `FieldValue.serverTimestamp()` 저장, `_parseLastLoginDate`에 `Timestamp` 타입 처리 추가 (클라이언트 시간 조작으로 퀘스트 이중 초기화 차단)
+- **O-4**: `character_state` — 로드 시 장착 장비↔인벤토리 중복 제거 (equippedIds 기준 inventory 정제, 데이터 손상 자동 복구)
+- **Y-2**: `character_state` — SnackBar 하드코딩 → `_localizedCardUnlock/AchievementUnlock/DeleteAccountError` 4개 언어 헬퍼
+- **Y-3**: `inventory_screen` — `_buildCombatStats` 인라인 전투 공식 → `CombatState.effectiveAttack/Defense` static 메서드 재사용
+- **Y-4**: `character_state` — `_tryUnlockRandomCard()` 매번 `Random()` 신규 생성 → 클래스 레벨 `_random` 재사용
+- **Y-6**: `character_state` — `addCombatReward/addTimerReward/addDungeonReward` null guard 추가
 
 ---
 
