@@ -69,7 +69,7 @@ class CharacterState extends ChangeNotifier {
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
 
   static List<CustomReward> _buildDefaultCustomRewards({String langCode = 'ko'}) {
-    final Map<String, List<List<String>>> _strings = {
+    final Map<String, List<List<String>>> strings = {
       'en': [
         ['Eat a tasty snack', 'Enjoy your favorite snack'],
         ['30 minutes of gaming', 'Play guilt-free for 30 minutes'],
@@ -91,7 +91,7 @@ class CharacterState extends ChangeNotifier {
         ['보고싶던 영상/영화 시청', '유튜브나 넷플릭스 1시간 보기'],
       ],
     };
-    final s = _strings[langCode] ?? _strings['ko']!;
+    final s = strings[langCode] ?? strings['ko']!;
     return [
       CustomReward(id: 'cr_1', name: s[0][0], description: s[0][1], cost: 50, icon: '🍪'),
       CustomReward(id: 'cr_2', name: s[1][0], description: s[1][1], cost: 100, icon: '🎮'),
@@ -527,13 +527,13 @@ class CharacterState extends ChangeNotifier {
     } catch (e) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
-          content: const Row(
+          content: Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.white),
-              SizedBox(width: 8),
+              const Icon(Icons.warning_amber_rounded, color: Colors.white),
+              const SizedBox(width: 8),
               Expanded(
                   child: Text(_localizedDeleteAccountError(),
-                      style: TextStyle(color: Colors.white))),
+                      style: const TextStyle(color: Colors.white))),
             ],
           ),
           backgroundColor: Colors.red.shade800,

@@ -3659,4 +3659,31 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => '密码不正确。';
+
+  @override
+  String get questsGoldUnit => '金币';
+
+  @override
+  String get questsAdRewardApplied => '🎉 广告奖励已应用';
+
+  @override
+  String questsRewardSummary(int xp, int gold, int ap) => '总奖励: $xp XP · $gold 金币 · AP +$ap';
+
+  @override
+  String questsRewardStatPoints(int sp) => '额外属性点 +$sp';
+
+  @override
+  String questsRewardUnlockedTitles(String titles) => '解锁称号: $titles';
+
+  @override
+  String questsRewardUnlockedCosmetics(String cosmetics) => '解锁奖励: $cosmetics';
+
+  @override
+  String get settingsReauthPasswordTitle => '确认密码';
+
+  @override
+  String get cosmeticUnlocked => '物品已解锁！';
+
+  @override
+  String get cosmeticPurchaseError => '购买失败';
 }

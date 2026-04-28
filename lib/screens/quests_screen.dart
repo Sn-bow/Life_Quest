@@ -188,7 +188,6 @@ class QuestsScreen extends StatelessWidget {
 
   void _showEditQuestDialog(
       BuildContext context, Quest quest, CharacterState state) {
-    final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController(text: quest.name);
     StatType selectedCategory = quest.category;
     QuestDifficulty selectedDifficulty = quest.difficulty;
@@ -303,7 +302,7 @@ class QuestsScreen extends StatelessWidget {
       barrierDismissible: false, // 처리 중 배경 탭으로 닫기 방지
       builder: (BuildContext dialogContext) {
         final l10n = AppLocalizations.of(dialogContext)!;
-        bool _isProcessing = false;
+        bool isProcessing = false;
 
         return StatefulBuilder(
           builder: (ctx, setDialogState) {
@@ -321,7 +320,7 @@ class QuestsScreen extends StatelessWidget {
               ),
               actions: <Widget>[
                 TextButton(
-                  onPressed: _isProcessing ? null : () => Navigator.of(dialogContext).pop(),
+                  onPressed: isProcessing ? null : () => Navigator.of(dialogContext).pop(),
                   child: Text(l10n.cancel),
                 ),
                 if (remainingDouble > 0)
@@ -332,8 +331,8 @@ class QuestsScreen extends StatelessWidget {
                       backgroundColor: Colors.amber,
                       foregroundColor: Colors.black,
                     ),
-                    onPressed: _isProcessing ? null : () async {
-                      setDialogState(() => _isProcessing = true);
+                    onPressed: isProcessing ? null : () async {
+                      setDialogState(() => isProcessing = true);
                       // R-1 fix: pending 마킹을 다이얼로그 닫기 전에 수행
                       // → 닫힌 직후 다른 tap이 들어와도 중복 완료 차단
                       state.markQuestPending(quest.id);
@@ -363,8 +362,8 @@ class QuestsScreen extends StatelessWidget {
                     },
                   ),
                 TextButton(
-                  onPressed: _isProcessing ? null : () {
-                    setDialogState(() => _isProcessing = true);
+                  onPressed: isProcessing ? null : () {
+                    setDialogState(() => isProcessing = true);
                     final result = state.completeQuest(quest);
                     Navigator.of(dialogContext).pop();
                     if (context.mounted) {

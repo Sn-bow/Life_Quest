@@ -3674,4 +3674,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => 'パスワードが正しくありません。';
+
+  @override
+  String get questsGoldUnit => 'ゴールド';
+
+  @override
+  String get questsAdRewardApplied => '🎉 広告報酬適用';
+
+  @override
+  String questsRewardSummary(int xp, int gold, int ap) => '合計報酬: $xp XP · $gold ゴールド · AP +$ap';
+
+  @override
+  String questsRewardStatPoints(int sp) => '追加ステータスポイント +$sp';
+
+  @override
+  String questsRewardUnlockedTitles(String titles) => '解放称号: $titles';
+
+  @override
+  String questsRewardUnlockedCosmetics(String cosmetics) => '解放報酬: $cosmetics';
+
+  @override
+  String get settingsReauthPasswordTitle => 'パスワード確認';
+
+  @override
+  String get cosmeticUnlocked => 'アイテムが解放されました！';
+
+  @override
+  String get cosmeticPurchaseError => '購入中にエラーが発生しました';
 }

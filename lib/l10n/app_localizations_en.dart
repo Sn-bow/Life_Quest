@@ -3780,4 +3780,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => 'Incorrect password.';
+
+  @override
+  String get questsGoldUnit => 'Gold';
+
+  @override
+  String get questsAdRewardApplied => '🎉 Ad Reward Applied';
+
+  @override
+  String questsRewardSummary(int xp, int gold, int ap) => 'Total rewards: $xp XP · $gold Gold · AP +$ap';
+
+  @override
+  String questsRewardStatPoints(int sp) => 'Bonus stat points +$sp';
+
+  @override
+  String questsRewardUnlockedTitles(String titles) => 'Unlocked titles: $titles';
+
+  @override
+  String questsRewardUnlockedCosmetics(String cosmetics) => 'Unlocked rewards: $cosmetics';
+
+  @override
+  String get settingsReauthPasswordTitle => 'Confirm Password';
+
+  @override
+  String get cosmeticUnlocked => 'Item unlocked!';
+
+  @override
+  String get cosmeticPurchaseError => 'Purchase failed';
 }

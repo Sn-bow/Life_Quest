@@ -547,6 +547,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                         Provider.of<CharacterState>(context, listen: false);
                     // H-1 fix: recoverActionPoints → 원자적 회복 + 즉시 저장
                     await charState.recoverActionPoints(2);
+                    if (!context.mounted) return;
                     final recoverL10n = AppLocalizations.of(context)!;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(recoverL10n.huntApRecovered)),

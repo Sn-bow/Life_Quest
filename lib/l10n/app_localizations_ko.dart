@@ -3685,4 +3685,31 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => '비밀번호가 올바르지 않습니다.';
+
+  @override
+  String get questsGoldUnit => '골드';
+
+  @override
+  String get questsAdRewardApplied => '🎉 광고 보상 적용';
+
+  @override
+  String questsRewardSummary(int xp, int gold, int ap) => '총 보상: $xp XP · $gold 골드 · AP +$ap';
+
+  @override
+  String questsRewardStatPoints(int sp) => '추가 스탯 포인트 +$sp';
+
+  @override
+  String questsRewardUnlockedTitles(String titles) => '해금 칭호: $titles';
+
+  @override
+  String questsRewardUnlockedCosmetics(String cosmetics) => '해금 보상: $cosmetics';
+
+  @override
+  String get settingsReauthPasswordTitle => '비밀번호 확인';
+
+  @override
+  String get cosmeticUnlocked => '아이템이 해금되었습니다!';
+
+  @override
+  String get cosmeticPurchaseError => '구매 중 오류가 발생했습니다';
 }

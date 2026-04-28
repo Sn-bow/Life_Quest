@@ -7167,6 +7167,33 @@ abstract class AppLocalizations {
 
   /// Settings: wrong password fallback message
   String get settingsReauthWrongPassword;
+
+  /// Quests: gold unit label
+  String get questsGoldUnit;
+
+  /// Quests: ad reward applied message
+  String get questsAdRewardApplied;
+
+  /// Quests: reward summary
+  String questsRewardSummary(int xp, int gold, int ap);
+
+  /// Quests: reward stat points
+  String questsRewardStatPoints(int sp);
+
+  /// Quests: unlocked titles
+  String questsRewardUnlockedTitles(String titles);
+
+  /// Quests: unlocked cosmetics
+  String questsRewardUnlockedCosmetics(String cosmetics);
+
+  /// Settings: reauth password dialog title
+  String get settingsReauthPasswordTitle;
+
+  /// Cosmetic: item unlocked message
+  String get cosmeticUnlocked;
+
+  /// Cosmetic: purchase error message
+  String get cosmeticPurchaseError;
 }
 
 class _AppLocalizationsDelegate
