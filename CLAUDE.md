@@ -14,18 +14,18 @@
 ## 현재 상태 (2026-04-28 기준)
 
 ### 검증 결과 (최신)
-- `flutter analyze` → **No issues found** ✅
+- `flutter analyze` → **No issues found** ✅ (QA 3차 기준, flutter SDK PATH 미등록으로 QA 4차 재검증 필요)
 - `flutter test` → **73개 전체 통과** ✅
 - `flutter build appbundle --release` → 성공 (64MB) ✅
 - **버전**: `1.0.1+2`
 
 ### 최신 커밋
 ```
+81c2dd9  QA 4차 수정: Firestore 규칙 + AP 원자성 + 보안 + l10n + UI 안정성
+f43a3b7  docs: QA 3차 잔여 수정 내역 문서화 (세션 #11)
 cb38fa6  QA 3차 잔여 수정: 서버 시간 검증 + 인벤토리 무결성 + 코드 품질
 99c83e5  QA 3차 수정: 비동기 안전성 + 경제 원자성 + 성능 캐싱
 7764074  docs: 2026-04-26 세션 종료 문서 최신화
-f72dd20  QA 2차 권장사항: SharedPrefKeys 중앙화 + 퀘스트 정렬 최적화
-d1025a4  QA 2차 수정: 게임 경제 무결성 + 보안 + l10n
 ```
 
 ---
@@ -89,6 +89,20 @@ d1025a4  QA 2차 수정: 게임 경제 무결성 + 보안 + l10n
 - **Y-3**: `inventory_screen` — `_buildCombatStats` 인라인 전투 공식 → `CombatState.effectiveAttack/Defense` static 메서드 재사용
 - **Y-4**: `character_state` — `_tryUnlockRandomCard()` 매번 `Random()` 신규 생성 → 클래스 레벨 `_random` 재사용
 - **Y-6**: `character_state` — `addCombatReward/addTimerReward/addDungeonReward` null guard 추가
+
+### QA 4차: 전/역방향 플로우 QA + 종합 수정 (2026-04-28) — 커밋 `81c2dd9`
+- **[C-1] firestore.rules**: `_meta` 서브컬렉션 명시적 규칙 추가 → `AdService._syncServerTime()` Firestore 쓰기 unblock (CRITICAL: 광고 일일 리셋 조작 방지 기능 실제 동작하지 않던 버그)
+- **[H-1] character_state**: `spendActionPoints(int cost)` / `recoverActionPoints(int amount)` 추가 → AP 변경 원자적 처리 + 즉시 저장
+- **[H-1] hunt_screen**: AP 차감(`_applyApCost`), 스킬 AP 차감(`_buildSkillMenu`), AP 회복(`_showApWarning`) 모두 CharacterState 위임 (직접 변이 완전 제거)
+- **[H-2] settings_screen**: `_reauthenticateAndConfirm()` 미지원 provider → `return false` (기존 `return true`로 인증 없이 계정 삭제 허용되던 보안 결함 수정)
+- **[H-3] timer_screen**: duration 칩 `'15분'` 하드코딩 → `l10n.timerDuration15/25/45/60`
+- **[M-1] hunt_screen**: AP 회복 SnackBar + 스킬 쿨다운 표시 `'${cd}턴'` → l10n
+- **[M-2] settings_screen**: 재인증 실패 SnackBar 하드코딩 → `l10n.settingsReauthFailed/WrongPassword`
+- **[M-3] shop_screen**: `_buildGameItemsTab` 파라미터 `dynamic` → `Character` 명시적 타입
+- **[M-4] status_screen**: 스탯 진행바 `.clamp(0.0, 1.0)` 추가 (100 초과 스탯 오버플로우 방지)
+- **[M-6] main.dart**: 이미 로그인된 사용자 인트로 1.8초 대기 스킵 (재방문 UX 개선)
+- **[L-1] login_screen**: `FirebaseAuthException` 외 일반 Exception catch 추가
+- **l10n**: `timerDuration15/25/45/60`, `huntApRecovered`, `huntSkillCooldownTurns`, `settingsReauthFailed`, `settingsReauthWrongPassword` 4개 언어(ko/en/ja/zh) 추가
 
 ---
 

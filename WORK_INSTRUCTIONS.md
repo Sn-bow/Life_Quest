@@ -5,6 +5,59 @@
 
 ---
 
+## 세션 #12 — 2026-04-28 (QA 4차: 전/역방향 플로우 종합 QA + 수정)
+
+### 완료 작업
+
+#### 전방향 QA → 역방향 QA → 취합 보고 후 전체 수정 (커밋 `81c2dd9`)
+
+**[C-1] CRITICAL — Firestore `_meta` 서브컬렉션 차단 해소**
+- `firestore.rules`: `match /users/{userId}/_meta/{doc}` 규칙 추가
+- 기존: 기본 deny 규칙이 `_meta/adServerTime` 쓰기 차단 → AdService 서버시간 앵커 무효화
+- 수정 후: 광고 일일 리셋 조작 방지 기능 실제 동작
+
+**[H-1] AP 원자적 관리 메서드 추가**
+- `character_state.dart`: `spendActionPoints(int cost)` — 차감 성공 여부 반환, `unawaited(_saveData())`
+- `character_state.dart`: `recoverActionPoints(int amount)` — maxAP 클램프 + `_performSaveData()` 즉시 저장
+- `hunt_screen.dart`: `_applyApCost()`, `_buildSkillMenu()` AP 차감 → `spendActionPoints()` 위임
+- `hunt_screen.dart`: `_showApWarning()` AP 회복 → `recoverActionPoints(2)` 위임 (직접 변이 완전 제거)
+
+**[H-2] 보안 — 미지원 provider 재인증 우회 차단**
+- `settings_screen.dart`: `_reauthenticateAndConfirm()` unknown provider fallback `return true` → `return false`
+- 기존: 알 수 없는 인증 제공자일 때 재인증 없이 계정 삭제 허용 (보안 결함)
+
+**[H-3] timer_screen duration 칩 l10n**
+- `'15분'`, `'25분'`, `'45분'`, `'60분'` 하드코딩 → `l10n.timerDuration15/25/45/60`
+
+**[M-1] hunt_screen l10n**
+- AP 회복 SnackBar: `'⚡ AP가 2 회복되었습니다!'` → `l10n.huntApRecovered`
+- 스킬 쿨다운: `'${cd}턴'` → `l10n.huntSkillCooldownTurns(cd)`
+
+**[M-2] settings_screen 재인증 l10n**
+- `l10n.settingsReauthFailed(e.toString())` / `l10n.settingsReauthWrongPassword`
+
+**[M-3] shop_screen 타입 안전성**
+- `_buildGameItemsTab` 4번째 파라미터 `dynamic` → `Character`
+
+**[M-4] status_screen 진행바 오버플로우 방지**
+- `value: (displayValue / 100.0).clamp(0.0, 1.0)` — 100 초과 스탯 시 RangeError 방지
+
+**[M-6] main.dart 재방문 UX 개선**
+- 이미 로그인된 사용자(`FirebaseAuth.instance.currentUser != null`): 1800ms 인트로 스킵
+- 신규/비로그인 사용자: 기존 동작 유지
+
+**[L-1] login_screen 예외 처리 완결**
+- `FirebaseAuthException` 외 일반 `Exception` catch 추가 → `l10n.loginErrorUnknown(e.toString())`
+
+**l10n (4개 언어 ko/en/ja/zh)**
+- 신규 키: `timerDuration15/25/45/60`, `huntApRecovered`, `huntSkillCooldownTurns(int)`, `settingsReauthFailed(String)`, `settingsReauthWrongPassword`
+- `app_localizations.dart` 추상 메서드 선언 + 4개 구현 파일 모두 수동 동기화
+
+### 커밋
+- `81c2dd9` — QA 4차 수정: Firestore 규칙 + AP 원자성 + 보안 + l10n + UI 안정성
+
+---
+
 ## 세션 #11 — 2026-04-28 (QA 3차 완료)
 
 ### 완료 작업
