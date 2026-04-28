@@ -3661,4 +3661,28 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get chapterName5 => '심연의 차원';
+
+  @override
+  String get timerDuration15 => '15분';
+
+  @override
+  String get timerDuration25 => '25분';
+
+  @override
+  String get timerDuration45 => '45분';
+
+  @override
+  String get timerDuration60 => '60분';
+
+  @override
+  String get huntApRecovered => '⚡ AP가 2 회복되었습니다!';
+
+  @override
+  String huntSkillCooldownTurns(int turns) => '${turns}턴';
+
+  @override
+  String settingsReauthFailed(String error) => '재인증 실패: $error';
+
+  @override
+  String get settingsReauthWrongPassword => '비밀번호가 올바르지 않습니다.';
 }

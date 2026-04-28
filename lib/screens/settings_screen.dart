@@ -224,8 +224,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } else if (isEmailUser) {
       return _reauthWithPassword(context);
     }
-    // 기타 provider는 재인증 없이 진행
-    return true;
+    // H-2 fix: 알 수 없는 provider는 재인증 불가로 처리 (안전하게 false 반환)
+    debugPrint('[Settings] Unknown provider(s): $providerIds — denying delete without reauth.');
+    return false;
   }
 
   Future<bool> _reauthWithGoogle(BuildContext context) async {
@@ -242,9 +243,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return true;
     } catch (e) {
       if (!context.mounted) return false;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('재인증 실패: ${e.toString()}'),
+          // M-2 fix: 하드코딩 한국어 → l10n
+          content: Text(l10n.settingsReauthFailed(e.toString())),
           backgroundColor: Colors.red.shade800,
         ),
       );
@@ -305,9 +308,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return true;
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return false;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(e.message ?? '비밀번호가 올바르지 않습니다.'),
+          // M-2 fix: 폴백 문자열 l10n 처리
+          content: Text(e.message ?? l10n.settingsReauthWrongPassword),
           backgroundColor: Colors.red.shade800,
         ),
       );

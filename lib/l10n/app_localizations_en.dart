@@ -3756,4 +3756,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chapterName5 => 'Abyssal Dimension';
+
+  @override
+  String get timerDuration15 => '15 min';
+
+  @override
+  String get timerDuration25 => '25 min';
+
+  @override
+  String get timerDuration45 => '45 min';
+
+  @override
+  String get timerDuration60 => '60 min';
+
+  @override
+  String get huntApRecovered => '⚡ AP recovered by 2!';
+
+  @override
+  String huntSkillCooldownTurns(int turns) => '$turns turn(s)';
+
+  @override
+  String settingsReauthFailed(String error) => 'Re-authentication failed: $error';
+
+  @override
+  String get settingsReauthWrongPassword => 'Incorrect password.';
 }

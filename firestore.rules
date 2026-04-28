@@ -17,6 +17,11 @@ service cloud.firestore {
                             && request.resource.data.character.level >= 1));
     }
 
+    // AdService 서버 시각 동기화용 메타 서브컬렉션: 본인만 읽기/쓰기
+    match /users/{userId}/_meta/{doc} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
     // 그 외 모든 경로는 기본 차단
     match /{document=**} {
       allow read, write: if false;

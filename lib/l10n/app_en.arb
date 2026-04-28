@@ -1265,5 +1265,20 @@
   "chapterName2": "Dark Forest",
   "chapterName3": "Ruined Castle",
   "chapterName4": "Lava Dungeon",
-  "chapterName5": "Abyssal Dimension"
+  "chapterName5": "Abyssal Dimension",
+
+  "timerDuration15": "15 min",
+  "timerDuration25": "25 min",
+  "timerDuration45": "45 min",
+  "timerDuration60": "60 min",
+  "huntApRecovered": "⚡ AP recovered by 2!",
+  "huntSkillCooldownTurns": "{turns} turn(s)",
+  "@huntSkillCooldownTurns": {
+    "placeholders": { "turns": { "type": "int" } }
+  },
+  "settingsReauthFailed": "Re-authentication failed: {error}",
+  "@settingsReauthFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "settingsReauthWrongPassword": "Incorrect password."
 }

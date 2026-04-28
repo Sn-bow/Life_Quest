@@ -1265,5 +1265,20 @@
   "chapterName2": "어둠의 숲",
   "chapterName3": "폐허의 성",
   "chapterName4": "용암 던전",
-  "chapterName5": "심연의 차원"
+  "chapterName5": "심연의 차원",
+
+  "timerDuration15": "15분",
+  "timerDuration25": "25분",
+  "timerDuration45": "45분",
+  "timerDuration60": "60분",
+  "huntApRecovered": "⚡ AP가 2 회복되었습니다!",
+  "huntSkillCooldownTurns": "{turns}턴",
+  "@huntSkillCooldownTurns": {
+    "placeholders": { "turns": { "type": "int" } }
+  },
+  "settingsReauthFailed": "재인증 실패: {error}",
+  "@settingsReauthFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "settingsReauthWrongPassword": "비밀번호가 올바르지 않습니다."
 }

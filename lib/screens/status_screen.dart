@@ -760,7 +760,8 @@ class _StatusScreenState extends State<StatusScreen> {
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: LinearProgressIndicator(
-            value: displayValue / 100.0,
+            // M-4 fix: 스탯이 100 초과 시 오버플로우 방지
+            value: (displayValue / 100.0).clamp(0.0, 1.0),
             minHeight: 10,
             backgroundColor:
                 isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,

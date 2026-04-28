@@ -1265,5 +1265,20 @@
   "chapterName2": "黑暗森林",
   "chapterName3": "废墟城堡",
   "chapterName4": "熔岩地牢",
-  "chapterName5": "深渊次元"
+  "chapterName5": "深渊次元",
+
+  "timerDuration15": "15分钟",
+  "timerDuration25": "25分钟",
+  "timerDuration45": "45分钟",
+  "timerDuration60": "60分钟",
+  "huntApRecovered": "⚡ AP恢复2点！",
+  "huntSkillCooldownTurns": "{turns}回合",
+  "@huntSkillCooldownTurns": {
+    "placeholders": { "turns": { "type": "int" } }
+  },
+  "settingsReauthFailed": "重新验证失败: {error}",
+  "@settingsReauthFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "settingsReauthWrongPassword": "密码不正确。"
 }

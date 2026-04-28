@@ -34,6 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } on FirebaseAuthException catch (e) {
       _showErrorSnackBar(e.message ?? l10n.loginErrorFailed);
+    } catch (e) {
+      _showErrorSnackBar(l10n.loginErrorUnknown(e.toString()));
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);

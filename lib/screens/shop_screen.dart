@@ -105,7 +105,7 @@ class ShopScreen extends StatelessWidget {
   }
 
   Widget _buildGameItemsTab(BuildContext context, CharacterState charState,
-      CombatState combatState, dynamic character, bool isDark) {
+      CombatState combatState, Character character, bool isDark) {
     final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),

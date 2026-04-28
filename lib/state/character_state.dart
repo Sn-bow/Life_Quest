@@ -853,6 +853,27 @@ class CharacterState extends ChangeNotifier {
     return true;
   }
 
+  /// AP를 [cost]만큼 소비한다.
+  /// AP가 부족하면 false를 반환하고 아무것도 변경하지 않는다.
+  /// UI 계층에서 character.actionPoints를 직접 수정하는 대신 이 메서드를 사용할 것.
+  bool spendActionPoints(int cost) {
+    if (_character == null || _character!.actionPoints < cost) return false;
+    _character!.actionPoints -= cost;
+    unawaited(_saveData());
+    notifyListeners();
+    return true;
+  }
+
+  /// AP를 [amount]만큼 회복한다 (광고 보상 등).
+  /// maxActionPoints를 초과하지 않도록 clamp 적용.
+  Future<void> recoverActionPoints(int amount) async {
+    if (_character == null) return;
+    _character!.actionPoints =
+        (_character!.actionPoints + amount).clamp(0, _character!.maxActionPoints);
+    await _performSaveData();
+    notifyListeners();
+  }
+
   // ── 전투 보상 ─────────────────────────────────────────────────────────────
 
   /// Properly apply combat rewards (XP + loot) with full level-up pipeline.

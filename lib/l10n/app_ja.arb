@@ -1265,5 +1265,20 @@
   "chapterName2": "闇の森",
   "chapterName3": "廃墟の城",
   "chapterName4": "溶岩ダンジョン",
-  "chapterName5": "深淵の次元"
+  "chapterName5": "深淵の次元",
+
+  "timerDuration15": "15分",
+  "timerDuration25": "25分",
+  "timerDuration45": "45分",
+  "timerDuration60": "60分",
+  "huntApRecovered": "⚡ APが2回復しました！",
+  "huntSkillCooldownTurns": "{turns}ターン",
+  "@huntSkillCooldownTurns": {
+    "placeholders": { "turns": { "type": "int" } }
+  },
+  "settingsReauthFailed": "再認証に失敗しました: {error}",
+  "@settingsReauthFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "settingsReauthWrongPassword": "パスワードが正しくありません。"
 }

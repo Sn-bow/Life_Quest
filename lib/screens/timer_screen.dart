@@ -360,10 +360,10 @@ class _TimerScreenState extends State<TimerScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            _durationChip('15분', 15, isDark),
-                            _durationChip('25분', 25, isDark),
-                            _durationChip('45분', 45, isDark),
-                            _durationChip('60분', 60, isDark),
+                            _durationChip(l10n.timerDuration15, 15, isDark),
+                            _durationChip(l10n.timerDuration25, 25, isDark),
+                            _durationChip(l10n.timerDuration45, 45, isDark),
+                            _durationChip(l10n.timerDuration60, 60, isDark),
                           ],
                         ),
                       ),

@@ -3650,4 +3650,28 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get chapterName5 => '深淵の次元';
+
+  @override
+  String get timerDuration15 => '15分';
+
+  @override
+  String get timerDuration25 => '25分';
+
+  @override
+  String get timerDuration45 => '45分';
+
+  @override
+  String get timerDuration60 => '60分';
+
+  @override
+  String get huntApRecovered => '⚡ APが2回復しました！';
+
+  @override
+  String huntSkillCooldownTurns(int turns) => '${turns}ターン';
+
+  @override
+  String settingsReauthFailed(String error) => '再認証に失敗しました: $error';
+
+  @override
+  String get settingsReauthWrongPassword => 'パスワードが正しくありません。';
 }

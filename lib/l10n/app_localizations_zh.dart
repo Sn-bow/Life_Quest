@@ -3635,4 +3635,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get chapterName5 => '深渊次元';
+
+  @override
+  String get timerDuration15 => '15分钟';
+
+  @override
+  String get timerDuration25 => '25分钟';
+
+  @override
+  String get timerDuration45 => '45分钟';
+
+  @override
+  String get timerDuration60 => '60分钟';
+
+  @override
+  String get huntApRecovered => '⚡ AP恢复2点！';
+
+  @override
+  String huntSkillCooldownTurns(int turns) => '${turns}回合';
+
+  @override
+  String settingsReauthFailed(String error) => '重新验证失败: $error';
+
+  @override
+  String get settingsReauthWrongPassword => '密码不正确。';
 }

@@ -545,11 +545,11 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   if (success) {
                     final charState =
                         Provider.of<CharacterState>(context, listen: false);
-                    charState.character.actionPoints += 2;
-                    charState.forceSave();
-                    charState.refreshState();
+                    // H-1 fix: recoverActionPoints → 원자적 회복 + 즉시 저장
+                    await charState.recoverActionPoints(2);
+                    final recoverL10n = AppLocalizations.of(context)!;
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('⚡ AP가 2 회복되었습니다!')),
+                      SnackBar(content: Text(recoverL10n.huntApRecovered)),
                     );
                   } else {
                     final mountedL10n = AppLocalizations.of(context)!;
@@ -579,10 +579,9 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   }
 
   void _applyApCost(CharacterState charState, int cost) {
+    // H-1 fix: spendActionPoints() → 원자적 저장 (scheduleSave 우회 제거)
     if (cost > 0) {
-      charState.character.actionPoints -= cost;
-      charState.scheduleSave();
-      charState.refreshState();
+      charState.spendActionPoints(cost);
     }
   }
 
@@ -678,9 +677,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                       final used =
                           combatState.useSkill(skill, charState.character);
                       if (used) {
-                        charState.character.actionPoints -= 1;
-                        charState.scheduleSave();
-                        charState.refreshState();
+                        // H-1 fix: spendActionPoints() → 원자적 저장
+                        charState.spendActionPoints(1);
                         setState(
                             () => _showSkills = false); // Hide skills after use
                       }
@@ -706,7 +704,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 child: Text(
                   ready
                       ? '${isHeal ? "💚" : "🔥"} ${skill.name}'
-                      : '${skill.name} ($cd턴)',
+                      : '${skill.name} (${l10n.huntSkillCooldownTurns(cd)})',
                   style: TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 12,

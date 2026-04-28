@@ -7139,6 +7139,34 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'심연의 차원'**
   String get chapterName5;
+
+  /// Timer duration chip: 15 minutes
+  String get timerDuration15;
+
+  /// Timer duration chip: 25 minutes
+  String get timerDuration25;
+
+  /// Timer duration chip: 45 minutes
+  String get timerDuration45;
+
+  /// Timer duration chip: 60 minutes
+  String get timerDuration60;
+
+  /// Hunt: AP recovered snackbar message
+  String get huntApRecovered;
+
+  /// Hunt: skill cooldown remaining turns label
+  ///
+  /// In ko, this message translates to: **'{turns}턴'**
+  String huntSkillCooldownTurns(int turns);
+
+  /// Settings: re-authentication failure message
+  ///
+  /// In ko, this message translates to: **'재인증 실패: {error}'**
+  String settingsReauthFailed(String error);
+
+  /// Settings: wrong password fallback message
+  String get settingsReauthWrongPassword;
 }
 
 class _AppLocalizationsDelegate

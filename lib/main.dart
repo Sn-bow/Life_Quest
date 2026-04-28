@@ -331,10 +331,15 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   void initState() {
     super.initState();
-    Future<void>.delayed(const Duration(milliseconds: 1800), () {
-      if (!mounted) return;
-      setState(() => _showIntro = false);
-    });
+    // M-6: 이미 로그인된 재방문 사용자는 인트로 스킵
+    if (FirebaseAuth.instance.currentUser != null) {
+      _showIntro = false;
+    } else {
+      Future<void>.delayed(const Duration(milliseconds: 1800), () {
+        if (!mounted) return;
+        setState(() => _showIntro = false);
+      });
+    }
   }
 
   @override
