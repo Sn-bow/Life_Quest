@@ -96,7 +96,7 @@ class MonsterDatabase {
           attack: 9,
           defense: 2,
           xpReward: 45,
-          spritePath: 'assets/images/monsters/spider.png'),
+          spritePath: 'assets/images/monsters/spider_giant.png'),
       Monster(
           id: 'treant',
           name: '움직이는 나무',

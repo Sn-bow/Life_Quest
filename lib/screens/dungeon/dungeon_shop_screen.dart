@@ -5,6 +5,7 @@ import 'package:life_quest_final_v2/models/relic_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/widgets/relic_icon.dart';
 
 class DungeonShopScreen extends StatefulWidget {
   const DungeonShopScreen({super.key});
@@ -555,15 +556,7 @@ class _RelicShopItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.purple.withValues(alpha: isDark ? 0.3 : 0.15),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(Icons.diamond, color: Colors.purple, size: 22),
-            ),
+            RelicIcon(relic: relic, size: 44),
             const SizedBox(width: 12),
             Expanded(
               child: Column(

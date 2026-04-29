@@ -20,6 +20,7 @@ class RelicDatabase {
           rarity: RelicRarity.starter,
           description: '전투 보상 카드 선택지 +1장 (3→4)',
           trigger: RelicTrigger.passive,
+          spritePath: 'assets/images/game/relics/relic_ancient_scroll.png',
         ),
         RelicData(
           id: 'relic_start_02',
@@ -27,6 +28,7 @@ class RelicDatabase {
           rarity: RelicRarity.starter,
           description: '시작 HP +15',
           trigger: RelicTrigger.passive,
+          spritePath: 'assets/images/game/relics/relic_bone_necklace.png',
         ),
         RelicData(
           id: 'relic_start_03',
@@ -34,6 +36,7 @@ class RelicDatabase {
           rarity: RelicRarity.starter,
           description: '전투 골드 +30%',
           trigger: RelicTrigger.passive,
+          spritePath: 'assets/images/game/relics/relic_lucky_coin.png',
         ),
       ];
 
@@ -44,6 +47,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '매 턴 시작 시 방어 4 자동 획득',
       trigger: RelicTrigger.onTurnStart,
+      spritePath: 'assets/images/game/relics/relic_thorn_shield.png',
     ),
     RelicData(
       id: 'relic_c02',
@@ -51,6 +55,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '전투 시작 시 HP 5 회복',
       trigger: RelicTrigger.onCombatStart,
+      spritePath: 'assets/images/game/relics/relic_elixir_life.png',
     ),
     RelicData(
       id: 'relic_c03',
@@ -58,6 +63,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '3턴마다 에너지 +1',
       trigger: RelicTrigger.onTurnStart,
+      spritePath: 'assets/images/game/relics/relic_soul_crystal.png',
     ),
     RelicData(
       id: 'relic_c04',
@@ -65,6 +71,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '첫 번째 공격 카드 데미지 +3',
       trigger: RelicTrigger.onAttack,
+      spritePath: 'assets/images/game/relics/relic_berserker_axe.png',
     ),
     RelicData(
       id: 'relic_c05',
@@ -72,6 +79,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '전투 보상 골드 +15',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_iron_fist.png',
     ),
     RelicData(
       id: 'relic_c06',
@@ -79,6 +87,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '첫 턴 카드 드로우 +2',
       trigger: RelicTrigger.onCombatStart,
+      spritePath: 'assets/images/game/relics/relic_feather_swift.png',
     ),
     RelicData(
       id: 'relic_c07',
@@ -86,6 +95,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '전투 시작 시 적 전체 독 2',
       trigger: RelicTrigger.onCombatStart,
+      spritePath: 'assets/images/game/relics/relic_poison_vial.png',
     ),
     RelicData(
       id: 'relic_c08',
@@ -93,6 +103,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '가시 1 (영구)',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_burning_heart.png',
     ),
     RelicData(
       id: 'relic_c09',
@@ -100,6 +111,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '비용 0 카드 사용 시 방어 2',
       trigger: RelicTrigger.onCardPlay,
+      spritePath: 'assets/images/game/relics/relic_frost_ring.png',
     ),
     RelicData(
       id: 'relic_c10',
@@ -107,6 +119,7 @@ class RelicDatabase {
       rarity: RelicRarity.common,
       description: '패에 공격 카드만 있으면 에너지 +1',
       trigger: RelicTrigger.onTurnStart,
+      spritePath: 'assets/images/game/relics/relic_war_drum.png',
     ),
   ];
 
@@ -117,6 +130,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '공격 카드 사용 시 20% 확률 약화 1턴',
       trigger: RelicTrigger.onAttack,
+      spritePath: 'assets/images/game/relics/relic_void_shard.png',
     ),
     RelicData(
       id: 'relic_u02',
@@ -124,6 +138,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '마법 카드 데미지 +25%',
       trigger: RelicTrigger.onCardPlay,
+      spritePath: 'assets/images/game/relics/relic_arcane_tome.png',
     ),
     RelicData(
       id: 'relic_u03',
@@ -131,6 +146,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '사망 시 1회 HP 30%로 부활',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_feather_swift.png',
     ),
     RelicData(
       id: 'relic_u04',
@@ -138,6 +154,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '첫 3턴 에너지 +1',
       trigger: RelicTrigger.onTurnStart,
+      spritePath: 'assets/images/game/relics/relic_hourglass.png',
     ),
     RelicData(
       id: 'relic_u05',
@@ -145,6 +162,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '적 처치 시 HP 5 회복',
       trigger: RelicTrigger.onEnemyKill,
+      spritePath: 'assets/images/game/relics/relic_skull_lantern.png',
     ),
     RelicData(
       id: 'relic_u06',
@@ -152,6 +170,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '첫 번째 디버프 반사 (1회)',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_dark_mirror.png',
     ),
     RelicData(
       id: 'relic_u07',
@@ -159,6 +178,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '맵에서 다음 층 전체 공개',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_star_map.png',
     ),
     RelicData(
       id: 'relic_u08',
@@ -166,6 +186,7 @@ class RelicDatabase {
       rarity: RelicRarity.uncommon,
       description: '상점에서 무료 카드 제거 1회',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_mana_prism.png',
     ),
   ];
 
@@ -176,6 +197,7 @@ class RelicDatabase {
       rarity: RelicRarity.rare,
       description: '받는 데미지 -1 (모든 공격)',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_dragon_scale.png',
     ),
     RelicData(
       id: 'relic_r02',
@@ -183,6 +205,7 @@ class RelicDatabase {
       rarity: RelicRarity.rare,
       description: '적 의도를 정확한 숫자로 표시',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_void_eye.png',
     ),
     RelicData(
       id: 'relic_r03',
@@ -190,6 +213,7 @@ class RelicDatabase {
       rarity: RelicRarity.rare,
       description: '카드 최대 보유 +1 (패에 6장)',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_shadow_cloak.png',
     ),
     RelicData(
       id: 'relic_r04',
@@ -197,6 +221,7 @@ class RelicDatabase {
       rarity: RelicRarity.rare,
       description: '에너지 최대 +1 (3→4)',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_blood_rune.png',
     ),
     RelicData(
       id: 'relic_r05',
@@ -204,6 +229,7 @@ class RelicDatabase {
       rarity: RelicRarity.rare,
       description: '카드 보상에서 레어 이상 확률 2배',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_spider_web.png',
     ),
   ];
 
@@ -214,6 +240,7 @@ class RelicDatabase {
       rarity: RelicRarity.boss,
       description: '에너지 최대 +1, 시작 시 저주 1장',
       trigger: RelicTrigger.onCombatStart,
+      spritePath: 'assets/images/game/relics/relic_iron_crown.png',
     ),
     RelicData(
       id: 'relic_b02',
@@ -221,6 +248,7 @@ class RelicDatabase {
       rarity: RelicRarity.boss,
       description: '모든 카드 데미지 +5, 받는 데미지 +5',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_burning_heart.png',
     ),
     RelicData(
       id: 'relic_b03',
@@ -228,6 +256,7 @@ class RelicDatabase {
       rarity: RelicRarity.boss,
       description: '휴식 노드에서 HP 완전 회복',
       trigger: RelicTrigger.passive,
+      spritePath: 'assets/images/game/relics/relic_elixir_life.png',
     ),
     RelicData(
       id: 'relic_b04',
@@ -235,6 +264,7 @@ class RelicDatabase {
       rarity: RelicRarity.boss,
       description: '매 턴 랜덤 카드 1장 패에 생성',
       trigger: RelicTrigger.onTurnStart,
+      spritePath: 'assets/images/game/relics/relic_charm_bracelet.png',
     ),
     RelicData(
       id: 'relic_b05',
@@ -242,6 +272,7 @@ class RelicDatabase {
       rarity: RelicRarity.boss,
       description: '첫 턴 추가 턴 1회',
       trigger: RelicTrigger.onCombatStart,
+      spritePath: 'assets/images/game/relics/relic_meditation_bell.png',
     ),
   ];
 

@@ -1439,6 +1439,19 @@ class _HandCard extends StatelessWidget {
     }
   }
 
+  String get _iconAsset {
+    switch (card.category) {
+      case CardCategory.attack:
+        return 'assets/images/game/cards/icons/icon_attack.png';
+      case CardCategory.defense:
+        return 'assets/images/game/cards/icons/icon_defense.png';
+      case CardCategory.magic:
+        return 'assets/images/game/cards/icons/icon_magic.png';
+      case CardCategory.tactical:
+        return 'assets/images/game/cards/icons/icon_tactical.png';
+    }
+  }
+
   Color get _borderColor {
     switch (card.category) {
       case CardCategory.attack:
@@ -1522,7 +1535,20 @@ class _HandCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 3),
+                    // ── 카드 카테고리 아이콘 ──
+                    Center(
+                      child: SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: Image.asset(
+                          _iconAsset,
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 3),
                     // 설명
                     Expanded(
                       child: Container(
