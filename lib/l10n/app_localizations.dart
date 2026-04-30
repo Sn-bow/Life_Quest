@@ -678,6 +678,18 @@ abstract class AppLocalizations {
   /// **'기본 보상'**
   String get questsBaseRewardLabel;
 
+  /// No description provided for @questsGoldUnit.
+  ///
+  /// In ko, this message translates to:
+  /// **'골드'**
+  String get questsGoldUnit;
+
+  /// No description provided for @questsAdRewardApplied.
+  ///
+  /// In ko, this message translates to:
+  /// **'🎉 광고 보상 적용'**
+  String get questsAdRewardApplied;
+
   /// No description provided for @questsDoubleAdButton.
   ///
   /// In ko, this message translates to:
@@ -755,6 +767,30 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'레이드 클리어 {count}회 달성'**
   String questsRaidClear(int count);
+
+  /// No description provided for @questsRewardSummary.
+  ///
+  /// In ko, this message translates to:
+  /// **'총 보상: {xp} XP · {gold} 골드 · AP +{ap}'**
+  String questsRewardSummary(int xp, int gold, int ap);
+
+  /// No description provided for @questsRewardStatPoints.
+  ///
+  /// In ko, this message translates to:
+  /// **'추가 스탯 포인트 +{sp}'**
+  String questsRewardStatPoints(int sp);
+
+  /// No description provided for @questsRewardUnlockedTitles.
+  ///
+  /// In ko, this message translates to:
+  /// **'해금 칭호: {titles}'**
+  String questsRewardUnlockedTitles(String titles);
+
+  /// No description provided for @questsRewardUnlockedCosmetics.
+  ///
+  /// In ko, this message translates to:
+  /// **'해금 보상: {cosmetics}'**
+  String questsRewardUnlockedCosmetics(String cosmetics);
 
   /// No description provided for @questsRaidBonusMonthly.
   ///
@@ -1097,6 +1133,42 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'상점'**
   String get shopScreenTitle;
+
+  /// No description provided for @defaultReward1Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'맛있는 간식 먹기'**
+  String get defaultReward1Name;
+
+  /// No description provided for @defaultReward1Desc.
+  ///
+  /// In ko, this message translates to:
+  /// **'좋아하는 간식 1개 먹기'**
+  String get defaultReward1Desc;
+
+  /// No description provided for @defaultReward2Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'게임 30분 하기'**
+  String get defaultReward2Name;
+
+  /// No description provided for @defaultReward2Desc.
+  ///
+  /// In ko, this message translates to:
+  /// **'죄책감 없이 30분 플레이하기'**
+  String get defaultReward2Desc;
+
+  /// No description provided for @defaultReward3Name.
+  ///
+  /// In ko, this message translates to:
+  /// **'보고싶던 영상/영화 시청'**
+  String get defaultReward3Name;
+
+  /// No description provided for @defaultReward3Desc.
+  ///
+  /// In ko, this message translates to:
+  /// **'유튜브나 넷플릭스 1시간 보기'**
+  String get defaultReward3Desc;
 
   /// No description provided for @shopTabGameItems.
   ///
@@ -1632,6 +1704,12 @@ abstract class AppLocalizations {
   /// **'탈퇴 확인'**
   String get settingsWithdrawConfirm;
 
+  /// No description provided for @settingsReauthPasswordTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호 확인'**
+  String get settingsReauthPasswordTitle;
+
   /// No description provided for @settingsPrivacyPolicy.
   ///
   /// In ko, this message translates to:
@@ -1805,6 +1883,18 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'코스메틱 상품은 추후 오픈 예정입니다. 현재는 광고 후원형 운영에 집중하고 있습니다.'**
   String get cosmeticComingSoonSnackbar;
+
+  /// No description provided for @cosmeticUnlocked.
+  ///
+  /// In ko, this message translates to:
+  /// **'아이템이 해금되었습니다!'**
+  String get cosmeticUnlocked;
+
+  /// No description provided for @cosmeticPurchaseError.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매 중 오류가 발생했습니다'**
+  String get cosmeticPurchaseError;
 
   /// No description provided for @questTileEditTooltip.
   ///
@@ -2706,6 +2796,18 @@ abstract class AppLocalizations {
   /// **'강화됨'**
   String get dungeonRestCardUpgraded;
 
+  /// No description provided for @dungeonRestCardUpgradeResult.
+  ///
+  /// In ko, this message translates to:
+  /// **'\"{name}\" 카드가 강화되었습니다!'**
+  String dungeonRestCardUpgradeResult(String name);
+
+  /// No description provided for @dungeonEventCardRewardTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드를 선택하세요'**
+  String get dungeonEventCardRewardTitle;
+
   /// No description provided for @dungeonShopTitle.
   ///
   /// In ko, this message translates to:
@@ -2999,6 +3101,66 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'건너뛰기'**
   String get cardBattleSkipButton;
+
+  /// No description provided for @cardBattleEpEmpty.
+  ///
+  /// In ko, this message translates to:
+  /// **'EP 부족'**
+  String get cardBattleEpEmpty;
+
+  /// No description provided for @cardBattlePlayableCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}장 출격 가능'**
+  String cardBattlePlayableCount(int count);
+
+  /// No description provided for @cardBattleDrawPile.
+  ///
+  /// In ko, this message translates to:
+  /// **'드로우'**
+  String get cardBattleDrawPile;
+
+  /// No description provided for @cardBattleDiscardPile.
+  ///
+  /// In ko, this message translates to:
+  /// **'버린덱'**
+  String get cardBattleDiscardPile;
+
+  /// No description provided for @cardBattleIntentAttack.
+  ///
+  /// In ko, this message translates to:
+  /// **'공격'**
+  String get cardBattleIntentAttack;
+
+  /// No description provided for @cardBattleIntentMultiAttack.
+  ///
+  /// In ko, this message translates to:
+  /// **'연속공격'**
+  String get cardBattleIntentMultiAttack;
+
+  /// No description provided for @cardBattleIntentDefend.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어'**
+  String get cardBattleIntentDefend;
+
+  /// No description provided for @cardBattleIntentBuff.
+  ///
+  /// In ko, this message translates to:
+  /// **'강화'**
+  String get cardBattleIntentBuff;
+
+  /// No description provided for @cardBattleIntentDebuff.
+  ///
+  /// In ko, this message translates to:
+  /// **'약화'**
+  String get cardBattleIntentDebuff;
+
+  /// No description provided for @cardBattleIntentUnknown.
+  ///
+  /// In ko, this message translates to:
+  /// **'?'**
+  String get cardBattleIntentUnknown;
 
   /// No description provided for @cardRarityCommon.
   ///
@@ -7140,60 +7302,53 @@ abstract class AppLocalizations {
   /// **'심연의 차원'**
   String get chapterName5;
 
-  /// Timer duration chip: 15 minutes
+  /// No description provided for @timerDuration15.
+  ///
+  /// In ko, this message translates to:
+  /// **'15분'**
   String get timerDuration15;
 
-  /// Timer duration chip: 25 minutes
+  /// No description provided for @timerDuration25.
+  ///
+  /// In ko, this message translates to:
+  /// **'25분'**
   String get timerDuration25;
 
-  /// Timer duration chip: 45 minutes
+  /// No description provided for @timerDuration45.
+  ///
+  /// In ko, this message translates to:
+  /// **'45분'**
   String get timerDuration45;
 
-  /// Timer duration chip: 60 minutes
+  /// No description provided for @timerDuration60.
+  ///
+  /// In ko, this message translates to:
+  /// **'60분'**
   String get timerDuration60;
 
-  /// Hunt: AP recovered snackbar message
+  /// No description provided for @huntApRecovered.
+  ///
+  /// In ko, this message translates to:
+  /// **'⚡ AP가 2 회복되었습니다!'**
   String get huntApRecovered;
 
-  /// Hunt: skill cooldown remaining turns label
+  /// No description provided for @huntSkillCooldownTurns.
   ///
-  /// In ko, this message translates to: **'{turns}턴'**
+  /// In ko, this message translates to:
+  /// **'{turns}턴'**
   String huntSkillCooldownTurns(int turns);
 
-  /// Settings: re-authentication failure message
+  /// No description provided for @settingsReauthFailed.
   ///
-  /// In ko, this message translates to: **'재인증 실패: {error}'**
+  /// In ko, this message translates to:
+  /// **'재인증 실패: {error}'**
   String settingsReauthFailed(String error);
 
-  /// Settings: wrong password fallback message
+  /// No description provided for @settingsReauthWrongPassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호가 올바르지 않습니다.'**
   String get settingsReauthWrongPassword;
-
-  /// Quests: gold unit label
-  String get questsGoldUnit;
-
-  /// Quests: ad reward applied message
-  String get questsAdRewardApplied;
-
-  /// Quests: reward summary
-  String questsRewardSummary(int xp, int gold, int ap);
-
-  /// Quests: reward stat points
-  String questsRewardStatPoints(int sp);
-
-  /// Quests: unlocked titles
-  String questsRewardUnlockedTitles(String titles);
-
-  /// Quests: unlocked cosmetics
-  String questsRewardUnlockedCosmetics(String cosmetics);
-
-  /// Settings: reauth password dialog title
-  String get settingsReauthPasswordTitle;
-
-  /// Cosmetic: item unlocked message
-  String get cosmeticUnlocked;
-
-  /// Cosmetic: purchase error message
-  String get cosmeticPurchaseError;
 }
 
 class _AppLocalizationsDelegate

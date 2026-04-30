@@ -314,6 +314,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get questsBaseRewardLabel => '기본 보상';
 
   @override
+  String get questsGoldUnit => '골드';
+
+  @override
+  String get questsAdRewardApplied => '🎉 광고 보상 적용';
+
+  @override
   String questsDoubleAdButton(int remaining) {
     return '광고 보고 2배 받기 ($remaining회)';
   }
@@ -358,6 +364,26 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String questsRaidClear(int count) {
     return '레이드 클리어 $count회 달성';
+  }
+
+  @override
+  String questsRewardSummary(int xp, int gold, int ap) {
+    return '총 보상: $xp XP · $gold 골드 · AP +$ap';
+  }
+
+  @override
+  String questsRewardStatPoints(int sp) {
+    return '추가 스탯 포인트 +$sp';
+  }
+
+  @override
+  String questsRewardUnlockedTitles(String titles) {
+    return '해금 칭호: $titles';
+  }
+
+  @override
+  String questsRewardUnlockedCosmetics(String cosmetics) {
+    return '해금 보상: $cosmetics';
   }
 
   @override
@@ -548,6 +574,24 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get shopScreenTitle => '상점';
+
+  @override
+  String get defaultReward1Name => '맛있는 간식 먹기';
+
+  @override
+  String get defaultReward1Desc => '좋아하는 간식 1개 먹기';
+
+  @override
+  String get defaultReward2Name => '게임 30분 하기';
+
+  @override
+  String get defaultReward2Desc => '죄책감 없이 30분 플레이하기';
+
+  @override
+  String get defaultReward3Name => '보고싶던 영상/영화 시청';
+
+  @override
+  String get defaultReward3Desc => '유튜브나 넷플릭스 1시간 보기';
 
   @override
   String get shopTabGameItems => '게임 아이템';
@@ -835,6 +879,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsWithdrawConfirm => '탈퇴 확인';
 
   @override
+  String get settingsReauthPasswordTitle => '비밀번호 확인';
+
+  @override
   String get settingsPrivacyPolicy => '개인정보처리방침';
 
   @override
@@ -928,6 +975,12 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get cosmeticComingSoonSnackbar =>
       '코스메틱 상품은 추후 오픈 예정입니다. 현재는 광고 후원형 운영에 집중하고 있습니다.';
+
+  @override
+  String get cosmeticUnlocked => '아이템이 해금되었습니다!';
+
+  @override
+  String get cosmeticPurchaseError => '구매 중 오류가 발생했습니다';
 
   @override
   String get questTileEditTooltip => '퀘스트 수정';
@@ -1419,6 +1472,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dungeonRestCardUpgraded => '강화됨';
 
   @override
+  String dungeonRestCardUpgradeResult(String name) {
+    return '\"$name\" 카드가 강화되었습니다!';
+  }
+
+  @override
+  String get dungeonEventCardRewardTitle => '카드를 선택하세요';
+
+  @override
   String get dungeonShopTitle => '던전 상점';
 
   @override
@@ -1576,6 +1637,38 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cardBattleSkipButton => '건너뛰기';
+
+  @override
+  String get cardBattleEpEmpty => 'EP 부족';
+
+  @override
+  String cardBattlePlayableCount(int count) {
+    return '$count장 출격 가능';
+  }
+
+  @override
+  String get cardBattleDrawPile => '드로우';
+
+  @override
+  String get cardBattleDiscardPile => '버린덱';
+
+  @override
+  String get cardBattleIntentAttack => '공격';
+
+  @override
+  String get cardBattleIntentMultiAttack => '연속공격';
+
+  @override
+  String get cardBattleIntentDefend => '방어';
+
+  @override
+  String get cardBattleIntentBuff => '강화';
+
+  @override
+  String get cardBattleIntentDebuff => '약화';
+
+  @override
+  String get cardBattleIntentUnknown => '?';
 
   @override
   String get cardRarityCommon => '일반';
@@ -3678,38 +3771,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get huntApRecovered => '⚡ AP가 2 회복되었습니다!';
 
   @override
-  String huntSkillCooldownTurns(int turns) => '${turns}턴';
+  String huntSkillCooldownTurns(int turns) {
+    return '$turns턴';
+  }
 
   @override
-  String settingsReauthFailed(String error) => '재인증 실패: $error';
+  String settingsReauthFailed(String error) {
+    return '재인증 실패: $error';
+  }
 
   @override
   String get settingsReauthWrongPassword => '비밀번호가 올바르지 않습니다.';
-
-  @override
-  String get questsGoldUnit => '골드';
-
-  @override
-  String get questsAdRewardApplied => '🎉 광고 보상 적용';
-
-  @override
-  String questsRewardSummary(int xp, int gold, int ap) => '총 보상: $xp XP · $gold 골드 · AP +$ap';
-
-  @override
-  String questsRewardStatPoints(int sp) => '추가 스탯 포인트 +$sp';
-
-  @override
-  String questsRewardUnlockedTitles(String titles) => '해금 칭호: $titles';
-
-  @override
-  String questsRewardUnlockedCosmetics(String cosmetics) => '해금 보상: $cosmetics';
-
-  @override
-  String get settingsReauthPasswordTitle => '비밀번호 확인';
-
-  @override
-  String get cosmeticUnlocked => '아이템이 해금되었습니다!';
-
-  @override
-  String get cosmeticPurchaseError => '구매 중 오류가 발생했습니다';
 }

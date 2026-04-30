@@ -311,6 +311,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get questsBaseRewardLabel => '基础奖励';
 
   @override
+  String get questsGoldUnit => '金币';
+
+  @override
+  String get questsAdRewardApplied => '🎉 广告奖励已应用';
+
+  @override
   String questsDoubleAdButton(int remaining) {
     return '看广告获得2倍奖励 (剩余$remaining次)';
   }
@@ -355,6 +361,26 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String questsRaidClear(int count) {
     return '副本通关 $count 次';
+  }
+
+  @override
+  String questsRewardSummary(int xp, int gold, int ap) {
+    return '总奖励: $xp XP · $gold 金币 · AP +$ap';
+  }
+
+  @override
+  String questsRewardStatPoints(int sp) {
+    return '额外属性点 +$sp';
+  }
+
+  @override
+  String questsRewardUnlockedTitles(String titles) {
+    return '解锁称号: $titles';
+  }
+
+  @override
+  String questsRewardUnlockedCosmetics(String cosmetics) {
+    return '解锁奖励: $cosmetics';
   }
 
   @override
@@ -543,6 +569,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get shopScreenTitle => '商店';
+
+  @override
+  String get defaultReward1Name => '吃好吃的零食';
+
+  @override
+  String get defaultReward1Desc => '享用一份喜欢的零食';
+
+  @override
+  String get defaultReward2Name => '玩30分钟游戏';
+
+  @override
+  String get defaultReward2Desc => '无愧疚地玩30分钟';
+
+  @override
+  String get defaultReward3Name => '看想看的视频/电影';
+
+  @override
+  String get defaultReward3Desc => '看YouTube或Netflix一小时';
 
   @override
   String get shopTabGameItems => '游戏道具';
@@ -823,6 +867,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsWithdrawConfirm => '确认注销';
 
   @override
+  String get settingsReauthPasswordTitle => '确认密码';
+
+  @override
   String get settingsPrivacyPolicy => '隐私政策';
 
   @override
@@ -914,6 +961,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cosmeticComingSoonSnackbar => '装饰商品即将推出。目前专注于广告支持型运营。';
+
+  @override
+  String get cosmeticUnlocked => '物品已解锁！';
+
+  @override
+  String get cosmeticPurchaseError => '购买失败';
 
   @override
   String get questTileEditTooltip => '编辑任务';
@@ -1400,6 +1453,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dungeonRestCardUpgraded => '已强化';
 
   @override
+  String dungeonRestCardUpgradeResult(String name) {
+    return '「$name」卡牌已强化！';
+  }
+
+  @override
+  String get dungeonEventCardRewardTitle => '请选择一张卡牌';
+
+  @override
   String get dungeonShopTitle => '地下城商店';
 
   @override
@@ -1557,6 +1618,38 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cardBattleSkipButton => '跳过';
+
+  @override
+  String get cardBattleEpEmpty => 'EP不足';
+
+  @override
+  String cardBattlePlayableCount(int count) {
+    return '可出$count张';
+  }
+
+  @override
+  String get cardBattleDrawPile => '摸牌';
+
+  @override
+  String get cardBattleDiscardPile => '弃牌';
+
+  @override
+  String get cardBattleIntentAttack => '攻击';
+
+  @override
+  String get cardBattleIntentMultiAttack => '连续攻击';
+
+  @override
+  String get cardBattleIntentDefend => '防御';
+
+  @override
+  String get cardBattleIntentBuff => '强化';
+
+  @override
+  String get cardBattleIntentDebuff => '弱化';
+
+  @override
+  String get cardBattleIntentUnknown => '?';
 
   @override
   String get cardRarityCommon => '普通';
@@ -3652,38 +3745,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get huntApRecovered => '⚡ AP恢复2点！';
 
   @override
-  String huntSkillCooldownTurns(int turns) => '${turns}回合';
+  String huntSkillCooldownTurns(int turns) {
+    return '$turns回合';
+  }
 
   @override
-  String settingsReauthFailed(String error) => '重新验证失败: $error';
+  String settingsReauthFailed(String error) {
+    return '重新验证失败: $error';
+  }
 
   @override
   String get settingsReauthWrongPassword => '密码不正确。';
-
-  @override
-  String get questsGoldUnit => '金币';
-
-  @override
-  String get questsAdRewardApplied => '🎉 广告奖励已应用';
-
-  @override
-  String questsRewardSummary(int xp, int gold, int ap) => '总奖励: $xp XP · $gold 金币 · AP +$ap';
-
-  @override
-  String questsRewardStatPoints(int sp) => '额外属性点 +$sp';
-
-  @override
-  String questsRewardUnlockedTitles(String titles) => '解锁称号: $titles';
-
-  @override
-  String questsRewardUnlockedCosmetics(String cosmetics) => '解锁奖励: $cosmetics';
-
-  @override
-  String get settingsReauthPasswordTitle => '确认密码';
-
-  @override
-  String get cosmeticUnlocked => '物品已解锁！';
-
-  @override
-  String get cosmeticPurchaseError => '购买失败';
 }

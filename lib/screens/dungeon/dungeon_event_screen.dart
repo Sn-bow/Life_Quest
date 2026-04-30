@@ -1,6 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/data/relic_database.dart';
+import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/dungeon_event.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
@@ -15,6 +19,11 @@ class DungeonEventScreen extends StatefulWidget {
 class _DungeonEventScreenState extends State<DungeonEventScreen> {
   EventOutcome? _selectedOutcome;
   bool _choiceMade = false;
+
+  // Card reward pick phase (after choice)
+  List<CardData> _cardRewardChoices = [];
+  bool _cardPickRequired = false;
+  bool _cardPicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -133,12 +142,91 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
                 isDark: isDark,
                 accent: accent,
               ),
+
+              // Card reward pick UI (shown if outcome has cardReward)
+              if (_cardPickRequired && !_cardPicked) ...[
+                const SizedBox(height: 16),
+                Text(
+                  l10n.dungeonEventCardRewardTitle,
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white60 : Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: _cardRewardChoices.map((card) {
+                    return GestureDetector(
+                      onTap: () {
+                        final dungeonState = context.read<DungeonState>();
+                        dungeonState.addCardToDeck(card);
+                        setState(() => _cardPicked = true);
+                      },
+                      child: Container(
+                        width: 90,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? accent.withValues(alpha: 0.1)
+                              : accent.withValues(alpha: 0.05),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: accent.withValues(alpha: 0.4),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '${card.cost}',
+                              style: TextStyle(
+                                color: Colors.amber.shade400,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              CardLocalization.localizedName(card, l10n),
+                              style: TextStyle(
+                                fontFamily: 'monospace',
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? Colors.white : Colors.black87,
+                              ),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              CardLocalization.localizedDescription(card, l10n),
+                              style: TextStyle(
+                                fontFamily: 'monospace',
+                                fontSize: 9,
+                                color: isDark ? Colors.white54 : Colors.black45,
+                              ),
+                              textAlign: TextAlign.center,
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
             ],
 
             const Spacer(),
 
-            // Continue button (only after choice)
-            if (_choiceMade)
+            // Continue button (only after choice, and after card pick if required)
+            if (_choiceMade && (!_cardPickRequired || _cardPicked))
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -172,13 +260,11 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
     final rng = Random();
     final outcome = choice.outcomes[rng.nextInt(choice.outcomes.length)];
 
-    // Apply effects
+    // ── Gold / HP ──
     if (outcome.goldChange != 0) {
       if (outcome.goldChange > 0) {
         dungeonState.addGold(outcome.goldChange);
       } else {
-        // Button was already disabled if player can't afford, so this
-        // should succeed. Guard still present as safety net.
         dungeonState.spendGold(-outcome.goldChange);
       }
     }
@@ -198,9 +284,67 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
       }
     }
 
+    // ── Relic reward: add a random relic the player doesn't already own ──
+    if (outcome.relicReward) {
+      final all = RelicDatabase.allRelics.toList()..shuffle(rng);
+      final available = all.where(
+        (r) => !dungeonState.currentRelics.any((cr) => cr.id == r.id),
+      ).toList();
+      if (available.isNotEmpty) {
+        dungeonState.addRelic(available.first);
+      }
+    }
+
+    // ── Card upgrade: upgrade a random non-upgraded card in the deck ──
+    if (outcome.cardUpgrade) {
+      final nonUpgraded = dungeonState.currentDeck
+          .asMap()
+          .entries
+          .where((e) => !e.value.isUpgraded)
+          .toList();
+      if (nonUpgraded.isNotEmpty) {
+        final entry = nonUpgraded[rng.nextInt(nonUpgraded.length)];
+        dungeonState.upgradeCard(entry.key);
+      }
+    }
+
+    // ── Card removal: remove a random card from the deck ──
+    if (outcome.cardRemove) {
+      if (dungeonState.currentDeck.isNotEmpty) {
+        final idx = rng.nextInt(dungeonState.currentDeck.length);
+        dungeonState.removeCardFromDeck(idx);
+      }
+    }
+
+    // ── Curse added: add a random curse card to the deck ──
+    if (outcome.curseAdded) {
+      final curses = CardDatabase.curseCards.toList()..shuffle(rng);
+      if (curses.isNotEmpty) {
+        dungeonState.addCardToDeck(curses.first);
+      }
+    }
+
+    // ── Card reward: prepare 3 card choices for player to pick from ──
+    List<CardData> cardChoices = [];
+    bool needsCardPick = false;
+    if (outcome.cardReward) {
+      final pool = CardDatabase.allCards
+          .where((c) =>
+              c.rarity != CardRarity.common &&
+              !c.id.startsWith('curse_') &&
+              !c.isUpgraded)
+          .toList()
+        ..shuffle(rng);
+      cardChoices = pool.take(3).toList();
+      needsCardPick = cardChoices.isNotEmpty;
+    }
+
     setState(() {
       _selectedOutcome = outcome;
       _choiceMade = true;
+      _cardRewardChoices = cardChoices;
+      _cardPickRequired = needsCardPick;
+      _cardPicked = false;
     });
   }
 }

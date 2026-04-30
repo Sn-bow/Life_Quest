@@ -322,6 +322,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get questsBaseRewardLabel => 'Base Reward';
 
   @override
+  String get questsGoldUnit => 'Gold';
+
+  @override
+  String get questsAdRewardApplied => '🎉 Ad Reward Applied';
+
+  @override
   String questsDoubleAdButton(int remaining) {
     return 'Watch Ad for 2x Reward ($remaining left)';
   }
@@ -366,6 +372,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String questsRaidClear(int count) {
     return 'Raid cleared $count time(s)';
+  }
+
+  @override
+  String questsRewardSummary(int xp, int gold, int ap) {
+    return 'Total rewards: $xp XP · $gold Gold · AP +$ap';
+  }
+
+  @override
+  String questsRewardStatPoints(int sp) {
+    return 'Bonus stat points +$sp';
+  }
+
+  @override
+  String questsRewardUnlockedTitles(String titles) {
+    return 'Unlocked titles: $titles';
+  }
+
+  @override
+  String questsRewardUnlockedCosmetics(String cosmetics) {
+    return 'Unlocked rewards: $cosmetics';
   }
 
   @override
@@ -559,6 +585,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopScreenTitle => 'Shop';
+
+  @override
+  String get defaultReward1Name => 'Eat a tasty snack';
+
+  @override
+  String get defaultReward1Desc => 'Enjoy your favorite snack';
+
+  @override
+  String get defaultReward2Name => '30 minutes of gaming';
+
+  @override
+  String get defaultReward2Desc => 'Play guilt-free for 30 minutes';
+
+  @override
+  String get defaultReward3Name => 'Watch a video or movie';
+
+  @override
+  String get defaultReward3Desc => 'Watch YouTube or Netflix for 1 hour';
 
   @override
   String get shopTabGameItems => 'Game Items';
@@ -852,6 +896,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsWithdrawConfirm => 'Confirm Deletion';
 
   @override
+  String get settingsReauthPasswordTitle => 'Confirm Password';
+
+  @override
   String get settingsPrivacyPolicy => 'Privacy Policy';
 
   @override
@@ -945,6 +992,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cosmeticComingSoonSnackbar =>
       'Cosmetic items coming soon. Currently focused on ad-supported model.';
+
+  @override
+  String get cosmeticUnlocked => 'Item unlocked!';
+
+  @override
+  String get cosmeticPurchaseError => 'Purchase failed';
 
   @override
   String get questTileEditTooltip => 'Edit Quest';
@@ -1446,6 +1499,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dungeonRestCardUpgraded => 'Upgraded';
 
   @override
+  String dungeonRestCardUpgradeResult(String name) {
+    return '\"$name\" card has been upgraded!';
+  }
+
+  @override
+  String get dungeonEventCardRewardTitle => 'Select a card';
+
+  @override
   String get dungeonShopTitle => 'Dungeon Shop';
 
   @override
@@ -1607,6 +1668,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cardBattleSkipButton => 'Skip';
+
+  @override
+  String get cardBattleEpEmpty => 'No EP';
+
+  @override
+  String cardBattlePlayableCount(int count) {
+    return '$count playable';
+  }
+
+  @override
+  String get cardBattleDrawPile => 'Draw';
+
+  @override
+  String get cardBattleDiscardPile => 'Discard';
+
+  @override
+  String get cardBattleIntentAttack => 'Attack';
+
+  @override
+  String get cardBattleIntentMultiAttack => 'Multi-Hit';
+
+  @override
+  String get cardBattleIntentDefend => 'Defend';
+
+  @override
+  String get cardBattleIntentBuff => 'Buff';
+
+  @override
+  String get cardBattleIntentDebuff => 'Debuff';
+
+  @override
+  String get cardBattleIntentUnknown => '?';
 
   @override
   String get cardRarityCommon => 'Common';
@@ -3773,38 +3866,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get huntApRecovered => '⚡ AP recovered by 2!';
 
   @override
-  String huntSkillCooldownTurns(int turns) => '$turns turn(s)';
+  String huntSkillCooldownTurns(int turns) {
+    return '$turns turn(s)';
+  }
 
   @override
-  String settingsReauthFailed(String error) => 'Re-authentication failed: $error';
+  String settingsReauthFailed(String error) {
+    return 'Re-authentication failed: $error';
+  }
 
   @override
   String get settingsReauthWrongPassword => 'Incorrect password.';
-
-  @override
-  String get questsGoldUnit => 'Gold';
-
-  @override
-  String get questsAdRewardApplied => '🎉 Ad Reward Applied';
-
-  @override
-  String questsRewardSummary(int xp, int gold, int ap) => 'Total rewards: $xp XP · $gold Gold · AP +$ap';
-
-  @override
-  String questsRewardStatPoints(int sp) => 'Bonus stat points +$sp';
-
-  @override
-  String questsRewardUnlockedTitles(String titles) => 'Unlocked titles: $titles';
-
-  @override
-  String questsRewardUnlockedCosmetics(String cosmetics) => 'Unlocked rewards: $cosmetics';
-
-  @override
-  String get settingsReauthPasswordTitle => 'Confirm Password';
-
-  @override
-  String get cosmeticUnlocked => 'Item unlocked!';
-
-  @override
-  String get cosmeticPurchaseError => 'Purchase failed';
 }

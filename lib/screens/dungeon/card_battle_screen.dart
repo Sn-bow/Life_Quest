@@ -13,6 +13,7 @@ import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/game/battle_game.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/widgets/relic_icon.dart';
 
 // ============================================================================
 // CardBattleScreen
@@ -222,7 +223,8 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                           child: Column(
                             children: [
                               _TopBar(combat: combat, isDark: isDark),
-                              const SizedBox(height: 8),
+                              _RelicSlotBar(isDark: isDark),
+                              const SizedBox(height: 4),
                               Expanded(
                                 flex: 3,
                                 child: _EnemyArea(
@@ -411,6 +413,38 @@ class _CardBattleScreenState extends State<CardBattleScreen>
 }
 
 // ============================================================================
+// Relic slot bar: shows active relics in current dungeon run
+// ============================================================================
+
+class _RelicSlotBar extends StatelessWidget {
+  final bool isDark;
+
+  const _RelicSlotBar({required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    final dungeon = context.watch<DungeonState>();
+    final relics = dungeon.currentRelics;
+
+    if (relics.isEmpty) return const SizedBox.shrink();
+
+    return Container(
+      height: 44,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: relics.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 6),
+        itemBuilder: (context, i) => RelicIconWithTooltip(
+          relic: relics[i],
+          size: 36,
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
 // Top bar: energy, turn, back button
 // ============================================================================
 
@@ -477,7 +511,7 @@ class _TopBar extends StatelessWidget {
             icon: Icons.layers,
             count: combat.drawPile.length,
             isDark: isDark,
-            label: '드로우',
+            label: l10n.cardBattleDrawPile,
           ),
           const SizedBox(width: 8),
           // Discard pile
@@ -485,7 +519,7 @@ class _TopBar extends StatelessWidget {
             icon: Icons.delete_outline,
             count: combat.discardPile.length,
             isDark: isDark,
-            label: '버린덱',
+            label: l10n.cardBattleDiscardPile,
           ),
         ],
       ),
@@ -631,6 +665,7 @@ class _PlayableCardsBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final canPlay = playableCount > 0;
     final noEnergy = currentEnergy == 0;
+    final l10n = AppLocalizations.of(context)!;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
@@ -670,8 +705,8 @@ class _PlayableCardsBadge extends StatelessWidget {
           // 핵심: EP가 얼마고 카드가 몇 장 나오는지 명확하게 표시
           Text(
             noEnergy
-                ? 'EP 부족'
-                : '$playableCount장 출격 가능',
+                ? l10n.cardBattleEpEmpty
+                : l10n.cardBattlePlayableCount(playableCount),
             style: TextStyle(
               color: noEnergy
                   ? Colors.red.shade200
@@ -987,6 +1022,7 @@ class _IntentIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     IconData icon;
     Color color;
     switch (intent.type) {
@@ -1017,12 +1053,12 @@ class _IntentIcon extends StatelessWidget {
     }
 
     final typeLabel = switch (intent.type) {
-      EnemyIntentType.attack => '공격',
-      EnemyIntentType.multiAttack => '연속공격',
-      EnemyIntentType.defend => '방어',
-      EnemyIntentType.buff => '강화',
-      EnemyIntentType.debuff => '약화',
-      EnemyIntentType.unknown => '?',
+      EnemyIntentType.attack => l10n.cardBattleIntentAttack,
+      EnemyIntentType.multiAttack => l10n.cardBattleIntentMultiAttack,
+      EnemyIntentType.defend => l10n.cardBattleIntentDefend,
+      EnemyIntentType.buff => l10n.cardBattleIntentBuff,
+      EnemyIntentType.debuff => l10n.cardBattleIntentDebuff,
+      EnemyIntentType.unknown => l10n.cardBattleIntentUnknown,
     };
 
     return Container(

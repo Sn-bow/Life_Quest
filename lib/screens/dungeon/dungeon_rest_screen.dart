@@ -16,6 +16,7 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
   bool _choiceMade = false;
   String _choiceResult = '';
   bool _showCardSelection = false;
+  CardData? _upgradedCard; // stores the original card before upgrade for l10n display
 
   @override
   Widget build(BuildContext context) {
@@ -96,13 +97,12 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                 deck: dungeonState.currentDeck,
                 isDark: isDark,
                 accent: accent,
-                onCardSelected: (index) {
+                onCardSelected: (index, card) {
                   dungeonState.upgradeCard(index);
                   setState(() {
                     _showCardSelection = false;
                     _choiceMade = true;
-                    _choiceResult =
-                        '"${dungeonState.currentDeck[index].name}" 카드가 강화되었습니다!';
+                    _upgradedCard = card; // original card before upgrade
                   });
                 },
                 onCancel: () {
@@ -171,7 +171,10 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        _choiceResult,
+                        _upgradedCard != null
+                            ? l10n.dungeonRestCardUpgradeResult(
+                                CardLocalization.localizedName(_upgradedCard!, l10n))
+                            : _choiceResult,
                         style: TextStyle(
                           fontFamily: 'monospace',
                           fontSize: 14,
@@ -373,7 +376,7 @@ class _CardSelectionGrid extends StatelessWidget {
   final List<CardData> deck;
   final bool isDark;
   final Color accent;
-  final Function(int) onCardSelected;
+  final Function(int, CardData) onCardSelected;
   final VoidCallback onCancel;
 
   const _CardSelectionGrid({
@@ -383,6 +386,7 @@ class _CardSelectionGrid extends StatelessWidget {
     required this.onCardSelected,
     required this.onCancel,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -430,7 +434,7 @@ class _CardSelectionGrid extends StatelessWidget {
                 return _UpgradeCardWidget(
                   card: card,
                   isDark: isDark,
-                  onTap: () => onCardSelected(index),
+                  onTap: () => onCardSelected(index, card),
                 );
               },
             ),
