@@ -201,6 +201,10 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
         ).then((result) {
           // result = {'won': true, 'hp': finalHp} or false
           if (result is Map && result['won'] == true) {
+            // M-4: 처치한 몬스터 수 기록 (combat=1, elite=2)
+            dungeonState.incrementMonstersKilled(
+              node.type == NodeType.elite ? 2 : 1,
+            );
             // 배틀 후 최종 HP를 dungeon state에 동기화
             if (result['hp'] is int) {
               dungeonState.setPlayerHp(result['hp'] as int);
@@ -229,6 +233,8 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
           ),
         ).then((result) {
           if (result is Map && result['won'] == true) {
+            // M-4: 보스 처치 카운트
+            dungeonState.incrementMonstersKilled(1);
             if (result['hp'] is int) {
               dungeonState.setPlayerHp(result['hp'] as int);
             }

@@ -336,7 +336,7 @@ class CardDatabase {
       description: '첫 턴이면 12 데미지, 아니면 6 데미지.',
       upgradeId: 'atk_c09_up',
       effects: [
-        // Base damage; combat logic handles conditional bonus
+        // 기본값 6; 첫 턴(turnCount==0)이면 card_combat_state에서 2배(12) 적용
         CardEffect(effectType: CardEffectType.damage, value: 6),
       ],
     ),

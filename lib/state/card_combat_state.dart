@@ -587,7 +587,9 @@ class CardCombatState extends ChangeNotifier {
             if (_hasRelic('relic_u02') && card.category == CardCategory.magic) {
               dmg = (dmg * 1.25).floor();
             }
-            _applyDamageToEnemy(dmg, targetIndex);
+            // C-3: mag_c04/mag_c05/업그레이드 버전 — 랜덤 적 타겟
+            final actualTarget = _resolveTarget(card, targetIndex);
+            _applyDamageToEnemy(dmg, actualTarget);
           }
           _addLog('${card.name}: ${effect.value} 피해');
           break;
@@ -1053,6 +1055,23 @@ class CardCombatState extends ChangeNotifier {
     _discardPile.clear();
     _drawPile.shuffle(_rng);
     _addLog('버린 카드 더미를 다시 섞었습니다');
+  }
+
+  // =========================================================================
+  // Private: target resolution (C-3)
+  // =========================================================================
+
+  /// 카드 설명에 "랜덤 적"이 명시된 카드는 적중 대상을 랜덤 선택.
+  /// 단일 적이면 그대로 반환.
+  int _resolveTarget(CardData card, int defaultTarget) {
+    const randomTargetCards = {
+      'mag_c04', 'mag_c04_up',
+      'mag_c05', 'mag_c05_up',
+    };
+    if (randomTargetCards.contains(card.id) && _enemies.length > 1) {
+      return _rng.nextInt(_enemies.length);
+    }
+    return defaultTarget.clamp(0, _enemies.isEmpty ? 0 : _enemies.length - 1);
   }
 
   // =========================================================================

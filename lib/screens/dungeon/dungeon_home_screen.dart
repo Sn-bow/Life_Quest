@@ -453,10 +453,12 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     RelicData? starterRelic;
     final deck = charState.starterDeck.toList();
     if (character.equippedWeapon != null) {
+      // L-2: 항상 첫 번째 카드가 아닌 랜덤 선택
       final attackCards = CardDatabase.getCardsByCategory(CardCategory.attack)
-          .where((c) => c.rarity == CardRarity.common)
+          .where((c) => c.rarity == CardRarity.common && !c.isUpgraded)
           .toList();
       if (attackCards.isNotEmpty) {
+        attackCards.shuffle(math.Random());
         deck.add(attackCards.first);
       }
     }
