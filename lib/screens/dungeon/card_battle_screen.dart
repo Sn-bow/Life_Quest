@@ -14,6 +14,7 @@ import 'package:life_quest_final_v2/game/battle_game.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/widgets/relic_icon.dart';
+import 'package:life_quest_final_v2/state/character_state.dart';
 
 // ============================================================================
 // CardBattleScreen
@@ -113,12 +114,15 @@ class _CardBattleScreenState extends State<CardBattleScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final combatState = context.read<CardCombatState>();
       final dungeonState = context.read<DungeonState>();
+      final charState = context.read<CharacterState>();
       combatState.startCombat(
         widget.deck,
         widget.enemies,
         maxHp: widget.playerMaxHp,
         hp: widget.playerHp,
-        maxEnergy: dungeonState.maxEnergy, // 렐릭 효과 반영
+        maxEnergy: dungeonState.maxEnergy,        // 렐릭 에너지 반영
+        relics: dungeonState.currentRelics,        // C-1: 렐릭 전달
+        playerStrength: charState.character.strength.toInt(), // H-2: STR 전달
       );
     });
   }

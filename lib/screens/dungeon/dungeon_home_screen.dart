@@ -1,11 +1,17 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_map_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/card_collection_screen.dart';
+import 'package:life_quest_final_v2/screens/dungeon/card_pack_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/infinite_tower_screen.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/data/relic_database.dart';
+import 'package:life_quest_final_v2/models/card_data.dart';
+import 'package:life_quest_final_v2/models/relic_data.dart';
 
 class DungeonHomeScreen extends StatefulWidget {
   const DungeonHomeScreen({super.key});
@@ -46,6 +52,50 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
           ],
         ),
         actions: [
+          // 카드 팩 버튼 (보유 팩 수 배지 표시)
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.card_giftcard,
+                  color: charState.cardPackCount > 0
+                      ? Colors.amber
+                      : (isDark ? Colors.white54 : Colors.black45),
+                ),
+                tooltip: '카드 팩 (${charState.cardPackCount}개)',
+                onPressed: charState.cardPackCount > 0
+                    ? () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const CardPackScreen(),
+                          ),
+                        );
+                      }
+                    : null,
+              ),
+              if (charState.cardPackCount > 0)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      '${charState.cardPackCount}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
           IconButton(
             icon: Icon(
               Icons.collections_bookmark,
@@ -110,6 +160,23 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                       _statChip('HP ${character.health.toInt()}', Colors.blue, isDark),
                       const SizedBox(width: 8),
                       _statChip('CHA ${character.charisma.toInt()}', Colors.amber, isDark),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  // 던전 시작 골드 미리보기
+                  Row(
+                    children: [
+                      Icon(Icons.monetization_on, size: 14,
+                          color: isDark ? Colors.amber.shade300 : Colors.amber.shade700),
+                      const SizedBox(width: 4),
+                      Text(
+                        '시작 골드: ${50 + (character.gold * 0.15).clamp(0, 150).toInt()}  (계정 골드 15% 반입)',
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 11,
+                          color: isDark ? Colors.white54 : Colors.black54,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -366,14 +433,70 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     final charState = context.read<CharacterState>();
     final character = charState.character;
 
-    // Calculate player HP based on health stat
-    final playerMaxHp = 80 + (character.health * 2).toInt();
+    // ── 기본 HP ───────────────────────────────────────────────────────────
+    int playerMaxHp = 80 + (character.health * 2).toInt();
+
+    // ── [장비 보너스] 방어구 장착 → 시작 HP +방어력×2 ──────────────────────
+    if (character.equippedArmor != null) {
+      playerMaxHp += (character.equippedArmor!.defensePower * 2).toInt();
+    }
+
+    // ── 시작 골드: 기본 50 + 계정 골드 15% 반입 ──────────────────────────
+    int startingGold = 50 + (character.gold * 0.15).clamp(0, 150).toInt();
+
+    // ── [스트릭 보너스] 시작 골드 추가 보정 ──────────────────────────────
+    if (character.streak >= 3)  startingGold += 30;   // 3일: +30
+    if (character.streak >= 7)  startingGold += 20;   // 7일: 추가 +20
+    if (character.streak >= 14) startingGold += 30;   // 14일: 추가 +30
+
+    // ── [장비 보너스] 무기 장착 → 시작 덱에 공격 카드 1장 추가 ─────────────
+    RelicData? starterRelic;
+    final deck = charState.starterDeck.toList();
+    if (character.equippedWeapon != null) {
+      final attackCards = CardDatabase.getCardsByCategory(CardCategory.attack)
+          .where((c) => c.rarity == CardRarity.common)
+          .toList();
+      if (attackCards.isNotEmpty) {
+        deck.add(attackCards.first);
+      }
+    }
+
+    // ── [장비 보너스] 악세서리 장착 → 시작 렐릭 1개 추가 선택지 ─────────────
+    // H-3: 보스 렐릭(불리한 패널티 포함)은 제외하고 뽑음
+    if (character.equippedAccessory != null) {
+      final relics = RelicDatabase.allRelics
+          .where((r) => r.rarity != RelicRarity.boss)
+          .toList();
+      if (relics.isNotEmpty) {
+        starterRelic = relics[math.Random().nextInt(relics.length)];
+      }
+    }
+
+    // ── [스트릭 보너스] 7일: 카드 선택 1회 추가 (덱에 랜덤 좋은 카드 1장) ─────
+    if (character.streak >= 7) {
+      final uncommonCards = CardDatabase.getCardsByRarity(CardRarity.uncommon);
+      if (uncommonCards.isNotEmpty) {
+        deck.add(uncommonCards[math.Random().nextInt(uncommonCards.length)]);
+      }
+    }
+
+    // ── [스트릭 보너스] 14일: 렐릭 1개 무료 (H-3: 보스 렐릭 제외) ────────────
+    if (character.streak >= 14 && starterRelic == null) {
+      final relics = RelicDatabase.allRelics
+          .where((r) => r.rarity != RelicRarity.boss)
+          .toList();
+      if (relics.isNotEmpty) {
+        starterRelic = relics[math.Random().nextInt(relics.length)];
+      }
+    }
 
     context.read<DungeonState>().startRun(
           zone: zone,
-          startingDeck: charState.starterDeck,
+          startingDeck: deck,
           playerMaxHp: playerMaxHp,
           ascension: _ascensionLevel,
+          starterRelic: starterRelic,
+          startingGold: startingGold,
         );
 
     Navigator.of(context).push(
