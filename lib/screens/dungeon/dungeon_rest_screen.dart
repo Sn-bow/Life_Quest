@@ -120,9 +120,17 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                 color: Colors.green,
                 isDark: isDark,
                 onTap: () {
-                  final healAmount =
-                      (dungeonState.playerMaxHp * 0.3).round();
-                  dungeonState.healPlayerPercent(0.3);
+                  // relic_b03: 부활의 성배 — 휴식 노드 HP 완전 회복
+                  final hasGrail = dungeonState.currentRelics
+                      .any((r) => r.id == 'relic_b03');
+                  final int healAmount;
+                  if (hasGrail) {
+                    healAmount = dungeonState.playerMaxHp - dungeonState.playerHp;
+                    dungeonState.healPlayer(healAmount);
+                  } else {
+                    healAmount = (dungeonState.playerMaxHp * 0.3).round();
+                    dungeonState.healPlayerPercent(0.3);
+                  }
                   setState(() {
                     _choiceMade = true;
                     _choiceResult = l10n.dungeonRestHealResult(healAmount);

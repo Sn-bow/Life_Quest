@@ -15,6 +15,7 @@ import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/widgets/relic_icon.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:life_quest_final_v2/models/relic_data.dart';
 
 // ============================================================================
 // CardBattleScreen
@@ -1909,15 +1910,65 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
 
   void _generateCardChoices() {
     final rng = Random();
-    // Filter out starter/base cards and curse cards; pick non-upgraded cards
-    final pool = CardDatabase.allCards
-        .where((c) =>
-            !c.id.startsWith('base_') &&
-            !c.id.startsWith('curse_') &&
-            !c.isUpgraded)
-        .toList();
-    pool.shuffle(rng);
-    _cardChoices = pool.take(3).toList();
+
+    // 렐릭 확인
+    List<RelicData> relics = [];
+    try {
+      relics = context.read<DungeonState>().currentRelics;
+    } catch (_) {}
+    final hasAdventurerBag = relics.any((r) => r.id == 'relic_start_01');
+    final hasFateThread = relics.any((r) => r.id == 'relic_r05');
+
+    // relic_r05: 운명의 실 — 레어+ 확률 2배
+    // 기본: common 55%, uncommon 30%, rare 12%, legendary 3%
+    // r05 적용: common 46%, uncommon 25%, rare 22%, legendary 7% (레어+ 비율 약 2배)
+    CardData pickOneCard() {
+      final roll = rng.nextDouble();
+      CardRarity rarity;
+      if (hasFateThread) {
+        if (roll < 0.46) { rarity = CardRarity.common; }
+        else if (roll < 0.71) { rarity = CardRarity.uncommon; }
+        else if (roll < 0.93) { rarity = CardRarity.rare; }
+        else { rarity = CardRarity.legendary; }
+      } else {
+        if (roll < 0.55) { rarity = CardRarity.common; }
+        else if (roll < 0.85) { rarity = CardRarity.uncommon; }
+        else if (roll < 0.97) { rarity = CardRarity.rare; }
+        else { rarity = CardRarity.legendary; }
+      }
+      final rarityPool = CardDatabase.allCards
+          .where((c) =>
+              c.rarity == rarity &&
+              !c.id.startsWith('base_') &&
+              !c.id.startsWith('curse_') &&
+              !c.isUpgraded)
+          .toList();
+      if (rarityPool.isEmpty) {
+        // fallback to common
+        final fallback = CardDatabase.getCardsByRarity(CardRarity.common)
+            .where((c) => !c.id.startsWith('base_') && !c.isUpgraded)
+            .toList();
+        return fallback.isNotEmpty ? fallback[rng.nextInt(fallback.length)]
+            : CardDatabase.allCards.first;
+      }
+      return rarityPool[rng.nextInt(rarityPool.length)];
+    }
+
+    // relic_start_01: 모험자의 가방 — 선택지 4장
+    final choiceCount = hasAdventurerBag ? 4 : 3;
+    final picked = <CardData>[];
+    final usedIds = <String>{};
+    for (int i = 0; i < choiceCount; i++) {
+      CardData card = pickOneCard();
+      int attempts = 0;
+      while (usedIds.contains(card.id) && attempts < 10) {
+        card = pickOneCard();
+        attempts++;
+      }
+      usedIds.add(card.id);
+      picked.add(card);
+    }
+    _cardChoices = picked;
   }
 
   void _selectCard(CardData card) {
