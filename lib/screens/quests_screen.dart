@@ -37,6 +37,11 @@ class QuestsScreen extends StatelessWidget {
         l10n.questsRewardUnlockedTitles(result.unlockedTitles.join(', ')),
       if (result.unlockedCosmetics.isNotEmpty)
         l10n.questsRewardUnlockedCosmetics(result.unlockedCosmetics.join(', ')),
+      // CP + 카드 팩 보상 표시
+      if (result.cardPointsAwarded > 0)
+        '⭐ CP +${result.cardPointsAwarded}',
+      if (result.newPacksAwarded > 0)
+        '🎁 카드 팩 +${result.newPacksAwarded}개 획득! (던전 홈에서 열기)',
     ];
     return lines.join('\n');
   }

@@ -32,6 +32,8 @@ class QuestCompletionResult {
   final int raidClearCount;
   final List<String> unlockedTitles;
   final List<String> unlockedCosmetics;
+  final int cardPointsAwarded;
+  final int newPacksAwarded;
 
   const QuestCompletionResult({
     required this.totalXpAwarded,
@@ -42,6 +44,8 @@ class QuestCompletionResult {
     required this.raidClearCount,
     this.unlockedTitles = const [],
     this.unlockedCosmetics = const [],
+    this.cardPointsAwarded = 0,
+    this.newPacksAwarded = 0,
   });
 }
 
@@ -327,6 +331,10 @@ class CharacterState extends ChangeNotifier {
       _achievementProgress;
   List<Skill> get allSkills => _allSkills;
   Set<String> get learnedSkillIds => _learnedSkillIds;
+
+  // Card Pack System
+  int get cardPoints => _character?.cardPoints ?? 0;
+  int get cardPackCount => _character?.cardPackCount ?? 0;
 
   Map<StatType, double> get questCategoryDistribution {
     // Y-1: 캐시가 있으면 재계산 없이 반환 (퀘스트 변경 시 _invalidateQuestCache()로 초기화)
@@ -671,6 +679,21 @@ class CharacterState extends ChangeNotifier {
           ),
         );
       }
+      // ── Card Points (CP) reward ───────────────────────────────────────────
+      final cpGained = _calcCardPoints(quest);
+      _character!.cardPoints += cpGained;
+
+      // Convert every 10 CP into 1 normal pack, every 30 into 1 premium pack
+      // (premium packs handled as normal packs for simplicity — UI can
+      //  differentiate later via cardPoints overflow indicator)
+      int newPacks = 0;
+      while (_character!.cardPoints >= 10) {
+        _character!.cardPoints -= 10;
+        _character!.cardPackCount += 1;
+        newPacks++;
+      }
+      // ─────────────────────────────────────────────────────────────────────
+
       _invalidateQuestCache();
       unawaited(_saveData());
       notifyListeners();
@@ -683,9 +706,45 @@ class CharacterState extends ChangeNotifier {
         raidClearCount: raidClearCount,
         unlockedTitles: unlockedTitleNames.toSet().toList(),
         unlockedCosmetics: unlockedCosmeticNames.toSet().toList(),
+        cardPointsAwarded: cpGained,
+        newPacksAwarded: newPacks,
       );
     }
     return null;
+  }
+
+  /// CP 지급량 계산 (GAME_DESIGN § 2.3 기준)
+  static int _calcCardPoints(Quest quest) {
+    switch (quest.type) {
+      case QuestType.daily:
+        return switch (quest.difficulty) {
+          QuestDifficulty.easy     => 1,
+          QuestDifficulty.normal   => 2,
+          QuestDifficulty.hard     => 3,
+          QuestDifficulty.veryHard => 3,
+        };
+      case QuestType.weekly:
+        return switch (quest.difficulty) {
+          QuestDifficulty.easy     => 5,
+          QuestDifficulty.normal   => 7,
+          QuestDifficulty.hard     => 10,
+          QuestDifficulty.veryHard => 10,
+        };
+      case QuestType.monthly:
+        return switch (quest.difficulty) {
+          QuestDifficulty.easy     => 20,
+          QuestDifficulty.normal   => 25,
+          QuestDifficulty.hard     => 30,
+          QuestDifficulty.veryHard => 30,
+        };
+      case QuestType.yearly:
+        return switch (quest.difficulty) {
+          QuestDifficulty.easy     => 50,
+          QuestDifficulty.normal   => 75,
+          QuestDifficulty.hard     => 100,
+          QuestDifficulty.veryHard => 100,
+        };
+    }
   }
 
   void deleteQuest(Quest quest) {
@@ -1196,14 +1255,37 @@ class CharacterState extends ChangeNotifier {
 
   /// The custom starter deck built from saved card IDs.
   /// Falls back to CardDatabase.starterDeck when the player has no custom deck.
+  /// Skill-linked cards (GAME_DESIGN § 9.4) are appended automatically.
   List<CardData> get starterDeck {
-    if (_character == null || _character!.starterDeckCardIds.isEmpty) {
-      return CardDatabase.starterDeck;
+    final base = (_character == null || _character!.starterDeckCardIds.isEmpty)
+        ? CardDatabase.starterDeck
+        : _character!.starterDeckCardIds
+            .map((id) => CardDatabase.getCard(id))
+            .whereType<CardData>()
+            .toList();
+
+    // Skill → Card mapping (GAME_DESIGN § 9.4)
+    const skillCardMap = <String, String>{
+      'sk10': 'atk_r01',   // 화염 검격 → 용의 일격 (화상)
+      'sk11': 'def_u01',   // 치유의 빛 → 치유 카드
+      'sk13': 'mag_u02',   // 빙결 마법 → 빙결의 눈
+      'sk15': 'def_r01',   // 대지의 방패 → 대형 방어 카드
+      'sk17': 'mag_u05',   // 번개 폭풍 → 원소 폭풍
+      'sk19': 'def_r03',   // 생명의 축복 → 희귀 회복 카드
+      'sk21': 'def_l01',   // 완전한 재생 → 전설 방어 카드
+    };
+
+    final bonus = <CardData>[];
+    for (final skillId in _learnedSkillIds) {
+      final cardId = skillCardMap[skillId];
+      if (cardId != null) {
+        final card = CardDatabase.getCard(cardId);
+        if (card != null) bonus.add(card);
+      }
     }
-    return _character!.starterDeckCardIds
-        .map((id) => CardDatabase.getCard(id))
-        .whereType<CardData>()
-        .toList();
+
+    if (bonus.isEmpty) return base;
+    return [...base, ...bonus];
   }
 
   /// Add a card to the player's collection (no-op if already owned).
@@ -1214,6 +1296,19 @@ class CharacterState extends ChangeNotifier {
       unawaited(_saveData());
       notifyListeners();
     }
+  }
+
+  /// 카드 팩을 1개 소모하고 선택한 카드를 컬렉션에 추가합니다.
+  void consumeCardPack(String chosenCardId) {
+    if (_character == null) return;
+    if (_character!.cardPackCount <= 0) return;
+    _character!.cardPackCount -= 1;
+    // 컬렉션에 해당 카드 추가 (중복 허용: 인벤토리 수량 개념은 미구현이므로 해금만)
+    if (!_character!.unlockedCardIds.contains(chosenCardId)) {
+      _character!.unlockedCardIds.add(chosenCardId);
+    }
+    unawaited(_saveData());
+    notifyListeners();
   }
 
   /// Add a card to the custom starter deck.

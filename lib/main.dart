@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,18 +53,13 @@ void main() {
 
       try {
         await FirebaseAppCheck.instance.activate(
-          androidProvider:
-              kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
+          androidProvider: kDebugMode
+              ? AndroidProvider.debug
+              : AndroidProvider.playIntegrity,
         );
       } catch (e) {
         debugPrint('FirebaseAppCheck activation failed: $e');
       }
-      await NotificationService().init();
-      await SoundService().init();
-      await AdService().init();
-      await PurchaseService().init();
-
-      await HomeWidget.setAppGroupId(_homeWidgetAppGroupId);
 
       runApp(
         MultiProvider(
@@ -78,9 +73,55 @@ void main() {
           child: const LifeQuestApp(),
         ),
       );
+
+      unawaited(_initializeOptionalServices());
     },
-    (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+    (error, stack) =>
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
   );
+}
+
+Future<void> _initializeOptionalServices() async {
+  await _runStartupTask(
+    'NotificationService.init',
+    () => NotificationService().init(),
+  );
+  await _runStartupTask(
+    'SoundService.init',
+    () => SoundService().init(),
+  );
+  await _runStartupTask(
+    'AdService.init',
+    () => AdService().init(),
+    timeout: const Duration(seconds: 12),
+  );
+  await _runStartupTask(
+    'PurchaseService.init',
+    () => PurchaseService().init(),
+    timeout: const Duration(seconds: 12),
+  );
+  await _runStartupTask(
+    'HomeWidget.setAppGroupId',
+    () => HomeWidget.setAppGroupId(_homeWidgetAppGroupId),
+  );
+}
+
+Future<void> _runStartupTask(
+  String name,
+  Future<void> Function() task, {
+  Duration timeout = const Duration(seconds: 5),
+}) async {
+  try {
+    await task().timeout(timeout);
+  } catch (error, stack) {
+    debugPrint('$name failed: $error');
+    await FirebaseCrashlytics.instance.recordError(
+      error,
+      stack,
+      reason: name,
+      fatal: false,
+    );
+  }
 }
 
 class LifeQuestApp extends StatelessWidget {
@@ -358,8 +399,3 @@ class _AuthWrapperState extends State<AuthWrapper> {
     );
   }
 }
-
-
-
-
-

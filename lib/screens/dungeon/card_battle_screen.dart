@@ -14,6 +14,7 @@ import 'package:life_quest_final_v2/game/battle_game.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/widgets/relic_icon.dart';
+import 'package:life_quest_final_v2/widgets/player_profile_sprite.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
 
@@ -1118,11 +1119,24 @@ class _PlayerInfoBar extends StatelessWidget {
 
   const _PlayerInfoBar({required this.combat, required this.isDark});
 
+  String _outfitFromEquipment(dynamic character) {
+    final armor = character.equippedArmor;
+    if (armor == null) return 'default';
+    final name = armor.name.toLowerCase();
+    if (name.contains('knight') || name.contains('plate') || name.contains('철') || name.contains('강철')) return 'knight';
+    if (name.contains('mage') || name.contains('robe') || name.contains('마법') || name.contains('로브')) return 'mage';
+    if (name.contains('hunter') || name.contains('leather') || name.contains('가죽') || name.contains('사냥')) return 'hunter';
+    return 'default';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final charState = context.watch<CharacterState>();
+    final character = charState.isDataLoaded ? charState.character : null;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: (isDark ? Colors.black : Colors.white).withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12),
@@ -1130,7 +1144,25 @@ class _PlayerInfoBar extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // HP bar + 상태효과 (Expanded로 나머지 공간 전부 사용)
+          // 플레이어 스프라이트
+          if (character != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: PlayerProfileSprite(
+                gender: 'masculine',
+                skinTone: 'warm',
+                hairStyle: 'spike',
+                eyeStyle: 'sharp',
+                earStyle: 'round',
+                noseStyle: 'line',
+                mouthStyle: 'flat',
+                outfitStyle: _outfitFromEquipment(character),
+                size: 52,
+                facingRight: true,
+              ),
+            ),
+
+          // HP bar + 상태효과
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1154,7 +1186,6 @@ class _PlayerInfoBar extends StatelessWidget {
                       _BlockIndicator(block: combat.playerBlock),
                     ],
                     const Spacer(),
-                    // 상태효과를 HP 수치 오른쪽에 배치 (Row 안에서 overflow 방지)
                     if (combat.playerStatus.isNotEmpty)
                       _StatusRow(statusEffects: combat.playerStatus),
                   ],
@@ -1217,6 +1248,20 @@ class _EndTurnButton extends StatelessWidget {
                           )
                         : null,
                     color: enabled ? null : Colors.grey.shade700,
+                  ),
+                ),
+              ),
+              // 버튼 텍스트 오버레이
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: Text(
+                  AppLocalizations.of(context)!.cardBattleEndTurnButton,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.3,
+                    shadows: [Shadow(color: Colors.black, blurRadius: 4)],
                   ),
                 ),
               ),
@@ -1467,19 +1512,6 @@ class _HandCard extends StatelessWidget {
     required this.isDark,
   });
 
-  String get _frameAsset {
-    switch (card.category) {
-      case CardCategory.attack:
-        return 'assets/images/cards/card_frame_attack.png';
-      case CardCategory.defense:
-        return 'assets/images/cards/card_frame_defense.png';
-      case CardCategory.magic:
-        return 'assets/images/cards/card_frame_magic.png';
-      case CardCategory.tactical:
-        return 'assets/images/cards/card_frame_tactical.png';
-    }
-  }
-
   String get _iconAsset {
     switch (card.category) {
       case CardCategory.attack:
@@ -1496,13 +1528,26 @@ class _HandCard extends StatelessWidget {
   Color get _borderColor {
     switch (card.category) {
       case CardCategory.attack:
-        return Colors.red.shade400;
+        return const Color(0xFFE53935);
       case CardCategory.magic:
-        return Colors.purple.shade400;
+        return const Color(0xFFAB47BC);
       case CardCategory.defense:
-        return Colors.blue.shade400;
+        return const Color(0xFF1E88E5);
       case CardCategory.tactical:
-        return Colors.amber.shade400;
+        return const Color(0xFF43A047);
+    }
+  }
+
+  String get _frameAsset {
+    switch (card.category) {
+      case CardCategory.attack:
+        return 'assets/images/cards/card_frame_attack.png';
+      case CardCategory.defense:
+        return 'assets/images/cards/card_frame_defense.png';
+      case CardCategory.magic:
+        return 'assets/images/cards/card_frame_magic.png';
+      case CardCategory.tactical:
+        return 'assets/images/cards/card_frame_tactical.png';
     }
   }
 
@@ -1517,71 +1562,97 @@ class _HandCard extends StatelessWidget {
           width: 110,
           child: Stack(
             children: [
-              // ── 카드 프레임 배경 이미지 ──
+              // ── 카드 프레임 PNG ──
               Positioned.fill(
-                child: Image.asset(
-                  _frameAsset,
-                  fit: BoxFit.fill,
-                  // 파일 없으면 색상 fallback
-                  errorBuilder: (_, __, ___) => Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1E1E2E),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: _borderColor, width: 2),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      _frameAsset,
+                      fit: BoxFit.fill,
+                      errorBuilder: (_, __, ___) => Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1E1E2E),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: _borderColor, width: 2),
+                        ),
+                      ),
                     ),
-                  ),
+                    // tactical 전용: 흰 배경 가리는 어두운 오버레이
+                    if (card.category == CardCategory.tactical)
+                      Positioned(
+                        left: 14,
+                        right: 14,
+                        top: 14,
+                        bottom: 14,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF0A1A0E).withValues(alpha: 0.85),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
 
-              // ── 카드 내용 오버레이 ──
+              // ── 카드 내용 ──
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // 코스트 + 이름
-                    Row(
-                      children: [
-                        Container(
-                          width: 22,
-                          height: 22,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xCC000000),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${card.cost}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                    SizedBox(
+                      height: 22,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _borderColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: _borderColor.withValues(alpha: 0.6),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${card.cost}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            CardLocalization.localizedName(card, l10n),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              shadows: [Shadow(color: Colors.black, blurRadius: 3)],
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              CardLocalization.localizedName(card, l10n),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                shadows: [Shadow(color: Colors.black, blurRadius: 3)],
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 4),
                     // ── 카드 카테고리 아이콘 ──
                     Center(
                       child: SizedBox(
-                        width: 56,
-                        height: 56,
+                        width: 54,
+                        height: 54,
                         child: Image.asset(
                           _iconAsset,
                           fit: BoxFit.contain,
@@ -1589,41 +1660,31 @@ class _HandCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 4),
                     // 설명
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.45),
-                          borderRadius: BorderRadius.circular(4),
+                      child: Text(
+                        CardLocalization.localizedDescription(card, l10n),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.85),
+                          fontSize: 9,
+                          height: 1.3,
+                          shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
                         ),
-                        child: Text(
-                          CardLocalization.localizedDescription(card, l10n),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            height: 1.3,
-                            shadows: [Shadow(color: Colors.black, blurRadius: 2)],
-                          ),
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     // 레어도
                     if (card.rarity != CardRarity.common)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Center(
-                          child: Text(
-                            _rarityLabel(context, card.rarity),
-                            style: TextStyle(
-                              color: _rarityColor(card.rarity),
-                              fontSize: 9,
-                              fontWeight: FontWeight.w600,
-                              shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
-                            ),
+                      Center(
+                        child: Text(
+                          _rarityLabel(context, card.rarity),
+                          style: TextStyle(
+                            color: _rarityColor(card.rarity),
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
+                            shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
                           ),
                         ),
                       ),
@@ -1636,7 +1697,7 @@ class _HandCard extends StatelessWidget {
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.3),
+                      color: Colors.black.withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -1681,7 +1742,7 @@ class _HandCard extends StatelessWidget {
 // ============================================================================
 
 // ============================================================================
-// Player HP bar — uses ui_hp_bar.png as frame
+// Player HP bar — 그라데이션 코드 기반 (HP 비율에 따라 색상 변화)
 // ============================================================================
 
 class _PlayerHpBar extends StatelessWidget {
@@ -1690,51 +1751,65 @@ class _PlayerHpBar extends StatelessWidget {
 
   const _PlayerHpBar({required this.current, required this.max});
 
+  Color _barColor(double ratio) {
+    if (ratio > 0.6) return const Color(0xFF4CAF50); // 초록
+    if (ratio > 0.3) return const Color(0xFFFFC107); // 노랑
+    return const Color(0xFFF44336);                  // 빨강
+  }
+
   @override
   Widget build(BuildContext context) {
     final ratio = max > 0 ? (current / max).clamp(0.0, 1.0) : 0.0;
+    final barColor = _barColor(ratio);
 
     return SizedBox(
-      height: 26,
+      height: 20,
       width: double.infinity,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // ui_hp_bar.png — 이미 빨간 HP 바 디자인이 담긴 이미지 (꽉 찬 상태)
-          Image.asset(
-            'assets/images/ui/ui_hp_bar.png',
-            fit: BoxFit.fill,
-            filterQuality: FilterQuality.medium,
-            errorBuilder: (_, __, ___) => Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade800,
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ),
-          ),
-          // 소진된 HP 부분 — 오른쪽에서부터 어두운 마스크로 덮어서
-          // 이미지의 빨간 바가 HP 비율만큼만 보이도록 함
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 4, 6, 4),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: FractionallySizedBox(
-                widthFactor: 1.0 - ratio,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.80),
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(4),
-                      bottomRight: Radius.circular(4),
-                    ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // 배경 (빈 상태)
+            Container(color: const Color(0xFF1C1C2E)),
+            // HP 채워진 부분
+            FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: ratio,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      barColor.withValues(alpha: 0.85),
+                      barColor,
+                    ],
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            // 광택 하이라이트
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 6,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.25),
+                      Colors.white.withValues(alpha: 0.0),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

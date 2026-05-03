@@ -57,6 +57,10 @@ class Character {
   Set<int> completedZones;
   int infiniteTowerFloor;
 
+  // Card Pack System
+  int cardPoints;
+  int cardPackCount;
+
   Character({
     required this.name,
     this.photoUrl,
@@ -98,6 +102,8 @@ class Character {
     this.yearlyRaidClears = 0,
     Set<int>? completedZones,
     this.infiniteTowerFloor = 1,
+    this.cardPoints = 0,
+    this.cardPackCount = 0,
   }) : completedZones = completedZones ?? {},
         inventory = inventory ?? [],
         unlockedCosmetics = unlockedCosmetics ?? [],
@@ -189,6 +195,8 @@ class Character {
           .map((e) => e as int)
           .toSet(),
       infiniteTowerFloor: json['infiniteTowerFloor'] ?? 1,
+      cardPoints: json['cardPoints'] ?? 0,
+      cardPackCount: json['cardPackCount'] ?? 0,
     );
   }
 
@@ -234,6 +242,8 @@ class Character {
       'yearlyRaidClears': yearlyRaidClears,
       'completedZones': completedZones.toList(),
       'infiniteTowerFloor': infiniteTowerFloor,
+      'cardPoints': cardPoints,
+      'cardPackCount': cardPackCount,
     };
   }
 }

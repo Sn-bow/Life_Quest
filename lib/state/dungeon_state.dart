@@ -218,10 +218,11 @@ class DungeonState extends ChangeNotifier {
         ];
 
       case NodeType.elite:
-        // 1 stronger enemy (pick highest-level in zone, buff stats)
+        // 엘리트: 강한 적 1마리 + 일반 졸개 1마리 (AoE 카드 활용 유도)
         final eliteBase = List.of(monsters)
           ..sort((a, b) => b.level.compareTo(a.level));
         final elite = eliteBase.first;
+        final minion = monsters[rng.nextInt(monsters.length)];
         return [
           EnemyBattleData.fromMonster(
             elite.copyWith(
@@ -229,6 +230,13 @@ class DungeonState extends ChangeNotifier {
               attack: (elite.attack * 1.3 * atkMult).roundToDouble(),
               defense: (elite.defense * 1.2).roundToDouble(),
               xpReward: (elite.xpReward * 1.5).round(),
+            ),
+          ),
+          EnemyBattleData.fromMonster(
+            minion.copyWith(
+              maxHp: (minion.maxHp * 0.7 * hpMult).roundToDouble(),
+              attack: (minion.attack * atkMult).roundToDouble(),
+              xpReward: (minion.xpReward * 0.5).round(),
             ),
           ),
         ];
