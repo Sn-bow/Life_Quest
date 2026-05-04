@@ -6,6 +6,7 @@ import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 
 /// 카드 팩 오픈 화면
 /// 3장을 뽑아 보여주고, 1장을 선택하면 컬렉션에 추가됩니다.
@@ -145,19 +146,27 @@ class _CardPackScreenState extends State<CardPackScreen>
 
   String _rarityLabel(CardRarity rarity) {
     switch (rarity) {
-      case CardRarity.common:    return 'Common';
-      case CardRarity.uncommon:  return 'Uncommon';
-      case CardRarity.rare:      return 'Rare';
-      case CardRarity.legendary: return 'Legendary';
+      case CardRarity.common:
+        return 'Common';
+      case CardRarity.uncommon:
+        return 'Uncommon';
+      case CardRarity.rare:
+        return 'Rare';
+      case CardRarity.legendary:
+        return 'Legendary';
     }
   }
 
   String _categoryIcon(CardCategory cat) {
     switch (cat) {
-      case CardCategory.attack:   return '⚔️';
-      case CardCategory.magic:    return '🔮';
-      case CardCategory.defense:  return '🛡️';
-      case CardCategory.tactical: return '✨';
+      case CardCategory.attack:
+        return '⚔️';
+      case CardCategory.magic:
+        return '🔮';
+      case CardCategory.defense:
+        return '🛡️';
+      case CardCategory.tactical:
+        return '✨';
     }
   }
 
@@ -178,8 +187,7 @@ class _CardPackScreenState extends State<CardPackScreen>
             color: isDark ? const Color(0xFF00FFFF) : Colors.deepPurple,
           ),
         ),
-        backgroundColor:
-            isDark ? const Color(0xFF1D1E33) : Colors.white,
+        backgroundColor: isDark ? const Color(0xFF1D1E33) : Colors.white,
       ),
       body: Column(
         children: [
@@ -254,9 +262,11 @@ class _CardPackScreenState extends State<CardPackScreen>
                   final card = _drawnCards![i];
                   final isSelected = _selectedIndex == i;
                   return GestureDetector(
-                    onTap: _confirmed ? null : () {
-                      setState(() => _selectedIndex = i);
-                    },
+                    onTap: _confirmed
+                        ? null
+                        : () {
+                            setState(() => _selectedIndex = i);
+                          },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       width: 100,
@@ -302,7 +312,8 @@ class _CardPackScreenState extends State<CardPackScreen>
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                        onPressed: _selectedIndex != null ? _confirmSelection : null,
+                        onPressed:
+                            _selectedIndex != null ? _confirmSelection : null,
                         icon: const Icon(Icons.check_circle),
                         label: const Text(
                           '이 카드 선택',
@@ -457,9 +468,7 @@ class _PackOpenButton extends StatelessWidget {
               Icon(
                 Icons.card_giftcard,
                 size: 60,
-                color: packCount > 0
-                    ? Colors.amber
-                    : Colors.grey.shade500,
+                color: packCount > 0 ? Colors.amber : Colors.grey.shade500,
               ),
               const SizedBox(height: 8),
               Text(
@@ -496,12 +505,10 @@ class _PackOpenButton extends StatelessWidget {
             ),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: packCount > 0
-                ? Colors.deepPurple
-                : Colors.grey.shade700,
+            backgroundColor:
+                packCount > 0 ? Colors.deepPurple : Colors.grey.shade700,
             foregroundColor: Colors.white,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -549,121 +556,9 @@ class _CardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final cardName = CardLocalization.localizedName(card, l10n);
-    final cardDesc = CardLocalization.localizedDescription(card, l10n);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1D1E33) : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: rarityBorder.withValues(alpha: isSelected ? 1.0 : 0.4),
-          width: isSelected ? 2.5 : 1.5,
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // 상단: 비용 + 카테고리
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-            decoration: BoxDecoration(
-              color: rarityColor.withValues(alpha: 0.2),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 22,
-                  height: 22,
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple.shade700,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      '${card.cost}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  categoryIcon,
-                  style: const TextStyle(fontSize: 14),
-                ),
-              ],
-            ),
-          ),
-
-          // 중단: 카드 이름
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-            child: Text(
-              cardName,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : Colors.black87,
-              ),
-            ),
-          ),
-
-          // 하단: 효과 설명 + 레어리티
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? Colors.black26
-                  : Colors.grey.shade50,
-              borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(10)),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  cardDesc,
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 9,
-                    color: isDark ? Colors.white60 : Colors.black54,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: rarityColor.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    rarityLabel,
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 9,
-                      fontWeight: FontWeight.bold,
-                      color: rarityBorder,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return SoulDeckCardView(
+      card: card,
+      size: SoulDeckCardSize.reward,
     );
   }
 }

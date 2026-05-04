@@ -5,6 +5,7 @@ import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 
 class CardCollectionScreen extends StatefulWidget {
   const CardCollectionScreen({super.key});
@@ -247,64 +248,12 @@ class _CardCollectionScreenState extends State<CardCollectionScreen> {
   }
 
   Widget _cardGridItem(BuildContext context, CardData card, CharacterState state, bool isDark) {
-    final l10n = AppLocalizations.of(context)!;
-    final catColor = _categoryColor(card.category);
-    final rarityColor = _rarityColor(card.rarity);
-
-    return GestureDetector(
-      onTap: () => _showCardDetail(context, card, state),
-      child: Container(
-        decoration: BoxDecoration(
-          color: isDark ? catColor.withValues(alpha: 0.1) : catColor.withValues(alpha: 0.06),
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: catColor.withValues(alpha: 0.4), width: 1.5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  _costBadge(card.cost, isDark),
-                  const Spacer(),
-                  Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: rarityColor,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Expanded(
-                child: Text(
-                  CardLocalization.localizedName(card, l10n),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                decoration: BoxDecoration(
-                  color: catColor.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  _categoryLabel(context, card.category),
-                  style: TextStyle(fontSize: 9, color: catColor, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-        ),
+    return FittedBox(
+      fit: BoxFit.contain,
+      child: SoulDeckCardView(
+        card: card,
+        size: SoulDeckCardSize.hand,
+        onTap: () => _showCardDetail(context, card, state),
       ),
     );
   }

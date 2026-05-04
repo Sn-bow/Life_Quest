@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 
 class DungeonRestScreen extends StatefulWidget {
   const DungeonRestScreen({super.key});
@@ -468,124 +469,14 @@ class _UpgradeCardWidget extends StatelessWidget {
     required this.onTap,
   });
 
-  Color get _borderColor {
-    switch (card.category) {
-      case CardCategory.attack:
-        return Colors.red.shade400;
-      case CardCategory.magic:
-        return Colors.purple.shade400;
-      case CardCategory.defense:
-        return Colors.blue.shade400;
-      case CardCategory.tactical:
-        return Colors.amber.shade400;
-    }
-  }
-
-  Color get _headerColor {
-    switch (card.category) {
-      case CardCategory.attack:
-        return Colors.red.shade800;
-      case CardCategory.magic:
-        return Colors.purple.shade800;
-      case CardCategory.defense:
-        return Colors.blue.shade800;
-      case CardCategory.tactical:
-        return Colors.amber.shade800;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1E1E2E) : const Color(0xFFF5F5F0),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: _borderColor, width: 2),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Header
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              decoration: BoxDecoration(
-                color: _headerColor,
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(6)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 26,
-                    height: 26,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.amber.shade600,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${card.cost}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: Text(
-                      CardLocalization.localizedName(card, l10n),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Description
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  CardLocalization.localizedDescription(card, l10n),
-                  style: TextStyle(
-                    color: isDark ? Colors.white70 : Colors.black87,
-                    fontSize: 12,
-                    height: 1.4,
-                  ),
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            // Upgrade indicator
-            if (card.isUpgraded)
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                color: Colors.green.withValues(alpha: 0.2),
-                child: Center(
-                  child: Text(
-                    l10n.dungeonRestCardUpgraded,
-                    style: const TextStyle(
-                      color: Colors.green,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
+    return FittedBox(
+      fit: BoxFit.contain,
+      child: SoulDeckCardView(
+        card: card,
+        size: SoulDeckCardSize.reward,
+        onTap: onTap,
       ),
     );
   }

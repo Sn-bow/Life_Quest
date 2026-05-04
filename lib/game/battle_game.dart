@@ -2,31 +2,27 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
+import 'package:flame/game.dart';
 import 'package:life_quest_final_v2/game/components/damage_text.dart';
 import 'package:life_quest_final_v2/game/components/particle_effect.dart';
 
-/// Root FlameGame subclass that hosts the card battle visuals.
+/// Flame layer behind the Flutter battle UI.
 ///
-/// The game canvas renders behind a Flutter overlay that contains the
-/// hand, energy counter, and action buttons.  This class is responsible
-/// for background rendering, sprite animations, and floating numbers.
+/// Player and monster bodies are rendered by Flutter widgets. This layer owns
+/// background atmosphere, card play effects, particles, and floating numbers.
 class BattleGame extends FlameGame {
-  /// The current dungeon zone (determines background palette).
   int currentZone;
 
   BattleGame({this.currentZone = 1});
 
-  // Parallax layers
   final List<_ParallaxLayer> _parallaxLayers = [];
 
-  // 배경 스프라이트 (Flame 레이어)
   SpriteComponent? _bgSprite;
-
-  // ───────────────────────────────────────────
-  // Lifecycle
-  // ───────────────────────────────────────────
+  Sprite? _attackEffectSprite;
+  Sprite? _defenseEffectSprite;
+  Sprite? _magicEffectSprite;
+  Sprite? _enemyDeathEffectSprite;
 
   @override
   Future<void> onLoad() async {
@@ -35,13 +31,9 @@ class BattleGame extends FlameGame {
     _initParallaxBackground();
   }
 
-  /// Attempts to load background / player / monster sprites.
-  /// Failures are silently ignored — the Canvas-drawn fallback is always shown.
   Future<void> _loadSprites() async {
-    // Background
-    final bgPath = _zoneBgPath(currentZone);
     try {
-      final bgImg = await Flame.images.load(bgPath);
+      final bgImg = await Flame.images.load(_zoneBgPath(currentZone));
       _bgSprite = SpriteComponent(
         sprite: Sprite(bgImg),
         size: size,
@@ -49,14 +41,27 @@ class BattleGame extends FlameGame {
       );
       add(_bgSprite!);
     } catch (_) {
-      // No background image — parallax Canvas fallback handles it.
+      // The Flutter wrapper also paints the zone background.
     }
 
-    // 플레이어/몬스터 스프라이트는 Flutter 오버레이(_EnemyCard)에서 렌더링하므로
-    // Flame 레이어에서는 로드하지 않음 (중복 표시 방지)
+    _attackEffectSprite =
+        await _tryLoadSprite('game/effects/effect_attack_slash.png');
+    _defenseEffectSprite =
+        await _tryLoadSprite('game/effects/effect_defense_shield.png');
+    _magicEffectSprite =
+        await _tryLoadSprite('game/effects/effect_magic_projectile.png');
+    _enemyDeathEffectSprite =
+        await _tryLoadSprite('game/effects/effect_enemy_death_burst.png');
   }
 
-  /// Returns the asset path for a zone background image.
+  Future<Sprite?> _tryLoadSprite(String path) async {
+    try {
+      return Sprite(await Flame.images.load(path));
+    } catch (_) {
+      return null;
+    }
+  }
+
   String _zoneBgPath(int zone) {
     switch (zone) {
       case 1:
@@ -74,22 +79,12 @@ class BattleGame extends FlameGame {
     }
   }
 
-
   @override
-  Color backgroundColor() {
-    // Fully transparent — the Flutter Container wrapping the Scaffold
-    // renders the zone gradient/image background instead.
-    return const Color(0x00000000);
-  }
-
-  // ───────────────────────────────────────────
-  // Parallax background
-  // ───────────────────────────────────────────
+  Color backgroundColor() => const Color(0x00000000);
 
   void _initParallaxBackground() {
     final colors = _zoneParallaxColors(currentZone);
 
-    // Three layers at different depths with different speeds
     for (int i = 0; i < 3; i++) {
       final layer = _ParallaxLayer(
         layerIndex: i,
@@ -104,126 +99,115 @@ class BattleGame extends FlameGame {
 
   List<Color> _zoneParallaxColors(int zone) {
     switch (zone) {
-      case 1: // forest
-        return [
-          const Color(0x15228B22),
-          const Color(0x10006400),
-          const Color(0x0D2E8B57),
+      case 1:
+        return const [
+          Color(0x15228B22),
+          Color(0x10006400),
+          Color(0x0D2E8B57),
         ];
-      case 2: // cave
-        return [
-          const Color(0x15708090),
-          const Color(0x10556B7B),
-          const Color(0x0D4682B4),
+      case 2:
+        return const [
+          Color(0x15708090),
+          Color(0x10556B7B),
+          Color(0x0D4682B4),
         ];
-      case 3: // crypt
-        return [
-          const Color(0x15800080),
-          const Color(0x10663399),
-          const Color(0x0D9932CC),
+      case 3:
+        return const [
+          Color(0x15800080),
+          Color(0x10663399),
+          Color(0x0D9932CC),
         ];
-      case 4: // abyss
-        return [
-          const Color(0x10191970),
-          const Color(0x0D000033),
-          const Color(0x08483D8B),
+      case 4:
+        return const [
+          Color(0x10191970),
+          Color(0x0D000033),
+          Color(0x08483D8B),
         ];
-      case 5: // inferno
-        return [
-          const Color(0x15FF4500),
-          const Color(0x10DC143C),
-          const Color(0x0DFF6347),
+      case 5:
+        return const [
+          Color(0x15FF4500),
+          Color(0x10DC143C),
+          Color(0x0DFF6347),
         ];
       default:
-        return [
-          const Color(0x15228B22),
-          const Color(0x10006400),
-          const Color(0x0D2E8B57),
+        return const [
+          Color(0x15228B22),
+          Color(0x10006400),
+          Color(0x0D2E8B57),
         ];
     }
   }
 
-  // ───────────────────────────────────────────
-  // Animation hooks (called from Flutter overlay)
-  // ───────────────────────────────────────────
-
-  /// Plays a melee slash animation toward the enemy.
-  ///
-  /// Draws three diagonal lines (primary + two parallels) that quickly
-  /// appear and fade — no sprite assets required.
   void playAttackAnimation() {
-    final playerSide = Vector2(size.x * 0.28, size.y * 0.40);
-    final enemySide = Vector2(size.x * 0.72, size.y * 0.32);
-    add(_SlashEffect(start: playerSide, end: enemySide));
+    final sprite = _attackEffectSprite;
+    if (sprite == null) return;
+
+    add(_SpriteSweepEffect(
+      sprite: sprite,
+      start: Vector2(size.x * 0.28, size.y * 0.40),
+      end: Vector2(size.x * 0.72, size.y * 0.32),
+    ));
   }
 
-  /// Plays a shield-raise animation on the player.
-  ///
-  /// Draws a pentagon-shaped shield outline that expands and floats upward
-  /// before fading — no sprite assets required.
   void playDefendAnimation() {
-    final playerPos = Vector2(size.x * 0.28, size.y * 0.38);
-    add(_ShieldRaiseEffect(center: playerPos));
+    final sprite = _defenseEffectSprite;
+    if (sprite == null) return;
+
+    add(_SpritePulseEffect(
+      sprite: sprite,
+      center: Vector2(size.x * 0.28, size.y * 0.38),
+      baseSize: Vector2.all(92),
+      duration: 0.42,
+      rise: -22,
+    ));
   }
 
-  /// Plays a magic projectile animation toward the enemy.
-  ///
-  /// A glowing orb with a trailing tail travels from the player to the
-  /// enemy position, then triggers a hit-particle burst on arrival.
   void playMagicAnimation() {
-    final start = Vector2(size.x * 0.30, size.y * 0.38);
     final target = Vector2(size.x * 0.72, size.y * 0.32);
-    add(_MagicProjectile(
-      start: start,
+    final sprite = _magicEffectSprite;
+    if (sprite == null) {
+      playHitParticle(position: target);
+      return;
+    }
+
+    add(_SpriteProjectile(
+      sprite: sprite,
+      start: Vector2(size.x * 0.30, size.y * 0.38),
       target: target,
       onHit: () => playHitParticle(position: target),
     ));
   }
 
-  /// Shows a floating damage number at the enemy position.
-  ///
-  /// [damage] is the numeric value displayed.
-  /// [isCritical] triggers larger yellow text instead of red.
   void showDamageNumber(int damage, {bool isCritical = false}) {
-    final text = DamageText(
+    add(DamageText(
       value: damage,
       type: isCritical ? DamageTextType.critical : DamageTextType.damage,
-      // Position near the center-right where the enemy sprite will be.
       startPosition: Vector2(size.x * 0.7, size.y * 0.35),
-    );
-    add(text);
+    ));
   }
 
-  /// Shows a floating heal number at the player position.
   void showHealNumber(int amount) {
-    final text = DamageText(
+    add(DamageText(
       value: amount,
       type: DamageTextType.heal,
-      // Position near center-left where the player sprite will be.
       startPosition: Vector2(size.x * 0.3, size.y * 0.35),
-    );
-    add(text);
+    ));
   }
 
-  /// Called when the current enemy is defeated.
-  ///
-  /// Triggers a white flash followed by coloured shards flying outward
-  /// from the enemy position — no sprite assets required.
   void onEnemyDefeated() {
-    final enemyPos = Vector2(size.x * 0.72, size.y * 0.35);
-    add(_EnemyDeathEffect(center: enemyPos));
+    final sprite = _enemyDeathEffectSprite;
+    if (sprite == null) return;
+
+    add(_SpriteBurstEffect(
+      sprite: sprite,
+      center: Vector2(size.x * 0.72, size.y * 0.35),
+    ));
   }
 
-  // ───────────────────────────────────────────
-  // Particle effects
-  // ───────────────────────────────────────────
-
-  /// Spawns a hit particle burst at the enemy position (red/orange particles).
   void playHitParticle({Vector2? position}) {
     try {
-      final pos = position ?? Vector2(size.x * 0.7, size.y * 0.35);
       add(ParticleEffect(
-        spawnPosition: pos,
+        spawnPosition: position ?? Vector2(size.x * 0.7, size.y * 0.35),
         color: const Color(0xFFFF4444),
         count: 15,
         speed: 140.0,
@@ -234,23 +218,20 @@ class BattleGame extends FlameGame {
     } catch (_) {}
   }
 
-  /// Spawns green floating heal particles at the player position.
   void playHealParticle({Vector2? position}) {
     try {
-      final pos = position ?? Vector2(size.x * 0.3, size.y * 0.35);
       add(ParticleEffect(
-        spawnPosition: pos,
+        spawnPosition: position ?? Vector2(size.x * 0.3, size.y * 0.35),
         color: const Color(0xFF44FF88),
         count: 10,
         speed: 60.0,
         lifetime: 0.7,
         particleRadius: 2.5,
-        gravity: -30.0, // float upward
+        gravity: -30.0,
       ));
     } catch (_) {}
   }
 
-  /// Spawns a blue shield flash effect at the player position.
   void playBlockParticle({Vector2? position}) {
     try {
       final pos = position ?? Vector2(size.x * 0.3, size.y * 0.35);
@@ -261,28 +242,26 @@ class BattleGame extends FlameGame {
         speed: 80.0,
         lifetime: 0.4,
         particleRadius: 3.5,
-        gravity: 0.0, // no gravity for shield effect - radial burst
+        gravity: 0.0,
       ));
-      // Also add a brief shield flash ring
       add(_ShieldFlash(center: pos));
     } catch (_) {}
   }
 }
 
-// =============================================================================
-// Slash animation (attack)
-// =============================================================================
-
-/// Three diagonal lines (primary + two offset parallels) that flash
-/// across the screen from the player toward the enemy.
-class _SlashEffect extends Component {
+class _SpriteSweepEffect extends Component {
+  final Sprite sprite;
   final Vector2 start;
   final Vector2 end;
 
   double _elapsed = 0;
   static const double _duration = 0.22;
 
-  _SlashEffect({required this.start, required this.end}) : super(priority: 90);
+  _SpriteSweepEffect({
+    required this.sprite,
+    required this.start,
+    required this.end,
+  }) : super(priority: 90);
 
   @override
   void update(double dt) {
@@ -293,115 +272,69 @@ class _SlashEffect extends Component {
   @override
   void render(Canvas canvas) {
     final progress = (_elapsed / _duration).clamp(0.0, 1.0);
-    // Quick in (first 25%) then fade out (remaining 75%)
     final alpha = progress < 0.25
         ? progress / 0.25
         : (1.0 - (progress - 0.25) / 0.75).clamp(0.0, 1.0);
-
-    final dx = end.x - start.x;
-    final dy = end.y - start.y;
-    final perpX = -dy * 0.08;
-    final perpY = dx * 0.08;
-    final strokeW = 3.0 + (1.0 - progress) * 2.0;
-
-    // Primary slash — bright white/yellow
-    canvas.drawLine(
-      Offset(start.x, start.y),
-      Offset(end.x, end.y),
-      Paint()
-        ..color = Color.fromRGBO(255, 245, 180, alpha)
-        ..strokeWidth = strokeW
-        ..strokeCap = StrokeCap.round
-        ..style = PaintingStyle.stroke,
+    final center = Vector2(
+      lerpDouble(start.x, end.x, 0.62)!,
+      lerpDouble(start.y, end.y, 0.62)!,
     );
-    // Upper parallel
-    canvas.drawLine(
-      Offset(start.x + perpX, start.y + perpY),
-      Offset(end.x + perpX, end.y + perpY),
-      Paint()
-        ..color = Color.fromRGBO(255, 180, 0, alpha * 0.55)
-        ..strokeWidth = strokeW * 0.6
-        ..strokeCap = StrokeCap.round
-        ..style = PaintingStyle.stroke,
-    );
-    // Lower parallel
-    canvas.drawLine(
-      Offset(start.x - perpX, start.y - perpY),
-      Offset(end.x - perpX, end.y - perpY),
-      Paint()
-        ..color = Color.fromRGBO(255, 180, 0, alpha * 0.55)
-        ..strokeWidth = strokeW * 0.6
-        ..strokeCap = StrokeCap.round
-        ..style = PaintingStyle.stroke,
+    final distance = start.distanceTo(end);
+
+    _renderSprite(
+      canvas: canvas,
+      sprite: sprite,
+      center: center,
+      size:
+          Vector2(distance * 1.08, distance * 0.40) * (0.92 + progress * 0.16),
+      alpha: alpha,
+      angle: atan2(end.y - start.y, end.x - start.x) - 0.12,
     );
   }
 }
 
-// =============================================================================
-// Shield raise animation (defend)
-// =============================================================================
-
-/// A pentagon-shaped shield outline that expands from the player position,
-/// floats upward slightly, then fades out.
-class _ShieldRaiseEffect extends Component {
+class _SpritePulseEffect extends Component {
+  final Sprite sprite;
   final Vector2 center;
+  final Vector2 baseSize;
+  final double duration;
+  final double rise;
 
   double _elapsed = 0;
-  static const double _duration = 0.42;
 
-  _ShieldRaiseEffect({required this.center}) : super(priority: 90);
+  _SpritePulseEffect({
+    required this.sprite,
+    required this.center,
+    required this.baseSize,
+    required this.duration,
+    required this.rise,
+  }) : super(priority: 90);
 
   @override
   void update(double dt) {
     _elapsed += dt;
-    if (_elapsed >= _duration) removeFromParent();
+    if (_elapsed >= duration) removeFromParent();
   }
 
   @override
   void render(Canvas canvas) {
-    final progress = (_elapsed / _duration).clamp(0.0, 1.0);
+    final progress = (_elapsed / duration).clamp(0.0, 1.0);
     final alpha = progress < 0.2
         ? progress / 0.2
         : (1.0 - (progress - 0.2) / 0.8).clamp(0.0, 1.0);
 
-    final rise = -22.0 * progress;
-    final scale = 0.6 + 0.4 * min(progress / 0.25, 1.0);
-    final sz = 30.0 * scale;
-    final cx = center.x;
-    final cy = center.y + rise;
-
-    // Pentagon-style shield path
-    final path = Path()
-      ..moveTo(cx - sz * 0.6, cy - sz * 0.5)
-      ..lineTo(cx + sz * 0.6, cy - sz * 0.5)
-      ..lineTo(cx + sz * 0.6, cy + sz * 0.15)
-      ..lineTo(cx, cy + sz * 0.65)
-      ..lineTo(cx - sz * 0.6, cy + sz * 0.15)
-      ..close();
-
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = Color.fromRGBO(64, 180, 255, alpha * 0.18)
-        ..style = PaintingStyle.fill,
-    );
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = Color.fromRGBO(64, 180, 255, alpha)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.4,
+    _renderSprite(
+      canvas: canvas,
+      sprite: sprite,
+      center: center + Vector2(0, rise * progress),
+      size: baseSize * (0.72 + 0.36 * min(progress / 0.25, 1.0)),
+      alpha: alpha,
     );
   }
 }
 
-// =============================================================================
-// Magic projectile animation
-// =============================================================================
-
-/// A glowing orb with a fading trail that flies from the player toward the
-/// enemy.  Calls [onHit] when it arrives, then removes itself.
-class _MagicProjectile extends Component {
+class _SpriteProjectile extends Component {
+  final Sprite sprite;
   final Vector2 start;
   final Vector2 target;
   final VoidCallback onHit;
@@ -410,7 +343,8 @@ class _MagicProjectile extends Component {
   static const double _travelTime = 0.30;
   bool _hitFired = false;
 
-  _MagicProjectile({
+  _SpriteProjectile({
+    required this.sprite,
     required this.start,
     required this.target,
     required this.onHit,
@@ -430,65 +364,34 @@ class _MagicProjectile extends Component {
 
   @override
   void render(Canvas canvas) {
-    final t = (_elapsed / _travelTime).clamp(0.0, 1.0);
-    final cx = lerpDouble(start.x, target.x, t)!;
-    final cy = lerpDouble(start.y, target.y, t)!;
-
-    // Soft glow (blur mask)
-    canvas.drawCircle(
-      Offset(cx, cy),
-      14.0,
-      Paint()
-        ..color = const Color(0x55BB44FF)
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7),
-    );
-    // Core orb
-    canvas.drawCircle(
-      Offset(cx, cy),
-      6.0,
-      Paint()..color = const Color(0xFFDD88FF),
+    final progress = (_elapsed / _travelTime).clamp(0.0, 1.0);
+    final center = Vector2(
+      lerpDouble(start.x, target.x, progress)!,
+      lerpDouble(start.y, target.y, progress)!,
     );
 
-    // Trail — three ghost copies fading behind the orb
-    for (int i = 1; i <= 3; i++) {
-      final tt = (t - i * 0.06).clamp(0.0, 1.0);
-      final tx = lerpDouble(start.x, target.x, tt)!;
-      final ty = lerpDouble(start.y, target.y, tt)!;
-      canvas.drawCircle(
-        Offset(tx, ty),
-        (5.5 - i * 1.3).clamp(0.0, 6.0),
-        Paint()..color = Color.fromRGBO(187, 68, 255, 0.28 / i),
-      );
-    }
+    _renderSprite(
+      canvas: canvas,
+      sprite: sprite,
+      center: center,
+      size: Vector2.all(72),
+      alpha: 1.0,
+      angle: atan2(target.y - start.y, target.x - start.x),
+    );
   }
 }
 
-// =============================================================================
-// Enemy defeat animation (shatter + flash)
-// =============================================================================
-
-/// White flash followed by 12 rectangular shards flying outward with gravity,
-/// all fading to nothing over ~0.6 s.
-class _EnemyDeathEffect extends Component {
+class _SpriteBurstEffect extends Component {
+  final Sprite sprite;
   final Vector2 center;
 
   double _elapsed = 0;
-  static const double _duration = 0.60;
+  static const double _duration = 0.46;
 
-  final List<_Shard> _shards = [];
-
-  _EnemyDeathEffect({required this.center}) : super(priority: 95) {
-    final rng = Random();
-    for (int i = 0; i < 12; i++) {
-      final base = (i / 12) * 2 * pi;
-      final jitter = rng.nextDouble() * 0.4;
-      _shards.add(_Shard(
-        angle: base + jitter,
-        speed: 55.0 + rng.nextDouble() * 90.0,
-        size: 4.0 + rng.nextDouble() * 9.0,
-      ));
-    }
-  }
+  _SpriteBurstEffect({
+    required this.sprite,
+    required this.center,
+  }) : super(priority: 95);
 
   @override
   void update(double dt) {
@@ -499,49 +402,46 @@ class _EnemyDeathEffect extends Component {
   @override
   void render(Canvas canvas) {
     final progress = (_elapsed / _duration).clamp(0.0, 1.0);
-    final alpha = (1.0 - progress).clamp(0.0, 1.0);
+    final alpha =
+        progress < 0.12 ? progress / 0.12 : (1.0 - progress).clamp(0.0, 1.0);
 
-    // Brief white flash at the start
-    if (progress < 0.18) {
-      final flashA = (1.0 - progress / 0.18) * 0.75;
-      canvas.drawCircle(
-        Offset(center.x, center.y),
-        60.0 * (progress / 0.18),
-        Paint()..color = Color.fromRGBO(255, 255, 255, flashA),
-      );
-    }
-
-    // Shards
-    for (final shard in _shards) {
-      final dist = shard.speed * _elapsed;
-      final sx = center.x + cos(shard.angle) * dist;
-      final sy = center.y +
-          sin(shard.angle) * dist +
-          50.0 * progress * progress; // gravity pull
-
-      final sz = shard.size * (1.0 - progress * 0.6);
-      canvas.drawRect(
-        Rect.fromCenter(center: Offset(sx, sy), width: sz, height: sz),
-        Paint()..color = Color.fromRGBO(200, 140, 255, alpha),
-      );
-    }
+    _renderSprite(
+      canvas: canvas,
+      sprite: sprite,
+      center: center,
+      size: Vector2.all(90 + progress * 90),
+      alpha: alpha,
+      angle: progress * 0.28,
+    );
   }
 }
 
-class _Shard {
-  final double angle;
-  final double speed;
-  final double size;
+void _renderSprite({
+  required Canvas canvas,
+  required Sprite sprite,
+  required Vector2 center,
+  required Vector2 size,
+  required double alpha,
+  double angle = 0,
+}) {
+  canvas.save();
+  canvas.translate(center.x, center.y);
+  if (angle != 0) canvas.rotate(angle);
 
-  _Shard({required this.angle, required this.speed, required this.size});
+  final paint = Paint()
+    ..color = Color.fromRGBO(255, 255, 255, alpha.clamp(0.0, 1.0))
+    ..blendMode = BlendMode.modulate
+    ..filterQuality = FilterQuality.medium;
+
+  sprite.render(
+    canvas,
+    position: Vector2(-size.x / 2, -size.y / 2),
+    size: size,
+    overridePaint: paint,
+  );
+  canvas.restore();
 }
 
-// =============================================================================
-// Parallax background layer
-// =============================================================================
-
-/// A single parallax layer: draws a set of slowly drifting translucent shapes
-/// to create depth and atmosphere behind the battle.
 class _ParallaxLayer extends Component with HasGameReference {
   final int layerIndex;
   final Color color;
@@ -561,9 +461,8 @@ class _ParallaxLayer extends Component with HasGameReference {
   Future<void> onLoad() async {
     await super.onLoad();
     final rng = Random(layerIndex * 42);
-
-    // Generate random shapes across the canvas
     final count = 5 + layerIndex * 2;
+
     for (int i = 0; i < count; i++) {
       _shapes.add(_FloatingShape(
         x: rng.nextDouble() * (gameSize.x + 200) - 100,
@@ -577,7 +476,6 @@ class _ParallaxLayer extends Component with HasGameReference {
   @override
   void update(double dt) {
     super.update(dt);
-    // Wrap shapes
     for (final shape in _shapes) {
       shape.x -= speed * shape.speedMultiplier * dt;
       if (shape.x + shape.radius < -100) {
@@ -617,11 +515,6 @@ class _FloatingShape {
   });
 }
 
-// =============================================================================
-// Shield flash ring effect
-// =============================================================================
-
-/// A brief expanding ring that fades out, used for the block/shield effect.
 class _ShieldFlash extends CircleComponent {
   @override
   final Vector2 center;
@@ -651,9 +544,7 @@ class _ShieldFlash extends CircleComponent {
     }
 
     final progress = _elapsed / _duration;
-    // Expand ring
     radius = 10 + progress * 40;
-    // Fade out
     final alpha = ((1.0 - progress) * 0.53).clamp(0.0, 1.0);
     paint.color = Color.fromRGBO(68, 136, 255, alpha);
     paint.strokeWidth = 3.0 * (1.0 - progress * 0.5);

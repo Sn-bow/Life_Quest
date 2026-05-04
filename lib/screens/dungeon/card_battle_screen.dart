@@ -12,9 +12,9 @@ import 'package:life_quest_final_v2/state/card_combat_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/game/battle_game.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
-import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/widgets/relic_icon.dart';
 import 'package:life_quest_final_v2/widgets/player_profile_sprite.dart';
+import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
 
@@ -122,8 +122,8 @@ class _CardBattleScreenState extends State<CardBattleScreen>
         widget.enemies,
         maxHp: widget.playerMaxHp,
         hp: widget.playerHp,
-        maxEnergy: dungeonState.maxEnergy,        // 렐릭 에너지 반영
-        relics: dungeonState.currentRelics,        // C-1: 렐릭 전달
+        maxEnergy: dungeonState.maxEnergy, // 렐릭 에너지 반영
+        relics: dungeonState.currentRelics, // C-1: 렐릭 전달
         playerStrength: charState.character.strength.toInt(), // H-2: STR 전달
       );
     });
@@ -169,7 +169,9 @@ class _CardBattleScreenState extends State<CardBattleScreen>
       _turnOverlayText = text;
       _showTurnOverlay = true;
     });
-    try { SoundService().playTurnChange(); } catch (_) {}
+    try {
+      SoundService().playTurnChange();
+    } catch (_) {}
     _turnOverlayController.forward(from: 0.0);
   }
 
@@ -249,8 +251,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                   game: _game,
                                   onCardPlayed: (cardIndex) {
                                     final card = combat.hand[cardIndex];
-                                    final enemyIdx =
-                                        combat.selectedEnemyIndex;
+                                    final enemyIdx = combat.selectedEnemyIndex;
 
                                     // 카드 효과 먼저 적용 (핵심 로직)
                                     combat.playCard(cardIndex,
@@ -266,8 +267,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                         case CardCategory.defense:
                                           SoundService().playCardPlayDefense();
                                         case CardCategory.tactical:
-                                          SoundService()
-                                              .playCardPlayTactical();
+                                          SoundService().playCardPlayTactical();
                                       }
                                     } catch (_) {}
 
@@ -275,8 +275,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                     try {
                                       if (card.category ==
                                               CardCategory.attack ||
-                                          card.category ==
-                                              CardCategory.magic) {
+                                          card.category == CardCategory.magic) {
                                         HapticFeedback.mediumImpact();
                                       } else {
                                         HapticFeedback.lightImpact();
@@ -287,8 +286,7 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                     try {
                                       if (card.category ==
                                               CardCategory.attack ||
-                                          card.category ==
-                                              CardCategory.magic) {
+                                          card.category == CardCategory.magic) {
                                         _triggerEnemyFlash(enemyIdx);
                                         _game.playHitParticle();
                                       }
@@ -320,15 +318,13 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                 return IgnorePointer(
                                   child: Container(
                                     color: Colors.black.withValues(
-                                        alpha:
-                                            0.4 * _turnOverlayOpacity.value),
+                                        alpha: 0.4 * _turnOverlayOpacity.value),
                                     child: Center(
                                       child: Opacity(
                                         opacity: _turnOverlayOpacity.value,
                                         child: Transform.scale(
                                           scale: 0.8 +
-                                              0.2 *
-                                                  _turnOverlayOpacity.value,
+                                              0.2 * _turnOverlayOpacity.value,
                                           child: Text(
                                             _turnOverlayText,
                                             style: TextStyle(
@@ -369,7 +365,8 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                               // 최종 HP를 dungeon_map_screen으로 전달
                               final finalHp = combat.playerHp;
                               combat.resetCombat();
-                              Navigator.of(context).pop({'won': true, 'hp': finalHp});
+                              Navigator.of(context)
+                                  .pop({'won': true, 'hp': finalHp});
                             },
                           ),
                         if (combat.phase == CombatPhase.defeat)
@@ -397,23 +394,35 @@ class _CardBattleScreenState extends State<CardBattleScreen>
 
   static String _zoneBgAsset(int zone) {
     switch (zone) {
-      case 1: return 'assets/images/backgrounds/bg_zone1_meadow.png';
-      case 2: return 'assets/images/backgrounds/bg_zone2_dark_forest.png';
-      case 3: return 'assets/images/backgrounds/bg_zone3_stone_castle.png';
-      case 4: return 'assets/images/backgrounds/bg_zone4_lava_cavern.png';
-      case 5: return 'assets/images/backgrounds/bg_zone5_abyss.png';
-      default: return 'assets/images/backgrounds/bg_zone1_meadow.png';
+      case 1:
+        return 'assets/images/backgrounds/bg_zone1_meadow.png';
+      case 2:
+        return 'assets/images/backgrounds/bg_zone2_dark_forest.png';
+      case 3:
+        return 'assets/images/backgrounds/bg_zone3_stone_castle.png';
+      case 4:
+        return 'assets/images/backgrounds/bg_zone4_lava_cavern.png';
+      case 5:
+        return 'assets/images/backgrounds/bg_zone5_abyss.png';
+      default:
+        return 'assets/images/backgrounds/bg_zone1_meadow.png';
     }
   }
 
   static List<Color> _zoneGradient(int zone) {
     switch (zone) {
-      case 1: return [const Color(0xFF6FB5E8), const Color(0xFF50A050)];
-      case 2: return [const Color(0xFF141428), const Color(0xFF1A2A1A)];
-      case 3: return [const Color(0xFF1E1218), const Color(0xFF2D1F1A)];
-      case 4: return [const Color(0xFF280A00), const Color(0xFF500A00)];
-      case 5: return [const Color(0xFF050014), const Color(0xFF0F0328)];
-      default: return [const Color(0xFF1A1A2E), const Color(0xFF0D0D1A)];
+      case 1:
+        return [const Color(0xFF6FB5E8), const Color(0xFF50A050)];
+      case 2:
+        return [const Color(0xFF141428), const Color(0xFF1A2A1A)];
+      case 3:
+        return [const Color(0xFF1E1218), const Color(0xFF2D1F1A)];
+      case 4:
+        return [const Color(0xFF280A00), const Color(0xFF500A00)];
+      case 5:
+        return [const Color(0xFF050014), const Color(0xFF0F0328)];
+      default:
+        return [const Color(0xFF1A1A2E), const Color(0xFF0D0D1A)];
     }
   }
 }
@@ -491,9 +500,8 @@ class _TopBar extends StatelessWidget {
 
           // Playable cards count
           _PlayableCardsBadge(
-            playableCount: combat.hand
-                .where((c) => c.cost <= combat.currentEnergy)
-                .length,
+            playableCount:
+                combat.hand.where((c) => c.cost <= combat.currentEnergy).length,
             totalInHand: combat.hand.length,
             currentEnergy: combat.currentEnergy,
             isDark: isDark,
@@ -548,15 +556,18 @@ class _TopBar extends StatelessWidget {
             onPressed: () {
               // async gap 전에 참조 캡처 (use_build_context_synchronously 대응)
               final combatState = context.read<CardCombatState>();
-              Navigator.of(ctx).pop();   // 다이얼로그 닫기
+              Navigator.of(ctx).pop(); // 다이얼로그 닫기
               Navigator.of(context).pop(false); // 배틀 화면 먼저 팝
               // resetCombat은 화면이 스택에서 제거된 뒤 실행
               // (빌드 중 notifyListeners 호출로 인한 에러 방지)
               Future.microtask(() {
-                try { combatState.resetCombat(); } catch (_) {}
+                try {
+                  combatState.resetCombat();
+                } catch (_) {}
               });
             },
-            child: Text(l10n.cardBattleAbandonButton, style: const TextStyle(color: Colors.red)),
+            child: Text(l10n.cardBattleAbandonButton,
+                style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -618,16 +629,22 @@ class _EnergyDisplay extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       height: 1.0,
-                      shadows: const [Shadow(color: Colors.black, blurRadius: 4)],
+                      shadows: const [
+                        Shadow(color: Colors.black, blurRadius: 4)
+                      ],
                     ),
                   ),
                   Text(
                     '/$max',
                     style: TextStyle(
-                      color: isEmpty ? Colors.grey.shade600 : Colors.amber.shade200,
+                      color: isEmpty
+                          ? Colors.grey.shade600
+                          : Colors.amber.shade200,
                       fontSize: 9,
                       height: 1.0,
-                      shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
+                      shadows: const [
+                        Shadow(color: Colors.black, blurRadius: 2)
+                      ],
                     ),
                   ),
                 ],
@@ -692,7 +709,11 @@ class _PlayableCardsBadge extends StatelessWidget {
           width: 1,
         ),
         boxShadow: canPlay && !noEnergy
-            ? [BoxShadow(color: Colors.greenAccent.withValues(alpha: 0.3), blurRadius: 6)]
+            ? [
+                BoxShadow(
+                    color: Colors.greenAccent.withValues(alpha: 0.3),
+                    blurRadius: 6)
+              ]
             : null,
       ),
       child: Row(
@@ -849,8 +870,7 @@ class _EnemyCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: isFlashing
               ? Colors.red.withValues(alpha: 0.6)
-              : (isDark ? Colors.black87 : Colors.white)
-                  .withValues(alpha: 0.7),
+              : (isDark ? Colors.black87 : Colors.white).withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? Colors.redAccent : Colors.transparent,
@@ -873,8 +893,7 @@ class _EnemyCard extends StatelessWidget {
                   // Sprite image — falls back to letter tile on error
                   ColorFiltered(
                     colorFilter: isFlashing
-                        ? const ColorFilter.mode(
-                            Colors.red, BlendMode.srcATop)
+                        ? const ColorFilter.mode(Colors.red, BlendMode.srcATop)
                         : const ColorFilter.mode(
                             Colors.transparent, BlendMode.multiply),
                     child: Image.asset(
@@ -953,8 +972,7 @@ class _EnemyCard extends StatelessWidget {
             const SizedBox(height: 2),
 
             // Block indicator
-            if (enemy.block > 0)
-              _BlockIndicator(block: enemy.block),
+            if (enemy.block > 0) _BlockIndicator(block: enemy.block),
 
             // Status effects
             if (enemy.statusEffects.isNotEmpty)
@@ -1123,9 +1141,24 @@ class _PlayerInfoBar extends StatelessWidget {
     final armor = character.equippedArmor;
     if (armor == null) return 'default';
     final name = armor.name.toLowerCase();
-    if (name.contains('knight') || name.contains('plate') || name.contains('철') || name.contains('강철')) return 'knight';
-    if (name.contains('mage') || name.contains('robe') || name.contains('마법') || name.contains('로브')) return 'mage';
-    if (name.contains('hunter') || name.contains('leather') || name.contains('가죽') || name.contains('사냥')) return 'hunter';
+    if (name.contains('knight') ||
+        name.contains('plate') ||
+        name.contains('철') ||
+        name.contains('강철')) {
+      return 'knight';
+    }
+    if (name.contains('mage') ||
+        name.contains('robe') ||
+        name.contains('마법') ||
+        name.contains('로브')) {
+      return 'mage';
+    }
+    if (name.contains('hunter') ||
+        name.contains('leather') ||
+        name.contains('가죽') ||
+        name.contains('사냥')) {
+      return 'hunter';
+    }
     return 'default';
   }
 
@@ -1222,10 +1255,12 @@ class _EndTurnButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final enabled = combat.phase == CombatPhase.playerTurn;
     return GestureDetector(
-      onTap: enabled ? () {
-        HapticFeedback.selectionClick();
-        combat.endTurn();
-      } : null,
+      onTap: enabled
+          ? () {
+              HapticFeedback.selectionClick();
+              combat.endTurn();
+            }
+          : null,
       child: Opacity(
         opacity: enabled ? 1.0 : 0.45,
         child: SizedBox(
@@ -1239,7 +1274,8 @@ class _EndTurnButton extends StatelessWidget {
                 height: 44,
                 fit: BoxFit.fitHeight,
                 errorBuilder: (_, __, ___) => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     gradient: enabled
@@ -1297,7 +1333,9 @@ class _CardHand extends StatelessWidget {
     if (hand.isEmpty) {
       return Center(
         child: Text(
-          combat.phase == CombatPhase.playerTurn ? l10n.cardBattleNoCardsInHand : '',
+          combat.phase == CombatPhase.playerTurn
+              ? l10n.cardBattleNoCardsInHand
+              : '',
           style: const TextStyle(color: Colors.white38, fontSize: 14),
         ),
       );
@@ -1397,7 +1435,7 @@ class _AnimatedHandCardState extends State<_AnimatedHandCard>
           card: widget.card,
           canPlay: widget.canPlay,
           onTap: widget.onTap,
-          isDark: widget.isDark,
+          isDark: widget.isDark, // kept for compat, unused by child
         ),
       ),
     );
@@ -1485,261 +1523,23 @@ class _PlayableCardState extends State<_PlayableCard>
           ),
         );
       },
-      child: _HandCard(
+      child: SoulDeckCardView(
         card: widget.card,
-        canPlay: widget.canPlay,
+        size: SoulDeckCardSize.hand,
+        enabled: widget.canPlay,
         onTap: _handleTap,
-        isDark: widget.isDark,
       ),
     );
-  }
-}
-
-// ============================================================================
-// Individual card widget
-// ============================================================================
-
-class _HandCard extends StatelessWidget {
-  final CardData card;
-  final bool canPlay;
-  final VoidCallback onTap;
-  final bool isDark;
-
-  const _HandCard({
-    required this.card,
-    required this.canPlay,
-    required this.onTap,
-    required this.isDark,
-  });
-
-  String get _iconAsset {
-    switch (card.category) {
-      case CardCategory.attack:
-        return 'assets/images/game/cards/icons/icon_attack.png';
-      case CardCategory.defense:
-        return 'assets/images/game/cards/icons/icon_defense.png';
-      case CardCategory.magic:
-        return 'assets/images/game/cards/icons/icon_magic.png';
-      case CardCategory.tactical:
-        return 'assets/images/game/cards/icons/icon_tactical.png';
-    }
-  }
-
-  Color get _borderColor {
-    switch (card.category) {
-      case CardCategory.attack:
-        return const Color(0xFFE53935);
-      case CardCategory.magic:
-        return const Color(0xFFAB47BC);
-      case CardCategory.defense:
-        return const Color(0xFF1E88E5);
-      case CardCategory.tactical:
-        return const Color(0xFF43A047);
-    }
-  }
-
-  String get _frameAsset {
-    switch (card.category) {
-      case CardCategory.attack:
-        return 'assets/images/cards/card_frame_attack.png';
-      case CardCategory.defense:
-        return 'assets/images/cards/card_frame_defense.png';
-      case CardCategory.magic:
-        return 'assets/images/cards/card_frame_magic.png';
-      case CardCategory.tactical:
-        return 'assets/images/cards/card_frame_tactical.png';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return GestureDetector(
-      onTap: onTap,
-      child: Opacity(
-        opacity: canPlay ? 1.0 : 0.45,
-        child: SizedBox(
-          width: 110,
-          child: Stack(
-            children: [
-              // ── 카드 프레임 PNG ──
-              Positioned.fill(
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      _frameAsset,
-                      fit: BoxFit.fill,
-                      errorBuilder: (_, __, ___) => Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF1E1E2E),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: _borderColor, width: 2),
-                        ),
-                      ),
-                    ),
-                    // tactical 전용: 흰 배경 가리는 어두운 오버레이
-                    if (card.category == CardCategory.tactical)
-                      Positioned(
-                        left: 14,
-                        right: 14,
-                        top: 14,
-                        bottom: 14,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF0A1A0E).withValues(alpha: 0.85),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-
-              // ── 카드 내용 ──
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // 코스트 + 이름
-                    SizedBox(
-                      height: 22,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _borderColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: _borderColor.withValues(alpha: 0.6),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${card.cost}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              CardLocalization.localizedName(card, l10n),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                shadows: [Shadow(color: Colors.black, blurRadius: 3)],
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    // ── 카드 카테고리 아이콘 ──
-                    Center(
-                      child: SizedBox(
-                        width: 54,
-                        height: 54,
-                        child: Image.asset(
-                          _iconAsset,
-                          fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    // 설명
-                    Expanded(
-                      child: Text(
-                        CardLocalization.localizedDescription(card, l10n),
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.85),
-                          fontSize: 9,
-                          height: 1.3,
-                          shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    // 레어도
-                    if (card.rarity != CardRarity.common)
-                      Center(
-                        child: Text(
-                          _rarityLabel(context, card.rarity),
-                          style: TextStyle(
-                            color: _rarityColor(card.rarity),
-                            fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                            shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-
-              // ── 사용 불가 시 어둡게 ──
-              if (!canPlay)
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.4),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  String _rarityLabel(BuildContext context, CardRarity rarity) {
-    final l10n = AppLocalizations.of(context)!;
-    switch (rarity) {
-      case CardRarity.common:
-        return '';
-      case CardRarity.uncommon:
-        return l10n.cardRarityUncommon;
-      case CardRarity.rare:
-        return l10n.cardRarityRare;
-      case CardRarity.legendary:
-        return l10n.cardRarityLegendary;
-    }
-  }
-
-  Color _rarityColor(CardRarity rarity) {
-    switch (rarity) {
-      case CardRarity.common:
-        return Colors.grey;
-      case CardRarity.uncommon:
-        return Colors.green;
-      case CardRarity.rare:
-        return Colors.blue;
-      case CardRarity.legendary:
-        return Colors.amber;
-    }
   }
 }
 
 // ============================================================================
 // Shared widgets
 // ============================================================================
+
+// _HandCard removed — replaced by SoulDeckCardView (soul_deck_card_view.dart)
+// _CardRewardChoice removed — replaced by SoulDeckCardView
+
 
 // ============================================================================
 // Player HP bar — 그라데이션 코드 기반 (HP 비율에 따라 색상 변화)
@@ -1754,7 +1554,7 @@ class _PlayerHpBar extends StatelessWidget {
   Color _barColor(double ratio) {
     if (ratio > 0.6) return const Color(0xFF4CAF50); // 초록
     if (ratio > 0.3) return const Color(0xFFFFC107); // 노랑
-    return const Color(0xFFF44336);                  // 빨강
+    return const Color(0xFFF44336); // 빨강
   }
 
   @override
@@ -2001,15 +1801,25 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
       final roll = rng.nextDouble();
       CardRarity rarity;
       if (hasFateThread) {
-        if (roll < 0.46) { rarity = CardRarity.common; }
-        else if (roll < 0.71) { rarity = CardRarity.uncommon; }
-        else if (roll < 0.93) { rarity = CardRarity.rare; }
-        else { rarity = CardRarity.legendary; }
+        if (roll < 0.46) {
+          rarity = CardRarity.common;
+        } else if (roll < 0.71) {
+          rarity = CardRarity.uncommon;
+        } else if (roll < 0.93) {
+          rarity = CardRarity.rare;
+        } else {
+          rarity = CardRarity.legendary;
+        }
       } else {
-        if (roll < 0.55) { rarity = CardRarity.common; }
-        else if (roll < 0.85) { rarity = CardRarity.uncommon; }
-        else if (roll < 0.97) { rarity = CardRarity.rare; }
-        else { rarity = CardRarity.legendary; }
+        if (roll < 0.55) {
+          rarity = CardRarity.common;
+        } else if (roll < 0.85) {
+          rarity = CardRarity.uncommon;
+        } else if (roll < 0.97) {
+          rarity = CardRarity.rare;
+        } else {
+          rarity = CardRarity.legendary;
+        }
       }
       final rarityPool = CardDatabase.allCards
           .where((c) =>
@@ -2023,7 +1833,8 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
         final fallback = CardDatabase.getCardsByRarity(CardRarity.common)
             .where((c) => !c.id.startsWith('base_') && !c.isUpgraded)
             .toList();
-        return fallback.isNotEmpty ? fallback[rng.nextInt(fallback.length)]
+        return fallback.isNotEmpty
+            ? fallback[rng.nextInt(fallback.length)]
             : CardDatabase.allCards.first;
       }
       return rarityPool[rng.nextInt(rarityPool.length)];
@@ -2153,13 +1964,13 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
                 // Card choices
                 if (_cardChoices.isNotEmpty)
                   SizedBox(
-                    height: 160,
+                    height: 152,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: _cardChoices.map((card) {
-                        return _CardRewardChoice(
+                        return SoulDeckCardView(
                           card: card,
-                          isDark: isDark,
+                          size: SoulDeckCardSize.reward,
                           enabled: !_cardSelected,
                           onTap: () => _selectCard(card),
                         );
@@ -2184,163 +1995,6 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ============================================================================
-// Card reward choice widget
-// ============================================================================
-
-class _CardRewardChoice extends StatelessWidget {
-  final CardData card;
-  final bool isDark;
-  final bool enabled;
-  final VoidCallback onTap;
-
-  const _CardRewardChoice({
-    required this.card,
-    required this.isDark,
-    required this.enabled,
-    required this.onTap,
-  });
-
-  Color get _rarityColor {
-    switch (card.rarity) {
-      case CardRarity.common:
-        return Colors.grey;
-      case CardRarity.uncommon:
-        return Colors.green;
-      case CardRarity.rare:
-        return Colors.blue;
-      case CardRarity.legendary:
-        return Colors.orange;
-    }
-  }
-
-  String get _categoryIcon {
-    switch (card.category) {
-      case CardCategory.attack:
-        return '⚔️';
-      case CardCategory.magic:
-        return '✨';
-      case CardCategory.defense:
-        return '🛡️';
-      case CardCategory.tactical:
-        return '🎯';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final color = _rarityColor;
-
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: AnimatedOpacity(
-        opacity: enabled ? 1.0 : 0.5,
-        duration: const Duration(milliseconds: 200),
-        child: Container(
-          width: 90,
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: isDark
-                ? color.withValues(alpha: 0.15)
-                : color.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: color.withValues(alpha: 0.6),
-              width: 1.5,
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Cost
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _categoryIcon,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 4, vertical: 1),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      '${card.cost}',
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 6),
-
-              // Name
-              Builder(builder: (ctx) {
-                final l10n = AppLocalizations.of(ctx)!;
-                return Text(
-                  CardLocalization.localizedName(card, l10n),
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                );
-              }),
-              const SizedBox(height: 4),
-
-              // Description
-              Expanded(
-                child: Builder(builder: (ctx) {
-                  final l10n = AppLocalizations.of(ctx)!;
-                  return Text(
-                    CardLocalization.localizedDescription(card, l10n),
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 9,
-                      color: isDark ? Colors.white54 : Colors.black45,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  );
-                }),
-              ),
-
-              // Rarity label
-              Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 4, vertical: 1),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: Text(
-                  card.rarity.name.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 8,
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ),
@@ -2413,7 +2067,9 @@ class _ResultOverlay extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  isVictory ? l10n.cardBattleVictory : l10n.dungeonResultDefeatTitle,
+                  isVictory
+                      ? l10n.cardBattleVictory
+                      : l10n.dungeonResultDefeatTitle,
                   style: TextStyle(
                     color: isDark ? Colors.white : Colors.black87,
                     fontSize: 28,
@@ -2444,8 +2100,9 @@ class _ResultOverlay extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: onContinue,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          isVictory ? Colors.amber.shade700 : Colors.grey.shade700,
+                      backgroundColor: isVictory
+                          ? Colors.amber.shade700
+                          : Colors.grey.shade700,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -2454,8 +2111,8 @@ class _ResultOverlay extends StatelessWidget {
                     ),
                     child: Text(
                       l10n.dungeonRestContinueButton,
-                      style:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

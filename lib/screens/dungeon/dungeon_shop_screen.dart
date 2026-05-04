@@ -6,6 +6,7 @@ import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/widgets/relic_icon.dart';
+import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 
 class DungeonShopScreen extends StatefulWidget {
   const DungeonShopScreen({super.key});
@@ -409,23 +410,14 @@ class _CardShopItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Cost badge
-            Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                color: Colors.amber.shade700,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  '${card.cost}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+            // Card frame mini preview
+            SizedBox(
+              width: 72,
+              height: 108,
+              child: SoulDeckCardView(
+                card: card,
+                size: SoulDeckCardSize.mini,
+                enabled: !isPurchased,
               ),
             ),
             const SizedBox(width: 10),
@@ -766,79 +758,13 @@ class _MiniCardWidget extends StatelessWidget {
 
   const _MiniCardWidget({required this.card, required this.isDark});
 
-  Color get _borderColor {
-    switch (card.category) {
-      case CardCategory.attack:
-        return Colors.red.shade400;
-      case CardCategory.magic:
-        return Colors.purple.shade400;
-      case CardCategory.defense:
-        return Colors.blue.shade400;
-      case CardCategory.tactical:
-        return Colors.amber.shade400;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E1E2E) : const Color(0xFFF5F5F0),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _borderColor, width: 2),
-      ),
-      padding: const EdgeInsets.all(6),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 18,
-                height: 18,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.amber.shade600,
-                ),
-                child: Center(
-                  child: Text(
-                    '${card.cost}',
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 3),
-              Expanded(
-                child: Text(
-                  CardLocalization.localizedName(card, l10n),
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Expanded(
-            child: Text(
-              CardLocalization.localizedDescription(card, l10n),
-              style: TextStyle(
-                fontSize: 9,
-                color: isDark ? Colors.white54 : Colors.black45,
-              ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+    return FittedBox(
+      fit: BoxFit.contain,
+      child: SoulDeckCardView(
+        card: card,
+        size: SoulDeckCardSize.mini,
       ),
     );
   }
