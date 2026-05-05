@@ -144,32 +144,6 @@ class _CardPackScreenState extends State<CardPackScreen>
     }
   }
 
-  String _rarityLabel(CardRarity rarity) {
-    switch (rarity) {
-      case CardRarity.common:
-        return 'Common';
-      case CardRarity.uncommon:
-        return 'Uncommon';
-      case CardRarity.rare:
-        return 'Rare';
-      case CardRarity.legendary:
-        return 'Legendary';
-    }
-  }
-
-  String _categoryIcon(CardCategory cat) {
-    switch (cat) {
-      case CardCategory.attack:
-        return '⚔️';
-      case CardCategory.magic:
-        return '🔮';
-      case CardCategory.defense:
-        return '🛡️';
-      case CardCategory.tactical:
-        return '✨';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -269,9 +243,9 @@ class _CardPackScreenState extends State<CardPackScreen>
                           },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      width: 100,
+                      width: 94, // SoulDeckCardSize.reward._width 와 일치
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8), // 카드 ClipRRect(8) 과 일치
                         border: Border.all(
                           color: isSelected
                               ? _rarityBorder(card.rarity)
@@ -289,15 +263,7 @@ class _CardPackScreenState extends State<CardPackScreen>
                               ]
                             : [],
                       ),
-                      child: _CardTile(
-                        card: card,
-                        isDark: isDark,
-                        isSelected: isSelected,
-                        rarityColor: _rarityColor(card.rarity),
-                        rarityBorder: _rarityBorder(card.rarity),
-                        rarityLabel: _rarityLabel(card.rarity),
-                        categoryIcon: _categoryIcon(card.category),
-                      ),
+                      child: _CardTile(card: card),
                     ),
                   );
                 }),
@@ -537,22 +503,8 @@ class _PackOpenButton extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────
 class _CardTile extends StatelessWidget {
   final CardData card;
-  final bool isDark;
-  final bool isSelected;
-  final Color rarityColor;
-  final Color rarityBorder;
-  final String rarityLabel;
-  final String categoryIcon;
 
-  const _CardTile({
-    required this.card,
-    required this.isDark,
-    required this.isSelected,
-    required this.rarityColor,
-    required this.rarityBorder,
-    required this.rarityLabel,
-    required this.categoryIcon,
-  });
+  const _CardTile({required this.card});
 
   @override
   Widget build(BuildContext context) {

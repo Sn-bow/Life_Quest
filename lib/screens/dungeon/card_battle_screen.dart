@@ -1902,7 +1902,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
             );
           },
           child: Container(
-            width: 320,
+            width: 330,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF1E1E2E) : Colors.white,

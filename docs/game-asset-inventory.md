@@ -71,6 +71,12 @@
 - `lib/screens/dungeon/dungeon_shop_screen.dart`
 - 기존 카드 팩의 단순 컨테이너형 카드 타일을 `assets/images/cards/card_frame_*.png`와 `assets/images/game/cards/icons/icon_*.png` 기반 공통 카드 위젯으로 교체했다.
 - **전 화면 통합 완료 (2026-05-04)**: 카드가 등장하는 모든 화면(전투 손패, 전투 보상, 카드 컬렉션, 던전 상점, 휴식 업그레이드)이 `SoulDeckCardView` 단일 컴포넌트를 사용한다. `SoulDeckCardSize.hand/reward/mini` 3종 제공.
+- **QA 수행 (2026-05-05)**:
+  - PNG alpha 채널 확인: 프레임 4종 + 아이콘 4종 모두 RGBA colorType=6. 투명 배경 정상.
+  - 코드 레벨 레이아웃 분석: 6개 화면 overflow/clipping 위험 없음.
+  - 버그 수정 1: `card_pack_screen.dart` 선택 테두리 카드 프레임 불일치(100px→94px, radius 12→8).
+  - 버그 수정 2: `card_battle_screen.dart` `_VictoryRewardOverlay` 수평 오버플로우 — Container width 320→330 (내부 Row 280→290px, 3카드 282px에 여유 확보).
+  - 실기기 화면 QA: APK 설치/실행 확인. 디버그 APK 재설치로 로그인 세션 초기화됨. 재로그인 후 **사용자 직접 확인 필요**.
 - 검증: `test/data/card_frame_assets_test.dart`
 
 ---
@@ -88,8 +94,8 @@
 ## 5. 다음 작업
 
 1. ~~`SoulDeckCardView`를 카드 전투 손패/전투 보상/컬렉션/상점/휴식 업그레이드 화면까지 확장한다.~~ ✅ **완료 (2026-05-04)**
-2. **[우선]** Codex에 STS2 타입별 하단 모양(공격=사다리꼴, 스킬=직사각형, 파워=타원) 적용 카드 프레임 4종 재생성 의뢰.
-3. **[우선]** 실기기(SM A530N) APK 설치 → 카드 UI 전 화면 스크린샷 QA 수행.
+2. **[우선]** 사용자 직접 던전 진입 → 카드팩/전투/컬렉션/상점/휴식 화면 시각 QA. 이상 발견 시 즉시 수정.
+3. **[우선]** Codex에 STS2 타입별 하단 모양(공격=사다리꼴, 스킬=직사각형, 파워=타원) 적용 카드 프레임 4종 재생성 의뢰.
 4. 카드 개별 삽화 생성 전략 확정 (Codex 생성 또는 외부 에셋) 후 각 카드 아이콘 영역 교체.
 5. 플레이어 상태별 PNG 또는 sprite sheet를 추가한다: `attack`, `defend`, `cast`, `hit`, `victory`.
 6. 전투 이펙트는 현재 단일 PNG 기반이므로, 다음 단계에서 프레임별 sprite sheet와 SFX 타이밍을 붙인다.

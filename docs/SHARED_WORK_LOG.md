@@ -309,3 +309,128 @@
 2. Codex에 STS2 타입별 프레임 하단 모양이 적용된 카드 프레임 4종 생성 의뢰
 3. 카드 개별 삽화 생성 전략 확정 (Codex 생성 또는 외부 에셋)
 4. GitHub 커밋·푸시
+
+---
+
+## 2026-05-05 KST - Claude
+
+### 착수 전 조사
+
+- `git status` / `git log -1` / `git show --stat 656e2d9` — 커밋 정상, 워킹트리 clean 확인.
+- `docs/SHARED_WORK_LOG.md`, `docs/game-asset-inventory.md`, `docs/AI_WORK_RULES.md` 전체 정독.
+- `SoulDeckCardView` 사용 위치 `rg` 전수 조사: 6개 파일 확인.
+- 각 QA 대상 화면의 GridView `crossAxisCount`, `childAspectRatio`, FittedBox 스케일 계산:
+  - 컬렉션 그리드(3열, 0.75): hand 카드 110×154 → 약 1.01× 스케일. 정상.
+  - 휴식 업그레이드 그리드(2열, 0.72): reward 카드 94×142 → 약 1.67× 스케일 업. 고해상도 PNG라 품질 이상 없음.
+  - 상점 Row: SizedBox(72×108) + mini 카드 72×108 — 정확히 일치.
+  - 상점 제거 그리드(3열, 0.75): mini 72×108 → 약 1.44× 스케일 업.
+  - 전투 손패: SizedBox(height: 160) + hand 카드 154px — 6px 여백, 문제 없음.
+  - 전투 보상 Row: SizedBox(height: 152) + reward 카드 142px — 10px 여백, 문제 없음.
+- 카드 프레임/아이콘 PNG alpha 채널 확인: `card_frame_*.png` 4종 + `icon_*.png` 4종 모두 colorType=6 (RGBA). 투명 배경 정상.
+- `card_pack_screen.dart` `_CardTile` 확인: `AnimatedContainer(width: 100)` 와 `SoulDeckCardView.reward(94px)` 간 6px 불일치 → 선택 테두리가 카드 프레임 밖에 그려지는 시각적 버그 확인.
+- ADB 기기 확인: SM A530N (520034bafe9225db) 연결됨.
+- APK 빌드 → 설치 → 앱 실행 시도: 스플래시("헌터 정보를 동기화하는 중") 까지 도달. 이후 PIN 잠금 화면에 막혀 던전 화면 직접 QA 불가.
+
+### QA 대상
+
+| 화면 | QA 방법 | 결과 |
+|---|---|---|
+| 카드팩 화면 | 코드 레벨 | 버그 1건 발견·수정 |
+| 컬렉션 그리드 | 코드 레벨 | 이상 없음 |
+| 상점 카드 Row | 코드 레벨 | 이상 없음 |
+| 상점 제거 그리드 | 코드 레벨 | 이상 없음 |
+| 휴식 업그레이드 그리드 | 코드 레벨 | 스케일 업 크지만 허용 범위 |
+| 전투 손패 | 코드 레벨 | 이상 없음 |
+| 전투 보상 선택 | 코드 레벨 | 이상 없음 |
+| 전 화면 실기기 스크린샷 | ADB | **불가** — 기기 PIN 잠금 |
+
+### 변경 파일
+
+- `lib/screens/dungeon/card_pack_screen.dart`
+  - `AnimatedContainer(width: 100)` → `width: 94` (SoulDeckCardSize.reward 폭과 일치)
+  - `borderRadius: BorderRadius.circular(12)` → `circular(8)` (카드 ClipRRect radius 일치)
+  - `_CardTile` 사용하지 않는 생성자 파라미터 6개 제거 (`isDark`, `isSelected`, `rarityColor`, `rarityBorder`, `rarityLabel`, `categoryIcon`)
+  - `_rarityLabel`, `_categoryIcon` 미사용 헬퍼 메서드 제거
+  - 호출부 단순화: `_CardTile(card: card)`
+- `docs/SHARED_WORK_LOG.md` — 본 항목 추가
+- `docs/game-asset-inventory.md` — QA 결과 반영 갱신
+
+### 실행한 검증
+
+- `flutter analyze` → `No issues found!` (수정 전·후 각 1회)
+- `flutter test test/data/card_frame_assets_test.dart test/data/monster_assets_test.dart test/data/player_assets_test.dart test/data/battle_effect_assets_test.dart` → `+4: All tests passed!`
+- `flutter build apk --debug` → 성공
+- `adb install` → 설치 성공
+- `adb shell monkey` → 앱 실행, 스플래시 확인
+- 기기 PIN 잠금으로 던전 화면 진입 불가 — 화면 스크린샷: `docs/qa_screenshots/` 저장
+
+### 결과
+
+- `card_pack_screen.dart` 선택 테두리 정렬 버그 수정: 선택 글로우/테두리가 카드 프레임에 정확히 맞게 됨.
+- `_CardTile` dead code 제거: 6개 미사용 파라미터 + 2개 미사용 메서드 정리.
+- 코드 레벨 QA에서 PNG alpha 채널 전수 확인: 프레임·아이콘 모두 투명 배경 — 흰 박스 문제 없음.
+- 6개 QA 대상 레이아웃 전부 overflow/clipping 위험 없음.
+- `flutter analyze 0건, +4 tests passed` 유지.
+
+### 남은 위험
+
+- **실기기 던전 화면 QA 미완료**: 기기 PIN으로 내부 진입 불가. 사용자가 직접 던전 → 각 화면을 열어 시각적으로 확인해야 한다.
+- **휴식 업그레이드 그리드 스케일 업**: reward 카드 1.67× 확대. PNG 해상도는 충분하지만 실기기에서 너무 크게 보이면 `childAspectRatio` 조정 필요.
+- **미니 카드 가독성**: 72px 너비에서 8.5pt/7.5pt — 상점 Row에서 오른쪽 텍스트가 보완하지만 직접 확인 필요.
+- **STS2 프레임 하단 모양 미분화**: 4종 프레임 하단이 동일. Codex 재생성 필요.
+- **카드 삽화 부재**: 카테고리 아이콘만 표시, 개별 삽화 없음.
+
+### 다음 작업
+
+1. **사용자 직접 QA**: 기기 잠금 해제 후 던전 진입 → 카드팩/전투/컬렉션/상점/휴식 화면 시각 확인
+2. Codex에 STS2 타입별 하단 모양 카드 프레임 4종 재생성 의뢰
+3. 카드 개별 삽화 전략 확정
+
+---
+
+## 2026-05-05 KST (2차) - Claude
+
+### 착수 전 조사
+
+- 이전 세션 토큰 소진으로 중단된 지점 파악: `qa_reward_close.png` / `qa_victory.png` 스크린샷에서 3번째 보상 카드("생명의")에 Flutter debug 오버플로우 줄무늬(노란/검은 사선) 확인.
+- `lib/widgets/soul_deck_card_view.dart` Column 레이아웃 분석:
+  - reward 카드 내부 가용 높이 = 142 - 10(패딩) = 132px; 고정 높이 합계(이름 20+gap 3+아이콘 38+gap 3) = 64px; 나머지 68px은 `Expanded`(설명)+희귀도 레이블. 수직 오버플로우 아님.
+- `lib/screens/dungeon/card_battle_screen.dart` `_VictoryRewardOverlay` 레이아웃 분석:
+  - Container `width: 320`, `padding: EdgeInsets.all(20)` → 내부 Row 가용 폭 = 320 - 40 = **280px**.
+  - 보상 카드 3장 × 94px = **282px** → **2px 수평 오버플로우** 발생. 원인 확정.
+- 나머지 화면 레이아웃 코드 레벨 재검증:
+  - 컬렉션 그리드(3열 0.75): `FittedBox.contain + hand` — 안전.
+  - 휴식 그리드(2열 0.72): `FittedBox.contain + reward` (비율 0.662 < 0.72) — FittedBox 축소. 안전.
+  - 상점 Row: `SizedBox(72×108) + mini` — 정확히 일치. 안전.
+
+### 변경 파일
+
+- `lib/screens/dungeon/card_battle_screen.dart`
+  - `_VictoryRewardOverlay` Container `width: 320` → `width: 330` (내부 Row 가용 폭 280 → 290px, 3카드 282px에 여유 8px 확보)
+
+### 실행한 검증
+
+- `flutter analyze --no-pub` → `No issues found!` (61.9s)
+- `flutter build apk --debug` → `√ Built build\app\outputs\flutter-apk\app-debug.apk` (31.8s)
+- `adb uninstall + adb install` → `Success`
+- `adb shell monkey` → 앱 실행, 로그인 화면 도달 확인 (`docs/qa_screenshots/qa_after_install.png`)
+
+### 결과
+
+- 전투 승리 보상 오버레이의 수평 오버플로우 버그 수정. 3장 카드(282px)가 290px 공간에 여유 있게 표시됨.
+- `flutter analyze 0건` 유지.
+- 전 화면 코드 레벨 레이아웃 검증 완료 — 컬렉션/휴식/상점 3개 화면 추가 이상 없음.
+
+### 남은 위험
+
+- **실기기 던전 화면 QA 미완료**: 디버그 APK 재설치로 로그인 세션 초기화됨. 재로그인 후 사용자가 직접 확인 필요.
+- **휴식 업그레이드 그리드 스케일 업**: reward 카드 1.67× 확대. 실기기에서 너무 크게 보이면 `childAspectRatio` 조정 필요.
+- **미니 카드 가독성**: 72px 너비에서 8.5pt/7.5pt 텍스트 — 실기기 확인 필요.
+- **STS2 프레임 하단 모양 미분화**: 4종 프레임 하단이 동일. Codex 재생성 필요.
+- **카드 삽화 부재**: 카테고리 아이콘만 표시, 개별 삽화 없음.
+
+### 다음 작업
+
+1. **사용자 직접 QA**: 앱 로그인 후 던전 진입 → 전투 승리 보상/카드팩/컬렉션/상점/휴식 화면 오버플로우 없음 최종 확인
+2. Codex에 STS2 타입별 하단 모양 카드 프레임 4종 재생성 의뢰
+3. 카드 개별 삽화 전략 확정
