@@ -4,7 +4,6 @@ import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/widgets/combat/monster_battle_sprite.dart';
-import 'package:life_quest_final_v2/widgets/combat/player_battle_sprite.dart';
 
 class CombatArenaView extends StatelessWidget {
   final CombatState combatState;
@@ -48,30 +47,9 @@ class CombatArenaView extends StatelessWidget {
           AnimatedBuilder(
             animation: flashAnimation,
             builder: (context, child) {
-              final isLightning = charState.character.equippedCombatEffect ==
-                  'combat_effect_lightning';
-
-              return Stack(
-                alignment: Alignment.center,
-                fit: StackFit.passthrough,
-                children: [
-                  Container(
-                    color: Colors.white
-                        .withValues(alpha: flashAnimation.value * 0.3),
-                  ),
-                  if (isLightning && flashAnimation.value > 0)
-                    Transform.scale(
-                      scale: 1.0 + (flashAnimation.value * 2),
-                      child: Opacity(
-                        opacity: flashAnimation.value.clamp(0.0, 1.0),
-                        child: Icon(
-                          Icons.bolt,
-                          size: 100,
-                          color: Colors.blueAccent.withValues(alpha: 0.8),
-                        ),
-                      ),
-                    ),
-                ],
+              return Container(
+                color:
+                    Colors.white.withValues(alpha: flashAnimation.value * 0.3),
               );
             },
           ),
@@ -85,7 +63,7 @@ class CombatArenaView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        charState.character.name,
+                        '나의 전투 상태',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'monospace',
@@ -94,52 +72,16 @@ class CombatArenaView extends StatelessWidget {
                           color: isDark ? Colors.cyanAccent : Colors.indigo,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      AnimatedBuilder(
-                        animation: flashAnimation,
-                        builder: (context, child) {
-                          return Transform.translate(
-                            offset: Offset(14 * flashAnimation.value, 0),
-                            child: Transform.scale(
-                              scale: 1 + (flashAnimation.value * 0.06),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.cyanAccent.withValues(
-                                        alpha: 0.18 * flashAnimation.value,
-                                      ),
-                                      blurRadius: 28,
-                                      spreadRadius: 4,
-                                    ),
-                                  ],
-                                ),
-                                child: child,
-                              ),
-                            ),
-                          );
-                        },
-                        child: PlayerBattleSprite(
-                          gender: 'masculine',
-                          skinTone: 'warm',
-                          hairStyle: 'spike',
-                          eyeStyle: 'sharp',
-                          earStyle: 'round',
-                          noseStyle: 'line',
-                          mouthStyle: 'flat',
-                          outfitStyle: 'hunter',
-                          weapon: charState.character.equippedWeapon,
-                          armor: charState.character.equippedArmor,
-                          accessory: charState.character.equippedAccessory,
-                          size: 132,
-                          attackProgress: flashAnimation.value,
-                          defendProgress: 0,
-                          facingRight: true,
-                        ),
-                      ),
                       const SizedBox(height: 10),
+                      _HpBar(
+                        current: charState.character.characterHp.toDouble(),
+                        max: charState.character.characterMaxHp.toDouble(),
+                        color: Colors.cyan,
+                        isDark: isDark,
+                      ),
+                      const SizedBox(height: 8),
                       Text(
-                        'Lv.${charState.character.level} · HP ${charState.character.characterHp}',
+                        '퀘스트 성장 Lv.${charState.character.level}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'monospace',
@@ -326,5 +268,60 @@ class CombatArenaView extends StatelessWidget {
       case ItemRarity.legendary:
         return Colors.orange;
     }
+  }
+}
+
+class _HpBar extends StatelessWidget {
+  final double current;
+  final double max;
+  final Color color;
+  final bool isDark;
+
+  const _HpBar({
+    required this.current,
+    required this.max,
+    required this.color,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 180,
+      height: 16,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade900,
+        borderRadius: BorderRadius.circular(2),
+        border: Border.all(
+          color: isDark ? Colors.white24 : Colors.black26,
+          width: 2,
+        ),
+      ),
+      child: Stack(
+        children: [
+          FractionallySizedBox(
+            widthFactor: (current / max).clamp(0, 1),
+            child: Container(
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(1),
+              ),
+            ),
+          ),
+          Center(
+            child: Text(
+              '${current.toInt()} / ${max.toInt()}',
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [Shadow(blurRadius: 2, color: Colors.black)],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

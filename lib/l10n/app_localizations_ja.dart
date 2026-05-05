@@ -60,7 +60,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loginTitle => '日々の行動を経験値に変えよう';
 
   @override
-  String get loginSubtitle => '小さなクエストを積み重ね、キャラクターと一日を共に成長させる生産性RPG';
+  String get loginSubtitle => '小さなクエストを積み重ね、あなたの実力と一日を共に成長させる生産性RPG';
 
   @override
   String get loginEmailLabel => 'メール';
@@ -817,7 +817,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboardingPage1Body =>
-      'やることをクエストとして登録しましょう。\n完了するたびにXPとゴールドを獲得し\nキャラクターが成長します。';
+      'やることをクエストとして登録しましょう。\n完了するたびにXPとゴールドを獲得し\nあなたの実力が成長します。';
 
   @override
   String get onboardingPage2Title => 'ダンジョンを探索せよ';

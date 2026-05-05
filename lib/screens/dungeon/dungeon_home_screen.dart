@@ -142,7 +142,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${character.name} Lv.${character.level}',
+                    '나의 던전 진행 Lv.${character.level}',
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 18,
@@ -151,23 +151,29 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Row(
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
                     children: [
-                      _statChip('STR ${character.strength.toInt()}', Colors.red, isDark),
-                      const SizedBox(width: 8),
-                      _statChip('WIS ${character.wisdom.toInt()}', Colors.purple, isDark),
-                      const SizedBox(width: 8),
-                      _statChip('HP ${character.health.toInt()}', Colors.blue, isDark),
-                      const SizedBox(width: 8),
-                      _statChip('CHA ${character.charisma.toInt()}', Colors.amber, isDark),
+                      _statChip('공격 보정 ${character.strength.toInt()}',
+                          Colors.red, isDark),
+                      _statChip('전술 보정 ${character.wisdom.toInt()}',
+                          Colors.purple, isDark),
+                      _statChip('생존 보정 ${character.health.toInt()}',
+                          Colors.blue, isDark),
+                      _statChip('보상 보정 ${character.charisma.toInt()}',
+                          Colors.amber, isDark),
                     ],
                   ),
                   const SizedBox(height: 10),
                   // 던전 시작 골드 미리보기
                   Row(
                     children: [
-                      Icon(Icons.monetization_on, size: 14,
-                          color: isDark ? Colors.amber.shade300 : Colors.amber.shade700),
+                      Icon(Icons.monetization_on,
+                          size: 14,
+                          color: isDark
+                              ? Colors.amber.shade300
+                              : Colors.amber.shade700),
                       const SizedBox(width: 4),
                       Text(
                         '시작 골드: ${50 + (character.gold * 0.15).clamp(0, 150).toInt()}  (계정 골드 15% 반입)',
@@ -445,9 +451,9 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     int startingGold = 50 + (character.gold * 0.15).clamp(0, 150).toInt();
 
     // ── [스트릭 보너스] 시작 골드 추가 보정 ──────────────────────────────
-    if (character.streak >= 3)  startingGold += 30;   // 3일: +30
-    if (character.streak >= 7)  startingGold += 20;   // 7일: 추가 +20
-    if (character.streak >= 14) startingGold += 30;   // 14일: 추가 +30
+    if (character.streak >= 3) startingGold += 30; // 3일: +30
+    if (character.streak >= 7) startingGold += 20; // 7일: 추가 +20
+    if (character.streak >= 14) startingGold += 30; // 14일: 추가 +30
 
     // ── [장비 보너스] 무기 장착 → 시작 덱에 공격 카드 1장 추가 ─────────────
     RelicData? starterRelic;
@@ -564,8 +570,7 @@ class _SeasonBanner extends StatelessWidget {
             ],
           ),
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
@@ -602,17 +607,17 @@ class _AscensionSection extends StatelessWidget {
   });
 
   List<String> _modifiers(AppLocalizations l10n) => [
-    l10n.ascensionLevel1Modifier,
-    l10n.ascensionLevel2Modifier,
-    l10n.ascensionLevel3Modifier,
-    l10n.ascensionLevel4Modifier,
-    l10n.ascensionLevel5Modifier,
-    l10n.ascensionLevel6Modifier,
-    l10n.ascensionLevel7Modifier,
-    l10n.ascensionLevel8Modifier,
-    l10n.ascensionLevel9Modifier,
-    l10n.ascensionLevel10Modifier,
-  ];
+        l10n.ascensionLevel1Modifier,
+        l10n.ascensionLevel2Modifier,
+        l10n.ascensionLevel3Modifier,
+        l10n.ascensionLevel4Modifier,
+        l10n.ascensionLevel5Modifier,
+        l10n.ascensionLevel6Modifier,
+        l10n.ascensionLevel7Modifier,
+        l10n.ascensionLevel8Modifier,
+        l10n.ascensionLevel9Modifier,
+        l10n.ascensionLevel10Modifier,
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -655,7 +660,8 @@ class _AscensionSection extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: ascensionLevel > 0
                       ? Colors.deepPurple.withValues(alpha: 0.3)
@@ -663,7 +669,9 @@ class _AscensionSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  ascensionLevel > 0 ? 'A$ascensionLevel' : l10n.ascensionInactive,
+                  ascensionLevel > 0
+                      ? 'A$ascensionLevel'
+                      : l10n.ascensionInactive,
                   style: TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 12,
@@ -737,7 +745,9 @@ class _AscensionSection extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'monospace',
                         fontSize: 11,
-                        color: isDark ? Colors.orange.shade200 : Colors.orange.shade900,
+                        color: isDark
+                            ? Colors.orange.shade200
+                            : Colors.orange.shade900,
                       ),
                     ),
                   ],
@@ -811,8 +821,8 @@ class _InfiniteTowerButton extends StatelessWidget {
                 color: Colors.amber.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.trending_up,
-                  color: Colors.amber, size: 28),
+              child:
+                  const Icon(Icons.trending_up, color: Colors.amber, size: 28),
             ),
             const SizedBox(width: 16),
             Expanded(

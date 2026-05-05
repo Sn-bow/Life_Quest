@@ -13,7 +13,6 @@ import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/game/battle_game.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/widgets/relic_icon.dart';
-import 'package:life_quest_final_v2/widgets/player_profile_sprite.dart';
 import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
@@ -1137,36 +1136,8 @@ class _PlayerInfoBar extends StatelessWidget {
 
   const _PlayerInfoBar({required this.combat, required this.isDark});
 
-  String _outfitFromEquipment(dynamic character) {
-    final armor = character.equippedArmor;
-    if (armor == null) return 'default';
-    final name = armor.name.toLowerCase();
-    if (name.contains('knight') ||
-        name.contains('plate') ||
-        name.contains('철') ||
-        name.contains('강철')) {
-      return 'knight';
-    }
-    if (name.contains('mage') ||
-        name.contains('robe') ||
-        name.contains('마법') ||
-        name.contains('로브')) {
-      return 'mage';
-    }
-    if (name.contains('hunter') ||
-        name.contains('leather') ||
-        name.contains('가죽') ||
-        name.contains('사냥')) {
-      return 'hunter';
-    }
-    return 'default';
-  }
-
   @override
   Widget build(BuildContext context) {
-    final charState = context.watch<CharacterState>();
-    final character = charState.isDataLoaded ? charState.character : null;
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -1177,24 +1148,6 @@ class _PlayerInfoBar extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // 플레이어 스프라이트
-          if (character != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: PlayerProfileSprite(
-                gender: 'masculine',
-                skinTone: 'warm',
-                hairStyle: 'spike',
-                eyeStyle: 'sharp',
-                earStyle: 'round',
-                noseStyle: 'line',
-                mouthStyle: 'flat',
-                outfitStyle: _outfitFromEquipment(character),
-                size: 52,
-                facingRight: true,
-              ),
-            ),
-
           // HP bar + 상태효과
           Expanded(
             child: Column(
@@ -1539,7 +1492,6 @@ class _PlayableCardState extends State<_PlayableCard>
 
 // _HandCard removed — replaced by SoulDeckCardView (soul_deck_card_view.dart)
 // _CardRewardChoice removed — replaced by SoulDeckCardView
-
 
 // ============================================================================
 // Player HP bar — 그라데이션 코드 기반 (HP 비율에 따라 색상 변화)

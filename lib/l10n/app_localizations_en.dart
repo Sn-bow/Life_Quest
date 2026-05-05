@@ -61,7 +61,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginSubtitle =>
-      'A productivity RPG where small quests grow your character and your day';
+      'A productivity RPG where small quests grow your skills and shape your day';
 
   @override
   String get loginEmailLabel => 'Email';
@@ -837,7 +837,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingPage1Body =>
-      'Register your tasks as quests.\nEarn XP and gold each time you complete one\nand watch your character grow.';
+      'Register your tasks as quests.\nEarn XP and gold each time you complete one\nand grow your stats and skills.';
 
   @override
   String get onboardingPage2Title => 'Explore the Dungeon';

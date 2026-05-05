@@ -207,7 +207,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginSubtitle.
   ///
   /// In ko, this message translates to:
-  /// **'작은 퀘스트를 쌓아 캐릭터와 하루를 함께 성장시키는 생산성 RPG'**
+  /// **'작은 퀘스트를 쌓아 나의 하루를 함께 성장시키는 생산성 RPG'**
   String get loginSubtitle;
 
   /// No description provided for @loginEmailLabel.
@@ -1599,7 +1599,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPage1Body.
   ///
   /// In ko, this message translates to:
-  /// **'할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n캐릭터가 성장합니다.'**
+  /// **'할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n나의 퀘스트 성장이 쌓입니다.'**
   String get onboardingPage1Body;
 
   /// No description provided for @onboardingPage2Title.

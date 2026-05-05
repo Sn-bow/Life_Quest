@@ -60,7 +60,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get loginTitle => '오늘의 행동을 경험치로 바꾸세요';
 
   @override
-  String get loginSubtitle => '작은 퀘스트를 쌓아 캐릭터와 하루를 함께 성장시키는 생산성 RPG';
+  String get loginSubtitle => '작은 퀘스트를 쌓아 나의 하루를 함께 성장시키는 생산성 RPG';
 
   @override
   String get loginEmailLabel => '이메일';
@@ -820,7 +820,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onboardingPage1Body =>
-      '할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n캐릭터가 성장합니다.';
+      '할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n나의 퀘스트 성장이 쌓입니다.';
 
   @override
   String get onboardingPage2Title => '던전을 탐험하라';

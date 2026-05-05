@@ -23,7 +23,7 @@
 | 카드 프레임 | `assets/images/cards/` | 4개 PNG | 공통 카드 컴포넌트 작성, 카드 팩 화면 적용 완료 |
 | 카드별 중앙 삽화 | `assets/images/game/cards/art/` | 샘플 11장 PNG | starter/common 샘플 적용 완료, 실기기 카드 화면 QA 필요 |
 | 몬스터 | `assets/images/monsters/` | 31개 PNG | 전투 렌더링 적용 완료 |
-| 플레이어 | `assets/images/player/hero_idle.png` | 1개 PNG | 전투/프로필 적용 완료, 상태별 에셋 부족 |
+| 플레이어 | `assets/images/player/hero_idle.png` | 1개 PNG | 폐기 예정/미사용. 던전·전투에서 별도 플레이어 캐릭터를 표시하지 않음 |
 | 전투 이펙트 | `assets/images/game/effects/` | 4개 PNG | 공격/방어/마법/처치 적용 완료 |
 | 유물 | `assets/images/game/relics/` | 31개 이상 PNG | 사용 가능, 화면별 연결 검증 필요 |
 | 카드 아이콘 | `assets/images/game/cards/icons/` | 4개 PNG | 사용 가능 |
@@ -44,11 +44,12 @@
 
 ### 플레이어
 
-- `lib/widgets/combat/player_battle_sprite.dart`
-- `lib/widgets/player_profile_sprite.dart`
-- `assets/images/player/hero_idle.png`를 전투 화면과 카드 전투 프로필에 적용했다.
-- 기존 생성자 파라미터는 호출부 호환을 위해 유지하되, 제거된 아바타/커스터마이징 기능을 되살리지 않도록 외형 파라미터는 최종 렌더에 반영하지 않는다.
-- 검증: `test/data/player_assets_test.dart`
+- 2026-05-05 기준 별도 플레이어 캐릭터 표시는 제거했다.
+- 삭제: `lib/widgets/combat/player_battle_sprite.dart`
+- 삭제: `lib/widgets/player_profile_sprite.dart`
+- 삭제: `test/data/player_assets_test.dart`
+- `assets/images/player/hero_idle.png`는 현재 런타임 미사용이다. 즉시 바이너리 삭제 대신 폐기 예정 에셋으로 기록한다.
+- 향후 던전/전투 UI는 캐릭터명/아바타가 아니라 `나의 전투 상태`, `퀘스트 성장`, `던전 보정` 관점으로 표현한다.
 
 ### 전투 이펙트
 

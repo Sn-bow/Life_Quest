@@ -630,3 +630,110 @@
 2. 문제 발견 시 `SoulDeckCardView` 중앙 이미지 크기/padding/설명 maxLines 조정
 3. QA 통과 후 common 전체 카드 삽화 생성 계획 확장
 4. Codex에 STS2 타입별 하단 모양 카드 프레임 4종 재생성 의뢰
+
+---
+
+## 2026-05-05 KST (4차 - Codex)
+
+### 착수 전 조사
+
+- 사용자 피드백: Life Quest의 전투 주체는 별도 캐릭터가 아니라 현실 퀘스트를 수행하는 사용자 본인이다. 던전/전투의 플레이어 캐릭터 표시는 의미가 없으므로 제거 요청.
+- `rg`로 `PlayerBattleSprite`, `PlayerProfileSprite`, `hero_idle`, `character.name`, 장비 비주얼 사용 위치를 조사했다.
+- 확인된 런타임 사용처:
+  - `lib/screens/dungeon/card_battle_screen.dart`: 전투 상단 플레이어 프로필 스프라이트
+  - `lib/widgets/combat/combat_arena_view.dart`: 일반 전투 아레나 플레이어 전신 스프라이트와 장비 비주얼
+  - `lib/screens/dungeon/dungeon_home_screen.dart`: 캐릭터 이름/STR/WIS/HP/CHA 중심 던전 홈 카드
+- `CharacterState`/`Character`는 XP, 골드, HP, 덱, 장비 보정 계산에 광범위하게 묶여 있어 즉시 모델 삭제는 위험하다고 판단했다. 이번 작업 범위는 화면에서 별도 캐릭터 존재감을 제거하고 내부 진행 데이터로만 남기는 것이다.
+
+### 변경 파일
+
+- `lib/screens/dungeon/card_battle_screen.dart`
+- `lib/widgets/combat/combat_arena_view.dart`
+- `lib/screens/dungeon/dungeon_home_screen.dart`
+- `lib/widgets/combat/player_battle_sprite.dart` 삭제
+- `lib/widgets/player_profile_sprite.dart` 삭제
+- `test/data/player_assets_test.dart` 삭제
+- `docs/AI_WORK_RULES.md`
+- `docs/game-asset-inventory.md`
+- `docs/SHARED_WORK_LOG.md`
+
+### 변경 내용
+
+- 카드 전투 상단 HP 바에서 `PlayerProfileSprite`와 장비 기반 outfit 계산을 제거했다.
+- 일반 전투 아레나에서 `PlayerBattleSprite`, 플레이어 이름, 장비 시각 반영, 장착 전투 이펙트 아이콘을 제거했다.
+- 일반 전투 아레나 왼쪽 영역은 `나의 전투 상태` + HP 바 + `퀘스트 성장 Lv.x`만 표시하도록 변경했다.
+- 던전 홈의 `${character.name} Lv.x`, `STR/WIS/HP/CHA` 표기를 `나의 던전 진행 Lv.x`, `공격/전술/생존/보상 보정`으로 변경했다.
+- 캐릭터 스프라이트 위젯 2개와 해당 에셋 존재 테스트를 삭제했다.
+- `hero_idle.png`는 즉시 삭제하지 않고 폐기 예정/미사용 에셋으로 문서화했다.
+- 작업 중 PowerShell 라인 교체로 두 화면 파일의 한글 인코딩이 깨지는 문제가 발생했으나, 해당 파일만 HEAD 기준으로 복원한 뒤 의도 변경만 재적용했다.
+
+### 실행한 검증
+
+- `dart format lib\screens\dungeon\card_battle_screen.dart lib\screens\dungeon\dungeon_home_screen.dart lib\widgets\combat\combat_arena_view.dart`
+- `flutter_tools.dart analyze --no-pub` → `No issues found`
+- `flutter_tools.dart test test\data\card_art_assets_test.dart test\data\card_frame_assets_test.dart test\data\monster_assets_test.dart test\data\battle_effect_assets_test.dart` → `+6: All tests passed`
+
+### 결과
+
+- 던전/전투 화면의 별도 플레이어 캐릭터 비주얼은 제거됐다.
+- 내부 성장/보상 계산은 유지했다. 현재 구조에서 `Character` 모델 전체 삭제는 별도 마이그레이션/리팩토링 단계로 분리해야 한다.
+
+### 남은 위험
+
+- `status_screen.dart`, `settings_screen.dart`, `inventory_screen.dart`, 로컬라이제이션 문구에는 여전히 캐릭터 중심 표현이 남아 있다. 다음 단계에서 앱 전체 용어를 `캐릭터 성장`에서 `사용자/계정/퀘스트 성장`으로 바꾸는 전역 카피 리팩토링이 필요하다.
+- `assets/images/player/hero_idle.png`는 미사용 상태로 남아 있다. pubspec 또는 다른 화면에서 참조가 완전히 없음을 재확인한 뒤 별도 cleanup에서 삭제 가능하다.
+
+### 다음 작업
+
+1. ARB 카피 리팩토링: `loginSubtitle`, `onboardingPage1Body` 4개 언어에서 `캐릭터` → 사용자 중심 표현으로 변경.
+2. `status_screen.dart`에서 `character.name` 헤드라인 강조 해제.
+3. `combat_state.dart` 전투 로그에서 `[character.name]` → `나` / 중립 표현.
+
+---
+
+## 2026-05-05 KST (5차) - Claude
+
+### 착수 전 조사
+
+- Codex 4차 작업 로그 정독 — `status_screen.dart`, `settings_screen.dart`, 로컬라이제이션이 잔여 캐릭터 중심 표현으로 남아 있음 확인.
+- `lib/l10n/` ARB 4개 파일에서 `캐릭터`, `character`, `キャラクター`, `角色` 사용 위치 확인:
+  - `loginSubtitle` (4개 언어): "캐릭터와 하루를 함께 성장" / "grow your character and your day" / "キャラクターと一日を共に成長" / "与角色共同成长"
+  - `onboardingPage1Body` (4개 언어): "캐릭터가 성장합니다" / "watch your character grow" / "キャラクターが成長します" / "让角色不断成长"
+- `lib/screens/status_screen.dart` 184~191줄: `character.name`을 `headlineSmall bold primary color`로 화면 최상위 정체성 요소로 표시 — RPG 캐릭터 이름으로 오해될 수 있는 강조.
+- `lib/state/combat_state.dart` 138, 140, 173, 205줄: `[${character.name}]` 전투 로그 삽입.
+- `settings_screen.dart`: l10n 키(`settingsNicknameLabel`) 기반 닉네임 설정. 계정 이름 맥락으로 수용 가능. 변경 불필요.
+- `inventory_screen.dart`: l10n 키 기반 장비/스탯 레이블. 변경 불필요.
+- `signup_screen.dart`: 프로필 사진 업로드 (Firebase user photo). 계정 설정 맥락으로 수용 가능. 변경 불필요.
+
+### 변경 파일
+
+- `lib/l10n/app_ko.arb`: `loginSubtitle` "캐릭터와 하루를 함께 성장시키는" → "나의 하루를 함께 성장시키는". `onboardingPage1Body` "캐릭터가 성장합니다" → "나의 퀘스트 성장이 쌓입니다".
+- `lib/l10n/app_en.arb`: `loginSubtitle` "grow your character and your day" → "grow your skills and shape your day". `onboardingPage1Body` "watch your character grow" → "grow your stats and skills".
+- `lib/l10n/app_ja.arb`: `loginSubtitle` "キャラクターと一日を共に成長させる" → "あなたの実力と一日を共に成長させる". `onboardingPage1Body` "キャラクターが成長します" → "あなたの実力が成長します".
+- `lib/l10n/app_zh.arb`: `loginSubtitle` "与角色共同成长" → "让自己每天成长". `onboardingPage1Body` "让角色不断成长" → "不断提升自己的实力".
+- `lib/screens/status_screen.dart`: `character.name` 스타일 `headlineSmall bold primary` → `titleMedium onSurface` (닉네임 정체성 강조 해제, 계정 이름 수준으로 유지).
+- `lib/state/combat_state.dart`: 전투 로그 4곳 `[${character.name}]` → `나의` / `나는` / 생략 처리.
+
+### 실행한 검증
+
+- `flutter gen-l10n` → l10n.yaml 기반 자동 실행 확인.
+- `flutter analyze --no-pub` → `No issues found!` ✅
+- `flutter test` → `82개 전체 통과` ✅
+
+### 결과
+
+- ARB 4개 언어 `loginSubtitle` + `onboardingPage1Body`에서 캐릭터 중심 표현 완전 제거. l10n grep 결과 0건 확인.
+- `status_screen.dart` 닉네임 표시: RPG 주인공 이름 강조에서 일반 계정 닉네임 수준으로 하향.
+- `combat_state.dart` 전투 로그: `[닉네임]의 공격!` → `나의 공격!` 등 1인칭 사용자 시점으로 통일.
+- 앱 전체에서 별도 캐릭터 존재감이 시각/카피 양 측면에서 제거 완료.
+
+### 남은 위험
+
+- **실기기 확인 미완료**: 로그인 화면의 새 `loginSubtitle` 문구, 온보딩 1페이지의 새 Body 문구를 실제 기기에서 직접 확인 필요.
+- **`hero_idle.png` 미사용 에셋**: 아직 파일 삭제 안 됨. pubspec에서 참조 없음. 별도 cleanup에서 삭제 가능.
+
+### 다음 작업
+
+1. **사용자 직접 QA**: 앱 로그인 화면 subtitle, 온보딩 1페이지 body 문구 확인.
+2. **APK 재빌드·설치**: 새 문구 반영 APK로 기기 확인 (필요 시).
+3. 카드 삽화 실기기 QA (던전 진입 후 각 화면).

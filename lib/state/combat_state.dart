@@ -135,9 +135,9 @@ class CombatState extends ChangeNotifier {
     if (isCrit) {
       damage *= 1.5;
       _combatLog =
-          '💥 크리티컬 히트! [${character.name}]의 공격이 급소를 찔렀다! (${damage.toInt()} 데미지)';
+          '💥 크리티컬 히트! 나의 공격이 급소를 찔렀다! (${damage.toInt()} 데미지)';
     } else {
-      _combatLog = '⚔️ [${character.name}]의 공격! (${damage.toInt()} 데미지)';
+      _combatLog = '⚔️ 나의 공격! (${damage.toInt()} 데미지)';
     }
 
     SoundService().playAttack();
@@ -170,7 +170,7 @@ class CombatState extends ChangeNotifier {
       character.characterHp = character.characterMaxHp;
     }
 
-    _combatLog = '🛡️ [${character.name}]은(는) 방어 태세를 취했다! (체력 $healAmount 회복)';
+    _combatLog = '🛡️ 나는 방어 태세를 취했다! (체력 $healAmount 회복)';
 
     _monsterAttack(character);
     notifyListeners();
@@ -202,7 +202,7 @@ class CombatState extends ChangeNotifier {
     if (_currentMonster == null) return;
 
     if (_random.nextDouble() < dodgeChance(character)) {
-      _combatLog += '\n💨 [${character.name}]은(는) 가볍게 공격을 피했다!';
+      _combatLog += '\n💨 공격을 가볍게 피했다!';
       return;
     }
 

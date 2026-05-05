@@ -60,7 +60,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginTitle => '将日常行动转化为经验值';
 
   @override
-  String get loginSubtitle => '积累小任务，与角色共同成长的生产力RPG';
+  String get loginSubtitle => '积累小任务，让自己每天成长的生产力RPG';
 
   @override
   String get loginEmailLabel => '邮箱';
@@ -812,7 +812,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPage1Title => '将日常变成任务';
 
   @override
-  String get onboardingPage1Body => '将待办事项注册为任务吧。\n每次完成都能获得经验和金币，\n让角色不断成长。';
+  String get onboardingPage1Body => '将待办事项注册为任务吧。\n每次完成都能获得经验和金币，\n不断提升自己的实力。';
 
   @override
   String get onboardingPage2Title => '探索地下城';
