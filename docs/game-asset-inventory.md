@@ -21,6 +21,7 @@
 | 앱 아이콘/스플래시 | `assets/images/` | 다수 존재 | 사용 가능 |
 | 전투 배경 | `assets/images/backgrounds/` | 5개 PNG | 사용 가능 |
 | 카드 프레임 | `assets/images/cards/` | 4개 PNG | 공통 카드 컴포넌트 작성, 카드 팩 화면 적용 완료 |
+| 카드별 중앙 삽화 | `assets/images/game/cards/art/` | 샘플 11장 PNG | starter/common 샘플 적용 완료, 실기기 카드 화면 QA 필요 |
 | 몬스터 | `assets/images/monsters/` | 31개 PNG | 전투 렌더링 적용 완료 |
 | 플레이어 | `assets/images/player/hero_idle.png` | 1개 PNG | 전투/프로필 적용 완료, 상태별 에셋 부족 |
 | 전투 이펙트 | `assets/images/game/effects/` | 4개 PNG | 공격/방어/마법/처치 적용 완료 |
@@ -79,6 +80,26 @@
   - 실기기 화면 QA: APK 설치/실행 확인. 디버그 APK 재설치로 로그인 세션 초기화됨. 재로그인 후 **사용자 직접 확인 필요**.
 - 검증: `test/data/card_frame_assets_test.dart`
 
+### 카드별 중앙 삽화
+
+- `docs/card-art-generation-plan.md`
+- `lib/data/card_art_assets.dart`
+- `lib/widgets/soul_deck_card_view.dart`
+- `assets/images/game/cards/art/`
+- 샘플 11장 카드에 대해 내장 이미지 생성 기능으로 중앙 삽화를 생성하고 카드별 PNG로 분할 저장했다.
+- 샘플 카드 id:
+  - `base_strike`, `base_defend`, `base_focus`
+  - `atk_c01`, `atk_c02`
+  - `def_c01`, `def_c02`
+  - `mag_c01`, `mag_c02`
+  - `tac_c01`, `tac_c02`
+- `SoulDeckCardView`는 샘플 카드 삽화가 있으면 중앙 이미지로 표시하고, 파일이 없거나 샘플 외 카드면 기존 카테고리 아이콘으로 fallback한다.
+- 중앙 삽화 영역: hand 64px / reward 48px / mini 32px (PNG 생성 후 Codex가 확대 적용).
+- QA용 contact sheet: `docs/card_art_sample_contact_sheet.png` — 11장 다크 판타지 스타일, 어두운 배경, 텍스트/프레임 없음 육안 확인 ✅
+- **코드 레벨 QA 수행 (2026-05-05)**: 레이아웃 overflow 없음 / tactical overlay가 아트 미차단 / spritePath→artPath 로직 정확 / `flutter analyze 0건, +7 tests passed` 확인.
+- **실기기 QA**: APK 설치 확인, 로그인 화면 도달. 던전 내부 화면(손패/보상/컬렉션/상점/휴식)은 **사용자 직접 확인 필요** (로그인 자격증명 미보유).
+- 검증: `test/data/card_art_assets_test.dart`
+
 ---
 
 ## 4. 남은 도형 기반 비주얼
@@ -96,7 +117,8 @@
 1. ~~`SoulDeckCardView`를 카드 전투 손패/전투 보상/컬렉션/상점/휴식 업그레이드 화면까지 확장한다.~~ ✅ **완료 (2026-05-04)**
 2. **[우선]** 사용자 직접 던전 진입 → 카드팩/전투/컬렉션/상점/휴식 화면 시각 QA. 이상 발견 시 즉시 수정.
 3. **[우선]** Codex에 STS2 타입별 하단 모양(공격=사다리꼴, 스킬=직사각형, 파워=타원) 적용 카드 프레임 4종 재생성 의뢰.
-4. 카드 개별 삽화 생성 전략 확정 (Codex 생성 또는 외부 에셋) 후 각 카드 아이콘 영역 교체.
-5. 플레이어 상태별 PNG 또는 sprite sheet를 추가한다: `attack`, `defend`, `cast`, `hit`, `victory`.
-6. 전투 이펙트는 현재 단일 PNG 기반이므로, 다음 단계에서 프레임별 sprite sheet와 SFX 타이밍을 붙인다.
-7. 던전 맵은 노드/연결선/현재 위치를 이미지 기반으로 고도화한다.
+4. ~~샘플 11장 삽화 코드 레벨 QA.~~ ✅ **완료 (2026-05-05)** — 실기기 던전 화면 직접 확인은 미완료.
+5. 샘플 QA 통과 후 common 전체 카드 삽화 생성 계획 확장.
+6. 플레이어 상태별 PNG 또는 sprite sheet를 추가한다: `attack`, `defend`, `cast`, `hit`, `victory`.
+7. 전투 이펙트는 현재 단일 PNG 기반이므로, 다음 단계에서 프레임별 sprite sheet와 SFX 타이밍을 붙인다.
+8. 던전 맵은 노드/연결선/현재 위치를 이미지 기반으로 고도화한다.

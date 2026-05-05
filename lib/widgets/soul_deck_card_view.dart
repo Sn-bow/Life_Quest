@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_quest_final_v2/data/card_art_assets.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
@@ -50,11 +51,11 @@ class SoulDeckCardView extends StatelessWidget {
   double get _iconSize {
     switch (size) {
       case SoulDeckCardSize.hand:
-        return 54;
+        return 64;
       case SoulDeckCardSize.reward:
-        return 38;
+        return 48;
       case SoulDeckCardSize.mini:
-        return 28;
+        return 32;
     }
   }
 
@@ -148,6 +149,7 @@ class SoulDeckCardView extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final cardName = CardLocalization.localizedName(card, l10n);
     final description = CardLocalization.localizedDescription(card, l10n);
+    final artPath = CardArtAssets.artPathFor(card);
 
     return GestureDetector(
       onTap: enabled ? onTap : null,
@@ -189,23 +191,31 @@ class SoulDeckCardView extends StatelessWidget {
                 ),
               Padding(
                 padding: EdgeInsets.fromLTRB(
-                  size == SoulDeckCardSize.hand ? 8 : (size == SoulDeckCardSize.reward ? 7 : 5),
+                  size == SoulDeckCardSize.hand
+                      ? 8
+                      : (size == SoulDeckCardSize.reward ? 7 : 5),
                   5,
-                  size == SoulDeckCardSize.hand ? 8 : (size == SoulDeckCardSize.reward ? 7 : 5),
+                  size == SoulDeckCardSize.hand
+                      ? 8
+                      : (size == SoulDeckCardSize.reward ? 7 : 5),
                   5,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                      height: size == SoulDeckCardSize.hand ? 22 : (size == SoulDeckCardSize.reward ? 20 : 17),
+                      height: size == SoulDeckCardSize.hand
+                          ? 22
+                          : (size == SoulDeckCardSize.reward ? 20 : 17),
                       child: Row(
                         children: [
                           _CostGem(
                             value: card.cost,
                             color: _accentColor,
-                            dimension: size == SoulDeckCardSize.mini ? 15.0 : 20.0,
-                            fontSize: size == SoulDeckCardSize.mini ? 9.0 : 11.0,
+                            dimension:
+                                size == SoulDeckCardSize.mini ? 15.0 : 20.0,
+                            fontSize:
+                                size == SoulDeckCardSize.mini ? 9.0 : 11.0,
                           ),
                           const SizedBox(width: 3),
                           Expanded(
@@ -230,10 +240,9 @@ class SoulDeckCardView extends StatelessWidget {
                     Center(
                       child: SizedBox.square(
                         dimension: _iconSize,
-                        child: Image.asset(
-                          _iconAsset,
-                          fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                        child: _CardVisual(
+                          artPath: artPath,
+                          iconAsset: _iconAsset,
                         ),
                       ),
                     ),
@@ -299,6 +308,48 @@ class SoulDeckCardView extends StatelessWidget {
       case CardRarity.legendary:
         return l10n.cardRarityLegendary;
     }
+  }
+}
+
+class _CardVisual extends StatelessWidget {
+  final String? artPath;
+  final String iconAsset;
+
+  const _CardVisual({
+    required this.artPath,
+    required this.iconAsset,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final path = artPath;
+    if (path == null || path.isEmpty) {
+      return _CategoryIcon(iconAsset: iconAsset);
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: Image.asset(
+        path,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _CategoryIcon(iconAsset: iconAsset),
+      ),
+    );
+  }
+}
+
+class _CategoryIcon extends StatelessWidget {
+  final String iconAsset;
+
+  const _CategoryIcon({required this.iconAsset});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      iconAsset,
+      fit: BoxFit.contain,
+      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+    );
   }
 }
 

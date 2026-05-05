@@ -434,3 +434,199 @@
 1. **사용자 직접 QA**: 앱 로그인 후 던전 진입 → 전투 승리 보상/카드팩/컬렉션/상점/휴식 화면 오버플로우 없음 최종 확인
 2. Codex에 STS2 타입별 하단 모양 카드 프레임 4종 재생성 의뢰
 3. 카드 개별 삽화 전략 확정
+
+---
+
+## 2026-05-05 KST - Codex
+
+### 착수 전 조사
+
+- `docs/AI_WORK_RULES.md`, `docs/SHARED_WORK_LOG.md`, `docs/game-asset-inventory.md`를 확인했다.
+- imagegen skill을 확인했다. 라이브 image2 생성은 `OPENAI_API_KEY`가 필요하고, 기본 모델은 `gpt-image-1.5`임을 확인했다.
+- 현재 환경 변수 확인 결과 `OPENAI_API_KEY`가 설정되어 있지 않았다.
+- `CardData` 모델에 이미 `spritePath` 필드가 있으므로 새 모델 필드 추가 없이 카드 삽화 경로를 연결할 수 있음을 확인했다.
+- `CardDatabase`에서 샘플 11장 후보를 확인했다:
+  - starter 3장: `base_strike`, `base_defend`, `base_focus`
+  - attack common 2장: `atk_c01`, `atk_c02`
+  - defense common 2장: `def_c01`, `def_c02`
+  - magic common 2장: `mag_c01`, `mag_c02`
+  - tactical common 2장: `tac_c01`, `tac_c02`
+- `SoulDeckCardView`가 현재 중앙 영역에 카테고리 아이콘만 표시하고 있음을 확인했다.
+
+### 변경 파일
+
+- `docs/card-art-generation-plan.md`
+- `lib/data/card_art_assets.dart`
+- `lib/widgets/soul_deck_card_view.dart`
+- `assets/images/game/cards/art/.gitkeep`
+- `test/data/card_art_assets_test.dart`
+- `pubspec.yaml`
+- `docs/game-asset-inventory.md`
+- `docs/SHARED_WORK_LOG.md`
+
+### 실행한 검증
+
+- `dart format lib\data\card_art_assets.dart lib\widgets\soul_deck_card_view.dart test\data\card_art_assets_test.dart`
+  - 파일 포맷은 완료됐으나 Dart telemetry 파일 권한 문제로 종료 코드는 실패 처리됐다.
+- `flutter_tools.dart analyze --no-pub`
+  - 통과, No issues found
+- `flutter_tools.dart test test\data\card_art_assets_test.dart test\data\card_frame_assets_test.dart`
+  - 통과, 3개 테스트 전체 통과
+- imagegen CLI dry-run:
+  - `C:\Users\wjd54\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe C:\Users\wjd54\.codex\skills\imagegen\scripts\image_gen.py generate ... --dry-run`
+  - 통과. `OPENAI_API_KEY` 미설정 경고와 함께 `gpt-image-1.5`, `1024x1024`, `quality=high` 요청 형태 확인.
+
+### 결과
+
+- 카드 전체 PNG가 아니라 카드별 중앙 삽화 PNG만 image2로 생성하는 방향을 문서로 고정했다.
+- `docs/card-art-generation-plan.md`에 샘플 11장 각각의 카드 id, 콘셉트, 저장 경로, image2 프롬프트, 금지 요소를 작성했다.
+- `CardArtAssets` 헬퍼를 추가해 샘플 11장만 `assets/images/game/cards/art/{cardId}.png`로 매핑했다.
+- `SoulDeckCardView`는 카드 삽화가 있으면 중앙 이미지로 표시하고, 파일이 없거나 샘플 외 카드면 기존 카테고리 아이콘으로 fallback한다.
+- `pubspec.yaml`에 `assets/images/game/cards/art/`를 등록했다.
+- 실제 생성 PNG가 아직 없어도 앱은 기존 아이콘 fallback으로 유지된다.
+
+### 남은 위험
+
+- `OPENAI_API_KEY`가 없어 실제 image2 샘플 11장 생성은 아직 수행하지 못했다.
+- 샘플 삽화가 들어가면 현재 중앙 영역 크기(`hand 54`, `reward 38`, `mini 28`)가 너무 작게 느껴질 수 있다. 실제 이미지 생성 후 `SoulDeckCardView`의 art plate 크기/설명 영역 재조정이 필요할 수 있다.
+- 현재 카드 프레임 자체의 품질 문제는 별도 작업이다. 이번 작업은 중앙 삽화 파이프라인만 준비했다.
+
+### 다음 작업
+
+1. `OPENAI_API_KEY` 설정 후 `docs/card-art-generation-plan.md`의 샘플 11장 프롬프트로 실제 PNG 생성.
+2. 생성된 11장 삽화를 `assets/images/game/cards/art/`에 저장한 뒤 실기기에서 전투 손패/보상/컬렉션/상점/휴식 화면 QA.
+3. 샘플 QA가 통과하면 common 전체 카드 삽화 프롬프트 확장.
+
+### 정정
+
+- 사용자 지시에 따라 이미지 생성 방식 기준을 정정한다.
+- 이 Codex 대화 환경에서는 로컬 `OPENAI_API_KEY`가 필요한 imagegen CLI를 우선하지 않는다.
+- 새 게임 이미지 생성은 Codex 내장 이미지 생성 기능을 사용한다.
+- 이 규칙을 `docs/AI_WORK_RULES.md`의 `2-A. 이미지 생성 규칙`에 기록했다.
+
+---
+
+## 2026-05-05 KST (2차) - Codex
+
+### 착수 전 조사
+
+- 내장 이미지 생성 결과 저장 위치를 확인했다: `C:\Users\wjd54\.codex\generated_images\019dee9e-c5ee-7791-a88e-40c0d4b07383\`
+- starter 3장 생성 시트를 육안 확인했다. 텍스트/숫자/프레임 없이 중앙 삽화로 사용 가능하다고 판단했다.
+- 샘플 8장 추가 생성 시트를 육안 확인했다. 4×2 패널 모두 카드 중앙 삽화로 사용 가능하다고 판단했다.
+
+### 변경 파일
+
+- `assets/images/game/cards/art/base_strike.png`
+- `assets/images/game/cards/art/base_defend.png`
+- `assets/images/game/cards/art/base_focus.png`
+- `assets/images/game/cards/art/atk_c01.png`
+- `assets/images/game/cards/art/atk_c02.png`
+- `assets/images/game/cards/art/def_c01.png`
+- `assets/images/game/cards/art/def_c02.png`
+- `assets/images/game/cards/art/mag_c01.png`
+- `assets/images/game/cards/art/mag_c02.png`
+- `assets/images/game/cards/art/tac_c01.png`
+- `assets/images/game/cards/art/tac_c02.png`
+- `docs/card_art_sample_contact_sheet.png`
+- `lib/widgets/soul_deck_card_view.dart`
+- `test/data/card_art_assets_test.dart`
+- `docs/card-art-generation-plan.md`
+- `docs/game-asset-inventory.md`
+- `docs/SHARED_WORK_LOG.md`
+
+### 실행한 검증
+
+- 내장 이미지 생성:
+  - starter 3장 시트 생성
+  - common 샘플 8장 시트 생성
+- 생성 시트 분할:
+  - starter 3장 → 1024×1024 PNG 3개
+  - common 샘플 8장 → 1024×1024 PNG 8개
+- contact sheet 생성: `docs/card_art_sample_contact_sheet.png`
+- `dart format lib\widgets\soul_deck_card_view.dart test\data\card_art_assets_test.dart lib\data\card_art_assets.dart`
+  - 파일 포맷은 완료됐으나 Dart telemetry 파일 권한 문제로 종료 코드는 실패 처리됐다.
+- `flutter_tools.dart analyze --no-pub`
+  - 1차 실패: 테스트에서 `package:image` 직접 import로 `depend_on_referenced_packages` 발생
+  - PNG 헤더 직접 파싱 방식으로 수정 후 재실행 통과, No issues found
+- `flutter_tools.dart test test\data\card_art_assets_test.dart test\data\card_frame_assets_test.dart`
+  - 통과, 4개 테스트 전체 통과
+
+### 결과
+
+- 샘플 11장 카드별 중앙 삽화가 실제 프로젝트 에셋으로 저장됐다.
+- `SoulDeckCardView` 중앙 삽화 영역을 키웠다:
+  - hand: 54 → 64
+  - reward: 38 → 48
+  - mini: 28 → 32
+- `card_art_assets_test.dart`가 샘플 11장 PNG의 존재, 비어 있지 않음, PNG decode 가능, 1024×1024 크기를 검증하도록 강화됐다.
+
+### 남은 위험
+
+- 실제 Flutter 화면에서 삽화가 텍스트와 충돌하지 않는지 아직 기기 QA가 필요하다.
+- `mag_c02`는 마법진 형태가 포함되어 있으나 읽을 수 있는 텍스트는 아니다. 기기에서 너무 복잡해 보이면 재생성 후보로 둔다.
+- 전체 207장 생성 전, 이번 11장 샘플의 화면 내 가독성을 먼저 확정해야 한다.
+
+### 다음 작업
+
+1. Android 실기기에서 전투 손패/보상/컬렉션/상점/휴식 화면의 샘플 카드 표시 QA.
+2. QA 통과 시 common 전체 카드 삽화 생성으로 확장.
+3. 카드 프레임 자체 재생성 여부 결정.
+
+---
+
+## 2026-05-05 KST (3차) - Claude
+
+### 착수 전 조사
+
+- `git status` → main 브랜치, origin/main 동기화됨. untracked: `assets/images/game/cards/art/`, `lib/data/card_art_assets.dart`, `test/data/card_art_assets_test.dart`, `docs/card-art-generation-plan.md`, `docs/card_art_sample_contact_sheet.png`.
+- `docs/AI_WORK_RULES.md`, `docs/card-art-generation-plan.md`, `docs/game-asset-inventory.md`, `docs/SHARED_WORK_LOG.md` 전체 정독.
+- `lib/data/card_art_assets.dart` 확인: 샘플 11장 ID Set, `artPathFor(card)` — `spritePath` 우선, fallback `sampleCardIds` 체크. 로직 정확.
+- `lib/widgets/soul_deck_card_view.dart` 확인: `_CardVisual` 위젯 추가됨. artPath 있으면 `ClipRRect+Image.asset(BoxFit.cover)`, 없으면 `_CategoryIcon` fallback. `_iconSize`: hand 64 / reward 48 / mini 32 (이전 54/38/28에서 확대).
+- `test/data/card_art_assets_test.dart` 확인: PNG 존재·비어있지 않음·1024×1024 크기 검증. `atk_c03` fallback null 반환 검증.
+- `assets/images/game/cards/art/` 실제 파일 확인: 11개 PNG 존재 (각 1.3~1.6MB, 1024×1024 확인).
+- `pubspec.yaml` 확인: `assets/images/game/cards/art/` 등록됨.
+- `docs/card_art_sample_contact_sheet.png` 육안 확인: 11장 모두 다크 판타지 스타일, 어두운 배경, 중앙 단일 오브젝트 구도, 텍스트/숫자/프레임 없음. 카드 중앙 삽화 적격.
+- 레이아웃 수치 코드 레벨 분석 (art 크기 확대 후):
+  - hand (110×154): 고정 94px(이름22+갭4+아트64+갭4), 나머지 50px → Expanded 설명 ~3.5줄, 오버플로우 없음.
+  - reward (94×142): 고정 74px(이름20+갭3+아트48+갭3), 나머지 58px → ~3.6줄, 오버플로우 없음.
+  - mini (72×108): 고정 55px(이름17+갭3+아트32+갭3), 나머지 43px → ~3.7줄, 오버플로우 없음.
+- tactical overlay (alpha:0.82) 스택 레이어 확인: overlay=layer 2, 아트 이미지=layer 3(content Column 내부). 아트가 overlay 위에 렌더링 → overlay가 아트를 가리지 않음.
+- `CardData.spritePath` 기본값 `''` → `artPathFor`에서 비어 있으면 `sampleCardIds` 체크로 이어짐. 정확.
+
+### 변경 파일
+
+- 없음 (코드 변경 불필요. 분석·검증·커밋만 수행)
+
+### 실행한 검증
+
+- `flutter analyze --no-pub` → `No issues found!` (11.4s) ✅
+- `flutter test test/data/card_art_assets_test.dart test/data/card_frame_assets_test.dart test/data/monster_assets_test.dart test/data/player_assets_test.dart test/data/battle_effect_assets_test.dart` → `+7: All tests passed!` ✅
+- `flutter build apk --debug` → `√ Built` (32.4s) ✅
+- `adb uninstall + adb install` → `Success` ✅
+- `adb shell monkey` → 앱 실행, 스플래시→로그인 화면 도달 (`docs/qa_screenshots/qa_art_login.png`)
+- 로그인 자격증명 미보유로 던전 화면 진입 불가 — 기기 QA는 사용자 직접 확인 필요
+
+### 결과
+
+- 코드 레벨 QA 전 체크리스트 통과: 레이아웃 overflow 없음, tactical overlay 아트 미차단, spritePath 로직 정확, 11장 PNG 품질·크기·다양성 양호.
+- `flutter analyze 0건, +7 tests passed` 유지.
+- 신규 파일(art PNG 11장, card_art_assets.dart, test, contact sheet, plan.md)이 git 추적에 추가됨.
+
+### 남은 위험
+
+- **실기기 던전 화면 QA 미완료**: 로그인 자격증명 없어 자동화 불가. 사용자가 앱 로그인 후 아래 화면을 직접 확인해야 한다.
+  - 전투 손패: 샘플 카드 삽화가 프레임 내 중앙에 표시되는지
+  - 전투 보상 선택: 3장 Row overflow 없는지(이전 세션에서 수정됨), 삽화 표시 정상인지
+  - 카드 컬렉션: hand 사이즈 64px 삽화가 그리드에서 잘리지 않는지
+  - 카드팩: reward 사이즈 48px 삽화, 선택 테두리 정렬(이전 세션 수정됨)
+  - 던전 상점: mini 32px 삽화 가독성
+  - 휴식 업그레이드: FittedBox 스케일 업 시 삽화 품질
+- **`mag_c02` 복잡도**: 마법진+서리 문양 조합. 32×32px mini에서 의미 파악 어려울 수 있음. 기기 확인 후 재생성 결정.
+- **전체 카드(207장) 삽화**: 샘플 QA 통과 후 확장. 스타터 3장+common 샘플 8장만 적용.
+
+### 다음 작업
+
+1. **사용자 직접 QA**: 앱 로그인 → 던전 진입 → 전투 손패/보상/컬렉션/상점/휴식 화면에서 샘플 카드 삽화 표시 확인
+2. 문제 발견 시 `SoulDeckCardView` 중앙 이미지 크기/padding/설명 maxLines 조정
+3. QA 통과 후 common 전체 카드 삽화 생성 계획 확장
+4. Codex에 STS2 타입별 하단 모양 카드 프레임 4종 재생성 의뢰

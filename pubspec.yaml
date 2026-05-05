@@ -85,6 +85,7 @@ flutter:
     - assets/images/game/effects/
     - assets/images/game/cards/frames/
     - assets/images/game/cards/icons/
+    - assets/images/game/cards/art/
     - assets/images/game/relics/
     - assets/images/game/ui/
     - assets/images/game/map/
