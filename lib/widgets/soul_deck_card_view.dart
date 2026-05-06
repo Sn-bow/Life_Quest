@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/data/card_art_assets.dart';
+import 'package:life_quest_final_v2/data/card_body_assets.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
@@ -10,6 +11,24 @@ enum SoulDeckCardSize {
   mini,
 }
 
+/// Unified card widget used across all Soul Deck screens.
+///
+/// ## Rendering modes
+///
+/// ### Full-body mode (preferred)
+/// Used when [CardBodyAssets.resolvedBodyPath] returns a non-null path.
+/// A single 440×616 card body image fills the entire card background.
+/// Flutter overlays gradient scrims and text (cost, name, description, rarity)
+/// on top with [Positioned] widgets.
+///
+/// ### Legacy mode (fallback)
+/// Used until full-body images are generated.
+/// Renders the existing frame PNG + center art/icon assembly via a [Column].
+/// Behaviour is identical to the original implementation.
+///
+/// Switching between modes: [CardBodyAssets._availableBodies] controls which
+/// body images are considered available. Add the '{category}_{rarity}' key
+/// there after placing the PNG in the asset directory.
 class SoulDeckCardView extends StatelessWidget {
   final CardData card;
   final SoulDeckCardSize size;
@@ -25,6 +44,8 @@ class SoulDeckCardView extends StatelessWidget {
     this.showRarity = true,
     this.onTap,
   });
+
+  // ── Dimensions ─────────────────────────────────────────────────────────────
 
   double get _width {
     switch (size) {
@@ -48,6 +69,38 @@ class SoulDeckCardView extends StatelessWidget {
     }
   }
 
+  // ── Layout helpers ──────────────────────────────────────────────────────────
+
+  /// Horizontal padding inside the card (left / right).
+  double get _hPad {
+    switch (size) {
+      case SoulDeckCardSize.hand:
+        return 8;
+      case SoulDeckCardSize.reward:
+        return 7;
+      case SoulDeckCardSize.mini:
+        return 5;
+    }
+  }
+
+  /// Vertical padding inside the card (top / bottom).
+  double get _vPad => 5.0;
+
+  /// Height of the cost-gem + card-name row.
+  double get _headerHeight {
+    switch (size) {
+      case SoulDeckCardSize.hand:
+        return 22;
+      case SoulDeckCardSize.reward:
+        return 20;
+      case SoulDeckCardSize.mini:
+        return 17;
+    }
+  }
+
+  // ── Typography ──────────────────────────────────────────────────────────────
+
+  /// Legacy center-art square dimension.
   double get _iconSize {
     switch (size) {
       case SoulDeckCardSize.hand:
@@ -81,6 +134,7 @@ class SoulDeckCardView extends StatelessWidget {
     }
   }
 
+  /// Max description lines in legacy mode.
   int get _descriptionLines {
     switch (size) {
       case SoulDeckCardSize.hand:
@@ -91,6 +145,21 @@ class SoulDeckCardView extends StatelessWidget {
         return 3;
     }
   }
+
+  /// Max description lines in full-body mode.
+  /// One extra line versus legacy because the center-art slot is freed.
+  int get _fullBodyDescriptionLines {
+    switch (size) {
+      case SoulDeckCardSize.hand:
+        return 6;
+      case SoulDeckCardSize.reward:
+        return 5;
+      case SoulDeckCardSize.mini:
+        return 4;
+    }
+  }
+
+  // ── Asset helpers ───────────────────────────────────────────────────────────
 
   String get _frameAsset {
     switch (card.category) {
@@ -118,6 +187,8 @@ class SoulDeckCardView extends StatelessWidget {
     }
   }
 
+  // ── Colors ──────────────────────────────────────────────────────────────────
+
   Color get _accentColor {
     switch (card.category) {
       case CardCategory.attack:
@@ -144,12 +215,16 @@ class SoulDeckCardView extends StatelessWidget {
     }
   }
 
+  // ── Build ───────────────────────────────────────────────────────────────────
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final cardName = CardLocalization.localizedName(card, l10n);
     final description = CardLocalization.localizedDescription(card, l10n);
-    final artPath = CardArtAssets.artPathFor(card);
+
+    // Full-body mode when a body PNG is registered; legacy otherwise.
+    final bodyPath = CardBodyAssets.resolvedBodyPath(card);
 
     return GestureDetector(
       onTap: enabled ? onTap : null,
@@ -159,143 +234,343 @@ class SoulDeckCardView extends StatelessWidget {
         child: SizedBox(
           width: _width,
           height: _height,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: ClipRRect(
+          child: bodyPath != null
+              ? _buildFullBody(cardName, description, bodyPath, l10n)
+              : _buildLegacy(cardName, description, l10n),
+        ),
+      ),
+    );
+  }
+
+  // ── Full-body layout ────────────────────────────────────────────────────────
+  //
+  // Stack layers:
+  //   1. Card body image (fills entire card)
+  //   2. Top gradient scrim  (behind cost gem + card name)
+  //   3. Bottom gradient scrim (behind description + rarity)
+  //   4. Positioned top: cost gem + card name
+  //   5. Positioned bottom: description + rarity
+  //   6. Disabled overlay (conditional)
+
+  Widget _buildFullBody(
+    String cardName,
+    String description,
+    String bodyPath,
+    AppLocalizations l10n,
+  ) {
+    final topScrimH = _headerHeight + _vPad + 12;
+    final bottomScrimH = _height * 0.46;
+
+    return Stack(
+      children: [
+        // ── 1. Card body image ───────────────────────────────────────────────
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              bodyPath,
+              fit: BoxFit.fill,
+              errorBuilder: (_, __, ___) => DecoratedBox(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E1E2E),
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    _frameAsset,
-                    fit: BoxFit.fill,
-                    errorBuilder: (_, __, ___) => DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1E1E2E),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: _accentColor, width: 2),
-                      ),
-                    ),
-                  ),
+                  border: Border.all(color: _accentColor, width: 2),
                 ),
               ),
-              if (card.category == CardCategory.tactical)
-                Positioned.fill(
-                  child: Padding(
-                    padding: const EdgeInsets.all(13),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF0A1A0E).withValues(alpha: 0.82),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
+            ),
+          ),
+        ),
+
+        // ── 2. Top gradient scrim ────────────────────────────────────────────
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: topScrimH,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withValues(alpha: 0.72),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        // ── 3. Bottom gradient scrim ─────────────────────────────────────────
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: bottomScrimH,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.80),
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        // ── 4. Top content: cost gem + card name ─────────────────────────────
+        Positioned(
+          top: _vPad,
+          left: _hPad,
+          right: _hPad,
+          height: _headerHeight,
+          child: Row(
+            children: [
+              _CostGem(
+                value: card.cost,
+                color: _accentColor,
+                dimension: size == SoulDeckCardSize.mini ? 15.0 : 20.0,
+                fontSize: size == SoulDeckCardSize.mini ? 9.0 : 11.0,
+              ),
+              const SizedBox(width: 3),
+              Expanded(
+                child: Text(
+                  cardName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: _nameFontSize,
+                    fontWeight: FontWeight.bold,
+                    shadows: const [
+                      Shadow(color: Colors.black, blurRadius: 4),
+                    ],
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                  size == SoulDeckCardSize.hand
-                      ? 8
-                      : (size == SoulDeckCardSize.reward ? 7 : 5),
-                  5,
-                  size == SoulDeckCardSize.hand
-                      ? 8
-                      : (size == SoulDeckCardSize.reward ? 7 : 5),
-                  5,
+              ),
+            ],
+          ),
+        ),
+
+        // ── 5. Bottom content: description + rarity ──────────────────────────
+        Positioned(
+          bottom: _vPad,
+          left: _hPad,
+          right: _hPad,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                description,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.92),
+                  fontSize: _descriptionFontSize,
+                  height: 1.25,
+                  shadows: const [
+                    Shadow(color: Colors.black, blurRadius: 3),
+                  ],
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                textAlign: TextAlign.center,
+                maxLines: _fullBodyDescriptionLines,
+                overflow: TextOverflow.ellipsis,
+              ),
+              if (showRarity && card.rarity != CardRarity.common)
+                Text(
+                  _rarityLabel(l10n),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: _rarityColor,
+                    fontSize: size == SoulDeckCardSize.hand ? 9 : 8,
+                    fontWeight: FontWeight.w700,
+                    shadows: const [
+                      Shadow(color: Colors.black, blurRadius: 3),
+                    ],
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+            ],
+          ),
+        ),
+
+        // ── 6. Disabled overlay ──────────────────────────────────────────────
+        if (!enabled)
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.36),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  // ── Legacy layout (unchanged fallback) ──────────────────────────────────────
+  //
+  // Stack layers:
+  //   1. Frame PNG background
+  //   2. Tactical dark overlay (conditional)
+  //   3. Column: cost+name / center art (or icon) / description / rarity
+  //   4. Disabled overlay (conditional)
+
+  Widget _buildLegacy(
+    String cardName,
+    String description,
+    AppLocalizations l10n,
+  ) {
+    final artPath = CardArtAssets.artPathFor(card);
+
+    return Stack(
+      children: [
+        // ── 1. Frame PNG background ──────────────────────────────────────────
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              _frameAsset,
+              fit: BoxFit.fill,
+              errorBuilder: (_, __, ___) => DecoratedBox(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E1E2E),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: _accentColor, width: 2),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // ── 2. Tactical category overlay ─────────────────────────────────────
+        if (card.category == CardCategory.tactical)
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.all(13),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0A1A0E).withValues(alpha: 0.82),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ),
+
+        // ── 3. Content column ────────────────────────────────────────────────
+        Padding(
+          padding: EdgeInsets.fromLTRB(_hPad, _vPad, _hPad, _vPad),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header row: cost gem + card name
+              SizedBox(
+                height: _headerHeight,
+                child: Row(
                   children: [
-                    SizedBox(
-                      height: size == SoulDeckCardSize.hand
-                          ? 22
-                          : (size == SoulDeckCardSize.reward ? 20 : 17),
-                      child: Row(
-                        children: [
-                          _CostGem(
-                            value: card.cost,
-                            color: _accentColor,
-                            dimension:
-                                size == SoulDeckCardSize.mini ? 15.0 : 20.0,
-                            fontSize:
-                                size == SoulDeckCardSize.mini ? 9.0 : 11.0,
-                          ),
-                          const SizedBox(width: 3),
-                          Expanded(
-                            child: Text(
-                              cardName,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: _nameFontSize,
-                                fontWeight: FontWeight.bold,
-                                shadows: const [
-                                  Shadow(color: Colors.black, blurRadius: 3),
-                                ],
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
+                    _CostGem(
+                      value: card.cost,
+                      color: _accentColor,
+                      dimension: size == SoulDeckCardSize.mini ? 15.0 : 20.0,
+                      fontSize: size == SoulDeckCardSize.mini ? 9.0 : 11.0,
                     ),
-                    SizedBox(height: size == SoulDeckCardSize.hand ? 4 : 3),
-                    Center(
-                      child: SizedBox.square(
-                        dimension: _iconSize,
-                        child: _CardVisual(
-                          artPath: artPath,
-                          iconAsset: _iconAsset,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size == SoulDeckCardSize.hand ? 4 : 3),
+                    const SizedBox(width: 3),
                     Expanded(
                       child: Text(
-                        description,
+                        cardName,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.86),
-                          fontSize: _descriptionFontSize,
-                          height: 1.25,
+                          color: Colors.white,
+                          fontSize: _nameFontSize,
+                          fontWeight: FontWeight.bold,
                           shadows: const [
-                            Shadow(color: Colors.black, blurRadius: 2),
-                          ],
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: _descriptionLines,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    if (showRarity && card.rarity != CardRarity.common)
-                      Text(
-                        _rarityLabel(l10n),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: _rarityColor,
-                          fontSize: size == SoulDeckCardSize.hand ? 9 : 8,
-                          fontWeight: FontWeight.w700,
-                          shadows: const [
-                            Shadow(color: Colors.black, blurRadius: 2),
+                            Shadow(color: Colors.black, blurRadius: 3),
                           ],
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+                    ),
                   ],
                 ),
               ),
-              if (!enabled)
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.36),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+              SizedBox(height: size == SoulDeckCardSize.hand ? 4 : 3),
+
+              // Center art: sample art PNG or category icon fallback
+              Center(
+                child: SizedBox.square(
+                  dimension: _iconSize,
+                  child: _CardVisual(
+                    artPath: artPath,
+                    iconAsset: _iconAsset,
                   ),
+                ),
+              ),
+              SizedBox(height: size == SoulDeckCardSize.hand ? 4 : 3),
+
+              // Description
+              Expanded(
+                child: Text(
+                  description,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.86),
+                    fontSize: _descriptionFontSize,
+                    height: 1.25,
+                    shadows: const [
+                      Shadow(color: Colors.black, blurRadius: 2),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: _descriptionLines,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+
+              // Rarity label (common cards omitted)
+              if (showRarity && card.rarity != CardRarity.common)
+                Text(
+                  _rarityLabel(l10n),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: _rarityColor,
+                    fontSize: size == SoulDeckCardSize.hand ? 9 : 8,
+                    fontWeight: FontWeight.w700,
+                    shadows: const [
+                      Shadow(color: Colors.black, blurRadius: 2),
+                    ],
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
             ],
           ),
         ),
-      ),
+
+        // ── 4. Disabled overlay ──────────────────────────────────────────────
+        if (!enabled)
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.36),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+      ],
     );
   }
+
+  // ── Helpers ─────────────────────────────────────────────────────────────────
 
   String _rarityLabel(AppLocalizations l10n) {
     switch (card.rarity) {
@@ -311,6 +586,10 @@ class SoulDeckCardView extends StatelessWidget {
   }
 }
 
+// ── Private sub-widgets ──────────────────────────────────────────────────────
+
+/// Renders center art PNG when available, or falls back to the category icon.
+/// Used by the legacy layout only; full-body mode embeds art in the background.
 class _CardVisual extends StatelessWidget {
   final String? artPath;
   final String iconAsset;
@@ -353,6 +632,7 @@ class _CategoryIcon extends StatelessWidget {
   }
 }
 
+/// Circular cost gem displayed in the top-left of every card.
 class _CostGem extends StatelessWidget {
   final int value;
   final Color color;

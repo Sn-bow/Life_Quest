@@ -737,3 +737,77 @@
 1. **사용자 직접 QA**: 앱 로그인 화면 subtitle, 온보딩 1페이지 body 문구 확인.
 2. **APK 재빌드·설치**: 새 문구 반영 APK로 기기 확인 (필요 시).
 3. 카드 삽화 실기기 QA (던전 진입 후 각 화면).
+
+---
+
+## 2026-05-07 KST - Claude
+
+### 착수 전 조사
+
+- `docs/AI_WORK_RULES.md`, `docs/SHARED_WORK_LOG.md`, `docs/game-asset-inventory.md`, `docs/card-art-generation-plan.md` 정독.
+- `lib/widgets/soul_deck_card_view.dart` 전체 구조 분석:
+  - Stack 3레이어: frame PNG (layer 1) → tactical overlay (layer 2) → content Column (layer 3)
+  - content Column: headerRow(22px) + gap(4px) + centerArt(64px) + gap(4px) + Expanded(desc) + rarity
+  - fallback: `errorBuilder` → solid color + accentColor border
+- `lib/data/card_art_assets.dart` 확인: sampleCardIds 11장 Set, `artPathFor()` 로직.
+- `assets/images/cards/` 확인: 카드 프레임 4종 PNG 존재.
+- `assets/images/game/cards/art/` 확인: 샘플 11장 PNG 존재 (1024×1024).
+- `lib/models/card_data.dart` 확인: `CardCategory` (attack/magic/defense/tactical), `CardRarity` (common/uncommon/rare/legendary), `CardData` 생성자.
+- `pubspec.yaml` 확인: 현재 asset 등록 목록.
+- 기존 방식 문제 정리: 프레임 PNG + 삽화 PNG가 별개 생성으로 분리감 → "카드 한 장 전체 바디 이미지 + Flutter 텍스트 오버레이" 방식이 목표.
+
+### 설계 결정
+
+- 파일명 정책: `assets/images/game/cards/full_body/card_body_{category}_{rarity}.png` (총 16장 예정)
+- 이미지 사양: 440×616 px, 상단 55% 주삽화, 하단 45% 자연 어두워지는 그라디언트
+- Flutter 오버레이: 비용 젬 + 카드명 (상단 Positioned) + 설명 + 희귀도 (하단 Positioned)
+- 전환 제어: `CardBodyAssets._availableBodies` Set — 키 추가 시 즉시 full body 모드 전환
+- 레거시 유지: `_availableBodies` 비어 있으면 기존 frame+art 레이아웃으로 자동 fallback
+
+### 변경 파일
+
+- `lib/data/card_body_assets.dart` (신규):
+  - `CardBodyAssets` 클래스: `bodyDirectory`, `_availableBodies`, `hasBodyFor()`, `bodyPathFor()`, `resolvedBodyPath()`, `allExpectedPaths()`.
+  - `resolvedBodyPath()`: 정확한 희귀도 → common fallback → null (레거시 사용) 순서 적용.
+- `lib/widgets/soul_deck_card_view.dart` (수정):
+  - `_hPad`, `_vPad`, `_headerHeight` getter 추출 (기존 인라인 삼항 표현식 대체).
+  - `_fullBodyDescriptionLines` getter 추가 (hand: 6 / reward: 5 / mini: 4).
+  - `build()`: `CardBodyAssets.resolvedBodyPath()` 기반으로 `_buildFullBody()` / `_buildLegacy()` 분기.
+  - `_buildFullBody()`: Positioned Stack — 바디이미지 + 상단스크림 + 하단스크림 + 비용/이름 + 설명/희귀도.
+  - `_buildLegacy()`: 기존 frame+art+Column 레이아웃 완전 보존.
+- `test/data/card_body_assets_test.dart` (신규):
+  - 경로 생성 테스트 (8개 대표 조합 + 16개 allExpectedPaths).
+  - 가용성 레지스트리 테스트 (초기 false, resolvedBodyPath null).
+  - pubspec 등록 + 디렉터리 존재 테스트.
+  - fallback 안전성 테스트.
+- `assets/images/game/cards/full_body/.gitkeep` (신규): 디렉터리 생성.
+- `pubspec.yaml`: `assets/images/game/cards/full_body/` 등록.
+- `docs/card-full-body-generation-plan.md` (신규): 이미지 사양, common 4장 프롬프트, 등록 방법, QA 기준, 레거시 에셋 처리 계획.
+- `docs/game-asset-inventory.md`: 카드 전체 바디 행 추가, 다음 작업 갱신.
+- `docs/SHARED_WORK_LOG.md`: 본 항목 추가.
+
+### 실행한 검증
+
+- `flutter analyze --no-pub` → `No issues found!` (63.5s) ✅
+- `flutter test test/data/card_body_assets_test.dart ...card_art... ...card_frame... ...monster... ...battle_effect...` → `+16: All tests passed!` ✅
+- `flutter test` (전체) → `92개 전체 통과` ✅
+- grep `PlayerBattleSprite|PlayerProfileSprite|hero_idle` lib/ → 0건 (잔여 참조 없음) ✅
+
+### 결과
+
+- `SoulDeckCardView`가 full body 이미지 방식과 레거시 방식을 모두 지원하는 구조로 전환됐다.
+- 현재는 `_availableBodies`가 비어 있어 모든 카드가 레거시 레이아웃으로 렌더링된다. (기존 동작 유지)
+- 바디 이미지 PNG를 생성해 디렉터리에 넣고 `_availableBodies`에 키를 추가하면 즉시 full body 모드로 전환된다.
+- 테스트 82 → 92개로 증가.
+
+### 남은 위험
+
+- **이미지 생성 미완료**: common 4장(`attack/defense/magic/tactical`)이 아직 없어 full body 모드는 실제 동작하지 않는다. Codex 내장 이미지 생성으로 4장 생성 필요.
+- **하단 스크림 높이 조정 가능성**: `_height * 0.46` 값이 실기기에서 텍스트 가독성을 충분히 확보하는지 확인 필요. 조정 시 `_buildFullBody()` 내 `bottomScrimH` 상수 변경.
+- **mini 사이즈 레이아웃**: 72×108 mini에서 설명 텍스트 4줄이 실기기에서 스크림 영역 안에 완전히 들어오는지 확인 필요.
+
+### 다음 작업
+
+1. **[최우선]** Codex: `docs/card-full-body-generation-plan.md` 섹션 5의 프롬프트로 common 4장 생성. `assets/images/game/cards/full_body/`에 저장. `_availableBodies`에 키 추가.
+2. APK 빌드 → 실기기에서 full body 카드 시각 QA.
+3. QA 통과 후 uncommon/rare/legendary 확장.
