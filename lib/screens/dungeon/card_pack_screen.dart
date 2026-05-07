@@ -243,7 +243,7 @@ class _CardPackScreenState extends State<CardPackScreen>
                           },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      width: 102, // SoulDeckCardSize.reward._width 와 일치
+                      width: 108, // SoulDeckCardSize.reward._width 와 일치
                       decoration: BoxDecoration(
                         borderRadius:
                             BorderRadius.circular(8), // 카드 ClipRRect(8) 과 일치

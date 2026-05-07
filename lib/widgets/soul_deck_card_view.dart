@@ -52,7 +52,7 @@ class SoulDeckCardView extends StatelessWidget {
       case SoulDeckCardSize.hand:
         return 110;
       case SoulDeckCardSize.reward:
-        return 102;
+        return 108;
       case SoulDeckCardSize.mini:
         return 72;
     }
@@ -128,7 +128,7 @@ class SoulDeckCardView extends StatelessWidget {
       case SoulDeckCardSize.hand:
         return 9;
       case SoulDeckCardSize.reward:
-        return 8.2;
+        return 7.7;
       case SoulDeckCardSize.mini:
         return 7.5;
     }

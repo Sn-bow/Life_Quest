@@ -1855,7 +1855,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
           },
           child: Container(
             width: 350,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF1E1E2E) : Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -1918,7 +1918,7 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
                   SizedBox(
                     height: 152,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: _cardChoices.map((card) {
                         return SoulDeckCardView(
                           card: card,
