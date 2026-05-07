@@ -869,3 +869,104 @@
 1. APK 빌드 및 실기기 설치.
 2. 전투 손패, 전투 승리 보상, 카드팩, 컬렉션, 상점, 휴식 업그레이드 화면에서 full body 카드 QA.
 3. QA 통과 후 uncommon/rare/legendary 12장 추가 생성.
+
+---
+
+## 2026-05-07 KST - Codex 실기기 QA 진행 계획
+
+### 목적
+
+full body 카드 common 4종이 실제 Android 기기에서 카드 UI로 표시될 때, 텍스트 가독성/배치/overflow/이미지 분위기가 배포 가능한 수준인지 확인한다.
+
+### 진행 순서
+
+1. ADB 기기 상태 확인: `520034bafe9225db` 연결/부팅/화면 상태 확인.
+2. 설치 전략 결정:
+   - 1차: 기존 APK 위에 `adb install -r` 재시도.
+   - 장시간 무응답이면 `adb install --no-streaming -r` 또는 Gradle install task로 전환.
+   - 서명 충돌이 있으면 사용자 데이터 삭제 위험이 있으므로 무단 uninstall은 하지 않는다.
+3. 앱 실행 확인:
+   - `com.lifequest.app` activity resolve 후 `am start`.
+   - 실행 직후 스크린샷과 crash logcat 확인.
+4. 카드 화면 QA:
+   - 전투 손패: full body 이미지 위 카드명/비용/설명 가독성.
+   - 승리 보상: 3장 Row overflow 재발 여부.
+   - 카드팩/컬렉션: reward/card grid에서 카드 이미지 잘림 여부.
+   - 상점/휴식: mini/reward 크기에서 텍스트가 과밀하지 않은지.
+5. 수정 기준:
+   - 텍스트가 배경에 묻히면 하단 스크림 opacity/높이 조정.
+   - 이름/비용이 상단 삽화와 충돌하면 top scrim/패딩 조정.
+   - mini 설명이 과밀하면 mini full-body 설명 줄 수 축소 또는 mini 전용 표시 정책 조정.
+6. 모든 결과를 본 문서에 계속 누적 기록한다.
+
+### 착수 전 주의
+
+- 이번 QA는 카드 full body 작업만 대상으로 한다.
+- `.claude/` 변경과 이전 영상 제작 산출물은 건드리지 않는다.
+- 단순 도형/임시 프레임 방식으로 되돌리지 않는다.
+
+### 진행 결과
+
+- ADB 기기 `520034bafe9225db` 연결 확인.
+- 기존 universal debug APK는 274MB, arm64 split debug APK는 약 199MB였다.
+- 최초 설치 실패 원인:
+  - `/data` 여유 공간 1.2GB 수준에서 `INSTALL_FAILED_INSUFFICIENT_STORAGE` 발생.
+  - `/data/local/tmp/lifequest-debug.apk` stale 파일 225MB 발견 및 제거.
+  - `pm trim-caches 2G` 실행 후 `/data` 여유 공간 2.0GB 확보.
+- arm64 split APK 설치 성공:
+  - `adb install -r build/app/outputs/flutter-apk/app-arm64-v8a-debug.apk`
+  - 설치 후 `primaryCpuAbi=arm64-v8a`, `versionCode=2002`, `lastUpdateTime=2026-05-07 22:49:18` 확인.
+- 앱 실행 초기 검정 화면은 앱 크래시가 아니라 화면 꺼짐/키가드 상태였다.
+  - `mWakefulness=Dozing`, `Display Power: state=OFF`, `isStatusBarKeyguard=true` 확인.
+  - `KEYCODE_WAKEUP` + `wm dismiss-keyguard` 후 앱 화면 정상 표시.
+
+### 실기기 카드 QA
+
+- 전투 손패 full body 카드 표시 확인:
+  - `docs/qa_card_fullbody_04_awake_launch.png`
+  - 공격/방어/전술 common 바디 이미지가 실제 카드 배경으로 표시됨.
+  - hand 카드에서 비용/이름/설명 텍스트는 읽힘.
+  - 하단 스크림 대비는 충분함.
+- 전투 승리 보상 full body 카드 표시 확인:
+  - `docs/qa_card_fullbody_10_reward.png`
+  - 보상 카드 3장 overflow는 없음.
+  - 단, reward 카드 폭 94px에서 한국어 설명 줄바꿈 품질이 낮음:
+    - `정렬한 / 다.`
+    - `독 2 / 를`
+  - 원인: 이미지 문제가 아니라 reward 카드 폭/오버레이 컨테이너 폭 부족.
+
+### 수정
+
+- `lib/widgets/soul_deck_card_view.dart`
+  - `SoulDeckCardSize.reward` width: `94` → `102`
+  - reward 카드 폭을 full body 비율에 더 가깝게 조정하고 설명 텍스트 가로폭 확보.
+- `lib/screens/dungeon/card_pack_screen.dart`
+  - 카드팩 선택 테두리 컨테이너 width: `94` → `102`
+  - `SoulDeckCardSize.reward`와 다시 일치.
+- `lib/screens/dungeon/card_battle_screen.dart`
+  - 승리 보상 오버레이 width: `330` → `350`
+  - padding: `EdgeInsets.all(20)` → `EdgeInsets.symmetric(horizontal: 16, vertical: 20)`
+  - 내부 가용폭을 290px → 318px로 늘려 102px reward 카드 3장이 들어가도록 조정.
+
+### 수정 후 검증
+
+- `flutter analyze --no-pub` → `No issues found!` ✅
+- `flutter test test/data/card_body_assets_test.dart test/data/card_art_assets_test.dart test/data/card_frame_assets_test.dart` → `16개 전체 통과` ✅
+- `flutter build apk --debug --split-per-abi` → arm64/armeabi/x86_64 split APK 생성 성공 ✅
+- 수정 APK 기기 설치 성공 ✅
+- 수정 후 전투 손패 재확인:
+  - `docs/qa_card_fullbody_15_battle_after_fix.png`
+  - reward 폭 변경이 hand 카드에는 영향 없음.
+
+### 남은 위험
+
+- 수정 후 승리 보상 화면을 다시 캡처하려 했으나, 재진입한 전투에서 드로우가 방어/집중 위주로 꼬여 보상 화면 재도달이 지연됐다.
+- 따라서 reward 폭 수정의 실기기 재확인은 다음 세션에서 보상 화면까지 다시 도달해 `docs/qa_card_fullbody_10_reward.png`와 비교해야 한다.
+- 그래도 원인과 수정 지점은 명확하다: 보상 카드 텍스트 폭 부족 → reward 카드/오버레이 가용폭 확장.
+
+### 다음 작업
+
+1. 수정 APK 상태에서 전투 1회 더 완료해 승리 보상 화면 재캡처.
+2. 보상 설명 줄바꿈이 개선됐는지 확인.
+3. 카드팩 화면의 102px 선택 테두리 정렬 확인.
+4. 문제가 없으면 uncommon/rare/legendary 12장 생성으로 넘어간다.

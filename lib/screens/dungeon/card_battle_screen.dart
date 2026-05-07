@@ -1854,8 +1854,8 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
             );
           },
           child: Container(
-            width: 330,
-            padding: const EdgeInsets.all(20),
+            width: 350,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF1E1E2E) : Colors.white,
               borderRadius: BorderRadius.circular(20),
