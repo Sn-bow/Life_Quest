@@ -62,6 +62,19 @@ assets/images/game/cards/full_body/card_body_{category}_{rarity}.png
 | 3차 | rare 4장 | 빌드 핵심 카드. 화려하게 생성. |
 | 4차 | legendary 4장 | 소수지만 임팩트가 가장 큰 카드. |
 
+### 2026-05-07 적용 상태
+
+1차 common 4장은 Codex 내장 이미지 생성 기능으로 생성하고 440×616 px로 정규화해 프로젝트에 등록했다.
+
+| 파일 | 상태 |
+|---|---|
+| `assets/images/game/cards/full_body/card_body_attack_common.png` | 생성/등록 완료 |
+| `assets/images/game/cards/full_body/card_body_defense_common.png` | 생성/등록 완료 |
+| `assets/images/game/cards/full_body/card_body_magic_common.png` | 생성/등록 완료 |
+| `assets/images/game/cards/full_body/card_body_tactical_common.png` | 생성/등록 완료 |
+
+QA용 contact sheet: `docs/card_body_common_contact.png`
+
 ---
 
 ## 4. 공통 image2 프롬프트 규칙
@@ -204,10 +217,12 @@ hand(110×154) / reward(94×142) / mini(72×108) 세 사이즈 모두 동일 구
 
 ## 8. QA 기준 (이미지 생성 후)
 
+- [x] common 4장 PNG가 440×616 px로 정규화되어 있는지 (`card_body_assets_test.dart`)
+- [x] `CardBodyAssets._availableBodies`에 common 4장 등록 완료
+- [x] uncommon/rare/legendary 카드는 common 바디 이미지로 fallback되는지 (해당 희귀도 PNG 없을 때)
 - [ ] `SoulDeckCardView.hand/reward/mini` 세 사이즈에서 비용 젬, 카드명, 설명이 이미지 위에 가독성 있게 표시되는지
 - [ ] 하단 그라디언트 스크림이 설명 텍스트 뒤에서 충분한 대비를 제공하는지
 - [ ] `hasBodyFor = false`인 카드는 레거시 레이아웃으로 정상 표시되는지
-- [ ] uncommon/rare/legendary 카드는 common 바디 이미지로 fallback되는지 (해당 희귀도 PNG 없을 때)
 - [ ] Android 실기기 전투 손패/보상/컬렉션/상점/휴식 화면에서 레이아웃 깨짐 없는지
 
 ---

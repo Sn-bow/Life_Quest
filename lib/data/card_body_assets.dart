@@ -40,7 +40,10 @@ class CardBodyAssets {
   //   'tactical_legendary',
   // ---------------------------------------------------------------------------
   static const Set<String> _availableBodies = <String>{
-    // Populated as images are generated.
+    'attack_common',
+    'defense_common',
+    'magic_common',
+    'tactical_common',
   };
 
   // ---------------------------------------------------------------------------

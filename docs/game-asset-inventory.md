@@ -20,7 +20,7 @@
 |---|---|---:|---|
 | 앱 아이콘/스플래시 | `assets/images/` | 다수 존재 | 사용 가능 |
 | 전투 배경 | `assets/images/backgrounds/` | 5개 PNG | 사용 가능 |
-| 카드 전체 바디 | `assets/images/game/cards/full_body/` | `.gitkeep`만 존재 (생성 대기) | **[신규]** full body + Flutter 오버레이 방식 코드 구현 완료. Codex 이미지 생성 후 `_availableBodies`에 키 등록하면 즉시 적용. 먼저 common 4장 생성 필요. |
+| 카드 전체 바디 | `assets/images/game/cards/full_body/` | common 4장 PNG 생성/등록 완료 | **[신규]** full body + Flutter 오버레이 방식 적용 시작. attack/defense/magic/tactical common 4장이 `_availableBodies`에 등록되어 모든 희귀도는 우선 common 바디로 fallback. 실기기 QA 후 uncommon/rare/legendary 확장. |
 | 카드 프레임 | `assets/images/cards/` | 4개 PNG | 레거시 fallback으로 유지. full body 전환 완료 후 제거 예정. |
 | 카드별 중앙 삽화 | `assets/images/game/cards/art/` | 샘플 11장 PNG | 레거시 fallback으로 유지. full body 전환 완료 후 제거 예정. |
 | 몬스터 | `assets/images/monsters/` | 31개 PNG | 전투 렌더링 적용 완료 |
@@ -82,6 +82,23 @@
   - 실기기 화면 QA: APK 설치/실행 확인. 디버그 APK 재설치로 로그인 세션 초기화됨. 재로그인 후 **사용자 직접 확인 필요**.
 - 검증: `test/data/card_frame_assets_test.dart`
 
+### 카드 전체 바디
+
+- `docs/card-full-body-generation-plan.md`
+- `lib/data/card_body_assets.dart`
+- `lib/widgets/soul_deck_card_view.dart`
+- `assets/images/game/cards/full_body/`
+- 2026-05-07 기준 common 4장을 Codex 내장 이미지 생성 기능으로 생성했다. OPENAI_API_KEY는 필요 없다.
+- 생성/등록된 에셋:
+  - `assets/images/game/cards/full_body/card_body_attack_common.png`
+  - `assets/images/game/cards/full_body/card_body_defense_common.png`
+  - `assets/images/game/cards/full_body/card_body_magic_common.png`
+  - `assets/images/game/cards/full_body/card_body_tactical_common.png`
+- 모든 PNG는 440×616 px로 정규화했다.
+- QA용 contact sheet: `docs/card_body_common_contact.png`
+- `_availableBodies`에 common 4장 등록 완료. uncommon/rare/legendary 전용 PNG가 없는 카드는 같은 카테고리 common 바디로 fallback한다.
+- 검증: `test/data/card_body_assets_test.dart`
+
 ### 카드별 중앙 삽화
 
 - `docs/card-art-generation-plan.md`
@@ -117,8 +134,8 @@
 ## 5. 다음 작업
 
 1. ~~`SoulDeckCardView`를 카드 전투 손패/전투 보상/컬렉션/상점/휴식 업그레이드 화면까지 확장한다.~~ ✅ **완료 (2026-05-04)**
-2. **[최우선]** Codex에 `card_body_{category}_common.png` 4장 생성 의뢰 (`docs/card-full-body-generation-plan.md` 섹션 5 프롬프트 사용). 생성 후 `lib/data/card_body_assets.dart`의 `_availableBodies`에 키 추가.
-3. **[우선]** 사용자 직접 던전 진입 → full body 카드 표시 시각 QA (바디 이미지 생성 후).
+2. ~~Codex에 `card_body_{category}_common.png` 4장 생성 의뢰 (`docs/card-full-body-generation-plan.md` 섹션 5 프롬프트 사용). 생성 후 `lib/data/card_body_assets.dart`의 `_availableBodies`에 키 추가.~~ ✅ **완료 (2026-05-07)**
+3. **[우선]** 사용자 직접 던전 진입 → full body 카드 표시 시각 QA.
 4. ~~STS2 타입별 하단 모양 카드 프레임 4종 재생성~~ → **full body 방식 전환으로 필요 없어짐. 보류.**
 5. ~~샘플 11장 삽화 코드 레벨 QA.~~ ✅ **완료 (2026-05-05)** — 레거시 fallback으로 계속 작동.
 6. common 4장 QA 통과 후 uncommon/rare/legendary 확장.

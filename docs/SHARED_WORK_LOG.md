@@ -811,3 +811,61 @@
 1. **[최우선]** Codex: `docs/card-full-body-generation-plan.md` 섹션 5의 프롬프트로 common 4장 생성. `assets/images/game/cards/full_body/`에 저장. `_availableBodies`에 키 추가.
 2. APK 빌드 → 실기기에서 full body 카드 시각 QA.
 3. QA 통과 후 uncommon/rare/legendary 확장.
+
+---
+
+## 2026-05-07 KST - Codex
+
+### 착수 전 조사
+
+- Claude가 커밋한 full body 카드 전환 설계(`9ac7ffe`)를 이어받아 `docs/card-full-body-generation-plan.md`, `lib/data/card_body_assets.dart`, `lib/widgets/soul_deck_card_view.dart`, `test/data/card_body_assets_test.dart`를 확인했다.
+- 기존 dirty worktree에 `.claude/` 및 이전 영상 제작 산출물이 섞여 있음을 확인했다. 이번 작업과 무관한 파일은 건드리지 않았다.
+- `CardBodyAssets._availableBodies`가 비어 있어 full body 렌더링이 아직 실제로 켜지지 않는 상태임을 확인했다.
+
+### 변경 파일
+
+- `assets/images/game/cards/full_body/card_body_attack_common.png` (신규): 공격 common 카드 전체 바디.
+- `assets/images/game/cards/full_body/card_body_defense_common.png` (신규): 방어 common 카드 전체 바디.
+- `assets/images/game/cards/full_body/card_body_magic_common.png` (신규): 마법 common 카드 전체 바디.
+- `assets/images/game/cards/full_body/card_body_tactical_common.png` (신규): 전술 common 카드 전체 바디.
+- `docs/card_body_candidates/` (신규): Codex 내장 이미지 생성 원본 후보 4장 보관.
+- `docs/card_body_common_contact.png` (신규): common 4장 QA용 contact sheet.
+- `lib/data/card_body_assets.dart`: `_availableBodies`에 `attack_common`, `defense_common`, `magic_common`, `tactical_common` 등록.
+- `test/data/card_body_assets_test.dart`: "이미지 없음" 기준 테스트를 "common 4장 등록 + common fallback + PNG 440×616 검증" 기준으로 갱신.
+- `docs/card-full-body-generation-plan.md`: common 4장 생성/등록 완료 상태와 QA 기준 갱신.
+- `docs/game-asset-inventory.md`: 카드 전체 바디 에셋 현황 갱신.
+- `docs/SHARED_WORK_LOG.md`: 본 항목 추가.
+
+### 실행한 작업
+
+- Codex 내장 이미지 생성 기능으로 4개 카테고리 common 카드 바디를 생성했다. OPENAI_API_KEY는 사용하지 않았다.
+- 생성 원본을 `docs/card_body_candidates/`에 보관했다.
+- ffmpeg로 4장 모두 440×616 px로 cover crop 정규화해 `assets/images/game/cards/full_body/`에 저장했다.
+- contact sheet(`docs/card_body_common_contact.png`)를 만들어 육안 QA했다.
+
+### 실행한 검증
+
+- `flutter analyze --no-pub` → `No issues found!` ✅
+- `flutter test test/data/card_body_assets_test.dart test/data/card_art_assets_test.dart test/data/card_frame_assets_test.dart` → `16개 전체 통과` ✅
+- `flutter build apk --debug` → `build/app/outputs/flutter-apk/app-debug.apk` 생성 성공 ✅
+- `tar -tf build/app/outputs/flutter-apk/app-debug.apk | Select-String "card_body_.*_common.png"` → APK 내부에 common 4장 포함 확인 ✅
+
+### 결과
+
+- full body 카드 모드가 실제로 켜졌다.
+- 현재 attack/defense/magic/tactical 카테고리의 모든 희귀도 카드는 전용 희귀도 PNG가 없을 경우 common 바디로 fallback된다.
+- 레거시 프레임+중앙 삽화 방식은 `_availableBodies`에 없는 조합을 위한 fallback으로 유지된다.
+- 생성된 4장 모두 단순 프레임/삽화 분리 방식이 아니라 카드 한 장 전체의 분위기와 하단 텍스트 영역을 포함한 바디 이미지다.
+
+### 남은 위험
+
+- 실기기에서 `hand/reward/mini` 세 사이즈의 텍스트 가독성, 하단 스크림 대비, 카드명/비용 위치를 직접 확인해야 한다.
+- common 바디만 먼저 적용했기 때문에 uncommon/rare/legendary 전용 차별화는 아직 없다.
+- 4장 바디가 실제 앱 화면에서 너무 강하거나 텍스트와 충돌하면 `SoulDeckCardView._buildFullBody()`의 스크림/텍스트 위치 조정이 필요하다.
+- 연결 기기 `520034bafe9225db`는 ADB 응답 정상이나 `adb install -r build/app/outputs/flutter-apk/app-debug.apk`가 장시간 무응답으로 중단했다. debug APK가 274MB로 커서 설치 재시도는 별도 세션에서 진행 권장.
+
+### 다음 작업
+
+1. APK 빌드 및 실기기 설치.
+2. 전투 손패, 전투 승리 보상, 카드팩, 컬렉션, 상점, 휴식 업그레이드 화면에서 full body 카드 QA.
+3. QA 통과 후 uncommon/rare/legendary 12장 추가 생성.

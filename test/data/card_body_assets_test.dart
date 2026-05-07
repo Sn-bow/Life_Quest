@@ -8,7 +8,8 @@ void main() {
   // ── Path generation ─────────────────────────────────────────────────────────
 
   group('CardBodyAssets path generation', () {
-    test('bodyPathFor returns correct path for every category/rarity combo', () {
+    test('bodyPathFor returns correct path for every category/rarity combo',
+        () {
       const expected = {
         (CardCategory.attack, CardRarity.common):
             'assets/images/game/cards/full_body/card_body_attack_common.png',
@@ -24,8 +25,10 @@ void main() {
             'assets/images/game/cards/full_body/card_body_magic_common.png',
         (CardCategory.tactical, CardRarity.common):
             'assets/images/game/cards/full_body/card_body_tactical_common.png',
-        (CardCategory.tactical, CardRarity.legendary):
-            'assets/images/game/cards/full_body/card_body_tactical_legendary.png',
+        (
+          CardCategory.tactical,
+          CardRarity.legendary
+        ): 'assets/images/game/cards/full_body/card_body_tactical_legendary.png',
       };
 
       for (final entry in expected.entries) {
@@ -65,27 +68,26 @@ void main() {
   // ── Availability registry ───────────────────────────────────────────────────
 
   group('CardBodyAssets availability registry', () {
-    test('hasBodyFor returns false for all cards before any bodies are added',
-        () {
-      // _availableBodies starts empty — no PNGs generated yet.
+    test('hasBodyFor returns true for generated common bodies only', () {
       for (final cat in CardCategory.values) {
         for (final rar in CardRarity.values) {
           final card = _card(cat, rar);
-          expect(CardBodyAssets.hasBodyFor(card), isFalse,
-              reason:
-                  'No body PNG committed yet for ${cat.name} ${rar.name}');
+          expect(CardBodyAssets.hasBodyFor(card), rar == CardRarity.common,
+              reason: '${cat.name} ${rar.name} availability mismatch');
         }
       }
     });
 
-    test('resolvedBodyPath returns null when _availableBodies is empty', () {
-      // With no bodies registered, every card should use legacy layout.
+    test('resolvedBodyPath uses common category fallback for every rarity', () {
       for (final cat in CardCategory.values) {
         for (final rar in CardRarity.values) {
           final card = _card(cat, rar);
-          expect(CardBodyAssets.resolvedBodyPath(card), isNull,
-              reason:
-                  'resolvedBodyPath should be null before bodies are generated');
+          expect(
+            CardBodyAssets.resolvedBodyPath(card),
+            'assets/images/game/cards/full_body/card_body_${cat.name}_common.png',
+            reason:
+                '${cat.name} ${rar.name} should resolve to generated common body',
+          );
         }
       }
     });
@@ -110,13 +112,32 @@ void main() {
               'assets/images/game/cards/full_body/ must exist for Flutter to '
               'register the asset directory');
     });
+
+    test('generated common body PNGs exist on disk', () {
+      for (final cat in CardCategory.values) {
+        final path =
+            'assets/images/game/cards/full_body/card_body_${cat.name}_common.png';
+        final file = File(path);
+        expect(file.existsSync(), isTrue, reason: 'Missing generated $path');
+        expect(file.lengthSync(), greaterThan(100000),
+            reason: '$path should be a real generated PNG, not a placeholder');
+      }
+    });
+
+    test('generated common body PNGs are normalized to 440x616', () {
+      for (final cat in CardCategory.values) {
+        final path =
+            'assets/images/game/cards/full_body/card_body_${cat.name}_common.png';
+        final size = _pngSize(File(path));
+        expect(size, (440, 616), reason: '$path must match card body spec');
+      }
+    });
   });
 
   // ── Fallback safety ─────────────────────────────────────────────────────────
 
   group('Fallback safety', () {
-    test(
-        'bodyPathFor never returns empty string regardless of category/rarity',
+    test('bodyPathFor never returns empty string regardless of category/rarity',
         () {
       for (final cat in CardCategory.values) {
         for (final rar in CardRarity.values) {
@@ -146,3 +167,20 @@ CardData _card(CardCategory cat, CardRarity rar) => CardData(
       description: 'Test description.',
       effects: const [],
     );
+
+(int width, int height) _pngSize(File file) {
+  final bytes = file.readAsBytesSync();
+  expect(bytes.length, greaterThanOrEqualTo(24), reason: file.path);
+  expect(bytes[0], 0x89, reason: file.path);
+  expect(bytes[1], 0x50, reason: file.path);
+  expect(bytes[2], 0x4E, reason: file.path);
+  expect(bytes[3], 0x47, reason: file.path);
+
+  int readUint32(int offset) =>
+      (bytes[offset] << 24) |
+      (bytes[offset + 1] << 16) |
+      (bytes[offset + 2] << 8) |
+      bytes[offset + 3];
+
+  return (readUint32(16), readUint32(20));
+}
