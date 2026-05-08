@@ -1,7 +1,8 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/screens/quests_screen.dart';
 import 'package:life_quest_final_v2/screens/achievement_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
@@ -45,13 +46,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       ),
     );
 
-    // 인증 상태 감시: 토큰 만료 또는 외부 로그아웃 시 자동으로 루트로 이동
-    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user == null && mounted) {
-        context.read<CharacterState>().resetState();
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      }
-    });
+    if (!kLifeQuestQaPreview) {
+      // 인증 상태 감시: 토큰 만료 또는 외부 로그아웃 시 자동으로 루트로 이동
+      _authSubscription =
+          FirebaseAuth.instance.authStateChanges().listen((user) {
+        if (user == null && mounted) {
+          context.read<CharacterState>().resetState();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
+      });
+    }
   }
 
   @override
@@ -160,7 +164,3 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     );
   }
 }
-
-
-
-

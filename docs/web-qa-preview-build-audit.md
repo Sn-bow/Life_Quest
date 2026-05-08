@@ -1,0 +1,201 @@
+# Life Quest Web QA Preview 빌드 감사
+
+작성일: 2026-05-08 KST  
+목적: Web QA Preview를 실제로 만들 수 있는지 `flutter build web` 기준으로 확인하고, 차단점/주의점을 분리 기록한다.
+
+---
+
+## 1. 실행 명령
+
+```powershell
+$env:DART_SUPPRESS_ANALYTICS='true'
+$env:FLUTTER_SUPPRESS_ANALYTICS='true'
+C:\dev\flutter\bin\cache\dart-sdk\bin\dart.exe C:\dev\flutter\packages\flutter_tools\bin\flutter_tools.dart build web --dart-define=LIFEQUEST_QA_PREVIEW=true
+```
+
+---
+
+## 2. 결과
+
+결과: **성공**
+
+```text
+√ Built build\web
+```
+
+의미:
+
+- 현재 코드베이스는 최소한 JS 기반 Flutter Web 배포 산출물을 만들 수 있다.
+- `web/` 디렉터리와 기본 웹 엔트리포인트는 존재한다.
+- `build/web` 산출물을 정적 호스팅에 올리는 1차 Preview 전략이 가능하다.
+
+---
+
+## 3. 빌드 중 경고
+
+Wasm dry run 경고:
+
+```text
+Found incompatibilities with WebAssembly.
+flutter_timezone-5.0.1/lib/flutter_timezone_web.dart
+invalid_runtime_check_with_js_interop_types lint violation
+```
+
+판단:
+
+- 현재 목표인 Web QA Preview의 JS 빌드는 성공했다.
+- Wasm 최적화 빌드는 지금 당장 필수 목표가 아니다.
+- 추후 성능 최적화 단계에서 `flutter_timezone` 업데이트 또는 웹 알림/타임존 기능 no-op 분리를 검토한다.
+
+---
+
+## 4. 예상 차단점 대비 실제 결과
+
+| 항목 | 예상 | 실제 1차 빌드 결과 | 판단 |
+|---|---|---|---|
+| `firebase_options.dart` Web 설정 없음 | 런타임 차단 예상 | 컴파일은 성공 | 앱 실행 시 Firebase 초기화에서 `UnsupportedError` 가능성 큼 |
+| `notification_service.dart` `dart:io` | 컴파일 차단 예상 | 컴파일 성공 | 직접 import 구조가 웹 컴파일에서 즉시 깨지진 않았지만 런타임/기능 분리 필요 |
+| `HomeWidget` | 컴파일 차단 가능 | 컴파일 성공 | 웹 실행 시 호출 금지 필요 |
+| `AdService` / AdMob | 컴파일 차단 가능 | 컴파일 성공 | 웹 QA에서는 숨김/no-op 필요 |
+| `PurchaseService` / IAP | 컴파일 차단 가능 | 컴파일 성공 | 웹 QA에서는 숨김/no-op 필요 |
+| `signup_screen.dart` 이미지 업로드 | 컴파일 차단 가능 | 컴파일 성공 | 웹 QA에서는 프로필 업로드를 숨기거나 별도 구현 필요 |
+| `flutter_timezone` | Wasm 경고 가능 | Wasm dry-run 경고 발생 | JS Preview는 가능, Wasm은 추후 대응 |
+
+---
+
+## 5. 다음 실제 차단점
+
+빌드는 성공했지만, **웹 실행 가능**과 **테스터가 쓸 수 있음**은 다르다. 다음 차단점은 런타임이다.
+
+가장 먼저 확인할 런타임 위험:
+
+1. `DefaultFirebaseOptions.currentPlatform`이 웹에서 `UnsupportedError`를 던짐
+2. `FirebaseCrashlytics.instance`가 웹에서 정상 동작하지 않을 가능성
+3. `FirebaseAppCheck.activate`가 웹 설정 없이 실패할 가능성
+4. `HomeWidget.setAppGroupId` 호출이 웹에서 실패할 가능성
+5. Firebase Auth 로그인 화면이 테스터 진입을 막음
+
+---
+
+## 6. 다음 작업 계획
+
+### Step A. 로컬 웹 실행 확인
+
+목표:
+
+- `build/web`을 로컬 정적 서버로 열거나 `flutter run -d chrome`으로 실행
+- 첫 화면이 어디서 멈추는지 확인
+
+체크:
+
+- Firebase Web 옵션 없음으로 앱이 시작 전에 죽는지
+- 로그인 화면까지 도달하는지
+- 콘솔 에러가 무엇인지
+
+### Step B. QA Preview 진입점 추가
+
+목표:
+
+- `LIFEQUEST_QA_PREVIEW=true`이면 Firebase Auth 의존 없이 시작 가능하게 만든다.
+
+원칙:
+
+- Android 정식 앱 흐름은 유지
+- QA Preview에서만 게스트 프로필/로컬 저장/mock 데이터 사용
+
+### Step C. 웹 전용 서비스 분리
+
+우선순위:
+
+1. Firebase 초기화 분기 또는 Web Firebase 설정 추가
+2. Crashlytics/App Check 웹 skip
+3. Notification/HomeWidget skip
+4. Ad/IAP 버튼 숨김 또는 no-op
+5. 이미지 업로드 숨김
+
+---
+
+## 7. 현재 판단
+
+Web QA Preview는 가능성이 높다. 1차 컴파일이 성공했으므로, 남은 작업은 패키지 교체보다 **런타임 분기와 QA 모드 설계**가 중심이다.
+
+가장 빠른 전략:
+
+```text
+Firebase Auth 기반 앱 시작을 우회하는 QA Preview 시작 경로를 만든다.
+로컬 게스트 프로필을 SharedPreferences(web)에 저장한다.
+핵심 화면에 mock/seed 상태를 넣어 바로 체험 가능하게 만든다.
+```
+
+---
+
+## 8. 런타임 1차 확인
+
+실행:
+
+```powershell
+flutter run -d chrome --dart-define=LIFEQUEST_QA_PREVIEW=true
+```
+
+첫 실행 결과:
+
+- Chrome 디버그 서비스 연결 성공
+- 앱 시작 중 `FirebaseCrashlytics.instance`가 웹 Firebase 미설정 상태에서 예외 처리 경로를 다시 터뜨림
+
+조치:
+
+- `kLifeQuestQaPreview` 전역 플래그 추가
+- QA Preview 모드에서는 Firebase 초기화, Crashlytics, App Check, optional services 초기화를 skip
+- `MaterialApp.home`을 `QaPreviewGateScreen`으로 교체
+
+두 번째 실행 결과:
+
+- Crashlytics 차단점은 제거됨
+- `CharacterState` 생성 시 `FirebaseFirestore.instance`를 즉시 잡으면서 웹 Firebase 미설정 예외 발생
+
+조치:
+
+- `CharacterState`의 Firestore 인스턴스를 생성자 즉시 초기화에서 lazy getter로 변경
+- QA Preview용 `initializeForQaPreview()` 추가
+- `MainScreen`의 FirebaseAuth auth subscription은 QA Preview에서 skip
+
+세 번째 실행 결과:
+
+- Chrome 디버그 서비스 연결 성공
+- `flutter run` 콘솔 기준 새 Firebase 런타임 예외 없음
+- Playwright로 `http://localhost:2303/` 접근 시 문서 title이 `Life Quest`로 확인됨
+- `flutter-view`가 390×844 모바일 뷰포트에 mount됨
+
+주의:
+
+- Flutter Web canvas 기반 화면이라 Playwright 접근성 snapshot만으로 실제 픽셀 화면을 완전히 확인하기 어렵다.
+- 수동/스크린샷 기반 시각 QA 또는 Chrome DevTools Protocol screenshot 경로가 추가로 필요하다.
+- 좌표 기반 JS synthetic click은 Flutter pointer id 처리와 맞지 않아 콘솔 오류를 만들 수 있으므로 사용하지 않는다.
+
+---
+
+## 9. 현재 구현된 것
+
+- `lib/config/qa_preview_config.dart`
+  - `LIFEQUEST_QA_PREVIEW` dart-define 플래그
+- `lib/screens/qa_preview_gate_screen.dart`
+  - Web QA Preview 시작 화면
+  - `게스트로 테스트 시작` 버튼
+- `lib/main.dart`
+  - QA Preview 모드에서 Firebase/Auth 시작 경로 우회
+  - QA Preview 모드에서 Crashlytics/AppCheck/Optional services skip
+- `lib/screens/main_screen.dart`
+  - QA Preview 모드에서 FirebaseAuth subscription skip
+- `lib/state/character_state.dart`
+  - Firestore lazy 초기화
+  - QA Preview용 seed profile 초기화 메서드
+
+---
+
+## 10. 다음 차단점
+
+1. `게스트로 테스트 시작` 후 MainScreen 내부 실제 화면 조작 QA
+2. 퀘스트 완료/카드 보상/상점 구매 등 저장이 발생하는 기능에서 FirebaseAuth/FirebaseFirestore 의존이 다시 호출되는지 확인
+3. SharedPreferences(web) 기반 로컬 저장으로 `_performSaveData()`의 QA Preview 분기 구현
+4. 웹 화면 픽셀 스크린샷 경로 확보
+5. Firebase Hosting 또는 로컬 정적 서버로 외부 공유 URL 준비

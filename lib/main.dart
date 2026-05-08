@@ -6,9 +6,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/firebase_options.dart';
 import 'package:life_quest_final_v2/screens/login_screen.dart';
 import 'package:life_quest_final_v2/screens/loading_screen.dart';
+import 'package:life_quest_final_v2/screens/qa_preview_gate_screen.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/combat_state.dart';
@@ -32,33 +34,39 @@ void main() {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-
-      // Crashlytics: Flutter 프레임워크 에러 캡처
-      FlutterError.onError = (errorDetails) {
-        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-      };
-
-      // Firestore 오프라인 persistence 활성화
-      try {
-        FirebaseFirestore.instance.settings = const Settings(
-          persistenceEnabled: true,
-          cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+      if (!kLifeQuestQaPreview) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
         );
-      } catch (e) {
-        debugPrint('Firestore persistence 설정 실패: $e');
-      }
 
-      try {
-        await FirebaseAppCheck.instance.activate(
-          androidProvider: kDebugMode
-              ? AndroidProvider.debug
-              : AndroidProvider.playIntegrity,
-        );
-      } catch (e) {
-        debugPrint('FirebaseAppCheck activation failed: $e');
+        // Crashlytics: Flutter 프레임워크 에러 캡처
+        FlutterError.onError = (errorDetails) {
+          FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+        };
+
+        // Firestore 오프라인 persistence 활성화
+        try {
+          FirebaseFirestore.instance.settings = const Settings(
+            persistenceEnabled: true,
+            cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+          );
+        } catch (e) {
+          debugPrint('Firestore persistence 설정 실패: $e');
+        }
+
+        try {
+          await FirebaseAppCheck.instance.activate(
+            androidProvider: kDebugMode
+                ? AndroidProvider.debug
+                : AndroidProvider.playIntegrity,
+          );
+        } catch (e) {
+          debugPrint('FirebaseAppCheck activation failed: $e');
+        }
+      } else {
+        FlutterError.onError = (errorDetails) {
+          FlutterError.presentError(errorDetails);
+        };
       }
 
       runApp(
@@ -74,10 +82,18 @@ void main() {
         ),
       );
 
-      unawaited(_initializeOptionalServices());
+      if (!kLifeQuestQaPreview) {
+        unawaited(_initializeOptionalServices());
+      }
     },
-    (error, stack) =>
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+    (error, stack) {
+      if (kLifeQuestQaPreview) {
+        debugPrint('Uncaught QA preview error: $error');
+        debugPrintStack(stackTrace: stack);
+        return;
+      }
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    },
   );
 }
 
@@ -351,7 +367,9 @@ class LifeQuestApp extends StatelessWidget {
                   const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
             ),
           ),
-          home: const AuthWrapper(),
+          home: kLifeQuestQaPreview
+              ? const QaPreviewGateScreen()
+              : const AuthWrapper(),
           debugShowCheckedModeBanner: false,
         );
       },

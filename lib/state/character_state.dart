@@ -72,7 +72,8 @@ class _RaidRewardOutcome {
 class CharacterState extends ChangeNotifier {
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
 
-  static List<CustomReward> _buildDefaultCustomRewards({String langCode = 'ko'}) {
+  static List<CustomReward> _buildDefaultCustomRewards(
+      {String langCode = 'ko'}) {
     final Map<String, List<List<String>>> strings = {
       'en': [
         ['Eat a tasty snack', 'Enjoy your favorite snack'],
@@ -97,27 +98,69 @@ class CharacterState extends ChangeNotifier {
     };
     final s = strings[langCode] ?? strings['ko']!;
     return [
-      CustomReward(id: 'cr_1', name: s[0][0], description: s[0][1], cost: 50, icon: '🍪'),
-      CustomReward(id: 'cr_2', name: s[1][0], description: s[1][1], cost: 100, icon: '🎮'),
-      CustomReward(id: 'cr_3', name: s[2][0], description: s[2][1], cost: 150, icon: '🎬'),
+      CustomReward(
+          id: 'cr_1',
+          name: s[0][0],
+          description: s[0][1],
+          cost: 50,
+          icon: '🍪'),
+      CustomReward(
+          id: 'cr_2',
+          name: s[1][0],
+          description: s[1][1],
+          cost: 100,
+          icon: '🎮'),
+      CustomReward(
+          id: 'cr_3',
+          name: s[2][0],
+          description: s[2][1],
+          cost: 150,
+          icon: '🎬'),
     ];
   }
+
   /// For testing only: initialises a default Character without Firebase.
   @visibleForTesting
   void initializeForTesting() {
+    _initializeLocalPreviewCharacter(name: 'Test');
+  }
+
+  /// Initialises a local-only character for Web QA Preview.
+  ///
+  /// This must stay separate from Firebase-backed user loading. The preview
+  /// profile is intentionally disposable and exists only inside the QA build.
+  void initializeForQaPreview({String name = 'testuser1'}) {
+    _initializeLocalPreviewCharacter(name: name);
+    notifyListeners();
+  }
+
+  void _initializeLocalPreviewCharacter({required String name}) {
     _character = Character(
-      name: 'Test',
+      name: name,
       level: 1,
       title: '새싹 모험가',
-      xp: 0,
+      xp: 85,
       maxXp: 150,
-      strength: 0,
-      wisdom: 0,
-      health: 0,
-      charisma: 0,
+      strength: 3,
+      wisdom: 2,
+      health: 2,
+      charisma: 1,
       statPoints: 0,
       skillPoints: 0,
-      customRewards: _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko'),
+      gold: 52,
+      cardPoints: 6,
+      cardPackCount: 1,
+      unlockedCardIds: [
+        'base_strike',
+        'base_defend',
+        'base_focus',
+        'atk_c01',
+        'def_c01',
+        'mag_c01',
+        'tac_c01',
+      ],
+      customRewards:
+          _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko'),
     );
     _isDataLoaded = true;
     _isLoading = false;
@@ -246,10 +289,12 @@ class CharacterState extends ChangeNotifier {
   // 퀘스트 중복 완료 방지: 광고 시청 중 비동기 갭에서의 재진입 차단
   final Set<String> _pendingQuestIds = {};
 
-  final FirebaseFirestore _firestore;
+  final FirebaseFirestore? _firestoreOverride;
+  FirebaseFirestore get _firestore =>
+      _firestoreOverride ?? FirebaseFirestore.instance;
 
   CharacterState({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance {
+      : _firestoreOverride = firestore {
     _initializeAchievementProgress();
   }
 
@@ -281,6 +326,7 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
     await loadDataForUser(_lastLoadUser!);
   }
+
   ThemeMode get themeMode => _themeMode;
 
   /// 퀘스트가 현재 처리 중(광고 시청 등 비동기)인지 확인
@@ -338,7 +384,9 @@ class CharacterState extends ChangeNotifier {
 
   Map<StatType, double> get questCategoryDistribution {
     // Y-1: 캐시가 있으면 재계산 없이 반환 (퀘스트 변경 시 _invalidateQuestCache()로 초기화)
-    if (_cachedCategoryDistribution != null) return _cachedCategoryDistribution!;
+    if (_cachedCategoryDistribution != null) {
+      return _cachedCategoryDistribution!;
+    }
 
     final Map<StatType, int> counts = {
       for (var type in StatType.values) type: 0
@@ -401,8 +449,8 @@ class CharacterState extends ChangeNotifier {
       for (final type in StatType.values)
         type: _character!.levelGrowthWeights[type.name] ?? 0.0,
     };
-    final total =
-        weights.values.fold<double>(0, (runningTotal, value) => runningTotal + value);
+    final total = weights.values
+        .fold<double>(0, (runningTotal, value) => runningTotal + value);
 
     if (total <= 0) {
       return {for (var type in StatType.values) type: 0.0};
@@ -573,7 +621,8 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  QuestCompletionResult? completeQuest(Quest quest, {double xpMultiplier = 1.0}) {
+  QuestCompletionResult? completeQuest(Quest quest,
+      {double xpMultiplier = 1.0}) {
     if (!quest.isCompleted) {
       quest.isCompleted = true;
       quest.completedDate = DateTime.now();
@@ -702,7 +751,8 @@ class CharacterState extends ChangeNotifier {
         totalGoldAwarded: totalGoldReward,
         actionPointsAwarded: totalApReward,
         statPointsAwarded: totalStatPointReward,
-        wasRaid: quest.type == QuestType.monthly || quest.type == QuestType.yearly,
+        wasRaid:
+            quest.type == QuestType.monthly || quest.type == QuestType.yearly,
         raidClearCount: raidClearCount,
         unlockedTitles: unlockedTitleNames.toSet().toList(),
         unlockedCosmetics: unlockedCosmeticNames.toSet().toList(),
@@ -718,30 +768,30 @@ class CharacterState extends ChangeNotifier {
     switch (quest.type) {
       case QuestType.daily:
         return switch (quest.difficulty) {
-          QuestDifficulty.easy     => 1,
-          QuestDifficulty.normal   => 2,
-          QuestDifficulty.hard     => 3,
+          QuestDifficulty.easy => 1,
+          QuestDifficulty.normal => 2,
+          QuestDifficulty.hard => 3,
           QuestDifficulty.veryHard => 3,
         };
       case QuestType.weekly:
         return switch (quest.difficulty) {
-          QuestDifficulty.easy     => 5,
-          QuestDifficulty.normal   => 7,
-          QuestDifficulty.hard     => 10,
+          QuestDifficulty.easy => 5,
+          QuestDifficulty.normal => 7,
+          QuestDifficulty.hard => 10,
           QuestDifficulty.veryHard => 10,
         };
       case QuestType.monthly:
         return switch (quest.difficulty) {
-          QuestDifficulty.easy     => 20,
-          QuestDifficulty.normal   => 25,
-          QuestDifficulty.hard     => 30,
+          QuestDifficulty.easy => 20,
+          QuestDifficulty.normal => 25,
+          QuestDifficulty.hard => 30,
           QuestDifficulty.veryHard => 30,
         };
       case QuestType.yearly:
         return switch (quest.difficulty) {
-          QuestDifficulty.easy     => 50,
-          QuestDifficulty.normal   => 75,
-          QuestDifficulty.hard     => 100,
+          QuestDifficulty.easy => 50,
+          QuestDifficulty.normal => 75,
+          QuestDifficulty.hard => 100,
           QuestDifficulty.veryHard => 100,
         };
     }
@@ -838,8 +888,8 @@ class CharacterState extends ChangeNotifier {
 
     _character!.xp += bonusXp;
     _character!.gold += bonusGold;
-    _character!.actionPoints =
-        (_character!.actionPoints + bonusActionPoints).clamp(0, _character!.maxActionPoints);
+    _character!.actionPoints = (_character!.actionPoints + bonusActionPoints)
+        .clamp(0, _character!.maxActionPoints);
     _character!.statPoints += bonusStatPoints;
     unlockedTitleNames.addAll(_checkTitleUnlock());
 
@@ -927,8 +977,8 @@ class CharacterState extends ChangeNotifier {
   /// maxActionPoints를 초과하지 않도록 clamp 적용.
   Future<void> recoverActionPoints(int amount) async {
     if (_character == null) return;
-    _character!.actionPoints =
-        (_character!.actionPoints + amount).clamp(0, _character!.maxActionPoints);
+    _character!.actionPoints = (_character!.actionPoints + amount)
+        .clamp(0, _character!.maxActionPoints);
     await _performSaveData();
     notifyListeners();
   }
@@ -1266,13 +1316,13 @@ class CharacterState extends ChangeNotifier {
 
     // Skill → Card mapping (GAME_DESIGN § 9.4)
     const skillCardMap = <String, String>{
-      'sk10': 'atk_r01',   // 화염 검격 → 용의 일격 (화상)
-      'sk11': 'def_u01',   // 치유의 빛 → 치유 카드
-      'sk13': 'mag_u02',   // 빙결 마법 → 빙결의 눈
-      'sk15': 'def_r01',   // 대지의 방패 → 대형 방어 카드
-      'sk17': 'mag_u05',   // 번개 폭풍 → 원소 폭풍
-      'sk19': 'def_r03',   // 생명의 축복 → 희귀 회복 카드
-      'sk21': 'def_l01',   // 완전한 재생 → 전설 방어 카드
+      'sk10': 'atk_r01', // 화염 검격 → 용의 일격 (화상)
+      'sk11': 'def_u01', // 치유의 빛 → 치유 카드
+      'sk13': 'mag_u02', // 빙결 마법 → 빙결의 눈
+      'sk15': 'def_r01', // 대지의 방패 → 대형 방어 카드
+      'sk17': 'mag_u05', // 번개 폭풍 → 원소 폭풍
+      'sk19': 'def_r03', // 생명의 축복 → 희귀 회복 카드
+      'sk21': 'def_l01', // 완전한 재생 → 전설 방어 카드
     };
 
     final bonus = <CardData>[];
@@ -1509,8 +1559,7 @@ class CharacterState extends ChangeNotifier {
         }
         // Title name migration: if stored title doesn't exist in TitleDatabase
         // (e.g. was saved in a different locale), reset to the Korean name for t0.
-        final titleExists =
-            _allTitles.any((t) => t.name == _character!.title);
+        final titleExists = _allTitles.any((t) => t.name == _character!.title);
         if (!titleExists) {
           _character!.title = _allTitles.first.name; // '새싹 모험가'
           needsSave = true;
@@ -1562,9 +1611,10 @@ class CharacterState extends ChangeNotifier {
           ];
           needsSave = true;
         }
-        _unlockedTitleIds = (data['unlockedTitleIds'] as List<dynamic>? ?? ['t0'])
-            .map((id) => id.toString())
-            .toSet();
+        _unlockedTitleIds =
+            (data['unlockedTitleIds'] as List<dynamic>? ?? ['t0'])
+                .map((id) => id.toString())
+                .toSet();
         _learnedSkillIds = (data['learnedSkillIds'] as List<dynamic>? ?? [])
             .map((id) => id.toString())
             .toSet();
@@ -1585,28 +1635,37 @@ class CharacterState extends ChangeNotifier {
         // 저장 도중 인터럽트 등으로 동일 아이템이 양쪽에 남는 경우 인벤토리에서 제거
         {
           final equippedIds = <String>{
-            if (_character!.equippedWeapon != null) _character!.equippedWeapon!.id,
-            if (_character!.equippedArmor != null) _character!.equippedArmor!.id,
-            if (_character!.equippedAccessory != null) _character!.equippedAccessory!.id,
+            if (_character!.equippedWeapon != null)
+              _character!.equippedWeapon!.id,
+            if (_character!.equippedArmor != null)
+              _character!.equippedArmor!.id,
+            if (_character!.equippedAccessory != null)
+              _character!.equippedAccessory!.id,
           };
           if (equippedIds.isNotEmpty) {
             final before = _character!.inventory.length;
-            _character!.inventory.removeWhere((item) => equippedIds.contains(item.id));
+            _character!.inventory
+                .removeWhere((item) => equippedIds.contains(item.id));
             if (_character!.inventory.length != before) {
-              debugPrint('[CharacterState] O-4: removed ${before - _character!.inventory.length} duplicate equipped item(s) from inventory.');
+              debugPrint(
+                  '[CharacterState] O-4: removed ${before - _character!.inventory.length} duplicate equipped item(s) from inventory.');
               needsSave = true;
             }
           }
         }
 
-        if (_character!.customRewards.isEmpty && data.containsKey('customRewards') && data['customRewards'] is List) {
+        if (_character!.customRewards.isEmpty &&
+            data.containsKey('customRewards') &&
+            data['customRewards'] is List) {
           _character!.customRewards = (data['customRewards'] as List<dynamic>)
               .whereType<Map>()
-              .map((reward) => CustomReward.fromJson(Map<String, dynamic>.from(reward)))
+              .map((reward) =>
+                  CustomReward.fromJson(Map<String, dynamic>.from(reward)))
               .toList();
           needsSave = true;
         } else if (_character!.customRewards.isEmpty) {
-          _character!.customRewards = _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko');
+          _character!.customRewards = _buildDefaultCustomRewards(
+              langCode: _locale?.languageCode ?? 'ko');
           needsSave = true;
         }
 
@@ -1693,7 +1752,8 @@ class CharacterState extends ChangeNotifier {
   bool _resetQuestsIfNeeded(DateTime lastLogin, {DateTime? now}) {
     bool didChange = false;
     final currentTime = now ?? DateTime.now();
-    final today = DateTime(currentTime.year, currentTime.month, currentTime.day);
+    final today =
+        DateTime(currentTime.year, currentTime.month, currentTime.day);
     final lastDay = DateTime(lastLogin.year, lastLogin.month, lastLogin.day);
     final isNewDay = today.isAfter(lastDay);
 
@@ -1869,7 +1929,8 @@ class CharacterState extends ChangeNotifier {
     _initializeAchievementProgress();
     _isNotificationEnabled = true;
     if (_character != null) {
-      _character!.customRewards = _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko');
+      _character!.customRewards =
+          _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko');
       _initStarterCards();
     }
   }
@@ -1993,8 +2054,8 @@ class CharacterState extends ChangeNotifier {
       for (final type in StatType.values)
         type: _character!.levelGrowthWeights[type.name] ?? 0.0,
     };
-    final total =
-        weights.values.fold<double>(0, (runningTotal, value) => runningTotal + value);
+    final total = weights.values
+        .fold<double>(0, (runningTotal, value) => runningTotal + value);
     if (total <= 0) {
       _character!.lastLevelAutoGrowth = {
         for (final type in StatType.values) type.name: 0,
@@ -2065,7 +2126,8 @@ class CharacterState extends ChangeNotifier {
   String _todayKey(DateTime date) =>
       '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   // --- Custom Rewards ---
-  List<CustomReward> get customRewards => _character == null ? [] : List.unmodifiable(_character!.customRewards);
+  List<CustomReward> get customRewards =>
+      _character == null ? [] : List.unmodifiable(_character!.customRewards);
   void addCustomReward(String name, String description, int cost, String icon) {
     if (_character == null) return;
     final newReward = CustomReward(
@@ -2249,15 +2311,3 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
