@@ -13,17 +13,26 @@ class QaPreviewGateScreen extends StatefulWidget {
 class _QaPreviewGateScreenState extends State<QaPreviewGateScreen> {
   bool _isStarting = false;
 
-  void _startPreview() {
+  Future<void> _startPreview() async {
     if (_isStarting) return;
     setState(() => _isStarting = true);
-    final characterState = context.read<CharacterState>();
-    characterState.initializeForQaPreview();
+    try {
+      final characterState = context.read<CharacterState>();
+      await characterState.initializeForQaPreview();
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (_) => const MainScreen(),
-      ),
-    );
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (_) => const MainScreen(),
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _isStarting = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('QA Preview 시작 실패: $error')),
+      );
+    }
   }
 
   @override

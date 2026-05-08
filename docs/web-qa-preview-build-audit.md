@@ -199,3 +199,47 @@ flutter run -d chrome --dart-define=LIFEQUEST_QA_PREVIEW=true
 3. SharedPreferences(web) 기반 로컬 저장으로 `_performSaveData()`의 QA Preview 분기 구현
 4. 웹 화면 픽셀 스크린샷 경로 확보
 5. Firebase Hosting 또는 로컬 정적 서버로 외부 공유 URL 준비
+
+---
+
+## 11. SharedPreferences 게스트 저장 1차 구현 및 검증
+
+### 구현
+
+- `CharacterState.initializeForQaPreview()`를 비동기 진입점으로 변경했다.
+- QA Preview 최초 진입 시 `testuser1` 로컬 게스트 프로필을 생성하고 즉시 저장한다.
+- QA Preview 재진입 시 `SharedPreferences`에서 `lifequest.qaPreview.state.v1` snapshot을 복원한다.
+- `_performSaveData()`에 QA Preview 분기를 추가해 Firebase Auth/Firestore 없이 로컬 저장만 수행한다.
+- 저장 payload는 기존 Firestore payload와 같은 구조를 사용하되, Web localStorage에 저장할 수 없도록 `FieldValue.serverTimestamp()`만 제외한다.
+- QA Preview 시작 화면은 저장/복원 실패를 SnackBar로 표시하고, 성공 시 `MainScreen`으로 이동한다.
+
+### 검증
+
+```powershell
+flutter analyze --no-pub
+flutter test
+flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
+flutter run -d chrome --dart-define=LIFEQUEST_QA_PREVIEW=true
+```
+
+결과:
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test` -> 95개 전체 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true` -> `build\web` 생성 성공.
+- Chrome 런타임에서 QA Preview 게이트 표시 확인.
+- Playwright 접근성 활성화 후 `게스트로 테스트 시작` 버튼 클릭 성공.
+- `MainScreen` 상태창 진입 확인:
+  - `testuser1`
+  - `Lv. 1 | 새싹 모험가`
+  - `XP 85 / 150`
+  - `HP 100 / 100`
+  - `골드 52`
+- Web localStorage에 `flutter.lifequest.qaPreview.state.v1` 생성 확인.
+- 저장 snapshot 안에 daily/weekly/monthly/yearly QA 퀘스트, 기본 카드, 샘플 카드, 커스텀 보상이 포함됨을 확인.
+
+### 남은 차단/주의
+
+- Wasm dry-run 경고는 여전히 `flutter_timezone-5.0.1`의 JS interop lint에서 발생한다. 현재 JS 기반 Web QA Preview 빌드는 성공하므로 즉시 차단 사항은 아니다.
+- Flutter Web canvas 특성상 일반 DOM 스냅샷만으로는 시각 QA가 부족하다. 이후 카드팩/컬렉션/상점/휴식/전투 보상 화면은 실제 스크린샷 기반으로 확인해야 한다.
+- 다음 구현 범위는 퀘스트 완료, 사냥 진입, 카드 보상, 상점/휴식처럼 저장을 발생시키는 핵심 루프에서 Firebase 호출 없이 진행되는지 확인하는 것이다.

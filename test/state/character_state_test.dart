@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -78,6 +79,30 @@ void main() {
     test('learnedSkillIds starts empty', () {
       expect(characterState.learnedSkillIds, isEmpty);
     });
+
+    test('QA Preview seeds and restores local guest profile', () async {
+      SharedPreferences.setMockInitialValues({});
+
+      final firstState = CharacterState(firestore: FakeFirebaseFirestore());
+      await firstState.initializeForQaPreview(name: 'Preview Tester');
+
+      expect(firstState.isDataLoaded, isTrue);
+      expect(firstState.character.name, 'Preview Tester');
+      expect(firstState.dailyQuests, hasLength(3));
+      expect(firstState.character.unlockedCardIds, contains('base_strike'));
+
+      firstState.dispose();
+
+      final restoredState = CharacterState(firestore: FakeFirebaseFirestore());
+      await restoredState.initializeForQaPreview(name: 'Ignored Name');
+
+      expect(restoredState.isDataLoaded, isTrue);
+      expect(restoredState.character.name, 'Preview Tester');
+      expect(restoredState.dailyQuests.map((q) => q.id), contains('qa_d1'));
+      expect(restoredState.character.unlockedCardIds, contains('base_focus'));
+
+      restoredState.dispose();
+    });
   });
 
   group('Quest XP Calculation Tests', () {
@@ -95,8 +120,8 @@ void main() {
     });
 
     test('Daily very hard quest gives 50 XP', () {
-      expect(Quest.xpForDifficulty(QuestDifficulty.veryHard, QuestType.daily),
-          50);
+      expect(
+          Quest.xpForDifficulty(QuestDifficulty.veryHard, QuestType.daily), 50);
     });
 
     test('Weekly multiplier is 3x daily', () {
@@ -147,8 +172,8 @@ void main() {
         ),
       );
 
-      final didRecover =
-          state.debugApplyHpRecoveryAt(baseTime.add(const Duration(minutes: 25)));
+      final didRecover = state
+          .debugApplyHpRecoveryAt(baseTime.add(const Duration(minutes: 25)));
 
       expect(didRecover, isTrue);
       expect(state.character.characterHp, 56);
@@ -183,8 +208,8 @@ void main() {
       );
 
       state.setCombatActive(true);
-      final didRecover =
-          state.debugApplyHpRecoveryAt(baseTime.add(const Duration(minutes: 25)));
+      final didRecover = state
+          .debugApplyHpRecoveryAt(baseTime.add(const Duration(minutes: 25)));
 
       expect(didRecover, isFalse);
       expect(state.character.characterHp, 50);

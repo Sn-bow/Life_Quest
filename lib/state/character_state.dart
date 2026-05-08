@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
@@ -20,6 +22,7 @@ import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/data/skill_database.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum StatType { strength, wisdom, health, charisma }
 
@@ -70,6 +73,8 @@ class _RaidRewardOutcome {
 }
 
 class CharacterState extends ChangeNotifier {
+  static const String _qaPreviewStorageKey = 'lifequest.qaPreview.state.v1';
+
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
 
   static List<CustomReward> _buildDefaultCustomRewards(
@@ -129,8 +134,17 @@ class CharacterState extends ChangeNotifier {
   ///
   /// This must stay separate from Firebase-backed user loading. The preview
   /// profile is intentionally disposable and exists only inside the QA build.
-  void initializeForQaPreview({String name = 'testuser1'}) {
-    _initializeLocalPreviewCharacter(name: name);
+  Future<void> initializeForQaPreview({String name = 'testuser1'}) async {
+    final restored = await _restoreQaPreviewData();
+    if (!restored) {
+      _initializeLocalPreviewCharacter(name: name);
+      await _performQaPreviewSaveData();
+    }
+    _hasSeenOnboarding = true;
+    _isLoading = false;
+    _isDataLoaded = true;
+    _isLoadingInProgress = false;
+    _startHpRegenLoop();
     notifyListeners();
   }
 
@@ -161,9 +175,76 @@ class CharacterState extends ChangeNotifier {
       ],
       customRewards:
           _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko'),
+      lastLoginDate: DateTime.now(),
+      lastHpRegenAt: DateTime.now(),
     );
+    _dailyQuests = [
+      Quest(
+        id: 'qa_d1',
+        name: '오늘 가장 중요한 일 1개 끝내기',
+        xp: 20,
+        type: QuestType.daily,
+        category: StatType.wisdom,
+        difficulty: QuestDifficulty.normal,
+      ),
+      Quest(
+        id: 'qa_d2',
+        name: '몸을 움직이는 일 20분 하기',
+        xp: 20,
+        type: QuestType.daily,
+        category: StatType.health,
+        difficulty: QuestDifficulty.normal,
+      ),
+      Quest(
+        id: 'qa_d3',
+        name: '미뤄둔 작은 일 하나 정리하기',
+        xp: 10,
+        type: QuestType.daily,
+        category: StatType.charisma,
+        difficulty: QuestDifficulty.easy,
+      ),
+    ];
+    _weeklyQuests = [
+      Quest(
+        id: 'qa_w1',
+        name: '이번 주 핵심 목표 3개 완료',
+        xp: 100,
+        type: QuestType.weekly,
+        category: StatType.wisdom,
+        difficulty: QuestDifficulty.hard,
+      ),
+    ];
+    _monthlyQuests = [
+      Quest(
+        id: 'qa_m1',
+        name: '이번 달 루틴 12회 달성',
+        xp: 140,
+        type: QuestType.monthly,
+        category: StatType.health,
+        difficulty: QuestDifficulty.hard,
+      ),
+    ];
+    _yearlyQuests = [
+      Quest(
+        id: 'qa_y1',
+        name: '올해 대표 목표 하나 완수하기',
+        xp: 280,
+        type: QuestType.yearly,
+        category: StatType.charisma,
+        difficulty: QuestDifficulty.veryHard,
+      ),
+    ];
+    _unlockedTitleIds = {'t0'};
+    _learnedSkillIds = {};
+    _hydrateAchievementProgress(null);
+    _themeMode = ThemeMode.dark;
+    _locale ??= const Locale('ko');
+    _hasSeenOnboarding = true;
+    _isNotificationEnabled = false;
     _isDataLoaded = true;
     _isLoading = false;
+    _isLoadingInProgress = false;
+    _invalidateQuestCache();
   }
 
   /// Public method for external callers to trigger a UI rebuild.
@@ -1431,6 +1512,108 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
+  Map<String, dynamic> _buildSavePayload({bool includeServerTimestamp = true}) {
+    return {
+      'character': _character!.toJson(),
+      'dailyQuests': _dailyQuests.map((q) => q.toJson()).toList(),
+      'weeklyQuests': _weeklyQuests.map((q) => q.toJson()).toList(),
+      'monthlyQuests': _monthlyQuests.map((q) => q.toJson()).toList(),
+      'yearlyQuests': _yearlyQuests.map((q) => q.toJson()).toList(),
+      'unlockedTitleIds': _unlockedTitleIds.toList(),
+      'learnedSkillIds': _learnedSkillIds.toList(),
+      'achievementProgress':
+          _achievementProgress.map((k, v) => MapEntry(k, v.toJson())),
+      'themeMode': _themeMode.index,
+      'localeCode': _locale?.languageCode,
+      'hasSeenOnboarding': _hasSeenOnboarding,
+      'notificationMorningHour': _notificationMorningHour,
+      'notificationNightHour': _notificationNightHour,
+      'isNotificationEnabled': _isNotificationEnabled,
+      if (includeServerTimestamp) 'lastLoginDate': FieldValue.serverTimestamp(),
+    };
+  }
+
+  Future<bool> _restoreQaPreviewData() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final raw = prefs.getString(_qaPreviewStorageKey);
+      if (raw == null || raw.isEmpty) return false;
+
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map<String, dynamic>) return false;
+      if (decoded['character'] is! Map) return false;
+
+      _character = Character.fromJson(
+        Map<String, dynamic>.from(decoded['character'] as Map),
+      );
+      _dailyQuests = (decoded['dailyQuests'] as List<dynamic>? ?? [])
+          .whereType<Map>()
+          .map((q) => Quest.fromJson(Map<String, dynamic>.from(q)))
+          .toList();
+      _weeklyQuests = (decoded['weeklyQuests'] as List<dynamic>? ?? [])
+          .whereType<Map>()
+          .map((q) => Quest.fromJson(Map<String, dynamic>.from(q)))
+          .toList();
+      _monthlyQuests = (decoded['monthlyQuests'] as List<dynamic>? ?? [])
+          .whereType<Map>()
+          .map((q) => Quest.fromJson(Map<String, dynamic>.from(q)))
+          .toList();
+      _yearlyQuests = (decoded['yearlyQuests'] as List<dynamic>? ?? [])
+          .whereType<Map>()
+          .map((q) => Quest.fromJson(Map<String, dynamic>.from(q)))
+          .toList();
+      _unlockedTitleIds =
+          (decoded['unlockedTitleIds'] as List<dynamic>? ?? ['t0'])
+              .map((id) => id.toString())
+              .toSet();
+      _learnedSkillIds = (decoded['learnedSkillIds'] as List<dynamic>? ?? [])
+          .map((id) => id.toString())
+          .toSet();
+      _hydrateAchievementProgress(decoded['achievementProgress']);
+      _themeMode =
+          ThemeMode.values[decoded['themeMode'] ?? ThemeMode.dark.index];
+      final localeCode = decoded['localeCode'] as String?;
+      _locale = (localeCode != null &&
+              const {'ko', 'en', 'ja', 'zh'}.contains(localeCode))
+          ? Locale(localeCode)
+          : const Locale('ko');
+      _hasSeenOnboarding = true;
+      _notificationMorningHour = decoded['notificationMorningHour'] ?? 9;
+      _notificationNightHour = decoded['notificationNightHour'] ?? 20;
+      _isNotificationEnabled = false;
+
+      if (_character!.unlockedCardIds.isEmpty) {
+        _initStarterCards();
+      }
+      if (_character!.customRewards.isEmpty) {
+        _character!.customRewards = _buildDefaultCustomRewards(
+          langCode: _locale?.languageCode ?? 'ko',
+        );
+      }
+      _character!.lastLoginDate ??= DateTime.now();
+      _character!.lastHpRegenAt ??= DateTime.now();
+      _isLoading = false;
+      _isDataLoaded = true;
+      _isLoadingInProgress = false;
+      _invalidateQuestCache();
+      return true;
+    } catch (error) {
+      debugPrint('QA preview restore failed: $error');
+      return false;
+    }
+  }
+
+  Future<void> _performQaPreviewSaveData() async {
+    if (_character == null) return;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final payload = _buildSavePayload(includeServerTimestamp: false);
+      await prefs.setString(_qaPreviewStorageKey, jsonEncode(payload));
+    } catch (error) {
+      debugPrint('QA preview local save failed: $error');
+    }
+  }
+
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
   // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
@@ -1447,6 +1630,10 @@ class CharacterState extends ChangeNotifier {
     if (_character == null) return;
     // m-2: gold 음수 방지 — 어떤 경로로든 음수가 됐을 때 저장 직전에 클램프
     if (_character!.gold < 0) _character!.gold = 0;
+    if (kLifeQuestQaPreview) {
+      await _performQaPreviewSaveData();
+      return;
+    }
     if (_isSaving) {
       // 이미 저장 중이면 대기열에 추가하고 반환
       _pendingSave = true;
@@ -1464,26 +1651,7 @@ class CharacterState extends ChangeNotifier {
         return;
       }
       final docRef = _firestore.collection('users').doc(user.uid);
-      final data = {
-        'character': _character!.toJson(),
-        'dailyQuests': _dailyQuests.map((q) => q.toJson()).toList(),
-        'weeklyQuests': _weeklyQuests.map((q) => q.toJson()).toList(),
-        'monthlyQuests': _monthlyQuests.map((q) => q.toJson()).toList(),
-        'yearlyQuests': _yearlyQuests.map((q) => q.toJson()).toList(),
-        'unlockedTitleIds': _unlockedTitleIds.toList(),
-        'learnedSkillIds': _learnedSkillIds.toList(),
-        'achievementProgress':
-            _achievementProgress.map((k, v) => MapEntry(k, v.toJson())),
-        'themeMode': _themeMode.index,
-        'localeCode': _locale?.languageCode,
-        'hasSeenOnboarding': _hasSeenOnboarding,
-        'notificationMorningHour': _notificationMorningHour,
-        'notificationNightHour': _notificationNightHour,
-        'isNotificationEnabled': _isNotificationEnabled,
-        // O-2: 서버 타임스탬프로 저장 → 클라이언트 시간 조작 방지
-        // Firestore 서버가 현재 시각을 직접 기록하므로 기기 시계를 바꿔도 영향 없음
-        'lastLoginDate': FieldValue.serverTimestamp(),
-      };
+      final data = _buildSavePayload();
       await docRef.set(data, SetOptions(merge: true));
 
       // Update Home Widget data for iOS/Android
