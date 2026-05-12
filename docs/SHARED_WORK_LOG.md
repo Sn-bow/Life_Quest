@@ -1224,3 +1224,63 @@ flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
 3. 카드팩, 컬렉션, 상점, 휴식 화면에서 full-body 카드 UI를 스크린샷 기반으로 넓게 QA.
 4. 긴 한국어 카드 설명을 카드 UI 기준으로 짧게 정리.
 5. Web QA Preview 공유 방식 결정: Firebase Hosting preview channel 또는 별도 정적 호스팅.
+
+---
+
+## 2026-05-12 KST - Web QA Preview Firebase Hosting 실배포
+
+### 목적
+
+테스터가 앱 설치나 Google 로그인 없이 Life Quest의 핵심 흐름을 바로 만져볼 수 있도록 Web QA Preview를 실제 공유 가능한 서버에 배포한다.
+
+### 배포
+
+- 배포 URL: https://life-quest-app-95eb9.web.app
+- Firebase project: `life-quest-app-95eb9`
+- 빌드 명령:
+  - `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none`
+- 배포 명령:
+  - `npx firebase-tools deploy --only hosting --project life-quest-app-95eb9`
+
+### 수정
+
+- `.firebaserc`
+  - 기본 Firebase project를 `life-quest-app-95eb9`로 고정.
+- `firebase.json`
+  - Hosting public directory를 `build/web`으로 설정.
+  - Flutter Web SPA 라우팅을 위해 모든 경로를 `/index.html`로 rewrite.
+  - QA Preview 특성상 새 배포가 즉시 반영되도록 `Cache-Control: no-cache` 헤더 추가.
+- `lib/state/character_state.dart`
+  - QA Preview 모드에서는 저장 debounce를 기다리지 않고 `_performSaveData()`를 즉시 실행.
+  - 퀘스트 완료 직후 localStorage 진행 상태가 바로 갱신되도록 수정.
+- `lib/screens/quests_screen.dart`
+  - QA Preview 모드에서는 광고 보상 버튼을 숨기고 기본 완료 경로만 노출.
+- `lib/services/sound_service.dart`
+  - WebAudio decode 오류를 만들던 6-byte placeholder mp3 참조를 실제 wav SFX로 교체.
+- `.gitignore`
+  - Firebase CLI 로컬 배포 캐시 `.firebase/` 제외.
+
+### 검증
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test` -> 96개 전체 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 배포 -> 성공.
+- Playwright 런타임 확인:
+  - 배포 URL에서 `Life Quest`, `Web QA Preview`, `게스트로 테스트 시작` 표시 확인.
+  - 게스트 시작 후 상태창 진입 확인.
+  - `testuser1`, `Lv. 1 | 새싹 모험가`, `XP 85 / 150`, `골드 52` 표시 확인.
+  - localStorage key `flutter.lifequest.qaPreview.state.v1` 생성 확인.
+  - 첫 일일 퀘스트 완료 후 localStorage에 Lv.2, XP 약 5.2, max XP 200, 골드 62, 완료 상태 저장 확인.
+  - 최종 배포 JS에 `sounds/quest_complete.mp3` 참조가 없고 `sounds/sfx/level_up.wav` 참조가 있는지 `no-store` fetch로 확인.
+  - Hosting 응답 헤더 `Cache-Control: no-cache` 확인.
+
+### 남은 리스크
+
+- 최종 `no-cache` 적용 전 접속했던 기존 브라우저 탭은 낡은 `main.dart.js`를 잡고 있을 수 있으므로 한 번 강력 새로고침이 필요할 수 있다.
+- Wasm dry-run 경고는 `flutter_timezone-5.0.1` JS interop lint에서 계속 발생한다. 현재 배포는 JS Flutter Web 빌드라 공유 차단 사항은 아니다.
+- 테스터 공개 전 다음 넓은 QA가 필요하다:
+  - 카드팩, 컬렉션, 상점, 휴식 화면의 full-body 카드 표시.
+  - 사냥 탭, 던전 전투, 전투 보상 흐름.
+  - 긴 한국어 카드 설명 축약.
+  - 모바일 브라우저 실제 터치 스크린샷 확인.

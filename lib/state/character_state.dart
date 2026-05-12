@@ -1617,6 +1617,10 @@ class CharacterState extends ChangeNotifier {
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
   // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
+    if (kLifeQuestQaPreview) {
+      await _performSaveData();
+      return;
+    }
     _saveTimer?.cancel();
     _saveTimer = Timer(const Duration(seconds: 3), () {
       _performSaveData();

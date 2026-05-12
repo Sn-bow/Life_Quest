@@ -243,3 +243,48 @@ flutter run -d chrome --dart-define=LIFEQUEST_QA_PREVIEW=true
 - Wasm dry-run 경고는 여전히 `flutter_timezone-5.0.1`의 JS interop lint에서 발생한다. 현재 JS 기반 Web QA Preview 빌드는 성공하므로 즉시 차단 사항은 아니다.
 - Flutter Web canvas 특성상 일반 DOM 스냅샷만으로는 시각 QA가 부족하다. 이후 카드팩/컬렉션/상점/휴식/전투 보상 화면은 실제 스크린샷 기반으로 확인해야 한다.
 - 다음 구현 범위는 퀘스트 완료, 사냥 진입, 카드 보상, 상점/휴식처럼 저장을 발생시키는 핵심 루프에서 Firebase 호출 없이 진행되는지 확인하는 것이다.
+
+---
+
+## 12. Firebase Hosting 실배포 결과
+
+### 최종 URL
+
+- https://life-quest-app-95eb9.web.app
+
+### Hosting 설정
+
+- `.firebaserc`
+  - default project: `life-quest-app-95eb9`
+- `firebase.json`
+  - `hosting.public`: `build/web`
+  - `rewrites`: 모든 경로를 `/index.html`로 연결해 Flutter Web SPA 진입 보장
+  - `headers`: QA Preview 배포 반영 지연을 줄이기 위해 `Cache-Control: no-cache`
+
+### 빌드/배포 명령
+
+```powershell
+flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none
+npx firebase-tools deploy --only hosting --project life-quest-app-95eb9
+```
+
+### 검증 결과
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test` -> 96개 전체 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting deploy -> 성공.
+- 배포 URL 런타임 확인:
+  - QA Preview 게이트 표시.
+  - 게스트 시작 후 상태창 진입.
+  - `testuser1`, `Lv. 1 | 새싹 모험가`, `XP 85 / 150`, `골드 52` 표시.
+  - localStorage에 `flutter.lifequest.qaPreview.state.v1` 생성.
+  - 첫 일일 퀘스트 완료 후 Lv.2, XP 약 5.2, max XP 200, 골드 62 저장.
+  - 최종 JS가 더 이상 `sounds/quest_complete.mp3`를 참조하지 않고 `sounds/sfx/level_up.wav`를 참조함.
+  - Hosting 응답 헤더 `Cache-Control: no-cache` 확인.
+
+### 주의사항
+
+- `no-cache` 헤더 적용 전에 열려 있던 브라우저 탭은 기존 JS를 유지할 수 있다. 해당 탭은 강력 새로고침 후 다시 확인해야 한다.
+- Wasm dry-run 경고는 `flutter_timezone-5.0.1`의 JS interop lint에서 발생한다. 현재 공유 URL은 JS Flutter Web 빌드이므로 배포 차단 사항은 아니다.
+- 다음 QA 범위는 카드팩, 컬렉션, 상점, 휴식, 사냥/전투/보상 흐름의 실제 모바일 브라우저 검증이다.

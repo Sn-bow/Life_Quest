@@ -28,8 +28,8 @@ class SoundService {
   }
 
   // ── 볼륨 상수 ────────────────────────────────────────────────────────────
-  final double _bgmVolume       = 0.55; // BGM
-  static const double _sfxVol   = 0.38; // 일반 SFX
+  final double _bgmVolume = 0.55; // BGM
+  static const double _sfxVol = 0.38; // 일반 SFX
   static const double _sfxVictory = 0.22; // 승리 팡파르 (1.5s 길어서 따로 낮춤)
 
   // ── SFX AudioContext ─────────────────────────────────────────────────────
@@ -40,17 +40,17 @@ class SoundService {
     // ignore: prefer_const_constructors
     android: AudioContextAndroid(
       contentType: AndroidContentType.sonification,
-      usageType:   AndroidUsageType.game,
-      audioFocus:  AndroidAudioFocus.none, // ★ 포커스 관리 안 함
+      usageType: AndroidUsageType.game,
+      audioFocus: AndroidAudioFocus.none, // ★ 포커스 관리 안 함
       isSpeakerphoneOn: false,
-      stayAwake:   false,
+      stayAwake: false,
     ),
     // ignore: prefer_const_constructors
     iOS: AudioContextIOS(
       // ambient 카테고리는 자체적으로 다른 오디오와 혼합됨
       // mixWithOthers 옵션은 playback/playAndRecord/multiRoute 에서만 유효
       category: AVAudioSessionCategory.ambient,
-      options:  const {},
+      options: const {},
     ),
   );
 
@@ -60,15 +60,15 @@ class SoundService {
     // ignore: prefer_const_constructors
     android: AudioContextAndroid(
       contentType: AndroidContentType.music,
-      usageType:   AndroidUsageType.game,
-      audioFocus:  AndroidAudioFocus.gain,
+      usageType: AndroidUsageType.game,
+      audioFocus: AndroidAudioFocus.gain,
       isSpeakerphoneOn: false,
-      stayAwake:   false,
+      stayAwake: false,
     ),
     // ignore: prefer_const_constructors
     iOS: AudioContextIOS(
       category: AVAudioSessionCategory.playback,
-      options:  const {AVAudioSessionOptions.mixWithOthers},
+      options: const {AVAudioSessionOptions.mixWithOthers},
     ),
   );
 
@@ -140,35 +140,35 @@ class SoundService {
   void dispose() => _bgmPlayer?.dispose();
 
   // ── 편의 메서드 ───────────────────────────────────────────────────────────
-  void playLevelUp()           => playSfx('sounds/sfx/level_up.wav');
-  void playQuestComplete()     => playSfx('sounds/quest_complete.mp3');
-  void playAttack()            => playSfx('sounds/hit.mp3');
-  void playClick()             => playSfx('sounds/click.mp3');
+  void playLevelUp() => playSfx('sounds/sfx/level_up.wav');
+  void playQuestComplete() => playSfx('sounds/sfx/level_up.wav');
+  void playAttack() => playSfx('sounds/sfx/attack_swing.wav');
+  void playClick() => playSfx('sounds/sfx/button_click.wav');
 
   // Soul Deck SFX
-  void playCardDraw()          => playSfx('sounds/game/card_draw.mp3');
-  void playCardPlayAttack()    => playSfx('sounds/sfx/attack_swing.wav');
-  void playCardPlayMagic()     => playSfx('sounds/sfx/magic_cast.wav');
-  void playCardPlayDefense()   => playSfx('sounds/sfx/defend_block.wav');
-  void playCardPlayTactical()  => playSfx('sounds/game/card_tactical.mp3');
-  void playBlock()             => playSfx('sounds/sfx/defend_block.wav');
-  void playHeal()              => playSfx('sounds/game/heal.mp3');
-  void playEnemyAttack()       => playSfx('sounds/sfx/attack_swing.wav');
-  void playEnemyDefeat()       => playSfx('sounds/sfx/enemy_death.wav');
-  void playBossAppear()        => playSfx('sounds/game/boss_appear.mp3');
-  void playVictory()           => playSfx('sounds/sfx/victory.wav', vol: _sfxVictory);
-  void playDefeat()            => playSfx('sounds/game/defeat.mp3');
-  void playTurnChange()        => playSfx('sounds/game/turn_change.mp3');
-  void playRelicPickup()       => playSfx('sounds/game/relic_pickup.mp3');
-  void playShopBuy()           => playSfx('sounds/game/shop_buy.mp3');
-  void playStatusEffect()      => playSfx('sounds/game/status_effect.mp3');
+  void playCardDraw() => playSfx('sounds/game/card_draw.mp3');
+  void playCardPlayAttack() => playSfx('sounds/sfx/attack_swing.wav');
+  void playCardPlayMagic() => playSfx('sounds/sfx/magic_cast.wav');
+  void playCardPlayDefense() => playSfx('sounds/sfx/defend_block.wav');
+  void playCardPlayTactical() => playSfx('sounds/game/card_tactical.mp3');
+  void playBlock() => playSfx('sounds/sfx/defend_block.wav');
+  void playHeal() => playSfx('sounds/game/heal.mp3');
+  void playEnemyAttack() => playSfx('sounds/sfx/attack_swing.wav');
+  void playEnemyDefeat() => playSfx('sounds/sfx/enemy_death.wav');
+  void playBossAppear() => playSfx('sounds/game/boss_appear.mp3');
+  void playVictory() => playSfx('sounds/sfx/victory.wav', vol: _sfxVictory);
+  void playDefeat() => playSfx('sounds/game/defeat.mp3');
+  void playTurnChange() => playSfx('sounds/game/turn_change.mp3');
+  void playRelicPickup() => playSfx('sounds/game/relic_pickup.mp3');
+  void playShopBuy() => playSfx('sounds/game/shop_buy.mp3');
+  void playStatusEffect() => playSfx('sounds/game/status_effect.mp3');
 
   // Battle SFX
-  void playMagicHit()          => playSfx('sounds/sfx/magic_hit.wav');
+  void playMagicHit() => playSfx('sounds/sfx/magic_hit.wav');
   void playBattleButtonClick() => playSfx('sounds/sfx/button_click.wav');
-  void playCardPlay()          => playSfx('sounds/sfx/card_play.wav');
+  void playCardPlay() => playSfx('sounds/sfx/card_play.wav');
 
   // BGM
-  Future<void> playDungeonBgm()  => playBgm('sounds/bgm/Before_the_Siege.mp3');
-  Future<void> stopDungeonBgm()  => stopBgm();
+  Future<void> playDungeonBgm() => playBgm('sounds/bgm/Before_the_Siege.mp3');
+  Future<void> stopDungeonBgm() => stopBgm();
 }

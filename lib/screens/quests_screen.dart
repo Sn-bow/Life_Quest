@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/quest_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
@@ -22,15 +23,16 @@ class QuestsScreen extends StatelessWidget {
     }
   }
 
-  String _completionSummary(QuestCompletionResult? result, Quest quest, AppLocalizations l10n) {
+  String _completionSummary(
+      QuestCompletionResult? result, Quest quest, AppLocalizations l10n) {
     if (result == null) {
       return l10n.questsCompleteConfirm(quest.name);
     }
 
     final lines = <String>[
-      if (result.wasRaid)
-        l10n.questsRaidClear(result.raidClearCount),
-      l10n.questsRewardSummary(result.totalXpAwarded.round(), result.totalGoldAwarded, result.actionPointsAwarded),
+      if (result.wasRaid) l10n.questsRaidClear(result.raidClearCount),
+      l10n.questsRewardSummary(result.totalXpAwarded.round(),
+          result.totalGoldAwarded, result.actionPointsAwarded),
       if (result.statPointsAwarded > 0)
         l10n.questsRewardStatPoints(result.statPointsAwarded),
       if (result.unlockedTitles.isNotEmpty)
@@ -38,8 +40,7 @@ class QuestsScreen extends StatelessWidget {
       if (result.unlockedCosmetics.isNotEmpty)
         l10n.questsRewardUnlockedCosmetics(result.unlockedCosmetics.join(', ')),
       // CP + 카드 팩 보상 표시
-      if (result.cardPointsAwarded > 0)
-        '⭐ CP +${result.cardPointsAwarded}',
+      if (result.cardPointsAwarded > 0) '⭐ CP +${result.cardPointsAwarded}',
       if (result.newPacksAwarded > 0)
         '🎁 카드 팩 +${result.newPacksAwarded}개 획득! (던전 홈에서 열기)',
     ];
@@ -68,14 +69,14 @@ class QuestsScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _buildQuestList(
-                context, characterState.sortedDailyQuests, characterState, QuestType.daily, l10n),
-            _buildQuestList(
-                context, characterState.sortedWeeklyQuests, characterState, QuestType.weekly, l10n),
-            _buildQuestList(
-                context, characterState.sortedMonthlyQuests, characterState, QuestType.monthly, l10n),
-            _buildQuestList(
-                context, characterState.sortedYearlyQuests, characterState, QuestType.yearly, l10n),
+            _buildQuestList(context, characterState.sortedDailyQuests,
+                characterState, QuestType.daily, l10n),
+            _buildQuestList(context, characterState.sortedWeeklyQuests,
+                characterState, QuestType.weekly, l10n),
+            _buildQuestList(context, characterState.sortedMonthlyQuests,
+                characterState, QuestType.monthly, l10n),
+            _buildQuestList(context, characterState.sortedYearlyQuests,
+                characterState, QuestType.yearly, l10n),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -90,8 +91,8 @@ class QuestsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuestList(
-      BuildContext context, List<Quest> quests, CharacterState state, QuestType type, AppLocalizations l10n) {
+  Widget _buildQuestList(BuildContext context, List<Quest> quests,
+      CharacterState state, QuestType type, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
@@ -156,37 +157,53 @@ class QuestsScreen extends StatelessWidget {
   // ── O-3: 다이얼로그 공통 헬퍼 (edit/add 양쪽에서 재사용) ─────────────────
   static String _categoryName(StatType category, AppLocalizations l10n) {
     switch (category) {
-      case StatType.strength: return l10n.questsCategoryStrength;
-      case StatType.wisdom:   return l10n.questsCategoryWisdom;
-      case StatType.health:   return l10n.questsCategoryHealth;
-      case StatType.charisma: return l10n.questsCategoryCharm;
+      case StatType.strength:
+        return l10n.questsCategoryStrength;
+      case StatType.wisdom:
+        return l10n.questsCategoryWisdom;
+      case StatType.health:
+        return l10n.questsCategoryHealth;
+      case StatType.charisma:
+        return l10n.questsCategoryCharm;
     }
   }
 
   static String _difficultyName(QuestDifficulty d, AppLocalizations l10n) {
     switch (d) {
-      case QuestDifficulty.easy:     return l10n.questsDifficultyEasy;
-      case QuestDifficulty.normal:   return l10n.questsDifficultyNormal;
-      case QuestDifficulty.hard:     return l10n.questsDifficultyHard;
-      case QuestDifficulty.veryHard: return l10n.questsDifficultyVeryHard;
+      case QuestDifficulty.easy:
+        return l10n.questsDifficultyEasy;
+      case QuestDifficulty.normal:
+        return l10n.questsDifficultyNormal;
+      case QuestDifficulty.hard:
+        return l10n.questsDifficultyHard;
+      case QuestDifficulty.veryHard:
+        return l10n.questsDifficultyVeryHard;
     }
   }
 
   static String _questTypeName(QuestType type, AppLocalizations l10n) {
     switch (type) {
-      case QuestType.daily:   return l10n.questsTypeDaily;
-      case QuestType.weekly:  return l10n.questsTypeWeekly;
-      case QuestType.monthly: return l10n.questsTypeMonthly;
-      case QuestType.yearly:  return l10n.questsTypeYearly;
+      case QuestType.daily:
+        return l10n.questsTypeDaily;
+      case QuestType.weekly:
+        return l10n.questsTypeWeekly;
+      case QuestType.monthly:
+        return l10n.questsTypeMonthly;
+      case QuestType.yearly:
+        return l10n.questsTypeYearly;
     }
   }
 
   static Color _difficultyColor(QuestDifficulty d) {
     switch (d) {
-      case QuestDifficulty.easy:     return Colors.green;
-      case QuestDifficulty.normal:   return Colors.blue;
-      case QuestDifficulty.hard:     return Colors.orange;
-      case QuestDifficulty.veryHard: return Colors.red;
+      case QuestDifficulty.easy:
+        return Colors.green;
+      case QuestDifficulty.normal:
+        return Colors.blue;
+      case QuestDifficulty.hard:
+        return Colors.orange;
+      case QuestDifficulty.veryHard:
+        return Colors.red;
     }
   }
   // ─────────────────────────────────────────────────────────────────────────
@@ -215,7 +232,9 @@ class QuestsScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration: InputDecoration(labelText: dialogL10n.questsNameLabel, counterText: ''),
+                      decoration: InputDecoration(
+                          labelText: dialogL10n.questsNameLabel,
+                          counterText: ''),
                       maxLength: 50,
                     ),
                     const SizedBox(height: 20),
@@ -299,8 +318,9 @@ class QuestsScreen extends StatelessWidget {
     if (quest.isCompleted) return;
     if (state.isQuestPending(quest.id)) return;
 
-    final adService = AdService();
-    final remainingDouble = adService.getRemainingViews('quest_double');
+    final adService = kLifeQuestQaPreview ? null : AdService();
+    final remainingDouble =
+        kLifeQuestQaPreview ? 0 : adService!.getRemainingViews('quest_double');
 
     showDialog(
       context: context,
@@ -319,13 +339,16 @@ class QuestsScreen extends StatelessWidget {
                   l10n.questsBaseRewardLabel,
                   '- ${quest.xp} XP',
                   '- ${(quest.xp * 0.5).round()} ${l10n.questsGoldUnit}',
-                  if (quest.type == QuestType.monthly || quest.type == QuestType.yearly)
+                  if (quest.type == QuestType.monthly ||
+                      quest.type == QuestType.yearly)
                     _raidRewardPreview(quest, l10n),
                 ].join('\n'),
               ),
               actions: <Widget>[
                 TextButton(
-                  onPressed: isProcessing ? null : () => Navigator.of(dialogContext).pop(),
+                  onPressed: isProcessing
+                      ? null
+                      : () => Navigator.of(dialogContext).pop(),
                   child: Text(l10n.cancel),
                 ),
                 if (remainingDouble > 0)
@@ -336,51 +359,58 @@ class QuestsScreen extends StatelessWidget {
                       backgroundColor: Colors.amber,
                       foregroundColor: Colors.black,
                     ),
-                    onPressed: isProcessing ? null : () async {
-                      setDialogState(() => isProcessing = true);
-                      // R-1 fix: pending 마킹을 다이얼로그 닫기 전에 수행
-                      // → 닫힌 직후 다른 tap이 들어와도 중복 완료 차단
-                      state.markQuestPending(quest.id);
-                      Navigator.of(dialogContext).pop();
-                      try {
-                        final success = await adService.showRewardedAd('quest_double');
-                        // R-4 fix: mounted 체크 후 l10n을 안전하게 획득
-                        if (!context.mounted) return;
-                        final mountedL10n = AppLocalizations.of(context);
-                        if (mountedL10n == null) return;
-                        final result = state.completeQuest(
-                          quest,
-                          xpMultiplier: success ? 2.0 : 1.0,
-                        );
-                        final prefix = success
-                            ? mountedL10n.questsAdRewardApplied
-                            : mountedL10n.questsAdUnavailable;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('$prefix\n${_completionSummary(result, quest, mountedL10n)}'),
-                            duration: const Duration(seconds: 5),
-                          ),
-                        );
-                      } finally {
-                        state.clearQuestPending(quest.id);
-                      }
-                    },
+                    onPressed: isProcessing
+                        ? null
+                        : () async {
+                            setDialogState(() => isProcessing = true);
+                            // R-1 fix: pending 마킹을 다이얼로그 닫기 전에 수행
+                            // → 닫힌 직후 다른 tap이 들어와도 중복 완료 차단
+                            state.markQuestPending(quest.id);
+                            Navigator.of(dialogContext).pop();
+                            try {
+                              final success = await adService!
+                                  .showRewardedAd('quest_double');
+                              // R-4 fix: mounted 체크 후 l10n을 안전하게 획득
+                              if (!context.mounted) return;
+                              final mountedL10n = AppLocalizations.of(context);
+                              if (mountedL10n == null) return;
+                              final result = state.completeQuest(
+                                quest,
+                                xpMultiplier: success ? 2.0 : 1.0,
+                              );
+                              final prefix = success
+                                  ? mountedL10n.questsAdRewardApplied
+                                  : mountedL10n.questsAdUnavailable;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      '$prefix\n${_completionSummary(result, quest, mountedL10n)}'),
+                                  duration: const Duration(seconds: 5),
+                                ),
+                              );
+                            } finally {
+                              state.clearQuestPending(quest.id);
+                            }
+                          },
                   ),
                 TextButton(
-                  onPressed: isProcessing ? null : () {
-                    setDialogState(() => isProcessing = true);
-                    final result = state.completeQuest(quest);
-                    Navigator.of(dialogContext).pop();
-                    if (context.mounted) {
-                      final mountedL10n = AppLocalizations.of(context)!;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(_completionSummary(result, quest, mountedL10n)),
-                          duration: const Duration(seconds: 5),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: isProcessing
+                      ? null
+                      : () {
+                          setDialogState(() => isProcessing = true);
+                          final result = state.completeQuest(quest);
+                          Navigator.of(dialogContext).pop();
+                          if (context.mounted) {
+                            final mountedL10n = AppLocalizations.of(context)!;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(_completionSummary(
+                                    result, quest, mountedL10n)),
+                                duration: const Duration(seconds: 5),
+                              ),
+                            );
+                          }
+                        },
                   child: Text(l10n.complete),
                 ),
               ],
@@ -406,7 +436,8 @@ class QuestsScreen extends StatelessWidget {
               onPressed: () => Navigator.of(dialogContext).pop(),
             ),
             TextButton(
-              child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
+              child:
+                  Text(l10n.delete, style: const TextStyle(color: Colors.red)),
               onPressed: () {
                 state.deleteQuest(quest);
                 Navigator.of(dialogContext).pop();
@@ -442,7 +473,9 @@ class QuestsScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration: InputDecoration(labelText: dialogL10n.questsNameLabel, counterText: ''),
+                      decoration: InputDecoration(
+                          labelText: dialogL10n.questsNameLabel,
+                          counterText: ''),
                       maxLength: 50,
                     ),
                     const SizedBox(height: 20),
