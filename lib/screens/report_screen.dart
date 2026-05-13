@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -117,15 +118,19 @@ class _ReportScreenState extends State<ReportScreen> {
     final character = characterState.character;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    final isExpandedUnlocked = characterState.isExpandedReportUnlockedToday;
-    final remainingViews = AdService().getRemainingViews('report_detail');
-    final monthlyCompletionRate =
-        _completionRate(characterState.monthlyQuests);
+    final isExpandedUnlocked =
+        kLifeQuestQaPreview || characterState.isExpandedReportUnlockedToday;
+    final remainingViews = kLifeQuestQaPreview
+        ? 0
+        : AdService().getRemainingViews('report_detail');
+    final monthlyCompletionRate = _completionRate(characterState.monthlyQuests);
     final yearlyCompletionRate = _completionRate(characterState.yearlyQuests);
     final recommendedCategory = _recommendedCategory(characterState);
-    final recommendedQuest = _recommendedQuestLabel(characterState, recommendedCategory, l10n);
+    final recommendedQuest =
+        _recommendedQuestLabel(characterState, recommendedCategory, l10n);
     final bestWeekday = _bestWeekdayLabel(weeklyData, l10n);
-    final weeklyTotal = weeklyData.values.fold<int>(0, (total, value) => total + value);
+    final weeklyTotal =
+        weeklyData.values.fold<int>(0, (total, value) => total + value);
     final completedQuestMap = _buildCompletedQuestMap(characterState);
     final selectedDayQuests =
         completedQuestMap[_selectedDay ?? _normalizeDate(DateTime.now())] ?? [];
@@ -164,7 +169,8 @@ class _ReportScreenState extends State<ReportScreen> {
                   child: _buildSummaryCard(
                     context,
                     title: l10n.reportSummaryStreak,
-                    value: l10n.reportSummaryStreakValue(characterState.character.streak),
+                    value: l10n.reportSummaryStreakValue(
+                        characterState.character.streak),
                     icon: PhosphorIcons.fire,
                     color: Colors.orange.shade400,
                   ),
@@ -188,7 +194,8 @@ class _ReportScreenState extends State<ReportScreen> {
                   child: _buildSummaryCard(
                     context,
                     title: l10n.reportSummaryQuestCount,
-                    value: l10n.reportSummaryQuestCountValue(characterState.questCompletionCount),
+                    value: l10n.reportSummaryQuestCountValue(
+                        characterState.questCompletionCount),
                     icon: PhosphorIcons.checkCircle,
                     color: Colors.green.shade400,
                   ),
@@ -210,12 +217,14 @@ class _ReportScreenState extends State<ReportScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.reportWeeklyActivityTitle, style: theme.textTheme.titleLarge),
+                  Text(l10n.reportWeeklyActivityTitle,
+                      style: theme.textTheme.titleLarge),
                   const SizedBox(height: 10),
                   Text(
                     l10n.reportWeeklyActivitySubtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.72),
+                      color:
+                          theme.colorScheme.onSurface.withValues(alpha: 0.72),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -254,9 +263,10 @@ class _ReportScreenState extends State<ReportScreen> {
                                   fontSize: 14,
                                 );
                                 final index = value.toInt();
-                                final text = index >= 0 && index < weekLabels.length
-                                    ? weekLabels[index]
-                                    : '';
+                                final text =
+                                    index >= 0 && index < weekLabels.length
+                                        ? weekLabels[index]
+                                        : '';
                                 return SideTitleWidget(
                                   axisSide: meta.axisSide,
                                   space: 16,
@@ -452,7 +462,8 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.reportCategoryRatioTitle, style: theme.textTheme.titleLarge),
+              Text(l10n.reportCategoryRatioTitle,
+                  style: theme.textTheme.titleLarge),
               const SizedBox(height: 24),
               SizedBox(
                 height: 200,
@@ -560,7 +571,8 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.reportNextLevelPredictionTitle, style: theme.textTheme.titleLarge),
+              Text(l10n.reportNextLevelPredictionTitle,
+                  style: theme.textTheme.titleLarge),
               const SizedBox(height: 16),
               ...StatType.values.map((stat) {
                 final percent = growthData[stat] ?? 0;
@@ -734,7 +746,8 @@ class _ReportScreenState extends State<ReportScreen> {
               }
 
               final dayNumber = index - leadingEmptyDays + 1;
-              final day = DateTime(_focusedMonth.year, _focusedMonth.month, dayNumber);
+              final day =
+                  DateTime(_focusedMonth.year, _focusedMonth.month, dayNumber);
               final key = _normalizeDate(day);
               final completed = completedQuestMap[key] ?? const [];
               final isSelected = _selectedDay == key;
@@ -770,9 +783,8 @@ class _ReportScreenState extends State<ReportScreen> {
                           '$dayNumber',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: isSelected
-                                ? theme.colorScheme.primary
-                                : null,
+                            color:
+                                isSelected ? theme.colorScheme.primary : null,
                           ),
                         ),
                       ),
@@ -804,7 +816,8 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 16),
           Text(
             _selectedDay != null
-                ? l10n.reportCalendarSelectedTitle(_selectedDay!.month, _selectedDay!.day)
+                ? l10n.reportCalendarSelectedTitle(
+                    _selectedDay!.month, _selectedDay!.day)
                 : l10n.reportCalendarSelectPrompt,
             style: theme.textTheme.titleMedium,
           ),
@@ -969,7 +982,8 @@ class _ReportScreenState extends State<ReportScreen> {
     );
   }
 
-  String _autoGrowthLabel(Map<StatType, int> autoGrowthData, AppLocalizations l10n) {
+  String _autoGrowthLabel(
+      Map<StatType, int> autoGrowthData, AppLocalizations l10n) {
     final parts = autoGrowthData.entries
         .where((entry) => entry.value > 0)
         .map((entry) => '${_getCategoryName(entry.key, l10n)} +${entry.value}')
@@ -1023,7 +1037,8 @@ class _ReportScreenState extends State<ReportScreen> {
     return weakest;
   }
 
-  String _recommendedQuestLabel(CharacterState state, StatType? category, AppLocalizations l10n) {
+  String _recommendedQuestLabel(
+      CharacterState state, StatType? category, AppLocalizations l10n) {
     if (category == null) return l10n.reportStatBalanced;
     final allQuests = [
       ...state.dailyQuests,
@@ -1071,7 +1086,8 @@ class _ReportScreenState extends State<ReportScreen> {
       StatType.charisma: character.charisma,
     };
     final weakest = stats.entries.reduce((a, b) => a.value <= b.value ? a : b);
-    return l10n.reportStatValue(_getCategoryName(weakest.key, l10n), weakest.value.toInt());
+    return l10n.reportStatValue(
+        _getCategoryName(weakest.key, l10n), weakest.value.toInt());
   }
 
   String _highestStatLabel(dynamic character, AppLocalizations l10n) {
@@ -1083,7 +1099,8 @@ class _ReportScreenState extends State<ReportScreen> {
     };
     final strongest =
         stats.entries.reduce((a, b) => a.value >= b.value ? a : b);
-    return l10n.reportStatValue(_getCategoryName(strongest.key, l10n), strongest.value.toInt());
+    return l10n.reportStatValue(
+        _getCategoryName(strongest.key, l10n), strongest.value.toInt());
   }
 
   Widget _buildSummaryCard(

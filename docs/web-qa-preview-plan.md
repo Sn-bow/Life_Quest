@@ -175,7 +175,7 @@ flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
 - `bool kQaPreview = bool.fromEnvironment('LIFEQUEST_QA_PREVIEW')`
 - `kQaPreview == true`이면:
   - Firebase Auth 로그인 화면 대신 QA 시작 화면 제공
-  - `testuser1` 고정 프로필 생성
+  - `게스트 모험가` 로컬 preview 프로필 생성
   - 기본 퀘스트/스탯/골드/카드/던전 상태를 로컬 메모리 또는 SharedPreferences 기반으로 주입
   - 위험 기능 메뉴는 숨기거나 disabled 상태로 표시
 

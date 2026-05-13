@@ -288,3 +288,60 @@ npx firebase-tools deploy --only hosting --project life-quest-app-95eb9
 - `no-cache` 헤더 적용 전에 열려 있던 브라우저 탭은 기존 JS를 유지할 수 있다. 해당 탭은 강력 새로고침 후 다시 확인해야 한다.
 - Wasm dry-run 경고는 `flutter_timezone-5.0.1`의 JS interop lint에서 발생한다. 현재 공유 URL은 JS Flutter Web 빌드이므로 배포 차단 사항은 아니다.
 - 다음 QA 범위는 카드팩, 컬렉션, 상점, 휴식, 사냥/전투/보상 흐름의 실제 모바일 브라우저 검증이다.
+
+---
+
+## 13. QA Preview 초기 프로필 정상화
+
+초기 seed가 `testuser1`, XP `85 / 150`, 골드 `52`로 시작하면 실제 테스터에게 개발 검증 계정처럼 보인다. QA Preview의 목적은 로그인 없는 체험이므로, 초기 상태는 신규 사용자에 가까운 값으로 맞춘다.
+
+변경:
+
+- 기본 이름: `게스트 모험가`
+- 기본 XP: `0 / 150`
+- 기본 골드: `0`
+- 기본 스탯: STR/WIS/HP/CHA 모두 `0`
+- 기본 카드 포인트: `0`
+- localStorage key: `lifequest.qaPreview.state.v2`
+
+주의:
+
+- 저장 키를 v2로 올렸기 때문에 기존 v1 개발용 preview 상태는 복원하지 않는다.
+- 기존에 열려 있던 브라우저 탭은 새 배포 후 강력 새로고침 또는 localStorage 초기화가 필요할 수 있다.
+
+검증/배포:
+
+- `dart analyze` -> No issues found.
+- `flutter test --no-pub test/state/character_state_test.dart` -> 22개 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 배포 URL: https://life-quest-app-95eb9.web.app
+- 배포된 JS에 `lifequest.qaPreview.state.v2`가 포함되고 `lifequest.qaPreview.state.v1`이 빠진 것을 확인했다.
+- QA Preview 게이트와 `게스트로 테스트 시작` 문구는 Playwright 접근성 활성화 후 확인했다.
+- 버튼 클릭 이후 상태창 값 검증은 Codex 사용량 제한으로 자동화하지 못했다. 다음 확인 기준은 새 접속 후 `게스트 모험가`, XP `0 / 150`, 골드 `0`이다.
+
+---
+
+## 14. QA Preview 광고/후원 노출 제거
+
+테스터 공개용 프리뷰에서는 수익화 장치를 설명하거나 광고 시청을 유도하는 UI가 제품 인상을 흐린다. QA Preview 전용 분기로 아래 노출을 제거했다.
+
+- 설정:
+  - 광고 후원 안내 카드 숨김.
+  - debug 광고 검증 카드 숨김.
+- 리포트:
+  - 확장 리포트를 광고 없이 즉시 열린 상태로 표시.
+  - 광고 보기 버튼 미노출.
+- 사냥:
+  - 전투 승리 보상 2배 광고 버튼 미노출.
+  - 전투 패배 부활 광고 버튼 미노출.
+  - AP 부족 시 광고 회복 다이얼로그 대신 일반 부족 안내만 표시.
+- 코스메틱 상점:
+  - 광고 후원형 운영 문구가 들어간 준비 안내 카드 숨김.
+
+검증:
+
+- `dart analyze` -> No issues found.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 배포 URL: https://life-quest-app-95eb9.web.app

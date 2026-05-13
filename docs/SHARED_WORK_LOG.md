@@ -1284,3 +1284,74 @@ flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
   - 사냥 탭, 던전 전투, 전투 보상 흐름.
   - 긴 한국어 카드 설명 축약.
   - 모바일 브라우저 실제 터치 스크린샷 확인.
+
+---
+
+## 2026-05-12 KST - Web QA Preview 초기 프로필 정상화
+
+### 목적
+
+배포된 QA Preview의 첫 화면이 개발용 테스트 계정처럼 보이지 않도록 초기 게스트 상태를 실제 신규 사용자에 가깝게 정리한다.
+
+### 수정
+
+- QA Preview 기본 이름: `testuser1` -> `게스트 모험가`
+- QA Preview 기본 XP: `85 / 150` -> `0 / 150`
+- QA Preview 기본 골드: `52` -> `0`
+- QA Preview 기본 스탯: STR/WIS/HP/CHA 사전 부여값 제거 -> 전부 `0`
+- QA Preview 기본 카드 포인트: `6` -> `0`
+- QA Preview localStorage key: `lifequest.qaPreview.state.v1` -> `lifequest.qaPreview.state.v2`
+  - 기존 브라우저에 남은 개발용 seed가 계속 복원되지 않도록 버전을 올렸다.
+
+### 검증 기준
+
+- 신규 접속자는 `게스트 모험가`, Lv.1, XP `0 / 150`, 골드 `0`에서 시작해야 한다.
+- 첫 일일 퀘스트 완료 후 퀘스트 XP, 첫 완료 업적 XP, 골드 보상이 localStorage에 즉시 반영되어야 한다.
+
+### 검증/배포
+
+- `dart analyze` -> No issues found.
+- `flutter test --no-pub test/state/character_state_test.dart` -> 22개 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 배포 URL: https://life-quest-app-95eb9.web.app
+- 배포된 `main.dart.js` 확인:
+  - `lifequest.qaPreview.state.v2` 포함.
+  - `lifequest.qaPreview.state.v1` 미포함.
+- Playwright 접근성 확인:
+  - QA Preview 게이트와 `게스트로 테스트 시작` 문구 표시 확인.
+  - 이후 버튼 클릭 검증은 Codex 사용량 제한으로 중단됨. 다음 세션 또는 수동 브라우저에서 새 localStorage v2 초기값을 확인해야 한다.
+
+---
+
+## 2026-05-13 KST - Web QA Preview 광고/후원 노출 제거
+
+### 목적
+
+테스터 피드백용 웹 프리뷰에서는 수익화 안내보다 핵심 경험이 먼저 보여야 한다. QA Preview 모드에서 광고 후원 안내와 보상형 광고 유도를 제거한다.
+
+### 수정
+
+- `lib/screens/settings_screen.dart`
+  - QA Preview에서 `광고 후원 안내` 카드 숨김.
+  - QA Preview에서 debug 광고 검증 카드 숨김.
+- `lib/screens/report_screen.dart`
+  - QA Preview에서는 확장 리포트를 광고 잠금 없이 즉시 열린 상태로 취급.
+  - 광고 보기 버튼과 남은 광고 횟수 노출 제거.
+- `lib/screens/hunt_screen.dart`
+  - 전투 승리 보상 2배 광고 버튼 숨김.
+  - 전투 패배 부활 광고 버튼 숨김.
+  - AP 부족 시 광고 회복 다이얼로그 대신 일반 AP 부족 안내만 표시.
+- `lib/screens/cosmetic_shop_screen.dart`
+  - 광고 후원형 운영을 설명하는 코스메틱 준비 안내 카드 숨김.
+
+### 검증/배포
+
+- `dart analyze` -> No issues found.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 배포 URL: https://life-quest-app-95eb9.web.app
+
+### 남은 확인
+
+- 브라우저에서 설정 화면, 확장 리포트, 사냥 AP 부족/전투 결과 화면을 직접 순회하며 광고 관련 문구가 남지 않았는지 시각 QA가 필요하다.

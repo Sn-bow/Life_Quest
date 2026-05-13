@@ -65,6 +65,8 @@ android/key.properties
 /analyze_report_utf8.txt
 /out.txt
 /flutter_01.log
+/.tmp_appdata/
+/.tmp_localappdata/
 
 # QA/마케팅 스크린샷 — 로컬 검증용, 리포에 포함하지 않음
 /qa_artifacts/

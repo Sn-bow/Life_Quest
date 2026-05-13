@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
@@ -28,9 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     messenger.showSnackBar(
       SnackBar(
         content: Text(
-          success
-              ? '$label 광고 보상 검증 성공'
-              : '$label 광고를 불러오지 못했습니다. 실패 처리 검증 완료',
+          success ? '$label 광고 보상 검증 성공' : '$label 광고를 불러오지 못했습니다. 실패 처리 검증 완료',
         ),
       ),
     );
@@ -58,7 +57,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: Text(dialogL10n.settingsNicknameChangeTitle),
           content: TextField(
             controller: nameController,
-            decoration: InputDecoration(labelText: dialogL10n.settingsNicknameNewLabel, counterText: ''),
+            decoration: InputDecoration(
+                labelText: dialogL10n.settingsNicknameNewLabel,
+                counterText: ''),
             autofocus: true,
             maxLength: 20,
           ),
@@ -106,8 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await characterState.changeNotificationTime(
       morningHour:
           isMorning ? picked.hour : characterState.notificationMorningHour,
-      nightHour:
-          isMorning ? characterState.notificationNightHour : picked.hour,
+      nightHour: isMorning ? characterState.notificationNightHour : picked.hour,
     );
   }
 
@@ -191,8 +191,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onPressed: () async {
                 Navigator.of(ctx).pop();
                 // C-5: 재인증 후 탈퇴
-                final confirmed =
-                    await _reauthenticateAndConfirm(context);
+                final confirmed = await _reauthenticateAndConfirm(context);
                 if (!confirmed) return;
                 if (!context.mounted) return;
                 await characterState.deleteAccount();
@@ -214,8 +213,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (user == null) return false;
 
     // 사용자 로그인 방법 확인
-    final providerIds =
-        user.providerData.map((p) => p.providerId).toList();
+    final providerIds = user.providerData.map((p) => p.providerId).toList();
     final isGoogleUser = providerIds.contains('google.com');
     final isEmailUser = providerIds.contains('password');
 
@@ -225,7 +223,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return _reauthWithPassword(context);
     }
     // H-2 fix: 알 수 없는 provider는 재인증 불가로 처리 (안전하게 false 반환)
-    debugPrint('[Settings] Unknown provider(s): $providerIds — denying delete without reauth.');
+    debugPrint(
+        '[Settings] Unknown provider(s): $providerIds — denying delete without reauth.');
     return false;
   }
 
@@ -276,8 +275,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     icon: Icon(obscure
                         ? Icons.visibility_off_outlined
                         : Icons.visibility_outlined),
-                    onPressed: () =>
-                        setDialogState(() => obscure = !obscure),
+                    onPressed: () => setDialogState(() => obscure = !obscure),
                   ),
                 ),
               ),
@@ -335,7 +333,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.all(16.0),
         children: [
           Text(l10n.settingsAccountSection,
-              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.grey)),
           TranslucentCard(
             child: Column(
               children: [
@@ -351,7 +350,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
           Text(l10n.settingsAppSection,
-              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.grey)),
           TranslucentCard(
             child: Column(
               children: [
@@ -425,8 +425,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ListTile(
                     leading: const Icon(PhosphorIcons.sunHorizon),
                     title: Text(l10n.settingsNotificationMorning),
-                    subtitle: Text(
-                        l10n.settingsNotificationTimeValue(characterState.notificationMorningHour)),
+                    subtitle: Text(l10n.settingsNotificationTimeValue(
+                        characterState.notificationMorningHour)),
                     trailing: const Icon(PhosphorIcons.caretRight),
                     onTap: () => _pickNotificationHour(
                       context,
@@ -438,8 +438,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ListTile(
                     leading: const Icon(PhosphorIcons.moon),
                     title: Text(l10n.settingsNotificationNight),
-                    subtitle: Text(
-                        l10n.settingsNotificationTimeValue(characterState.notificationNightHour)),
+                    subtitle: Text(l10n.settingsNotificationTimeValue(
+                        characterState.notificationNightHour)),
                     trailing: const Icon(PhosphorIcons.caretRight),
                     onTap: () => _pickNotificationHour(
                       context,
@@ -452,8 +452,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   leading: const Icon(PhosphorIcons.globe),
                   title: Text(l10n.settingsLanguage),
-                  subtitle: Text(
-                      _languageLabel(l10n, characterState.locale?.languageCode)),
+                  subtitle: Text(_languageLabel(
+                      l10n, characterState.locale?.languageCode)),
                   trailing: const Icon(PhosphorIcons.caretRight),
                   onTap: () => _showLanguagePicker(context, characterState),
                 ),
@@ -461,7 +461,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          if (kDebugMode) ...[
+          if (kDebugMode && !kLifeQuestQaPreview) ...[
             const Text('디버그 QA',
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
@@ -493,35 +493,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 24),
           ],
-          TranslucentCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Text(l10n.settingsAdSupportSection,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey)),
-                ),
-                ListTile(
-                  leading: const Icon(PhosphorIcons.videoCamera, color: Colors.amber),
-                  title: Text(l10n.settingsAdSupportTitle),
-                  subtitle: Text(l10n.settingsAdSupportDesc),
-                ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(PhosphorIcons.coins, color: Colors.teal),
-                  title: Text(l10n.settingsAdModelTitle),
-                  subtitle: Text(l10n.settingsAdModelDesc),
-                ),
-              ],
+          if (!kLifeQuestQaPreview) ...[
+            TranslucentCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Text(l10n.settingsAdSupportSection,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey)),
+                  ),
+                  ListTile(
+                    leading: const Icon(PhosphorIcons.videoCamera,
+                        color: Colors.amber),
+                    title: Text(l10n.settingsAdSupportTitle),
+                    subtitle: Text(l10n.settingsAdSupportDesc),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading:
+                        const Icon(PhosphorIcons.coins, color: Colors.teal),
+                    title: Text(l10n.settingsAdModelTitle),
+                    subtitle: Text(l10n.settingsAdModelDesc),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
+          ],
           Text(l10n.settingsLegalSection,
-              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.grey)),
           TranslucentCard(
             child: Column(
               children: [
@@ -544,8 +550,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Text(l10n.settingsTerms),
                   trailing: const Icon(PhosphorIcons.arrowSquareOut, size: 18),
                   onTap: () async {
-                    final uri = Uri.parse(
-                        'https://sn-bow.github.io/Life_Quest/#terms');
+                    final uri =
+                        Uri.parse('https://sn-bow.github.io/Life_Quest/#terms');
                     if (await canLaunchUrl(uri)) {
                       await launchUrl(uri,
                           mode: LaunchMode.externalApplication);

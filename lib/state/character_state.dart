@@ -73,7 +73,7 @@ class _RaidRewardOutcome {
 }
 
 class CharacterState extends ChangeNotifier {
-  static const String _qaPreviewStorageKey = 'lifequest.qaPreview.state.v1';
+  static const String _qaPreviewStorageKey = 'lifequest.qaPreview.state.v2';
 
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
 
@@ -134,7 +134,7 @@ class CharacterState extends ChangeNotifier {
   ///
   /// This must stay separate from Firebase-backed user loading. The preview
   /// profile is intentionally disposable and exists only inside the QA build.
-  Future<void> initializeForQaPreview({String name = 'testuser1'}) async {
+  Future<void> initializeForQaPreview({String name = '게스트 모험가'}) async {
     final restored = await _restoreQaPreviewData();
     if (!restored) {
       _initializeLocalPreviewCharacter(name: name);
@@ -153,16 +153,16 @@ class CharacterState extends ChangeNotifier {
       name: name,
       level: 1,
       title: '새싹 모험가',
-      xp: 85,
+      xp: 0,
       maxXp: 150,
-      strength: 3,
-      wisdom: 2,
-      health: 2,
-      charisma: 1,
+      strength: 0,
+      wisdom: 0,
+      health: 0,
+      charisma: 0,
       statPoints: 0,
       skillPoints: 0,
-      gold: 52,
-      cardPoints: 6,
+      gold: 0,
+      cardPoints: 0,
       cardPackCount: 1,
       unlockedCardIds: [
         'base_strike',

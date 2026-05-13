@@ -6,6 +6,7 @@ import 'package:life_quest_final_v2/services/purchase_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:provider/provider.dart';
 
 class CosmeticShopScreen extends StatefulWidget {
@@ -71,17 +72,25 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              TranslucentCard(
-                child: ListTile(
-                  leading: const Icon(Icons.auto_awesome, color: Colors.amber),
-                  title: Text(l10n.cosmeticComingSoonTitle),
-                  subtitle: Text(l10n.cosmeticComingSoonDesc),
+              if (!kLifeQuestQaPreview) ...[
+                TranslucentCard(
+                  child: ListTile(
+                    leading:
+                        const Icon(Icons.auto_awesome, color: Colors.amber),
+                    title: Text(l10n.cosmeticComingSoonTitle),
+                    subtitle: Text(l10n.cosmeticComingSoonDesc),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
+              ],
               ...categories.entries.map((entry) => _buildCategorySection(
-                  context, entry.key, entry.value, character,
-                  characterState, theme, l10n)),
+                  context,
+                  entry.key,
+                  entry.value,
+                  character,
+                  characterState,
+                  theme,
+                  l10n)),
             ],
           );
         }
@@ -90,8 +99,13 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             ...categories.entries.map((entry) => _buildCategorySection(
-                context, entry.key, entry.value, character,
-                characterState, theme, l10n)),
+                context,
+                entry.key,
+                entry.value,
+                character,
+                characterState,
+                theme,
+                l10n)),
           ],
         );
       }),
@@ -169,8 +183,7 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold)),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 4.0),
-            child:
-                Text(item.description, style: const TextStyle(fontSize: 12)),
+            child: Text(item.description, style: const TextStyle(fontSize: 12)),
           ),
           trailing: _buildActionBtn(
               context, item, isUnlocked, isEquipped, state, theme, l10n),
@@ -247,7 +260,9 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
       if (!mounted) return;
       setState(() => _purchasingIapId = null);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${AppLocalizations.of(context)!.cosmeticPurchaseError}: $e')),
+        SnackBar(
+            content: Text(
+                '${AppLocalizations.of(context)!.cosmeticPurchaseError}: $e')),
       );
     }
   }

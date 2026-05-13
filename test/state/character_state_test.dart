@@ -112,18 +112,18 @@ void main() {
       await state.initializeForQaPreview(name: 'Preview Tester');
 
       expect(state.character.level, 1);
-      expect(state.character.xp, 85);
+      expect(state.character.xp, 0);
       expect(state.character.maxXp, 150);
 
       final quest = state.dailyQuests.first;
       final result = state.completeQuest(quest);
 
       expect(result, isNotNull);
-      expect(result!.totalXpAwarded, closeTo(20.2, 0.001));
-      expect(state.character.level, 2);
-      expect(state.character.xp, closeTo(5.2, 0.001));
-      expect(state.character.maxXp, 200);
-      expect(state.character.gold, 62);
+      expect(result!.totalXpAwarded, closeTo(20, 0.001));
+      expect(state.character.level, 1);
+      expect(state.character.xp, closeTo(70, 0.001));
+      expect(state.character.maxXp, 150);
+      expect(state.character.gold, 10);
 
       state.dispose();
     });

@@ -6,6 +6,7 @@ import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/models/skill.dart';
 import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
+import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/widgets/combat/dungeon_floor_selector.dart';
 import 'package:life_quest_final_v2/widgets/combat/combat_arena_view.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
@@ -153,8 +154,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildCombatUI(
-      CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
+  Widget _buildCombatUI(CharacterState charState, CombatState combatState,
+      bool isDark, AppLocalizations l10n) {
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -217,7 +218,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildPlayerHpBar(CharacterState charState, bool isDark, AppLocalizations l10n) {
+  Widget _buildPlayerHpBar(
+      CharacterState charState, bool isDark, AppLocalizations l10n) {
     final character = charState.character;
     double hpPercent = character.characterHp / character.characterMaxHp;
     return Padding(
@@ -314,11 +316,13 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildActionButtons(
-      CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
+  Widget _buildActionButtons(CharacterState charState, CombatState combatState,
+      bool isDark, AppLocalizations l10n) {
     if (combatState.status == CombatStatus.victory) {
-      final adService = AdService();
-      final remainingMultiplier = adService.getRemainingViews('combat_multiplier');
+      final adService = kLifeQuestQaPreview ? null : AdService();
+      final remainingMultiplier = kLifeQuestQaPreview
+          ? 0
+          : adService!.getRemainingViews('combat_multiplier');
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -331,14 +335,17 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 Colors.amber,
                 () async {
                   final messenger = ScaffoldMessenger.of(context);
-                  final success = await adService.showRewardedAd('combat_multiplier');
+                  final success =
+                      await adService!.showRewardedAd('combat_multiplier');
                   if (!context.mounted) return;
 
                   if (success) {
                     final result = combatState.lastResult;
                     if (result != null) {
                       // gold와 xp를 addCombatReward에 함께 전달 (원자적 저장)
-                      charState.addCombatReward(result.xpGained * 2, result.loot, gold: result.goldGained * 2);
+                      charState.addCombatReward(
+                          result.xpGained * 2, result.loot,
+                          gold: result.goldGained * 2);
                     }
                     charState.forceSave();
                     combatState.endCombat();
@@ -367,7 +374,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                       if (result != null) {
                         charState.addCombatReward(result.xpGained, result.loot);
                       }
-                      charState.forceSave(); // Save dungeon progress and rewards
+                      charState
+                          .forceSave(); // Save dungeon progress and rewards
                       combatState.endCombat();
                     },
                     isDark,
@@ -379,8 +387,10 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
         ),
       );
     } else if (combatState.status == CombatStatus.defeat) {
-      final adService = AdService();
-      final remainingRevives = adService.getRemainingViews('combat_revive');
+      final adService = kLifeQuestQaPreview ? null : AdService();
+      final remainingRevives = kLifeQuestQaPreview
+          ? 0
+          : adService!.getRemainingViews('combat_revive');
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -394,7 +404,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 () async {
                   final messenger = ScaffoldMessenger.of(context);
                   final success =
-                      await adService.showRewardedAd('combat_revive');
+                      await adService!.showRewardedAd('combat_revive');
                   if (success) {
                     combatState.revive(charState.character);
                     await charState.forceSave();
@@ -446,30 +456,50 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
               Row(
                 children: [
                   Expanded(
-                    child: _actionButton(l10n.huntActionAttack, Icons.sports_martial_arts,
-                        Colors.redAccent, _isActionBusy ? null : () {
-                      if (!hasAp) return _showApWarning();
-                      setState(() => _isActionBusy = true);
-                      int cost = combatState.playerAttack(charState.character);
-                      _applyApCost(charState, cost);
-                      _triggerHitEffect();
-                      Future.delayed(const Duration(milliseconds: 300), () {
-                        if (mounted) setState(() => _isActionBusy = false);
-                      });
-                    }, isDark),
+                    child: _actionButton(
+                        l10n.huntActionAttack,
+                        Icons.sports_martial_arts,
+                        Colors.redAccent,
+                        _isActionBusy
+                            ? null
+                            : () {
+                                if (!hasAp) return _showApWarning();
+                                setState(() => _isActionBusy = true);
+                                int cost = combatState
+                                    .playerAttack(charState.character);
+                                _applyApCost(charState, cost);
+                                _triggerHitEffect();
+                                Future.delayed(
+                                    const Duration(milliseconds: 300), () {
+                                  if (mounted) {
+                                    setState(() => _isActionBusy = false);
+                                  }
+                                });
+                              },
+                        isDark),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: _actionButton(
-                        l10n.huntActionDefend, Icons.shield, Colors.blueAccent, _isActionBusy ? null : () {
-                      if (!hasAp) return _showApWarning();
-                      setState(() => _isActionBusy = true);
-                      int cost = combatState.playerDefend(charState.character);
-                      _applyApCost(charState, cost);
-                      Future.delayed(const Duration(milliseconds: 300), () {
-                        if (mounted) setState(() => _isActionBusy = false);
-                      });
-                    }, isDark),
+                        l10n.huntActionDefend,
+                        Icons.shield,
+                        Colors.blueAccent,
+                        _isActionBusy
+                            ? null
+                            : () {
+                                if (!hasAp) return _showApWarning();
+                                setState(() => _isActionBusy = true);
+                                int cost = combatState
+                                    .playerDefend(charState.character);
+                                _applyApCost(charState, cost);
+                                Future.delayed(
+                                    const Duration(milliseconds: 300), () {
+                                  if (mounted) {
+                                    setState(() => _isActionBusy = false);
+                                  }
+                                });
+                              },
+                        isDark),
                   ),
                 ],
               ),
@@ -478,7 +508,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: _actionButton(
-                        l10n.huntActionSkill, Icons.auto_awesome, Colors.green, () {
+                        l10n.huntActionSkill, Icons.auto_awesome, Colors.green,
+                        () {
                       setState(() {
                         _showSkills = true;
                       });
@@ -487,7 +518,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                   const SizedBox(width: 8),
                   Expanded(
                     child: _actionButton(
-                        l10n.huntActionBag, Icons.shopping_bag, Colors.purple, () {
+                        l10n.huntActionBag, Icons.shopping_bag, Colors.purple,
+                        () {
                       if (!hasAp) return _showApWarning();
                       _showInventoryModal(charState, combatState, isDark, l10n);
                     }, isDark),
@@ -499,15 +531,25 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: _actionButton(
-                        l10n.huntActionFlee, Icons.directions_run, Colors.grey, _isActionBusy ? null : () {
-                      if (!hasAp) return _showApWarning();
-                      setState(() => _isActionBusy = true);
-                      int cost = combatState.playerFlee(charState.character);
-                      _applyApCost(charState, cost);
-                      Future.delayed(const Duration(milliseconds: 300), () {
-                        if (mounted) setState(() => _isActionBusy = false);
-                      });
-                    }, isDark),
+                        l10n.huntActionFlee,
+                        Icons.directions_run,
+                        Colors.grey,
+                        _isActionBusy
+                            ? null
+                            : () {
+                                if (!hasAp) return _showApWarning();
+                                setState(() => _isActionBusy = true);
+                                int cost =
+                                    combatState.playerFlee(charState.character);
+                                _applyApCost(charState, cost);
+                                Future.delayed(
+                                    const Duration(milliseconds: 300), () {
+                                  if (mounted) {
+                                    setState(() => _isActionBusy = false);
+                                  }
+                                });
+                              },
+                        isDark),
                   ),
                 ],
               ),
@@ -520,6 +562,20 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
 
   void _showApWarning() {
     final l10n = AppLocalizations.of(context)!;
+    if (kLifeQuestQaPreview) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            l10n.huntApLowTitle,
+            style: const TextStyle(fontFamily: 'monospace'),
+          ),
+          backgroundColor: Colors.red.shade800,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
     final adService = AdService();
     final remaining = adService.getRemainingViews('ap_recovery');
 
@@ -586,8 +642,11 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     }
   }
 
-  void _showInventoryModal(CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
-    final consumables = charState.character.inventory.where((i) => i.type == ItemType.consumable).toList();
+  void _showInventoryModal(CharacterState charState, CombatState combatState,
+      bool isDark, AppLocalizations l10n) {
+    final consumables = charState.character.inventory
+        .where((i) => i.type == ItemType.consumable)
+        .toList();
 
     showModalBottomSheet(
       context: context,
@@ -603,29 +662,56 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(modalL10n.huntBagTitle, style: TextStyle(fontFamily: 'monospace', fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800)),
+              Text(modalL10n.huntBagTitle,
+                  style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: isDark
+                          ? const Color(0xFF00FFFF)
+                          : Colors.orange.shade800)),
               const SizedBox(height: 16),
               if (consumables.isEmpty)
-                Center(child: Padding(padding: const EdgeInsets.all(24), child: Text(modalL10n.huntBagEmpty, style: const TextStyle(fontFamily: 'monospace'))))
+                Center(
+                    child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Text(modalL10n.huntBagEmpty,
+                            style: const TextStyle(fontFamily: 'monospace'))))
               else
-                ...consumables.map((item) => ListTile(
-                  leading: Icon(Icons.science, color: Colors.purple.shade400),
-                  title: Text(item.name, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'monospace')),
-                  subtitle: Text(item.description, style: const TextStyle(fontFamily: 'monospace')),
-                  trailing: TextButton(
-                    onPressed: () {
-                      // Consume 1 AP and Use Item
-                      int apCost = 1;
-                      if (charState.character.actionPoints < apCost) return;
-                      bool used = combatState.useItem(charState.character, item);
-                      if (used) {
-                        _applyApCost(charState, apCost);
-                        Navigator.pop(ctx);
-                      }
-                    },
-                    child: Text(modalL10n.huntBagUse, style: TextStyle(color: isDark ? const Color(0xFF00FFFF) : Colors.orange.shade800, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
-                  ),
-                )).toList(),
+                ...consumables
+                    .map((item) => ListTile(
+                          leading: Icon(Icons.science,
+                              color: Colors.purple.shade400),
+                          title: Text(item.name,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'monospace')),
+                          subtitle: Text(item.description,
+                              style: const TextStyle(fontFamily: 'monospace')),
+                          trailing: TextButton(
+                            onPressed: () {
+                              // Consume 1 AP and Use Item
+                              int apCost = 1;
+                              if (charState.character.actionPoints < apCost) {
+                                return;
+                              }
+                              bool used = combatState.useItem(
+                                  charState.character, item);
+                              if (used) {
+                                _applyApCost(charState, apCost);
+                                Navigator.pop(ctx);
+                              }
+                            },
+                            child: Text(modalL10n.huntBagUse,
+                                style: TextStyle(
+                                    color: isDark
+                                        ? const Color(0xFF00FFFF)
+                                        : Colors.orange.shade800,
+                                    fontFamily: 'monospace',
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ))
+                    .toList(),
             ],
           ),
         );
@@ -633,8 +719,8 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSkillMenu(
-      CharacterState charState, CombatState combatState, bool isDark, AppLocalizations l10n) {
+  Widget _buildSkillMenu(CharacterState charState, CombatState combatState,
+      bool isDark, AppLocalizations l10n) {
     final combatSkills = charState.allSkills
         .where((s) =>
             charState.learnedSkillIds.contains(s.id) &&
@@ -791,5 +877,4 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
       ),
     );
   }
-
 }
