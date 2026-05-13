@@ -345,3 +345,29 @@ npx firebase-tools deploy --only hosting --project life-quest-app-95eb9
 - `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
 - Firebase Hosting 재배포 -> 성공.
 - 배포 URL: https://life-quest-app-95eb9.web.app
+
+---
+
+## 15. 모바일 프레임 웹 렌더링
+
+문제:
+
+- 데스크톱 브라우저에서 QA Preview가 화면 전체를 차지해 실제 앱 체험과 거리가 있었다.
+- `flutter-view` 자체를 CSS로 직접 제어하면 Flutter 런타임 배치와 충돌했다.
+
+해결:
+
+- `web/flutter_bootstrap.js`를 추가해 공식 Flutter Web `hostElement` 방식으로 `#flutter_host`에 앱을 렌더링.
+- `web/index.html`에 `#flutter_host` 프레임 스타일 추가:
+  - 데스크톱: 최대 `430 x 932`, 중앙 배치, 둥근 모서리와 프레임 경계.
+  - 모바일 폭 `430px` 이하: 전체 화면.
+
+검증:
+
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 배포 URL: https://life-quest-app-95eb9.web.app
+- Browser QA:
+  - 데스크톱 뷰포트에서 중앙 휴대폰 프레임 확인.
+  - `390 x 844` 뷰포트에서 전체 화면 모바일 렌더링 확인.
+  - page title `Life Quest`, relevant console warn/error 없음.

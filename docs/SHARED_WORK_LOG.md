@@ -1355,3 +1355,32 @@ flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
 ### 남은 확인
 
 - 브라우저에서 설정 화면, 확장 리포트, 사냥 AP 부족/전투 결과 화면을 직접 순회하며 광고 관련 문구가 남지 않았는지 시각 QA가 필요하다.
+
+---
+
+## 2026-05-13 KST - Web QA Preview 휴대폰 프레임 렌더링
+
+### 목적
+
+데스크톱 브라우저에서 QA Preview가 화면 전체를 차지해 앱의 실제 사용 감각을 흐리는 문제를 줄인다. 테스터가 모바일 앱처럼 인식할 수 있도록 웹에서도 휴대폰 크기 뷰포트를 기준으로 보여준다.
+
+### 수정
+
+- `web/index.html`
+  - 데스크톱에서는 앱 host를 최대 `430 x 932` 크기의 중앙 휴대폰 프레임으로 표시.
+  - 실제 모바일 폭(`430px` 이하)에서는 프레임 없이 전체 화면으로 렌더링.
+  - 외곽 배경과 프레임 테두리 대비를 분리해 데스크톱에서 모바일 미리보기임을 분명히 표시.
+  - 로딩 이후 배경색 유지.
+- `web/flutter_bootstrap.js`
+  - 공식 Flutter Web `hostElement` 방식으로 렌더링 대상을 `#flutter_host`에 고정.
+  - 런타임이 `flutter-view` 배치를 덮어쓰는 문제를 피했다.
+
+### 검증/배포
+
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 배포 URL: https://life-quest-app-95eb9.web.app
+- Browser QA:
+  - 데스크톱 기본 뷰포트에서 휴대폰 프레임 중앙 렌더링 확인.
+  - `390 x 844` 모바일 뷰포트에서 프레임 없이 전체 화면 렌더링 확인.
+  - 배포 페이지 title `Life Quest`, 관련 console warn/error 없음 확인.
