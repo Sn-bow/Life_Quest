@@ -371,3 +371,98 @@ npx firebase-tools deploy --only hosting --project life-quest-app-95eb9
   - 데스크톱 뷰포트에서 중앙 휴대폰 프레임 확인.
   - `390 x 844` 뷰포트에서 전체 화면 모바일 렌더링 확인.
   - page title `Life Quest`, relevant console warn/error 없음.
+
+---
+
+## 16. 공개 링크 보안/개인정보 점검
+
+작성일: 2026-05-14 KST
+
+배경:
+
+- Threads에 `https://life-quest-app-95eb9.web.app` 공개 링크를 게시했다.
+- 반응이 바로 오지 않더라도 링크가 외부에 공개된 상태이므로, 배포 산출물 기준으로 개인정보/비밀값/위험한 브라우저 권한을 먼저 점검한다.
+
+### 점검 범위
+
+- `build/web`
+- `web`
+- `firebase.json`
+- `.firebaserc`
+- `firestore.rules`
+- Firebase Hosting 공개 URL 설정
+
+### 개인정보/비밀값 점검 결과
+
+배포된 `build/web/main.dart.js` 기준:
+
+- Windows 사용자명, 로컬 PC 경로, OneDrive/Desktop 경로: 없음
+- 개인 이메일/계정명으로 볼 수 있는 문자열: 없음
+- Firebase API key 문자열: 없음
+- Firebase project id 직접 포함: 없음
+- AdMob publisher id: 없음
+- `OPENAI_API_KEY` 문자열: 없음
+- 실제 private key, client secret, refresh token 값: 없음
+
+주의:
+
+- `access_token` 문자열 1건은 Firebase SDK 내부 필드명이다. 실제 토큰 값이 들어간 것이 아니다.
+- `build/web/assets/NOTICES`에는 오픈소스 라이선스 고지에 포함된 외부 기여자 이메일이 들어 있다. 이는 Flutter/의존성 라이선스 고지이며 내 개인정보가 아니다.
+- `.firebaserc`와 `firebase.json`에는 Firebase project id가 남아 있다. 이 파일들은 배포 대상이 아니며 Hosting ignore 대상이다.
+
+### Firebase/백엔드 접근성
+
+- QA Preview는 `LIFEQUEST_QA_PREVIEW=true`에서 Firebase 초기화, Crashlytics, App Check, AdService 초기화를 건너뛴다.
+- `MainScreen`의 FirebaseAuth subscription도 QA Preview에서 skip한다.
+- QA Preview 저장은 `SharedPreferences`/브라우저 localStorage의 `lifequest.qaPreview.state.v2` 로컬 키를 사용한다.
+- 따라서 테스터 데이터는 서버에 공유 저장되지 않고 브라우저별 로컬 상태로 분리된다.
+
+Firestore local rules 확인:
+
+- `/users/{userId}`는 `request.auth.uid == userId` 조건에서만 read/create/update 가능.
+- `/users/{userId}/_meta/{doc}`도 본인 인증 조건에서만 read/write 가능.
+- 그 외 모든 경로는 `allow read, write: if false`.
+
+주의:
+
+- 이 점검은 로컬 `firestore.rules` 기준이다. 실제 Firebase 콘솔에 배포된 rules가 이 파일과 동일한지는 별도 콘솔/CLI 확인이 필요하다.
+- `storage.rules` 파일은 현재 repo에 없다. QA Preview는 Firebase Storage를 사용하지 않지만, 정식 앱에서 Storage를 다시 켤 경우 rules를 별도로 작성해야 한다.
+
+### Hosting 보안 헤더 보강
+
+기존 Hosting 헤더는 `Cache-Control: no-cache`만 설정되어 있었다. 공개 링크용으로 아래 헤더를 추가했다.
+
+- `Content-Security-Policy`
+  - 기본 리소스 출처를 `self` 중심으로 제한.
+  - Flutter Web 런타임에 필요한 `data:`, `blob:`, `unsafe-eval`, `wasm-unsafe-eval`, inline style만 허용.
+  - 현재 빌드는 CanvasKit/Roboto를 Google `gstatic`에서 로드하므로 `www.gstatic.com`, `fonts.gstatic.com`만 추가 허용.
+  - `object-src 'none'`, `base-uri 'self'`, `form-action 'none'`, `frame-ancestors 'none'` 적용.
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: no-referrer`
+- `Permissions-Policy`
+  - camera, microphone, geolocation, payment, usb, gyroscope, accelerometer, magnetometer 차단.
+- `X-Frame-Options: DENY`
+
+### 현재 판단
+
+현재 공개된 Web QA Preview는 개인정보 노출 위험이 낮다.
+가장 중요한 남은 보안 확인은 실제 Firebase 프로젝트의 배포된 Firestore/Storage rules가 로컬 파일과 일치하는지 확인하는 것이다.
+
+### CSP 1차 조정
+
+초기 CSP에서 `connect-src 'self'`만 허용했더니 Flutter Web이 `gstatic`의 CanvasKit wasm/script와 Roboto 폰트를 가져오지 못해 앱이 로드되지 않았다.
+
+조치:
+
+- `script-src`와 `connect-src`에 `https://www.gstatic.com` 허용.
+- `font-src`와 `connect-src`에 `https://fonts.gstatic.com` 허용.
+- `web/index.html`의 사용되지 않는 inline splash script 제거.
+- 공개 페이지 title/description을 `Life Quest`/`Life Quest QA Preview`로 정리.
+
+### 브라우저 QA 결과
+
+- 공개 URL 응답 헤더에서 `CSP`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options` 적용 확인.
+- 브라우저 본문 기준 `Life Quest`, `Web QA Preview`, `게스트로 테스트 시작` 렌더링 확인.
+- Google Sign-In 웹 플러그인이 `https://accounts.google.com/gsi/client`를 로드하려는 시도는 CSP가 차단했다.
+  - QA Preview에서는 Firebase 로그인/Google 로그인을 사용하지 않으므로 허용하지 않는다.
+  - 정식 웹 로그인 기능을 만들 때만 별도 정책으로 재검토한다.

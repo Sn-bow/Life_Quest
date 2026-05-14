@@ -1384,3 +1384,72 @@ flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
   - 데스크톱 기본 뷰포트에서 휴대폰 프레임 중앙 렌더링 확인.
   - `390 x 844` 모바일 뷰포트에서 프레임 없이 전체 화면 렌더링 확인.
   - 배포 페이지 title `Life Quest`, 관련 console warn/error 없음 확인.
+
+---
+
+## 2026-05-13 KST - Threads 테스터 모집 홍보물 제작
+
+### 산출물
+
+- 홍보 영상:
+  - `docs/lifequest_threads_tester_preview_20260513.mp4`
+  - 세로 `1080 x 1920`, 약 14초.
+  - Web QA Preview 실제 흐름을 자동 촬영:
+    - 게스트 시작
+    - 상태창
+    - 퀘스트 목록
+    - 사냥/던전 화면
+- 포스터 프레임:
+  - `docs/lifequest_threads_tester_preview_20260513_poster.jpg`
+- 게시글 원고:
+  - `docs/threads_tester_recruit_post_20260513.md`
+
+### 메시지 방향
+
+- “설치 없이 지금 바로 체험 가능”
+- “퀘스트 -> 성장 -> 던전 흐름을 먼저 봐달라”
+- 댓글 또는 DM으로 피드백 수집
+- 요청 피드백 범위:
+  - 첫 이해도
+  - 화면/흐름의 어색함
+  - 계속 쓰고 싶은지
+  - 버그/불편 지점
+
+---
+
+## 2026-05-14 KST - Web QA Preview 공개 링크 보안 점검
+
+### 배경
+
+- Threads에 `https://life-quest-app-95eb9.web.app` 링크를 공개했다.
+- 외부 반응을 기다리는 동안, 공개된 Web QA Preview에 개인정보나 위험한 설정이 포함됐는지 먼저 점검했다.
+
+### 점검 결과
+
+- `build/web/main.dart.js` 기준 내 PC 경로, Windows 사용자명, OneDrive/Desktop 경로, 개인 이메일 문자열 없음.
+- Firebase API key, AdMob publisher id, `OPENAI_API_KEY`, Firebase project id는 배포 JS에 직접 포함되지 않음.
+- `access_token` 문자열 1건은 Firebase SDK 내부 필드명으로 확인. 실제 토큰 값 아님.
+- `build/web/assets/NOTICES`의 이메일들은 오픈소스 라이선스 고지에 포함된 외부 기여자 정보이며 내 개인정보가 아님.
+- QA Preview는 Firebase 초기화/Auth 구독/AdService/Crashlytics/App Check를 skip하고, 저장은 브라우저 localStorage의 `lifequest.qaPreview.state.v2`에만 수행.
+- `firestore.rules` 로컬 파일은 본인 UID 경로 외 모든 접근을 차단하는 형태로 확인.
+- `storage.rules`는 repo에 없음. QA Preview에서는 Storage를 쓰지 않지만 정식 앱 Storage 사용 전 rules 작성 필요.
+
+### 조치
+
+- `firebase.json` Hosting headers 보강:
+  - `Content-Security-Policy`
+  - `X-Content-Type-Options: nosniff`
+  - `Referrer-Policy: no-referrer`
+  - `Permissions-Policy`
+  - `X-Frame-Options: DENY`
+- 초기 CSP가 Flutter Web의 `gstatic` CanvasKit/Roboto 로드를 차단해 앱 로드가 깨지는 문제를 확인했다.
+- CSP를 `www.gstatic.com`, `fonts.gstatic.com`만 추가 허용하는 방식으로 조정했다.
+- `web/index.html`의 사용되지 않는 inline splash script를 제거하고, 공개 페이지 title/description을 `Life Quest` 기준으로 정리했다.
+- 브라우저 QA에서 `Life Quest`, `Web QA Preview`, `게스트로 테스트 시작` 렌더링 확인.
+- Google Sign-In 웹 플러그인의 `accounts.google.com/gsi/client` 로드 시도는 CSP가 차단 중. QA Preview에서는 로그인 미사용이므로 허용하지 않는다.
+- 세부 감사 내용은 `docs/web-qa-preview-build-audit.md` 섹션 16에 기록.
+
+### 남은 확인
+
+- Firebase 콘솔에 실제 배포된 Firestore/Storage rules가 로컬 파일과 동일한지 별도 확인 필요.
+- Hosting headers 배포 후 공개 URL에서 앱이 정상 렌더링되는지 최종 브라우저 QA 필요.
