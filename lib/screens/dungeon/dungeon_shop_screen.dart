@@ -201,9 +201,15 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
     }
   }
 
-  void _buyCard(
-      CardData card, int price, int index, DungeonState dungeonState) {
+  Future<void> _buyCard(
+      CardData card, int price, int index, DungeonState dungeonState) async {
     if (dungeonState.dungeonGold < price) return;
+    final l10n = AppLocalizations.of(context)!;
+    final confirmed = await _confirmPurchase(
+      title: '카드 구매',
+      body: '${CardLocalization.localizedName(card, l10n)} 카드를 $price 골드에 구매할까요?',
+    );
+    if (!confirmed || !mounted) return;
     dungeonState.spendGold(price);
     dungeonState.addCardToDeck(card);
     setState(() {
@@ -211,14 +217,44 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
     });
   }
 
-  void _buyRelic(
-      RelicData relic, int price, int index, DungeonState dungeonState) {
+  Future<void> _buyRelic(
+      RelicData relic, int price, int index, DungeonState dungeonState) async {
     if (dungeonState.dungeonGold < price) return;
+    final confirmed = await _confirmPurchase(
+      title: '유물 구매',
+      body: '${relic.name} 유물을 $price 골드에 구매할까요?',
+    );
+    if (!confirmed || !mounted) return;
     dungeonState.spendGold(price);
     dungeonState.addRelic(relic);
     setState(() {
       _purchasedRelicIndices.add(index);
     });
+  }
+
+  Future<bool> _confirmPurchase({
+    required String title,
+    required String body,
+  }) async {
+    final l10n = AppLocalizations.of(context)!;
+    return await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(title),
+            content: Text(body),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: const Text('구매'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 
   void _showCardRemovalDialog(BuildContext context, DungeonState dungeonState,

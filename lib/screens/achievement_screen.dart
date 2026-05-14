@@ -113,9 +113,7 @@ class AchievementScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   if (!isCompleted)
                     LinearProgressIndicator(
-                      value: targetValue > 0
-                          ? (currentValue / targetValue).clamp(0.0, 1.0)
-                          : 0.0,
+                      value: _visibleProgressValue(currentValue, targetValue),
                       backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
                       valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
                     ),
@@ -157,6 +155,13 @@ class AchievementScreen extends StatelessWidget {
       case AchievementCondition.streakReached:
         return isCompleted ? PhosphorIcons.flameFill : PhosphorIcons.flame;
     }
+  }
+
+  double _visibleProgressValue(int currentValue, int targetValue) {
+    if (targetValue <= 0 || currentValue <= 0) return 0.0;
+    final actual = (currentValue / targetValue).clamp(0.0, 1.0);
+    if (actual >= 1.0) return 1.0;
+    return actual.clamp(0.04, 1.0);
   }
 
   Color _achievementColor(AchievementCondition condition) {

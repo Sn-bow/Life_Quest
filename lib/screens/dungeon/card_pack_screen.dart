@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:life_quest_final_v2/data/card_art_assets.dart';
+import 'package:life_quest_final_v2/data/card_body_assets.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
@@ -84,14 +86,37 @@ class _CardPackScreenState extends State<CardPackScreen>
     final charState = context.read<CharacterState>();
     if (charState.cardPackCount <= 0) return;
 
+    final drawnCards = _drawThreeCards(charState);
+
     setState(() {
       _opening = true;
-      _drawnCards = _drawThreeCards(charState);
+      _drawnCards = drawnCards;
       _selectedIndex = null;
       _confirmed = false;
     });
 
+    _precacheCardAssets(drawnCards);
     _flipController.forward(from: 0);
+  }
+
+  Future<void> _precacheCardAssets(List<CardData> cards) async {
+    final paths = <String>{};
+    for (final card in cards) {
+      final bodyPath = CardBodyAssets.resolvedBodyPath(card);
+      if (bodyPath != null) {
+        paths.add(bodyPath);
+        continue;
+      }
+      final artPath = CardArtAssets.artPathFor(card);
+      if (artPath != null) {
+        paths.add(artPath);
+      }
+    }
+
+    for (final path in paths) {
+      if (!mounted) return;
+      await precacheImage(AssetImage(path), context);
+    }
   }
 
   void _confirmSelection() {

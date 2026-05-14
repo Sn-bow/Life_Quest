@@ -1453,3 +1453,59 @@ flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
 
 - Firebase 콘솔에 실제 배포된 Firestore/Storage rules가 로컬 파일과 동일한지 별도 확인 필요.
 - Hosting headers 배포 후 공개 URL에서 앱이 정상 렌더링되는지 최종 브라우저 QA 필요.
+
+---
+
+## 2026-05-14 KST - 테스터 피드백 P0/P1 반영
+
+### 배경
+
+Claude Code 피드백에서 이벤트 복귀, 노드 진입 무반응, Web 스크롤, 카드 지연 로드, 구매 확인, 업적 진행 바, 퀘스트 탭 잘림 문제가 보고됐다. 즉시 체감되는 P0/P1 항목을 우선 반영했다.
+
+### 문서
+
+- `docs/feedback-remediation-plan-20260514.md`
+  - 피드백 항목을 P0/P1/후속 설계로 분류.
+  - 완료된 코드 수정과 검증 결과 기록.
+
+### 코드 변경
+
+- `lib/screens/dungeon/dungeon_event_screen.dart`
+  - 이벤트 `계속` 버튼이 `Navigator.pop(true)`를 반환하도록 변경.
+  - 이벤트 데이터가 없는 경우 빈 화면에 고립되지 않고 이전 화면으로 `false` 반환.
+- `lib/screens/dungeon/dungeon_map_screen.dart`
+  - 노드 탭 중 `_pendingNodeId`로 중복 탭 차단.
+  - 진입 중 overlay + spinner 표시.
+  - 이벤트 노드는 `true` 결과일 때만 node complete.
+- `lib/main.dart`
+  - `LifeQuestScrollBehavior` 추가.
+  - Web/desktop에서 mouse/stylus drag scroll 허용.
+- `lib/screens/dungeon/card_pack_screen.dart`
+  - 뽑힌 카드 full-body/card-art asset precache.
+- `lib/screens/dungeon/dungeon_shop_screen.dart`
+  - 카드/유물 구매 전 확인 다이얼로그 추가.
+- `lib/screens/achievement_screen.dart`
+  - 낮은 진행률도 최소 4%로 보이게 표시.
+- `lib/screens/quests_screen.dart`
+  - 탭 정렬/padding/font size 조정.
+- `web/index.html`
+  - CSP inline script 제거 이후 splash image가 앱을 덮을 위험을 없애기 위해 splash picture 제거.
+
+### 검증/배포
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub` -> 96개 전체 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 공개 URL smoke QA:
+  - page title `Life Quest`.
+  - `flutter-view` mount 확인.
+  - `#splash` DOM 제거 확인.
+  - Google Sign-In web script는 CSP가 차단 중. QA Preview에서는 로그인 미사용이므로 허용하지 않는다.
+
+### 후속 작업
+
+- HP/체력/건강 용어 통합 정리.
+- 카드별/속성별 full-body art 매칭.
+- 타이머 접근 경로 재설계.
+- 던전 맵 범례/현재 위치 강조.

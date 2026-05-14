@@ -59,6 +59,10 @@ class QuestsScreen extends StatelessWidget {
           title: Text(l10n.questsScreenTitle),
           bottom: TabBar(
             isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 14),
+            labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+            unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
             tabs: [
               Tab(text: l10n.questsTabDaily),
               Tab(text: l10n.questsTabWeekly),

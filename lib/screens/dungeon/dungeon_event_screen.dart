@@ -34,6 +34,11 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
     final event = dungeonState.currentEvent;
 
     if (event == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted && Navigator.of(context).canPop()) {
+          Navigator.of(context).pop(false);
+        }
+      });
       return Scaffold(
         appBar: AppBar(title: Text(l10n.dungeonEventTitle, style: TextStyle(color: accent))),
         body: Center(child: Text(l10n.dungeonEventNoData)),
@@ -230,7 +235,7 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => Navigator.of(context).pop(true),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: accent,
                     foregroundColor: Colors.white,

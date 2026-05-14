@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -168,6 +169,7 @@ class LifeQuestApp extends StatelessWidget {
         return MaterialApp(
           scaffoldMessengerKey: state.scaffoldMessengerKey,
           title: 'Life Quest',
+          scrollBehavior: const LifeQuestScrollBehavior(),
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -375,6 +377,18 @@ class LifeQuestApp extends StatelessWidget {
       },
     );
   }
+}
+
+class LifeQuestScrollBehavior extends MaterialScrollBehavior {
+  const LifeQuestScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        ...super.dragDevices,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.stylus,
+        PointerDeviceKind.unknown,
+      };
 }
 
 class AuthWrapper extends StatefulWidget {

@@ -18,6 +18,8 @@ class DungeonMapScreen extends StatefulWidget {
 }
 
 class _DungeonMapScreenState extends State<DungeonMapScreen> {
+  int? _pendingNodeId;
+
   @override
   void initState() {
     super.initState();
@@ -85,40 +87,46 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
           ],
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // Progress bar
-          _ProgressHeader(
-            zoneName: zoneName,
-            completedCount:
-                map.nodes.where((n) => n.isCompleted).length,
-            totalCount: map.nodes.length,
-            isDark: isDark,
-            accent: accent,
-          ),
+          Column(
+            children: [
+              // Progress bar
+              _ProgressHeader(
+                zoneName: zoneName,
+                completedCount:
+                    map.nodes.where((n) => n.isCompleted).length,
+                totalCount: map.nodes.length,
+                isDark: isDark,
+                accent: accent,
+              ),
 
-          // Map area
-          Expanded(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  reverse: true, // row 0 at bottom, boss at top
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  child: ConstrainedBox(
-                    // Ensure content fills the viewport so nodes spread vertically
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight - 32,
-                    ),
-                    child: _buildMap(
-                        context, map, maxRow, isDark, accent, dungeonState),
-                  ),
-                );
-              },
-            ),
-          ),
+              // Map area
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      reverse: true, // row 0 at bottom, boss at top
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      child: ConstrainedBox(
+                        // Ensure content fills the viewport so nodes spread vertically
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight - 32,
+                        ),
+                        child: _buildMap(
+                            context, map, maxRow, isDark, accent, dungeonState),
+                      ),
+                    );
+                  },
+                ),
+              ),
 
-          // Player stats bar
-          _PlayerStatsBar(dungeonState: dungeonState, isDark: isDark, accent: accent),
+              // Player stats bar
+              _PlayerStatsBar(dungeonState: dungeonState, isDark: isDark, accent: accent),
+            ],
+          ),
+          if (_pendingNodeId != null)
+            _NodeLoadingOverlay(isDark: isDark, accent: accent),
         ],
       ),
     );
@@ -179,26 +187,31 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
     );
   }
 
-  void _onNodeTap(BuildContext context, DungeonNode node, DungeonState dungeonState) {
-    if (!node.isAccessible || node.isCompleted) return;
+  Future<void> _onNodeTap(BuildContext context, DungeonNode node, DungeonState dungeonState) async {
+    if (!node.isAccessible || node.isCompleted || _pendingNodeId != null) return;
+
+    setState(() => _pendingNodeId = node.id);
+    await Future<void>.delayed(const Duration(milliseconds: 40));
+    if (!context.mounted) return;
 
     dungeonState.selectNode(node.id);
     final nav = Navigator.of(context);
 
-    switch (node.type) {
-      case NodeType.combat:
-      case NodeType.elite:
-        nav.push(
-          MaterialPageRoute(
-            builder: (_) => CardBattleScreen(
-              deck: dungeonState.currentDeck,
-              enemies: dungeonState.getEnemiesForNode(node),
-              playerHp: dungeonState.playerHp,
-              playerMaxHp: dungeonState.playerMaxHp,
-              zone: dungeonState.currentZone,
+    try {
+      switch (node.type) {
+        case NodeType.combat:
+        case NodeType.elite:
+          final result = await nav.push(
+            MaterialPageRoute(
+              builder: (_) => CardBattleScreen(
+                deck: dungeonState.currentDeck,
+                enemies: dungeonState.getEnemiesForNode(node),
+                playerHp: dungeonState.playerHp,
+                playerMaxHp: dungeonState.playerMaxHp,
+                zone: dungeonState.currentZone,
+              ),
             ),
-          ),
-        ).then((result) {
+          );
           // result = {'won': true, 'hp': finalHp} or false
           if (result is Map && result['won'] == true) {
             // M-4: 처치한 몬스터 수 기록 (combat=1, elite=2)
@@ -217,21 +230,20 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
               builder: (_) => const DungeonResultScreen(isVictory: false),
             ));
           }
-        });
-        break;
+          break;
 
-      case NodeType.boss:
-        nav.push(
-          MaterialPageRoute(
-            builder: (_) => CardBattleScreen(
-              deck: dungeonState.currentDeck,
-              enemies: dungeonState.getEnemiesForNode(node),
-              playerHp: dungeonState.playerHp,
-              playerMaxHp: dungeonState.playerMaxHp,
-              zone: dungeonState.currentZone,
+        case NodeType.boss:
+          final result = await nav.push(
+            MaterialPageRoute(
+              builder: (_) => CardBattleScreen(
+                deck: dungeonState.currentDeck,
+                enemies: dungeonState.getEnemiesForNode(node),
+                playerHp: dungeonState.playerHp,
+                playerMaxHp: dungeonState.playerMaxHp,
+                zone: dungeonState.currentZone,
+              ),
             ),
-          ),
-        ).then((result) {
+          );
           if (result is Map && result['won'] == true) {
             // M-4: 보스 처치 카운트
             dungeonState.incrementMonstersKilled(1);
@@ -248,35 +260,100 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
               builder: (_) => const DungeonResultScreen(isVictory: false),
             ));
           }
-        });
-        break;
+          break;
 
-      case NodeType.event:
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const DungeonEventScreen()),
-        ).then((_) {
-          dungeonState.completeCurrentNode();
-        });
-        break;
+        case NodeType.event:
+          final completed = await nav.push<bool>(
+            MaterialPageRoute(builder: (_) => const DungeonEventScreen()),
+          );
+          if (completed == true) {
+            dungeonState.completeCurrentNode();
+          }
+          break;
 
-      case NodeType.shop:
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const DungeonShopScreen()),
-        ).then((_) {
+        case NodeType.shop:
+          await nav.push(
+            MaterialPageRoute(builder: (_) => const DungeonShopScreen()),
+          );
           dungeonState.completeCurrentNode();
-        });
-        break;
+          break;
 
-      case NodeType.rest:
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const DungeonRestScreen()),
-        ).then((_) {
+        case NodeType.rest:
+          await nav.push(
+            MaterialPageRoute(builder: (_) => const DungeonRestScreen()),
+          );
           dungeonState.completeCurrentNode();
-        });
-        break;
+          break;
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _pendingNodeId = null);
+      }
     }
   }
 
+}
+
+class _NodeLoadingOverlay extends StatelessWidget {
+  final bool isDark;
+  final Color accent;
+
+  const _NodeLoadingOverlay({
+    required this.isDark,
+    required this.accent,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: AbsorbPointer(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: isDark ? 0.42 : 0.22),
+          ),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF10172A) : Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: accent.withValues(alpha: 0.45)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.24),
+                    blurRadius: 24,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.4,
+                      color: accent,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    '진입 중...',
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 // ============================================================================
