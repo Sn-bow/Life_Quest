@@ -168,10 +168,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get statusSettingsTooltip => '设置';
 
   @override
-  String get statusHpLabel => 'HP';
+  String get statusHpLabel => '生活HP';
 
   @override
-  String get statusHpRecoveryHint => '非战斗状态下，每10分钟HP会自然缓慢恢复。';
+  String get statusHpRecoveryHint => '生活HP表示日常任务状态。非战斗状态下，每10分钟会自然缓慢恢复。';
 
   @override
   String statusStreakLabel(int days) {
@@ -393,7 +393,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get huntScreenTitle => '狩猎场';
 
   @override
-  String get huntMyHpLabel => '我的HP';
+  String get huntMyHpLabel => '战斗HP';
 
   @override
   String huntComboBadge(int count) {
@@ -522,7 +522,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inventoryDefenseLabel => '防御力';
 
   @override
-  String get inventoryHpLabel => '体力';
+  String get inventoryHpLabel => '健康加成';
 
   @override
   String get inventoryStatStrength => '力量';

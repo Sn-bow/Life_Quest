@@ -100,6 +100,7 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
                 isDark: isDark,
                 accent: accent,
               ),
+              _MapLegend(isDark: isDark),
 
               // Map area
               Expanded(
@@ -173,6 +174,7 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
               node: node,
               isDark: isDark,
               accent: accent,
+              isCurrent: map.currentNodeId == node.id || _pendingNodeId == node.id,
               onTap: () => _onNodeTap(context, node, dungeonState),
             );
           }).toList(),
@@ -438,12 +440,14 @@ class _NodeWidget extends StatelessWidget {
   final DungeonNode node;
   final bool isDark;
   final Color accent;
+  final bool isCurrent;
   final VoidCallback onTap;
 
   const _NodeWidget({
     required this.node,
     required this.isDark,
     required this.accent,
+    required this.isCurrent,
     required this.onTap,
   });
 
@@ -491,40 +495,178 @@ class _NodeWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        width: 56,
-        height: 56,
-        decoration: BoxDecoration(
-          color: node.isCompleted
-              ? (isDark ? Colors.grey.shade800 : Colors.grey.shade300)
-              : isAccessible
-                  ? color.withValues(alpha: isDark ? 0.3 : 0.15)
-                  : (isDark ? Colors.grey.shade900 : Colors.grey.shade200),
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: isAccessible ? color : Colors.grey.withValues(alpha: 0.4),
-            width: isAccessible ? 3 : 1.5,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: node.isCompleted
+                  ? (isDark ? Colors.grey.shade800 : Colors.grey.shade300)
+                  : isAccessible
+                      ? color.withValues(alpha: isDark ? 0.3 : 0.15)
+                      : (isDark ? Colors.grey.shade900 : Colors.grey.shade200),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isCurrent
+                    ? Colors.white
+                    : isAccessible
+                        ? color
+                        : Colors.grey.withValues(alpha: 0.4),
+                width: isCurrent ? 4 : (isAccessible ? 3 : 1.5),
+              ),
+              boxShadow: isAccessible
+                  ? [
+                      BoxShadow(
+                        color: color.withValues(alpha: 0.4),
+                        blurRadius: isCurrent ? 14 : 8,
+                        spreadRadius: isCurrent ? 2 : 1,
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Icon(
+              _icon,
+              size: 24,
+              color: node.isCompleted
+                  ? Colors.grey.shade500
+                  : isAccessible
+                      ? color
+                      : Colors.grey.shade500,
+            ),
           ),
-          boxShadow: isAccessible
-              ? [
-                  BoxShadow(
-                    color: color.withValues(alpha: 0.4),
-                    blurRadius: 8,
-                    spreadRadius: 1,
+          if (isCurrent)
+            Positioned(
+              top: -8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: color, width: 1),
+                ),
+                child: Text(
+                  '현재',
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                    color: color,
                   ),
-                ]
-              : null,
+                ),
+              ),
+            ),
+          if (isAccessible && !isCurrent)
+            Positioned(
+              top: -4,
+              right: -4,
+              child: Container(
+                width: 11,
+                height: 11,
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF0F172A) : Colors.white,
+                    width: 2,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MapLegend extends StatelessWidget {
+  final bool isDark;
+
+  const _MapLegend({required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = <({NodeType type, IconData icon, Color color, String label})>[
+      (type: NodeType.combat, icon: Icons.sports_martial_arts, color: Colors.red, label: '전투'),
+      (type: NodeType.elite, icon: Icons.whatshot, color: Colors.orange, label: '엘리트'),
+      (type: NodeType.event, icon: Icons.help_outline, color: Colors.amber, label: '이벤트'),
+      (type: NodeType.shop, icon: Icons.shopping_cart, color: Colors.green, label: '상점'),
+      (type: NodeType.rest, icon: Icons.hotel, color: Colors.blue, label: '휴식'),
+      (type: NodeType.boss, icon: Icons.workspace_premium, color: Colors.deepPurple, label: '보스'),
+    ];
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+      child: Row(
+        children: [
+          ...entries.map((entry) => Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: _LegendChip(
+                  icon: entry.icon,
+                  color: entry.color,
+                  label: entry.label,
+                  isDark: isDark,
+                ),
+              )),
+          _LegendChip(
+            icon: Icons.radio_button_checked,
+            color: Colors.white,
+            label: '현재',
+            isDark: isDark,
+            filled: false,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LegendChip extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String label;
+  final bool isDark;
+  final bool filled;
+
+  const _LegendChip({
+    required this.icon,
+    required this.color,
+    required this.label,
+    required this.isDark,
+    this.filled = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final fg = filled ? color : (isDark ? Colors.white : Colors.black87);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF111827) : Colors.white,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: filled ? color.withValues(alpha: 0.55) : fg.withValues(alpha: 0.35),
         ),
-        child: Icon(
-          _icon,
-          size: 24,
-          color: node.isCompleted
-              ? Colors.grey.shade500
-              : isAccessible
-                  ? color
-                  : Colors.grey.shade500,
-        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: fg),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: isDark ? Colors.white70 : Colors.black54,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -599,6 +741,7 @@ class _PlayerStatsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final hpRatio = dungeonState.playerMaxHp > 0
         ? (dungeonState.playerHp / dungeonState.playerMaxHp).clamp(0.0, 1.0)
         : 0.0;
@@ -629,7 +772,7 @@ class _PlayerStatsBar extends StatelessWidget {
                       const Icon(Icons.favorite, size: 14, color: Colors.red),
                       const SizedBox(width: 4),
                       Text(
-                        '${dungeonState.playerHp} / ${dungeonState.playerMaxHp}',
+                        '${l10n.huntMyHpLabel} ${dungeonState.playerHp} / ${dungeonState.playerMaxHp}',
                         style: TextStyle(
                           fontFamily: 'monospace',
                           fontSize: 12,

@@ -173,11 +173,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusSettingsTooltip => 'Settings';
 
   @override
-  String get statusHpLabel => 'HP';
+  String get statusHpLabel => 'Life HP';
 
   @override
   String get statusHpRecoveryHint =>
-      'HP gradually recovers every 10 minutes when not in combat.';
+      'Life HP reflects your daily quest condition. It gradually recovers every 10 minutes outside combat.';
 
   @override
   String statusStreakLabel(int days) {
@@ -406,7 +406,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get huntScreenTitle => 'Hunting Ground';
 
   @override
-  String get huntMyHpLabel => 'My HP';
+  String get huntMyHpLabel => 'Combat HP';
 
   @override
   String huntComboBadge(int count) {
@@ -538,7 +538,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inventoryDefenseLabel => 'Defense';
 
   @override
-  String get inventoryHpLabel => 'HP';
+  String get inventoryHpLabel => 'Health Bonus';
 
   @override
   String get inventoryStatStrength => 'Strength';

@@ -168,10 +168,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get statusSettingsTooltip => '設定';
 
   @override
-  String get statusHpLabel => 'HP';
+  String get statusHpLabel => '生活HP';
 
   @override
-  String get statusHpRecoveryHint => '非戦闘中は10分ごとにHPが少しずつ自然回復します。';
+  String get statusHpRecoveryHint =>
+      '生活HPは日々のクエスト状態を表します。非戦闘中は10分ごとに少しずつ自然回復します。';
 
   @override
   String statusStreakLabel(int days) {
@@ -397,7 +398,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get huntScreenTitle => '狩猟場';
 
   @override
-  String get huntMyHpLabel => '自分のHP';
+  String get huntMyHpLabel => '戦闘HP';
 
   @override
   String huntComboBadge(int count) {
@@ -526,7 +527,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inventoryDefenseLabel => '防御力';
 
   @override
-  String get inventoryHpLabel => '体力';
+  String get inventoryHpLabel => '健康補正';
 
   @override
   String get inventoryStatStrength => '力';

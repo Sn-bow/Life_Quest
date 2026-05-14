@@ -46,6 +46,10 @@ class CardBodyAssets {
     'tactical_common',
   };
 
+  // Card-specific full-body PNGs. Use this for cards whose name/theme would
+  // clash with a category-common body, e.g. frost, flame, poison, or light.
+  static const Set<String> _availableCardBodies = <String>{};
+
   // ---------------------------------------------------------------------------
   // Public API
   // ---------------------------------------------------------------------------
@@ -70,6 +74,11 @@ class CardBodyAssets {
   /// Returns null when neither the exact rarity nor common is registered,
   /// signalling [SoulDeckCardView] to use the legacy frame + art layout.
   static String? resolvedBodyPath(CardData card) {
+    final cardKey = _cardKey(card.id);
+    if (_availableCardBodies.contains(cardKey)) {
+      return _buildCardPath(cardKey);
+    }
+
     if (hasBodyFor(card)) return bodyPathFor(card);
 
     // Common-rarity fallback: same category, common rarity body.
@@ -92,6 +101,14 @@ class CardBodyAssets {
     ];
   }
 
+  /// Canonical path for a card-specific full-body image.
+  ///
+  /// This path is independent of category/rarity and is intended for cards
+  /// whose title requires distinct art direction.
+  static String cardBodyPathFor(CardData card) {
+    return _buildCardPath(_cardKey(card.id));
+  }
+
   // ---------------------------------------------------------------------------
   // Private helpers
   // ---------------------------------------------------------------------------
@@ -101,6 +118,12 @@ class CardBodyAssets {
 
   static String _buildPath(CardCategory c, CardRarity r) =>
       '$bodyDirectory/card_body_${_categoryKey(c)}_${_rarityKey(r)}.png';
+
+  static String _buildCardPath(String cardKey) =>
+      '$bodyDirectory/by_card/card_body_$cardKey.png';
+
+  static String _cardKey(String id) =>
+      id.toLowerCase().replaceAll(RegExp(r'[^a-z0-9_]+'), '_');
 
   static String _categoryKey(CardCategory c) {
     switch (c) {

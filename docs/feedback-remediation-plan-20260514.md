@@ -99,6 +99,24 @@ Threads 테스터 모집 직후 받은 Web QA Preview 피드백을 코드 기준
 ### 남은 후속 작업
 
 - HP/체력/건강 용어 통합 정리.
+  - 상태창 라벨: `생활 HP`
+  - 던전/전투 라벨: `전투 HP`
+  - 인벤토리 파생값 라벨: `건강 보정`
 - 카드별/속성별 full-body art 매칭.
+  - `CardBodyAssets`에 카드별 full-body override 구조 추가.
+  - 세부 생성/등록 계획은 `docs/card-full-body-generation-plan.md` 섹션 10에 기록.
 - 타이머 접근 경로 재설계.
+  - 퀘스트 화면 AppBar에 집중 타이머 진입 버튼 추가.
 - 던전 맵 범례/현재 위치 강조.
+  - 맵 상단에 노드 타입 범례 추가.
+  - 선택 중인 노드는 `현재` 배지와 흰색 강조 테두리로 표시.
+  - 진행 가능한 노드는 작은 컬러 점으로 표시.
+
+### P2 추가 검증 결과
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub` -> 96개 전체 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+- 공개 URL smoke QA -> `Life Quest` title, Flutter Web view mount, splash 제거 확인.
+- Google Sign-In web script CSP 차단은 의도된 상태로 유지한다. QA Preview는 게스트 테스트 전용이며 외부 로그인 스크립트를 허용하지 않는다.

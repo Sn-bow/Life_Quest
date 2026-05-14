@@ -274,7 +274,7 @@ class _StatusScreenState extends State<StatusScreen> {
                           Icon(Icons.favorite,
                               color: Colors.red.shade400, size: 18),
                           const SizedBox(width: 8),
-                          Text('HP',
+                          Text(l10n.statusHpLabel,
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,

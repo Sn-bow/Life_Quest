@@ -234,3 +234,48 @@ hand(110×154) / reward(94×142) / mini(72×108) 세 사이즈 모두 동일 구
 | `assets/images/cards/card_frame_*.png` (4장) | 레거시 fallback으로 유지 | full body 전환 완료 후 pubspec 제거 |
 | `assets/images/game/cards/art/*.png` (11장) | 레거시 fallback으로 유지 | full body 전환 완료 후 pubspec 제거 |
 | `assets/images/game/cards/icons/icon_*.png` (4장) | 레거시 fallback으로 유지 | full body 전환 완료 후 pubspec 제거 |
+
+---
+
+## 10. 카드별 아트 매칭 확장 계획
+
+테스터 피드백에서 `서리 화살`처럼 카드명과 공통 카테고리 바디가 맞지 않는 문제가 확인됐다. 공통 바디는 빠른 통일에는 유리하지만, 속성/서사 키워드가 강한 카드는 카드별 full-body 이미지가 필요하다.
+
+### 런타임 구조
+
+`CardBodyAssets.resolvedBodyPath(card)` 우선순위:
+
+1. `assets/images/game/cards/full_body/by_card/card_body_{card_id}.png`
+2. `assets/images/game/cards/full_body/card_body_{category}_{rarity}.png`
+3. `assets/images/game/cards/full_body/card_body_{category}_common.png`
+4. legacy frame/art fallback
+
+### 파일 규칙
+
+- 저장 경로: `assets/images/game/cards/full_body/by_card/`
+- 파일명: `card_body_{card.id}.png`
+- 예시:
+  - `card_body_mag_c02.png`
+  - `card_body_atk_u03.png`
+  - `card_body_def_r02.png`
+
+### 우선 생성 대상
+
+1. 이름에 속성이 명확한 카드
+   - 서리/얼음
+   - 화염/불꽃
+   - 독/부식
+   - 빛/신성
+   - 그림자/암흑
+2. 기본 카드 3장
+   - `base_strike`
+   - `base_defend`
+   - `base_focus`
+3. 플레이어가 초반 10분 안에 자주 보는 common 카드
+
+### 생성 원칙
+
+- 카드 자체 full-body PNG를 생성한다.
+- 프레임, 텍스트, 숫자, 비용 젬, 희귀도 라벨은 이미지에 넣지 않는다.
+- 상단은 카드 주제 일러스트, 하단은 텍스트 가독성을 위한 어두운 자연 그라디언트.
+- 카드명과 상충하는 추상 공통 이미지 사용 금지.

@@ -411,13 +411,13 @@ abstract class AppLocalizations {
   /// No description provided for @statusHpLabel.
   ///
   /// In ko, this message translates to:
-  /// **'HP'**
+  /// **'생활 HP'**
   String get statusHpLabel;
 
   /// No description provided for @statusHpRecoveryHint.
   ///
   /// In ko, this message translates to:
-  /// **'비전투 상태에서는 10분마다 HP가 조금씩 자연 회복됩니다.'**
+  /// **'일상 퀘스트 상태를 나타내는 생활 HP입니다. 비전투 상태에서 10분마다 조금씩 자연 회복됩니다.'**
   String get statusHpRecoveryHint;
 
   /// No description provided for @statusStreakLabel.
@@ -813,7 +813,7 @@ abstract class AppLocalizations {
   /// No description provided for @huntMyHpLabel.
   ///
   /// In ko, this message translates to:
-  /// **'나의 HP'**
+  /// **'전투 HP'**
   String get huntMyHpLabel;
 
   /// No description provided for @huntComboBadge.
@@ -1047,7 +1047,7 @@ abstract class AppLocalizations {
   /// No description provided for @inventoryHpLabel.
   ///
   /// In ko, this message translates to:
-  /// **'체력'**
+  /// **'건강 보정'**
   String get inventoryHpLabel;
 
   /// No description provided for @inventoryStatStrength.

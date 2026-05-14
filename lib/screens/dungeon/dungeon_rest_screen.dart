@@ -242,6 +242,7 @@ class _HpDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final ratio = dungeonState.playerMaxHp > 0
         ? (dungeonState.playerHp / dungeonState.playerMaxHp).clamp(0.0, 1.0)
         : 0.0;
@@ -261,7 +262,7 @@ class _HpDisplay extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${dungeonState.playerHp} / ${dungeonState.playerMaxHp}',
+                  '${l10n.huntMyHpLabel} ${dungeonState.playerHp} / ${dungeonState.playerMaxHp}',
                   style: TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 13,

@@ -168,10 +168,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get statusSettingsTooltip => '설정';
 
   @override
-  String get statusHpLabel => 'HP';
+  String get statusHpLabel => '생활 HP';
 
   @override
-  String get statusHpRecoveryHint => '비전투 상태에서는 10분마다 HP가 조금씩 자연 회복됩니다.';
+  String get statusHpRecoveryHint =>
+      '일상 퀘스트 상태를 나타내는 생활 HP입니다. 비전투 상태에서 10분마다 조금씩 자연 회복됩니다.';
 
   @override
   String statusStreakLabel(int days) {
@@ -398,7 +399,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get huntScreenTitle => '사냥터';
 
   @override
-  String get huntMyHpLabel => '나의 HP';
+  String get huntMyHpLabel => '전투 HP';
 
   @override
   String huntComboBadge(int count) {
@@ -527,7 +528,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get inventoryDefenseLabel => '방어력';
 
   @override
-  String get inventoryHpLabel => '체력';
+  String get inventoryHpLabel => '건강 보정';
 
   @override
   String get inventoryStatStrength => '힘';

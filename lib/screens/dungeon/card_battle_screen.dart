@@ -1138,6 +1138,7 @@ class _PlayerInfoBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -1159,7 +1160,7 @@ class _PlayerInfoBar extends StatelessWidget {
                     const Icon(Icons.favorite, size: 14, color: Colors.red),
                     const SizedBox(width: 4),
                     Text(
-                      '${combat.playerHp} / ${combat.playerMaxHp}',
+                      '${l10n.huntMyHpLabel} ${combat.playerHp} / ${combat.playerMaxHp}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 13,

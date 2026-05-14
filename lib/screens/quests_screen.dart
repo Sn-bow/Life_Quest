@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
+import 'package:life_quest_final_v2/screens/timer_screen.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class QuestsScreen extends StatelessWidget {
@@ -57,6 +58,17 @@ class QuestsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(l10n.questsScreenTitle),
+          actions: [
+            IconButton(
+              tooltip: l10n.statusTimerTooltip,
+              icon: const Icon(PhosphorIcons.timer),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const TimerScreen()),
+                );
+              },
+            ),
+          ],
           bottom: TabBar(
             isScrollable: true,
             tabAlignment: TabAlignment.start,
