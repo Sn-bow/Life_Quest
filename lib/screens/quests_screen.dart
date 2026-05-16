@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/quest_tile.dart';
+import 'package:life_quest_final_v2/widgets/today_adventure_summary.dart';
 import 'package:provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
@@ -73,8 +74,10 @@ class QuestsScreen extends StatelessWidget {
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             labelPadding: const EdgeInsets.symmetric(horizontal: 14),
-            labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-            unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            labelStyle:
+                const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+            unselectedLabelStyle:
+                const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
             tabs: [
               Tab(text: l10n.questsTabDaily),
               Tab(text: l10n.questsTabWeekly),
@@ -111,32 +114,44 @@ class QuestsScreen extends StatelessWidget {
       CharacterState state, QuestType type, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
+    final showTodaySummary = type == QuestType.daily;
 
     if (quests.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(PhosphorIcons.ghost,
-                size: 80,
-                color: isDarkMode ? Colors.white24 : Colors.grey.shade300),
-            const SizedBox(height: 16),
-            Text(
-              _emptyMessageFor(type, l10n),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: isDarkMode ? Colors.white54 : Colors.grey.shade600),
+      return ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          if (showTodaySummary) TodayAdventureSummary(state: state),
+          SizedBox(
+            height: showTodaySummary ? 260 : 420,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(PhosphorIcons.ghost,
+                    size: 80,
+                    color: isDarkMode ? Colors.white24 : Colors.grey.shade300),
+                const SizedBox(height: 16),
+                Text(
+                  _emptyMessageFor(type, l10n),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color:
+                          isDarkMode ? Colors.white54 : Colors.grey.shade600),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       );
     }
 
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: quests.length,
+      itemCount: quests.length + (showTodaySummary ? 1 : 0),
       itemBuilder: (context, index) {
-        final quest = quests[index];
+        if (showTodaySummary && index == 0) {
+          return TodayAdventureSummary(state: state);
+        }
+        final quest = quests[index - (showTodaySummary ? 1 : 0)];
         return QuestTile(
           quest: quest,
           rewardPreview:

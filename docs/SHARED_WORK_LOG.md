@@ -1560,3 +1560,156 @@ P0/P1 이후 남은 피드백 중 앱 이해도에 영향을 주는 P2 항목을
   - `#splash` 제거 상태 확인.
   - QA Preview localStorage 키 `flutter.lifequest.qaPreview.state.v2` 확인.
   - 남은 console error는 Google Sign-In web script의 CSP 차단 1건이다. QA Preview는 게스트 모드 테스트라 로그인 스크립트를 허용하지 않는다.
+
+---
+
+## 2026-05-15 KST - Threads 제품 방향성 피드백 기록
+
+### 목적
+
+Threads 테스터 모집 글에 달린 외부 피드백을 제품 방향성 문서로 정리했다. 이번 피드백은 버그가 아니라 Life Quest의 핵심 루프, 현실 행동과 RPG 보상 연결, 칭호/이벤트 의미, 첫 진입 정보 구조에 대한 지적이다.
+
+### 문서
+
+- `docs/threads-core-loop-feedback-20260515.md`
+  - 원문 요지 정리.
+  - 제품 관점 해석.
+  - Core Loop 명확성 부족, 현실 행동과 RPG 수치 연결 약함, 칭호/이벤트 의미 부족, 첫 진입 정보 구조 부족을 문제로 분류.
+  - 후속 작업으로 Core Loop UX 문서 작성, 오늘의 모험 요약 블록, 칭호-이벤트 매핑, 현실 행동 -> 전투 효과 매핑을 제안.
+
+### 판단
+
+- 다음 큰 작업은 전체 디자인 리디자인보다 `Life Quest Core Loop UX 재설계`가 우선이다.
+- Figma/Canva/Hyperframes 기반 전체 리디자인은 보류한다.
+- Health Connect, 인바디, AR, 외부 활동 연동은 장기 과제로 분리한다.
+
+---
+
+## 2026-05-15 KST - Life Quest 대대적 리메이크 계획서 작성
+
+### 목적
+
+Threads 피드백 중 실현 가능성과 수익 가능성이 있는 부분만 받아 현재 앱을 재기획/재구축하는 마스터 계획서를 작성했다. 기존 작업물에 연연하지 않고, 버릴 것과 가져갈 것을 냉정하게 분리하는 기준을 세웠다.
+
+### 신규 문서
+
+- `docs/lifequest-remake-master-plan-20260515.md`
+
+### 조사 기준
+
+- 2026년 기준 최신 자료를 다시 확인했다.
+- 자료를 별도 모음으로 쌓지 않고, 즉시 제품 이슈 형태로 기록했다.
+- 확인한 주요 영역:
+  - Health Connect 공식 문서와 권한/데이터 타입 구조
+  - Google Play Billing 구독 lifecycle
+  - RevenueCat 2026 subscription retention 자료
+  - Finch/Habitica/Duolingo식 gamification/retention 참고
+  - Figma2Code, UI-Bench, Penpot, ComfyUI 등 AI 디자인/오픈소스 디자인 도구 흐름
+
+### 핵심 판단
+
+- 현재 앱은 기능이 부족한 것이 아니라 기능들이 하나의 이유로 묶이지 않는 것이 문제다.
+- 소울 덱은 유지하되 `별도 미니게임`이 아니라 `현실 행동의 성장 체감 장치`로 재설계한다.
+- Health Connect/인바디/AR 자동 연동은 강력하지만 출시 1차 범위에서는 제외한다.
+- AI 기능은 전면 상품화하지 않고 추천/분류/요약 보조로 숨긴다.
+- 구독은 당장 넣지 않고 무료 + 광고 제거/후원/테마성 일회성 결제를 우선 검토한다.
+- 디자인은 현재 스타일을 고집하지 않는다. 단, Figma/이미지 생성 전체 리디자인은 파일럿 1개 화면 성공 전까지 금지한다.
+
+### 다음 계획 후보
+
+1. `docs/lifequest-feature-cutline-20260515.md`
+   - 현재 기능을 유지/재배치/숨김/삭제 후보로 분류.
+2. `docs/lifequest-core-loop-ux-20260515.md`
+   - 현실 행동 -> 성장 -> 던전 보정 -> 칭호/이벤트 해금 규칙 확정.
+3. 앱 구현 파일럿
+   - 퀘스트 홈 또는 새 홈 상단에 `오늘의 모험` 요약 블록 추가.
+
+---
+
+## 2026-05-16 KST - 리메이크 세부 계획서와 체크리스트 작성
+
+### 목적
+
+마스터 계획서만으로는 구현 착수가 어렵기 때문에, 기능 컷라인, Core Loop UX 상세 설계, 실행 체크리스트를 별도 문서로 분리했다. 목표는 Claude/Codex가 다음 작업에서 바로 조사/구현/검증 단위로 움직일 수 있게 만드는 것이다.
+
+### 최신 자료 재확인
+
+- Android Developers Health Connect data types/permissions
+- Google Play Billing subscriptions/lifecycle
+- Android vitals
+- RevenueCat State of Subscription Apps 2026
+- Finch/Duolingo gamification 참고 자료
+
+### 신규 문서
+
+- `docs/lifequest-feature-cutline-20260516.md`
+  - 현재 기능을 유지/재배치/숨김/삭제 후보/장기 보류로 분류.
+  - 출시 1차 하단 탭을 `오늘/성장/모험/보상` 4개로 줄이는 방향 제안.
+  - Health Connect, 구독, AI 개인 코치, 무한 타워, 승천, 월간/연간 레이드는 출시 1차 전면 제외로 판정.
+- `docs/lifequest-core-loop-ux-20260516.md`
+  - 현실 행동 -> GrowthDelta -> DailyModifier -> Title/Event unlock 흐름 상세화.
+  - 퀘스트 카테고리별 스탯/던전 보정 규칙 초안 작성.
+  - 오늘의 모험 화면 정보 위계와 던전 연결 규칙 작성.
+  - 칭호-이벤트 매핑 후보 10개 작성.
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+  - Phase 0~7 실행 체크리스트 작성.
+  - 각 Phase별 선행 조사, 관련 파일, 구현 후보, 테스트, 완료 조건 기록.
+  - 첫 구현 권장 범위를 `TodayAdventureSummary` 파일럿으로 제한.
+
+### 판단
+
+- 다음 실제 구현은 전체 리팩토링이 아니라 `오늘의 모험` 요약 블록 파일럿부터 시작해야 한다.
+- 기존 기능 삭제보다 숨김/재배치로 위험을 줄인다.
+- Health Connect, AI 개인 코치, 구독은 출시 1차 검증 전까지 금지한다.
+
+---
+
+## 2026-05-16 KST - Core Loop 파일럿 1차 구현
+
+### 목적
+
+리메이크 계획의 첫 구현으로 `오늘의 모험` 요약 블록을 퀘스트 화면 일일 탭 상단에 추가했다. 목표는 기존 기능을 크게 뒤집기 전에 현실 퀘스트 -> 성장 -> 오늘 던전 보정 -> 다음 행동 흐름을 실제 UI에서 보이게 만드는 것이다.
+
+### 변경
+
+- `lib/data/core_loop_rules.dart`
+  - `GrowthDelta`, `DailyModifier`, `RecommendedAction`, `TitleProgressSnapshot` 추가.
+  - 퀘스트 카테고리/난이도/타입을 성장량과 오늘 던전 보정으로 변환하는 순수 룰 추가.
+  - 추천 행동 계산 추가.
+- `lib/state/character_state.dart`
+  - `todayCompletedQuests`
+  - `todayGrowthDelta`
+  - `todayDailyModifier`
+  - `todayRecommendedAction`
+  - `nextTitleProgress`
+  - 저장 구조 변경 없이 기존 Quest/Title 데이터를 읽는 getter만 추가.
+- `lib/widgets/today_adventure_summary.dart`
+  - 오늘 완료 수, XP/골드, 주 성장 성향, 오늘 던전 보정, 다음 행동, 다음 칭호 진행도를 보여주는 파일럿 위젯 추가.
+- `lib/screens/quests_screen.dart`
+  - 일일 퀘스트 탭 상단에 `TodayAdventureSummary` 삽입.
+- `test/data/core_loop_rules_test.dart`
+  - 성장 변환, 보정 상한, 추천 행동 테스트 추가.
+- `test/state/character_state_test.dart`
+  - 오늘 완료 퀘스트만 요약에 반영되는지 테스트 추가.
+
+### 검증
+
+- `dart analyze` 대상 파일 한정 -> No issues found.
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/data/core_loop_rules_test.dart test/state/character_state_test.dart` -> 27개 통과.
+- `flutter test --no-pub` -> 101개 전체 통과.
+- `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> 성공.
+- Firebase Hosting 재배포 -> 성공.
+  - URL: https://life-quest-app-95eb9.web.app
+- 공개 URL smoke QA:
+  - page title `Life Quest`.
+  - Flutter Web view mount 확인.
+  - `#splash` 제거 확인.
+  - QA Preview localStorage 키 확인.
+  - Google Sign-In web script CSP 차단 1건은 기존과 동일. QA Preview는 게스트 테스트라 허용하지 않는다.
+
+### 남은 위험
+
+- Playwright가 Flutter Canvas UI 텍스트를 직접 잡지 못해 `오늘의 모험` 블록 내부 시각 QA는 아직 실기기/수동 확인이 필요하다.
+- 현재는 파일럿이므로 실제 던전 전투 수치에는 DailyModifier를 적용하지 않았다. 다음 단계에서 던전 시작 시 modifier snapshot을 저장하고 전투 HP 보정부터 실제 적용한다.
+- 문구는 우선 한국어 하드코딩이다. 파일럿 검증 후 l10n으로 승격한다.

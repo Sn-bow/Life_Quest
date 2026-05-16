@@ -18,6 +18,7 @@ import 'package:life_quest_final_v2/models/cosmetic.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/data/achievement_database.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/data/skill_database.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
@@ -450,6 +451,56 @@ class CharacterState extends ChangeNotifier {
   List<Quest> get sortedWeeklyQuests => _sortedQuests(_weeklyQuests);
   List<Quest> get sortedMonthlyQuests => _sortedQuests(_monthlyQuests);
   List<Quest> get sortedYearlyQuests => _sortedQuests(_yearlyQuests);
+  List<Quest> get todayCompletedQuests {
+    final now = DateTime.now();
+    return [
+      ..._dailyQuests,
+      ..._weeklyQuests,
+      ..._monthlyQuests,
+      ..._yearlyQuests,
+    ]
+        .where((quest) =>
+            quest.isCompleted &&
+            quest.completedDate != null &&
+            CoreLoopRules.isSameDay(quest.completedDate!, now))
+        .toList(growable: false);
+  }
+
+  GrowthDelta get todayGrowthDelta =>
+      CoreLoopRules.growthForQuests(todayCompletedQuests);
+
+  DailyModifier get todayDailyModifier =>
+      CoreLoopRules.dailyModifierFor(todayGrowthDelta);
+
+  RecommendedAction get todayRecommendedAction => CoreLoopRules.recommendAction(
+        quests: [
+          ...sortedDailyQuests,
+          ...sortedWeeklyQuests,
+        ],
+        todayGrowth: todayGrowthDelta,
+      );
+
+  TitleProgressSnapshot? get nextTitleProgress {
+    if (_character == null) return null;
+
+    final lockedTitles = _allTitles
+        .where((title) => !_unlockedTitleIds.contains(title.id))
+        .map((title) => TitleProgressSnapshot(
+              title: title,
+              current: _titleCurrentValue(title),
+              required: title.conditionValue,
+            ))
+        .toList();
+    if (lockedTitles.isEmpty) return null;
+
+    lockedTitles.sort((a, b) {
+      final remainingCompare = a.remaining.compareTo(b.remaining);
+      if (remainingCompare != 0) return remainingCompare;
+      return b.ratio.compareTo(a.ratio);
+    });
+    return lockedTitles.first;
+  }
+
   List<GameTitle> get unlockedTitles => _allTitles
       .where((title) => _unlockedTitleIds.contains(title.id))
       .toList();
@@ -1234,6 +1285,26 @@ class CharacterState extends ChangeNotifier {
       }
     }
     return unlockedTitles;
+  }
+
+  int _titleCurrentValue(GameTitle title) {
+    if (_character == null) return 0;
+    return switch (title.conditionType) {
+      TitleConditionType.level => _character!.level,
+      TitleConditionType.strength => _character!.strength.floor(),
+      TitleConditionType.wisdom => _character!.wisdom.floor(),
+      TitleConditionType.health => _character!.health.floor(),
+      TitleConditionType.charisma => _character!.charisma.floor(),
+      TitleConditionType.questsCompleted => questCompletionCount,
+      TitleConditionType.monthlyRaidClears => _character!.monthlyRaidClears,
+      TitleConditionType.yearlyRaidClears => _character!.yearlyRaidClears,
+      TitleConditionType.allStats => [
+          _character!.strength,
+          _character!.wisdom,
+          _character!.health,
+          _character!.charisma,
+        ].reduce(math.min).floor(),
+    };
   }
 
   void _updateAchievement(AchievementCondition condition, int value) {
