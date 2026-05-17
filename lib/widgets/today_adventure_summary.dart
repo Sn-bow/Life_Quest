@@ -37,7 +37,7 @@ class TodayAdventureSummary extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  '오늘의 모험',
+                  '오늘의 상태',
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
@@ -51,7 +51,7 @@ class TodayAdventureSummary extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '현실 퀘스트를 완료하면 오늘 던전에서 힘으로 바뀝니다.',
+            '현실에서 완료한 행동이 성장, 보상, 다음 추천 행동으로 바뀝니다. 던전은 그 성장을 확인하는 선택형 루프입니다.',
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.onSurfaceVariant,
               height: 1.35,
@@ -64,11 +64,13 @@ class TodayAdventureSummary extends StatelessWidget {
             children: [
               _MetricChip(icon: PhosphorIcons.star, label: 'XP +${growth.xp}'),
               _MetricChip(
-                  icon: PhosphorIcons.coins, label: '골드 +${growth.gold}'),
+                icon: PhosphorIcons.coins,
+                label: '골드 +${growth.gold}',
+              ),
               _MetricChip(
                 icon: _statIcon(growth.dominantStat),
                 label: growth.dominantStat == null
-                    ? '성향 대기'
+                    ? '성장 대기'
                     : '${_statLabel(growth.dominantStat!)} 성장',
               ),
             ],
@@ -76,7 +78,7 @@ class TodayAdventureSummary extends StatelessWidget {
           const SizedBox(height: 14),
           const _SectionHeader(
             icon: PhosphorIcons.sparkle,
-            title: '오늘 던전 보정',
+            title: '오늘 행동 효과',
           ),
           const SizedBox(height: 8),
           if (modifier.hasAnyBonus)
@@ -91,14 +93,14 @@ class TodayAdventureSummary extends StatelessWidget {
             )
           else
             Text(
-              '아직 적용 중인 보정이 없습니다. 퀘스트를 하나 완료하면 보정이 열립니다.',
+              '아직 오늘 기록된 행동 효과가 없습니다. 퀘스트를 하나 완료하면 성장과 보정이 열립니다.',
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: colors.onSurfaceVariant),
             ),
           const SizedBox(height: 14),
           const _SectionHeader(
             icon: Icons.flag_outlined,
-            title: '다음 행동',
+            title: '다음 추천 행동',
           ),
           const SizedBox(height: 8),
           Text(
@@ -126,7 +128,7 @@ class TodayAdventureSummary extends StatelessWidget {
 
   static String _statLabel(StatType stat) {
     return switch (stat) {
-      StatType.strength => '힘',
+      StatType.strength => '실행력',
       StatType.wisdom => '지혜',
       StatType.health => '건강',
       StatType.charisma => '매력',
@@ -258,8 +260,7 @@ class _TitleProgress extends StatelessWidget {
           child: LinearProgressIndicator(
             value: progress.ratio,
             minHeight: 6,
-            backgroundColor: colors.surface,
-            valueColor: AlwaysStoppedAnimation<Color>(colors.secondary),
+            backgroundColor: colors.surface.withValues(alpha: 0.8),
           ),
         ),
       ],

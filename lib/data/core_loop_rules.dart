@@ -117,16 +117,16 @@ class DailyModifier {
 
   List<String> labels() {
     return [
-      if (combatHpBonus > 0) '전투 HP +$combatHpBonus',
+      if (combatHpBonus > 0) '던전 HP +$combatHpBonus',
       if (attackDamageBonus > 0) '공격 피해 +$attackDamageBonus',
       if (firstTurnDrawBonus > 0) '첫 턴 카드 +$firstTurnDrawBonus',
       if (startingGoldBonus > 0) '시작 골드 +$startingGoldBonus',
       if (defenseCardWeightBonus > 0)
-        '방어 카드 확률 +${(defenseCardWeightBonus * 100).round()}%',
+        '방어 카드 흐름 +${(defenseCardWeightBonus * 100).round()}%',
       if (magicCardWeightBonus > 0)
-        '마법 카드 확률 +${(magicCardWeightBonus * 100).round()}%',
+        '마법 카드 흐름 +${(magicCardWeightBonus * 100).round()}%',
       if (eventOptionBonusChance > 0)
-        '이벤트 선택지 확률 +${(eventOptionBonusChance * 100).round()}%',
+        '이벤트 선택지 +${(eventOptionBonusChance * 100).round()}%',
     ];
   }
 }
@@ -231,8 +231,8 @@ class CoreLoopRules {
     if (available.isEmpty) {
       return const RecommendedAction(
         quest: null,
-        title: '오늘 퀘스트를 모두 완료했습니다',
-        reason: '이제 오늘의 보정을 들고 던전에 들어가 성장 체감을 확인해보세요.',
+        title: '오늘 계획한 행동을 모두 완료했습니다',
+        reason: '오늘 기록한 행동이 성장과 보정으로 전환됐습니다. 원하면 던전에서 체감하거나 현실 보상으로 마무리하세요.',
       );
     }
 
@@ -280,10 +280,10 @@ class CoreLoopRules {
 
   static String _recommendReasonFor(StatType category) {
     return switch (category) {
-      StatType.strength => '힘 보정이 비어 있습니다. 완료하면 공격 피해 보정에 가까워집니다.',
-      StatType.wisdom => '지혜 보정이 비어 있습니다. 완료하면 첫 턴 드로우와 마법 카드 보정에 가까워집니다.',
-      StatType.health => '건강 보정이 비어 있습니다. 완료하면 전투 HP와 방어 카드 보정에 가까워집니다.',
-      StatType.charisma => '매력 보정이 비어 있습니다. 완료하면 이벤트 선택지와 시작 골드 보정에 가까워집니다.',
+      StatType.strength => '실행력 기록이 비어 있습니다. 완료하면 공격 보정과 건강 성장에 가까워집니다.',
+      StatType.wisdom => '학습/분석 기록이 비어 있습니다. 완료하면 첫 턴 드로우와 마법 카드 흐름이 열립니다.',
+      StatType.health => '회복/생활 리듬 기록이 비어 있습니다. 완료하면 HP와 방어 카드 흐름이 좋아집니다.',
+      StatType.charisma => '관계/표현 기록이 비어 있습니다. 완료하면 이벤트 선택지와 시작 골드 보정이 좋아집니다.',
     };
   }
 }

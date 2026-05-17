@@ -1763,3 +1763,29 @@ Threads feedback clarified that Life Quest should not be treated as a dungeon-fi
 - Today Adventure copy still over-emphasizes dungeon and needs a wording pass.
 - Card reward weights, event option chance, and shop/rest discounts are still not applied.
 - Additional feedback implies a larger IA change: first screen should become a real-life action status board, not just a quest tab pilot.
+
+---
+
+## 2026-05-17 KST - Today status-board copy cleanup
+
+### Purpose
+
+The additional feedback requires the first visible loop to read as real-life action -> growth/recommendation, not as dungeon-first gameplay. The previous pilot still used broken Korean text and dungeon-heavy copy, so it could not communicate the new direction.
+
+### Changes
+
+- `lib/widgets/today_adventure_summary.dart`
+  - Rewrote the panel copy from `오늘의 모험` to `오늘의 상태`.
+  - Reframed the description around real-life actions becoming growth, rewards, and next recommended action.
+  - Kept dungeon as an optional loop for feeling the growth.
+  - Replaced broken Korean labels with readable Korean UI copy.
+- `lib/data/core_loop_rules.dart`
+  - Replaced broken modifier labels and recommendation reasons with readable Korean.
+  - Recommendation reasons now explain which real-life action category is missing and what it unlocks.
+- `test/data/core_loop_rules_test.dart`
+  - Rebuilt test fixtures with readable Korean names.
+  - Added a label regression test so broken/mojibake modifier labels are caught earlier.
+
+### Remaining risk
+
+- The pilot still lives inside the daily quest tab. The next IA step is moving this status board to the first app surface or a dedicated Today screen.

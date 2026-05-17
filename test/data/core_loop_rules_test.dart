@@ -101,7 +101,21 @@ void main() {
       );
 
       expect(recommendation.quest?.id, 'w');
-      expect(recommendation.reason, contains('지혜'));
+      expect(recommendation.reason, contains('학습/분석'));
+    });
+
+    test('labels use readable Korean status-board copy', () {
+      const modifier = DailyModifier(
+        combatHpBonus: 5,
+        attackDamageBonus: 1,
+        firstTurnDrawBonus: 1,
+        startingGoldBonus: 3,
+      );
+
+      expect(
+        modifier.labels(),
+        containsAll(['던전 HP +5', '공격 피해 +1', '첫 턴 카드 +1', '시작 골드 +3']),
+      );
     });
   });
 }
