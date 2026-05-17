@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 
@@ -44,6 +45,25 @@ void main() {
       expect(rewards['xp'], 175);
       expect(rewards['gold'], 45);
       expect(rewards['isVictory'], true);
+    });
+
+    test('daily modifier applies starting HP and gold to the run snapshot', () {
+      final modified = DungeonState()
+        ..startRun(
+          zone: 1,
+          startingDeck: const <CardData>[],
+          playerMaxHp: 80,
+          startingGold: 50,
+          dailyModifier: const DailyModifier(
+            combatHpBonus: 12,
+            startingGoldBonus: 7,
+          ),
+        );
+
+      expect(modified.playerMaxHp, 92);
+      expect(modified.playerHp, 92);
+      expect(modified.dungeonGold, 57);
+      expect(modified.dailyModifier.combatHpBonus, 12);
     });
   });
 }

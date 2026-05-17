@@ -5,6 +5,7 @@ import 'package:life_quest_final_v2/models/status_effect.dart';
 import 'package:life_quest_final_v2/models/monster.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -156,11 +157,12 @@ class CardCombatState extends ChangeNotifier {
 
   // ---- Relics (C-1) ----
   List<RelicData> _relics = [];
+  DailyModifier _dailyModifier = const DailyModifier();
 
   // ---- Relic state flags ----
-  bool _revivedOnce = false;           // relic_u03: 부활 1회
+  bool _revivedOnce = false; // relic_u03: 부활 1회
   bool _firstAttackBonusActive = false; // relic_c04: 첫 공격 카드 +3
-  bool _firstDebuffReflected = false;  // relic_u06: 첫 디버프 반사 1회
+  bool _firstDebuffReflected = false; // relic_u06: 첫 디버프 반사 1회
 
   // ---- Player strength bonus (H-2) ----
   int _playerStrengthBonus = 0; // character.strength 기반 공격 보너스
@@ -192,6 +194,7 @@ class CardCombatState extends ChangeNotifier {
 
   int get goldReward => _goldReward;
   List<CardData> get cardRewards => List.unmodifiable(_cardRewards);
+  DailyModifier get dailyModifier => _dailyModifier;
 
   bool get isCombatActive =>
       _phase == CombatPhase.playerTurn || _phase == CombatPhase.enemyTurn;
@@ -217,8 +220,9 @@ class CardCombatState extends ChangeNotifier {
     int maxHp = 80,
     int hp = 80,
     int maxEnergy = 3,
-    List<RelicData>? relics,   // C-1
-    int playerStrength = 0,    // H-2
+    List<RelicData>? relics, // C-1
+    int playerStrength = 0, // H-2
+    DailyModifier dailyModifier = const DailyModifier(),
   }) {
     _phase = CombatPhase.notStarted;
     _playerMaxHp = maxHp;
@@ -232,20 +236,24 @@ class CardCombatState extends ChangeNotifier {
 
     // ---- Relics (C-1) ----
     _relics = relics ?? [];
+    _dailyModifier = dailyModifier;
     _revivedOnce = false;
     _firstAttackBonusActive = true;
     _firstDebuffReflected = false;
 
     // ---- STR bonus (H-2): 힘 5당 공격 +1 ----
-    _playerStrengthBonus = playerStrength ~/ 5;
+    _playerStrengthBonus =
+        (playerStrength ~/ 5) + _dailyModifier.attackDamageBonus;
 
     // ---- Deck setup ----
     // H-1: Innate 카드는 선드로우
     final innateCards = deck
-        .where((c) => c.effects.any((e) => e.effectType == CardEffectType.innate))
+        .where(
+            (c) => c.effects.any((e) => e.effectType == CardEffectType.innate))
         .toList();
     final normalCards = deck
-        .where((c) => !c.effects.any((e) => e.effectType == CardEffectType.innate))
+        .where(
+            (c) => !c.effects.any((e) => e.effectType == CardEffectType.innate))
         .toList();
     _drawPile = List<CardData>.from(normalCards)..shuffle(_rng);
     _hand = [];
@@ -289,7 +297,9 @@ class CardCombatState extends ChangeNotifier {
 
   /// Play a card from hand by index.
   void playCard(int cardIndex, {int targetEnemyIndex = 0}) {
-    if (_phase != CombatPhase.playerTurn) return;
+    if (_phase != CombatPhase.playerTurn) {
+      return;
+    }
     if (cardIndex < 0 || cardIndex >= _hand.length) return;
 
     final card = _hand[cardIndex];
@@ -316,7 +326,9 @@ class CardCombatState extends ChangeNotifier {
       _addLog('집중의 반지: 방어 +2');
     }
     // relic_u01: 공격 카드 사용 시 20% 확률 약화 1턴
-    if (_hasRelic('relic_u01') && card.category == CardCategory.attack && _enemies.isNotEmpty) {
+    if (_hasRelic('relic_u01') &&
+        card.category == CardCategory.attack &&
+        _enemies.isNotEmpty) {
       if (_rng.nextDouble() < 0.2) {
         final tgt = targetEnemyIndex.clamp(0, _enemies.length - 1);
         _applyStatusToEnemy(StatusType.weak, 1, tgt);
@@ -334,8 +346,8 @@ class CardCombatState extends ChangeNotifier {
     }
 
     // Determine pile destination
-    final hasExhaust = card.effects
-        .any((e) => e.effectType == CardEffectType.exhaust);
+    final hasExhaust =
+        card.effects.any((e) => e.effectType == CardEffectType.exhaust);
     if (hasExhaust) {
       _exhaustPile.add(card);
       _addLog('${card.name} 소멸됨');
@@ -350,16 +362,19 @@ class CardCombatState extends ChangeNotifier {
 
   /// End the player's turn and process enemy actions.
   void endTurn() {
-    if (_phase != CombatPhase.playerTurn) return;
+    if (_phase != CombatPhase.playerTurn) {
+      return;
+    }
 
     _processEndOfTurnEffects();
 
     // H-1: Retain 카드는 버리지 않고 패에 유지
     final retainedCards = _hand
-        .where((c) => c.effects.any((e) => e.effectType == CardEffectType.retain))
+        .where(
+            (c) => c.effects.any((e) => e.effectType == CardEffectType.retain))
         .toList();
-    _discardPile.addAll(_hand
-        .where((c) => !c.effects.any((e) => e.effectType == CardEffectType.retain)));
+    _discardPile.addAll(_hand.where(
+        (c) => !c.effects.any((e) => e.effectType == CardEffectType.retain)));
     _hand.clear();
     _hand.addAll(retainedCards);
 
@@ -405,6 +420,7 @@ class CardCombatState extends ChangeNotifier {
     _goldReward = 0;
     _cardRewards = [];
     _relics = [];
+    _dailyModifier = const DailyModifier();
     _revivedOnce = false;
     _firstAttackBonusActive = true;
     _firstDebuffReflected = false;
@@ -491,7 +507,8 @@ class CardCombatState extends ChangeNotifier {
     // relic_b04: 매 턴 랜덤 카드 1장 패에 생성
     if (_hasRelic('relic_b04')) {
       final pool = CardDatabase.allCards
-          .where((c) => c.cost >= 0 && !c.id.startsWith('curse_') && !c.isUpgraded)
+          .where(
+              (c) => c.cost >= 0 && !c.id.startsWith('curse_') && !c.isUpgraded)
           .toList();
       if (pool.isNotEmpty) {
         _hand.add(pool[_rng.nextInt(pool.length)]);
@@ -502,19 +519,28 @@ class CardCombatState extends ChangeNotifier {
     _processStartOfTurnEffects();
 
     // H-4: 독/번 등으로 사망했으면 드로우하지 않음
-    if (_phase != CombatPhase.playerTurn) return;
+    if (_phase != CombatPhase.playerTurn) {
+      return;
+    }
 
     // 드로우 수 계산
-    int cardsToDraw = _hasRelic('relic_r03') ? 6 : 5; // relic_r03: 패 6장
-    if (_hasRelic('relic_c06') && _turnCount == 0) cardsToDraw += 2; // relic_c06: 첫 턴 +2
+    int cardsToDraw = _hasRelic('relic_r03') ? 6 : 5;
 
     // Retain된 카드가 있으면 그만큼 덜 드로우 (패 총합 유지)
+    if (_hasRelic('relic_c06') && _turnCount == 0) {
+      cardsToDraw += 2;
+    }
+    if (_turnCount == 0) {
+      cardsToDraw += _dailyModifier.firstTurnDrawBonus;
+    }
+
     final retainCount = _hand.length;
     final drawCount = (cardsToDraw - retainCount).clamp(0, cardsToDraw);
     drawCards(drawCount);
 
     // relic_c10: 패에 공격 카드만 있으면 에너지 +1 (드로우 후 체크)
-    if (_hasRelic('relic_c10') && _hand.isNotEmpty &&
+    if (_hasRelic('relic_c10') &&
+        _hand.isNotEmpty &&
         _hand.every((c) => c.category == CardCategory.attack)) {
       _currentEnergy++;
       _addLog('전사의 팔찌: 에너지 +1');
@@ -535,19 +561,23 @@ class CardCombatState extends ChangeNotifier {
         switch (effect.effectType) {
           case CardEffectType.damage:
             if (effect.targetType == TargetType.self) {
-              _playerHp = (_playerHp - effect.value).clamp(0, _playerMaxHp).toInt();
+              _playerHp =
+                  (_playerHp - effect.value).clamp(0, _playerMaxHp).toInt();
               _addLog('${card.name}: ${effect.value} 자해 피해');
             }
             break;
           case CardEffectType.gainEnergy:
             if (effect.value < 0) {
-              _currentEnergy = (_currentEnergy + effect.value).clamp(0, _maxEnergy + 5).toInt();
+              _currentEnergy = (_currentEnergy + effect.value)
+                  .clamp(0, _maxEnergy + 5)
+                  .toInt();
               _addLog('${card.name}: 에너지 ${effect.value}');
             }
             break;
           case CardEffectType.block:
             if (effect.value < 0) {
-              _playerBlock = (_playerBlock + effect.value).clamp(0, 9999).toInt();
+              _playerBlock =
+                  (_playerBlock + effect.value).clamp(0, 9999).toInt();
               _addLog('${card.name}: 방어 ${effect.value}');
             }
             break;
@@ -568,16 +598,20 @@ class CardCombatState extends ChangeNotifier {
         case CardEffectType.damage:
           if (effect.targetType == TargetType.allEnemies) {
             for (int i = _enemies.length - 1; i >= 0; i--) {
-              _applyDamageToEnemy(_calculateDamage(effect.value, card: card), i);
+              _applyDamageToEnemy(
+                  _calculateDamage(effect.value, card: card), i);
             }
           } else {
             // C-3: atk_c09/atk_c09_up — 첫 턴이면 데미지 2배
             int rawValue = effect.value;
-            if ((card.id == 'atk_c09' || card.id == 'atk_c09_up') && _turnCount == 0) {
+            if ((card.id == 'atk_c09' || card.id == 'atk_c09_up') &&
+                _turnCount == 0) {
               rawValue *= 2;
             }
             // relic_c04: 첫 번째 공격 카드 데미지 +3
-            if (_hasRelic('relic_c04') && card.category == CardCategory.attack && _firstAttackBonusActive) {
+            if (_hasRelic('relic_c04') &&
+                card.category == CardCategory.attack &&
+                _firstAttackBonusActive) {
               rawValue += 3;
               _firstAttackBonusActive = false;
               _addLog('날카로운 숫돌: 공격 +3');
@@ -819,8 +853,7 @@ class CardCombatState extends ChangeNotifier {
         if (ns <= 0) {
           enemy.statusEffects.remove(StatusType.poison);
         } else {
-          enemy.statusEffects[StatusType.poison] =
-              ePoison.copyWith(stacks: ns);
+          enemy.statusEffects[StatusType.poison] = ePoison.copyWith(stacks: ns);
         }
         if (enemy.isDead) {
           _addLog('${enemy.monster.name} 처치!');
@@ -841,8 +874,8 @@ class CardCombatState extends ChangeNotifier {
       if (i < _enemies.length) {
         final eBurn = _enemies[i].statusEffects[StatusType.burn];
         if (eBurn != null && eBurn.stacks > 0) {
-          _enemies[i].currentHp =
-              (_enemies[i].currentHp - eBurn.stacks).clamp(0, _enemies[i].maxHp);
+          _enemies[i].currentHp = (_enemies[i].currentHp - eBurn.stacks)
+              .clamp(0, _enemies[i].maxHp);
           _addLog('${_enemies[i].monster.name} 화상: ${eBurn.stacks} 피해');
           final newEBurnStacks = eBurn.stacks - 1;
           if (newEBurnStacks <= 0) {
@@ -888,8 +921,7 @@ class CardCombatState extends ChangeNotifier {
     for (final entry in map.entries) {
       // C-2: Burn도 매 턴 감소 (processStartOfTurn에서 처리하므로 여기선 skip)
       // Vulnerable, Weak: 매 턴 1씩 감소
-      if (entry.key == StatusType.vulnerable ||
-          entry.key == StatusType.weak) {
+      if (entry.key == StatusType.vulnerable || entry.key == StatusType.weak) {
         final ns = entry.value.stacks - 1;
         if (ns <= 0) {
           keysToRemove.add(entry.key);
@@ -970,7 +1002,8 @@ class CardCombatState extends ChangeNotifier {
           if (_hasRelic('relic_u06') && !_firstDebuffReflected) {
             _firstDebuffReflected = true;
             _applyStatusToEnemy(StatusType.vulnerable, intent.value, i);
-            _addLog('마법 거울: 디버프 반사! ${enemy.monster.name}에게 취약 ${intent.value}');
+            _addLog(
+                '마법 거울: 디버프 반사! ${enemy.monster.name}에게 취약 ${intent.value}');
           } else {
             _applyStatusToPlayer(StatusType.vulnerable, intent.value);
             _addLog('${enemy.monster.name}: 취약 ${intent.value} 부여');
@@ -1065,8 +1098,10 @@ class CardCombatState extends ChangeNotifier {
   /// 단일 적이면 그대로 반환.
   int _resolveTarget(CardData card, int defaultTarget) {
     const randomTargetCards = {
-      'mag_c04', 'mag_c04_up',
-      'mag_c05', 'mag_c05_up',
+      'mag_c04',
+      'mag_c04_up',
+      'mag_c05',
+      'mag_c05_up',
     };
     if (randomTargetCards.contains(card.id) && _enemies.length > 1) {
       return _rng.nextInt(_enemies.length);

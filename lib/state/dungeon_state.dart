@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/dungeon_generator.dart';
 import 'package:life_quest_final_v2/data/event_database.dart';
 import 'package:life_quest_final_v2/data/monster_database.dart';
@@ -41,6 +42,7 @@ class DungeonState extends ChangeNotifier {
   int _playerHp = 80;
   int _playerMaxHp = 80;
   int _maxEnergy = 3;
+  DailyModifier _dailyModifier = const DailyModifier();
 
   // ---- Node-specific state ----
   DungeonEvent? _currentEvent;
@@ -70,6 +72,7 @@ class DungeonState extends ChangeNotifier {
   int get playerHp => _playerHp;
   int get playerMaxHp => _playerMaxHp;
   int get maxEnergy => _maxEnergy;
+  DailyModifier get dailyModifier => _dailyModifier;
 
   int get nodesCompleted => _nodesCompleted;
   int get monstersKilled => _monstersKilled;
@@ -101,10 +104,12 @@ class DungeonState extends ChangeNotifier {
     RelicData? starterRelic,
     int startingGold = 50,
     double towerStatMult = 1.0,
+    DailyModifier dailyModifier = const DailyModifier(),
   }) {
     _currentZone = zone;
     _ascensionLevel = ascension;
     _towerStatMult = towerStatMult;
+    _dailyModifier = dailyModifier;
 
     // Generate map
     _currentMap = DungeonGenerator.generate(zone: zone);
@@ -120,10 +125,10 @@ class DungeonState extends ChangeNotifier {
     if (_ascensionLevel >= 3) {
       adjustedGold = (adjustedGold - 30).clamp(0, 9999);
     }
-    _dungeonGold = adjustedGold;
+    _dungeonGold = adjustedGold + _dailyModifier.startingGoldBonus;
 
-    _playerMaxHp = playerMaxHp;
-    _playerHp = playerMaxHp;
+    _playerMaxHp = playerMaxHp + _dailyModifier.combatHpBonus;
+    _playerHp = _playerMaxHp;
     _maxEnergy = _computeMaxEnergy();
 
     // Ascension 7: start HP -10%
@@ -504,6 +509,7 @@ class DungeonState extends ChangeNotifier {
     _playerHp = 80;
     _playerMaxHp = 80;
     _maxEnergy = 3;
+    _dailyModifier = const DailyModifier();
     _nodesCompleted = 0;
     _monstersKilled = 0;
     _currentEvent = null;
@@ -529,6 +535,7 @@ class DungeonState extends ChangeNotifier {
       'playerHp': _playerHp,
       'playerMaxHp': _playerMaxHp,
       'maxEnergy': _maxEnergy,
+      'dailyModifier': _dailyModifier.toJson(),
       'nodesCompleted': _nodesCompleted,
       'monstersKilled': _monstersKilled,
     };
@@ -566,6 +573,9 @@ class DungeonState extends ChangeNotifier {
     _playerHp = json['playerHp'] as int? ?? 80;
     _playerMaxHp = json['playerMaxHp'] as int? ?? 80;
     _maxEnergy = json['maxEnergy'] as int? ?? 3;
+    _dailyModifier = DailyModifier.fromJson(
+      json['dailyModifier'] as Map<String, dynamic>?,
+    );
     _nodesCompleted = json['nodesCompleted'] as int? ?? 0;
     _monstersKilled = json['monstersKilled'] as int? ?? 0;
 

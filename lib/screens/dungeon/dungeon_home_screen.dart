@@ -438,6 +438,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
   void _startBattle(BuildContext context, int zone) {
     final charState = context.read<CharacterState>();
     final character = charState.character;
+    final dailyModifier = charState.todayDailyModifier;
 
     // ── 기본 HP ───────────────────────────────────────────────────────────
     int playerMaxHp = 80 + (character.health * 2).toInt();
@@ -505,6 +506,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
           ascension: _ascensionLevel,
           starterRelic: starterRelic,
           startingGold: startingGold,
+          dailyModifier: dailyModifier,
         );
 
     Navigator.of(context).push(

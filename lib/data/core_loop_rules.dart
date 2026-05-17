@@ -80,6 +80,32 @@ class DailyModifier {
     this.eventOptionBonusChance = 0,
   });
 
+  factory DailyModifier.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const DailyModifier();
+    return DailyModifier(
+      combatHpBonus: json['combatHpBonus'] as int? ?? 0,
+      attackDamageBonus: json['attackDamageBonus'] as int? ?? 0,
+      firstTurnDrawBonus: json['firstTurnDrawBonus'] as int? ?? 0,
+      startingGoldBonus: json['startingGoldBonus'] as int? ?? 0,
+      defenseCardWeightBonus:
+          (json['defenseCardWeightBonus'] as num?)?.toDouble() ?? 0,
+      magicCardWeightBonus:
+          (json['magicCardWeightBonus'] as num?)?.toDouble() ?? 0,
+      eventOptionBonusChance:
+          (json['eventOptionBonusChance'] as num?)?.toDouble() ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'combatHpBonus': combatHpBonus,
+        'attackDamageBonus': attackDamageBonus,
+        'firstTurnDrawBonus': firstTurnDrawBonus,
+        'startingGoldBonus': startingGoldBonus,
+        'defenseCardWeightBonus': defenseCardWeightBonus,
+        'magicCardWeightBonus': magicCardWeightBonus,
+        'eventOptionBonusChance': eventOptionBonusChance,
+      };
+
   bool get hasAnyBonus =>
       combatHpBonus > 0 ||
       attackDamageBonus > 0 ||

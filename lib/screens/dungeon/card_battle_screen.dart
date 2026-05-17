@@ -123,7 +123,8 @@ class _CardBattleScreenState extends State<CardBattleScreen>
         hp: widget.playerHp,
         maxEnergy: dungeonState.maxEnergy, // 렐릭 에너지 반영
         relics: dungeonState.currentRelics, // C-1: 렐릭 전달
-        playerStrength: charState.character.strength.toInt(), // H-2: STR 전달
+        playerStrength: charState.character.strength.toInt(),
+        dailyModifier: dungeonState.dailyModifier,
       );
     });
   }
