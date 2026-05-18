@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
+import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 
@@ -102,6 +103,38 @@ void main() {
 
       expect(recommendation.quest?.id, 'w');
       expect(recommendation.reason, contains('학습/분석'));
+    });
+
+    test('recommendation prioritizes a quest that advances the next title', () {
+      final wisdomTitle =
+          TitleDatabase.all.firstWhere((title) => title.id == 't4');
+      final recommendation = CoreLoopRules.recommendAction(
+        todayGrowth: const GrowthDelta(),
+        nextTitleProgress: TitleProgressSnapshot(
+          title: wisdomTitle,
+          current: 10,
+          required: wisdomTitle.conditionValue,
+        ),
+        quests: [
+          Quest(
+            id: 's',
+            name: '운동',
+            xp: 20,
+            type: QuestType.daily,
+            category: StatType.strength,
+          ),
+          Quest(
+            id: 'w',
+            name: '독서',
+            xp: 20,
+            type: QuestType.daily,
+            category: StatType.wisdom,
+          ),
+        ],
+      );
+
+      expect(recommendation.quest?.id, 'w');
+      expect(recommendation.reason, contains('현자 지망생'));
     });
 
     test('labels use readable Korean status-board copy', () {

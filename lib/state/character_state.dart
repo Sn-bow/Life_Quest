@@ -478,6 +478,7 @@ class CharacterState extends ChangeNotifier {
           ...sortedWeeklyQuests,
         ],
         todayGrowth: todayGrowthDelta,
+        nextTitleProgress: nextTitleProgress,
       );
 
   TitleProgressSnapshot? get nextTitleProgress {

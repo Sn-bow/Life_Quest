@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
 import 'package:life_quest_final_v2/data/relic_database.dart';
+import 'package:life_quest_final_v2/data/title_unlock_rules.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/dungeon_event.dart';
+import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
@@ -31,6 +33,7 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
     final dungeonState = context.watch<DungeonState>();
+    final characterState = context.watch<CharacterState>();
     final event = dungeonState.currentEvent;
 
     if (event == null) {
@@ -40,10 +43,17 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
         }
       });
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.dungeonEventTitle, style: TextStyle(color: accent))),
+        appBar: AppBar(
+            title:
+                Text(l10n.dungeonEventTitle, style: TextStyle(color: accent))),
         body: Center(child: Text(l10n.dungeonEventNoData)),
       );
     }
+
+    final eventChoices = TitleUnlockRules.choicesFor(
+      event,
+      characterState.unlockedTitles,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -120,14 +130,18 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              ...event.choices.asMap().entries.map((entry) {
+              ...eventChoices.asMap().entries.map((entry) {
                 final index = entry.key;
                 final choice = entry.value;
                 // Determine if player can afford the gold cost
                 final goldCost = choice.outcomes
                     .where((o) => o.goldChange < 0)
-                    .fold<int>(0, (max, o) => (-o.goldChange) > max ? (-o.goldChange) : max);
-                final canAfford = goldCost == 0 || dungeonState.dungeonGold >= goldCost;
+                    .fold<int>(
+                        0,
+                        (max, o) =>
+                            (-o.goldChange) > max ? (-o.goldChange) : max);
+                final canAfford =
+                    goldCost == 0 || dungeonState.dungeonGold >= goldCost;
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: _ChoiceButton(
@@ -136,7 +150,9 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
                     isDark: isDark,
                     accent: accent,
                     canAfford: canAfford,
-                    onTap: canAfford ? () => _makeChoice(choice, dungeonState) : null,
+                    onTap: canAfford
+                        ? () => _makeChoice(choice, dungeonState)
+                        : null,
                   ),
                 );
               }),
@@ -284,7 +300,8 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
       if (outcome.hpPercentChange > 0) {
         dungeonState.healPlayerPercent(outcome.hpPercentChange);
       } else {
-        final dmg = (dungeonState.playerMaxHp * (-outcome.hpPercentChange)).round();
+        final dmg =
+            (dungeonState.playerMaxHp * (-outcome.hpPercentChange)).round();
         dungeonState.damagePlayer(dmg);
       }
     }
@@ -292,9 +309,11 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
     // ── Relic reward: add a random relic the player doesn't already own ──
     if (outcome.relicReward) {
       final all = RelicDatabase.allRelics.toList()..shuffle(rng);
-      final available = all.where(
-        (r) => !dungeonState.currentRelics.any((cr) => cr.id == r.id),
-      ).toList();
+      final available = all
+          .where(
+            (r) => !dungeonState.currentRelics.any((cr) => cr.id == r.id),
+          )
+          .toList();
       if (available.isNotEmpty) {
         dungeonState.addRelic(available.first);
       }
@@ -389,83 +408,84 @@ class _ChoiceButton extends StatelessWidget {
     return Opacity(
       opacity: canAfford ? 1.0 : 0.45,
       child: GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: canAfford
-              ? (isDark
-                  ? accent.withValues(alpha: 0.1)
-                  : accent.withValues(alpha: 0.05))
-              : Colors.grey.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
             color: canAfford
-                ? accent.withValues(alpha: 0.4)
-                : Colors.grey.withValues(alpha: 0.3),
-            width: 1.5,
+                ? (isDark
+                    ? accent.withValues(alpha: 0.1)
+                    : accent.withValues(alpha: 0.05))
+                : Colors.grey.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: canAfford
+                  ? accent.withValues(alpha: 0.4)
+                  : Colors.grey.withValues(alpha: 0.3),
+              width: 1.5,
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                color: accent.withValues(alpha: 0.2),
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  '${index + 1}',
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: accent,
+          child: Row(
+            children: [
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: accent.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    '${index + 1}',
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: accent,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                choice.text,
-                style: TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 13,
-                  color: isDark ? Colors.white : Colors.black87,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  choice.text,
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 13,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
                 ),
               ),
-            ),
-            if (hasGoldCost)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.amber.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.monetization_on,
-                        size: 14, color: Colors.amber),
-                    const SizedBox(width: 3),
-                    Text(
-                      '$goldCost',
-                      style: const TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.amber,
+              if (hasGoldCost)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.monetization_on,
+                          size: 14, color: Colors.amber),
+                      const SizedBox(width: 3),
+                      Text(
+                        '$goldCost',
+                        style: const TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
-      ),
       ), // closes Opacity
     );
   }
@@ -492,9 +512,8 @@ class _OutcomeCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark
-            ? Colors.amber.withValues(alpha: 0.1)
-            : Colors.amber.shade50,
+        color:
+            isDark ? Colors.amber.withValues(alpha: 0.1) : Colors.amber.shade50,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: Colors.amber.withValues(alpha: 0.4),
@@ -556,15 +575,20 @@ class _OutcomeCard extends StatelessWidget {
                   outcome.hpPercentChange > 0 ? Colors.green : Colors.red,
                 ),
               if (outcome.cardReward)
-                _effectChip(Icons.style, l10n.dungeonEventEffectCardReward, Colors.blue),
+                _effectChip(Icons.style, l10n.dungeonEventEffectCardReward,
+                    Colors.blue),
               if (outcome.relicReward)
-                _effectChip(Icons.diamond, l10n.dungeonEventEffectRelicReward, Colors.purple),
+                _effectChip(Icons.diamond, l10n.dungeonEventEffectRelicReward,
+                    Colors.purple),
               if (outcome.cardRemove)
-                _effectChip(Icons.delete_outline, l10n.dungeonEventEffectCardRemove, Colors.orange),
+                _effectChip(Icons.delete_outline,
+                    l10n.dungeonEventEffectCardRemove, Colors.orange),
               if (outcome.cardUpgrade)
-                _effectChip(Icons.upgrade, l10n.dungeonEventEffectCardUpgrade, Colors.teal),
+                _effectChip(Icons.upgrade, l10n.dungeonEventEffectCardUpgrade,
+                    Colors.teal),
               if (outcome.curseAdded)
-                _effectChip(Icons.warning, l10n.dungeonEventEffectCurseAdded, Colors.red),
+                _effectChip(Icons.warning, l10n.dungeonEventEffectCurseAdded,
+                    Colors.red),
             ],
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
+import 'package:life_quest_final_v2/data/title_unlock_rules.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -263,6 +264,16 @@ class _TitleProgress extends StatelessWidget {
             backgroundColor: colors.surface.withValues(alpha: 0.8),
           ),
         ),
+        if (TitleUnlockRules.unlockPreviewForTitle(progress.title) != null) ...[
+          const SizedBox(height: 7),
+          Text(
+            TitleUnlockRules.unlockPreviewForTitle(progress.title)!,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.secondary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
       ],
     );
   }

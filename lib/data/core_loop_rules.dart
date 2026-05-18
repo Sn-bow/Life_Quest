@@ -226,6 +226,7 @@ class CoreLoopRules {
   static RecommendedAction recommendAction({
     required Iterable<Quest> quests,
     required GrowthDelta todayGrowth,
+    TitleProgressSnapshot? nextTitleProgress,
   }) {
     final available = quests.where((quest) => !quest.isCompleted).toList();
     if (available.isEmpty) {
@@ -233,6 +234,16 @@ class CoreLoopRules {
         quest: null,
         title: '오늘 계획한 행동을 모두 완료했습니다',
         reason: '오늘 기록한 행동이 성장과 보정으로 전환됐습니다. 원하면 던전에서 체감하거나 현실 보상으로 마무리하세요.',
+      );
+    }
+
+    final titleTarget = _questForTitleProgress(available, nextTitleProgress);
+    if (titleTarget != null && nextTitleProgress != null) {
+      return RecommendedAction(
+        quest: titleTarget,
+        title: titleTarget.name,
+        reason:
+            '${nextTitleProgress.title.name} 칭호 진행에 직접 연결됩니다. 완료하면 다음 해금 조건에 더 가까워집니다.',
       );
     }
 
@@ -276,6 +287,42 @@ class CoreLoopRules {
       StatType.charisma: growth.charisma,
     };
     return values.entries.reduce((a, b) => a.value <= b.value ? a : b).key;
+  }
+
+  static Quest? _questForTitleProgress(
+    List<Quest> available,
+    TitleProgressSnapshot? progress,
+  ) {
+    if (progress == null || progress.remaining <= 0) return null;
+
+    final targetStat = _statForTitleCondition(progress.title.conditionType);
+    if (targetStat != null) {
+      for (final quest in available) {
+        if (quest.category == targetStat) return quest;
+      }
+      return null;
+    }
+
+    if (progress.title.conditionType == TitleConditionType.questsCompleted) {
+      return available.first;
+    }
+
+    return null;
+  }
+
+  static StatType? _statForTitleCondition(TitleConditionType conditionType) {
+    return switch (conditionType) {
+      TitleConditionType.strength => StatType.strength,
+      TitleConditionType.wisdom => StatType.wisdom,
+      TitleConditionType.health => StatType.health,
+      TitleConditionType.charisma => StatType.charisma,
+      TitleConditionType.level ||
+      TitleConditionType.questsCompleted ||
+      TitleConditionType.monthlyRaidClears ||
+      TitleConditionType.yearlyRaidClears ||
+      TitleConditionType.allStats =>
+        null,
+    };
   }
 
   static String _recommendReasonFor(StatType category) {

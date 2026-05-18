@@ -38,6 +38,47 @@
 
 ---
 
+## 2026-05-18 KST - Codex - Title unlock rules pilot
+
+### 착수 전 조사
+- `GameTitle`은 조건/보너스 필드만 있고, 던전 이벤트와 직접 연결되는 메타데이터는 없음을 확인했다.
+- `DungeonEvent`/`EventChoice`는 정적 이벤트 DB 기반이라 기존 모델을 확장하지 않아도 런타임에서 선택지 합성이 가능함을 확인했다.
+- `CoreLoopRules.recommendAction`은 오늘 부족한 스탯만 보며 다음 칭호 조건은 고려하지 않는 상태였다.
+
+### 변경 파일
+- `lib/data/title_unlock_rules.dart`
+- `lib/data/core_loop_rules.dart`
+- `lib/state/character_state.dart`
+- `lib/screens/dungeon/dungeon_event_screen.dart`
+- `lib/widgets/today_adventure_summary.dart`
+- `test/data/core_loop_rules_test.dart`
+- `test/data/title_unlock_rules_test.dart`
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+- `docs/SHARED_WORK_LOG.md`
+
+### 실행한 변경
+- `TitleUnlockRules`를 추가해 칭호 ID별 이벤트 선택지와 해금 설명을 별도 규칙으로 관리하게 했다.
+- 던전 이벤트 화면에서 플레이어가 해금한 칭호에 맞는 추가 선택지를 기존 선택지 뒤에 표시한다.
+- 다음 칭호가 요구하는 스탯과 맞는 미완료 퀘스트가 있으면 오늘 추천 행동이 그 퀘스트를 우선 추천한다.
+- 오늘 상태의 다음 칭호 진행도 아래에 이벤트 선택지 해금 미리보기를 표시한다.
+
+### 검증
+- `dart format lib\data\title_unlock_rules.dart lib\screens\dungeon\dungeon_event_screen.dart lib\widgets\today_adventure_summary.dart test\data\title_unlock_rules_test.dart`
+- `dart format lib\data\core_loop_rules.dart lib\state\character_state.dart test\data\core_loop_rules_test.dart`
+- `flutter analyze --no-pub` → No issues found.
+- `flutter test --no-pub test\data\core_loop_rules_test.dart test\data\title_unlock_rules_test.dart test\state\today_adventure_summary_state_test.dart` → 10개 통과.
+- `flutter test --no-pub` → 109개 전체 통과.
+
+### 남은 위험
+- 실제 던전 이벤트 노드에서 칭호 선택지가 보이는지 화면 QA가 필요하다.
+- 현재 1차 연결 칭호는 5개라 출시 범위의 10~20개 선정은 아직 미완료다.
+
+### 다음 작업
+- 전체 테스트 통과 후 커밋/푸시한다.
+- 이후 Phase 3의 남은 UI 보정 출처 설명 또는 Phase 5 오늘 홈 디자인 QA로 넘어간다.
+
+---
+
 ## 기록 템플릿
 
 ```markdown
