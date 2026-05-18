@@ -79,6 +79,36 @@
 
 ---
 
+## 2026-05-18 KST - Codex - Dungeon modifier source card
+
+### 착수 전 조사
+- `DungeonHomeScreen`은 `charState.todayDailyModifier`를 던전 시작 시 `DungeonState.startRun`으로 넘기고 있었다.
+- 하지만 던전 홈 UI에는 오늘 어떤 현실 퀘스트 때문에 보정이 생겼는지 설명하는 카드가 없었다.
+
+### 변경 파일
+- `lib/screens/dungeon/dungeon_home_screen.dart`
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+- `docs/SHARED_WORK_LOG.md`
+
+### 실행한 변경
+- 던전 홈의 플레이어 정보 카드 아래에 `오늘 현실 행동 보정` 카드를 추가했다.
+- 오늘 완료한 퀘스트 이름을 출처로 표시하고, 적용될 보정 라벨을 칩으로 표시한다.
+- 보정이 없을 때는 현실 퀘스트 완료 후 보정이 열린다는 empty state를 보여준다.
+
+### 검증
+- `dart format lib\screens\dungeon\dungeon_home_screen.dart`
+- `flutter analyze --no-pub` → No issues found.
+- `flutter test --no-pub` → 109개 전체 통과.
+
+### 남은 위험
+- 실제 390px 모바일 폭에서 보정 칩 줄바꿈과 출처 텍스트 가독성 QA가 필요하다.
+
+### 다음 작업
+- 전체 테스트 통과 후 커밋/푸시한다.
+- 이후 Phase 5 오늘 홈 디자인 QA 또는 Phase 3 카드 보상 확률/이벤트 선택지 보정 적용으로 넘어간다.
+
+---
+
 ## 기록 템플릿
 
 ```markdown

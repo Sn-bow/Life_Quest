@@ -33,6 +33,9 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     }
     final character = charState.character;
     final hasCompletedZone5 = charState.hasCompletedZone5;
+    final todayModifier = charState.todayDailyModifier;
+    final todayCompletedQuestNames =
+        charState.todayCompletedQuests.map((quest) => quest.name).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -187,6 +190,13 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 24),
+
+            _TodayDungeonModifierCard(
+              isDark: isDark,
+              modifierLabels: todayModifier.labels(),
+              completedQuestNames: todayCompletedQuestNames,
             ),
             const SizedBox(height: 24),
 
@@ -589,6 +599,182 @@ class _SeasonBanner extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TodayDungeonModifierCard extends StatelessWidget {
+  final bool isDark;
+  final List<String> modifierLabels;
+  final List<String> completedQuestNames;
+
+  const _TodayDungeonModifierCard({
+    required this.isDark,
+    required this.modifierLabels,
+    required this.completedQuestNames,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
+    final hasModifier = modifierLabels.isNotEmpty;
+    final sourceText = _sourceText();
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF12182A) : Colors.deepPurple.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: accent.withValues(alpha: 0.28)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.auto_awesome, size: 18, color: accent),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '오늘 현실 행동 보정',
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: hasModifier
+                      ? accent.withValues(alpha: 0.16)
+                      : Colors.grey.withValues(alpha: 0.16),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+                child: Text(
+                  hasModifier ? '적용 예정' : '대기',
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: hasModifier ? accent : Colors.grey,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            hasModifier
+                ? '오늘 완료한 현실 퀘스트가 이번 던전 런 시작 시 고정 보정으로 적용됩니다.'
+                : '오늘 완료한 퀘스트가 아직 없어 던전 보정이 없습니다. 현실 행동을 하나 완료하면 이 카드에 효과가 표시됩니다.',
+            style: TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 11,
+              height: 1.45,
+              color: isDark ? Colors.white60 : Colors.black54,
+            ),
+          ),
+          if (sourceText != null) ...[
+            const SizedBox(height: 10),
+            _InfoLine(
+              icon: Icons.check_circle_outline,
+              label: '출처',
+              value: sourceText,
+              color: Colors.green,
+              isDark: isDark,
+            ),
+          ],
+          if (hasModifier) ...[
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: modifierLabels
+                  .map(
+                    (label) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 9, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: accent.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: accent.withValues(alpha: 0.28),
+                        ),
+                      ),
+                      child: Text(
+                        label,
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: accent,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  String? _sourceText() {
+    if (completedQuestNames.isEmpty) return null;
+    final visible = completedQuestNames.take(3).join(', ');
+    final hiddenCount = completedQuestNames.length - 3;
+    if (hiddenCount <= 0) return visible;
+    return '$visible 외 $hiddenCount개';
+  }
+}
+
+class _InfoLine extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color color;
+  final bool isDark;
+
+  const _InfoLine({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.color,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 14, color: color),
+        const SizedBox(width: 6),
+        Text(
+          '$label: ',
+          style: TextStyle(
+            fontFamily: 'monospace',
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            color: isDark ? Colors.white70 : Colors.black87,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 11,
+              color: isDark ? Colors.white60 : Colors.black54,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
