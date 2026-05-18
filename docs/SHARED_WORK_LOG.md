@@ -5,6 +5,39 @@
 
 ---
 
+## 2026-05-17 KST - Codex - Today first tab pilot
+
+### 착수 전 조사
+- Threads 추가 피드백의 핵심을 "상태 체크/현실 행동이 앱 경험의 중심이어야 한다"로 재정리했다.
+- `lib/screens/main_screen.dart`의 첫 탭이 기존 `StatusScreen`이고, `TodayAdventureSummary`는 퀘스트 탭 내부 보조 블록으로만 노출되는 것을 확인했다.
+- `StatusScreen`의 XP/HP/골드/AP 요약, 타이머/리포트/설정 진입점을 확인했다.
+
+### 변경 파일
+- `lib/screens/today_screen.dart`
+- `lib/screens/main_screen.dart`
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+- `docs/SHARED_WORK_LOG.md`
+
+### 실행한 변경
+- 새 `TodayScreen`을 추가해 `오늘의 상태`, XP, HP, 골드, AP, 퀘스트 관리 CTA, 성장 체감 CTA, 상세 상태 진입을 한 화면에 묶었다.
+- 하단 첫 탭을 기존 상태창에서 `오늘`로 교체했다.
+- 기존 `StatusScreen`은 삭제하지 않고 `상세 상태 보기`로 이동하게 유지했다.
+
+### 검증
+- `dart format lib\screens\today_screen.dart lib\screens\main_screen.dart` 완료.
+- `flutter analyze --no-pub` → No issues found.
+- `flutter test --no-pub test\data\core_loop_rules_test.dart test\state\today_adventure_summary_state_test.dart test\state\dungeon_state_test.dart test\state\card_combat_state_daily_modifier_test.dart` → 12개 통과.
+- `flutter test --no-pub` → 105개 전체 통과.
+- `git diff --check -- lib/screens/main_screen.dart lib/screens/today_screen.dart docs/lifequest-remake-execution-checklist-20260516.md docs/SHARED_WORK_LOG.md` 통과.
+
+### 남은 위험
+- 모바일 폭에서 TodayScreen CTA 2개가 좁게 보일 수 있으므로 실기기/Web QA가 필요하다.
+
+### 다음 작업
+- 첫 화면 스크린샷 QA 후 칭호 -> 추천 행동/이벤트 조건 연결 작업으로 넘어간다.
+
+---
+
 ## 기록 템플릿
 
 ```markdown

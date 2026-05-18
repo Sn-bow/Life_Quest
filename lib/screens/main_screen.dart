@@ -9,7 +9,7 @@ import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
 import 'package:life_quest_final_v2/screens/inventory_screen.dart';
 import 'package:life_quest_final_v2/screens/shop_screen.dart';
 import 'package:life_quest_final_v2/screens/skill_screen.dart';
-import 'package:life_quest_final_v2/screens/status_screen.dart';
+import 'package:life_quest_final_v2/screens/today_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -75,20 +75,25 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    StatusScreen(),
-    QuestsScreen(),
-    DungeonHomeScreen(),
-    InventoryScreen(),
-    ShopScreen(),
-    AchievementScreen(),
-    SkillScreen(),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  List<Widget> _widgetOptions() {
+    return <Widget>[
+      TodayScreen(
+        onOpenQuests: () => _onItemTapped(1),
+        onOpenDungeon: () => _onItemTapped(2),
+      ),
+      const QuestsScreen(),
+      const DungeonHomeScreen(),
+      const InventoryScreen(),
+      const ShopScreen(),
+      const AchievementScreen(),
+      const SkillScreen(),
+    ];
   }
 
   @override
@@ -107,13 +112,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       children: [
         Scaffold(
           body: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
+            child: _widgetOptions().elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: const Icon(PhosphorIcons.user),
-                label: l10n.tabStatus,
+              const BottomNavigationBarItem(
+                icon: Icon(PhosphorIcons.house),
+                label: '오늘',
               ),
               BottomNavigationBarItem(
                 icon: const Icon(PhosphorIcons.sword),

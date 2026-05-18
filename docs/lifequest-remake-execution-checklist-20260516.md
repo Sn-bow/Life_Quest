@@ -6,7 +6,8 @@
 
 - [x] 추가 피드백을 별도 문서로 기록: `docs/threads-core-loop-feedback-20260517.md`
 - [x] 마스터 플랜에 "던전은 선택형 보조 루프" 원칙 추가
-- [ ] 오늘의 모험 문구를 던전 중심에서 현실 행동 상태판 중심으로 수정
+- [x] 오늘의 모험 문구를 던전 중심에서 현실 행동 상태판 중심으로 수정
+- [x] `오늘의 상태`를 첫 하단 탭으로 승격하고 기존 상태창은 상세 화면으로 재배치
 - [x] DailyModifier를 던전 시작 스냅샷에 저장
 - [x] 오늘 HP/골드 보정을 던전 시작 수치에 실제 적용
 - [x] 오늘 공격/첫 턴 드로우 보정을 전투에 실제 적용
@@ -136,17 +137,23 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - 처음에는 `quests_screen.dart` 상단 파일럿으로 시작한다.
 - 성공하면 `TodayScreen`으로 분리한다.
 
+2026-05-17 진행:
+- `lib/screens/today_screen.dart`를 추가해 `오늘의 상태`, XP/HP/골드/AP, 퀘스트 CTA, 던전 CTA, 상세 상태 진입을 한 화면에 묶었다.
+- `lib/screens/main_screen.dart` 첫 하단 탭을 `오늘`으로 교체했다.
+- 기존 `StatusScreen`은 삭제하지 않고 `상세 상태 보기`로 진입하게 유지했다.
+- `flutter analyze --no-pub`와 `flutter test --no-pub` 전체 105개 통과로 기본 회귀 검증을 완료했다.
+
 ### UI 구성 체크리스트
 
-- [ ] 오늘의 모험 제목
-- [ ] 오늘 완료/남은 퀘스트 수
-- [ ] 오늘 획득 XP/골드
-- [ ] 오늘 성장한 스탯
-- [ ] 오늘 던전 보정
-- [ ] 다음 칭호까지 남은 조건
-- [ ] 추천 행동 1개
-- [ ] 집중 타이머 CTA
-- [ ] 던전 시작 CTA
+- [x] 오늘의 모험 제목
+- [x] 오늘 완료/남은 퀘스트 수
+- [x] 오늘 획득 XP/골드
+- [x] 오늘 성장한 스탯
+- [x] 오늘 던전 보정
+- [x] 다음 칭호까지 남은 조건
+- [x] 추천 행동 1개
+- [x] 집중 타이머 CTA
+- [x] 던전 시작 CTA
 
 ### 디자인 체크리스트
 
@@ -158,11 +165,13 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 ### 코드 작업 후보
 
-- [ ] `lib/widgets/today_adventure_summary.dart` 추가
-- [ ] `CharacterState.todayQuestSummary` 또는 유사 getter 추가
-- [ ] `CharacterState.todayDailyModifier` getter 추가
-- [ ] `CharacterState.nextTitleProgress` getter 추가
-- [ ] `quests_screen.dart`에 파일럿 위젯 삽입
+- [x] `lib/widgets/today_adventure_summary.dart` 추가
+- [x] `CharacterState.todayGrowthDelta` getter 추가
+- [x] `CharacterState.todayDailyModifier` getter 추가
+- [x] `CharacterState.nextTitleProgress` getter 추가
+- [x] `quests_screen.dart`에 파일럿 위젯 삽입
+- [x] `lib/screens/today_screen.dart` 추가
+- [x] `main_screen.dart` 첫 탭을 TodayScreen으로 교체
 
 ### 테스트
 
@@ -177,8 +186,8 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 - [ ] 첫 화면에서 현실 행동 -> 성장 -> 던전 보정 연결이 보임
 - [ ] 테스터에게 다시 공유 가능한 화면 캡처가 나옴
-- [ ] `flutter analyze` 통과
-- [ ] 관련 단위 테스트 통과
+- [x] `flutter analyze` 통과
+- [x] 관련 단위 테스트 통과
 
 ---
 
