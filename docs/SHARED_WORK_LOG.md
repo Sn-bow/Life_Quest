@@ -2076,3 +2076,25 @@ Address tester feedback that titles should not be cosmetic. More titles now open
 - `flutter analyze --no-pub` -> No issues found.
 - `flutter test --no-pub test/data/title_unlock_rules_test.dart` -> 5 tests passed.
 - `flutter test --no-pub` -> 118 tests passed.
+
+---
+
+## 2026-05-19 KST - Shop discount explanation UI
+
+### Purpose
+
+Close the Phase 3 UX gap where shop discounts were applied mechanically but not explained. Tester feedback repeatedly pointed out weak screen-to-screen connection; this change makes the real-life charisma/social modifier visible at the purchase point.
+
+### Change
+
+- `lib/screens/dungeon/dungeon_shop_screen.dart`
+  - Added a daily shop discount banner when `DailyModifier.shopDiscountRate` is active.
+  - Card, relic, and card-removal prices now show original price with a strikethrough plus the discounted price.
+  - Reused a single `_ShopPriceButton` for card/relic/removal price display to keep the shop UI consistent.
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+  - Marked Phase 3 completion conditions for actual dungeon impact and bounded balance complete.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub` -> 118 tests passed.

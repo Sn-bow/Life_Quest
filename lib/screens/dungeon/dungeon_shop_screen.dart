@@ -29,10 +29,10 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
     final dungeonState = context.watch<DungeonState>();
     final shopCards = dungeonState.shopCards;
     final shopRelics = dungeonState.shopRelics;
-    final removalCost = _discountedPrice(
-      50 + (_cardRemovalCount * 25),
-      dungeonState,
-    );
+    final removalBaseCost = 50 + (_cardRemovalCount * 25);
+    final removalCost = _discountedPrice(removalBaseCost, dungeonState);
+    final discountRate = dungeonState.dailyModifier.shopDiscountRate;
+    final discountLabel = _discountLabel(discountRate);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,6 +86,10 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (discountLabel != null) ...[
+              _dailyDiscountBanner(discountLabel, isDark),
+              const SizedBox(height: 16),
+            ],
             // Section 1: Cards
             _sectionTitle(
                 l10n.dungeonShopCardsSection, Icons.style, accent, isDark),
@@ -96,12 +100,13 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
               ...shopCards.asMap().entries.map((entry) {
                 final index = entry.key;
                 final card = entry.value;
-                final price =
-                    _discountedPrice(_cardPrice(card.rarity), dungeonState);
+                final basePrice = _cardPrice(card.rarity);
+                final price = _discountedPrice(basePrice, dungeonState);
                 final purchased = _purchasedCardIndices.contains(index);
 
                 return _CardShopItem(
                   card: card,
+                  basePrice: basePrice,
                   price: price,
                   isPurchased: purchased,
                   canAfford: dungeonState.dungeonGold >= price,
@@ -122,12 +127,13 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
               ...shopRelics.asMap().entries.map((entry) {
                 final index = entry.key;
                 final relic = entry.value;
-                final price =
-                    _discountedPrice(_relicPrice(relic.rarity), dungeonState);
+                final basePrice = _relicPrice(relic.rarity);
+                final price = _discountedPrice(basePrice, dungeonState);
                 final purchased = _purchasedRelicIndices.contains(index);
 
                 return _RelicShopItem(
                   relic: relic,
+                  basePrice: basePrice,
                   price: price,
                   isPurchased: purchased,
                   canAfford: dungeonState.dungeonGold >= price,
@@ -143,6 +149,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
                 Icons.delete_sweep, accent, isDark),
             const SizedBox(height: 8),
             _CardRemovalItem(
+              baseCost: removalBaseCost,
               cost: removalCost,
               canAfford: dungeonState.dungeonGold >= removalCost,
               deckSize: dungeonState.currentDeck.length,
@@ -232,6 +239,11 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
       basePrice,
       dungeonState.dailyModifier,
     );
+  }
+
+  String? _discountLabel(double rate) {
+    if (rate <= 0) return null;
+    return '오늘 관계/표현 보정으로 상점 ${((rate.clamp(0.0, 0.5)) * 100).round()}% 할인 적용 중';
   }
 
   Future<void> _buyRelic(
@@ -392,6 +404,35 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
       ),
     );
   }
+
+  Widget _dailyDiscountBanner(String text, bool isDark) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.amber.withValues(alpha: isDark ? 0.14 : 0.10),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.amber.withValues(alpha: 0.35)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.local_offer, color: Colors.amber, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: isDark ? Colors.amber.shade200 : Colors.amber.shade900,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // ============================================================================
@@ -400,6 +441,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
 
 class _CardShopItem extends StatelessWidget {
   final CardData card;
+  final int basePrice;
   final int price;
   final bool isPurchased;
   final bool canAfford;
@@ -408,6 +450,7 @@ class _CardShopItem extends StatelessWidget {
 
   const _CardShopItem({
     required this.card,
+    required this.basePrice,
     required this.price,
     required this.isPurchased,
     required this.canAfford,
@@ -510,43 +553,11 @@ class _CardShopItem extends StatelessWidget {
                       color: isDark ? Colors.white38 : Colors.black26,
                     ),
                   )
-                : GestureDetector(
-                    onTap: canAfford ? onBuy : null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: canAfford
-                            ? Colors.amber.withValues(alpha: 0.2)
-                            : Colors.grey.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: canAfford
-                              ? Colors.amber.withValues(alpha: 0.5)
-                              : Colors.grey.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.monetization_on,
-                            size: 14,
-                            color: canAfford ? Colors.amber : Colors.grey,
-                          ),
-                          const SizedBox(width: 3),
-                          Text(
-                            '$price',
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: canAfford ? Colors.amber : Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                : _ShopPriceButton(
+                    basePrice: basePrice,
+                    price: price,
+                    canAfford: canAfford,
+                    onTap: onBuy,
                   ),
           ],
         ),
@@ -561,6 +572,7 @@ class _CardShopItem extends StatelessWidget {
 
 class _RelicShopItem extends StatelessWidget {
   final RelicData relic;
+  final int basePrice;
   final int price;
   final bool isPurchased;
   final bool canAfford;
@@ -569,6 +581,7 @@ class _RelicShopItem extends StatelessWidget {
 
   const _RelicShopItem({
     required this.relic,
+    required this.basePrice,
     required this.price,
     required this.isPurchased,
     required this.canAfford,
@@ -635,43 +648,11 @@ class _RelicShopItem extends StatelessWidget {
                       color: isDark ? Colors.white38 : Colors.black26,
                     ),
                   )
-                : GestureDetector(
-                    onTap: canAfford ? onBuy : null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: canAfford
-                            ? Colors.amber.withValues(alpha: 0.2)
-                            : Colors.grey.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: canAfford
-                              ? Colors.amber.withValues(alpha: 0.5)
-                              : Colors.grey.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.monetization_on,
-                            size: 14,
-                            color: canAfford ? Colors.amber : Colors.grey,
-                          ),
-                          const SizedBox(width: 3),
-                          Text(
-                            '$price',
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: canAfford ? Colors.amber : Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                : _ShopPriceButton(
+                    basePrice: basePrice,
+                    price: price,
+                    canAfford: canAfford,
+                    onTap: onBuy,
                   ),
           ],
         ),
@@ -685,6 +666,7 @@ class _RelicShopItem extends StatelessWidget {
 // ============================================================================
 
 class _CardRemovalItem extends StatelessWidget {
+  final int baseCost;
   final int cost;
   final bool canAfford;
   final int deckSize;
@@ -692,6 +674,7 @@ class _CardRemovalItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const _CardRemovalItem({
+    required this.baseCost,
     required this.cost,
     required this.canAfford,
     required this.deckSize,
@@ -754,39 +737,86 @@ class _CardRemovalItem extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: canAfford
-                    ? Colors.amber.withValues(alpha: 0.2)
-                    : Colors.grey.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: canAfford
-                      ? Colors.amber.withValues(alpha: 0.5)
-                      : Colors.grey.withValues(alpha: 0.3),
+            _ShopPriceButton(
+              basePrice: baseCost,
+              price: cost,
+              canAfford: canAfford,
+              onTap: onTap,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ShopPriceButton extends StatelessWidget {
+  final int basePrice;
+  final int price;
+  final bool canAfford;
+  final VoidCallback onTap;
+
+  const _ShopPriceButton({
+    required this.basePrice,
+    required this.price,
+    required this.canAfford,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final hasDiscount = price < basePrice;
+    final color = canAfford ? Colors.amber : Colors.grey;
+
+    return GestureDetector(
+      onTap: canAfford ? onTap : null,
+      child: Container(
+        constraints: const BoxConstraints(minWidth: 58),
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+        decoration: BoxDecoration(
+          color: canAfford
+              ? Colors.amber.withValues(alpha: 0.2)
+              : Colors.grey.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: canAfford
+                ? Colors.amber.withValues(alpha: 0.5)
+                : Colors.grey.withValues(alpha: 0.3),
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (hasDiscount)
+              Text(
+                '$basePrice',
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 10,
+                  color: color.withValues(alpha: 0.62),
+                  decoration: TextDecoration.lineThrough,
+                  decorationColor: color.withValues(alpha: 0.75),
                 ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.monetization_on,
-                    size: 14,
-                    color: canAfford ? Colors.amber : Colors.grey,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.monetization_on,
+                  size: 14,
+                  color: color,
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  '$price',
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: color,
                   ),
-                  const SizedBox(width: 3),
-                  Text(
-                    '$cost',
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: canAfford ? Colors.amber : Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
