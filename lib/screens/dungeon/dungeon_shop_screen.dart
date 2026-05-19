@@ -5,6 +5,7 @@ import 'package:life_quest_final_v2/models/relic_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/widgets/relic_icon.dart';
 import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 
@@ -28,7 +29,10 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
     final dungeonState = context.watch<DungeonState>();
     final shopCards = dungeonState.shopCards;
     final shopRelics = dungeonState.shopRelics;
-    final removalCost = 50 + (_cardRemovalCount * 25);
+    final removalCost = _discountedPrice(
+      50 + (_cardRemovalCount * 25),
+      dungeonState,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -83,7 +87,8 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Section 1: Cards
-            _sectionTitle(l10n.dungeonShopCardsSection, Icons.style, accent, isDark),
+            _sectionTitle(
+                l10n.dungeonShopCardsSection, Icons.style, accent, isDark),
             const SizedBox(height: 8),
             if (shopCards.isEmpty)
               _emptySection(l10n.dungeonShopNoCards, isDark)
@@ -91,7 +96,8 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
               ...shopCards.asMap().entries.map((entry) {
                 final index = entry.key;
                 final card = entry.value;
-                final price = _cardPrice(card.rarity);
+                final price =
+                    _discountedPrice(_cardPrice(card.rarity), dungeonState);
                 final purchased = _purchasedCardIndices.contains(index);
 
                 return _CardShopItem(
@@ -107,7 +113,8 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
             const SizedBox(height: 24),
 
             // Section 2: Relics
-            _sectionTitle(l10n.dungeonShopRelicsSection, Icons.diamond, accent, isDark),
+            _sectionTitle(
+                l10n.dungeonShopRelicsSection, Icons.diamond, accent, isDark),
             const SizedBox(height: 8),
             if (shopRelics.isEmpty)
               _emptySection(l10n.dungeonShopNoRelics, isDark)
@@ -115,7 +122,8 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
               ...shopRelics.asMap().entries.map((entry) {
                 final index = entry.key;
                 final relic = entry.value;
-                final price = _relicPrice(relic.rarity);
+                final price =
+                    _discountedPrice(_relicPrice(relic.rarity), dungeonState);
                 final purchased = _purchasedRelicIndices.contains(index);
 
                 return _RelicShopItem(
@@ -131,7 +139,8 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
             const SizedBox(height: 24),
 
             // Section 3: Card removal
-            _sectionTitle(l10n.dungeonShopCardRemovalSection, Icons.delete_sweep, accent, isDark),
+            _sectionTitle(l10n.dungeonShopCardRemovalSection,
+                Icons.delete_sweep, accent, isDark),
             const SizedBox(height: 8),
             _CardRemovalItem(
               cost: removalCost,
@@ -207,7 +216,8 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
     final l10n = AppLocalizations.of(context)!;
     final confirmed = await _confirmPurchase(
       title: '카드 구매',
-      body: '${CardLocalization.localizedName(card, l10n)} 카드를 $price 골드에 구매할까요?',
+      body:
+          '${CardLocalization.localizedName(card, l10n)} 카드를 $price 골드에 구매할까요?',
     );
     if (!confirmed || !mounted) return;
     dungeonState.spendGold(price);
@@ -215,6 +225,13 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
     setState(() {
       _purchasedCardIndices.add(index);
     });
+  }
+
+  int _discountedPrice(int basePrice, DungeonState dungeonState) {
+    return CoreLoopRules.discountedDungeonPrice(
+      basePrice,
+      dungeonState.dailyModifier,
+    );
   }
 
   Future<void> _buyRelic(
@@ -319,8 +336,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
                         });
                         Navigator.of(ctx).pop();
                       },
-                      child: _MiniCardWidget(
-                          card: card, isDark: isDark),
+                      child: _MiniCardWidget(card: card, isDark: isDark),
                     );
                   },
                 ),
@@ -343,8 +359,7 @@ class _DungeonShopScreenState extends State<DungeonShopScreen> {
     );
   }
 
-  Widget _sectionTitle(
-      String title, IconData icon, Color accent, bool isDark) {
+  Widget _sectionTitle(String title, IconData icon, Color accent, bool isDark) {
     return Row(
       children: [
         Icon(icon, size: 18, color: accent),
@@ -517,8 +532,7 @@ class _CardShopItem extends StatelessWidget {
                           Icon(
                             Icons.monetization_on,
                             size: 14,
-                            color:
-                                canAfford ? Colors.amber : Colors.grey,
+                            color: canAfford ? Colors.amber : Colors.grey,
                           ),
                           const SizedBox(width: 3),
                           Text(
@@ -527,9 +541,7 @@ class _CardShopItem extends StatelessWidget {
                               fontFamily: 'monospace',
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
-                              color: canAfford
-                                  ? Colors.amber
-                                  : Colors.grey,
+                              color: canAfford ? Colors.amber : Colors.grey,
                             ),
                           ),
                         ],
@@ -743,8 +755,7 @@ class _CardRemovalItem extends StatelessWidget {
               ),
             ),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: canAfford
                     ? Colors.amber.withValues(alpha: 0.2)

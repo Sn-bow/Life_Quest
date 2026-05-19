@@ -1961,3 +1961,40 @@ The remake plan says real-life actions must affect visible game outcomes, not ju
 
 - Event choice chance, shop discount, and rest recovery modifiers are still not wired.
 - Card reward weighting is probabilistic; the current test verifies rule shape and category safety, not long-run statistical distribution.
+
+---
+
+## 2026-05-19 KST - DailyModifier shop and rest effects
+
+### Purpose
+
+Continue Phase 3 of the remake plan: real-life action modifiers should affect the dungeon beyond combat. Charisma should make the shop feel better, and health/recovery actions should make rest nodes more valuable.
+
+### Change
+
+- `lib/data/core_loop_rules.dart`
+  - Added `DailyModifier.shopDiscountRate`.
+  - Added `DailyModifier.restHealPercentBonus`.
+  - Added `discountedDungeonPrice()` helper.
+  - Added `restHealPercentFor()` helper.
+  - Persisted both new fields through `DailyModifier.toJson()` / `fromJson()`.
+- `lib/screens/dungeon/dungeon_shop_screen.dart`
+  - Card, relic, and card-removal prices now use `DungeonState.dailyModifier` discount.
+- `lib/screens/dungeon/dungeon_rest_screen.dart`
+  - Normal rest healing now uses the daily rest heal bonus.
+  - Full-heal relic behavior remains unchanged.
+- `test/data/core_loop_rules_test.dart`
+  - Added discount/rest helper tests.
+  - Added serialization regression test for the new modifier fields.
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+  - Marked shop discount and rest recovery modifier work as complete.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/data/core_loop_rules_test.dart test/state/dungeon_state_test.dart` -> 14 tests passed.
+
+### Remaining risk
+
+- Event option chance is still not wired.
+- Shop UI currently shows only the final discounted price, not the original price or discount reason. This is functionally correct but less explanatory than the target product direction.

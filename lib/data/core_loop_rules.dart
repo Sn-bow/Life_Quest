@@ -70,6 +70,8 @@ class DailyModifier {
   final double defenseCardWeightBonus;
   final double magicCardWeightBonus;
   final double eventOptionBonusChance;
+  final double shopDiscountRate;
+  final double restHealPercentBonus;
 
   const DailyModifier({
     this.combatHpBonus = 0,
@@ -79,6 +81,8 @@ class DailyModifier {
     this.defenseCardWeightBonus = 0,
     this.magicCardWeightBonus = 0,
     this.eventOptionBonusChance = 0,
+    this.shopDiscountRate = 0,
+    this.restHealPercentBonus = 0,
   });
 
   factory DailyModifier.fromJson(Map<String, dynamic>? json) {
@@ -94,6 +98,9 @@ class DailyModifier {
           (json['magicCardWeightBonus'] as num?)?.toDouble() ?? 0,
       eventOptionBonusChance:
           (json['eventOptionBonusChance'] as num?)?.toDouble() ?? 0,
+      shopDiscountRate: (json['shopDiscountRate'] as num?)?.toDouble() ?? 0,
+      restHealPercentBonus:
+          (json['restHealPercentBonus'] as num?)?.toDouble() ?? 0,
     );
   }
 
@@ -105,6 +112,8 @@ class DailyModifier {
         'defenseCardWeightBonus': defenseCardWeightBonus,
         'magicCardWeightBonus': magicCardWeightBonus,
         'eventOptionBonusChance': eventOptionBonusChance,
+        'shopDiscountRate': shopDiscountRate,
+        'restHealPercentBonus': restHealPercentBonus,
       };
 
   bool get hasAnyBonus =>
@@ -114,7 +123,9 @@ class DailyModifier {
       startingGoldBonus > 0 ||
       defenseCardWeightBonus > 0 ||
       magicCardWeightBonus > 0 ||
-      eventOptionBonusChance > 0;
+      eventOptionBonusChance > 0 ||
+      shopDiscountRate > 0 ||
+      restHealPercentBonus > 0;
 
   List<String> labels() {
     return [
@@ -128,6 +139,9 @@ class DailyModifier {
         '마법 카드 흐름 +${(magicCardWeightBonus * 100).round()}%',
       if (eventOptionBonusChance > 0)
         '이벤트 선택지 +${(eventOptionBonusChance * 100).round()}%',
+      if (shopDiscountRate > 0) '?곸젏 ?좎씤 -${(shopDiscountRate * 100).round()}%',
+      if (restHealPercentBonus > 0)
+        '?댁떇 ?뚮났 +${(restHealPercentBonus * 100).round()}%',
     ];
   }
 }
@@ -221,7 +235,19 @@ class CoreLoopRules {
       defenseCardWeightBonus: (growth.health * 0.05).clamp(0.0, 0.10),
       magicCardWeightBonus: (growth.wisdom * 0.05).clamp(0.0, 0.10),
       eventOptionBonusChance: (growth.charisma * 0.05).clamp(0.0, 0.10),
+      shopDiscountRate: (growth.charisma * 0.04).clamp(0.0, 0.12),
+      restHealPercentBonus: (growth.health * 0.04).clamp(0.0, 0.12),
     );
+  }
+
+  static int discountedDungeonPrice(int basePrice, DailyModifier modifier) {
+    if (basePrice <= 0) return 0;
+    final discount = modifier.shopDiscountRate.clamp(0.0, 0.5);
+    return math.max(1, (basePrice * (1 - discount)).round());
+  }
+
+  static double restHealPercentFor(DailyModifier modifier) {
+    return (0.30 + modifier.restHealPercentBonus).clamp(0.0, 1.0);
   }
 
   static Map<CardCategory, double> cardRewardCategoryWeightsFor(

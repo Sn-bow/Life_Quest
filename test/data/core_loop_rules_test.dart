@@ -185,5 +185,29 @@ void main() {
 
       expect({CardCategory.attack, CardCategory.magic}, contains(picked));
     });
+
+    test('shop discount and rest heal helpers apply capped daily modifiers',
+        () {
+      const modifier = DailyModifier(
+        shopDiscountRate: 0.12,
+        restHealPercentBonus: 0.12,
+      );
+
+      expect(CoreLoopRules.discountedDungeonPrice(100, modifier), 88);
+      expect(CoreLoopRules.restHealPercentFor(modifier), closeTo(0.42, 0.001));
+    });
+
+    test('daily modifier serialization keeps shop and rest bonuses', () {
+      const modifier = DailyModifier(
+        shopDiscountRate: 0.08,
+        restHealPercentBonus: 0.06,
+      );
+
+      final restored = DailyModifier.fromJson(modifier.toJson());
+
+      expect(restored.shopDiscountRate, closeTo(0.08, 0.001));
+      expect(restored.restHealPercentBonus, closeTo(0.06, 0.001));
+      expect(restored.hasAnyBonus, isTrue);
+    });
   });
 }

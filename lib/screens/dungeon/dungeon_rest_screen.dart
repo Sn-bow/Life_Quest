@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 
 class DungeonRestScreen extends StatefulWidget {
@@ -17,7 +18,8 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
   bool _choiceMade = false;
   String _choiceResult = '';
   bool _showCardSelection = false;
-  CardData? _upgradedCard; // stores the original card before upgrade for l10n display
+  CardData?
+      _upgradedCard; // stores the original card before upgrade for l10n display
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +128,16 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                       .any((r) => r.id == 'relic_b03');
                   final int healAmount;
                   if (hasGrail) {
-                    healAmount = dungeonState.playerMaxHp - dungeonState.playerHp;
+                    healAmount =
+                        dungeonState.playerMaxHp - dungeonState.playerHp;
                     dungeonState.healPlayer(healAmount);
                   } else {
-                    healAmount = (dungeonState.playerMaxHp * 0.3).round();
-                    dungeonState.healPlayerPercent(0.3);
+                    final healPercent = CoreLoopRules.restHealPercentFor(
+                      dungeonState.dailyModifier,
+                    );
+                    healAmount =
+                        (dungeonState.playerMaxHp * healPercent).round();
+                    dungeonState.healPlayerPercent(healPercent);
                   }
                   setState(() {
                     _choiceMade = true;
@@ -182,7 +189,8 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
                       child: Text(
                         _upgradedCard != null
                             ? l10n.dungeonRestCardUpgradeResult(
-                                CardLocalization.localizedName(_upgradedCard!, l10n))
+                                CardLocalization.localizedName(
+                                    _upgradedCard!, l10n))
                             : _choiceResult,
                         style: TextStyle(
                           fontFamily: 'monospace',
@@ -396,7 +404,6 @@ class _CardSelectionGrid extends StatelessWidget {
     required this.onCardSelected,
     required this.onCancel,
   });
-
 
   @override
   Widget build(BuildContext context) {
