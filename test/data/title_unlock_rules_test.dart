@@ -36,13 +36,33 @@ void main() {
       final wisdomTitle =
           TitleDatabase.all.firstWhere((title) => title.id == 't4');
       final levelTitle =
-          TitleDatabase.all.firstWhere((title) => title.id == 't1');
+          TitleDatabase.all.firstWhere((title) => title.id == 't0');
 
       expect(
         TitleUnlockRules.unlockPreviewForTitle(wisdomTitle),
         '고대 도서관 이벤트에서 지혜 기반 해석 선택지 해금',
       );
       expect(TitleUnlockRules.unlockPreviewForTitle(levelTitle), isNull);
+    });
+
+    test('ships at least ten title-driven event choices', () {
+      expect(TitleUnlockRules.eventRules.length, greaterThanOrEqualTo(10));
+      expect(
+        TitleUnlockRules.eventRules.map((rule) => rule.titleId).toSet().length,
+        greaterThanOrEqualTo(10),
+      );
+    });
+
+    test('every title event rule points to existing content', () {
+      final titleIds = TitleDatabase.all.map((title) => title.id).toSet();
+
+      for (final rule in TitleUnlockRules.eventRules) {
+        expect(titleIds, contains(rule.titleId));
+        expect(EventDatabase.getEvent(rule.eventId), isNotNull);
+        expect(rule.unlockLabel.trim(), isNotEmpty);
+        expect(rule.choice.text.trim(), isNotEmpty);
+        expect(rule.choice.outcomes, isNotEmpty);
+      }
     });
   });
 }

@@ -2050,3 +2050,29 @@ Close the remaining Phase 3 safety gap: real-life quest bonuses should be visibl
 - `flutter analyze --no-pub` -> No issues found.
 - `flutter test --no-pub test/state/dungeon_state_test.dart` -> 5 tests passed.
 - `flutter test --no-pub` -> 116 tests passed.
+
+---
+
+## 2026-05-19 KST - Expanded title-driven event choices
+
+### Purpose
+
+Address tester feedback that titles should not be cosmetic. More titles now open concrete dungeon event choices, so long-term real-life progress changes the available decisions inside events.
+
+### Change
+
+- `lib/data/title_unlock_rules.dart`
+  - Expanded title event rules from 5 to 17.
+  - Added level, stat, all-stat, quest-count, monthly raid, and yearly raid title choices.
+  - Kept the existing `TitleUnlockRules.choicesFor()` integration path unchanged.
+- `test/data/title_unlock_rules_test.dart`
+  - Added coverage requiring at least 10 title-driven event choices.
+  - Added content integrity coverage: every rule must point to an existing title and event, and must expose non-empty copy/outcomes.
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+  - Marked the Phase 4 title-effect/event-rule expansion items complete.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/data/title_unlock_rules_test.dart` -> 5 tests passed.
+- `flutter test --no-pub` -> 118 tests passed.

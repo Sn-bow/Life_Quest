@@ -263,19 +263,19 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 ### 출시 1차 범위
 
-- [ ] 칭호 10~20개 선정
+- [x] 칭호 10~20개 선정
 - [x] 각 칭호에 조건 1개
-- [ ] 각 칭호에 효과 1개
+- [x] 각 칭호에 효과 1개
 - [x] 각 칭호에 연결 이벤트 또는 선택지 1개
 
 ### 관련 파일
 
-- [ ] `lib/data/title_database.dart`
+- [x] `lib/data/title_database.dart`
 - [ ] `lib/models/title.dart`
-- [ ] `lib/data/event_database.dart`
-- [ ] `lib/models/dungeon_event.dart`
+- [x] `lib/data/event_database.dart`
+- [x] `lib/models/dungeon_event.dart`
 - [ ] `lib/screens/status_screen.dart`
-- [ ] `lib/screens/dungeon/dungeon_event_screen.dart`
+- [x] `lib/screens/dungeon/dungeon_event_screen.dart`
 
 ### 구현 순서
 
