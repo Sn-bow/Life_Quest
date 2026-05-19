@@ -2028,3 +2028,25 @@ Finish the remaining Phase 3 modifier wiring: charisma/event bonuses should affe
 ### Remaining risk
 
 - The current event modifier affects random outcome quality inside a selected choice. It does not yet add visible "bonus" labels or reorder choices, so the mechanic is functional but not fully explained to users.
+
+---
+
+## 2026-05-19 KST - DailyModifier snapshot regression coverage
+
+### Purpose
+
+Close the remaining Phase 3 safety gap: real-life quest bonuses should be visible and meaningful, but a dungeon run must keep the modifier snapshot it started with. Mid-run quest changes should affect the next run, not silently rebalance the current one.
+
+### Change
+
+- `test/state/dungeon_state_test.dart`
+  - Added a regression test proving the current run keeps its original `DailyModifier`.
+  - Added the next-run assertion proving a newly calculated modifier applies only when `startRun()` is called again.
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+  - Reconciled Phase 3 implementation, file, and snapshot-test checklist items with the actual code state.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/state/dungeon_state_test.dart` -> 5 tests passed.
+- `flutter test --no-pub` -> 116 tests passed.

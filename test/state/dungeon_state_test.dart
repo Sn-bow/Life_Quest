@@ -65,5 +65,33 @@ void main() {
       expect(modified.dungeonGold, 57);
       expect(modified.dailyModifier.combatHpBonus, 12);
     });
+
+    test('daily modifier is fixed for a run and changes on next start', () {
+      final state = DungeonState()
+        ..startRun(
+          zone: 1,
+          startingDeck: const <CardData>[],
+          playerMaxHp: 80,
+          dailyModifier: const DailyModifier(combatHpBonus: 5),
+        );
+
+      expect(state.playerMaxHp, 85);
+      expect(state.dailyModifier.combatHpBonus, 5);
+
+      const nextModifier = DailyModifier(combatHpBonus: 14);
+      expect(nextModifier.combatHpBonus, 14);
+      expect(state.playerMaxHp, 85);
+      expect(state.dailyModifier.combatHpBonus, 5);
+
+      state.startRun(
+        zone: 1,
+        startingDeck: const <CardData>[],
+        playerMaxHp: 80,
+        dailyModifier: nextModifier,
+      );
+
+      expect(state.playerMaxHp, 94);
+      expect(state.dailyModifier.combatHpBonus, 14);
+    });
   });
 }

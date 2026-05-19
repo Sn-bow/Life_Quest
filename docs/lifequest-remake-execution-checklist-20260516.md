@@ -204,9 +204,9 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 ### 적용 후보
 
-- [ ] 전투 HP 보정
-- [ ] 공격 피해 보정
-- [ ] 첫 턴 드로우 보정
+- [x] 전투 HP 보정
+- [x] 공격 피해 보정
+- [x] 첫 턴 드로우 보정
 - [x] 카드 보상 확률 보정
 - [x] 이벤트 선택지 보정
 - [x] 상점 할인 보정
@@ -214,31 +214,31 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 ### 구현 순서
 
-1. [ ] DailyModifier 계산만 구현
-2. [ ] 던전 시작 시 modifier snapshot 저장
+1. [x] DailyModifier 계산만 구현
+2. [x] 던전 시작 시 modifier snapshot 저장
 3. [x] 던전 홈에 modifier 표시
-4. [ ] 전투 HP 보정 하나만 실제 적용
+4. [x] 전투 HP 보정 하나만 실제 적용
 5. [x] 첫 턴 드로우 또는 카드 보상 확률 적용
 6. [x] 이벤트 선택지 적용
 7. [x] 상점/휴식 적용 여부 판단
 
 ### 관련 파일
 
-- [ ] `lib/state/character_state.dart`
-- [ ] `lib/state/dungeon_state.dart`
-- [ ] `lib/state/card_combat_state.dart`
-- [ ] `lib/screens/dungeon/dungeon_home_screen.dart`
-- [ ] `lib/screens/dungeon/card_battle_screen.dart`
-- [ ] `lib/screens/dungeon/dungeon_event_screen.dart`
+- [x] `lib/state/character_state.dart`
+- [x] `lib/state/dungeon_state.dart`
+- [x] `lib/state/card_combat_state.dart`
+- [x] `lib/screens/dungeon/dungeon_home_screen.dart`
+- [x] `lib/screens/dungeon/card_battle_screen.dart`
+- [x] `lib/screens/dungeon/dungeon_event_screen.dart`
 
 ### 테스트
 
 - [ ] 퀘스트 완료 전 modifier 0
-- [ ] health 퀘스트 완료 후 HP 보정 생성
-- [ ] wisdom 퀘스트 완료 후 draw/card 보정 생성
-- [ ] 던전 시작 시 snapshot 고정
-- [ ] 던전 중 퀘스트 완료해도 현재 런에는 반영되지 않음
-- [ ] 다음 런에는 새 modifier 반영
+- [x] health 퀘스트 완료 후 HP 보정 생성
+- [x] wisdom 퀘스트 완료 후 draw/card 보정 생성
+- [x] 던전 시작 시 snapshot 고정
+- [x] 던전 중 퀘스트 완료해도 현재 런에는 반영되지 않음
+- [x] 다음 런에는 새 modifier 반영
 
 ### 완료 조건
 
