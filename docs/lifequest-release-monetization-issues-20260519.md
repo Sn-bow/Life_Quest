@@ -13,7 +13,7 @@ This document records current release/monetization issues directly from 2026 off
 
 ## Issue M-01 - Monetization Must Start Hybrid, Not Ad-First
 
-Status: Open
+Status: Partially mitigated in code on 2026-05-19.
 
 Evidence:
 - Google Play explicitly supports paid distribution, in-app products, subscriptions, and ad-based models.
@@ -30,13 +30,14 @@ Life Quest implication:
 - Rewarded ads can remain a later optional candidate only if they are explicit opt-in and do not break the habit flow.
 
 Acceptance criteria:
-- [ ] No ad surfaces in QA Preview.
+- [x] No ad surfaces in QA Preview.
 - [ ] No interstitial ads in core quest, status, dungeon, timer, or reward flows.
+- [x] AdMob and billing startup are disabled by default in the real Android app unless `LIFEQUEST_MONETIZATION_ENABLED=true` is supplied.
 - [ ] Release plan defines one optional premium value bundle before billing implementation.
 
 ## Issue M-02 - Subscription Requires Clear Entitlement, Not Vague Support
 
-Status: Open
+Status: Partially mitigated in code on 2026-05-19.
 
 Evidence:
 - Google Play subscriptions are composed of subscription products, base plans, and offers.
@@ -63,7 +64,7 @@ Non-candidate for paid gate:
 Acceptance criteria:
 - [ ] Premium entitlement list fits on one screen.
 - [ ] Free user can understand and complete the core loop.
-- [ ] Billing is not implemented until retention loop and premium bundle copy are validated.
+- [x] Billing is disabled by default until retention loop and premium bundle copy are validated.
 
 ## Issue M-03 - Android Vitals Can Affect Store Visibility
 
@@ -115,7 +116,7 @@ Acceptance criteria:
 - [ ] Data inventory table lists each SDK and data category.
 - [ ] Privacy policy matches Play Console Data safety answers.
 - [ ] QA Preview public web version contains no personal credentials or private owner data.
-- [ ] AdMob remains disabled until Data safety and consent implications are updated.
+- [x] AdMob remains disabled by default until Data safety and consent implications are updated.
 
 ## Current Monetization Direction
 
@@ -130,3 +131,4 @@ Recommended sequence:
 
 Immediate next implementation target:
 - Make the free core loop clearer and reduce screen confusion before adding billing.
+- Before enabling `LIFEQUEST_MONETIZATION_ENABLED`, finish Data safety, consent copy, premium entitlement copy, and release smoke tests.

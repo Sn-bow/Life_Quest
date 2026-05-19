@@ -5,6 +5,7 @@ import 'package:life_quest_final_v2/widgets/quest_tile.dart';
 import 'package:life_quest_final_v2/widgets/today_adventure_summary.dart';
 import 'package:provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/screens/timer_screen.dart';
@@ -349,9 +350,10 @@ class QuestsScreen extends StatelessWidget {
     if (quest.isCompleted) return;
     if (state.isQuestPending(quest.id)) return;
 
-    final adService = kLifeQuestQaPreview ? null : AdService();
-    final remainingDouble =
-        kLifeQuestQaPreview ? 0 : adService!.getRemainingViews('quest_double');
+    final adService = kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled
+        ? null
+        : AdService();
+    final remainingDouble = adService?.getRemainingViews('quest_double') ?? 0;
 
     showDialog(
       context: context,

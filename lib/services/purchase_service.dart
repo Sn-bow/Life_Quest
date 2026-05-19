@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/models/cosmetic.dart';
 
@@ -11,8 +12,8 @@ class PurchaseService {
   factory PurchaseService() => _instance;
   PurchaseService._internal();
 
-  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
+  InAppPurchase get _inAppPurchase => InAppPurchase.instance;
+  StreamSubscription<List<PurchaseDetails>>? _subscription;
 
   // IAP Product IDs
   static const String removeAdsId =
@@ -31,6 +32,10 @@ class PurchaseService {
 
   /// Initialize the IAP service (중복 초기화 방지)
   Future<void> init() async {
+    if (!kLifeQuestMonetizationEnabled) {
+      debugPrint('[PurchaseService] Monetization disabled; skipping IAP init.');
+      return;
+    }
     if (_isInitialized) return;
 
     _isAvailable = await _inAppPurchase.isAvailable();
@@ -70,6 +75,7 @@ class PurchaseService {
 
   /// Initiate a purchase for a specific product
   Future<void> buyProduct(ProductDetails productDetails) async {
+    if (!kLifeQuestMonetizationEnabled) return;
     final PurchaseParam purchaseParam =
         PurchaseParam(productDetails: productDetails);
 
@@ -79,6 +85,7 @@ class PurchaseService {
 
   /// Initiate restoring previous purchases
   Future<void> restorePurchases() async {
+    if (!kLifeQuestMonetizationEnabled) return;
     await _inAppPurchase.restorePurchases();
   }
 
@@ -130,7 +137,8 @@ class PurchaseService {
 
   /// C-2: Firebase Cloud Function을 통한 서버사이드 영수증 검증
   /// Cloud Function 미배포 시에는 로컬 검증으로 폴백하여 앱 동작을 보장합니다.
-  Future<bool> _verifyPurchaseWithServer(PurchaseDetails purchaseDetails) async {
+  Future<bool> _verifyPurchaseWithServer(
+      PurchaseDetails purchaseDetails) async {
     if (kDebugMode) {
       debugPrint('[PurchaseService] Debug mode: skipping server verification');
       return true;
@@ -174,7 +182,7 @@ class PurchaseService {
 
   /// Dispose the stream subscription
   void dispose() {
-    _subscription.cancel();
+    _subscription?.cancel();
     _unlockController.close();
   }
 }

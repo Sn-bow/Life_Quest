@@ -5,6 +5,7 @@ import 'package:life_quest_final_v2/state/combat_state.dart';
 
 import 'package:life_quest_final_v2/models/skill.dart';
 import 'package:life_quest_final_v2/models/item.dart';
+import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/widgets/combat/dungeon_floor_selector.dart';
@@ -319,10 +320,11 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   Widget _buildActionButtons(CharacterState charState, CombatState combatState,
       bool isDark, AppLocalizations l10n) {
     if (combatState.status == CombatStatus.victory) {
-      final adService = kLifeQuestQaPreview ? null : AdService();
-      final remainingMultiplier = kLifeQuestQaPreview
-          ? 0
-          : adService!.getRemainingViews('combat_multiplier');
+      final adService = kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled
+          ? null
+          : AdService();
+      final remainingMultiplier =
+          adService?.getRemainingViews('combat_multiplier') ?? 0;
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -387,10 +389,11 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
         ),
       );
     } else if (combatState.status == CombatStatus.defeat) {
-      final adService = kLifeQuestQaPreview ? null : AdService();
-      final remainingRevives = kLifeQuestQaPreview
-          ? 0
-          : adService!.getRemainingViews('combat_revive');
+      final adService = kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled
+          ? null
+          : AdService();
+      final remainingRevives =
+          adService?.getRemainingViews('combat_revive') ?? 0;
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -562,7 +565,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
 
   void _showApWarning() {
     final l10n = AppLocalizations.of(context)!;
-    if (kLifeQuestQaPreview) {
+    if (kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

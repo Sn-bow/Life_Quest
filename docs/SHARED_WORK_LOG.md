@@ -2130,3 +2130,25 @@ Continue current-source research for the remake goal without creating a loose re
 ### Verification
 
 - Documentation-only change. No code verification required.
+
+---
+
+## 2026-05-19 KST - Android release monetization gate
+
+### Purpose
+
+The active goal now treats the real Android app as the default release target, while the web build is only a tester preview. The current release direction says early release should not expose AdMob or billing until Data safety, consent, and premium value copy are finished, so the Android runtime needed a default-off gate rather than only web-preview hiding.
+
+### Change
+
+- Added `lib/config/monetization_config.dart` with `LIFEQUEST_MONETIZATION_ENABLED`, defaulting to `false`.
+- Guarded `AdService` and `PurchaseService` startup so AdMob, UMP, and billing do not initialize in the default Android app build.
+- Hid rewarded-ad entry points in quest completion, hunt AP recovery, combat victory/defeat, expanded reports, and settings unless monetization is explicitly enabled.
+- Expanded reports remain available in the free default build instead of being locked behind an ad.
+- Added `test/services/monetization_gate_test.dart` to lock the default-off behavior.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/services/monetization_gate_test.dart` -> 2 tests passed.
+- `flutter test --no-pub` -> 120 tests passed.

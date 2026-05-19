@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/firebase_options.dart';
 import 'package:life_quest_final_v2/screens/login_screen.dart';
@@ -113,16 +114,18 @@ Future<void> _initializeOptionalServices() async {
     'SoundService.init',
     () => SoundService().init(),
   );
-  await _runStartupTask(
-    'AdService.init',
-    () => AdService().init(),
-    timeout: const Duration(seconds: 12),
-  );
-  await _runStartupTask(
-    'PurchaseService.init',
-    () => PurchaseService().init(),
-    timeout: const Duration(seconds: 12),
-  );
+  if (kLifeQuestMonetizationEnabled) {
+    await _runStartupTask(
+      'AdService.init',
+      () => AdService().init(),
+      timeout: const Duration(seconds: 12),
+    );
+    await _runStartupTask(
+      'PurchaseService.init',
+      () => PurchaseService().init(),
+      timeout: const Duration(seconds: 12),
+    );
+  }
   await _runStartupTask(
     'HomeWidget.setAppGroupId',
     () => HomeWidget.setAppGroupId(_homeWidgetAppGroupId),

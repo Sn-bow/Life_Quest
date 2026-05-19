@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
@@ -69,6 +70,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
   Future<void> _unlockExpandedReport(BuildContext context) async {
     if (_unlockingExpandedReport) return;
+    if (!kLifeQuestMonetizationEnabled) return;
     final characterState = context.read<CharacterState>();
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context)!;
@@ -118,11 +120,14 @@ class _ReportScreenState extends State<ReportScreen> {
     final character = characterState.character;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    final isExpandedUnlocked =
-        kLifeQuestQaPreview || characterState.isExpandedReportUnlockedToday;
+    final isExpandedUnlocked = kLifeQuestQaPreview ||
+        !kLifeQuestMonetizationEnabled ||
+        characterState.isExpandedReportUnlockedToday;
     final remainingViews = kLifeQuestQaPreview
         ? 0
-        : AdService().getRemainingViews('report_detail');
+        : (kLifeQuestMonetizationEnabled
+            ? AdService().getRemainingViews('report_detail')
+            : 0);
     final monthlyCompletionRate = _completionRate(characterState.monthlyQuests);
     final yearlyCompletionRate = _completionRate(characterState.yearlyQuests);
     final recommendedCategory = _recommendedCategory(characterState);
@@ -313,11 +318,12 @@ class _ReportScreenState extends State<ReportScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            _buildExpandedReportEntryCard(
-              context,
-              remainingViews,
-              isExpandedUnlocked,
-            ),
+            if (kLifeQuestMonetizationEnabled)
+              _buildExpandedReportEntryCard(
+                context,
+                remainingViews,
+                isExpandedUnlocked,
+              ),
             if (isExpandedUnlocked) ...[
               const SizedBox(height: 24),
               _buildExpandedReport(

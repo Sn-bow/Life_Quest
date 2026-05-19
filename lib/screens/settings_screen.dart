@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
@@ -461,7 +462,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          if (kDebugMode && !kLifeQuestQaPreview) ...[
+          if (kDebugMode &&
+              !kLifeQuestQaPreview &&
+              kLifeQuestMonetizationEnabled) ...[
             const Text('디버그 QA',
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
@@ -493,7 +496,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 24),
           ],
-          if (!kLifeQuestQaPreview) ...[
+          if (!kLifeQuestQaPreview && kLifeQuestMonetizationEnabled) ...[
             TranslucentCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,8 +1,10 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform, TargetPlatform, debugPrint;
+import 'package:flutter/foundation.dart'
+    show kDebugMode, defaultTargetPlatform, TargetPlatform, debugPrint;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/utils/shared_pref_keys.dart';
 
@@ -58,6 +60,10 @@ class AdService {
   /// Initialize the Mobile Ads SDK.
   /// GDPR: UMP SDK를 통해 사용자 동의 상태를 확인하고, 동의 완료 후 광고를 로드합니다.
   Future<void> init() async {
+    if (!kLifeQuestMonetizationEnabled) {
+      debugPrint('[AdService] Monetization disabled; skipping AdMob init.');
+      return;
+    }
     await _loadAdRemovalStatus();
     await _loadDailyCounts();
     // 서버 시각 앵커를 먼저 확보한 뒤 리셋 판정 — 실패 시 폴백(아래 _serverNow 참고)
@@ -84,9 +90,8 @@ class AdService {
           .doc(user.uid)
           .collection('_meta')
           .doc('adServerTime');
-      await docRef
-          .set({'t': FieldValue.serverTimestamp()}, SetOptions(merge: true))
-          .timeout(const Duration(seconds: 5));
+      await docRef.set({'t': FieldValue.serverTimestamp()},
+          SetOptions(merge: true)).timeout(const Duration(seconds: 5));
       final snap = await docRef
           .get(const GetOptions(source: Source.server))
           .timeout(const Duration(seconds: 5));
@@ -98,7 +103,8 @@ class AdService {
           ..start();
         _lastKnownServerTime = ts;
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt(SharedPrefKeys.adLastServerMs, ts.millisecondsSinceEpoch);
+        await prefs.setInt(
+            SharedPrefKeys.adLastServerMs, ts.millisecondsSinceEpoch);
       }
     } catch (e) {
       debugPrint('[AdService] Server time sync failed: $e');
@@ -132,7 +138,8 @@ class AdService {
             await ConsentForm.loadAndShowConsentFormIfRequired(
               (FormError? error) {
                 if (error != null) {
-                  debugPrint('[AdService] UMP form dismissed with error: ${error.message}');
+                  debugPrint(
+                      '[AdService] UMP form dismissed with error: ${error.message}');
                 }
               },
             );
@@ -143,7 +150,8 @@ class AdService {
         if (!completer.isCompleted) completer.complete();
       },
       (FormError error) {
-        debugPrint('[AdService] UMP consent info update failed: ${error.message}');
+        debugPrint(
+            '[AdService] UMP consent info update failed: ${error.message}');
         if (!completer.isCompleted) completer.complete(); // 실패해도 광고 초기화는 진행
       },
     );
@@ -179,6 +187,7 @@ class AdService {
 
   /// Get remaining ad views for a specific reward type.
   int getRemainingViews(String rewardType) {
+    if (!kLifeQuestMonetizationEnabled) return 0;
     _resetDailyCountsIfNeeded();
     final limit = dailyLimits[rewardType] ?? 0;
     final used = _dailyAdCounts[rewardType] ?? 0;
@@ -195,7 +204,8 @@ class AdService {
     }
     final keys = dailyLimits.keys;
     for (final key in keys) {
-      _dailyAdCounts[key] = prefs.getInt('${SharedPrefKeys.adCountPrefix}$key') ?? 0;
+      _dailyAdCounts[key] =
+          prefs.getInt('${SharedPrefKeys.adCountPrefix}$key') ?? 0;
     }
   }
 
@@ -205,7 +215,8 @@ class AdService {
       await prefs.setString(SharedPrefKeys.adLastResetDate, _lastResetDate!);
     }
     for (final entry in _dailyAdCounts.entries) {
-      await prefs.setInt('${SharedPrefKeys.adCountPrefix}${entry.key}', entry.value);
+      await prefs.setInt(
+          '${SharedPrefKeys.adCountPrefix}${entry.key}', entry.value);
     }
   }
 
@@ -224,6 +235,7 @@ class AdService {
 
   /// Pre-load a rewarded ad for next display.
   void _loadRewardedAd() {
+    if (!kLifeQuestMonetizationEnabled) return;
     if (_isAdRemoved || _isAdLoading) return;
 
     _isAdLoading = true;
@@ -242,7 +254,8 @@ class AdService {
           _isAdLoaded = false;
           _isAdLoading = false;
           _retryCount++;
-          debugPrint('[AdService] Rewarded ad failed to load: $error (retry $_retryCount/$_maxRetries)');
+          debugPrint(
+              '[AdService] Rewarded ad failed to load: $error (retry $_retryCount/$_maxRetries)');
           if (_retryCount < _maxRetries) {
             // Exponential backoff: 30s, 60s, 120s, 240s, 480s
             final delay = Duration(seconds: 30 * (1 << (_retryCount - 1)));
@@ -256,6 +269,7 @@ class AdService {
   /// Show a rewarded ad and return true if the user earned their reward.
   /// If ads are removed via IAP, immediately returns true (free reward).
   Future<bool> showRewardedAd(String rewardType) async {
+    if (!kLifeQuestMonetizationEnabled) return false;
     // If user purchased ad removal, grant reward immediately
     if (_isAdRemoved) return true;
 
@@ -316,5 +330,3 @@ class AdService {
     _rewardedAd?.dispose();
   }
 }
-
-
