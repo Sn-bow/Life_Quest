@@ -94,3 +94,7 @@ flutter:
     - assets/sounds/game/
     - assets/sounds/sfx/
     - assets/sounds/bgm/
+  fonts:
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Regular.ttf

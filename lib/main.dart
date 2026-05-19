@@ -30,6 +30,12 @@ const _homeWidgetAppGroupId = String.fromEnvironment(
   defaultValue: 'group.com.lifequest.app.widget',
 );
 
+const _lifeQuestFontFamily = 'NotoSansKR';
+const _lifeQuestFontFallback = [
+  'Arial',
+  'sans-serif',
+];
+
 void main() {
   // runZonedGuarded을 가장 먼저 시작해야 Flutter 바인딩 Zone 충돌을 방지함
   runZonedGuarded(
@@ -187,6 +193,8 @@ class LifeQuestApp extends StatelessWidget {
           theme: ThemeData(
             brightness: Brightness.light,
             useMaterial3: true,
+            fontFamily: _lifeQuestFontFamily,
+            fontFamilyFallback: _lifeQuestFontFallback,
             scaffoldBackgroundColor: const Color(0xFFF8F9FA),
             primaryColor: primaryColorLight,
             colorScheme: ColorScheme.light(
@@ -278,6 +286,8 @@ class LifeQuestApp extends StatelessWidget {
           darkTheme: ThemeData(
             brightness: Brightness.dark,
             useMaterial3: true,
+            fontFamily: _lifeQuestFontFamily,
+            fontFamilyFallback: _lifeQuestFontFallback,
             primaryColor: primaryColorDark,
             scaffoldBackgroundColor: customDarkBg ?? const Color(0xFF0F172A),
             colorScheme: ColorScheme.dark(

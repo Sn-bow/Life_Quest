@@ -1893,3 +1893,40 @@ The additional feedback requires the first visible loop to read as real-life act
 ### Remaining risk
 
 - The pilot still lives inside the daily quest tab. The next IA step is moving this status board to the first app surface or a dedicated Today screen.
+
+---
+
+## 2026-05-18 KST - Web QA Preview offline render hardening
+
+### Purpose
+
+390px Web QA Preview verification exposed a release risk: Flutter Web could render a blank or textless screen when external CanvasKit/font requests were blocked. Tester preview must not depend on Google font/CDN access just to show basic Korean UI.
+
+### Change
+
+- `assets/fonts/NotoSansKR-Regular.ttf`
+  - Added OFL-licensed Noto Sans KR from Google Fonts as a bundled app font.
+- `pubspec.yaml`
+  - Registered the `NotoSansKR` font family.
+- `lib/main.dart`
+  - Added app-level bundled font usage for both light and dark themes.
+  - This keeps QA Preview and Android code on the same theme path while removing dependence on remote Roboto/Noto font fetches.
+
+### QA note
+
+- Local Web QA Preview should be run with `--no-web-resources-cdn` when possible:
+  - `flutter run -d web-server --web-hostname=127.0.0.1 --web-port=51234 --no-web-resources-cdn --dart-define=LIFEQUEST_QA_PREVIEW=true`
+  - `flutter build web --no-web-resources-cdn --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none`
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub` -> 109 tests passed.
+- `flutter build web --no-web-resources-cdn --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none` -> `build/web` created.
+- 390px Playwright screenshots confirmed the QA Preview gate and Today screen text render correctly with the bundled font.
+
+### Remaining risk
+
+- The Flutter Web engine still attempts some remote fallback font requests in headless CanvasKit, but bundled Noto Sans KR keeps the visible Korean UI readable when those requests fail.
+- Google Sign-In web script may still be blocked by CSP in QA Preview. This is acceptable because QA Preview intentionally uses local guest mode.
+- Headless screenshot navigation into some non-Today tabs can intermittently render a blank CanvasKit frame without page errors; this needs a separate Web QA investigation and should not block the current font hardening commit.
