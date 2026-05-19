@@ -2249,3 +2249,22 @@ Make the real Android app's Firebase behavior match the refreshed privacy policy
 - `node -e "JSON.parse(...firebase.json...)"` -> `firebase.json ok`.
 - `firebase emulators:exec --only firestore "cmd /c echo firebase-rules-ok"` -> Firestore emulator started and script exited successfully.
 - `firebase emulators:exec --only storage "cmd /c echo storage-rules-ok"` -> Storage emulator started and script exited successfully.
+
+---
+
+## 2026-05-20 KST - Live Firebase rules deployment
+
+### Purpose
+
+Close the gap between repository rules and the live Firebase project for the real Android release path.
+
+### Change
+
+- Deployed Firestore rules to `life-quest-app-95eb9`.
+- Deployed Storage rules to `life-quest-app-95eb9`.
+- Updated release documentation to mark live rules deployment complete while keeping authenticated Android account deletion smoke testing open.
+
+### Verification
+
+- `firebase deploy --only firestore:rules,storage --project life-quest-app-95eb9` -> `firestore.rules` compiled successfully and released to `cloud.firestore`.
+- `firebase deploy --only storage --project life-quest-app-95eb9` -> `storage.rules` compiled successfully and released to `firebase.storage`.

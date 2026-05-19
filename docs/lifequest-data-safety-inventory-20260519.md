@@ -85,13 +85,13 @@ Use this as a Play Console drafting aid only:
 - Repository Firestore rules now scope each user to `users/{uid}` plus the approved `_meta` child path and permit owner account deletion.
 - Repository Storage rules now scope profile images to `users/{uid}/profile.jpg`, owner-only access, image content types, and a 2 MiB upload limit.
 - Account deletion now attempts to delete the optional profile image and known `_meta/adServerTime` document before deleting the user document and Auth account.
-- Live Firebase project rules and account deletion still need an authenticated Android smoke test.
+- Live Firebase project rules were deployed on 2026-05-20 KST; account deletion still needs an authenticated Android smoke test.
 
 ## Release Decision
 
 M-05 is not complete. The SDK/data-category inventory is complete enough to unblock Privacy Policy rewrite and Play Console draft entry, but final submission should remain blocked until:
 
 - Privacy policy publication path is verified from the released app and store listing.
-- Firestore and Storage rules are verified against the live Firebase project.
+- Authenticated Android account deletion smoke test confirms Auth, Firestore, and Storage cleanup.
 - A default release AAB is smoke-tested to confirm no AdMob/Billing UI or SDK startup occurs without the monetization flag.
 - Any monetization-enabled build receives a separate Data safety review.

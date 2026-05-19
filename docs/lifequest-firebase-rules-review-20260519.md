@@ -26,9 +26,9 @@ Storage:
 
 ## Remaining Release Checks
 
-- Deploy or verify the Firebase project rules match the repository files:
-  - `firestore.rules`
-  - `storage.rules`
+- Live Firebase project rules were deployed on 2026-05-20 KST:
+  - `firebase deploy --only firestore:rules,storage --project life-quest-app-95eb9` released `firestore.rules`.
+  - `firebase deploy --only storage --project life-quest-app-95eb9` released `storage.rules`.
 - Smoke-test account deletion on an authenticated Android build with:
   - Firestore user document present.
   - Optional `users/{uid}/profile.jpg` present.
@@ -37,4 +37,4 @@ Storage:
 
 ## Decision
 
-The repository now contains a coherent Firebase rules baseline for the current Android app. Release is still blocked until these rules are verified against the live Firebase project and account deletion is smoke-tested on a real authenticated build.
+The repository now contains a coherent Firebase rules baseline for the current Android app, and those rules have been deployed to the live Firebase project. Release is still blocked until account deletion is smoke-tested on a real authenticated Android build.
