@@ -330,7 +330,17 @@ class CharacterState extends ChangeNotifier {
 
   /// Y-2: 회원 탈퇴 오류 SnackBar 메시지 (BuildContext 없이 locale 기반 다국어)
   String _localizedDeleteAccountError() {
-    switch (_locale?.languageCode) {
+    final languageCode = _locale?.languageCode;
+    if (languageCode == 'ja') {
+      return 'アカウント削除中にエラーが発生しました。もう一度ログインしてからお試しください。';
+    }
+    if (languageCode == 'zh') {
+      return '删除账号时发生错误。请重新登录后再试。';
+    }
+    if (languageCode != 'en') {
+      return '계정 삭제 중 오류가 발생했습니다. 다시 로그인한 뒤 시도해 주세요.';
+    }
+    switch (languageCode) {
       case 'en':
         return 'An error occurred during account deletion. Please sign in again and retry.';
       case 'ja':
@@ -709,9 +719,9 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteAccount() async {
+  Future<bool> deleteAccount() async {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
+    if (user == null) return false;
 
     _saveTimer?.cancel();
 
@@ -719,6 +729,7 @@ class CharacterState extends ChangeNotifier {
       final uid = user.uid;
       await _deleteKnownAccountData(uid);
       await user.delete();
+      return true;
     } catch (e) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
@@ -738,6 +749,7 @@ class CharacterState extends ChangeNotifier {
           ),
         ),
       );
+      return false;
     }
   }
 

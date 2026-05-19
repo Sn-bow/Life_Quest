@@ -34,7 +34,8 @@ Storage:
   - Optional `users/{uid}/profile.jpg` present.
   - Optional `users/{uid}/_meta/adServerTime` present if monetization testing creates it.
 - Confirm the account deletion flow still handles recent-login requirements from Firebase Authentication.
+- Confirm failed deletion does not navigate away as if deletion succeeded.
 
 ## Decision
 
-The repository now contains a coherent Firebase rules baseline for the current Android app, and those rules have been deployed to the live Firebase project. Release is still blocked until account deletion is smoke-tested on a real authenticated Android build.
+The repository now contains a coherent Firebase rules baseline for the current Android app, and those rules have been deployed to the live Firebase project. The app now keeps the user on the settings flow if deletion fails. Release is still blocked until account deletion is smoke-tested on a real authenticated Android build.

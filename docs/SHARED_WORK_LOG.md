@@ -2268,3 +2268,25 @@ Close the gap between repository rules and the live Firebase project for the rea
 
 - `firebase deploy --only firestore:rules,storage --project life-quest-app-95eb9` -> `firestore.rules` compiled successfully and released to `cloud.firestore`.
 - `firebase deploy --only storage --project life-quest-app-95eb9` -> `storage.rules` compiled successfully and released to `firebase.storage`.
+
+---
+
+## 2026-05-20 KST - Account deletion failure handling
+
+### Purpose
+
+Tighten the remaining account deletion release path before a device smoke test. The settings screen previously navigated back to the first route after calling deletion even if `CharacterState.deleteAccount()` failed.
+
+### Change
+
+- `CharacterState.deleteAccount()` now returns a success boolean.
+- Settings only navigates away after a confirmed deletion success.
+- Added readable Korean/Japanese/Chinese deletion failure fallback messages before the older garbled fallback switch can be reached.
+
+### Verification
+
+- `dart format lib/state/character_state.dart lib/screens/settings_screen.dart` -> formatted.
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/state/character_state_test.dart` -> 23 tests passed.
+- `flutter test --no-pub` -> 121 tests passed.
+- `git diff --check` -> no whitespace errors.

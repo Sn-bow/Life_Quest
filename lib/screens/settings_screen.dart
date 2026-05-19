@@ -195,7 +195,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 final confirmed = await _reauthenticateAndConfirm(context);
                 if (!confirmed) return;
                 if (!context.mounted) return;
-                await characterState.deleteAccount();
+                final didDelete = await characterState.deleteAccount();
+                if (!didDelete) return;
                 if (!context.mounted) return;
                 Navigator.of(context).popUntil((route) => route.isFirst);
               },
