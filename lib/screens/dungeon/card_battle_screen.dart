@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/status_effect.dart';
 import 'package:life_quest_final_v2/state/card_combat_state.dart';
@@ -1742,8 +1743,11 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
 
     // 렐릭 확인
     List<RelicData> relics = [];
+    DailyModifier dailyModifier = const DailyModifier();
     try {
-      relics = context.read<DungeonState>().currentRelics;
+      final dungeonState = context.read<DungeonState>();
+      relics = dungeonState.currentRelics;
+      dailyModifier = dungeonState.dailyModifier;
     } catch (_) {}
     final hasAdventurerBag = relics.any((r) => r.id == 'relic_start_01');
     final hasFateThread = relics.any((r) => r.id == 'relic_r05');
@@ -1791,7 +1795,15 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
             ? fallback[rng.nextInt(fallback.length)]
             : CardDatabase.allCards.first;
       }
-      return rarityPool[rng.nextInt(rarityPool.length)];
+      final category = CoreLoopRules.pickCardRewardCategory(
+        rng: rng,
+        modifier: dailyModifier,
+        availableCategories: rarityPool.map((card) => card.category),
+      );
+      final categoryPool =
+          rarityPool.where((card) => card.category == category).toList();
+      final pool = categoryPool.isNotEmpty ? categoryPool : rarityPool;
+      return pool[rng.nextInt(pool.length)];
     }
 
     // relic_start_01: 모험자의 가방 — 선택지 4장

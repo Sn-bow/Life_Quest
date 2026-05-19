@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/models/title.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -221,6 +222,41 @@ class CoreLoopRules {
       magicCardWeightBonus: (growth.wisdom * 0.05).clamp(0.0, 0.10),
       eventOptionBonusChance: (growth.charisma * 0.05).clamp(0.0, 0.10),
     );
+  }
+
+  static Map<CardCategory, double> cardRewardCategoryWeightsFor(
+    DailyModifier modifier,
+  ) {
+    const baseWeight = 1.0;
+    return {
+      CardCategory.attack: baseWeight,
+      CardCategory.defense:
+          baseWeight + (modifier.defenseCardWeightBonus * 4).clamp(0.0, 0.4),
+      CardCategory.magic:
+          baseWeight + (modifier.magicCardWeightBonus * 4).clamp(0.0, 0.4),
+      CardCategory.tactical: baseWeight,
+    };
+  }
+
+  static CardCategory pickCardRewardCategory({
+    required math.Random rng,
+    required DailyModifier modifier,
+    required Iterable<CardCategory> availableCategories,
+  }) {
+    final available = availableCategories.toSet();
+    if (available.isEmpty) return CardCategory.attack;
+
+    final weights = cardRewardCategoryWeightsFor(modifier)
+      ..removeWhere((category, _) => !available.contains(category));
+    if (weights.isEmpty) return available.first;
+
+    final totalWeight = weights.values.fold<double>(0, (sum, v) => sum + v);
+    var roll = rng.nextDouble() * totalWeight;
+    for (final entry in weights.entries) {
+      roll -= entry.value;
+      if (roll <= 0) return entry.key;
+    }
+    return weights.keys.last;
   }
 
   static RecommendedAction recommendAction({

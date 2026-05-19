@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/title_database.dart';
+import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'dart:math' as math;
 
 void main() {
   group('CoreLoopRules', () {
@@ -149,6 +151,39 @@ void main() {
         modifier.labels(),
         containsAll(['던전 HP +5', '공격 피해 +1', '첫 턴 카드 +1', '시작 골드 +3']),
       );
+    });
+
+    test('card reward category weights reflect daily defense and magic bonuses',
+        () {
+      const modifier = DailyModifier(
+        defenseCardWeightBonus: 0.10,
+        magicCardWeightBonus: 0.05,
+      );
+
+      final weights = CoreLoopRules.cardRewardCategoryWeightsFor(modifier);
+
+      expect(weights[CardCategory.defense],
+          greaterThan(weights[CardCategory.attack]!));
+      expect(weights[CardCategory.magic],
+          greaterThan(weights[CardCategory.tactical]!));
+      expect(weights[CardCategory.defense],
+          greaterThan(weights[CardCategory.magic]!));
+    });
+
+    test('card reward category picker only returns available categories', () {
+      final picked = CoreLoopRules.pickCardRewardCategory(
+        rng: math.Random(7),
+        modifier: const DailyModifier(
+          defenseCardWeightBonus: 0.10,
+          magicCardWeightBonus: 0.10,
+        ),
+        availableCategories: const [
+          CardCategory.attack,
+          CardCategory.magic,
+        ],
+      );
+
+      expect({CardCategory.attack, CardCategory.magic}, contains(picked));
     });
   });
 }

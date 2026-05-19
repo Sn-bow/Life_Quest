@@ -1930,3 +1930,34 @@ The additional feedback requires the first visible loop to read as real-life act
 - The Flutter Web engine still attempts some remote fallback font requests in headless CanvasKit, but bundled Noto Sans KR keeps the visible Korean UI readable when those requests fail.
 - Google Sign-In web script may still be blocked by CSP in QA Preview. This is acceptable because QA Preview intentionally uses local guest mode.
 - Headless screenshot navigation into some non-Today tabs can intermittently render a blank CanvasKit frame without page errors; this needs a separate Web QA investigation and should not block the current font hardening commit.
+
+---
+
+## 2026-05-19 KST - DailyModifier card reward weighting
+
+### Purpose
+
+The remake plan says real-life actions must affect visible game outcomes, not just show labels. HP, starting gold, attack damage, and first-turn draw were already connected. The next missing Phase 3 item was card reward weighting.
+
+### Change
+
+- `lib/data/core_loop_rules.dart`
+  - Added `cardRewardCategoryWeightsFor()` to convert `DailyModifier.defenseCardWeightBonus` and `magicCardWeightBonus` into reward category weights.
+  - Added `pickCardRewardCategory()` so card reward UI can select only from categories that actually exist in the current rarity pool.
+- `lib/screens/dungeon/card_battle_screen.dart`
+  - Victory card choices now read `DungeonState.dailyModifier`.
+  - Defense/magic daily bonuses now bias the card reward category pool before choosing the final card.
+- `test/data/core_loop_rules_test.dart`
+  - Added tests for category weight calculation and available-category picker safety.
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+  - Marked card reward weighting as complete.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/data/core_loop_rules_test.dart` -> 8 tests passed.
+
+### Remaining risk
+
+- Event choice chance, shop discount, and rest recovery modifiers are still not wired.
+- Card reward weighting is probabilistic; the current test verifies rule shape and category safety, not long-run statistical distribution.
