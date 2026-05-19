@@ -2152,3 +2152,29 @@ The active goal now treats the real Android app as the default release target, w
 - `flutter analyze --no-pub` -> No issues found.
 - `flutter test --no-pub test/services/monetization_gate_test.dart` -> 2 tests passed.
 - `flutter test --no-pub` -> 120 tests passed.
+
+---
+
+## 2026-05-19 KST - Android notification permission gate
+
+### Purpose
+
+Move another Google Play readiness item from research to code. The real Android app should not ask for notification permission on first launch; it should request that permission only when the user explicitly enables reminders.
+
+### Source
+
+- Android Developers target API guidance: https://developer.android.com/google/play/requirements/target-sdk
+
+### Change
+
+- `NotificationService.init()` no longer requests Android notification permission during startup.
+- Added `NotificationService.requestNotificationPermission()` for explicit opt-in.
+- New accounts and default local state now start with notifications disabled.
+- `CharacterState.changeNotificationSetting(true)` requests permission before scheduling reminders.
+- Documented the current build values: `compileSdk = 36`, `targetSdk = 35`.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/state/character_state_test.dart` -> 23 tests passed.
+- `flutter test --no-pub` -> 121 tests passed.

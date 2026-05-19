@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -173,7 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'learnedSkillIds': [],
         'achievementProgress': {}, // 초기에는 비어있음
         'themeMode': ThemeMode.dark.index,
-        'isNotificationEnabled': true,
+        'isNotificationEnabled': false,
         'lastLoginDate': DateTime.now().toIso8601String(),
       };
 
@@ -396,5 +396,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
-
-

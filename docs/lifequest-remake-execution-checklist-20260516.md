@@ -434,8 +434,8 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 ### Google Play 준비
 
 - [x] Android vitals 기준 확인
-- [ ] targetSdk/compileSdk 확인
-- [ ] 앱 권한 최소화
+- [x] targetSdk/compileSdk 확인
+- [x] 앱 권한 최소화
 - [x] 실제 Android 앱 기본 빌드에서 AdMob/Billing SDK 초기화와 광고 보상 UI 비활성화
 - [ ] 광고 ID/AdMob production 설정
 - [ ] Data safety 작성
@@ -496,6 +496,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 ## 참고 출처
 
 - Android vitals: https://developer.android.com/topic/performance/vitals
+- Google Play target API level requirement: https://developer.android.com/google/play/requirements/target-sdk
 - Google Play Billing subscriptions: https://developer.android.com/google/play/billing/subscriptions
 - Health Connect data types: https://developer.android.com/health-and-fitness/health-connect/data-types
 - RevenueCat State of Subscription Apps 2026: https://www.revenuecat.com/state-of-subscription-apps-2026-shopping/

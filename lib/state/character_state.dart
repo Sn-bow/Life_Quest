@@ -357,7 +357,7 @@ class CharacterState extends ChangeNotifier {
   bool _hasSeenOnboarding = false;
   int _notificationMorningHour = 9;
   int _notificationNightHour = 20;
-  bool _isNotificationEnabled = true;
+  bool _isNotificationEnabled = false;
   Timer? _saveTimer;
   Timer? _hpRegenTimer;
   bool _isCombatActive = false;
@@ -630,7 +630,7 @@ class CharacterState extends ChangeNotifier {
     _hasSeenOnboarding = false;
     _notificationMorningHour = 9;
     _notificationNightHour = 20;
-    _isNotificationEnabled = true;
+    _isNotificationEnabled = false;
     _isCombatActive = false;
     _dailyQuests = [];
     _weeklyQuests = [];
@@ -678,7 +678,11 @@ class CharacterState extends ChangeNotifier {
   }
 
   Future<void> changeNotificationSetting(bool isEnabled) async {
-    _isNotificationEnabled = isEnabled;
+    var nextEnabled = isEnabled;
+    if (isEnabled) {
+      nextEnabled = await NotificationService().requestNotificationPermission();
+    }
+    _isNotificationEnabled = nextEnabled;
     try {
       await _syncNotificationSchedule();
     } catch (e) {
@@ -1923,7 +1927,7 @@ class CharacterState extends ChangeNotifier {
         _hasSeenOnboarding = data['hasSeenOnboarding'] ?? false;
         _notificationMorningHour = data['notificationMorningHour'] ?? 9;
         _notificationNightHour = data['notificationNightHour'] ?? 20;
-        _isNotificationEnabled = data['isNotificationEnabled'] ?? true;
+        _isNotificationEnabled = data['isNotificationEnabled'] ?? false;
         try {
           await _syncNotificationSchedule();
         } catch (e) {
@@ -2171,7 +2175,7 @@ class CharacterState extends ChangeNotifier {
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
-    _isNotificationEnabled = true;
+    _isNotificationEnabled = false;
     if (_character != null) {
       _character!.customRewards =
           _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko');

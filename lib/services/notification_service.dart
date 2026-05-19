@@ -14,8 +14,7 @@ String _localizedString({
   required String zh,
   String? langCode,
 }) {
-  final lang =
-      (langCode ?? Platform.localeName.split('_').first).toLowerCase();
+  final lang = (langCode ?? Platform.localeName.split('_').first).toLowerCase();
   switch (lang) {
     case 'ja':
       return ja;
@@ -65,26 +64,34 @@ class NotificationService {
       final String timeZoneName = timeZoneInfo.identifier;
       tz.setLocalLocation(tz.getLocation(timeZoneName));
     } catch (e) {
-      debugPrint('Error getting local timezone: $e - falling back to Asia/Seoul');
+      debugPrint(
+          'Error getting local timezone: $e - falling back to Asia/Seoul');
       try {
         tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
       } catch (_) {}
     }
 
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
 
-    // Android 13+ (API 33+) 알림 권한 요청
-    if (Platform.isAndroid) {
+  Future<bool> requestNotificationPermission() async {
+    if (!Platform.isAndroid) return true;
+    try {
       final androidPlugin = _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
-      await androidPlugin?.requestNotificationsPermission();
+      final granted = await androidPlugin?.requestNotificationsPermission();
+      return granted ?? true;
+    } catch (e) {
+      debugPrint('Notification permission request failed: $e');
+      return false;
     }
   }
 
   // 매일 아침 알림 예약 (기본 9시)
   // [languageCode]: CharacterState.locale?.languageCode — null이면 기기 언어 사용
-  Future<void> scheduleDailyNotification({int hour = 9, String? languageCode}) async {
+  Future<void> scheduleDailyNotification(
+      {int hour = 9, String? languageCode}) async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       0, // 알림 ID
       _localizedString(
@@ -131,7 +138,8 @@ class NotificationService {
 
   // 매일 저녁 알림 예약 (기본 20시)
   // [languageCode]: CharacterState.locale?.languageCode — null이면 기기 언어 사용
-  Future<void> scheduleNightReminder({int hour = 20, String? languageCode}) async {
+  Future<void> scheduleNightReminder(
+      {int hour = 20, String? languageCode}) async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       1, // 알림 ID (아침 알림과 다르게)
       _localizedString(
@@ -165,7 +173,6 @@ class NotificationService {
       matchDateTimeComponents: DateTimeComponents.time, // 매일 같은 시간에 반복
     );
   }
-
 
   // 모든 예약된 알림 취소
   Future<void> cancelAllNotifications() async {

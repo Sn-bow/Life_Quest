@@ -8,6 +8,7 @@ This document records current release/monetization issues directly from 2026 off
 - Google Play subscriptions help: https://support.google.com/googleplay/android-developer/answer/12154973
 - Google Play monetization policy: https://support.google.com/googleplay/android-developer/answer/16329168
 - Android vitals: https://developer.android.com/topic/performance/vitals/index.html
+- Google Play target API level requirement: https://developer.android.com/google/play/requirements/target-sdk
 - Large screen app quality: https://developer.android.com/docs/quality-guidelines/archive/adaptive/large-screen-app-quality
 - Google Play Data safety help: https://support.google.com/googleplay/answer/11416267
 
@@ -68,7 +69,7 @@ Acceptance criteria:
 
 ## Issue M-03 - Android Vitals Can Affect Store Visibility
 
-Status: Open
+Status: Partially mitigated in code on 2026-05-19.
 
 Evidence:
 - Android vitals are quality metrics that can affect Google Play visibility.
@@ -80,9 +81,14 @@ Decision:
 
 Acceptance criteria:
 - [ ] Focus timer does not require persistent wake lock in default mode.
-- [ ] Notification permission flow is minimal and understandable.
+- [x] Notification permission is requested only after the user enables notifications in settings.
 - [ ] Debug/release smoke test includes timer start, background, return, and stop.
 - [ ] Android vitals checklist is added to release QA.
+
+Current Android build check:
+- `compileSdk = 36`.
+- `targetSdk = 35`.
+- Android Developers states that, starting August 31, 2025, new apps and updates must target Android 15/API 35 or higher to be submitted to Google Play.
 
 ## Issue M-04 - Mobile First, But Large Screen Cannot Break
 

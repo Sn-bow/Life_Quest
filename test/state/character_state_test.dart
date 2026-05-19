@@ -80,6 +80,10 @@ void main() {
       expect(characterState.learnedSkillIds, isEmpty);
     });
 
+    test('notifications are opt-in by default', () {
+      expect(characterState.isNotificationEnabled, isFalse);
+    });
+
     test('QA Preview seeds and restores local guest profile', () async {
       SharedPreferences.setMockInitialValues({});
 
