@@ -376,7 +376,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [ ] Health Connect
 - [ ] 인바디/AR 연동
 - [ ] AI 개인 코치
-- [ ] 구독
+- [x] 구독
 - [ ] 무한 타워
 - [ ] 승천 모드
 - [ ] 월간/연간 레이드 전면 노출
@@ -420,7 +420,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [ ] Firebase Hosting 배포
 - [ ] 공개 URL smoke QA
 - [ ] localStorage 신규 사용자 상태 확인
-- [ ] 광고/결제/민감 기능 숨김 확인
+- [x] 광고/결제/민감 기능 숨김 확인
 
 ### 보안/개인정보
 
@@ -433,7 +433,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 ### Google Play 준비
 
-- [ ] Android vitals 기준 확인
+- [x] Android vitals 기준 확인
 - [ ] targetSdk/compileSdk 확인
 - [ ] 앱 권한 최소화
 - [ ] 광고 ID/AdMob production 설정
@@ -452,7 +452,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] `docs/lifequest-core-loop-ux-20260516.md`
 - [x] `docs/lifequest-remake-execution-checklist-20260516.md`
 - [ ] `docs/lifequest-design-pilot-plan-20260516.md`
-- [ ] `docs/lifequest-release-scope-20260516.md`
+- [x] `docs/lifequest-release-monetization-issues-20260519.md`
 
 ---
 

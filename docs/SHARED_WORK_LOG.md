@@ -2098,3 +2098,35 @@ Close the Phase 3 UX gap where shop discounts were applied mechanically but not 
 
 - `flutter analyze --no-pub` -> No issues found.
 - `flutter test --no-pub` -> 118 tests passed.
+
+---
+
+## 2026-05-19 KST - Release monetization issue register
+
+### Purpose
+
+Continue current-source research for the remake goal without creating a loose research pile. The result is an issue register that directly affects release scope, monetization sequencing, and Play Store readiness.
+
+### Sources
+
+- Google Play Commerce guide: https://play.google.com/console/about/guides/play-commerce/
+- Google Play subscriptions help: https://support.google.com/googleplay/android-developer/answer/12154973
+- Google Play monetization policy: https://support.google.com/googleplay/android-developer/answer/16329168
+- Android vitals: https://developer.android.com/topic/performance/vitals/index.html
+- Large screen app quality: https://developer.android.com/docs/quality-guidelines/archive/adaptive/large-screen-app-quality
+- Google Play Data safety help: https://support.google.com/googleplay/answer/11416267
+
+### Change
+
+- Added `docs/lifequest-release-monetization-issues-20260519.md`.
+- Recorded five actionable issues:
+  - Hybrid monetization should not start ad-first.
+  - Subscription must have concrete entitlement, not vague support copy.
+  - Android vitals and wake-lock behavior are release risks.
+  - Phone-first UI still needs large-screen breakage checks.
+  - Data safety must match Firebase/Crashlytics/Storage/AdMob/Billing reality.
+- Updated the execution checklist to mark the current monetization/Android vitals research decisions as documented.
+
+### Verification
+
+- Documentation-only change. No code verification required.
