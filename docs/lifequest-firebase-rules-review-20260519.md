@@ -1,0 +1,40 @@
+# Life Quest Firebase Rules Review - 2026-05-19
+
+This review aligns the repository Firebase rules with the Android privacy policy and Data safety inventory.
+
+## Findings
+
+| Area | Current evidence | Risk | Resolution |
+| --- | --- | --- | --- |
+| Firestore user document isolation | App reads/writes `users/{uid}` in `CharacterState`; local `firestore.rules` scopes access to owner UID | Owner isolation exists, but account deletion failed because `delete` was not allowed on `users/{uid}` | `firestore.rules` now allows owner `delete` for `users/{uid}` |
+| Firestore `_meta` subcollection | `AdService` writes `users/{uid}/_meta/adServerTime` when monetization is enabled | Deleting only the parent `users/{uid}` document can leave known subcollection documents behind | `CharacterState.deleteAccount()` now deletes known `_meta/adServerTime` before deleting the parent user doc |
+| Storage profile image | Signup uploads `users/{uid}/profile.jpg`; repo had no `storage.rules` | Production Storage access was not represented in repo rules, and account deletion did not delete the optional profile image | Added `storage.rules`, wired it in `firebase.json`, and delete `users/{uid}/profile.jpg` during account deletion |
+| Default deny | Firestore already blocks all other paths | Storage had no repo-level equivalent | Storage now denies every path except owner-scoped profile image operations |
+
+## Local Rule Scope
+
+Firestore:
+- `users/{uid}`: authenticated owner can read, create, update, delete.
+- Update keeps the existing basic progress invariant: character gold must not be negative and character level must be at least 1 when `character` is present.
+- `users/{uid}/_meta/{doc}`: authenticated owner can read/write.
+- All other document paths are denied.
+
+Storage:
+- `users/{uid}/profile.jpg`: authenticated owner can read, create, update, delete.
+- Uploads are limited to image content types under 2 MiB.
+- All other object paths are denied.
+
+## Remaining Release Checks
+
+- Deploy or verify the Firebase project rules match the repository files:
+  - `firestore.rules`
+  - `storage.rules`
+- Smoke-test account deletion on an authenticated Android build with:
+  - Firestore user document present.
+  - Optional `users/{uid}/profile.jpg` present.
+  - Optional `users/{uid}/_meta/adServerTime` present if monetization testing creates it.
+- Confirm the account deletion flow still handles recent-login requirements from Firebase Authentication.
+
+## Decision
+
+The repository now contains a coherent Firebase rules baseline for the current Android app. Release is still blocked until these rules are verified against the live Firebase project and account deletion is smoke-tested on a real authenticated build.

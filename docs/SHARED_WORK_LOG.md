@@ -1536,7 +1536,7 @@ flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true
 - `build/web/assets/NOTICES`의 이메일들은 오픈소스 라이선스 고지에 포함된 외부 기여자 정보이며 내 개인정보가 아님.
 - QA Preview는 Firebase 초기화/Auth 구독/AdService/Crashlytics/App Check를 skip하고, 저장은 브라우저 localStorage의 `lifequest.qaPreview.state.v2`에만 수행.
 - `firestore.rules` 로컬 파일은 본인 UID 경로 외 모든 접근을 차단하는 형태로 확인.
-- `storage.rules`는 repo에 없음. QA Preview에서는 Storage를 쓰지 않지만 정식 앱 Storage 사용 전 rules 작성 필요.
+- 당시 `storage.rules`는 repo에 없었음. 2026-05-19에 Android 정식 앱용 Storage rules를 추가했다.
 
 ### 조치
 
@@ -2223,3 +2223,29 @@ Close the policy mismatch found by the Android Data safety inventory. The previo
 ### Verification
 
 - Documentation/static HTML change; verified with `git diff --check`.
+
+---
+
+## 2026-05-19 KST - Firebase rules and account deletion alignment
+
+### Purpose
+
+Make the real Android app's Firebase behavior match the refreshed privacy policy. The local Firestore rules did not allow account document deletion, there was no repository Storage rules file for optional profile images, and the account deletion flow did not attempt Storage cleanup.
+
+### Change
+
+- Updated `firestore.rules` to keep owner-only access while allowing owner deletion of `users/{uid}`.
+- Added `storage.rules` for owner-only `users/{uid}/profile.jpg` read/create/update/delete, image MIME types, and a 2 MiB upload limit.
+- Wired Storage rules into `firebase.json`.
+- Updated `CharacterState.deleteAccount()` to delete the optional profile image and known `_meta/adServerTime` document before deleting the Firestore user document and Auth account.
+- Added `docs/lifequest-firebase-rules-review-20260519.md`.
+
+### Verification
+
+- `dart format lib/state/character_state.dart` -> formatted, no file changes.
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/state/character_state_test.dart` -> 23 tests passed.
+- `flutter test --no-pub` -> 121 tests passed.
+- `node -e "JSON.parse(...firebase.json...)"` -> `firebase.json ok`.
+- `firebase emulators:exec --only firestore "cmd /c echo firebase-rules-ok"` -> Firestore emulator started and script exited successfully.
+- `firebase emulators:exec --only storage "cmd /c echo storage-rules-ok"` -> Storage emulator started and script exited successfully.

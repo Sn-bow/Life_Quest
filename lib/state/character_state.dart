@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
@@ -715,7 +716,8 @@ class CharacterState extends ChangeNotifier {
     _saveTimer?.cancel();
 
     try {
-      await _firestore.collection('users').doc(user.uid).delete();
+      final uid = user.uid;
+      await _deleteKnownAccountData(uid);
       await user.delete();
     } catch (e) {
       scaffoldMessengerKey.currentState?.showSnackBar(
@@ -736,6 +738,35 @@ class CharacterState extends ChangeNotifier {
           ),
         ),
       );
+    }
+  }
+
+  Future<void> _deleteKnownAccountData(String uid) async {
+    await _deleteOptionalProfileImage(uid);
+    await _deleteKnownUserSubcollectionDocs(uid);
+    await _firestore.collection('users').doc(uid).delete();
+  }
+
+  Future<void> _deleteOptionalProfileImage(String uid) async {
+    try {
+      await FirebaseStorage.instance.ref('users/$uid/profile.jpg').delete();
+    } on FirebaseException catch (e) {
+      if (e.code == 'object-not-found') return;
+      rethrow;
+    }
+  }
+
+  Future<void> _deleteKnownUserSubcollectionDocs(String uid) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('_meta')
+          .doc('adServerTime')
+          .delete();
+    } on FirebaseException catch (e) {
+      if (e.code == 'not-found') return;
+      rethrow;
     }
   }
 

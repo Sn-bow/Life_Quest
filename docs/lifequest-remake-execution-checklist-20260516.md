@@ -425,8 +425,10 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 ### 보안/개인정보
 
 - [ ] Firebase API key 노출 위험 재검토
-- [ ] Firestore rules 확인
-- [ ] Storage rules 필요 여부 확인
+- [x] Firestore rules 로컬 기준 확인 및 계정 삭제 허용 보완
+- [x] Storage rules 로컬 기준 추가 및 프로필 이미지 경로 제한
+- [ ] Firebase 콘솔/프로젝트에 배포된 Firestore/Storage rules가 repo와 일치하는지 확인
+- [ ] Android 인증 빌드에서 계정 삭제가 Auth/Firestore/Storage를 정리하는지 smoke test
 - [ ] QA Preview localStorage 데이터 범위 확인
 - [x] 개인정보처리방침 최신화
 - [ ] Health/AI 관련 문구가 과장되지 않는지 확인

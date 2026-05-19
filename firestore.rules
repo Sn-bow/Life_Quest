@@ -2,27 +2,26 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // 사용자 문서: 본인만 읽기/쓰기 가능
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function hasValidCharacterProgress() {
+      return !('character' in request.resource.data)
+             || (request.resource.data.character.gold >= 0
+                 && request.resource.data.character.level >= 1);
+    }
+
     match /users/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
+      allow read, create, delete: if isOwner(userId);
 
-      allow create: if request.auth != null
-                    && request.auth.uid == userId;
-
-      allow update: if request.auth != null
-                    && request.auth.uid == userId
-                    // 기본 데이터 무결성 검증: gold와 level은 음수/0 불가
-                    && (!('character' in request.resource.data)
-                        || (request.resource.data.character.gold >= 0
-                            && request.resource.data.character.level >= 1));
+      allow update: if isOwner(userId) && hasValidCharacterProgress();
     }
 
-    // AdService 서버 시각 동기화용 메타 서브컬렉션: 본인만 읽기/쓰기
     match /users/{userId}/_meta/{doc} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isOwner(userId);
     }
 
-    // 그 외 모든 경로는 기본 차단
     match /{document=**} {
       allow read, write: if false;
     }

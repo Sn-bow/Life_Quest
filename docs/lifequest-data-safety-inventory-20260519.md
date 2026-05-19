@@ -82,15 +82,16 @@ Use this as a Play Console drafting aid only:
 ## Security/Rules Checks Still Required
 
 - Firebase API keys in `firebase_options.dart` and `android/app/google-services.json` are client configuration, not secret keys by themselves, but release safety depends on correct Firebase Auth restrictions, App Check enforcement, Firestore rules, and Storage rules.
-- Firestore rules must verify each user can read/write only `users/{uid}` and approved child paths.
-- Storage rules must verify profile images are scoped to `users/{uid}/profile.jpg` or an explicitly approved path.
-- Account deletion should be manually smoke-tested to confirm Auth, Firestore, and Storage cleanup expectations match the privacy policy.
+- Repository Firestore rules now scope each user to `users/{uid}` plus the approved `_meta` child path and permit owner account deletion.
+- Repository Storage rules now scope profile images to `users/{uid}/profile.jpg`, owner-only access, image content types, and a 2 MiB upload limit.
+- Account deletion now attempts to delete the optional profile image and known `_meta/adServerTime` document before deleting the user document and Auth account.
+- Live Firebase project rules and account deletion still need an authenticated Android smoke test.
 
 ## Release Decision
 
 M-05 is not complete. The SDK/data-category inventory is complete enough to unblock Privacy Policy rewrite and Play Console draft entry, but final submission should remain blocked until:
 
 - Privacy policy publication path is verified from the released app and store listing.
-- Firestore and Storage rules are reviewed against this inventory.
+- Firestore and Storage rules are verified against the live Firebase project.
 - A default release AAB is smoke-tested to confirm no AdMob/Billing UI or SDK startup occurs without the monetization flag.
 - Any monetization-enabled build receives a separate Data safety review.
