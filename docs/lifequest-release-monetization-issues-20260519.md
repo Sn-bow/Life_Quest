@@ -11,6 +11,7 @@ This document records current release/monetization issues directly from 2026 off
 - Google Play target API level requirement: https://developer.android.com/google/play/requirements/target-sdk
 - Large screen app quality: https://developer.android.com/docs/quality-guidelines/archive/adaptive/large-screen-app-quality
 - Google Play Data safety help: https://support.google.com/googleplay/answer/11416267
+- Google Play Data safety form help: https://support.google.com/googleplay/android-developer/answer/10787469
 
 ## Issue M-01 - Monetization Must Start Hybrid, Not Ad-First
 
@@ -109,7 +110,7 @@ Acceptance criteria:
 
 ## Issue M-05 - Data Safety Must Match Actual SDK Behavior
 
-Status: Open
+Status: Partially mitigated in docs on 2026-05-19.
 
 Evidence:
 - Google Play Data safety disclosures must cover data categories and purposes, including name, email, user IDs, and other collected/shared data.
@@ -117,9 +118,10 @@ Evidence:
 Decision:
 - Firebase Auth, Firestore, Crashlytics, Storage, notifications, and future AdMob/Billing SDKs must be mapped before release.
 - Do not claim "no data collected" if Firebase Auth or analytics/crash reporting are active.
+- Treat the default Android release build and any monetization-enabled build as separate review cases because AdMob/Billing are disabled by default.
 
 Acceptance criteria:
-- [ ] Data inventory table lists each SDK and data category.
+- [x] Data inventory table lists each SDK and data category. See `docs/lifequest-data-safety-inventory-20260519.md`.
 - [ ] Privacy policy matches Play Console Data safety answers.
 - [ ] QA Preview public web version contains no personal credentials or private owner data.
 - [x] AdMob remains disabled by default until Data safety and consent implications are updated.

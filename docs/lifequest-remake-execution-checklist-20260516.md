@@ -430,6 +430,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [ ] QA Preview localStorage 데이터 범위 확인
 - [ ] 개인정보처리방침 최신화
 - [ ] Health/AI 관련 문구가 과장되지 않는지 확인
+- [x] Android Data safety SDK/데이터 카테고리 인벤토리 작성 (`lifequest-data-safety-inventory-20260519.md`)
 
 ### Google Play 준비
 

@@ -2178,3 +2178,28 @@ Move another Google Play readiness item from research to code. The real Android 
 - `flutter analyze --no-pub` -> No issues found.
 - `flutter test --no-pub test/state/character_state_test.dart` -> 23 tests passed.
 - `flutter test --no-pub` -> 121 tests passed.
+
+---
+
+## 2026-05-19 KST - Android Data safety inventory
+
+### Purpose
+
+Continue Play Store readiness for the real Android app by mapping current SDKs, manifest permissions, and code paths to Google Play Data safety categories before rewriting the privacy policy or filling the Play Console form.
+
+### Sources
+
+- Google Play Data safety form guidance: https://support.google.com/googleplay/android-developer/answer/10787469
+- Google Play user-facing Data safety categories: https://support.google.com/googleplay/answer/11416267
+- Firebase privacy and security: https://firebase.google.com/support/privacy
+
+### Change
+
+- Added `docs/lifequest-data-safety-inventory-20260519.md`.
+- Mapped Firebase Auth, Google Sign-In, Firestore, Storage, Crashlytics, App Check, local preferences, home widget, local notifications, image picker, AdMob, Billing, URL launcher, and unused Cloud Functions dependency.
+- Marked only the M-05 inventory criterion complete; privacy policy rewrite, Firebase rules review, and final Play Console Data safety entry remain blocked.
+- Recorded privacy policy gaps: Korean text encoding corruption, placeholder contact email, Firebase Analytics claim mismatch, and AdMob/Billing copy mismatch with the default-off monetization gate.
+
+### Verification
+
+- Documentation-only change; verified with `git diff --check`.
