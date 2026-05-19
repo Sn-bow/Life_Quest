@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:life_quest_final_v2/models/card_data.dart';
+import 'package:life_quest_final_v2/models/dungeon_event.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/models/title.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -248,6 +249,37 @@ class CoreLoopRules {
 
   static double restHealPercentFor(DailyModifier modifier) {
     return (0.30 + modifier.restHealPercentBonus).clamp(0.0, 1.0);
+  }
+
+  static EventOutcome pickEventOutcome({
+    required math.Random rng,
+    required EventChoice choice,
+    required DailyModifier modifier,
+  }) {
+    if (choice.outcomes.isEmpty) {
+      return const EventOutcome(description: '');
+    }
+    final shouldUseBonus = modifier.eventOptionBonusChance > 0 &&
+        rng.nextDouble() < modifier.eventOptionBonusChance;
+    if (!shouldUseBonus) {
+      return choice.outcomes[rng.nextInt(choice.outcomes.length)];
+    }
+    return choice.outcomes.reduce((a, b) {
+      return eventOutcomeScore(a) >= eventOutcomeScore(b) ? a : b;
+    });
+  }
+
+  static int eventOutcomeScore(EventOutcome outcome) {
+    var score = 0;
+    score += outcome.goldChange;
+    score += outcome.hpChange * 2;
+    score += (outcome.hpPercentChange * 100).round() * 2;
+    if (outcome.cardReward) score += 35;
+    if (outcome.relicReward) score += 55;
+    if (outcome.cardRemove) score += 25;
+    if (outcome.cardUpgrade) score += 30;
+    if (outcome.curseAdded) score -= 45;
+    return score;
   }
 
   static Map<CardCategory, double> cardRewardCategoryWeightsFor(

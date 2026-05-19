@@ -1996,5 +1996,35 @@ Continue Phase 3 of the remake plan: real-life action modifiers should affect th
 
 ### Remaining risk
 
-- Event option chance is still not wired.
 - Shop UI currently shows only the final discounted price, not the original price or discount reason. This is functionally correct but less explanatory than the target product direction.
+
+---
+
+## 2026-05-19 KST - DailyModifier event outcome bias
+
+### Purpose
+
+Finish the remaining Phase 3 modifier wiring: charisma/event bonuses should affect actual dungeon events, not only appear as a label.
+
+### Change
+
+- `lib/data/core_loop_rules.dart`
+  - Added `eventOutcomeScore()` to rank event outcomes by gold, HP, card/relic reward, card removal, upgrade, and curse penalties.
+  - Added `pickEventOutcome()` so `DailyModifier.eventOptionBonusChance` can bias a choice toward the best available outcome.
+- `lib/screens/dungeon/dungeon_event_screen.dart`
+  - Event choices now pick outcomes through `CoreLoopRules.pickEventOutcome()`.
+  - Existing title-unlocked extra choices remain intact.
+- `test/data/core_loop_rules_test.dart`
+  - Added tests for outcome scoring and forced best-outcome selection.
+- `docs/lifequest-remake-execution-checklist-20260516.md`
+  - Marked event option modifier wiring complete.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/data/core_loop_rules_test.dart` -> 12 tests passed.
+- `flutter test --no-pub` -> 115 tests passed.
+
+### Remaining risk
+
+- The current event modifier affects random outcome quality inside a selected choice. It does not yet add visible "bonus" labels or reorder choices, so the mechanic is functional but not fully explained to users.

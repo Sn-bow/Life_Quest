@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/relic_database.dart';
 import 'package:life_quest_final_v2/data/title_unlock_rules.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
@@ -277,9 +278,12 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
   }
 
   void _makeChoice(EventChoice choice, DungeonState dungeonState) {
-    // Pick a random outcome from the choice
     final rng = Random();
-    final outcome = choice.outcomes[rng.nextInt(choice.outcomes.length)];
+    final outcome = CoreLoopRules.pickEventOutcome(
+      rng: rng,
+      choice: choice,
+      modifier: dungeonState.dailyModifier,
+    );
 
     // ── Gold / HP ──
     if (outcome.goldChange != 0) {

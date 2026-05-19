@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
+import 'package:life_quest_final_v2/models/dungeon_event.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'dart:math' as math;
@@ -208,6 +209,40 @@ void main() {
       expect(restored.shopDiscountRate, closeTo(0.08, 0.001));
       expect(restored.restHealPercentBonus, closeTo(0.06, 0.001));
       expect(restored.hasAnyBonus, isTrue);
+    });
+
+    test('event outcome score ranks rewards above penalties', () {
+      const good = EventOutcome(
+        description: 'good',
+        goldChange: 20,
+        hpChange: 5,
+        cardUpgrade: true,
+      );
+      const bad = EventOutcome(
+        description: 'bad',
+        goldChange: -20,
+        hpChange: -8,
+        curseAdded: true,
+      );
+
+      expect(
+        CoreLoopRules.eventOutcomeScore(good),
+        greaterThan(CoreLoopRules.eventOutcomeScore(bad)),
+      );
+    });
+
+    test('event modifier can force the best outcome inside a choice', () {
+      const bad = EventOutcome(description: 'bad', goldChange: -50);
+      const good = EventOutcome(description: 'good', relicReward: true);
+      const choice = EventChoice(text: 'choose', outcomes: [bad, good]);
+
+      final picked = CoreLoopRules.pickEventOutcome(
+        rng: math.Random(1),
+        choice: choice,
+        modifier: const DailyModifier(eventOptionBonusChance: 1),
+      );
+
+      expect(picked.description, 'good');
     });
   });
 }
