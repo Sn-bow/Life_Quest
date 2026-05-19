@@ -428,7 +428,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [ ] Firestore rules 확인
 - [ ] Storage rules 필요 여부 확인
 - [ ] QA Preview localStorage 데이터 범위 확인
-- [ ] 개인정보처리방침 최신화
+- [x] 개인정보처리방침 최신화
 - [ ] Health/AI 관련 문구가 과장되지 않는지 확인
 - [x] Android Data safety SDK/데이터 카테고리 인벤토리 작성 (`lifequest-data-safety-inventory-20260519.md`)
 
@@ -440,6 +440,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] 실제 Android 앱 기본 빌드에서 AdMob/Billing SDK 초기화와 광고 보상 UI 비활성화
 - [ ] 광고 ID/AdMob production 설정
 - [ ] Data safety 작성
+- [ ] Play Console에 공개 개인정보처리방침 URL과 Data safety 답변 일치 여부 최종 확인
 - [ ] 스토어 스크린샷
 - [ ] 짧은 설명/긴 설명
 - [ ] 내부 테스트 트랙

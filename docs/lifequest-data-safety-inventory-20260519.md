@@ -73,11 +73,11 @@ Use this as a Play Console drafting aid only:
 
 ## Privacy Policy Gaps Before Release
 
-- `PRIVACY_POLICY.md` has visible encoding corruption in the Korean section and placeholder contact email text.
-- The English policy mentions Firebase Analytics, but `firebase_analytics` is not in `pubspec.yaml`; either add the SDK intentionally or remove the claim.
-- The policy currently describes AdMob and in-app purchases as active; default Android builds now disable both unless `LIFEQUEST_MONETIZATION_ENABLED=true`.
-- The policy should explicitly mention optional profile photo upload, Firestore-stored quest/progression data, Crashlytics diagnostics, App Check security data, deletion path, and real operator contact.
-- Public QA Preview privacy copy must remain separate from real Android release behavior because QA Preview is a tester web build, not the production app.
+- `PRIVACY_POLICY.md` was rewritten on 2026-05-19 to remove encoding corruption and placeholder contact text.
+- The Firebase Analytics claim was removed because `firebase_analytics` is not in `pubspec.yaml`.
+- AdMob and in-app purchases are now described as disabled in the default Android release build unless `LIFEQUEST_MONETIZATION_ENABLED=true`.
+- The policy now mentions optional profile photo upload, Firestore-stored quest/progression data, Crashlytics diagnostics, App Check security data, deletion path, and real operator contact.
+- Public QA Preview privacy copy is explicitly separated from real Android release behavior because QA Preview is a tester web build, not the production app.
 
 ## Security/Rules Checks Still Required
 
@@ -90,7 +90,7 @@ Use this as a Play Console drafting aid only:
 
 M-05 is not complete. The SDK/data-category inventory is complete enough to unblock Privacy Policy rewrite and Play Console draft entry, but final submission should remain blocked until:
 
-- Privacy policy is rewritten and published with a real contact address.
+- Privacy policy publication path is verified from the released app and store listing.
 - Firestore and Storage rules are reviewed against this inventory.
 - A default release AAB is smoke-tested to confirm no AdMob/Billing UI or SDK startup occurs without the monetization flag.
 - Any monetization-enabled build receives a separate Data safety review.

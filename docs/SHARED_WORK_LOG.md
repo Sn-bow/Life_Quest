@@ -2203,3 +2203,23 @@ Continue Play Store readiness for the real Android app by mapping current SDKs, 
 ### Verification
 
 - Documentation-only change; verified with `git diff --check`.
+
+---
+
+## 2026-05-19 KST - Android privacy policy refresh
+
+### Purpose
+
+Close the policy mismatch found by the Android Data safety inventory. The previous policy had visible Korean encoding corruption, placeholder contact text, an inactive Firebase Analytics claim, and active AdMob/Billing wording even though monetization is disabled by default.
+
+### Change
+
+- Rewrote `PRIVACY_POLICY.md` in Korean and English for the real Android release app.
+- Rewrote `docs/index.html`, which is the public policy/account-deletion page linked from app settings.
+- Documented that QA Preview is a tester preview, not the production Android app.
+- Documented current data handling for Firebase Auth, Google Sign-In, Firestore, optional Storage profile image upload, Crashlytics, App Check, local settings, home widget, local notifications, and default-disabled Ads/Billing.
+- Marked the privacy policy draft aligned with the current default Android Data safety inventory; final Play Console URL/Data safety consistency check remains open.
+
+### Verification
+
+- Documentation/static HTML change; verified with `git diff --check`.

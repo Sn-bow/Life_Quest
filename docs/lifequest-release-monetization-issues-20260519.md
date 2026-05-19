@@ -122,7 +122,8 @@ Decision:
 
 Acceptance criteria:
 - [x] Data inventory table lists each SDK and data category. See `docs/lifequest-data-safety-inventory-20260519.md`.
-- [ ] Privacy policy matches Play Console Data safety answers.
+- [x] Privacy policy draft matches current default Android Data safety inventory.
+- [ ] Published privacy policy URL and Play Console Data safety answers are verified together before release.
 - [ ] QA Preview public web version contains no personal credentials or private owner data.
 - [x] AdMob remains disabled by default until Data safety and consent implications are updated.
 
