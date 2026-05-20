@@ -2317,3 +2317,35 @@ Close the code-audit part of release issue M-03 for the real Android app. Google
 ### Remaining risk
 
 - Physical Android smoke test remains blocked because ADB reports device `520034bafe9225db` as `unauthorized`.
+
+---
+
+## 2026-05-20 KST - Premium bundle revenue plan
+
+### Purpose
+
+Continue the real Android release monetization work without prematurely enabling billing. The app needed a concrete first premium bundle so monetization does not fall back to vague support copy, ad-first revenue, or a stale remove-ads product.
+
+### Sources
+
+- Google Play Commerce guide.
+- Google Play subscription product/base-plan/offer documentation.
+- Google Play Developer Program monetization policy.
+- RevenueCat State of Subscription Apps 2026 benchmarks.
+
+### Change
+
+- Added `docs/lifequest-premium-bundle-plan-20260520.md`.
+- Defined future product `lifequest_premium` with monthly and annual auto-renewing base plans.
+- Set draft Korea price anchors at 4,900 KRW monthly and 39,000 KRW yearly.
+- Limited premium value to sustained self-management benefits: advanced reports, long-term archive/calendar, extra custom reward slots, premium themes/title frames, and export/share summary.
+- Updated the release monetization issue register to close the premium-bundle planning criteria and the no-interstitial-ad criterion.
+
+### Verification
+
+- `rg -n "InterstitialAd|RewardedAd|showRewardedAd" lib test docs/lifequest-release-monetization-issues-20260519.md` showed rewarded ads only; no interstitial ad implementation exists.
+- `PurchaseService` still exits early when `LIFEQUEST_MONETIZATION_ENABLED=false`; current billing remains disabled by default.
+
+### Remaining risk
+
+- Billing implementation is intentionally blocked until Android core-loop smoke tests, Data safety updates, premium paywall copy, and server-side purchase validation are ready.

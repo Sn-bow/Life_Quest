@@ -12,10 +12,11 @@ This document records current release/monetization issues directly from 2026 off
 - Large screen app quality: https://developer.android.com/docs/quality-guidelines/archive/adaptive/large-screen-app-quality
 - Google Play Data safety help: https://support.google.com/googleplay/answer/11416267
 - Google Play Data safety form help: https://support.google.com/googleplay/android-developer/answer/10787469
+- RevenueCat State of Subscription Apps 2026: https://www.revenuecat.com/state-of-subscription-apps-2026-shopping/
 
 ## Issue M-01 - Monetization Must Start Hybrid, Not Ad-First
 
-Status: Partially mitigated in code on 2026-05-19.
+Status: Partially mitigated in code and planned on 2026-05-20.
 
 Evidence:
 - Google Play explicitly supports paid distribution, in-app products, subscriptions, and ad-based models.
@@ -33,13 +34,13 @@ Life Quest implication:
 
 Acceptance criteria:
 - [x] No ad surfaces in QA Preview.
-- [ ] No interstitial ads in core quest, status, dungeon, timer, or reward flows.
+- [x] No interstitial ads in core quest, status, dungeon, timer, or reward flows. Repository search found only rewarded ads, no `InterstitialAd` usage.
 - [x] AdMob and billing startup are disabled by default in the real Android app unless `LIFEQUEST_MONETIZATION_ENABLED=true` is supplied.
-- [ ] Release plan defines one optional premium value bundle before billing implementation.
+- [x] Release plan defines one optional premium value bundle before billing implementation. See `docs/lifequest-premium-bundle-plan-20260520.md`.
 
 ## Issue M-02 - Subscription Requires Clear Entitlement, Not Vague Support
 
-Status: Partially mitigated in code on 2026-05-19.
+Status: Premium bundle defined on 2026-05-20; billing remains disabled.
 
 Evidence:
 - Google Play subscriptions are composed of subscription products, base plans, and offers.
@@ -51,11 +52,10 @@ Decision:
 - Premium must unlock understandable value.
 
 Candidate premium bundle:
-- Advanced weekly/monthly reports.
-- More custom reward slots.
-- Extra theme packs.
-- Optional long-term archive/export.
-- Advanced title/stat analytics.
+- Product ID: `lifequest_premium`.
+- Base plans: `monthly-auto` and `annual-auto`.
+- Draft Korea price anchors: 4,900 KRW monthly and 39,000 KRW yearly.
+- Entitlements: advanced reports, long-term archive/calendar, extra custom reward slots, premium themes/title frames, export/share summary.
 
 Non-candidate for paid gate:
 - Basic quest creation.
@@ -64,7 +64,7 @@ Non-candidate for paid gate:
 - Essential local progress.
 
 Acceptance criteria:
-- [ ] Premium entitlement list fits on one screen.
+- [x] Premium entitlement list fits on one screen. See `docs/lifequest-premium-bundle-plan-20260520.md`.
 - [ ] Free user can understand and complete the core loop.
 - [x] Billing is disabled by default until retention loop and premium bundle copy are validated.
 
@@ -141,7 +141,7 @@ Recommended sequence:
 
 1. Free core loop: quests -> growth -> today state -> optional dungeon feedback.
 2. Retention proof: weekly return, quest completion, focus timer completion, reward purchase.
-3. Premium pilot: advanced reports, additional customization, theme/title packs, archive/export.
+3. Premium pilot: `lifequest_premium` with advanced reports, long-term archive/calendar, extra custom reward slots, premium themes/title frames, export/share summary.
 4. Ads: only optional rewarded ads after the core app is trusted, if used at all.
 
 Immediate next implementation target:

@@ -443,6 +443,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] targetSdk/compileSdk 확인
 - [x] 앱 권한 최소화
 - [x] 실제 Android 앱 기본 빌드에서 AdMob/Billing SDK 초기화와 광고 보상 UI 비활성화
+- [x] 첫 유료 번들/구독 구조 문서화 (`lifequest-premium-bundle-plan-20260520.md`)
 - [ ] 광고 ID/AdMob production 설정
 - [ ] Data safety 작성
 - [ ] Play Console에 공개 개인정보처리방침 URL과 Data safety 답변 일치 여부 최종 확인
@@ -461,6 +462,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] `docs/lifequest-remake-execution-checklist-20260516.md`
 - [ ] `docs/lifequest-design-pilot-plan-20260516.md`
 - [x] `docs/lifequest-release-monetization-issues-20260519.md`
+- [x] `docs/lifequest-premium-bundle-plan-20260520.md`
 
 ---
 
