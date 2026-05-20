@@ -2458,3 +2458,38 @@ Close the repository-side Phase 7 check that Health or AI copy is not overstatin
 
 - Play Console Health apps declaration still must be completed for testing/production tracks.
 - Final store listing text must be reviewed with the declaration so deferred Health Connect/AI coach ideas are not advertised as shipped features.
+
+---
+
+## 2026-05-20 KST - Play Store listing draft
+
+### Purpose
+
+Prepare policy-aligned short and full descriptions for the real Android Play listing while keeping web QA preview, Health Connect, AI coaching, ads, billing, and premium claims out of the current release copy.
+
+### Sources
+
+- Play Console store listing setup documentation.
+- Google Play Metadata policy.
+- Google Play Deceptive Behavior policy.
+- Google Play Health Content and Services policy.
+- Google Play AI-Generated Content policy.
+
+### Change
+
+- Added `docs/lifequest-play-store-listing-draft-20260520.md`.
+- Drafted Korean app name, short description, and full description within Play Console limits.
+- Added an English fallback listing draft for later localization.
+- Added screenshot alignment requirements so the final listing cannot imply web preview, Health Connect, AI coaching, active ads, or active subscriptions.
+- Added release issue M-07 and updated the execution checklist to mark draft copy complete while keeping final Play Console listing/screenshot/declaration review open.
+
+### Verification
+
+- Official Play Console limit check: app name 10/30 characters, Korean short description 34/80 characters, English short description 66/80 characters, Korean full description 639/4000 characters, English full description 1252/4000 characters.
+- `rg -n "짧은 설명|긴 설명|스토어|store listing|Play Console|Health apps declaration|premium|lifequest_premium|광고|AdMob|Health/AI|AI 개인|Health Connect|Data safety" docs README.md PRIVACY_POLICY.md lib/config lib/services android/app/src/main/AndroidManifest.xml pubspec.yaml`
+- Listing draft avoids unsupported Health Connect, Google Fit, medical analysis, AI coach, active billing, active ads, and web QA preview claims.
+
+### Remaining risk
+
+- Fresh Android screenshots still need to be captured from the release/test build.
+- Final Play Console Data safety, Health apps declaration, privacy URL, and listing text must be reviewed together before closed testing or production.

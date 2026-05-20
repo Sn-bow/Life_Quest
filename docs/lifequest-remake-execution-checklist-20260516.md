@@ -448,7 +448,8 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [ ] Data safety 작성
 - [ ] Play Console에 공개 개인정보처리방침 URL과 Data safety 답변 일치 여부 최종 확인
 - [ ] 스토어 스크린샷
-- [ ] 짧은 설명/긴 설명
+- [x] 짧은 설명/긴 설명 초안 작성 (`lifequest-play-store-listing-draft-20260520.md`)
+- [ ] Play Console 최종 등록 문구와 실제 Android 스크린샷/선언 일치 확인
 - [ ] 내부 테스트 트랙
 - [ ] Closed testing 준비
 
@@ -463,6 +464,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [ ] `docs/lifequest-design-pilot-plan-20260516.md`
 - [x] `docs/lifequest-release-monetization-issues-20260519.md`
 - [x] `docs/lifequest-premium-bundle-plan-20260520.md`
+- [x] `docs/lifequest-play-store-listing-draft-20260520.md`
 
 ---
 

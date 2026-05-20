@@ -153,6 +153,25 @@ Acceptance criteria:
 - [x] Store-copy guardrails are documented. See `docs/lifequest-health-ai-copy-audit-20260520.md`.
 - [ ] Play Console Health apps declaration and final store listing copy are verified together before closed testing or production.
 
+## Issue M-07 - Store Listing Must Match The Android Build
+
+Status: Draft copy prepared on 2026-05-20; final console submission remains open.
+
+Evidence:
+- Google Play store listing fields have strict character limits: app name 30 characters, short description 80 characters, and full description 4000 characters.
+- Google Play metadata and deceptive behavior policies require clear, accurate descriptions and prohibit misleading claims in descriptions, title, icon, screenshots, and promotional images.
+
+Decision:
+- List the real Android app, not the temporary web QA preview.
+- Use copy that describes only shipped/default behavior: manual quests, RPG growth, titles, rewards, card combat, focus timer, reports, account sync/deletion.
+- Do not advertise Health Connect, AI coaching, active ads, subscriptions, or premium benefits until those features are implemented, declared, and tested.
+
+Acceptance criteria:
+- [x] Korean short and full description draft exists within Play Console limits. See `docs/lifequest-play-store-listing-draft-20260520.md`.
+- [x] English fallback draft exists for later localization.
+- [x] Listing guardrails mention Health/AI, monetization, Data safety, and screenshot alignment.
+- [ ] Final Play Console listing is reviewed against the exact release build screenshots and declarations.
+
 ## Current Monetization Direction
 
 Release v1 should not sell "a game." It should sell sustained self-management.
