@@ -395,10 +395,10 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 ### 코드 검증
 
-- [ ] `flutter analyze`
-- [ ] `flutter test`
-- [ ] `flutter build apk --debug`
-- [ ] `flutter build appbundle --release`
+- [x] `flutter analyze`
+- [x] `flutter test`
+- [x] `flutter build apk --debug`
+- [x] `flutter build appbundle --release`
 
 ### Android 실기기 QA
 

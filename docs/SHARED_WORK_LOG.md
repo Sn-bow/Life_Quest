@@ -2349,3 +2349,35 @@ Continue the real Android release monetization work without prematurely enabling
 ### Remaining risk
 
 - Billing implementation is intentionally blocked until Android core-loop smoke tests, Data safety updates, premium paywall copy, and server-side purchase validation are ready.
+
+---
+
+## 2026-05-20 KST - Android build gate verification
+
+### Purpose
+
+Close the Phase 7 code verification gate for the real Android app and confirm the current repository can still produce installable/debug and Play-upload release artifacts.
+
+### Investigation
+
+- `flutter build apk --debug --no-pub` initially failed in `:app:checkDebugAarMetadata`.
+- Root cause: `home_widget 0.9.0` declares `androidx.glance:glance-appwidget:1.+`, which resolved to `1.3.0-alpha01`.
+- That alpha requires Android Gradle Plugin 9.1 and compileSdk 37, while the app currently uses Android Gradle Plugin 8.9.1 and compileSdk 36.
+
+### Change
+
+- Updated `android/build.gradle.kts` to force `androidx.glance:glance-appwidget` to stable `1.1.1` across subprojects.
+- This keeps the existing HomeWidget feature while avoiding unintended alpha dependency drift.
+- Marked the Phase 7 code verification checklist complete.
+
+### Verification
+
+- `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub` -> 123 tests passed.
+- `flutter build apk --debug --no-pub` -> built `build/app/outputs/flutter-apk/app-debug.apk` (273,971,505 bytes).
+- `flutter build appbundle --release --no-pub` -> built `build/app/outputs/bundle/release/app-release.aab` (159,406,294 bytes).
+
+### Remaining risk
+
+- Build artifacts are generated locally but not committed.
+- Real Android device smoke testing remains blocked until an authorized device or emulator is available.
