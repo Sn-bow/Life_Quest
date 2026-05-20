@@ -2,6 +2,8 @@
 
 This inventory maps the current Android app code, manifest permissions, and SDK dependencies to Google Play Data safety categories. It is a release-prep document, not a final Play Console submission.
 
+Play Console input draft: `docs/lifequest-play-console-data-safety-draft-20260520.md`.
+
 ## Official References
 
 - Google Play Data safety form guidance: https://support.google.com/googleplay/android-developer/answer/10787469
@@ -57,15 +59,15 @@ Use this as a Play Console drafting aid only:
 
 | Data type | Collected? | Shared? | Notes |
 | --- | --- | --- | --- |
-| Name | Yes | Service provider processing via Firebase/Google Sign-In | Display name/profile name used for account/profile features |
-| Email address | Yes | Service provider processing via Firebase/Google Sign-In | Required for email auth or Google Sign-In |
-| User IDs | Yes | Service provider processing via Firebase | Firebase UID / account identifiers |
-| Photos | Optional | Service provider processing via Firebase Storage | Only if user selects a profile image |
-| App interactions / other actions | Yes | Service provider processing via Firebase | Quest/progression/gameplay state stored in Firestore |
-| Other user-generated content | Yes | Service provider processing via Firebase | User-created quest names and profile/game state |
-| Crash logs | Yes | Service provider processing via Firebase Crashlytics | Crash reports and stack traces |
-| Diagnostics | Yes | Service provider processing via Firebase Crashlytics/App Check | Device/app diagnostic and security signals |
-| Device or other IDs | Yes | Service provider processing via Firebase | Firebase installation/app check/crash identifiers |
+| Name | Yes | No under service provider / user-initiated exception | Display name/profile name used for account/profile features |
+| Email address | Yes | No under service provider / user-initiated exception | Required for email auth or Google Sign-In |
+| User IDs | Yes | No under service provider exception | Firebase UID / account identifiers |
+| Photos | Optional | No under service provider exception | Only if user selects a profile image |
+| App interactions / other actions | Yes | No under service provider exception | Quest/progression/gameplay state stored in Firestore |
+| Other user-generated content | Yes | No under service provider exception | User-created quest names and profile/game state |
+| Crash logs | Yes | No under service provider exception | Crash reports and stack traces |
+| Diagnostics | Yes | No under service provider exception | Device/app diagnostic and security signals |
+| Device or other IDs | Yes | No under service provider exception | Firebase installation/app check/crash identifiers |
 | Purchase history | No in default build | N/A | Re-review if monetization flag is enabled |
 | Advertising ID / ad interactions | No in default build | N/A | Re-review if monetization flag is enabled |
 | Health info / fitness info | No | N/A | The app has a "health" stat category, but no Health Connect/medical/fitness sensor collection is implemented |
@@ -91,7 +93,7 @@ Use this as a Play Console drafting aid only:
 
 ## Release Decision
 
-M-05 is not complete. The SDK/data-category inventory is complete enough to unblock Privacy Policy rewrite and Play Console draft entry, but final submission should remain blocked until:
+M-05 is not complete. The SDK/data-category inventory and Play Console draft answers are complete enough to unblock manual Play Console entry, but final submission should remain blocked until:
 
 - Privacy policy publication path is verified from the released app and store listing.
 - Authenticated Android account deletion smoke test confirms Auth, Firestore, and Storage cleanup.

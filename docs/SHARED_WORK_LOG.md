@@ -2526,3 +2526,36 @@ Close the repository-side QA Preview localStorage scope check without confusing 
 
 - A fresh browser smoke test should still be run on the next deployed preview URL after any web build changes.
 - Production Android Data safety and authenticated account deletion smoke tests remain separate open release gates.
+
+---
+
+## 2026-05-20 KST - Play Console Data safety draft
+
+### Purpose
+
+Convert the Android Data safety inventory into a Play Console-oriented answer draft for the default real Android release build.
+
+### Sources
+
+- Google Play Data safety form guidance.
+- Google Play user-facing Data safety categories.
+- Google Play services data disclosure guidance.
+- Firebase privacy and security.
+
+### Change
+
+- Added `docs/lifequest-play-console-data-safety-draft-20260520.md`.
+- Drafted security practice answers, shared-data interpretation, collected data types, optional feature notes, and unselected data types.
+- Corrected the sharing interpretation to use Google Play's service provider exception instead of treating Firebase/Google service provider processing as user-data sharing.
+- Updated the Android Data safety inventory, release issue M-05, and execution checklist to mark the draft complete while keeping actual Play Console entry and final URL/declaration verification open.
+
+### Verification
+
+- Re-checked official Data safety guidance on 2026-05-20.
+- `rg -n "Data safety|데이터 보안|Play Console|Privacy policy|개인정보|광고 ID|Purchase history|Health info|Firebase Auth|Firestore|Crashlytics|App Check|Storage|Google Sign-In|AdMob|Billing|LIFEQUEST_MONETIZATION_ENABLED|Published privacy policy" docs PRIVACY_POLICY.md docs/index.html lib android pubspec.yaml`
+- Compared draft data types against `docs/lifequest-data-safety-inventory-20260519.md`, `PRIVACY_POLICY.md`, default-off monetization gate, Health/AI copy audit, and QA Preview localStorage audit.
+
+### Remaining risk
+
+- The draft is not a submitted Play Console form.
+- The final public privacy URL, Data safety answers, Health apps declaration, store listing, screenshots, and release build must be reviewed together before closed testing or production.

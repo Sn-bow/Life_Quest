@@ -116,7 +116,7 @@ Acceptance criteria:
 
 ## Issue M-05 - Data Safety Must Match Actual SDK Behavior
 
-Status: Partially mitigated in docs on 2026-05-19.
+Status: Drafted for Play Console entry on 2026-05-20; final submission remains blocked.
 
 Evidence:
 - Google Play Data safety disclosures must cover data categories and purposes, including name, email, user IDs, and other collected/shared data.
@@ -129,6 +129,7 @@ Decision:
 Acceptance criteria:
 - [x] Data inventory table lists each SDK and data category. See `docs/lifequest-data-safety-inventory-20260519.md`.
 - [x] Privacy policy draft matches current default Android Data safety inventory.
+- [x] Play Console Data safety draft answers exist for the default Android build. See `docs/lifequest-play-console-data-safety-draft-20260520.md`.
 - [ ] Published privacy policy URL and Play Console Data safety answers are verified together before release.
 - [x] QA Preview public web version contains no personal credentials or private owner data in the repository-side localStorage/Firebase startup audit. See `docs/lifequest-qa-preview-localstorage-audit-20260520.md`.
 - [x] AdMob remains disabled by default until Data safety and consent implications are updated.
