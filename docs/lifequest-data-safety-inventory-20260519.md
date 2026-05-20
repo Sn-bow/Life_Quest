@@ -20,10 +20,12 @@ Key interpretation:
 
 Default Android release build:
 - `LIFEQUEST_MONETIZATION_ENABLED` is not supplied, so AdMob and Google Play Billing runtime startup are disabled.
+- `ADMOB_ANDROID_APP_ID` and `ADMOB_REWARDED_AD_UNIT_ID_ANDROID` are not supplied, so the default build has no configured AdMob app/ad unit IDs.
 - Firebase, Crashlytics, App Check, Firestore, Auth, Google Sign-In, Storage, local notifications, home widget, and local preferences remain in scope.
 
 Monetization-enabled build:
 - If `--dart-define=LIFEQUEST_MONETIZATION_ENABLED=true` is used, Data safety must be re-reviewed for AdMob and purchase history before submission.
+- A monetization-enabled Android build must also pass `-PADMOB_ANDROID_APP_ID=...` and `--dart-define=ADMOB_REWARDED_AD_UNIT_ID_ANDROID=...`.
 
 ## Manifest Permissions
 

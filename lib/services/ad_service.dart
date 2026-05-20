@@ -14,13 +14,11 @@ class AdService {
   factory AdService() => _instance;
   AdService._internal();
 
-  // =========================================================
-  // Production AdMob Ad Unit IDs (platform-specific)
-  // =========================================================
+  // Production AdMob IDs are injected only for monetization-enabled builds.
   static const String _productionRewardedAdUnitIdAndroid =
-      'ca-app-pub-5571035794358799/6920800679';
+      String.fromEnvironment('ADMOB_REWARDED_AD_UNIT_ID_ANDROID');
   static const String _productionRewardedAdUnitIdIOS =
-      'ca-app-pub-5571035794358799/3529184725';
+      String.fromEnvironment('ADMOB_REWARDED_AD_UNIT_ID_IOS');
 
   static String get _rewardedAdUnitId {
     if (kDebugMode) {
@@ -30,6 +28,8 @@ class AdService {
         ? _productionRewardedAdUnitIdIOS
         : _productionRewardedAdUnitIdAndroid;
   }
+
+  static bool get _hasRewardedAdUnitId => _rewardedAdUnitId.isNotEmpty;
 
   RewardedAd? _rewardedAd;
   bool _isAdLoaded = false;
@@ -62,6 +62,11 @@ class AdService {
   Future<void> init() async {
     if (!kLifeQuestMonetizationEnabled) {
       debugPrint('[AdService] Monetization disabled; skipping AdMob init.');
+      return;
+    }
+    if (!_hasRewardedAdUnitId) {
+      debugPrint(
+          '[AdService] Monetization enabled but no rewarded ad unit ID is configured; skipping AdMob init.');
       return;
     }
     await _loadAdRemovalStatus();
@@ -236,6 +241,10 @@ class AdService {
   /// Pre-load a rewarded ad for next display.
   void _loadRewardedAd() {
     if (!kLifeQuestMonetizationEnabled) return;
+    if (!_hasRewardedAdUnitId) {
+      debugPrint('[AdService] Rewarded ad unit ID is not configured.');
+      return;
+    }
     if (_isAdRemoved || _isAdLoading) return;
 
     _isAdLoading = true;

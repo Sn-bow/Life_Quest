@@ -2559,3 +2559,30 @@ Convert the Android Data safety inventory into a Play Console-oriented answer dr
 
 - The draft is not a submitted Play Console form.
 - The final public privacy URL, Data safety answers, Health apps declaration, store listing, screenshots, and release build must be reviewed together before closed testing or production.
+
+---
+
+## 2026-05-20 KST - Default Android AdMob ID gate
+
+### Purpose
+
+Remove the remaining default-build AdMob ID ambiguity from the real Android release path. Monetization remains disabled by default, so the default APK/AAB should not carry configured AdMob app or rewarded-ad unit IDs.
+
+### Change
+
+- Changed the Android `ADMOB_ANDROID_APP_ID` Gradle placeholder default to an empty value.
+- Updated `AdService` so production rewarded-ad unit IDs come from Dart defines instead of hardcoded IDs.
+- Added a runtime guard that skips AdMob initialization if monetization is enabled without a configured rewarded-ad unit ID.
+- Updated the release checklist, monetization issue register, Data safety inventory, and Play Console Data safety draft to treat default and monetization-enabled Android builds as separate review cases.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\services\ad_service.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\services\monetization_gate_test.dart` -> 2 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub` -> built `build\app\outputs\bundle\release\app-release.aab` (152.0MB).
+- `rg -n "com.google.android.gms.ads.APPLICATION_ID|ca-app-pub" ...` found no production `ca-app-pub` IDs in the default release manifest or app bundle output search scope.
+- The merged release manifest keeps `com.google.android.gms.ads.APPLICATION_ID` with `android:value=""`, confirming the default release build has no configured AdMob App ID.
+
+### Remaining risk
+
+- A future monetization-enabled release still needs real AdMob IDs supplied through build configuration and a separate Play Console/Data safety review.

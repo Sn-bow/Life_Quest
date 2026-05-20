@@ -34,9 +34,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- AdMob App ID -->
-        <!-- TODO: Replace with production AdMob App ID before release -->
-        <!-- Current value is Google's official TEST App ID for development -->
+        <!-- Empty by default because monetization is disabled for the release candidate. -->
+        <!-- Supply -PADMOB_ANDROID_APP_ID only for a monetization-enabled Android build. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${admobAppId}" />

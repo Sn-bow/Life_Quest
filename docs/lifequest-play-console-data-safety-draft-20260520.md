@@ -9,6 +9,7 @@ Default Android release:
 - `LIFEQUEST_MONETIZATION_ENABLED=false` or not supplied
 - Firebase Auth, Google Sign-In, Firestore, Firebase Storage, Crashlytics, App Check, local notifications, home widget, local preferences
 - AdMob and Google Play Billing SDK startup disabled by the runtime gate
+- No configured AdMob App ID or rewarded-ad unit ID in the default Android build
 - No Health Connect, Google Fit, medical/fitness sensor collection, or generative AI feature
 - Web QA Preview is excluded because it is a tester-only preview, not the Android package listing
 
