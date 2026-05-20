@@ -429,6 +429,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] Storage rules 로컬 기준 추가 및 프로필 이미지 경로 제한
 - [x] Firebase 콘솔/프로젝트에 Firestore/Storage rules 배포 완료
 - [x] 계정 삭제 실패 시 성공처럼 화면 이동하지 않도록 방지
+- [x] 계정 삭제 성공/실패 반환 계약 단위 테스트 추가
 - [ ] Android 인증 빌드에서 계정 삭제가 Auth/Firestore/Storage를 정리하는지 smoke test
 - [ ] QA Preview localStorage 데이터 범위 확인
 - [x] 개인정보처리방침 최신화

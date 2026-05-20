@@ -35,6 +35,7 @@ Storage:
   - Optional `users/{uid}/_meta/adServerTime` present if monetization testing creates it.
 - Confirm the account deletion flow still handles recent-login requirements from Firebase Authentication.
 - Confirm failed deletion does not navigate away as if deletion succeeded.
+- Current device smoke-test blocker: ADB detected `520034bafe9225db` as `unauthorized` on 2026-05-20 KST. USB debugging authorization or a usable emulator is required before testing the real authenticated deletion path.
 
 ## Decision
 

@@ -385,9 +385,19 @@ class CharacterState extends ChangeNotifier {
   final FirebaseFirestore? _firestoreOverride;
   FirebaseFirestore get _firestore =>
       _firestoreOverride ?? FirebaseFirestore.instance;
+  final String? _deleteAccountUidOverride;
+  final Future<void> Function(String uid)? _deleteKnownAccountDataOverride;
+  final Future<void> Function()? _deleteAuthAccountOverride;
 
-  CharacterState({FirebaseFirestore? firestore})
-      : _firestoreOverride = firestore {
+  CharacterState({
+    FirebaseFirestore? firestore,
+    String? deleteAccountUidOverride,
+    Future<void> Function(String uid)? deleteKnownAccountDataOverride,
+    Future<void> Function()? deleteAuthAccountOverride,
+  })  : _firestoreOverride = firestore,
+        _deleteAccountUidOverride = deleteAccountUidOverride,
+        _deleteKnownAccountDataOverride = deleteKnownAccountDataOverride,
+        _deleteAuthAccountOverride = deleteAuthAccountOverride {
     _initializeAchievementProgress();
   }
 
@@ -720,15 +730,26 @@ class CharacterState extends ChangeNotifier {
   }
 
   Future<bool> deleteAccount() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return false;
+    final canUseTestDeletion =
+        _deleteAccountUidOverride != null && _deleteAuthAccountOverride != null;
+    final user = canUseTestDeletion ? null : FirebaseAuth.instance.currentUser;
+    final uid = _deleteAccountUidOverride ?? user?.uid;
+    if (uid == null) return false;
 
     _saveTimer?.cancel();
 
     try {
-      final uid = user.uid;
-      await _deleteKnownAccountData(uid);
-      await user.delete();
+      final deleteKnownAccountData =
+          _deleteKnownAccountDataOverride ?? _deleteKnownAccountData;
+      await deleteKnownAccountData(uid);
+      final deleteAuthAccount = _deleteAuthAccountOverride;
+      if (deleteAuthAccount != null) {
+        await deleteAuthAccount();
+      } else {
+        final authUser = user;
+        if (authUser == null) return false;
+        await authUser.delete();
+      }
       return true;
     } catch (e) {
       scaffoldMessengerKey.currentState?.showSnackBar(

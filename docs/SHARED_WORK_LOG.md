@@ -2282,11 +2282,14 @@ Tighten the remaining account deletion release path before a device smoke test. 
 - `CharacterState.deleteAccount()` now returns a success boolean.
 - Settings only navigates away after a confirmed deletion success.
 - Added readable Korean/Japanese/Chinese deletion failure fallback messages before the older garbled fallback switch can be reached.
+- Added `test/state/account_deletion_test.dart` to lock success/failure return behavior without requiring a live Firebase Auth session.
+- Attempted Android device discovery for smoke testing; ADB reported device `520034bafe9225db` as `unauthorized`, so a real authenticated device smoke test remains blocked until USB debugging authorization is granted.
 
 ### Verification
 
 - `dart format lib/state/character_state.dart lib/screens/settings_screen.dart` -> formatted.
 - `flutter analyze --no-pub` -> No issues found.
+- `flutter test --no-pub test/state/account_deletion_test.dart` -> 2 tests passed.
 - `flutter test --no-pub test/state/character_state_test.dart` -> 23 tests passed.
-- `flutter test --no-pub` -> 121 tests passed.
+- `flutter test --no-pub` -> 123 tests passed.
 - `git diff --check` -> no whitespace errors.
