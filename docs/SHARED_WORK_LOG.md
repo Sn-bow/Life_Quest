@@ -2293,3 +2293,27 @@ Tighten the remaining account deletion release path before a device smoke test. 
 - `flutter test --no-pub test/state/character_state_test.dart` -> 23 tests passed.
 - `flutter test --no-pub` -> 123 tests passed.
 - `git diff --check` -> no whitespace errors.
+
+---
+
+## 2026-05-20 KST - Android vitals timer wake-lock audit
+
+### Purpose
+
+Close the code-audit part of release issue M-03 for the real Android app. Google Play visibility can be affected by Android vitals, including excessive partial wake locks, so the focus timer needed an explicit repository audit before device smoke testing.
+
+### Change
+
+- Added `docs/lifequest-android-vitals-timer-audit-20260520.md`.
+- Updated `docs/lifequest-release-monetization-issues-20260519.md` to mark the default wake-lock requirement and Android vitals checklist items complete.
+- Confirmed the remaining timer background/return smoke test still requires an authorized Android device or emulator.
+
+### Verification
+
+- Checked current Android Developers vitals and excessive partial wake lock documentation on 2026-05-20.
+- `rg -n "WAKE_LOCK|wakelock|WakeLock|PARTIAL_WAKE_LOCK|keepScreenOn|FLAG_KEEP_SCREEN_ON|stayAwake|Timer\.periodic|WidgetsBindingObserver|AppLifecycleState" lib android pubspec.yaml`
+- Result: no app wake-lock permission or wake-lock API use; audio contexts use `stayAwake: false`; focus timer reconciles elapsed time on resume.
+
+### Remaining risk
+
+- Physical Android smoke test remains blocked because ADB reports device `520034bafe9225db` as `unauthorized`.

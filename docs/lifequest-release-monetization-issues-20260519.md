@@ -70,7 +70,7 @@ Acceptance criteria:
 
 ## Issue M-03 - Android Vitals Can Affect Store Visibility
 
-Status: Partially mitigated in code on 2026-05-19.
+Status: Partially mitigated in code and audited on 2026-05-20.
 
 Evidence:
 - Android vitals are quality metrics that can affect Google Play visibility.
@@ -81,15 +81,21 @@ Decision:
 - Life Quest should avoid keeping the device awake for focus timer unless the user explicitly enables that behavior.
 
 Acceptance criteria:
-- [ ] Focus timer does not require persistent wake lock in default mode.
+- [x] Focus timer does not require persistent wake lock in default mode. See `docs/lifequest-android-vitals-timer-audit-20260520.md`.
 - [x] Notification permission is requested only after the user enables notifications in settings.
 - [ ] Debug/release smoke test includes timer start, background, return, and stop.
-- [ ] Android vitals checklist is added to release QA.
+- [x] Android vitals checklist is added to release QA. See `docs/lifequest-android-vitals-timer-audit-20260520.md`.
 
 Current Android build check:
 - `compileSdk = 36`.
 - `targetSdk = 35`.
 - Android Developers states that, starting August 31, 2025, new apps and updates must target Android 15/API 35 or higher to be submitted to Google Play.
+
+2026-05-20 audit notes:
+- `android.permission.WAKE_LOCK` is not declared in `AndroidManifest.xml`.
+- No app code references `PARTIAL_WAKE_LOCK`, `PowerManager.WakeLock`, `keepScreenOn`, or `FLAG_KEEP_SCREEN_ON`.
+- Audio contexts explicitly set `stayAwake: false`.
+- Focus timer pauses its foreground timer on background and reconciles elapsed wall-clock time on resume.
 
 ## Issue M-04 - Mobile First, But Large Screen Cannot Break
 

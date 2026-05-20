@@ -439,6 +439,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 ### Google Play 준비
 
 - [x] Android vitals 기준 확인
+- [x] Android vitals/focus timer wake-lock audit documented (`lifequest-android-vitals-timer-audit-20260520.md`)
 - [x] targetSdk/compileSdk 확인
 - [x] 앱 권한 최소화
 - [x] 실제 Android 앱 기본 빌드에서 AdMob/Billing SDK 초기화와 광고 보상 UI 비활성화
