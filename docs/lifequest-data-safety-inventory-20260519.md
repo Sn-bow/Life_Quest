@@ -81,7 +81,8 @@ Use this as a Play Console drafting aid only:
 
 ## Security/Rules Checks Still Required
 
-- Firebase API keys in `firebase_options.dart` and `android/app/google-services.json` are client configuration, not secret keys by themselves, but release safety depends on correct Firebase Auth restrictions, App Check enforcement, Firestore rules, and Storage rules.
+- Firebase API keys in `firebase_options.dart` and `android/app/google-services.json` are client configuration, not secret keys by themselves. The repository-side risk review is documented in `docs/lifequest-firebase-client-config-risk-review-20260520.md`.
+- Release safety still depends on Firebase Auth provider/domain restrictions, Google Cloud API key restrictions, App Check enforcement, Firestore rules, and Storage rules being correct in the live consoles.
 - Repository Firestore rules now scope each user to `users/{uid}` plus the approved `_meta` child path and permit owner account deletion.
 - Repository Storage rules now scope profile images to `users/{uid}/profile.jpg`, owner-only access, image content types, and a 2 MiB upload limit.
 - Account deletion now attempts to delete the optional profile image and known `_meta/adServerTime` document before deleting the user document and Auth account.

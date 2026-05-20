@@ -2381,3 +2381,41 @@ Close the Phase 7 code verification gate for the real Android app and confirm th
 
 - Build artifacts are generated locally but not committed.
 - Real Android device smoke testing remains blocked until an authorized device or emulator is available.
+
+---
+
+## 2026-05-20 KST - Firebase client config risk review
+
+### Purpose
+
+Close the repository-side review for the Phase 7 Firebase API key exposure item without misclassifying Firebase client configuration as a secret.
+
+### Sources
+
+- Firebase security checklist.
+- Firebase API key management documentation.
+- Firebase App Check documentation.
+
+### Investigation
+
+- Firebase documentation says Firebase API keys used for Firebase services identify the project/app and are not the authorization boundary for Firestore or Storage data.
+- Official guidance still recommends API restrictions, app restrictions, quotas, Firebase Security Rules, and App Check as defense in depth.
+- Repository config binds the Android app to package `com.lifequest.app`; `google-services.json` includes the matching Android client and a certificate hash.
+- `firestore.rules` and `storage.rules` restrict user data to owner paths and deny all other paths.
+- `lib/main.dart` activates App Check with Play Integrity outside debug builds.
+
+### Change
+
+- Added `docs/lifequest-firebase-client-config-risk-review-20260520.md`.
+- Updated the Data safety inventory to point to the new review and keep console-side restrictions as release blockers.
+- Marked the execution checklist's Firebase API key exposure review item complete for repository-side evidence.
+
+### Verification
+
+- `rg -n "AIza|apiKey|appId|projectId|storageBucket|app_check|AppCheck|FirebaseAppCheck|google-services|authorized domains|SHA" lib android web firebase.json firestore.rules storage.rules docs PRIVACY_POLICY.md`
+- `rg -n "applicationId|namespace|package_name|certificate_hash|oauth_client|client_id" android/app/build.gradle.kts android/app/google-services.json android/app/src/main/AndroidManifest.xml`
+
+### Remaining risk
+
+- Manual Google Cloud/Firebase console checks still need to confirm production API key restrictions, API allowlists, App Check enforcement, Auth providers/domains, and Play signing/upload SHA coverage.
+- Authenticated Android smoke testing remains blocked until an authorized device or emulator is available.

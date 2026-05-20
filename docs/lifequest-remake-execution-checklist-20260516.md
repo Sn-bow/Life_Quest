@@ -424,7 +424,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 
 ### 보안/개인정보
 
-- [ ] Firebase API key 노출 위험 재검토
+- [x] Firebase API key 노출 위험 재검토 (`lifequest-firebase-client-config-risk-review-20260520.md`)
 - [x] Firestore rules 로컬 기준 확인 및 계정 삭제 허용 보완
 - [x] Storage rules 로컬 기준 추가 및 프로필 이미지 경로 제한
 - [x] Firebase 콘솔/프로젝트에 Firestore/Storage rules 배포 완료
