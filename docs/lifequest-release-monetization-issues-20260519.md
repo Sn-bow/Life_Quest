@@ -130,7 +130,7 @@ Acceptance criteria:
 - [x] Data inventory table lists each SDK and data category. See `docs/lifequest-data-safety-inventory-20260519.md`.
 - [x] Privacy policy draft matches current default Android Data safety inventory.
 - [ ] Published privacy policy URL and Play Console Data safety answers are verified together before release.
-- [ ] QA Preview public web version contains no personal credentials or private owner data.
+- [x] QA Preview public web version contains no personal credentials or private owner data in the repository-side localStorage/Firebase startup audit. See `docs/lifequest-qa-preview-localstorage-audit-20260520.md`.
 - [x] AdMob remains disabled by default until Data safety and consent implications are updated.
 
 ## Issue M-06 - Health/AI Copy Must Not Overclaim Deferred Features

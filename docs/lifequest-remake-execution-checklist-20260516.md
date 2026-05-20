@@ -419,7 +419,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [ ] `flutter build web --dart-define=LIFEQUEST_QA_PREVIEW=true --pwa-strategy=none`
 - [ ] Firebase Hosting 배포
 - [ ] 공개 URL smoke QA
-- [ ] localStorage 신규 사용자 상태 확인
+- [x] localStorage 신규 사용자 상태 확인 (`lifequest-qa-preview-localstorage-audit-20260520.md`)
 - [x] 광고/결제/민감 기능 숨김 확인
 
 ### 보안/개인정보
@@ -431,7 +431,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] 계정 삭제 실패 시 성공처럼 화면 이동하지 않도록 방지
 - [x] 계정 삭제 성공/실패 반환 계약 단위 테스트 추가
 - [ ] Android 인증 빌드에서 계정 삭제가 Auth/Firestore/Storage를 정리하는지 smoke test
-- [ ] QA Preview localStorage 데이터 범위 확인
+- [x] QA Preview localStorage 데이터 범위 확인 (`lifequest-qa-preview-localstorage-audit-20260520.md`)
 - [x] 개인정보처리방침 최신화
 - [x] Health/AI 관련 문구가 과장되지 않는지 확인 (`lifequest-health-ai-copy-audit-20260520.md`)
 - [x] Android Data safety SDK/데이터 카테고리 인벤토리 작성 (`lifequest-data-safety-inventory-20260519.md`)
@@ -465,6 +465,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] `docs/lifequest-release-monetization-issues-20260519.md`
 - [x] `docs/lifequest-premium-bundle-plan-20260520.md`
 - [x] `docs/lifequest-play-store-listing-draft-20260520.md`
+- [x] `docs/lifequest-qa-preview-localstorage-audit-20260520.md`
 
 ---
 

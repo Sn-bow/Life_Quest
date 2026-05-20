@@ -2493,3 +2493,36 @@ Prepare policy-aligned short and full descriptions for the real Android Play lis
 
 - Fresh Android screenshots still need to be captured from the release/test build.
 - Final Play Console Data safety, Health apps declaration, privacy URL, and listing text must be reviewed together before closed testing or production.
+
+---
+
+## 2026-05-20 KST - QA Preview localStorage scope audit
+
+### Purpose
+
+Close the repository-side QA Preview localStorage scope check without confusing the tester web preview with the real Android release target.
+
+### Investigation
+
+- `LIFEQUEST_QA_PREVIEW=true` routes the app to `QaPreviewGateScreen` instead of Firebase Auth.
+- `main.dart` skips Firebase initialize, Crashlytics, Firestore settings, App Check, and optional services startup in QA Preview.
+- `CharacterState` stores QA state through one SharedPreferences key: `lifequest.qaPreview.state.v2` (`flutter.lifequest.qaPreview.state.v2` in browser localStorage).
+- The saved payload contains gameplay/progress state: character, quests, titles, skills, achievements, theme, locale, onboarding, and notification setting fields.
+- The QA restore path forces notifications disabled and returns through the local save path before Firebase Auth or Firestore writes.
+
+### Change
+
+- Added `docs/lifequest-qa-preview-localstorage-audit-20260520.md`.
+- Marked the QA Preview localStorage checklist items complete for repository-side evidence.
+- Closed the release issue acceptance criterion for no personal credentials/private owner data in the public QA Preview localStorage/Firebase startup path.
+
+### Verification
+
+- `rg -n "QA Preview|kLifeQuestQaPreview|LIFEQUEST_QA_PREVIEW|localStorage|shared_preferences|SharedPreferences|Firebase.initializeApp|FirebaseAuth|Firestore|Crashlytics|AppCheck|AdService|PurchaseService|google_mobile_ads|in_app_purchase|image_picker|firebase_storage|url_launcher|privacy|Data safety" lib web docs PRIVACY_POLICY.md firebase.json pubspec.yaml`
+- `rg -n "qaPreview|lifequest\\.qaPreview|_saveQaPreview|_loadQaPreview|SharedPreferences|setString|getString|remove\\(|clear\\(|kLifeQuestQaPreview|_buildSavePayload|_performSaveData" lib/state/character_state.dart lib/screens/qa_preview_gate_screen.dart lib/main.dart lib/services/ad_service.dart lib/services/purchase_service.dart`
+- `flutter test --no-pub test/state/character_state_test.dart`
+
+### Remaining risk
+
+- A fresh browser smoke test should still be run on the next deployed preview URL after any web build changes.
+- Production Android Data safety and authenticated account deletion smoke tests remain separate open release gates.
