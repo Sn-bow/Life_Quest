@@ -78,6 +78,7 @@ Use this as a Play Console drafting aid only:
 - AdMob and in-app purchases are now described as disabled in the default Android release build unless `LIFEQUEST_MONETIZATION_ENABLED=true`.
 - The policy now mentions optional profile photo upload, Firestore-stored quest/progression data, Crashlytics diagnostics, App Check security data, deletion path, and real operator contact.
 - Public QA Preview privacy copy is explicitly separated from real Android release behavior because QA Preview is a tester web build, not the production app.
+- Health/AI copy risk was reviewed in `docs/lifequest-health-ai-copy-audit-20260520.md`; current evidence supports no Health Connect, Google Fit, medical, fitness sensor, or generative AI data category in the default Android app.
 
 ## Security/Rules Checks Still Required
 

@@ -2419,3 +2419,42 @@ Close the repository-side review for the Phase 7 Firebase API key exposure item 
 
 - Manual Google Cloud/Firebase console checks still need to confirm production API key restrictions, API allowlists, App Check enforcement, Auth providers/domains, and Play signing/upload SHA coverage.
 - Authenticated Android smoke testing remains blocked until an authorized device or emulator is available.
+
+---
+
+## 2026-05-20 KST - Health/AI copy audit
+
+### Purpose
+
+Close the repository-side Phase 7 check that Health or AI copy is not overstating the current Android app.
+
+### Sources
+
+- Google Play Health Content and Services policy.
+- Google Play Health apps declaration form guidance.
+- Android Health Connect Play declaration guidance.
+- Google Play AI-Generated Content policy.
+
+### Investigation
+
+- `rg` found no Health Connect or Google Fit package, no health sensor/location/media/audio permission path, and no Health Connect API usage in the Android app.
+- `rg` found no OpenAI/Gemini/Vertex/Firebase AI SDK, chatbot, generative model, or AI coach runtime path in `lib/`, `android/`, or `pubspec.yaml`.
+- User-facing "health" language is used as an RPG stat/quest category and is already disclaimed in the privacy policy and public privacy page.
+- Recommendations come from deterministic `CoreLoopRules.recommendAction`, not an AI service.
+
+### Change
+
+- Added `docs/lifequest-health-ai-copy-audit-20260520.md`.
+- Added release issue M-06 to document Health/AI copy guardrails.
+- Updated the Data safety inventory and execution checklist to reference the audit.
+
+### Verification
+
+- `rg -n "Health/AI|Health Connect|AI|인공지능|코치|coach|health|fitness|medical|의료|건강|운동|진단|치료|상담|처방|mental|wellness|prediction|predict|recommend|추천" lib android web docs PRIVACY_POLICY.md README.md pubspec.yaml`
+- `rg -n "health_connect|HealthConnect|google_fit|GoogleFit|fitness|ACTIVITY_RECOGNITION|BODY_SENSORS|ACCESS_FINE_LOCATION|ACCESS_COARSE_LOCATION|RECORD_AUDIO|CAMERA|READ_MEDIA|READ_EXTERNAL|WRITE_EXTERNAL|com.google.android.apps.healthdata" android lib pubspec.yaml`
+- `rg -n "openai|gpt|gemini|generative|ai coach|AI 코치|AI 개인|OPENAI_API_KEY|FirebaseAI|VertexAI|GenerativeModel|chatbot|챗봇" lib android pubspec.yaml docs README.md PRIVACY_POLICY.md`
+
+### Remaining risk
+
+- Play Console Health apps declaration still must be completed for testing/production tracks.
+- Final store listing text must be reviewed with the declaration so deferred Health Connect/AI coach ideas are not advertised as shipped features.

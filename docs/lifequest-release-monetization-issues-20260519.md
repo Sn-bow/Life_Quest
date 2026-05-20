@@ -133,6 +133,26 @@ Acceptance criteria:
 - [ ] QA Preview public web version contains no personal credentials or private owner data.
 - [x] AdMob remains disabled by default until Data safety and consent implications are updated.
 
+## Issue M-06 - Health/AI Copy Must Not Overclaim Deferred Features
+
+Status: Repository-side copy audit completed on 2026-05-20.
+
+Evidence:
+- Google Play Health Content and Services policy and Health apps declaration guidance require health-related app declarations and accurate representation of health functionality.
+- Google Play AI-Generated Content policy applies when apps generate content using AI and requires compliance with existing policies, including deceptive behavior restrictions.
+- Repository search found no Health Connect, Google Fit, medical/fitness sensor permission, OpenAI/Gemini/Vertex/Firebase AI SDK, chatbot, generative model, or AI coach runtime path in the current Android app.
+
+Decision:
+- Keep "health" as a game stat label only.
+- Do not market v1 as Health Connect, Google Fit, medical, fitness analytics, or AI coach software.
+- Keep recommendations framed as deterministic app guidance, not AI coaching.
+
+Acceptance criteria:
+- [x] Runtime and manifest search show no Health Connect, Google Fit, medical sensor, or generative AI implementation.
+- [x] Privacy policy and public privacy page explain that "Health" is an in-game stat, not medical or fitness data.
+- [x] Store-copy guardrails are documented. See `docs/lifequest-health-ai-copy-audit-20260520.md`.
+- [ ] Play Console Health apps declaration and final store listing copy are verified together before closed testing or production.
+
 ## Current Monetization Direction
 
 Release v1 should not sell "a game." It should sell sustained self-management.
