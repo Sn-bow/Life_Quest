@@ -174,6 +174,7 @@ Acceptance criteria:
 - [x] Korean short and full description draft exists within Play Console limits. See `docs/lifequest-play-store-listing-draft-20260520.md`.
 - [x] English fallback draft exists for later localization.
 - [x] Listing guardrails mention Health/AI, monetization, Data safety, and screenshot alignment.
+- [x] In-app default-release monetization copy no longer claims an ad-funded/ad-supported model when AdMob/Billing are disabled.
 - [ ] Final Play Console listing is reviewed against the exact release build screenshots and declarations.
 
 ## Current Monetization Direction

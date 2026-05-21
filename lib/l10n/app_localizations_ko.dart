@@ -696,18 +696,17 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get shopAdSupportTitle => '선택형 광고로 앱을 운영합니다';
+  String get shopAdSupportTitle => '선택형 보상 광고는 비활성화되어 있습니다';
 
   @override
-  String get shopAdSupportDesc =>
-      '광고는 퀘스트 보상 2배, AP 회복, 전투 부활처럼 추가 보상이 필요할 때만 표시됩니다.';
+  String get shopAdSupportDesc => '현재 기본 Android 릴리스에서는 광고 보상 기능을 제공하지 않습니다.';
 
   @override
-  String get shopAdModelTitle => '광고 후원형 운영';
+  String get shopAdModelTitle => '수익화 기능 준비 중';
 
   @override
   String get shopAdModelDesc =>
-      '현재 버전은 인앱결제보다 광고 수익 중심으로 운영됩니다. 유료 상품은 추후 검토됩니다.';
+      '현재 기본 Android 릴리스에서는 광고와 인앱결제가 비활성화되어 있습니다. 향후 프리미엄 기능은 별도 안내 후 제공됩니다.';
 
   @override
   String get achievementScreenTitle => '업적';
@@ -847,21 +846,21 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onboardingSkip => '건너뛰기';
 
   @override
-  String get settingsAdSupportSection => '광고 후원 안내';
+  String get settingsAdSupportSection => '수익화 안내';
 
   @override
-  String get settingsAdSupportTitle => '선택형 광고로 앱을 운영합니다';
+  String get settingsAdSupportTitle => '광고와 결제는 비활성화되어 있습니다';
 
   @override
   String get settingsAdSupportDesc =>
-      '광고는 퀘스트 보상 2배, AP 회복, 전투 부활처럼 추가 보상이 필요할 때만 표시됩니다.';
+      '현재 기본 Android 릴리스에서는 광고 보상과 인앱결제를 제공하지 않습니다.';
 
   @override
-  String get settingsAdModelTitle => '광고 후원형 운영';
+  String get settingsAdModelTitle => '프리미엄 기능 준비 중';
 
   @override
   String get settingsAdModelDesc =>
-      '현재 버전은 인앱결제보다 광고 수익 중심으로 운영됩니다. 유료 상품은 추후 검토됩니다.';
+      '향후 유료 기능을 제공하는 경우 가격, 혜택, 취소 방법을 명확히 안내합니다.';
 
   @override
   String get settingsLogout => '로그아웃';
@@ -962,7 +961,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cosmeticComingSoonDesc =>
-      '현재는 광고 후원형 운영에 집중하고 있습니다. 테마와 이펙트 상품은 추후 정식 오픈 예정입니다.';
+      '현재 기본 Android 릴리스에서는 코스메틱 결제를 제공하지 않습니다. 테마와 이펙트 기능은 추후 안내 후 오픈 예정입니다.';
 
   @override
   String get cosmeticUnequip => '장착 해제';
@@ -974,8 +973,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cosmeticComingSoon => '준비 중';
 
   @override
-  String get cosmeticComingSoonSnackbar =>
-      '코스메틱 상품은 추후 오픈 예정입니다. 현재는 광고 후원형 운영에 집중하고 있습니다.';
+  String get cosmeticComingSoonSnackbar => '코스메틱 상품은 추후 안내 후 오픈 예정입니다.';
 
   @override
   String get cosmeticUnlocked => '아이템이 해금되었습니다!';

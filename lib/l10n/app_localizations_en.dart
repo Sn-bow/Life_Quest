@@ -709,18 +709,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get shopAdSupportTitle => 'Ad-supported app';
+  String get shopAdSupportTitle => 'Optional rewarded ads are disabled';
 
   @override
   String get shopAdSupportDesc =>
-      'Ads only appear when you want extra rewards like 2x quest rewards, AP recovery, or combat revives.';
+      'The current default Android release does not offer ad rewards.';
 
   @override
-  String get shopAdModelTitle => 'Ad-funded model';
+  String get shopAdModelTitle => 'Monetization is in preparation';
 
   @override
   String get shopAdModelDesc =>
-      'This version focuses on ad revenue over in-app purchases. Paid items will be reconsidered in the future.';
+      'Ads and in-app purchases are disabled in the current default Android release. Future premium features will be introduced with clear notice.';
 
   @override
   String get achievementScreenTitle => 'Achievements';
@@ -863,21 +863,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingSkip => 'Skip';
 
   @override
-  String get settingsAdSupportSection => 'Ad Support Info';
+  String get settingsAdSupportSection => 'Monetization Info';
 
   @override
-  String get settingsAdSupportTitle => 'Ad-supported app';
+  String get settingsAdSupportTitle => 'Ads and purchases are disabled';
 
   @override
   String get settingsAdSupportDesc =>
-      'Ads only appear when you want extra rewards like 2x quest rewards, AP recovery, or combat revives.';
+      'The current default Android release does not offer ad rewards or in-app purchases.';
 
   @override
-  String get settingsAdModelTitle => 'Ad-funded model';
+  String get settingsAdModelTitle => 'Premium features are in preparation';
 
   @override
   String get settingsAdModelDesc =>
-      'This version focuses on ad revenue over in-app purchases. Paid items will be reconsidered in the future.';
+      'If paid features are offered later, price, benefits, and cancellation details will be clearly disclosed.';
 
   @override
   String get settingsLogout => 'Logout';
@@ -978,7 +978,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cosmeticComingSoonDesc =>
-      'Currently focused on ad-supported model. Themes and effects will launch later.';
+      'Cosmetic purchases are not offered in the current default Android release. Themes and effects will open later with clear notice.';
 
   @override
   String get cosmeticUnequip => 'Unequip';
@@ -991,7 +991,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cosmeticComingSoonSnackbar =>
-      'Cosmetic items coming soon. Currently focused on ad-supported model.';
+      'Cosmetic items will open later with clear notice.';
 
   @override
   String get cosmeticUnlocked => 'Item unlocked!';

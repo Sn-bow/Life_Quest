@@ -690,16 +690,16 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get shopAdSupportTitle => '选择型广告运营';
+  String get shopAdSupportTitle => '可选奖励广告已停用';
 
   @override
-  String get shopAdSupportDesc => '广告仅在需要额外奖励时显示，如任务奖励2倍、AP回复、战斗复活等。';
+  String get shopAdSupportDesc => '当前默认 Android 版本不提供广告奖励功能。';
 
   @override
-  String get shopAdModelTitle => '广告支持型运营';
+  String get shopAdModelTitle => '变现功能准备中';
 
   @override
-  String get shopAdModelDesc => '当前版本以广告收益为主，优先于应用内购买。付费商品将在日后考虑。';
+  String get shopAdModelDesc => '当前默认 Android 版本已停用广告和应用内购买。未来的高级功能会在明确说明后提供。';
 
   @override
   String get achievementScreenTitle => '成就';
@@ -837,19 +837,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingSkip => '跳过';
 
   @override
-  String get settingsAdSupportSection => '广告支持说明';
+  String get settingsAdSupportSection => '变现说明';
 
   @override
-  String get settingsAdSupportTitle => '选择型广告运营';
+  String get settingsAdSupportTitle => '广告和购买已停用';
 
   @override
-  String get settingsAdSupportDesc => '广告仅在需要额外奖励时显示，如任务奖励2倍、AP回复、战斗复活等。';
+  String get settingsAdSupportDesc => '当前默认 Android 版本不提供广告奖励或应用内购买。';
 
   @override
-  String get settingsAdModelTitle => '广告支持型运营';
+  String get settingsAdModelTitle => '高级功能准备中';
 
   @override
-  String get settingsAdModelDesc => '当前版本以广告收益为主，优先于应用内购买。';
+  String get settingsAdModelDesc => '如果未来提供付费功能，将清楚说明价格、权益和取消方式。';
 
   @override
   String get settingsLogout => '退出登录';
@@ -948,7 +948,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cosmeticComingSoonTitle => '高级自定义功能即将推出';
 
   @override
-  String get cosmeticComingSoonDesc => '目前专注于广告支持型运营。主题和特效商品将在日后正式开放。';
+  String get cosmeticComingSoonDesc =>
+      '当前默认 Android 版本不提供装饰商品购买。主题和特效功能将在明确说明后开放。';
 
   @override
   String get cosmeticUnequip => '卸下';
@@ -960,7 +961,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cosmeticComingSoon => '即将推出';
 
   @override
-  String get cosmeticComingSoonSnackbar => '装饰商品即将推出。目前专注于广告支持型运营。';
+  String get cosmeticComingSoonSnackbar => '装饰商品将在明确说明后开放。';
 
   @override
   String get cosmeticUnlocked => '物品已解锁！';

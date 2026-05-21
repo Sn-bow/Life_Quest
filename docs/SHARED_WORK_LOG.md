@@ -2686,3 +2686,30 @@ Strengthen the Play/Data safety deletion evidence without claiming the real auth
 ### Remaining risk
 
 - The real Firebase Auth deletion, Storage object deletion, and recent-login behavior still require an authenticated Android smoke test on device/emulator.
+
+---
+
+## 2026-05-21 KST - Default release monetization copy alignment
+
+### Purpose
+
+Align in-app copy with the current Android release scope. The Play listing and Data safety drafts say ads and in-app purchases are disabled by default, but several localization strings still described an ad-supported or ad-funded model.
+
+### Change
+
+- Updated Korean, English, Japanese, and Chinese ARB strings for shop/settings monetization notices and cosmetic coming-soon copy.
+- Updated generated localization Dart files to match the ARB changes after `flutter gen-l10n` hung in this shell.
+- Removed stale "ad-supported/ad-funded/ad revenue" wording from runtime localization files.
+- Updated the release monetization issue register to close the in-app copy alignment criterion.
+
+### Verification
+
+- `rg -n "ad-supported|ad revenue|광고 후원형|광고 수익|広告支援型|広告収益|广告支持型|广告收益|현재는 광고|Currently focused on ad|广告支持|広告支援" lib\l10n` -> no matches.
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\l10n\app_localizations.dart lib\l10n\app_localizations_en.dart lib\l10n\app_localizations_ko.dart lib\l10n\app_localizations_ja.dart lib\l10n\app_localizations_zh.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub` -> 128 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub` -> built `build\app\outputs\bundle\release\app-release.aab` (152.0MB).
+
+### Remaining risk
+
+- A future monetization-enabled build still needs fresh in-app paywall/ad copy, Data safety review, and Play Console declaration updates.

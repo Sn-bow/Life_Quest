@@ -1371,25 +1371,25 @@ abstract class AppLocalizations {
   /// No description provided for @shopAdSupportTitle.
   ///
   /// In ko, this message translates to:
-  /// **'선택형 광고로 앱을 운영합니다'**
+  /// **'선택형 보상 광고는 비활성화되어 있습니다'**
   String get shopAdSupportTitle;
 
   /// No description provided for @shopAdSupportDesc.
   ///
   /// In ko, this message translates to:
-  /// **'광고는 퀘스트 보상 2배, AP 회복, 전투 부활처럼 추가 보상이 필요할 때만 표시됩니다.'**
+  /// **'현재 기본 Android 릴리스에서는 광고 보상 기능을 제공하지 않습니다.'**
   String get shopAdSupportDesc;
 
   /// No description provided for @shopAdModelTitle.
   ///
   /// In ko, this message translates to:
-  /// **'광고 후원형 운영'**
+  /// **'수익화 기능 준비 중'**
   String get shopAdModelTitle;
 
   /// No description provided for @shopAdModelDesc.
   ///
   /// In ko, this message translates to:
-  /// **'현재 버전은 인앱결제보다 광고 수익 중심으로 운영됩니다. 유료 상품은 추후 검토됩니다.'**
+  /// **'현재 기본 Android 릴리스에서는 광고와 인앱결제가 비활성화되어 있습니다. 향후 프리미엄 기능은 별도 안내 후 제공됩니다.'**
   String get shopAdModelDesc;
 
   /// No description provided for @achievementScreenTitle.
@@ -1647,31 +1647,31 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAdSupportSection.
   ///
   /// In ko, this message translates to:
-  /// **'광고 후원 안내'**
+  /// **'수익화 안내'**
   String get settingsAdSupportSection;
 
   /// No description provided for @settingsAdSupportTitle.
   ///
   /// In ko, this message translates to:
-  /// **'선택형 광고로 앱을 운영합니다'**
+  /// **'광고와 결제는 비활성화되어 있습니다'**
   String get settingsAdSupportTitle;
 
   /// No description provided for @settingsAdSupportDesc.
   ///
   /// In ko, this message translates to:
-  /// **'광고는 퀘스트 보상 2배, AP 회복, 전투 부활처럼 추가 보상이 필요할 때만 표시됩니다.'**
+  /// **'현재 기본 Android 릴리스에서는 광고 보상과 인앱결제를 제공하지 않습니다.'**
   String get settingsAdSupportDesc;
 
   /// No description provided for @settingsAdModelTitle.
   ///
   /// In ko, this message translates to:
-  /// **'광고 후원형 운영'**
+  /// **'프리미엄 기능 준비 중'**
   String get settingsAdModelTitle;
 
   /// No description provided for @settingsAdModelDesc.
   ///
   /// In ko, this message translates to:
-  /// **'현재 버전은 인앱결제보다 광고 수익 중심으로 운영됩니다. 유료 상품은 추후 검토됩니다.'**
+  /// **'향후 유료 기능을 제공하는 경우 가격, 혜택, 취소 방법을 명확히 안내합니다.'**
   String get settingsAdModelDesc;
 
   /// No description provided for @settingsLogout.
@@ -1857,7 +1857,7 @@ abstract class AppLocalizations {
   /// No description provided for @cosmeticComingSoonDesc.
   ///
   /// In ko, this message translates to:
-  /// **'현재는 광고 후원형 운영에 집중하고 있습니다. 테마와 이펙트 상품은 추후 정식 오픈 예정입니다.'**
+  /// **'현재 기본 Android 릴리스에서는 코스메틱 결제를 제공하지 않습니다. 테마와 이펙트 기능은 추후 안내 후 오픈 예정입니다.'**
   String get cosmeticComingSoonDesc;
 
   /// No description provided for @cosmeticUnequip.
@@ -1881,7 +1881,7 @@ abstract class AppLocalizations {
   /// No description provided for @cosmeticComingSoonSnackbar.
   ///
   /// In ko, this message translates to:
-  /// **'코스메틱 상품은 추후 오픈 예정입니다. 현재는 광고 후원형 운영에 집중하고 있습니다.'**
+  /// **'코스메틱 상품은 추후 안내 후 오픈 예정입니다.'**
   String get cosmeticComingSoonSnackbar;
 
   /// No description provided for @cosmeticUnlocked.
