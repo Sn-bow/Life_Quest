@@ -16,6 +16,7 @@
 - R8/minify와 resource shrink는 release build에 적용되어 있다.
 - 개인정보처리방침은 `PRIVACY_POLICY.md`와 GitHub Pages 공개 페이지로 정리되어 있으며, Play Console URL 등록과 최종 Data safety 입력은 수동 미완료 항목이다.
 - `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`, `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\services\monetization_gate_test.dart`, `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub`는 2026-05-20에 통과했다.
+- 2026-05-21 Google Play target API 공식 문서 재확인 결과, 새 앱/업데이트 제출 기준은 Android 15/API 35 이상이다. 현재 `targetSdk = 35`, `compileSdk = 36`은 기본 Android 릴리스 경로에 적합하다.
 
 계속 유효한 주요 미완료 항목:
 - Firebase Console의 Android 앱 패키지명/SHA/App Check/Auth 설정 최종 확인

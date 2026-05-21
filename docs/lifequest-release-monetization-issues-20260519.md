@@ -91,6 +91,7 @@ Current Android build check:
 - `compileSdk = 36`.
 - `targetSdk = 35`.
 - Android Developers states that, starting August 31, 2025, new apps and updates must target Android 15/API 35 or higher to be submitted to Google Play.
+- 2026-05-21 recheck: the official Android Developers target API page was last updated 2026-05-01 UTC and still requires Android 15/API 35 or higher for new apps and updates. No `targetSdk` change is required for the current default Android release path.
 
 2026-05-20 audit notes:
 - `android.permission.WAKE_LOCK` is not declared in `AndroidManifest.xml`.

@@ -2606,3 +2606,29 @@ Avoid repeating closed release work. The current code and newer issue documents 
 
 - `rg -n "\[ \]|TODO|남은|미완료|Play Console|Data safety|AAB|Firebase 콘솔|릴리스|release|privacy|개인정보|Health apps|screenshot|스크린샷|closed testing|production" docs README.md RELEASE_CHECKLIST.md WORK_INSTRUCTIONS.md PRIVACY_POLICY.md android lib test`
 - Manual comparison against the latest pushed commits through `c9feab5 Gate default Android AdMob IDs`.
+
+---
+
+## 2026-05-21 KST - Google Play target API recheck
+
+### Purpose
+
+Avoid creating unnecessary Android SDK migration work while still keeping the real Android release path current. Google Play target API requirements are time-sensitive and need official-source rechecks.
+
+### Source
+
+- Android Developers target API requirement page, last updated 2026-05-01 UTC.
+
+### Finding
+
+- Current official requirement for new apps and updates remains Android 15/API 35 or higher.
+- The app currently uses `targetSdk = 35` and `compileSdk = 36`.
+- No `targetSdk` change is required for the current default Android release path.
+
+### Change
+
+- Updated `docs/lifequest-release-monetization-issues-20260519.md`, `docs/lifequest-remake-execution-checklist-20260516.md`, and `RELEASE_CHECKLIST.md` with the 2026-05-21 target API recheck.
+
+### Remaining risk
+
+- Future Play policy changes after 2026-05-21 still need a fresh official-source check before closed testing or production submission.
