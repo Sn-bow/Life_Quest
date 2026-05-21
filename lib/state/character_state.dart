@@ -387,16 +387,20 @@ class CharacterState extends ChangeNotifier {
       _firestoreOverride ?? FirebaseFirestore.instance;
   final String? _deleteAccountUidOverride;
   final Future<void> Function(String uid)? _deleteKnownAccountDataOverride;
+  final Future<void> Function(String uid)? _deleteOptionalProfileImageOverride;
   final Future<void> Function()? _deleteAuthAccountOverride;
 
   CharacterState({
     FirebaseFirestore? firestore,
     String? deleteAccountUidOverride,
     Future<void> Function(String uid)? deleteKnownAccountDataOverride,
+    Future<void> Function(String uid)? deleteOptionalProfileImageOverride,
     Future<void> Function()? deleteAuthAccountOverride,
   })  : _firestoreOverride = firestore,
         _deleteAccountUidOverride = deleteAccountUidOverride,
         _deleteKnownAccountDataOverride = deleteKnownAccountDataOverride,
+        _deleteOptionalProfileImageOverride =
+            deleteOptionalProfileImageOverride,
         _deleteAuthAccountOverride = deleteAuthAccountOverride {
     _initializeAchievementProgress();
   }
@@ -775,7 +779,9 @@ class CharacterState extends ChangeNotifier {
   }
 
   Future<void> _deleteKnownAccountData(String uid) async {
-    await _deleteOptionalProfileImage(uid);
+    final deleteOptionalProfileImage =
+        _deleteOptionalProfileImageOverride ?? _deleteOptionalProfileImage;
+    await deleteOptionalProfileImage(uid);
     await _deleteKnownUserSubcollectionDocs(uid);
     await _firestore.collection('users').doc(uid).delete();
   }

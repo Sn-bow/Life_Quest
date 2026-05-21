@@ -91,6 +91,7 @@ Use this as a Play Console drafting aid only:
 - Repository Firestore rules now scope each user to `users/{uid}` plus the approved `_meta` child path and permit owner account deletion.
 - Repository Storage rules now scope profile images to `users/{uid}/profile.jpg`, owner-only access, image content types, and a 2 MiB upload limit.
 - Account deletion now attempts to delete the optional profile image and known `_meta/adServerTime` document before deleting the user document and Auth account.
+- `test/state/account_deletion_test.dart` verifies the success/failure contract and the known Firestore deletion paths with fake Firestore.
 - Live Firebase project rules were deployed on 2026-05-20 KST; account deletion still needs an authenticated Android smoke test.
 
 ## Release Decision

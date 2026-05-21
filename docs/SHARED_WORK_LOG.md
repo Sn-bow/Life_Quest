@@ -2658,3 +2658,31 @@ Close the repository-verifiable part of the Android vitals timer smoke gap. The 
 ### Remaining risk
 
 - A real Android debug/release smoke test must still background and resume the app on device/emulator before closed testing.
+
+---
+
+## 2026-05-21 KST - Account deletion data-path test
+
+### Purpose
+
+Strengthen the Play/Data safety deletion evidence without claiming the real authenticated Android smoke test is done. Existing tests only checked the success/failure return contract, not the actual known Firestore paths.
+
+### Change
+
+- Added a test-only profile-image cleanup override to `CharacterState` so account deletion can exercise real fake-Firestore cleanup without calling Firebase Storage in unit tests.
+- Extended `test/state/account_deletion_test.dart` to seed and verify deletion of:
+  - `users/{uid}`
+  - `users/{uid}/_meta/adServerTime`
+- Updated the Firebase rules review and Data safety inventory with the new automated evidence.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\state\character_state.dart test\state\account_deletion_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\state\account_deletion_test.dart` -> 3 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub` -> 128 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub` -> built `build\app\outputs\bundle\release\app-release.aab` (152.0MB).
+
+### Remaining risk
+
+- The real Firebase Auth deletion, Storage object deletion, and recent-login behavior still require an authenticated Android smoke test on device/emulator.
