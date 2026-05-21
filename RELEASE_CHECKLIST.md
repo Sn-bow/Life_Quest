@@ -6,6 +6,27 @@
 
 ---
 
+## 2026-05-21 기준 정정
+
+이 문서는 2026-04-26 기준 항목이 많이 남아 있어 일부 세부 내용이 현재 코드와 다르다. 반복 작업을 막기 위해 아래 항목을 현재 Android 기본 릴리스 기준으로 우선 적용한다.
+
+- 기본 Android 릴리스 빌드에서 AdMob/Billing 런타임 시작과 광고/결제 UI는 비활성화되어 있다.
+- 기본 Android 릴리스 빌드의 AdMob App ID는 빈 값이며, production rewarded ad unit ID는 코드에 하드코딩되어 있지 않다.
+- 수익화 활성화 빌드는 별도 빌드 변형으로 취급하며 `ADMOB_ANDROID_APP_ID`, `ADMOB_REWARDED_AD_UNIT_ID_ANDROID`, `LIFEQUEST_MONETIZATION_ENABLED=true`를 명시적으로 주입한 뒤 Data safety를 재검토해야 한다.
+- R8/minify와 resource shrink는 release build에 적용되어 있다.
+- 개인정보처리방침은 `PRIVACY_POLICY.md`와 GitHub Pages 공개 페이지로 정리되어 있으며, Play Console URL 등록과 최종 Data safety 입력은 수동 미완료 항목이다.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`, `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\services\monetization_gate_test.dart`, `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub`는 2026-05-20에 통과했다.
+
+계속 유효한 주요 미완료 항목:
+- Firebase Console의 Android 앱 패키지명/SHA/App Check/Auth 설정 최종 확인
+- Play Console Data safety 실제 입력 및 저장
+- Health apps declaration/IARC/store listing 실제 입력
+- 실제 Android release/test build 기준 스크린샷 캡처
+- 인증된 계정 삭제 및 주요 게임 루프 실기기 smoke test
+- AAB 업로드 및 closed testing 제출
+
+---
+
 ## 현재 상태 요약 (2026-04-26 기준)
 
 | 항목 | 상태 |
@@ -16,7 +37,7 @@
 | 렐릭 / 이벤트 | 31개 / 10개 |
 | 던전 화면 | 9개 |
 | flutter analyze | ✅ No issues found |
-| 릴리스 빌드 | ✅ 64.3MB AAB (v1.0.1+2) |
+| 릴리스 빌드 | ✅ 2026-05-20 기본 release AAB 빌드 성공: 152.0MB (v1.0.1+2) |
 | 다국어 지원 | 한국어/영어/일본어/중국어 (데이터 모델 포함 완전 지원) |
 | 사운드 파일 | Soul Deck SFX 포함 다수 |
 | IAP 서버검증 | ✅ Cloud Function 구현 완료 (배포 수동 필요) |
@@ -34,7 +55,7 @@
 - ❌ Crashlytics 미통합 (패키지는 있음)
 - ❌ Firebase 콘솔 패키지명 업데이트 (수동 필요)
 - ❌ Cloud Function / Firestore Rules 배포 (수동 필요)
-- ❌ 개인정보 처리방침 없음
+- ✅ 개인정보처리방침 갱신 완료. Play Console URL 등록과 최종 Data safety 입력은 수동 미완료
 - ❌ 시즌 카운트다운 하드코딩 ("D-25")
 
 ---
@@ -66,7 +87,7 @@
 ### A-3. AdMob App ID 확인 (AndroidManifest)
 | 항목 | 내용 |
 |------|------|
-| **문제** | `AndroidManifest.xml:38`에 `<!-- TODO: Replace with production AdMob App ID before release -->` 코멘트 존재. `build.gradle.kts:23`의 `ca-app-pub-5571035794358799~6976774442`가 실제 프로덕션 ID인지 AdMob 콘솔에서 확인 필요 |
+| **현재 상태** | 기본 Android 빌드에서는 AdMob App ID가 빈 값이며, 수익화 활성화 빌드에서만 `-PADMOB_ANDROID_APP_ID=...`로 주입한다. |
 | **위치** | `android/app/src/main/AndroidManifest.xml:37-41`, `android/app/build.gradle.kts:22-24` |
 | **위험** | Google Play 거절 또는 광고 미표시 |
 | **난이도** | 쉬움 |
@@ -77,7 +98,7 @@
 ### A-4. AdMob Ad Unit ID 확인
 | 항목 | 내용 |
 |------|------|
-| **문제** | `ad_service.dart:15-17`에 프로덕션 광고 단위 ID 존재. `kDebugMode`에서는 테스트 ID 사용 중 (정상). 프로덕션 ID가 AdMob 콘솔의 실제 ID와 일치하는지 확인 필요 |
+| **현재 상태** | 기본 Android 빌드에는 production rewarded ad unit ID가 하드코딩되어 있지 않다. 수익화 활성화 빌드에서만 `--dart-define=ADMOB_REWARDED_AD_UNIT_ID_ANDROID=...`로 주입한다. |
 | **위치** | `lib/services/ad_service.dart:15-27` |
 | **위험** | 프로덕션에서 광고 무응답, 수익 0원 |
 | **난이도** | 쉬움 |
@@ -99,7 +120,7 @@
 ### A-6. ProGuard / R8 코드 축소 설정
 | 항목 | 내용 |
 |------|------|
-| **문제** | `build.gradle.kts` 릴리스 빌드에 `isMinifyEnabled`, `isShrinkResources` 미설정. 64MB AAB 크기 줄일 수 있고, 코드 난독화 누락 |
+| **현재 상태** | release build에 `isMinifyEnabled = true`, `isShrinkResources = true` 적용 완료. 2026-05-20 기본 release AAB 빌드 성공. |
 | **위치** | `android/app/build.gradle.kts:59-67` |
 | **위험** | APK 크기 비대, 코드 노출, Play Store 랭킹 불이익 |
 | **난이도** | 보통 |

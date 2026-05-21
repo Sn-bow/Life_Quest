@@ -7,13 +7,14 @@
 
 ---
 
-## 현재 상태 (2026-04-25 기준)
+## 현재 상태 (2026-05-21 기준)
 
 | 항목 | 결과 |
 |------|------|
 | `flutter analyze` | **No issues found** ✅ |
-| `flutter test` | **76개 전체 통과** ✅ |
-| `flutter build appbundle --release` | 성공 (64MB) ✅ |
+| `flutter test` | **monetization gate 포함 통과** ✅ |
+| `flutter analyze --no-pub` | **No issues found** ✅ |
+| `flutter build appbundle --release --no-pub` | 성공 (152MB) ✅ |
 
 ---
 
@@ -371,7 +372,8 @@ test/
 
 ## 수동 작업 (미완료)
 
-- [ ] AdMob 프로덕션 ID 교체 (`ad_service.dart`, `AndroidManifest.xml`)
+- [x] 기본 Android 빌드에서 AdMob/Billing 비활성화 및 AdMob App ID/Ad Unit ID 미주입
+- [ ] 수익화 활성화 빌드에서만 실제 AdMob App ID/Ad Unit ID 주입 및 Play Console/Data safety 재검토
 - [ ] Firebase 콘솔에서 Android 패키지명 `com.lifequest.app`으로 업데이트
 - [ ] Google Play Console에 AAB 업로드 (`build/app/outputs/bundle/release/app-release.aab`)
 

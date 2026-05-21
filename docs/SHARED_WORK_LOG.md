@@ -2586,3 +2586,23 @@ Remove the remaining default-build AdMob ID ambiguity from the real Android rele
 ### Remaining risk
 
 - A future monetization-enabled release still needs real AdMob IDs supplied through build configuration and a separate Play Console/Data safety review.
+
+---
+
+## 2026-05-21 KST - Release checklist stale-state cleanup
+
+### Purpose
+
+Avoid repeating closed release work. The current code and newer issue documents had already disabled default Android monetization, removed default AdMob IDs, enabled release minify/shrink, and refreshed privacy/Data safety drafts, but older top-level release docs still pointed at the pre-May state.
+
+### Change
+
+- Updated `README.md` current-state and manual-work sections to reflect the latest Android default release gate.
+- Added a 2026-05-21 correction block to `RELEASE_CHECKLIST.md` so stale April items do not override the newer Android release direction.
+- Corrected stale `RELEASE_CHECKLIST.md` rows for AdMob IDs, release AAB size, privacy policy status, and R8/minify status.
+- Preserved still-open manual blockers: Firebase/Play Console settings, Data safety entry, Health/IARC/store listing entry, release screenshots, authenticated device smoke tests, and AAB upload/closed testing.
+
+### Verification
+
+- `rg -n "\[ \]|TODO|남은|미완료|Play Console|Data safety|AAB|Firebase 콘솔|릴리스|release|privacy|개인정보|Health apps|screenshot|스크린샷|closed testing|production" docs README.md RELEASE_CHECKLIST.md WORK_INSTRUCTIONS.md PRIVACY_POLICY.md android lib test`
+- Manual comparison against the latest pushed commits through `c9feab5 Gate default Android AdMob IDs`.
