@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:life_quest_final_v2/controllers/focus_timer_controller.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 
@@ -13,15 +14,8 @@ class TimerScreen extends StatefulWidget {
 
 class _TimerScreenState extends State<TimerScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-  // Timer settings
-  int _focusMinutes = 25;
-  final int _breakMinutes = 5;
-  int _remainingSeconds = 25 * 60;
-  bool _isRunning = false;
-  bool _isFocusPhase = true;
-  int _completedSessions = 0;
+  final FocusTimerController _controller = FocusTimerController();
   Timer? _timer;
-  DateTime? _backgroundTimestamp;
 
   // Rewards
   static const int _xpPerSession = 30;
@@ -43,89 +37,73 @@ class _TimerScreenState extends State<TimerScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-      if (_isRunning) {
-        _backgroundTimestamp = DateTime.now();
+      if (_controller.pauseForBackground(DateTime.now())) {
         _timer?.cancel();
       }
     } else if (state == AppLifecycleState.resumed) {
-      if (_backgroundTimestamp != null && _isRunning) {
-        final elapsed =
-            DateTime.now().difference(_backgroundTimestamp!).inSeconds;
-        _backgroundTimestamp = null;
+      final completion = _controller.resumeFromBackground(DateTime.now());
+      if (completion != FocusTimerCompletion.none) {
+        setState(() {});
+        _handleCompletion(completion);
+      } else if (_controller.isRunning) {
         setState(() {
-          _remainingSeconds =
-              (_remainingSeconds - elapsed).clamp(0, _remainingSeconds);
-          if (_remainingSeconds <= 0) {
-            _isRunning = false;
-            if (_isFocusPhase) {
-              _onFocusComplete();
-            } else {
-              _onBreakComplete();
-            }
-          } else {
-            _startTimer();
-          }
+          _startTicker();
         });
       }
     }
   }
 
   void _startTimer() {
-    if (_isRunning) return;
-    setState(() => _isRunning = true);
+    if (_controller.isRunning) return;
+    setState(() {
+      _controller.start();
+      _startTicker();
+    });
+  }
+
+  void _startTicker() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final completion = _controller.tick();
       setState(() {
-        if (_remainingSeconds > 0) {
-          _remainingSeconds--;
-        } else {
+        if (completion != FocusTimerCompletion.none) {
           _timer?.cancel();
-          _isRunning = false;
-          if (_isFocusPhase) {
-            _onFocusComplete();
-          } else {
-            _onBreakComplete();
-          }
         }
       });
+      if (completion != FocusTimerCompletion.none) {
+        _handleCompletion(completion);
+      }
     });
   }
 
   void _pauseTimer() {
     _timer?.cancel();
-    setState(() => _isRunning = false);
+    setState(_controller.pause);
   }
 
   void _resetTimer() {
     _timer?.cancel();
-    setState(() {
-      _isRunning = false;
-      _isFocusPhase = true;
-      _remainingSeconds = _focusMinutes * 60;
-    });
+    setState(_controller.reset);
+  }
+
+  void _handleCompletion(FocusTimerCompletion completion) {
+    if (completion == FocusTimerCompletion.focus) {
+      _onFocusComplete();
+    } else if (completion == FocusTimerCompletion.breakTime) {
+      _onBreakComplete();
+    }
   }
 
   void _onFocusComplete() {
-    _completedSessions++;
     // Give rewards
     final charState = context.read<CharacterState>();
     charState.addTimerReward(_xpPerSession, _goldPerSession);
 
     // Show completion dialog
     _showRewardDialog();
-
-    // Switch to break
-    setState(() {
-      _isFocusPhase = false;
-      _remainingSeconds = _breakMinutes * 60;
-    });
   }
 
-  void _onBreakComplete() {
-    setState(() {
-      _isFocusPhase = true;
-      _remainingSeconds = _focusMinutes * 60;
-    });
-  }
+  void _onBreakComplete() {}
 
   void _showRewardDialog() {
     showDialog(
@@ -137,7 +115,7 @@ class _TimerScreenState extends State<TimerScreen>
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(l10nCtx.timerFocusCompleteBody(_focusMinutes),
+              Text(l10nCtx.timerFocusCompleteBody(_controller.focusMinutes),
                   style: const TextStyle(fontSize: 16)),
               const SizedBox(height: 12),
               Row(
@@ -166,7 +144,7 @@ class _TimerScreenState extends State<TimerScreen>
                 ],
               ),
               const SizedBox(height: 8),
-              Text(l10nCtx.timerTodaySessions(_completedSessions),
+              Text(l10nCtx.timerTodaySessions(_controller.completedSessions),
                   style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
             ],
           ),
@@ -194,16 +172,16 @@ class _TimerScreenState extends State<TimerScreen>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
-    final progress = _isFocusPhase
-        ? 1.0 - (_remainingSeconds / (_focusMinutes * 60))
-        : 1.0 - (_remainingSeconds / (_breakMinutes * 60));
-    final accentColor =
-        _isFocusPhase ? const Color(0xFFFF6B6B) : const Color(0xFF51CF66);
+    final progress = _controller.progress;
+    final accentColor = _controller.isFocusPhase
+        ? const Color(0xFFFF6B6B)
+        : const Color(0xFF51CF66);
 
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(_isFocusPhase ? l10n.timerScreenFocus : l10n.timerScreenBreak),
+        title: Text(_controller.isFocusPhase
+            ? l10n.timerScreenFocus
+            : l10n.timerScreenBreak),
       ),
       body: SafeArea(
         child: LayoutBuilder(
@@ -237,7 +215,7 @@ class _TimerScreenState extends State<TimerScreen>
                           border: Border.all(color: accentColor, width: 1.5),
                         ),
                         child: Text(
-                          _isFocusPhase
+                          _controller.isFocusPhase
                               ? l10n.timerFocusMode
                               : l10n.timerBreakMode,
                           style: TextStyle(
@@ -274,7 +252,7 @@ class _TimerScreenState extends State<TimerScreen>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  _formatTime(_remainingSeconds),
+                                  _formatTime(_controller.remainingSeconds),
                                   style: TextStyle(
                                     fontFamily: 'monospace',
                                     fontSize: timerFontSize,
@@ -285,7 +263,8 @@ class _TimerScreenState extends State<TimerScreen>
                                   ),
                                 ),
                                 Text(
-                                  l10n.timerSessionCount(_completedSessions),
+                                  l10n.timerSessionCount(
+                                      _controller.completedSessions),
                                   style: TextStyle(
                                     fontFamily: 'monospace',
                                     fontSize: 13,
@@ -315,12 +294,16 @@ class _TimerScreenState extends State<TimerScreen>
                           SizedBox(width: controlButtonGap),
                           // Play/Pause
                           _circleButton(
-                            icon: _isRunning ? Icons.pause : Icons.play_arrow,
+                            icon: _controller.isRunning
+                                ? Icons.pause
+                                : Icons.play_arrow,
                             color: accentColor,
                             isDark: isDark,
                             size: 72,
                             iconSize: 36,
-                            onTap: _isRunning ? _pauseTimer : _startTimer,
+                            onTap: _controller.isRunning
+                                ? _pauseTimer
+                                : _startTimer,
                           ),
                           SizedBox(width: controlButtonGap),
                           // Skip
@@ -331,14 +314,7 @@ class _TimerScreenState extends State<TimerScreen>
                             onTap: () {
                               _timer?.cancel();
                               setState(() {
-                                _isRunning = false;
-                                if (_isFocusPhase) {
-                                  _isFocusPhase = false;
-                                  _remainingSeconds = _breakMinutes * 60;
-                                } else {
-                                  _isFocusPhase = true;
-                                  _remainingSeconds = _focusMinutes * 60;
-                                }
+                                _controller.skipPhase();
                               });
                             },
                           ),
@@ -448,16 +424,14 @@ class _TimerScreenState extends State<TimerScreen>
   }
 
   Widget _durationChip(String label, int minutes, bool isDark) {
-    final isSelected = _focusMinutes == minutes && !_isRunning;
+    final isSelected =
+        _controller.focusMinutes == minutes && !_controller.isRunning;
     return GestureDetector(
-      onTap: _isRunning
+      onTap: _controller.isRunning
           ? null
           : () {
               setState(() {
-                _focusMinutes = minutes;
-                if (_isFocusPhase) {
-                  _remainingSeconds = minutes * 60;
-                }
+                _controller.setFocusMinutes(minutes);
               });
             },
       child: Container(

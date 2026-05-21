@@ -84,6 +84,7 @@ Decision:
 Acceptance criteria:
 - [x] Focus timer does not require persistent wake lock in default mode. See `docs/lifequest-android-vitals-timer-audit-20260520.md`.
 - [x] Notification permission is requested only after the user enables notifications in settings.
+- [x] Automated timer lifecycle test covers start, background elapsed reconciliation, return, completion while backgrounded, and stop/pause. See `test/controllers/focus_timer_controller_test.dart`.
 - [ ] Debug/release smoke test includes timer start, background, return, and stop.
 - [x] Android vitals checklist is added to release QA. See `docs/lifequest-android-vitals-timer-audit-20260520.md`.
 
@@ -97,7 +98,7 @@ Current Android build check:
 - `android.permission.WAKE_LOCK` is not declared in `AndroidManifest.xml`.
 - No app code references `PARTIAL_WAKE_LOCK`, `PowerManager.WakeLock`, `keepScreenOn`, or `FLAG_KEEP_SCREEN_ON`.
 - Audio contexts explicitly set `stayAwake: false`.
-- Focus timer pauses its foreground timer on background and reconciles elapsed wall-clock time on resume.
+- Focus timer pauses its foreground ticker on background and uses `FocusTimerController` to reconcile elapsed wall-clock time on resume.
 
 ## Issue M-04 - Mobile First, But Large Screen Cannot Break
 

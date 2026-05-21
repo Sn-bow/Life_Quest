@@ -2632,3 +2632,29 @@ Avoid creating unnecessary Android SDK migration work while still keeping the re
 ### Remaining risk
 
 - Future Play policy changes after 2026-05-21 still need a fresh official-source check before closed testing or production submission.
+
+---
+
+## 2026-05-21 KST - Focus timer lifecycle controller
+
+### Purpose
+
+Close the repository-verifiable part of the Android vitals timer smoke gap. The previous timer lifecycle math lived inside `TimerScreen` private state, so background/resume/stop behavior could not be tested directly.
+
+### Change
+
+- Added `lib/controllers/focus_timer_controller.dart`.
+- Refactored `lib/screens/timer_screen.dart` to delegate focus/break timing, background elapsed reconciliation, pause, reset, and skip transitions to the controller.
+- Added `test/controllers/focus_timer_controller_test.dart` for start, background, return, completion while backgrounded, and pause/stop behavior.
+- Updated the Android vitals timer audit and release issue M-03 with the new automated evidence while keeping real debug/release device smoke testing open.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\controllers\focus_timer_controller.dart lib\screens\timer_screen.dart test\controllers\focus_timer_controller_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\controllers\focus_timer_controller_test.dart` -> 4 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub` -> 127 tests passed.
+
+### Remaining risk
+
+- A real Android debug/release smoke test must still background and resume the app on device/emulator before closed testing.

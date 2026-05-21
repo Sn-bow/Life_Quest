@@ -22,12 +22,20 @@ Findings:
 - `android/app/src/main/AndroidManifest.xml` does not declare `android.permission.WAKE_LOCK`.
 - No app code references `PARTIAL_WAKE_LOCK`, `PowerManager.WakeLock`, `keepScreenOn`, or `FLAG_KEEP_SCREEN_ON`.
 - `lib/services/sound_service.dart` sets both SFX and BGM Android audio contexts to `stayAwake: false`.
-- `lib/screens/timer_screen.dart` uses a foreground `Timer.periodic`, cancels the timer when the app is paused, stores a timestamp, and subtracts elapsed time on resume.
+- `lib/screens/timer_screen.dart` uses a foreground `Timer.periodic` and delegates timing/lifecycle math to `lib/controllers/focus_timer_controller.dart`.
+- `FocusTimerController` stores a background timestamp while the UI ticker is canceled, reconciles elapsed wall-clock time once on resume, and keeps pause/stop from granting rewards later.
 - The timer does not start a foreground service and does not schedule wakeup alarms.
+- `test/controllers/focus_timer_controller_test.dart` covers start, background, return, completion while backgrounded, and stop/pause behavior.
 
 ## Decision
 
 The default focus timer does not require a persistent wake lock. This satisfies the code-audit portion of release issue M-03.
+
+## Automated Verification
+
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\controllers\focus_timer_controller_test.dart` -> 4 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub` -> 127 tests passed.
 
 ## Remaining Release QA
 
