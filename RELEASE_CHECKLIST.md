@@ -8,6 +8,12 @@
 
 ## 2026-05-21 기준 정정
 
+2026-05-25 추가 정정:
+
+- Play Console 제출 시 `docs/lifequest-play-console-submission-runbook-20260525.md`를 우선 적용한다.
+- 하단의 오래된 G-4/G-5 문구가 광고/인앱구매 포함 앱처럼 보이더라도, 현재 기본 Android 빌드는 광고와 인앱 결제가 비활성화된 상태로 답변해야 한다.
+- Data safety, IARC, Health apps declaration, 스토어 등록 문구, 스크린샷은 모두 같은 기본 Android AAB 기준으로 맞춘다.
+
 이 문서는 2026-04-26 기준 항목이 많이 남아 있어 일부 세부 내용이 현재 코드와 다르다. 반복 작업을 막기 위해 아래 항목을 현재 Android 기본 릴리스 기준으로 우선 적용한다.
 
 - 기본 Android 릴리스 빌드에서 AdMob/Billing 런타임 시작과 광고/결제 UI는 비활성화되어 있다.
@@ -440,7 +446,7 @@
 ### G-4. 콘텐츠 등급 설문 (IARC)
 | 항목 | 내용 |
 |------|------|
-| **문제** | Play Console에서 IARC 설문 완료 필요. 해당 앱: 가상 폭력(카드 전투), 인앱 구매, 광고 포함. 실제 도박, UGC 없음 |
+| **현재 정정** | IARC는 `docs/lifequest-play-console-submission-runbook-20260525.md` 기준으로 답변한다. 기본 Android 빌드는 판타지 카드 전투가 있지만 실제 도박, UGC, 활성 광고, 활성 인앱구매는 없다. |
 | **난이도** | 쉬움 |
 | **소요 시간** | 30분 |
 | **우선순위** | 🔴 P0 |
@@ -449,7 +455,7 @@
 ### G-5. 데이터 안전 섹션
 | 항목 | 내용 |
 |------|------|
-| **문제** | Play Store 필수 데이터 안전 선언. 수집 데이터: 이메일(Firebase Auth), 게임 진행(Firestore), 광고 데이터(AdMob), 구매 기록(IAP) |
+| **현재 정정** | Data safety는 `docs/lifequest-play-console-data-safety-draft-20260520.md`와 `docs/lifequest-play-console-submission-runbook-20260525.md` 기준으로 입력한다. 기본 Android 빌드에서는 AdMob/Billing이 비활성화되어 광고 데이터와 구매 기록을 현재 수집 항목으로 답변하지 않는다. |
 | **난이도** | 보통 |
 | **소요 시간** | 1~2시간 |
 | **우선순위** | 🔴 P0 |

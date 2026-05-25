@@ -448,6 +448,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] 첫 유료 번들/구독 구조 문서화 (`lifequest-premium-bundle-plan-20260520.md`)
 - [ ] 수익화 활성화 빌드에서 실제 AdMob App ID/Ad Unit ID 주입 및 Play Console 검증
 - [x] Data safety 초안 작성 (`lifequest-play-console-data-safety-draft-20260520.md`)
+- [x] Play Console 제출 런북 작성 (`lifequest-play-console-submission-runbook-20260525.md`)
 - [ ] Play Console Data safety 실제 입력/저장
 - [ ] Play Console에 공개 개인정보처리방침 URL과 Data safety 답변 일치 여부 최종 확인
 - [ ] 스토어 스크린샷

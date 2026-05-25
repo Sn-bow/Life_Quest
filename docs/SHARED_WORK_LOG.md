@@ -2713,3 +2713,27 @@ Align in-app copy with the current Android release scope. The Play listing and D
 ### Remaining risk
 
 - A future monetization-enabled build still needs fresh in-app paywall/ad copy, Data safety review, and Play Console declaration updates.
+
+## 2026-05-25 KST - Play Console submission runbook alignment
+
+### Purpose
+
+Prevent old release-checklist rows from pushing the real Android default build into incorrect Play Console answers. The lower `RELEASE_CHECKLIST.md` store-listing section still described an app with ads and in-app purchases even though the current default Android release disables AdMob, rewarded-ad UI, Billing startup, and paid cosmetics.
+
+### Official sources rechecked
+
+- Google Play Data safety form help: https://support.google.com/googleplay/android-developer/answer/10787469
+- Google Play content ratings / IARC: https://support.google.com/googleplay/android-developer/answer/9898843
+- Google Play Health apps declaration: https://support.google.com/googleplay/android-developer/answer/14738291
+- Google Play account deletion requirements: https://support.google.com/googleplay/android-developer/answer/13327111
+
+### Changes
+
+- Added `docs/lifequest-play-console-submission-runbook-20260525.md` as the current source of truth for Play Console app-content submission order, Data safety scope, Health apps declaration, IARC answer guardrails, screenshot scope, and closed-testing blockers.
+- Updated `RELEASE_CHECKLIST.md` to make the new runbook override stale G-4/G-5 rows for the default Android build.
+- Updated the remake execution checklist and release issue register to mark the submission runbook complete while keeping actual Play Console entry, privacy URL verification, screenshots, and closed-testing submission open.
+
+### Remaining risk
+
+- The runbook is not a submitted Play Console form.
+- Firebase Console package/SHA/App Check/Auth settings, authenticated account deletion smoke testing, timer background smoke testing, fresh Android screenshots, and final Play Console saved answers still require direct console/device verification.
