@@ -37,6 +37,7 @@ Acceptance criteria:
 - [x] No interstitial ads in core quest, status, dungeon, timer, or reward flows. Repository search found only rewarded ads, no `InterstitialAd` usage.
 - [x] AdMob and billing startup are disabled by default in the real Android app unless `LIFEQUEST_MONETIZATION_ENABLED=true` is supplied.
 - [x] Default Android builds do not embed a configured AdMob App ID or production rewarded-ad unit ID. Monetization-enabled builds must inject `ADMOB_ANDROID_APP_ID` and `ADMOB_REWARDED_AD_UNIT_ID_ANDROID`.
+- [x] `scripts/check_release_readiness.sh` validates the current Android default release path instead of requiring active AdMob/Billing or iOS settings.
 - [x] Release plan defines one optional premium value bundle before billing implementation. See `docs/lifequest-premium-bundle-plan-20260520.md`.
 
 ## Issue M-02 - Subscription Requires Clear Entitlement, Not Vague Support

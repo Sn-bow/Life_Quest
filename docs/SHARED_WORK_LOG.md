@@ -2737,3 +2737,26 @@ Prevent old release-checklist rows from pushing the real Android default build i
 
 - The runbook is not a submitted Play Console form.
 - Firebase Console package/SHA/App Check/Auth settings, authenticated account deletion smoke testing, timer background smoke testing, fresh Android screenshots, and final Play Console saved answers still require direct console/device verification.
+
+## 2026-05-25 KST - Android release readiness script realignment
+
+### Purpose
+
+Keep repository verification aligned with the real Android default release target. `scripts/check_release_readiness.sh` still assumed the old cross-platform release shape: iOS was mandatory and AdMob production IDs were expected in the default build. That contradicted the current Android-only default release path where AdMob/Billing are disabled unless a separate monetization-enabled build is prepared.
+
+### Changes
+
+- Replaced the readiness script with Android default-release checks for `com.lifequest.app`.
+- Removed iOS/Xcode/GoogleService-Info requirements from the default Android release gate.
+- Validated `namespace`, `applicationId`, `google-services.json` package binding, `compileSdk = 36`, `targetSdk = 35`, release minify/shrink, monetization gate wiring, empty default AdMob App ID injection, absence of production AdMob publisher IDs outside the debug fallback, release signing config file, privacy policy, public account-deletion page, Play Console runbook, Data safety draft, and store listing draft.
+- Replaced `rg` usage inside the script with `grep` so the script runs under WSL/Git Bash even when the Codex-bundled Windows `rg` path is not executable.
+- Updated the execution checklist and release issue register to mark this repository-side readiness gate complete.
+
+### Verification
+
+- `bash scripts/check_release_readiness.sh` initially failed in WSL because the bundled Windows `rg` path had permission issues.
+- After removing the `rg` dependency, `bash scripts/check_release_readiness.sh` passed all Android default-release checks.
+
+### Remaining risk
+
+- This script does not replace Play Console submission, Firebase Console verification, release-device smoke testing, screenshot capture, or closed testing upload.

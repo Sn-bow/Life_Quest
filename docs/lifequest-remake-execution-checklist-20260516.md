@@ -445,6 +445,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] 앱 권한 최소화
 - [x] 실제 Android 앱 기본 빌드에서 AdMob/Billing SDK 초기화와 광고 보상 UI 비활성화
 - [x] 기본 Android 빌드에서 AdMob App ID/Ad Unit ID를 비워 두고 수익화 빌드에서만 외부 주입
+- [x] Android 기본 릴리스 준비 스크립트가 현재 default-off 수익화 정책과 일치 (`scripts/check_release_readiness.sh`)
 - [x] 첫 유료 번들/구독 구조 문서화 (`lifequest-premium-bundle-plan-20260520.md`)
 - [ ] 수익화 활성화 빌드에서 실제 AdMob App ID/Ad Unit ID 주입 및 Play Console 검증
 - [x] Data safety 초안 작성 (`lifequest-play-console-data-safety-draft-20260520.md`)

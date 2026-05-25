@@ -7,70 +7,118 @@ cd "$ROOT_DIR"
 
 failures=0
 
+pass() {
+  printf 'PASS: %s\n' "$1"
+}
+
+fail() {
+  printf 'FAIL: %s\n' "$1"
+  failures=$((failures + 1))
+}
+
+check_file_exists() {
+  local file="$1"
+  local message="$2"
+
+  if [[ -f "$file" ]]; then
+    pass "$message"
+  else
+    fail "$message"
+  fi
+}
+
 check_contains() {
   local file="$1"
   local pattern="$2"
   local message="$3"
 
-  if rg -q --fixed-strings "$pattern" "$file"; then
-    printf 'FAIL: %s\n' "$message"
-    failures=$((failures + 1))
+  if [[ -f "$file" ]] && grep -Fq -- "$pattern" "$file"; then
+    pass "$message"
   else
-    printf 'PASS: %s\n' "$message"
+    fail "$message"
   fi
 }
 
-check_missing_file() {
+check_not_contains() {
   local file="$1"
-  local message="$2"
+  local pattern="$2"
+  local message="$3"
 
-  if [[ -f "$file" ]]; then
-    printf 'PASS: %s\n' "$message"
+  if [[ -f "$file" ]] && grep -Fq -- "$pattern" "$file"; then
+    fail "$message"
   else
-    printf 'FAIL: %s\n' "$message"
-    failures=$((failures + 1))
+    pass "$message"
   fi
 }
 
-printf 'Release readiness check for %s\n' "$ROOT_DIR"
+check_no_prod_admob_ids_outside_docs() {
+  local message="Default Android source has no production AdMob publisher IDs"
+  local matches
 
-check_contains "android/app/build.gradle.kts" "com.example.life_quest_final_v2" \
-  "Android package ID is not left at the placeholder value"
+  matches="$(
+    grep -R -n --include='*.dart' --include='*.kt' --include='*.kts' \
+      --include='*.xml' --include='*.yaml' -- "ca-app-pub-" \
+      android lib pubspec.yaml 2>/dev/null \
+      | grep -v '^lib/services/ad_service.dart:' || true
+  )"
 
-check_contains "ios/Runner.xcodeproj/project.pbxproj" "com.example.lifeQuestFinalV2" \
-  "iOS bundle ID is not left at the placeholder value"
+  if [[ -z "$matches" ]]; then
+    pass "$message"
+  else
+    fail "$message"
+    printf '%s\n' "$matches"
+  fi
+}
 
-check_contains "android/app/build.gradle.kts" "ca-app-pub-3940256099942544~3347511713" \
-  "Android AdMob app ID is not left at the Google test value"
+printf 'Android default release readiness check for %s\n' "$ROOT_DIR"
+printf 'Scope: com.lifequest.app default build, monetization disabled unless explicitly enabled.\n\n'
 
-check_contains "ios/Flutter/AppConfig.xcconfig" "ca-app-pub-3940256099942544~1458002511" \
-  "iOS AdMob app ID is not left at the Google test value"
+check_contains "android/app/build.gradle.kts" 'namespace = "com.lifequest.app"' \
+  "Android namespace is com.lifequest.app"
+check_contains "android/app/build.gradle.kts" 'applicationId = "com.lifequest.app"' \
+  "Android applicationId is com.lifequest.app"
+check_contains "android/app/google-services.json" '"package_name": "com.lifequest.app"' \
+  "google-services.json is bound to com.lifequest.app"
+check_not_contains "android/app/build.gradle.kts" "com.example.life_quest_final_v2" \
+  "Android package ID is not left at the old placeholder"
 
-check_contains "lib/services/ad_service.dart" "ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY" \
-  "Rewarded ad unit fallback is not left at the placeholder value"
+check_contains "android/app/build.gradle.kts" "compileSdk = 36" \
+  "compileSdk remains at the documented release baseline"
+check_contains "android/app/build.gradle.kts" "targetSdk = 35" \
+  "targetSdk satisfies the documented Google Play API 35 baseline"
+check_contains "android/app/build.gradle.kts" "isMinifyEnabled = true" \
+  "Release minify is enabled"
+check_contains "android/app/build.gradle.kts" "isShrinkResources = true" \
+  "Release resource shrinking is enabled"
 
-check_contains "ios/Flutter/AppConfig.xcconfig" "group.com.example.lifeQuestWidget" \
-  "iOS Home Widget App Group is not left at the placeholder value"
+check_contains "lib/config/monetization_config.dart" "LIFEQUEST_MONETIZATION_ENABLED" \
+  "Monetization gate exists"
+check_contains "android/app/build.gradle.kts" '.gradleProperty("ADMOB_ANDROID_APP_ID")' \
+  "AdMob App ID is externally injected only when needed"
+check_contains "android/app/build.gradle.kts" '.orElse("")' \
+  "Default Android AdMob App ID placeholder is empty"
+check_contains "android/app/src/main/AndroidManifest.xml" 'android:value="${admobAppId}"' \
+  "Android manifest uses the injected AdMob placeholder"
+check_contains "lib/services/ad_service.dart" "ADMOB_REWARDED_AD_UNIT_ID_ANDROID" \
+  "Rewarded ad unit is injected through dart-define"
+check_no_prod_admob_ids_outside_docs
 
-check_contains "lib/firebase_options.dart" "run \`flutterfire configure\` to set up iOS Firebase support." \
-  "iOS Firebase options are present in firebase_options.dart"
-
-check_missing_file "ios/GoogleService-Info.plist" \
-  "iOS GoogleService-Info.plist exists"
-
-check_missing_file "android/key.properties" \
-  "Android key.properties exists"
-
-if [[ -d /Applications/Xcode.app ]]; then
-  printf 'PASS: Full Xcode appears to be installed\n'
-else
-  printf 'FAIL: Full Xcode is not installed at /Applications/Xcode.app\n'
-  failures=$((failures + 1))
-fi
+check_file_exists "android/key.properties" \
+  "Android release signing key.properties exists"
+check_file_exists "PRIVACY_POLICY.md" \
+  "Repository privacy policy exists"
+check_file_exists "docs/index.html" \
+  "Public privacy/account-deletion page exists"
+check_file_exists "docs/lifequest-play-console-submission-runbook-20260525.md" \
+  "Play Console submission runbook exists"
+check_file_exists "docs/lifequest-play-console-data-safety-draft-20260520.md" \
+  "Play Console Data safety draft exists"
+check_file_exists "docs/lifequest-play-store-listing-draft-20260520.md" \
+  "Play Store listing draft exists"
 
 if (( failures > 0 )); then
-  printf '\nRelease readiness check failed with %d issue(s).\n' "$failures"
+  printf '\nAndroid default release readiness check failed with %d issue(s).\n' "$failures"
   exit 1
 fi
 
-printf '\nRelease readiness check passed.\n'
+printf '\nAndroid default release readiness check passed.\n'
