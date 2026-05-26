@@ -2760,3 +2760,22 @@ Keep repository verification aligned with the real Android default release targe
 ### Remaining risk
 
 - This script does not replace Play Console submission, Firebase Console verification, release-device smoke testing, screenshot capture, or closed testing upload.
+
+## 2026-05-26 KST - Season countdown hardcoding removal
+
+### Purpose
+
+Remove another visible release-polish issue from the Android app. The release checklist still flagged the Soul Deck season banner as a hardcoded `D-25` risk, and the countdown math lived inside `DungeonHomeScreen`, making date-boundary behavior hard to verify.
+
+### Changes
+
+- Added `lib/utils/season_countdown.dart` with reusable calendar-day countdown logic and the Season 1 end date.
+- Updated `lib/screens/dungeon/dungeon_home_screen.dart` to render the season banner from the tested countdown helper.
+- Added `test/utils/season_countdown_test.dart` for the day-before, end-date, and ended states.
+- Updated `RELEASE_CHECKLIST.md` and the remake execution checklist to mark the hardcoded countdown issue complete.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\utils\season_countdown.dart lib\screens\dungeon\dungeon_home_screen.dart test\utils\season_countdown_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\utils\season_countdown_test.dart` -> 3 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.

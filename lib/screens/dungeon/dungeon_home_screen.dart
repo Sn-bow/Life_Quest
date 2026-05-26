@@ -12,6 +12,7 @@ import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/relic_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
+import 'package:life_quest_final_v2/utils/season_countdown.dart';
 
 class DungeonHomeScreen extends StatefulWidget {
   const DungeonHomeScreen({super.key});
@@ -531,9 +532,6 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
 // Season Banner
 // ─────────────────────────────────────────────
 
-/// 시즌 종료일을 변경하려면 이 날짜를 수정하세요.
-final _seasonEndDate = DateTime(2027, 3, 31);
-
 class _SeasonBanner extends StatelessWidget {
   final bool isDark;
 
@@ -541,12 +539,13 @@ class _SeasonBanner extends StatelessWidget {
 
   String _buildCountdown(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final now = DateTime.now();
-    final diff = _seasonEndDate.difference(now);
-    if (diff.isNegative) return l10n.seasonEnded;
-    final days = diff.inDays;
-    if (days == 0) return 'D-Day';
-    return l10n.seasonCountdown(days);
+    final countdown = calculateSeasonCountdown(
+      now: DateTime.now(),
+      endDate: kSoulDeckSeasonOneEndDate,
+    );
+    if (countdown.isEnded) return l10n.seasonEnded;
+    if (countdown.isDday) return 'D-Day';
+    return l10n.seasonCountdown(countdown.daysRemaining!);
   }
 
   @override

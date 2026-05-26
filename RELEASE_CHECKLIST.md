@@ -63,7 +63,7 @@
 - ❌ Firebase 콘솔 패키지명 업데이트 (수동 필요)
 - ❌ Cloud Function / Firestore Rules 배포 (수동 필요)
 - ✅ 개인정보처리방침 갱신 완료. Play Console URL 등록과 최종 Data safety 입력은 수동 미완료
-- ❌ 시즌 카운트다운 하드코딩 ("D-25")
+- ✅ 시즌 카운트다운 하드코딩 제거 및 날짜 경계 테스트 추가 (`test/utils/season_countdown_test.dart`)
 
 ---
 
@@ -262,9 +262,9 @@
 ### C-5. 시즌 카운트다운 하드코딩 수정
 | 항목 | 내용 |
 |------|------|
-| **문제** | `dungeon_home_screen.dart:419` → `// TODO: Replace hardcoded D-25 with real countdown` |
-| **위치** | `lib/screens/dungeon/dungeon_home_screen.dart:419-435` |
-| **난이도** | 쉬움 |
+| **현재 상태** | `dungeon_home_screen.dart`가 `calculateSeasonCountdown()`과 `kSoulDeckSeasonOneEndDate`를 사용하며, 하드코딩된 `D-25`는 남아 있지 않다. |
+| **위치** | `lib/utils/season_countdown.dart`, `lib/screens/dungeon/dungeon_home_screen.dart`, `test/utils/season_countdown_test.dart` |
+| **난이도** | 완료 |
 | **소요 시간** | 1시간 |
 | **우선순위** | 🟢 P2 |
 | **작업 주체** | Claude (설정 가능한 종료일 또는 Firebase Remote Config 연동) |
