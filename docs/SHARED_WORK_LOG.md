@@ -2779,3 +2779,26 @@ Remove another visible release-polish issue from the Android app. The release ch
 - `cmd /c C:\dev\flutter\bin\dart.bat format lib\utils\season_countdown.dart lib\screens\dungeon\dungeon_home_screen.dart test\utils\season_countdown_test.dart`
 - `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\utils\season_countdown_test.dart` -> 3 tests passed.
 - `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+
+## 2026-05-26 KST - Soul Deck SFX asset gate
+
+### Purpose
+
+Close another visible release-quality gap for the monetizable Android app. The release checklist still described `SoundService` as having only a few triggers and no reliable Soul Deck asset coverage, while the code had grown beyond that without a test proving the referenced sound files exist.
+
+### Changes
+
+- Centralized `SoundService` sound asset paths into constants and exposed `referencedAssetPaths` for tests.
+- Added `test/services/sound_service_assets_test.dart` to fail if any referenced SFX/BGM file is missing from `assets/`.
+- Connected block and heal card effects in `card_battle_screen.dart` to `SoundService.playBlock()` and `SoundService.playHeal()` so effect-specific feedback is not only visual.
+- Updated `RELEASE_CHECKLIST.md` and the remake execution checklist to mark the repository-side SoundService expansion gate complete while keeping final audio mix/device QA open.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\services\sound_service.dart lib\screens\dungeon\card_battle_screen.dart test\services\sound_service_assets_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\services\sound_service_assets_test.dart` -> 1 test passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+
+### Remaining risk
+
+- This verifies file presence and code wiring, not final perceived loudness, latency, or mix quality on real Android hardware.

@@ -294,11 +294,16 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                       if (card.effects.any((e) =>
                                           e.effectType ==
                                           CardEffectType.block)) {
+                                        if (card.category !=
+                                            CardCategory.defense) {
+                                          SoundService().playBlock();
+                                        }
                                         _game.playBlockParticle();
                                       }
                                       if (card.effects.any((e) =>
                                           e.effectType ==
                                           CardEffectType.heal)) {
+                                        SoundService().playHeal();
                                         _game.playHealParticle();
                                       }
                                     } catch (_) {}

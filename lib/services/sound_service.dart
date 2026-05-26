@@ -14,6 +14,49 @@ class SoundService {
 
   bool get isMuted => _isMuted;
 
+  static const String _levelUpAsset = 'sounds/sfx/level_up.wav';
+  static const String _attackSwingAsset = 'sounds/sfx/attack_swing.wav';
+  static const String _buttonClickAsset = 'sounds/sfx/button_click.wav';
+  static const String _cardDrawAsset = 'sounds/game/card_draw.mp3';
+  static const String _magicCastAsset = 'sounds/sfx/magic_cast.wav';
+  static const String _defendBlockAsset = 'sounds/sfx/defend_block.wav';
+  static const String _cardTacticalAsset = 'sounds/game/card_tactical.mp3';
+  static const String _healAsset = 'sounds/game/heal.mp3';
+  static const String _enemyDeathAsset = 'sounds/sfx/enemy_death.wav';
+  static const String _bossAppearAsset = 'sounds/game/boss_appear.mp3';
+  static const String _victoryAsset = 'sounds/sfx/victory.wav';
+  static const String _defeatAsset = 'sounds/game/defeat.mp3';
+  static const String _turnChangeAsset = 'sounds/game/turn_change.mp3';
+  static const String _relicPickupAsset = 'sounds/game/relic_pickup.mp3';
+  static const String _shopBuyAsset = 'sounds/game/shop_buy.mp3';
+  static const String _statusEffectAsset = 'sounds/game/status_effect.mp3';
+  static const String _magicHitAsset = 'sounds/sfx/magic_hit.wav';
+  static const String _cardPlayAsset = 'sounds/sfx/card_play.wav';
+  static const String _dungeonBgmAsset = 'sounds/bgm/Before_the_Siege.mp3';
+
+  @visibleForTesting
+  static const Set<String> referencedAssetPaths = {
+    _levelUpAsset,
+    _attackSwingAsset,
+    _buttonClickAsset,
+    _cardDrawAsset,
+    _magicCastAsset,
+    _defendBlockAsset,
+    _cardTacticalAsset,
+    _healAsset,
+    _enemyDeathAsset,
+    _bossAppearAsset,
+    _victoryAsset,
+    _defeatAsset,
+    _turnChangeAsset,
+    _relicPickupAsset,
+    _shopBuyAsset,
+    _statusEffectAsset,
+    _magicHitAsset,
+    _cardPlayAsset,
+    _dungeonBgmAsset,
+  };
+
   @visibleForTesting
   static void muteForTesting() {
     _instance._isMuted = true;
@@ -140,35 +183,35 @@ class SoundService {
   void dispose() => _bgmPlayer?.dispose();
 
   // ── 편의 메서드 ───────────────────────────────────────────────────────────
-  void playLevelUp() => playSfx('sounds/sfx/level_up.wav');
-  void playQuestComplete() => playSfx('sounds/sfx/level_up.wav');
-  void playAttack() => playSfx('sounds/sfx/attack_swing.wav');
-  void playClick() => playSfx('sounds/sfx/button_click.wav');
+  void playLevelUp() => playSfx(_levelUpAsset);
+  void playQuestComplete() => playSfx(_levelUpAsset);
+  void playAttack() => playSfx(_attackSwingAsset);
+  void playClick() => playSfx(_buttonClickAsset);
 
   // Soul Deck SFX
-  void playCardDraw() => playSfx('sounds/game/card_draw.mp3');
-  void playCardPlayAttack() => playSfx('sounds/sfx/attack_swing.wav');
-  void playCardPlayMagic() => playSfx('sounds/sfx/magic_cast.wav');
-  void playCardPlayDefense() => playSfx('sounds/sfx/defend_block.wav');
-  void playCardPlayTactical() => playSfx('sounds/game/card_tactical.mp3');
-  void playBlock() => playSfx('sounds/sfx/defend_block.wav');
-  void playHeal() => playSfx('sounds/game/heal.mp3');
-  void playEnemyAttack() => playSfx('sounds/sfx/attack_swing.wav');
-  void playEnemyDefeat() => playSfx('sounds/sfx/enemy_death.wav');
-  void playBossAppear() => playSfx('sounds/game/boss_appear.mp3');
-  void playVictory() => playSfx('sounds/sfx/victory.wav', vol: _sfxVictory);
-  void playDefeat() => playSfx('sounds/game/defeat.mp3');
-  void playTurnChange() => playSfx('sounds/game/turn_change.mp3');
-  void playRelicPickup() => playSfx('sounds/game/relic_pickup.mp3');
-  void playShopBuy() => playSfx('sounds/game/shop_buy.mp3');
-  void playStatusEffect() => playSfx('sounds/game/status_effect.mp3');
+  void playCardDraw() => playSfx(_cardDrawAsset);
+  void playCardPlayAttack() => playSfx(_attackSwingAsset);
+  void playCardPlayMagic() => playSfx(_magicCastAsset);
+  void playCardPlayDefense() => playSfx(_defendBlockAsset);
+  void playCardPlayTactical() => playSfx(_cardTacticalAsset);
+  void playBlock() => playSfx(_defendBlockAsset);
+  void playHeal() => playSfx(_healAsset);
+  void playEnemyAttack() => playSfx(_attackSwingAsset);
+  void playEnemyDefeat() => playSfx(_enemyDeathAsset);
+  void playBossAppear() => playSfx(_bossAppearAsset);
+  void playVictory() => playSfx(_victoryAsset, vol: _sfxVictory);
+  void playDefeat() => playSfx(_defeatAsset);
+  void playTurnChange() => playSfx(_turnChangeAsset);
+  void playRelicPickup() => playSfx(_relicPickupAsset);
+  void playShopBuy() => playSfx(_shopBuyAsset);
+  void playStatusEffect() => playSfx(_statusEffectAsset);
 
   // Battle SFX
-  void playMagicHit() => playSfx('sounds/sfx/magic_hit.wav');
-  void playBattleButtonClick() => playSfx('sounds/sfx/button_click.wav');
-  void playCardPlay() => playSfx('sounds/sfx/card_play.wav');
+  void playMagicHit() => playSfx(_magicHitAsset);
+  void playBattleButtonClick() => playSfx(_buttonClickAsset);
+  void playCardPlay() => playSfx(_cardPlayAsset);
 
   // BGM
-  Future<void> playDungeonBgm() => playBgm('sounds/bgm/Before_the_Siege.mp3');
+  Future<void> playDungeonBgm() => playBgm(_dungeonBgmAsset);
   Future<void> stopDungeonBgm() => stopBgm();
 }

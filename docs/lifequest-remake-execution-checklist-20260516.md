@@ -400,6 +400,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] `flutter build apk --debug`
 - [x] `flutter build appbundle --release`
 - [x] 시즌 카운트다운 하드코딩 제거 및 날짜 경계 단위 테스트 추가 (`test/utils/season_countdown_test.dart`)
+- [x] Soul Deck SFX 참조 에셋 존재 테스트 및 block/heal 전투 SFX 연결 (`test/services/sound_service_assets_test.dart`)
 
 ### Android 실기기 QA
 

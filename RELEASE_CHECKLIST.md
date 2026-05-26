@@ -55,7 +55,7 @@
 ### 핵심 미비 사항 (2026-04-26 기준)
 - ❌ 실제 기기 테스트 **한 번도 안 함** ← 가장 중요
 - ❌ 게임 아트 에셋 없음 (`assets/images/game/` 디렉토리 미존재)
-- ❌ 게임 사운드 일부 미존재 (`assets/sounds/game/` 일부 파일)
+- ✅ Soul Deck SFX 참조 에셋 존재 테스트 추가 (`test/services/sound_service_assets_test.dart`)
 - ✅ 전투 애니메이션 4종 Canvas 구현 완료 (에셋 없이)
 - ❌ 온보딩/튜토리얼 없음
 - ❌ 카드 밸런스 플레이 테스트 없음
@@ -276,11 +276,11 @@
 ### D-1. 게임 사운드 이펙트 (핵심 갭)
 | 항목 | 내용 |
 |------|------|
-| **문제** | 기존 사운드 4개만 존재. `assets/sounds/game/` 미존재. Soul Deck에 필요한 사운드: 카드 플레이, 카드 드로우, 블록, 힐, 적 공격, 보스 등장, 승리, 패배, 턴 전환, 에너지 사용, 렐릭 획득, 상점 구매, 휴식 등 15종 이상 |
-| **위치** | `lib/services/sound_service.dart` (현재 4개 트리거만), `card_battle_screen.dart:242` (`// TODO: SoundService.playCardSound(card.category)`) |
-| **위험** | **무음 게임은 생명 없는 게임**. 사운드는 게임 느낌의 50% |
-| **난이도** | 보통 (코드) / 어려움 (사운드 소싱) |
-| **소요 시간** | 코드 3~5일, 사운드 소싱 1~2주 |
+| **현재 상태** | Soul Deck SFX/BGM 참조 에셋이 존재하며 `SoundService.referencedAssetPaths` 테스트로 잠김. block/heal 카드 효과도 전투 화면에서 SFX를 재생한다. |
+| **위치** | `lib/services/sound_service.dart`, `lib/screens/dungeon/card_battle_screen.dart`, `test/services/sound_service_assets_test.dart` |
+| **위험** | 신규 사운드 추가 시 에셋 누락은 테스트에서 잡히지만, 최종 믹싱/음량 밸런스는 실기기 QA 필요 |
+| **난이도** | 코드 완료 / 최종 사운드 믹싱은 실기기 QA |
+| **소요 시간** | 코드 완료 |
 | **우선순위** | 🟡 P1 |
 | **작업 주체** | Claude (SoundService 확장 코드) + 수동 (무료 사운드 라이브러리에서 소싱) |
 | **추천 소스** | Freesound.org (CC0), Kenney.nl/assets (CC0 사운드), Pixabay Sound Effects |
@@ -308,10 +308,10 @@
 ### D-4. SoundService Soul Deck 확장
 | 항목 | 내용 |
 |------|------|
-| **문제** | 메서드 추가 필요: `playCardDraw()`, `playCardPlay(CardCategory)`, `playBlock()`, `playHeal()`, `playEnemyAttack()`, `playEnemyDefeat()`, `playBossAppear()`, `playVictory()`, `playDefeat()`, `playTurnChange()`, `playRelicPickup()`, `playShopBuy()` |
-| **위치** | `lib/services/sound_service.dart:66-69` (현재 4개 트리거만) |
-| **난이도** | 쉬움 |
-| **소요 시간** | 2~3시간 (코드만, 오디오 파일 필요) |
+| **현재 상태** | Soul Deck SFX 메서드가 구현되어 있고 참조 에셋 존재 테스트가 추가됨. 카드 카테고리, 턴 전환, block/heal 효과 사운드 연결 완료. |
+| **위치** | `lib/services/sound_service.dart`, `lib/screens/dungeon/card_battle_screen.dart`, `test/services/sound_service_assets_test.dart` |
+| **난이도** | 완료 |
+| **소요 시간** | 완료 |
 | **우선순위** | 🟡 P1 |
 | **작업 주체** | Claude |
 
@@ -486,7 +486,7 @@
 | B-2 | 적 & 플레이어 스프라이트 Flame 통합 | 1~2주 | Claude+아티스트/AI |
 | B-5 | 렐릭 아이콘 시스템 | 2~3일 | Claude |
 | D-1 | 게임 사운드 이펙트 소싱 | 1~2주 | 수동 |
-| D-4 | SoundService 확장 코드 | 3시간 | Claude |
+| D-4 | SoundService 확장 코드 | 완료 | Claude |
 
 ### Sprint 3 (4~5주차): 게임 느낌 — 애니메이션 & 오디오
 
@@ -536,7 +536,7 @@
 | 파일 | 중요 사항 |
 |------|----------|
 | `lib/game/battle_game.dart` | 4개 빈 애니메이션 스텁, 스프라이트 로딩 없음, 핵심 비주얼 갭 |
-| `lib/services/sound_service.dart` | 4개 → 15개+ 사운드 트리거 확장 필요 |
+| `lib/services/sound_service.dart` | Soul Deck SFX 메서드와 에셋 존재 테스트 완료. 남은 것은 실기기 음량/믹싱 QA |
 | `lib/services/purchase_service.dart` | 서버사이드 검증 WARNING (line 97) |
 | `lib/screens/dungeon/card_battle_screen.dart` | 1858줄 전투 UI, 카드 렌더링에 아트 통합 필요, TODO (line 242) |
 | `android/app/build.gradle.kts` | ProGuard/R8 미설정, AdMob App ID placeholder |
