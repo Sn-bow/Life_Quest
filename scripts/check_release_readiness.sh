@@ -102,6 +102,16 @@ check_contains "android/app/src/main/AndroidManifest.xml" 'android:value="${admo
 check_contains "lib/services/ad_service.dart" "ADMOB_REWARDED_AD_UNIT_ID_ANDROID" \
   "Rewarded ad unit is injected through dart-define"
 check_no_prod_admob_ids_outside_docs
+check_contains "lib/services/purchase_service.dart" "shouldAcceptUnverifiedPurchase" \
+  "Purchase verification has an explicit unverified-purchase policy"
+check_contains "lib/services/purchase_service.dart" "Purchase verification rejected." \
+  "Purchase verification errors are rejected"
+check_not_contains "lib/services/purchase_service.dart" "Falling back to local verification" \
+  "Purchase verification does not fall back to local acceptance"
+check_not_contains "lib/services/purchase_service.dart" "Verification error: \$e. Falling back." \
+  "Generic purchase verification errors do not fall back"
+check_file_exists "test/services/purchase_verification_policy_test.dart" \
+  "Purchase verification policy test exists"
 
 check_file_exists "android/key.properties" \
   "Android release signing key.properties exists"

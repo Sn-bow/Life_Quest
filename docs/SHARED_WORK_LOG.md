@@ -2825,3 +2825,23 @@ Remove a monetization safety gap before any paid Android build. The purchase cli
 
 - The new test proves the release policy helper, not a live Google Play purchase.
 - A monetization-enabled build still needs deployed Firebase Function verification against Play Billing test purchases before charging users.
+
+## 2026-05-26 KST - Purchase verification readiness gate
+
+### Purpose
+
+Prevent a release regression where purchase verification silently returns to accepting unverified purchases. The fail-closed policy now needs to be part of the default Android release gate, not only a standalone unit test.
+
+### Changes
+
+- Extended `scripts/check_release_readiness.sh` to verify `PurchaseService` has an explicit unverified-purchase policy.
+- Added release-gate checks that reject the old local fallback wording for Firebase Function and generic purchase verification failures.
+- Added a readiness check that the purchase verification policy test exists.
+
+### Verification
+
+- `bash scripts/check_release_readiness.sh` -> passed, including the new purchase verification checks.
+
+### Remaining risk
+
+- This guards source regressions only. A monetization-enabled release still needs the deployed Firebase Function and Google Play Billing test-purchase verification before charging users.
