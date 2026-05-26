@@ -101,6 +101,8 @@ Current Android build check:
 2026-05-20 audit notes:
 - `android.permission.WAKE_LOCK` is not declared in `AndroidManifest.xml`.
 - No app code references `PARTIAL_WAKE_LOCK`, `PowerManager.WakeLock`, `keepScreenOn`, or `FLAG_KEEP_SCREEN_ON`.
+- `scripts/check_release_readiness.sh` now fails if the release manifest reintroduces wake-lock permission, broad package visibility, debuggable/testOnly flags, or global cleartext traffic.
+- Release signing now fails closed when `android/key.properties` is missing instead of falling back to debug signing.
 - Audio contexts explicitly set `stayAwake: false`.
 - Focus timer pauses its foreground ticker on background and uses `FocusTimerController` to reconcile elapsed wall-clock time on resume.
 

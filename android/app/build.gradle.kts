@@ -62,7 +62,9 @@ android {
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
             } else {
-                signingConfigs.getByName("debug")
+                throw GradleException(
+                    "Missing android/key.properties for release signing"
+                )
             }
             isMinifyEnabled = true
             isShrinkResources = true

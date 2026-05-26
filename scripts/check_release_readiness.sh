@@ -90,6 +90,10 @@ check_contains "android/app/build.gradle.kts" "isMinifyEnabled = true" \
   "Release minify is enabled"
 check_contains "android/app/build.gradle.kts" "isShrinkResources = true" \
   "Release resource shrinking is enabled"
+check_contains "android/app/build.gradle.kts" "Missing android/key.properties for release signing" \
+  "Release signing fails closed when key.properties is missing"
+check_not_contains "android/app/build.gradle.kts" 'signingConfigs.getByName("debug")' \
+  "Release builds do not fall back to debug signing"
 
 check_contains "lib/config/monetization_config.dart" "LIFEQUEST_MONETIZATION_ENABLED" \
   "Monetization gate exists"
@@ -115,6 +119,28 @@ check_file_exists "test/services/purchase_verification_policy_test.dart" \
 
 check_file_exists "android/key.properties" \
   "Android release signing key.properties exists"
+check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.INTERNET' \
+  "Android manifest declares only expected network access"
+check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.POST_NOTIFICATIONS' \
+  "Android manifest declares notification permission explicitly"
+check_not_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.WAKE_LOCK' \
+  "Android manifest does not request wake lock permission"
+check_not_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.QUERY_ALL_PACKAGES' \
+  "Android manifest does not request broad package visibility"
+check_not_contains "android/app/src/main/AndroidManifest.xml" 'android:debuggable="true"' \
+  "Android release manifest is not marked debuggable"
+check_not_contains "android/app/src/main/AndroidManifest.xml" 'android:testOnly="true"' \
+  "Android release manifest is not marked testOnly"
+check_not_contains "android/app/src/main/AndroidManifest.xml" 'android:usesCleartextTraffic="true"' \
+  "Android release manifest does not allow cleartext traffic globally"
+check_contains "firebase.json" '"rules": "firestore.rules"' \
+  "Firebase config wires Firestore rules"
+check_contains "firebase.json" '"rules": "storage.rules"' \
+  "Firebase config wires Storage rules"
+check_contains "firestore.rules" "allow read, write: if false;" \
+  "Firestore rules deny unmatched paths"
+check_contains "storage.rules" "allow read, write: if false;" \
+  "Storage rules deny unmatched paths"
 check_file_exists "PRIVACY_POLICY.md" \
   "Repository privacy policy exists"
 check_file_exists "docs/index.html" \

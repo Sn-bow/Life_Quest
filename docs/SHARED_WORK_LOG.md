@@ -2845,3 +2845,27 @@ Prevent a release regression where purchase verification silently returns to acc
 ### Remaining risk
 
 - This guards source regressions only. A monetization-enabled release still needs the deployed Firebase Function and Google Play Billing test-purchase verification before charging users.
+
+## 2026-05-26 KST - Android release signing and manifest gates
+
+### Purpose
+
+Close another repository-verifiable release risk before Play submission. A release build should never silently fall back to debug signing, and the default Android manifest should not drift into dangerous permissions or debug/test-only settings that would change Play review and Data safety assumptions.
+
+### Changes
+
+- Changed `android/app/build.gradle.kts` so release signing fails with a clear Gradle error if `android/key.properties` is missing instead of using debug signing.
+- Extended `scripts/check_release_readiness.sh` to block debug-signing fallback regressions.
+- Added readiness checks for wake-lock permission, broad package visibility, debuggable/testOnly flags, global cleartext traffic, Firebase rules wiring, and deny-by-default Firestore/Storage rules.
+- Updated release documentation with the new repository-side evidence.
+
+### Verification
+
+- `bash scripts/check_release_readiness.sh` -> passed, including the new signing, manifest, and Firebase rules gates.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+- `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub` -> built `build\app\outputs\bundle\release\app-release.aab` at 152.0MB.
+
+### Remaining risk
+
+- This proves the local release build and source gates, not Play Console upload acceptance.
+- Firebase Console package/SHA/App Check/Auth settings and authenticated Android smoke tests still need direct console/device verification.

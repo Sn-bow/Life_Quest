@@ -539,4 +539,4 @@
 | `lib/services/sound_service.dart` | Soul Deck SFX 메서드와 에셋 존재 테스트 완료. 남은 것은 실기기 음량/믹싱 QA |
 | `lib/services/purchase_service.dart` | Release builds reject unverified purchases; Cloud Function deployment/console verification still required |
 | `lib/screens/dungeon/card_battle_screen.dart` | 1858줄 전투 UI, 카드 렌더링에 아트 통합 필요, TODO (line 242) |
-| `android/app/build.gradle.kts` | ProGuard/R8 미설정, AdMob App ID placeholder |
+| `android/app/build.gradle.kts` | Release minify/shrink enabled; release signing fails closed if key.properties is missing; default AdMob App ID remains empty |
