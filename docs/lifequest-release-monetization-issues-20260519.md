@@ -39,6 +39,7 @@ Acceptance criteria:
 - [x] Default Android builds do not embed a configured AdMob App ID or production rewarded-ad unit ID. Monetization-enabled builds must inject `ADMOB_ANDROID_APP_ID` and `ADMOB_REWARDED_AD_UNIT_ID_ANDROID`.
 - [x] `scripts/check_release_readiness.sh` validates the current Android default release path instead of requiring active AdMob/Billing or iOS settings.
 - [x] Release plan defines one optional premium value bundle before billing implementation. See `docs/lifequest-premium-bundle-plan-20260520.md`.
+- [x] Purchase verification fails closed in release if the server verification call is unavailable or errors. See `test/services/purchase_verification_policy_test.dart`.
 
 ## Issue M-02 - Subscription Requires Clear Entitlement, Not Vague Support
 
@@ -69,6 +70,7 @@ Acceptance criteria:
 - [x] Premium entitlement list fits on one screen. See `docs/lifequest-premium-bundle-plan-20260520.md`.
 - [ ] Free user can understand and complete the core loop.
 - [x] Billing is disabled by default until retention loop and premium bundle copy are validated.
+- [ ] Monetization-enabled build verifies deployed Cloud Function purchase validation against Play Billing test purchases.
 
 ## Issue M-03 - Android Vitals Can Affect Store Visibility
 

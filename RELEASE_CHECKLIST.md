@@ -537,6 +537,6 @@
 |------|----------|
 | `lib/game/battle_game.dart` | 4개 빈 애니메이션 스텁, 스프라이트 로딩 없음, 핵심 비주얼 갭 |
 | `lib/services/sound_service.dart` | Soul Deck SFX 메서드와 에셋 존재 테스트 완료. 남은 것은 실기기 음량/믹싱 QA |
-| `lib/services/purchase_service.dart` | 서버사이드 검증 WARNING (line 97) |
+| `lib/services/purchase_service.dart` | Release builds reject unverified purchases; Cloud Function deployment/console verification still required |
 | `lib/screens/dungeon/card_battle_screen.dart` | 1858줄 전투 UI, 카드 렌더링에 아트 통합 필요, TODO (line 242) |
 | `android/app/build.gradle.kts` | ProGuard/R8 미설정, AdMob App ID placeholder |

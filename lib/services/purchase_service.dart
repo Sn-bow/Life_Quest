@@ -26,6 +26,13 @@ class PurchaseService {
   bool get isAvailable => _isAvailable;
   List<ProductDetails> get products => _products;
 
+  @visibleForTesting
+  static bool shouldAcceptUnverifiedPurchase({
+    required bool isDebugBuild,
+  }) {
+    return isDebugBuild;
+  }
+
   // Stream for notifying other parts of the app (like CharacterState) of successful cosmetic purchases
   final _unlockController = StreamController<String>.broadcast();
   Stream<String> get unlockStream => _unlockController.stream;
@@ -135,8 +142,8 @@ class PurchaseService {
     }
   }
 
-  /// C-2: Firebase Cloud Function을 통한 서버사이드 영수증 검증
-  /// Cloud Function 미배포 시에는 로컬 검증으로 폴백하여 앱 동작을 보장합니다.
+  /// C-2: Firebase Cloud Function purchase verification.
+  /// Release builds fail closed if server verification is unavailable.
   Future<bool> _verifyPurchaseWithServer(
       PurchaseDetails purchaseDetails) async {
     if (kDebugMode) {
@@ -155,22 +162,25 @@ class PurchaseService {
       });
 
       final isValid = result.data['isValid'] as bool? ?? false;
-      // 주문 ID 등 민감 정보는 디버그 빌드에서만 로그 출력
       if (kDebugMode) {
         debugPrint(
-            '[PurchaseService] Server verification result: isValid=$isValid '
-            'orderId=${result.data['orderId']}');
+          '[PurchaseService] Server verification result: '
+          'isValid=$isValid orderId=${result.data["orderId"]}',
+        );
       }
       return isValid;
     } on FirebaseFunctionsException catch (e) {
-      // Cloud Function이 배포되지 않은 경우 등 — 로컬 검증으로 폴백
       debugPrint(
-          '[PurchaseService] ⚠️ Cloud Function error (${e.code}): ${e.message}. '
-          'Falling back to local verification.');
-      return true; // 폴백: Cloud Function 없을 때 차단하지 않음
+        '[PurchaseService] Cloud Function error (${e.code}): ${e.message}. '
+        'Purchase verification rejected.',
+      );
+      return shouldAcceptUnverifiedPurchase(isDebugBuild: kDebugMode);
     } catch (e) {
-      debugPrint('[PurchaseService] ⚠️ Verification error: $e. Falling back.');
-      return true; // 폴백
+      debugPrint(
+        '[PurchaseService] Verification error: $e. '
+        'Purchase verification rejected.',
+      );
+      return shouldAcceptUnverifiedPurchase(isDebugBuild: kDebugMode);
     }
   }
 

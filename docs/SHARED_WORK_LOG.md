@@ -2802,3 +2802,26 @@ Close another visible release-quality gap for the monetizable Android app. The r
 ### Remaining risk
 
 - This verifies file presence and code wiring, not final perceived loudness, latency, or mix quality on real Android hardware.
+
+## 2026-05-26 KST - Purchase verification fail-closed policy
+
+### Purpose
+
+Remove a monetization safety gap before any paid Android build. The purchase client previously accepted purchases when Firebase Function verification failed, which would be unsafe once billing is enabled.
+
+### Changes
+
+- Restored `PurchaseService._verifyPurchaseWithServer` after the method body was corrupted during editing.
+- Added `PurchaseService.shouldAcceptUnverifiedPurchase` as the explicit policy gate: debug builds may keep local development moving, release builds reject unverified purchases.
+- Updated release and monetization checklists to record the repository-side fail-closed policy while keeping real Cloud Function deployment and Play Billing test-purchase verification open.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\services\purchase_service.dart test\services\purchase_verification_policy_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\services\purchase_verification_policy_test.dart test\services\monetization_gate_test.dart` -> 3 tests passed.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub` -> No issues found.
+
+### Remaining risk
+
+- The new test proves the release policy helper, not a live Google Play purchase.
+- A monetization-enabled build still needs deployed Firebase Function verification against Play Billing test purchases before charging users.
