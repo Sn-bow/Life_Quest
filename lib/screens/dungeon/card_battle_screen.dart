@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
@@ -17,6 +19,7 @@ import 'package:life_quest_final_v2/widgets/relic_icon.dart';
 import 'package:life_quest_final_v2/widgets/soul_deck_card_view.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
+import 'package:life_quest_final_v2/utils/shared_pref_keys.dart';
 
 // ============================================================================
 // CardBattleScreen
@@ -65,6 +68,8 @@ class _CardBattleScreenState extends State<CardBattleScreen>
 
   // -- Enemy hit flash tracking --
   final Map<int, bool> _enemyFlashing = {};
+
+  bool _showBattleTutorial = false;
 
   @override
   void initState() {
@@ -128,6 +133,8 @@ class _CardBattleScreenState extends State<CardBattleScreen>
         dailyModifier: dungeonState.dailyModifier,
       );
     });
+
+    unawaited(_loadBattleTutorialState());
   }
 
   @override
@@ -187,6 +194,21 @@ class _CardBattleScreenState extends State<CardBattleScreen>
         setState(() => _enemyFlashing[enemyIndex] = false);
       }
     });
+  }
+
+  Future<void> _loadBattleTutorialState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenTutorial =
+        prefs.getBool(SharedPrefKeys.soulDeckBattleTutorialSeen) ?? false;
+    if (!mounted || hasSeenTutorial) return;
+    setState(() => _showBattleTutorial = true);
+  }
+
+  Future<void> _dismissBattleTutorial() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(SharedPrefKeys.soulDeckBattleTutorialSeen, true);
+    if (!mounted) return;
+    setState(() => _showBattleTutorial = false);
   }
 
   @override
@@ -385,6 +407,10 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                               Navigator.of(context).pop(false);
                             },
                           ),
+                        if (_showBattleTutorial)
+                          _SoulDeckBattleTutorialOverlay(
+                            onDismiss: _dismissBattleTutorial,
+                          ),
                       ],
                     );
                   },
@@ -430,6 +456,171 @@ class _CardBattleScreenState extends State<CardBattleScreen>
       default:
         return [const Color(0xFF1A1A2E), const Color(0xFF0D0D1A)];
     }
+  }
+}
+
+class _SoulDeckBattleTutorialOverlay extends StatelessWidget {
+  final Future<void> Function() onDismiss;
+
+  const _SoulDeckBattleTutorialOverlay({required this.onDismiss});
+
+  @override
+  Widget build(BuildContext context) {
+    final isKorean = Localizations.localeOf(context).languageCode == 'ko';
+    final copy = _SoulDeckBattleTutorialCopy.forLocale(isKorean: isKorean);
+
+    return Positioned.fill(
+      child: Material(
+        color: Colors.black.withValues(alpha: 0.66),
+        child: SafeArea(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF161B22),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xFFFFD166), width: 2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.35),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.auto_awesome,
+                          color: Color(0xFFFFD166),
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            copy.title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    for (final item in copy.items) ...[
+                      _SoulDeckBattleTutorialLine(text: item),
+                      const SizedBox(height: 10),
+                    ],
+                    const SizedBox(height: 4),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: onDismiss,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFD166),
+                          foregroundColor: const Color(0xFF1E293B),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          copy.button,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SoulDeckBattleTutorialLine extends StatelessWidget {
+  final String text;
+
+  const _SoulDeckBattleTutorialLine({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 7,
+          height: 7,
+          margin: const EdgeInsets.only(top: 7, right: 9),
+          decoration: const BoxDecoration(
+            color: Color(0xFFFFD166),
+            shape: BoxShape.circle,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              height: 1.4,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SoulDeckBattleTutorialCopy {
+  final String title;
+  final List<String> items;
+  final String button;
+
+  const _SoulDeckBattleTutorialCopy({
+    required this.title,
+    required this.items,
+    required this.button,
+  });
+
+  factory _SoulDeckBattleTutorialCopy.forLocale({required bool isKorean}) {
+    if (isKorean) {
+      return const _SoulDeckBattleTutorialCopy(
+        title: 'Soul Deck 첫 전투 가이드',
+        items: [
+          'EP는 이번 턴에 쓸 수 있는 에너지입니다. 카드 비용만큼 EP가 줄어듭니다.',
+          '공격/마법 카드는 적에게 피해를 주고, 방어 카드는 적 턴 피해를 막는 Block을 줍니다.',
+          '대상을 고르고 카드를 사용한 뒤, 더 할 행동이 없으면 End Turn을 누르세요.',
+        ],
+        button: '알겠어요',
+      );
+    }
+
+    return const _SoulDeckBattleTutorialCopy(
+      title: 'Soul Deck first battle',
+      items: [
+        'EP is your energy for this turn. Playing a card spends EP equal to its cost.',
+        'Attack and Magic cards damage enemies. Defense cards add Block for the enemy turn.',
+        'Pick a target, play cards, then press End Turn when you are done.',
+      ],
+      button: 'Got it',
+    );
   }
 }
 

@@ -159,6 +159,14 @@ check_contains "lib/l10n/app_en.arb" "onboardingPage1Title" \
   "English onboarding copy exists"
 check_contains "test/state/character_state_test.dart" "completeOnboarding marks onboarding as seen" \
   "Onboarding completion policy test exists"
+check_contains "lib/screens/dungeon/card_battle_screen.dart" "_SoulDeckBattleTutorialOverlay" \
+  "Soul Deck battle tutorial overlay exists"
+check_contains "lib/screens/dungeon/card_battle_screen.dart" "soulDeckBattleTutorialSeen" \
+  "Soul Deck battle tutorial is gated by persisted state"
+check_contains "lib/utils/shared_pref_keys.dart" "soulDeckBattleTutorialSeen" \
+  "Soul Deck tutorial persistence key exists"
+check_contains "test/utils/shared_pref_keys_test.dart" "soul_deck_battle_tutorial_seen" \
+  "Soul Deck tutorial persistence key test exists"
 check_contains "firebase.json" '"rules": "firestore.rules"' \
   "Firebase config wires Firestore rules"
 check_contains "firebase.json" '"rules": "storage.rules"' \

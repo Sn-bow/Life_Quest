@@ -57,7 +57,7 @@
 - ❌ 게임 아트 에셋 없음 (`assets/images/game/` 디렉토리 미존재)
 - ✅ Soul Deck SFX 참조 에셋 존재 테스트 추가 (`test/services/sound_service_assets_test.dart`)
 - ✅ 전투 애니메이션 4종 Canvas 구현 완료 (에셋 없이)
-- ✅ First-run Life Quest onboarding exists and is release-gated; Soul Deck tutorial battle remains open
+- ✅ First-run Life Quest onboarding exists and is release-gated; Soul Deck first-battle guide exists and is release-gated
 - ❌ 카드 밸런스 플레이 테스트 없음
 - ✅ Crashlytics dependency/plugin and fatal/non-fatal error hooks are wired; console event collection still requires release-device verification
 - ❌ Firebase 콘솔 패키지명 업데이트 (수동 필요)
@@ -324,7 +324,7 @@
 
 ### E-1. Life Quest 첫 실행 튜토리얼
 
-2026-05-28 update: first-run onboarding exists in `lib/screens/onboarding_screen.dart`, authenticated startup routes users without `hasSeenOnboarding` through it, onboarding completion is persisted via `CharacterState.completeOnboarding()`, and `scripts/check_release_readiness.sh` now verifies the screen, route, localized copy, and unit test. Remaining tutorial work is the separate Soul Deck tutorial battle.
+2026-05-28 update: first-run onboarding exists in `lib/screens/onboarding_screen.dart`, authenticated startup routes users without `hasSeenOnboarding` through it, onboarding completion is persisted via `CharacterState.completeOnboarding()`, and `scripts/check_release_readiness.sh` now verifies the screen, route, localized copy, and unit test. The separate Soul Deck first-battle guide now has its own persisted readiness gate.
 
 | 항목 | 내용 |
 |------|------|
@@ -336,6 +336,9 @@
 | **작업 주체** | Claude (Coach marks 오버레이, 단계별 가이드) |
 
 ### E-2. Soul Deck 튜토리얼 전투
+
+2026-05-28 update: `lib/screens/dungeon/card_battle_screen.dart` now shows a first-battle guide for EP, card costs, attack/magic, defense/block, target selection, and End Turn. The guide is hidden after acknowledgement with `SharedPrefKeys.soulDeckBattleTutorialSeen`, and `scripts/check_release_readiness.sh` verifies the overlay, persistence key, and key test. Remaining work is richer scripted combat practice and real-device visual QA.
+
 | 항목 | 내용 |
 |------|------|
 | **문제** | 첫 Soul Deck 진입 시 가이드 없음. 에너지, 카드 드로우, 카드 플레이, 블록/공격 차이, 상태이상, 적 인텐트 아이콘 등 설명 필요. Slay the Spire의 스크립트된 첫 전투 방식 |

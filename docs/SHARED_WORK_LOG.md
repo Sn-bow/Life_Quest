@@ -2910,3 +2910,28 @@ Close the repository-verifiable part of the stale "no onboarding" launch risk. T
 ### Remaining risk
 
 - This verifies first-run onboarding wiring and persistence, not the separate Soul Deck combat tutorial or real-device visual QA.
+
+## 2026-05-28 KST - Soul Deck battle tutorial gate
+
+### Purpose
+
+Close the repository-verifiable part of the remaining Soul Deck tutorial risk. First combat now needs to explain the minimum play loop before users are dropped into cards, energy, targeting, block, and End Turn.
+
+### Changes
+
+- Added a first-battle Soul Deck guide overlay in `CardBattleScreen` that explains EP, card costs, attack/magic, defense/block, target selection, and ending the turn.
+- Persisted acknowledgement with `SharedPrefKeys.soulDeckBattleTutorialSeen` so the guide is shown once per local install/profile.
+- Added a focused key-stability test and release-readiness checks for the overlay, persistence key, and test coverage.
+- Updated the release checklist to distinguish the now-gated first-battle guide from richer scripted tutorial practice and real-device visual QA.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\screens\dungeon\card_battle_screen.dart lib\utils\shared_pref_keys.dart test\utils\shared_pref_keys_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\utils\shared_pref_keys_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- This is a lightweight first-battle guide, not a fully scripted Slay-the-Spire-style tutorial battle.
+- Real-device visual QA is still needed to confirm overlay sizing and combat readability across Android screens.

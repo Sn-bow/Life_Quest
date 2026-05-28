@@ -1,6 +1,10 @@
 /// SharedPreferences 키 상수 모음.
 /// 키 문자열을 한 곳에서 관리하여 오타/타입 불일치 방지.
 abstract final class SharedPrefKeys {
+  // Soul Deck
+  static const String soulDeckBattleTutorialSeen =
+      'soul_deck_battle_tutorial_seen';
+
   // AdService
   static const String adRemoved = 'ad_removed';
   static const String adLastResetDate = 'ad_last_reset_date';
