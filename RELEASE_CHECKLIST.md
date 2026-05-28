@@ -58,7 +58,7 @@
 - ✅ Soul Deck SFX 참조 에셋 존재 테스트 추가 (`test/services/sound_service_assets_test.dart`)
 - ✅ 전투 애니메이션 4종 Canvas 구현 완료 (에셋 없이)
 - ✅ First-run Life Quest onboarding exists and is release-gated; Soul Deck first-battle guide exists and is release-gated
-- ❌ 카드 밸런스 플레이 테스트 없음
+- ✅ Starter deck automated balance smoke exists; full manual card balance playtest still required
 - ✅ Crashlytics dependency/plugin and fatal/non-fatal error hooks are wired; console event collection still requires release-device verification
 - ❌ Firebase 콘솔 패키지명 업데이트 (수동 필요)
 - ❌ Cloud Function / Firestore Rules 배포 (수동 필요)
@@ -373,6 +373,9 @@
 ## Phase F: Balance & QA (공정하고 재미있는 게임)
 
 ### F-1. 카드 밸런스 플레이 테스팅
+
+2026-05-28 update: `test/balance/soul_deck_balance_smoke_test.dart` now verifies the starter deck composition, basic damage/block totals, playable non-curse card cost bounds, and that the starter deck clears every Zone 1 monster under a simple auto-play policy. `scripts/check_release_readiness.sh` gates the existence of this smoke test. This does not replace the required full manual balance playtest across all 207 cards.
+
 | 항목 | 내용 |
 |------|------|
 | **문제** | 207장 카드가 한 번도 실제 플레이 테스트되지 않음. 데미지/비용/효과 비율이 불균형일 수 있음. 특정 카드 조합이 너무 강하거나 게임이 너무 쉽거나 어려울 수 있음 |

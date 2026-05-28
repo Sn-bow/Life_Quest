@@ -167,6 +167,8 @@ check_contains "lib/utils/shared_pref_keys.dart" "soulDeckBattleTutorialSeen" \
   "Soul Deck tutorial persistence key exists"
 check_contains "test/utils/shared_pref_keys_test.dart" "soul_deck_battle_tutorial_seen" \
   "Soul Deck tutorial persistence key test exists"
+check_contains "test/balance/soul_deck_balance_smoke_test.dart" "starter deck clears every Zone 1 monster" \
+  "Soul Deck starter balance smoke test exists"
 check_contains "firebase.json" '"rules": "firestore.rules"' \
   "Firebase config wires Firestore rules"
 check_contains "firebase.json" '"rules": "storage.rules"' \

@@ -2935,3 +2935,27 @@ Close the repository-verifiable part of the remaining Soul Deck tutorial risk. F
 
 - This is a lightweight first-battle guide, not a fully scripted Slay-the-Spire-style tutorial battle.
 - Real-device visual QA is still needed to confirm overlay sizing and combat readability across Android screens.
+
+## 2026-05-28 KST - Soul Deck starter balance smoke gate
+
+### Purpose
+
+Reduce the P0 balance risk that no automated playability check guards the default Soul Deck experience before release. Manual balance QA is still required, but the starter deck should not regress into an unwinnable or unplayable first-zone loop.
+
+### Changes
+
+- Added `test/balance/soul_deck_balance_smoke_test.dart` to verify starter deck composition, early damage/block totals, non-curse card cost bounds, and Zone 1 starter-deck clearability under a simple auto-play policy.
+- Extended `scripts/check_release_readiness.sh` to require the starter balance smoke test.
+- Updated the release checklist to distinguish this automated smoke gate from the still-required full manual card balance playtest.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\balance\soul_deck_balance_smoke_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\balance\soul_deck_balance_smoke_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- This is a starter/Zone 1 smoke test only. It does not prove all card combinations, upgraded cards, relic synergies, bosses, ascension modifiers, or long-run economy balance.
+- A full manual balance pass remains necessary before paid acquisition or production launch.
