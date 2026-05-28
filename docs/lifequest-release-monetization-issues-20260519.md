@@ -140,6 +140,7 @@ Acceptance criteria:
 - [x] Privacy policy draft matches current default Android Data safety inventory.
 - [x] Play Console Data safety draft answers exist for the default Android build. See `docs/lifequest-play-console-data-safety-draft-20260520.md`.
 - [x] Play Console submission runbook separates the default Android build from future monetization-enabled builds. See `docs/lifequest-play-console-submission-runbook-20260525.md`.
+- [x] Crashlytics dependency/plugin and fatal/non-fatal error hooks are wired and covered by `scripts/check_release_readiness.sh`.
 - [ ] Published privacy policy URL and Play Console Data safety answers are verified together before release.
 - [x] QA Preview public web version contains no personal credentials or private owner data in the repository-side localStorage/Firebase startup audit. See `docs/lifequest-qa-preview-localstorage-audit-20260520.md`.
 - [x] AdMob remains disabled by default until Data safety and consent implications are updated.

@@ -59,7 +59,7 @@
 - ✅ 전투 애니메이션 4종 Canvas 구현 완료 (에셋 없이)
 - ❌ 온보딩/튜토리얼 없음
 - ❌ 카드 밸런스 플레이 테스트 없음
-- ❌ Crashlytics 미통합 (패키지는 있음)
+- ✅ Crashlytics dependency/plugin and fatal/non-fatal error hooks are wired; console event collection still requires release-device verification
 - ❌ Firebase 콘솔 패키지명 업데이트 (수동 필요)
 - ❌ Cloud Function / Firestore Rules 배포 (수동 필요)
 - ✅ 개인정보처리방침 갱신 완료. Play Console URL 등록과 최종 Data safety 입력은 수동 미완료
@@ -149,11 +149,14 @@
 | **위치** | `pubspec.yaml:4` |
 
 ### A-9. Crashlytics 통합
+
+2026-05-28 update: Crashlytics dependency/plugin, `runZonedGuarded`, `FlutterError.onError`, fatal zone error capture, and startup non-fatal recording are wired. `scripts/check_release_readiness.sh` now verifies this repository-side integration. Remaining work is release/test-device event collection verification in Firebase Console.
+
 | 항목 | 내용 |
 |------|------|
-| **문제** | `firebase_crashlytics` 미설치. 프로덕션 크래시 발생 시 원인 파악 불가능 |
-| **위치** | `pubspec.yaml` (의존성 추가), `lib/main.dart` (`runZonedGuarded` + `FlutterError.onError`) |
-| **위험** | 프로덕션 크래시를 전혀 모니터링 할 수 없음 |
+| **현재 상태** | Crashlytics dependency/plugin, `runZonedGuarded`, `FlutterError.onError`, fatal zone error capture, startup non-fatal recording are wired. |
+| **위치** | `pubspec.yaml`, `android/app/build.gradle.kts`, `lib/main.dart`, `scripts/check_release_readiness.sh` |
+| **남은 작업** | Release/test device에서 Crashlytics test event 수집 확인 (수동) |
 | **난이도** | 보통 |
 | **소요 시간** | 2~3시간 |
 | **우선순위** | 🔴 P0 |

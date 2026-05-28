@@ -437,6 +437,7 @@ Phase 0에서는 코드 변경하지 않는다. 판단 문서만 확정한다.
 - [x] 개인정보처리방침 최신화
 - [x] Health/AI 관련 문구가 과장되지 않는지 확인 (`lifequest-health-ai-copy-audit-20260520.md`)
 - [x] Android Data safety SDK/데이터 카테고리 인벤토리 작성 (`lifequest-data-safety-inventory-20260519.md`)
+- [x] Crashlytics dependency/plugin and fatal/non-fatal error hooks are wired and covered by release readiness (`scripts/check_release_readiness.sh`)
 
 ### Google Play 준비
 

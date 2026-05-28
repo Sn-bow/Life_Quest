@@ -2869,3 +2869,22 @@ Close another repository-verifiable release risk before Play submission. A relea
 
 - This proves the local release build and source gates, not Play Console upload acceptance.
 - Firebase Console package/SHA/App Check/Auth settings and authenticated Android smoke tests still need direct console/device verification.
+
+## 2026-05-28 KST - Crashlytics readiness gate
+
+### Purpose
+
+Remove stale release-checklist drift around Crashlytics. The repository already wires Crashlytics dependency, Gradle plugin, fatal Flutter error capture, fatal zone error capture, and startup non-fatal recording, but the top-level checklist still described it as missing.
+
+### Changes
+
+- Extended `scripts/check_release_readiness.sh` to verify Crashlytics dependency, Gradle plugin, `runZonedGuarded`, `FlutterError.onError`, fatal error recording, and non-fatal startup recording hooks.
+- Updated release and monetization checklists to mark repository-side Crashlytics wiring complete while keeping Firebase Console event collection verification open.
+
+### Verification
+
+- `bash scripts/check_release_readiness.sh` -> passed, including the new Crashlytics checks.
+
+### Remaining risk
+
+- This proves source wiring only. Release/test-device Crashlytics event collection still needs Firebase Console verification before closed testing or production.

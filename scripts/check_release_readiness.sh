@@ -133,6 +133,20 @@ check_not_contains "android/app/src/main/AndroidManifest.xml" 'android:testOnly=
   "Android release manifest is not marked testOnly"
 check_not_contains "android/app/src/main/AndroidManifest.xml" 'android:usesCleartextTraffic="true"' \
   "Android release manifest does not allow cleartext traffic globally"
+check_contains "pubspec.yaml" "firebase_crashlytics:" \
+  "Crashlytics dependency is declared"
+check_contains "android/app/build.gradle.kts" 'id("com.google.firebase.crashlytics")' \
+  "Crashlytics Gradle plugin is applied"
+check_contains "lib/main.dart" "runZonedGuarded" \
+  "App startup is wrapped in runZonedGuarded"
+check_contains "lib/main.dart" "FlutterError.onError" \
+  "Flutter framework errors are hooked"
+check_contains "lib/main.dart" "recordFlutterFatalError" \
+  "Flutter fatal errors are sent to Crashlytics"
+check_contains "lib/main.dart" "recordError(error, stack, fatal: true)" \
+  "Uncaught zone errors are sent to Crashlytics"
+check_contains "lib/main.dart" "recordError(" \
+  "Startup task failures are recorded as non-fatal errors"
 check_contains "firebase.json" '"rules": "firestore.rules"' \
   "Firebase config wires Firestore rules"
 check_contains "firebase.json" '"rules": "storage.rules"' \
