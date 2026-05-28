@@ -387,6 +387,9 @@
 | **작업 주체** | 수동 플레이 테스트 필수. Claude는 통계 분석 (에너지당 DPS 계산, 파워 커브) 및 밸런스 조정 제안 가능 |
 
 ### F-2. 적 밸런스 / 난이도 곡선
+
+2026-05-28 update: `test/balance/monster_balance_smoke_test.dart` now verifies zone threat averages increase, regular monsters stay within a bounded per-zone threat band, dungeon boss progression does not drop in threat, and early chapter floor scaling ramps upward. Dungeon boss node selection now uses an explicit Troll -> Hydra -> Dragon -> Demon Lord -> Fallen Angel progression instead of relying on raw list order. This is an automated curve guard, not a replacement for real-device and long-run enemy balance QA.
+
 | 항목 | 내용 |
 |------|------|
 | **문제** | 5존 적/엘리트/보스 난이도 곡선 미검증. 어센션 모디파이어도 미테스트 |

@@ -2959,3 +2959,30 @@ Reduce the P0 balance risk that no automated playability check guards the defaul
 
 - This is a starter/Zone 1 smoke test only. It does not prove all card combinations, upgraded cards, relic synergies, bosses, ascension modifiers, or long-run economy balance.
 - A full manual balance pass remains necessary before paid acquisition or production launch.
+
+## 2026-05-28 KST - Monster difficulty curve smoke gate
+
+### Purpose
+
+Reduce the enemy-balance launch risk by guarding the authored monster curve. The previous dungeon boss node selection relied on raw list order, which let the progression drop from Demon Lord to Hydra.
+
+### Changes
+
+- Added explicit dungeon boss progression: Troll -> Hydra -> Dragon -> Demon Lord -> Fallen Angel.
+- Updated dungeon boss node selection to use the explicit progression helper.
+- Added `test/balance/monster_balance_smoke_test.dart` to verify zone average threat increases, regular monsters are not extreme per-zone outliers, dungeon boss threat does not drop, and early chapter floor scaling ramps upward.
+- Extended `scripts/check_release_readiness.sh` to require the monster balance smoke test.
+- Updated the release checklist with the automated enemy curve guard and its remaining QA limits.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format lib\state\dungeon_state.dart test\balance\monster_balance_smoke_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\balance\monster_balance_smoke_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\balance\soul_deck_balance_smoke_test.dart test\balance\monster_balance_smoke_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- Threat scoring is a heuristic over HP, attack, and defense. It does not fully model intents, status effects, multi-enemy encounters, relic/card synergies, or player progression.
+- Manual and real-device combat QA is still required before production launch.

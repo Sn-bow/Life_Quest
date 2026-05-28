@@ -169,6 +169,8 @@ check_contains "test/utils/shared_pref_keys_test.dart" "soul_deck_battle_tutoria
   "Soul Deck tutorial persistence key test exists"
 check_contains "test/balance/soul_deck_balance_smoke_test.dart" "starter deck clears every Zone 1 monster" \
   "Soul Deck starter balance smoke test exists"
+check_contains "test/balance/monster_balance_smoke_test.dart" "dungeon boss progression does not drop in threat" \
+  "Monster balance smoke test exists"
 check_contains "firebase.json" '"rules": "firestore.rules"' \
   "Firebase config wires Firestore rules"
 check_contains "firebase.json" '"rules": "storage.rules"' \

@@ -9,6 +9,7 @@ import 'package:life_quest_final_v2/data/relic_database.dart';
 import 'package:life_quest_final_v2/models/dungeon_event.dart';
 import 'package:life_quest_final_v2/models/dungeon_map.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
+import 'package:life_quest_final_v2/models/monster.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
 import 'package:life_quest_final_v2/state/card_combat_state.dart';
 
@@ -248,9 +249,7 @@ class DungeonState extends ChangeNotifier {
 
       case NodeType.boss:
         // Pick the zone boss, apply boss HP multiplier (Lv8: +25%)
-        final bosses = MonsterDatabase.getBossMonsters();
-        final bossIndex = (_currentZone - 1).clamp(0, bosses.length - 1);
-        final boss = bosses[bossIndex];
+        final boss = _bossForZone(_currentZone);
         return [
           EnemyBattleData.fromMonster(
             boss.copyWith(
@@ -263,6 +262,22 @@ class DungeonState extends ChangeNotifier {
       default:
         return [];
     }
+  }
+
+  Monster _bossForZone(int zone) {
+    final bossesById = {
+      for (final boss in MonsterDatabase.getBossMonsters()) boss.id: boss,
+    };
+    const bossProgression = [
+      'boss_troll',
+      'boss_hydra',
+      'boss_dragon',
+      'boss_demon_lord',
+      'boss_fallen_angel',
+    ];
+    final index = (zone - 1).clamp(0, bossProgression.length - 1);
+    return bossesById[bossProgression[index]] ??
+        MonsterDatabase.getBossMonsters().first;
   }
 
   /// Generate random shop inventory (cards + relics).
