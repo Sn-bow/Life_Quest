@@ -84,6 +84,17 @@ void main() {
       expect(characterState.isNotificationEnabled, isFalse);
     });
 
+    test('completeOnboarding marks onboarding as seen', () async {
+      characterState.resetState();
+
+      expect(characterState.hasSeenOnboarding, isFalse);
+
+      characterState.initializeForTesting();
+      await characterState.completeOnboarding();
+
+      expect(characterState.hasSeenOnboarding, isTrue);
+    });
+
     test('QA Preview seeds and restores local guest profile', () async {
       SharedPreferences.setMockInitialValues({});
 

@@ -147,6 +147,18 @@ check_contains "lib/main.dart" "recordError(error, stack, fatal: true)" \
   "Uncaught zone errors are sent to Crashlytics"
 check_contains "lib/main.dart" "recordError(" \
   "Startup task failures are recorded as non-fatal errors"
+check_file_exists "lib/screens/onboarding_screen.dart" \
+  "First-run onboarding screen exists"
+check_contains "lib/screens/loading_screen.dart" "hasSeenOnboarding" \
+  "Authenticated startup routes unseen users to onboarding"
+check_contains "lib/screens/onboarding_screen.dart" "completeOnboarding" \
+  "Onboarding completion is persisted through CharacterState"
+check_contains "lib/l10n/app_ko.arb" "onboardingPage1Title" \
+  "Korean onboarding copy exists"
+check_contains "lib/l10n/app_en.arb" "onboardingPage1Title" \
+  "English onboarding copy exists"
+check_contains "test/state/character_state_test.dart" "completeOnboarding marks onboarding as seen" \
+  "Onboarding completion policy test exists"
 check_contains "firebase.json" '"rules": "firestore.rules"' \
   "Firebase config wires Firestore rules"
 check_contains "firebase.json" '"rules": "storage.rules"' \

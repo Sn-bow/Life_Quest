@@ -57,7 +57,7 @@
 - ❌ 게임 아트 에셋 없음 (`assets/images/game/` 디렉토리 미존재)
 - ✅ Soul Deck SFX 참조 에셋 존재 테스트 추가 (`test/services/sound_service_assets_test.dart`)
 - ✅ 전투 애니메이션 4종 Canvas 구현 완료 (에셋 없이)
-- ❌ 온보딩/튜토리얼 없음
+- ✅ First-run Life Quest onboarding exists and is release-gated; Soul Deck tutorial battle remains open
 - ❌ 카드 밸런스 플레이 테스트 없음
 - ✅ Crashlytics dependency/plugin and fatal/non-fatal error hooks are wired; console event collection still requires release-device verification
 - ❌ Firebase 콘솔 패키지명 업데이트 (수동 필요)
@@ -323,6 +323,9 @@
 ## Phase E: Onboarding & Tutorial (유저가 뭘 해야 할지 알려주기)
 
 ### E-1. Life Quest 첫 실행 튜토리얼
+
+2026-05-28 update: first-run onboarding exists in `lib/screens/onboarding_screen.dart`, authenticated startup routes users without `hasSeenOnboarding` through it, onboarding completion is persisted via `CharacterState.completeOnboarding()`, and `scripts/check_release_readiness.sh` now verifies the screen, route, localized copy, and unit test. Remaining tutorial work is the separate Soul Deck tutorial battle.
+
 | 항목 | 내용 |
 |------|------|
 | **문제** | 온보딩 플로우 없음. 신규 유저가 메인 화면에 도착해도 퀘스트 생성, 스탯, 게이미피케이션 루프에 대한 안내 없음 |

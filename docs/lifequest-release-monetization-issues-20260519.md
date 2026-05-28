@@ -118,6 +118,7 @@ Decision:
 - Tablet/desktop web can use a phone-frame layout for tester preview, but Android release should not hard-crash or expose broken full-width layouts on larger screens.
 
 Acceptance criteria:
+- [x] First-run onboarding route, localized copy, completion persistence, and unit test are covered by `scripts/check_release_readiness.sh`.
 - [ ] 390px phone layout smoke test.
 - [ ] 600dp+ large screen smoke test or documented limitation.
 - [ ] Scroll position/text entry survives rotation where applicable.

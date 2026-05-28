@@ -2888,3 +2888,25 @@ Remove stale release-checklist drift around Crashlytics. The repository already 
 ### Remaining risk
 
 - This proves source wiring only. Release/test-device Crashlytics event collection still needs Firebase Console verification before closed testing or production.
+
+## 2026-05-28 KST - First-run onboarding readiness gate
+
+### Purpose
+
+Close the repository-verifiable part of the stale "no onboarding" launch risk. The app already has a first-run onboarding flow, but the release gate did not prove the route, localized copy, or completion state could not regress.
+
+### Changes
+
+- Added a `CharacterState` unit test proving `completeOnboarding()` marks onboarding as seen.
+- Extended `scripts/check_release_readiness.sh` to verify the onboarding screen exists, authenticated startup routes unseen users through onboarding, completion persists through `CharacterState`, Korean/English onboarding copy exists, and the onboarding completion test exists.
+- Updated release documentation to distinguish first-run Life Quest onboarding from the still-open Soul Deck tutorial battle.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\state\character_state_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\state\character_state_test.dart`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- This verifies first-run onboarding wiring and persistence, not the separate Soul Deck combat tutorial or real-device visual QA.
