@@ -3104,3 +3104,32 @@ Refresh the Android release AAB from the current source tree and make readiness 
 ### Remaining risk
 
 - This proves a local release AAB can be built and exists. It does not prove Play Console upload, installed-device smoke behavior, Firebase Console settings, authenticated account deletion, screenshots, Data safety, Health declaration, or IARC submission.
+
+## 2026-06-04 KST - Android device smoke runbook gate
+
+### Purpose
+
+Turn the remaining real-device release blocker into an explicit, repeatable smoke checklist before Play Console closed testing. The repository can now build a current release AAB, but the exact default Android build still needs launch, core-loop, timer, account deletion, monetization-off, screenshots, and Crashlytics/log verification on an authorized Android device or emulator.
+
+### Device check
+
+- `adb` is not on PATH in this shell.
+- `C:\Users\wjd54\AppData\Local\Android\Sdk\platform-tools\adb.exe devices` starts the daemon successfully.
+- Result on 2026-06-04 KST: no authorized device listed.
+
+### Changes
+
+- Added `docs/lifequest-android-device-smoke-runbook-20260604.md` with required setup, install/launch, first-run/core-loop, monetization-off, focus timer, account deletion, public policy, screenshots, Crashlytics/logcat, pass criteria, and evidence fields.
+- Updated `docs/lifequest-play-console-submission-runbook-20260525.md` to require this Android device smoke checklist before closed testing.
+- Extended `scripts/check_release_readiness.sh` to require the Android device smoke runbook.
+- Updated `RELEASE_CHECKLIST.md` A-1 with the current ADB status and exact remaining smoke scope.
+
+### Verification
+
+- `C:\Users\wjd54\AppData\Local\Android\Sdk\platform-tools\adb.exe devices`
+- `bash scripts/check_release_readiness.sh`
+- `git diff --check`
+
+### Remaining risk
+
+- This is a runbook and readiness gate, not a completed device test. Release remains blocked until an authorized physical device or emulator runs the checklist and the result is recorded.

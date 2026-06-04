@@ -46,6 +46,8 @@ store listing, IARC, consent copy, and privacy policy review before submission.
 9. Upload fresh Android screenshots captured from the same build family.
 10. Review the final listing, Data safety, Health declaration, IARC answers,
     privacy URL, and screenshots together before closed testing submission.
+11. Complete the Android device smoke checklist in
+    `docs/lifequest-android-device-smoke-runbook-20260604.md`.
 
 ## Data Safety Answers
 
@@ -125,6 +127,7 @@ coach, AR, web preview, or features hidden from the default Android build.
 - Release or closed-testing AAB is installed and smoke-tested on Android.
 - Authenticated account deletion smoke test passes.
 - Timer background/return smoke test passes.
+- Default monetization-off UI and startup behavior are smoke-tested.
 - Default build shows no ad/paywall UI and does not initialize AdMob/Billing.
 - Public privacy policy URL is reachable and matches Data safety answers.
 - Store listing, Data safety, Health declaration, IARC, and screenshots all

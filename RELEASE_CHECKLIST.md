@@ -72,13 +72,14 @@
 ### A-1. 실제 기기 테스트 & 크래시 검증
 | 항목 | 내용 |
 |------|------|
-| **문제** | 앱이 실제 Android 기기에서 한 번도 실행된 적 없음. Firebase, AdMob, IAP, Flame 렌더링 전부 미검증 |
+| **현재 상태** | 2026-06-04 기준 ADB 실행 파일은 존재하지만 연결된 authorized device가 없다. `docs/lifequest-android-device-smoke-runbook-20260604.md`에 closed testing 전 필수 실기기 smoke 절차를 정리했고 readiness가 이 runbook 존재를 확인한다. |
+| **문제** | 최신 default release/closed-testing AAB가 실제 Android 기기에서 아직 smoke-tested 되지 않았다. Firebase, 계정 삭제, 타이머 background/return, Flame 렌더링, 기본 monetization-off UI, Crashlytics 이벤트 수집을 같은 빌드 기준으로 확인해야 한다. |
 | **위치** | 전체 앱 (`lib/main.dart` 초기화 시퀀스부터) |
 | **위험** | 런치 크래시, Firebase 연결 실패, Flame GPU 호환성 문제 |
 | **난이도** | 보통 |
-| **소요 시간** | 2~3일 (전 Phase에 걸쳐 지속) |
+| **소요 시간** | 2~3시간 1차 smoke + 이후 반복 QA |
 | **우선순위** | 🔴 P0 |
-| **작업 주체** | 수동 (물리 기기 + USB 디버깅 필수) |
+| **작업 주체** | 수동 (물리 기기 또는 emulator + USB 디버깅/ADB authorization 필수) |
 
 ### A-2. Firebase 콘솔 패키지명 업데이트
 | 항목 | 내용 |
