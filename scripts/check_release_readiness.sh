@@ -27,6 +27,27 @@ check_file_exists() {
   fi
 }
 
+check_file_min_bytes() {
+  local file="$1"
+  local min_bytes="$2"
+  local message="$3"
+  local size
+
+  if [[ ! -f "$file" ]]; then
+    fail "$message"
+    return
+  fi
+
+  size="$(wc -c < "$file" | tr -d '[:space:]')"
+  if [[ "$size" =~ ^[0-9]+$ ]] && (( size >= min_bytes )); then
+    pass "$message"
+  else
+    fail "$message"
+    printf '  %s is %s bytes; expected at least %s bytes.\n' \
+      "$file" "${size:-unknown}" "$min_bytes"
+  fi
+}
+
 check_contains() {
   local file="$1"
   local pattern="$2"
@@ -119,6 +140,8 @@ check_file_exists "test/services/purchase_verification_policy_test.dart" \
 
 check_file_exists "android/key.properties" \
   "Android release signing key.properties exists"
+check_file_min_bytes "build/app/outputs/bundle/release/app-release.aab" 104857600 \
+  "Current release AAB exists and is at least 100 MiB"
 check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.INTERNET' \
   "Android manifest declares only expected network access"
 check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.POST_NOTIFICATIONS' \
@@ -189,6 +212,8 @@ check_file_exists "docs/index.html" \
   "Public privacy/account-deletion page exists"
 check_file_exists "docs/lifequest-play-console-submission-runbook-20260525.md" \
   "Play Console submission runbook exists"
+check_contains "docs/lifequest-release-artifact-record-20260604.md" "flutter.bat build appbundle --release --no-pub" \
+  "Release AAB artifact record exists"
 check_file_exists "docs/lifequest-play-console-data-safety-draft-20260520.md" \
   "Play Console Data safety draft exists"
 check_contains "test/docs/data_safety_draft_test.dart" "keeps default Android release scope explicit" \

@@ -3081,3 +3081,26 @@ Keep the Play Console Data safety draft aligned with the default Android release
 ### Remaining risk
 
 - This does not complete Play Console Data safety submission. Final answers still need to be entered and saved manually, then compared with the exact uploaded Android build, public privacy URL, Health declaration, IARC, and store listing.
+
+## 2026-06-04 KST - Release AAB artifact gate
+
+### Purpose
+
+Refresh the Android release AAB from the current source tree and make readiness fail if the local submission artifact is missing or obviously invalid. The previous AAB record predated the latest Play policy/readiness gates, so it was not strong evidence for the current closed-testing package.
+
+### Changes
+
+- Rebuilt the default Android release AAB at `build/app/outputs/bundle/release/app-release.aab`.
+- Added `docs/lifequest-release-artifact-record-20260604.md` with the build command, artifact path, byte size, app version, package name, and default monetization scope.
+- Extended `scripts/check_release_readiness.sh` to require the release AAB and reject artifacts smaller than 100 MiB.
+- Updated `README.md` and `RELEASE_CHECKLIST.md` with the 2026-06-04 release build result.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub`
+- `bash scripts/check_release_readiness.sh`
+- `git diff --check`
+
+### Remaining risk
+
+- This proves a local release AAB can be built and exists. It does not prove Play Console upload, installed-device smoke behavior, Firebase Console settings, authenticated account deletion, screenshots, Data safety, Health declaration, or IARC submission.
