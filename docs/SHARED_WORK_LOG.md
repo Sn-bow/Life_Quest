@@ -2986,3 +2986,27 @@ Reduce the enemy-balance launch risk by guarding the authored monster curve. The
 
 - Threat scoring is a heuristic over HP, attack, and defense. It does not fully model intents, status effects, multi-enemy encounters, relic/card synergies, or player progression.
 - Manual and real-device combat QA is still required before production launch.
+
+## 2026-06-04 KST - Pubspec asset directory release gate
+
+### Purpose
+
+Close the repository-verifiable part of the stale game-asset-directory release risk. Final art is still manual, but a release build should not regress because a directory declared in `pubspec.yaml` disappears from the repository.
+
+### Changes
+
+- Added `test/data/pubspec_asset_directories_test.dart` to verify every directory-style asset path declared in `pubspec.yaml` exists on disk.
+- Added explicit coverage for the `assets/images/game/` directory skeleton used by the Android release asset bundle.
+- Extended `scripts/check_release_readiness.sh` to require the pubspec asset directory test.
+- Updated the release checklist to distinguish tracked directory skeleton readiness from final custom art production.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\data\pubspec_asset_directories_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\data\pubspec_asset_directories_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- This does not create final production art. It only prevents release-breaking missing asset directory regressions.

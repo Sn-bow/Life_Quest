@@ -171,6 +171,8 @@ check_contains "test/balance/soul_deck_balance_smoke_test.dart" "starter deck cl
   "Soul Deck starter balance smoke test exists"
 check_contains "test/balance/monster_balance_smoke_test.dart" "dungeon boss progression does not drop in threat" \
   "Monster balance smoke test exists"
+check_contains "test/data/pubspec_asset_directories_test.dart" "all declared directory assets exist on disk" \
+  "Pubspec asset directory test exists"
 check_contains "firebase.json" '"rules": "firestore.rules"' \
   "Firebase config wires Firestore rules"
 check_contains "firebase.json" '"rules": "storage.rules"' \

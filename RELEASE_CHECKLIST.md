@@ -54,7 +54,7 @@
 
 ### 핵심 미비 사항 (2026-04-26 기준)
 - ❌ 실제 기기 테스트 **한 번도 안 함** ← 가장 중요
-- ❌ 게임 아트 에셋 없음 (`assets/images/game/` 디렉토리 미존재)
+- ✅ Game asset directory skeleton exists and pubspec asset directories are release-gated; final custom art remains manual
 - ✅ Soul Deck SFX 참조 에셋 존재 테스트 추가 (`test/services/sound_service_assets_test.dart`)
 - ✅ 전투 애니메이션 4종 Canvas 구현 완료 (에셋 없이)
 - ✅ First-run Life Quest onboarding exists and is release-gated; Soul Deck first-battle guide exists and is release-gated
@@ -114,6 +114,9 @@
 | **작업 주체** | 수동 (AdMob Console 확인) |
 
 ### A-5. 게임 에셋 디렉토리 생성
+
+2026-06-04 update: the `assets/images/game/` directory skeleton exists in the repository, and `test/data/pubspec_asset_directories_test.dart` verifies every directory-style asset declared in `pubspec.yaml` exists on disk. `scripts/check_release_readiness.sh` now gates this test. Remaining work is final custom game art, not release-breaking missing asset directories.
+
 | 항목 | 내용 |
 |------|------|
 | **문제** | `pubspec.yaml:73-85`에 10개 에셋 디렉토리 선언되어 있으나 실제 디렉토리 미존재. 빌드 실패 또는 런타임 에셋 로딩 크래시 위험 |
