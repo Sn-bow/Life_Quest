@@ -1,6 +1,7 @@
-# Life Quest Play Store Listing Draft - 2026-05-20
+# Life Quest Play Store Listing Draft - 2026-06-04
 
-Scope: Google Play main store listing draft for the real Android app. The web QA preview is not the product being listed.
+Scope: Google Play main store listing draft for the default real Android app
+package `com.lifequest.app`. The web QA preview is not the product being listed.
 
 ## Official References
 
@@ -15,8 +16,8 @@ Scope: Google Play main store listing draft for the real Android app. The web QA
 | Field | Limit | Draft status |
 | --- | ---: | --- |
 | App name | 30 characters | `Life Quest` is 10 characters |
-| Short description | 80 characters | Korean draft is 34 characters; English fallback is 66 characters |
-| Full description | 4000 characters | Korean draft is 639 characters; English fallback is 1252 characters |
+| Short description | 80 characters | Korean draft is under 80 characters; English fallback is under 80 characters |
+| Full description | 4000 characters | Korean and English drafts are under 4000 characters |
 
 Metadata rules applied:
 - Do not use ranking, price, promotion, or unsupported "official" claims.
@@ -35,7 +36,7 @@ Life Quest
 Short description:
 
 ```text
-현실 퀘스트를 RPG 성장, 칭호, 보상으로 이어가는 습관 앱
+일상의 퀘스트를 RPG 성장과 보상으로 이어가세요
 ```
 
 Full description:
@@ -43,18 +44,18 @@ Full description:
 ```text
 Life Quest는 매일의 행동을 퀘스트로 기록하고, 그 기록을 RPG식 성장과 보상으로 이어가는 자기관리 앱입니다.
 
-할 일을 단순히 체크하는 데서 끝내지 않고, 완료한 행동이 힘, 지혜, 건강, 매력 같은 게임 스탯과 골드, 칭호, 던전 보정으로 이어집니다. 오늘 무엇을 하면 좋은지 한 가지 추천 행동을 보여주고, 쌓인 성장은 카드 전투와 던전에서 다시 체감할 수 있습니다.
+단순히 할 일을 체크하는 데서 끝나지 않습니다. 완료한 퀘스트는 힘, 지혜, 건강, 매력 같은 게임 스탯과 골드, 칭호, 업적, 던전 보정으로 연결됩니다. 오늘 무엇을 하면 좋을지 한 가지 추천 행동을 보여주고, 쌓인 성장은 카드 기반 던전 전투와 보상에서 다시 체감할 수 있습니다.
 
 주요 기능
-- 일일/주간/월간 퀘스트 생성과 완료 기록
+- 일일, 주간, 월간 퀘스트 생성과 완료 기록
 - 오늘의 성장, 보상, 다음 추천 행동 요약
 - 힘, 지혜, 건강, 매력 기반 캐릭터 성장
-- 칭호, 업적, 스킬, 현실 보상 상점
+- 칭호, 업적, 스킬, 현실 보상 계획
 - 카드 기반 던전 전투와 보상
 - 집중 타이머와 기본 리포트
 - 계정 기반 진행 데이터 저장과 계정 삭제 지원
 
-Life Quest의 "건강"은 게임 안의 성장 스탯 이름입니다. 이 앱은 Health Connect, Google Fit, 의료 기록, 실제 운동 센서 데이터, 위치 정보를 수집하거나 분석하지 않으며 의료, 건강, 재정, 법률 조언을 제공하지 않습니다.
+앱 안의 "건강" 스탯은 게임 카테고리입니다. Life Quest는 Health Connect, Google Fit, 의료 기록, 실제 피트니스 센서 데이터, 위치 정보를 수집하거나 분석하지 않으며 의료, 건강, 재정, 법률 조언을 제공하지 않습니다.
 
 현재 기본 Android 릴리스에서는 광고와 인앱 결제가 비활성화되어 있습니다. 향후 유료 기능을 제공하는 경우 가격, 혜택, 갱신 조건, 취소 방법을 앱 또는 스토어 등록정보에 명확히 안내합니다.
 ```

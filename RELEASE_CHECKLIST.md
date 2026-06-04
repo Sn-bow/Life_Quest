@@ -444,6 +444,9 @@
 | **작업 주체** | 수동 (기기 캡처 + 디자인 도구로 프레임/텍스트 추가) |
 
 ### G-2. Play Store 설명 & 메타데이터
+
+2026-06-04 update: `docs/lifequest-play-store-listing-draft-20260520.md` has been rewritten with readable Korean and English listing copy for the default Android build. `test/docs/play_store_listing_draft_test.dart` now gates Play Console field lengths, common mojibake markers, unsupported Health/AI/subscription/ad claims, and default-build monetization/health-scope wording. Final Play Console entry remains manual.
+
 | 항목 | 내용 |
 |------|------|
 | **문제** | 앱 제목, 짧은 설명 (80자), 전체 설명 (4000자), 카테고리, 콘텐츠 등급, 대상 연령 |

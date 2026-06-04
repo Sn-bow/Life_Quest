@@ -3034,3 +3034,27 @@ Fix the public privacy/account-deletion page before Play Console submission. The
 ### Remaining risk
 
 - This proves repository-side public page content only. The actual Play Console privacy URL field and final Data safety form still require manual console entry and review.
+
+## 2026-06-04 KST - Play Store listing draft encoding gate
+
+### Purpose
+
+Fix the Korean Play Store listing draft before console entry. The prior listing draft preserved the right release scope, but the Korean listing copy was visibly mojibake and not usable for Play Console submission.
+
+### Changes
+
+- Rewrote `docs/lifequest-play-store-listing-draft-20260520.md` with readable Korean main listing copy and English fallback copy for the default Android build.
+- Preserved the current release scope: no active ads, billing, subscriptions, Health Connect, Google Fit, medical analysis, AI coach, or web QA preview claims.
+- Added `test/docs/play_store_listing_draft_test.dart` to gate Play Console field limits, mojibake markers, unsupported shipped-feature claims, and default-build monetization/health-scope wording.
+- Extended `scripts/check_release_readiness.sh` to require the Play Store listing draft policy test.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\docs\play_store_listing_draft_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\docs\play_store_listing_draft_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- This is still a draft. Final Play Console listing entry, screenshots, IARC, Health declaration, and Data safety review must be completed manually against the exact uploaded Android build.

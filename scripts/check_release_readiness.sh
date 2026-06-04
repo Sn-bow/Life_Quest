@@ -193,6 +193,8 @@ check_file_exists "docs/lifequest-play-console-data-safety-draft-20260520.md" \
   "Play Console Data safety draft exists"
 check_file_exists "docs/lifequest-play-store-listing-draft-20260520.md" \
   "Play Store listing draft exists"
+check_contains "test/docs/play_store_listing_draft_test.dart" "does not contain mojibake" \
+  "Play Store listing draft policy test exists"
 
 if (( failures > 0 )); then
   printf '\nAndroid default release readiness check failed with %d issue(s).\n' "$failures"
