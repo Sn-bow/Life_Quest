@@ -173,6 +173,8 @@ check_contains "test/balance/monster_balance_smoke_test.dart" "dungeon boss prog
   "Monster balance smoke test exists"
 check_contains "test/data/pubspec_asset_directories_test.dart" "all declared directory assets exist on disk" \
   "Pubspec asset directory test exists"
+check_contains "test/docs/public_policy_page_test.dart" "does not contain common mojibake markers" \
+  "Public policy page encoding test exists"
 check_contains "firebase.json" '"rules": "firestore.rules"' \
   "Firebase config wires Firestore rules"
 check_contains "firebase.json" '"rules": "storage.rules"' \

@@ -62,7 +62,7 @@
 - ✅ Crashlytics dependency/plugin and fatal/non-fatal error hooks are wired; console event collection still requires release-device verification
 - ❌ Firebase 콘솔 패키지명 업데이트 (수동 필요)
 - ❌ Cloud Function / Firestore Rules 배포 (수동 필요)
-- ✅ 개인정보처리방침 갱신 완료. Play Console URL 등록과 최종 Data safety 입력은 수동 미완료
+- ✅ 개인정보처리방침 공개 페이지 갱신 및 encoding/URL readiness-gated. Play Console URL 등록과 최종 Data safety 입력은 수동 미완료
 - ✅ 시즌 카운트다운 하드코딩 제거 및 날짜 경계 테스트 추가 (`test/utils/season_countdown_test.dart`)
 
 ---

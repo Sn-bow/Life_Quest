@@ -3010,3 +3010,27 @@ Close the repository-verifiable part of the stale game-asset-directory release r
 ### Remaining risk
 
 - This does not create final production art. It only prevents release-breaking missing asset directory regressions.
+
+## 2026-06-04 KST - Public policy page encoding gate
+
+### Purpose
+
+Fix the public privacy/account-deletion page before Play Console submission. The repository privacy text was current, but `docs/index.html` had visible Korean mojibake, which would be unacceptable as the Play Console privacy URL target.
+
+### Changes
+
+- Rewrote `docs/index.html` as a readable Korean/English public page with privacy, terms, account deletion, and contact anchors.
+- Kept the default Android release scope aligned with the Data safety/runbook assumptions: AdMob and Google Play Billing disabled, no Health Connect/Fit collection, Web QA Preview excluded.
+- Added `test/docs/public_policy_page_test.dart` to verify in-app legal URLs, public page anchors, default Android data-safety scope copy, account deletion contact, and common mojibake absence.
+- Extended `scripts/check_release_readiness.sh` to require the public policy encoding test.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\docs\public_policy_page_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\docs\public_policy_page_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- This proves repository-side public page content only. The actual Play Console privacy URL field and final Data safety form still require manual console entry and review.
