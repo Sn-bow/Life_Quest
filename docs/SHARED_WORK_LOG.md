@@ -3058,3 +3058,26 @@ Fix the Korean Play Store listing draft before console entry. The prior listing 
 ### Remaining risk
 
 - This is still a draft. Final Play Console listing entry, screenshots, IARC, Health declaration, and Data safety review must be completed manually against the exact uploaded Android build.
+
+## 2026-06-04 KST - Play Console Data safety draft gate
+
+### Purpose
+
+Keep the Play Console Data safety draft aligned with the default Android release build before manual console entry. The draft already existed, but readiness only checked for file presence, so a future edit could silently reintroduce active AdMob, Billing, Health Connect, Google Fit, Firebase Analytics, or AI data claims that do not match the default build.
+
+### Changes
+
+- Added `test/docs/data_safety_draft_test.dart` to verify the Data safety draft scope, monetization/analytics evidence, unsupported data-claim absence, and manifest permission assumptions.
+- Extended `scripts/check_release_readiness.sh` to require the Data safety draft policy test.
+- Updated the Phase G release checklist to clarify screenshot scope for the real Android build and record the new Data safety gate.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\docs\data_safety_draft_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\docs\data_safety_draft_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+- `bash scripts/check_release_readiness.sh`
+
+### Remaining risk
+
+- This does not complete Play Console Data safety submission. Final answers still need to be entered and saved manually, then compared with the exact uploaded Android build, public privacy URL, Health declaration, IARC, and store listing.

@@ -432,12 +432,13 @@
 
 ---
 
-## Phase G: Store Listing (스토어 등록)
+## Phase G: Store Listing and Play Console App Content
 
 ### G-1. Play Store 스크린샷
 | 항목 | 내용 |
 |------|------|
-| **문제** | 4~8장 스크린샷 필요: 메인 퀘스트 화면, 캐릭터 스탯, Soul Deck 전투, 던전 맵, 카드 컬렉션, 상점 |
+| **문제** | 4~8장 스크린샷 필요: Today/일일 모험, 퀘스트 생성 또는 완료, 성장 프로필, 던전 입장, Soul Deck 전투, 카드 보상, 집중 타이머, 설정/계정 삭제 접근 |
+| **현재 정정** | 스크린샷은 실제 Android 빌드에서 캡처해야 하며 Web QA Preview, 비활성 광고/결제, Health Connect, AI 코치, 구독 기능을 암시하면 안 된다. |
 | **난이도** | 보통 |
 | **소요 시간** | 1~2일 (비주얼 폴리시 완료 후) |
 | **우선순위** | 🟡 P1 |
@@ -474,6 +475,9 @@
 | **작업 주체** | 수동 |
 
 ### G-5. 데이터 안전 섹션
+
+2026-06-04 update: `test/docs/data_safety_draft_test.dart` now gates the repository-side Data safety draft against the default Android release scope, monetization/analytics evidence, common mojibake markers, unsupported Health/AI claims, and manifest permissions that would require re-review. Final Play Console Data safety entry remains manual.
+
 | 항목 | 내용 |
 |------|------|
 | **현재 정정** | Data safety는 `docs/lifequest-play-console-data-safety-draft-20260520.md`와 `docs/lifequest-play-console-submission-runbook-20260525.md` 기준으로 입력한다. 기본 Android 빌드에서는 AdMob/Billing이 비활성화되어 광고 데이터와 구매 기록을 현재 수집 항목으로 답변하지 않는다. |

@@ -191,6 +191,8 @@ check_file_exists "docs/lifequest-play-console-submission-runbook-20260525.md" \
   "Play Console submission runbook exists"
 check_file_exists "docs/lifequest-play-console-data-safety-draft-20260520.md" \
   "Play Console Data safety draft exists"
+check_contains "test/docs/data_safety_draft_test.dart" "keeps default Android release scope explicit" \
+  "Play Console Data safety draft policy test exists"
 check_file_exists "docs/lifequest-play-store-listing-draft-20260520.md" \
   "Play Store listing draft exists"
 check_contains "test/docs/play_store_listing_draft_test.dart" "does not contain mojibake" \
