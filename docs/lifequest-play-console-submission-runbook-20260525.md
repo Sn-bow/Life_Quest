@@ -37,6 +37,8 @@ store listing, IARC, consent copy, and privacy policy review before submission.
 3. Complete Data safety using
    `docs/lifequest-play-console-data-safety-draft-20260520.md`.
 4. Complete App access if Play Console asks for test account instructions.
+   Use `docs/lifequest-play-console-app-access-draft-20260604.md` and enter
+   the actual reviewer password only in Play Console.
 5. Complete Ads declaration as "No" for the default build.
 6. Complete Health apps declaration as "My app doesn't provide any health
    features" for the default build.

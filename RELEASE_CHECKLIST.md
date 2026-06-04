@@ -27,6 +27,7 @@
 계속 유효한 주요 미완료 항목:
 - Firebase Console의 Android 앱 패키지명/SHA/App Check/Auth 설정 최종 확인
 - Play Console Data safety 실제 입력 및 저장
+- Play Console App access reviewer 계정 생성 및 실제 입력
 - Health apps declaration/IARC/store listing 실제 입력
 - 실제 Android release/test build 기준 스크린샷 캡처
 - 인증된 계정 삭제 및 주요 게임 루프 실기기 smoke test
@@ -486,6 +487,19 @@
 | **소요 시간** | 1~2시간 |
 | **우선순위** | 🔴 P0 |
 | **작업 주체** | 수동 (Play Console 폼) + Claude (답변 초안) |
+
+### G-6. App access reviewer 계정
+
+2026-06-04 update: `docs/lifequest-play-console-app-access-draft-20260604.md` now prepares the Play Console App access answer for the Firebase Auth login flow. `test/docs/app_access_draft_test.dart` verifies the draft matches shipped email/password and Google Sign-In paths while keeping reviewer credentials out of git. Actual reviewer email/password entry remains manual and must happen only in Play Console or a private credential manager.
+
+| 항목 | 내용 |
+|------|------|
+| **현재 정정** | 기본 Android 앱은 이메일/비밀번호 및 Google 로그인 경로를 제공하므로 Play 심사용 재사용 가능한 이메일/비밀번호 계정을 준비해야 한다. |
+| **위험** | reviewer가 로그인 뒤 기능을 볼 수 없으면 심사 지연 또는 거절 가능성이 있다. |
+| **사이즈** | 작음 |
+| **소요 시간** | 30분 |
+| **우선순위** | 🔴 P0 |
+| **작업 주체** | 수동 (Firebase Auth reviewer 계정 생성 + Play Console App access 입력) |
 
 ---
 

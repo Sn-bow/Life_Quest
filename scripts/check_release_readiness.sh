@@ -216,6 +216,8 @@ check_contains "docs/lifequest-release-artifact-record-20260604.md" "flutter.bat
   "Release AAB artifact record exists"
 check_contains "docs/lifequest-android-device-smoke-runbook-20260604.md" "Default Monetization-Off Behavior" \
   "Android device smoke runbook exists"
+check_contains "test/docs/app_access_draft_test.dart" "matches the shipped authentication paths" \
+  "Play Console App access draft policy test exists"
 check_file_exists "docs/lifequest-play-console-data-safety-draft-20260520.md" \
   "Play Console Data safety draft exists"
 check_contains "test/docs/data_safety_draft_test.dart" "keeps default Android release scope explicit" \

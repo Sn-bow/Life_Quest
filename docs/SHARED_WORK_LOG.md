@@ -3133,3 +3133,33 @@ Turn the remaining real-device release blocker into an explicit, repeatable smok
 ### Remaining risk
 
 - This is a runbook and readiness gate, not a completed device test. Release remains blocked until an authorized physical device or emulator runs the checklist and the result is recorded.
+
+## 2026-06-04 KST - Play Console App access draft gate
+
+### Purpose
+
+Close the Play review access gap for the authenticated Android app. Life Quest uses Firebase Auth with email/password and Google Sign-In, so reviewers need a reusable account in Play Console App access. The repository should prepare the instructions without committing reviewer secrets.
+
+### Source check
+
+- Official Google Play review preparation and login credential guidance was checked on 2026-06-04.
+- `lib/screens/login_screen.dart` supports email/password login and Google Sign-In.
+- `lib/screens/signup_screen.dart` supports email/password account creation.
+
+### Changes
+
+- Added `docs/lifequest-play-console-app-access-draft-20260604.md` with reviewer account instructions, credential handling boundaries, and re-review triggers.
+- Added `test/docs/app_access_draft_test.dart` to verify the draft matches shipped auth paths, keeps credentials out of git, preserves default release scope, and avoids mojibake markers.
+- Updated the Play Console submission runbook and release checklist with App access as a P0 manual submission item.
+- Extended `scripts/check_release_readiness.sh` to require the App access draft policy test.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\docs\app_access_draft_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\docs\app_access_draft_test.dart`
+- `bash scripts/check_release_readiness.sh`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+
+### Remaining risk
+
+- This does not create or store the actual reviewer account. A dedicated Firebase Auth reviewer account still must be created manually, tested on the Android build, and entered only in Play Console or a private credential manager.
