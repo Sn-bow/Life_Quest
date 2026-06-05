@@ -155,6 +155,8 @@ check_not_contains "$merged_release_manifest" 'android.permission.ACCESS_ADSERVI
   "Default merged release manifest excludes AdServices topics permission"
 check_not_contains "$merged_release_manifest" 'com.android.vending.BILLING' \
   "Default merged release manifest excludes Google Play Billing permission"
+check_not_contains "$merged_release_manifest" 'com.google.android.gms.ads.' \
+  "Default merged release manifest excludes Google Mobile Ads components"
 check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.INTERNET' \
   "Android manifest declares only expected network access"
 check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.POST_NOTIFICATIONS' \

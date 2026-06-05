@@ -17,4 +17,31 @@
     <uses-permission
         android:name="com.android.vending.BILLING"
         tools:node="remove" />
+
+    <application>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            tools:node="remove" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
+            tools:node="remove" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
+            tools:node="remove" />
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            tools:node="remove" />
+        <activity
+            android:name="com.google.android.gms.ads.OutOfContextTestingActivity"
+            tools:node="remove" />
+        <activity
+            android:name="com.google.android.gms.ads.NotificationHandlerActivity"
+            tools:node="remove" />
+        <provider
+            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
+            tools:node="remove" />
+        <service
+            android:name="com.google.android.gms.ads.AdService"
+            tools:node="remove" />
+    </application>
 </manifest>

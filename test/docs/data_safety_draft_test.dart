@@ -77,6 +77,18 @@ void main() {
       );
       expect(releaseManifest, contains('com.android.vending.BILLING'));
       expect(
+        releaseManifest,
+        contains('com.google.android.gms.ads.MobileAdsInitProvider'),
+      );
+      expect(
+        releaseManifest,
+        contains('com.google.android.gms.ads.AdActivity'),
+      );
+      expect(
+        releaseManifest,
+        contains('com.google.android.gms.ads.AdService'),
+      );
+      expect(
         monetizationManifest,
         isNot(contains('tools:node="remove"')),
       );
@@ -145,7 +157,8 @@ void main() {
       expect(
         draft,
         contains(
-          'final merged release manifest excludes advertising and billing',
+          'final merged release manifest excludes advertising/billing '
+          'permissions and Mobile Ads application components',
         ),
       );
     });

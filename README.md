@@ -14,7 +14,7 @@
 | `flutter analyze` | **No issues found** ✅ |
 | `flutter test` | **monetization gate 포함 통과** ✅ |
 | `flutter analyze --no-pub` | **No issues found** ✅ |
-| `flutter build appbundle --release --no-pub` | 성공 (152.0MB / 159,416,097 bytes) ✅ |
+| `flutter build appbundle --release --no-pub` | 성공 (152.0MB / 159,415,691 bytes) ✅ |
 
 ---
 

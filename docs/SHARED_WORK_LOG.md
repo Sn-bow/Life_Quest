@@ -3220,3 +3220,29 @@ Align the actual default release artifact with its disabled-monetization and Dat
 ### Remaining risk
 
 - A monetization-enabled artifact still requires real AdMob IDs, separate Data safety review, and device validation before submission.
+
+## 2026-06-05 KST - Android 36 release launch smoke and startup crash fix
+
+### Finding
+
+The default release APK installed on an Android 16/API 36 emulator but crashed before Flutter started. Android's crash buffer showed `MobileAdsInitProvider` rejecting the empty AdMob application ID. Disabling AdMob in Dart was insufficient because the SDK content provider runs during Android process startup.
+
+### Fix
+
+- Extended the default release Manifest overlay to remove the Mobile Ads application ID metadata, initialization provider, service, activities, and optimization metadata.
+- Kept all Mobile Ads components available in the separate monetization release path selected by a supplied `ADMOB_ANDROID_APP_ID`.
+- Extended release readiness and Data safety regression tests to require that no `com.google.android.gms.ads.*` component remains in the default merged release Manifest.
+
+### Runtime verification
+
+- Built and installed `app-release.apk` on `emulator-5554`, Android 16/API 36.
+- Confirmed package `com.lifequest.app`, version `1.0.1+2`, target SDK 35.
+- Confirmed the process remains alive after launch.
+- Confirmed the English login screen and registration screen render at 1080x2424.
+- Confirmed the Android crash buffer is empty after both screens.
+- Rebuilt the release AAB as `159,415,691` bytes.
+- Confirmed the final merged Manifest contains no advertising ID, AdServices attribution/topics, Billing permission, or Mobile Ads application component.
+
+### Remaining risk
+
+- This pass did not use Firebase reviewer credentials. Authenticated onboarding, quest persistence, Soul Deck, timer background/return, account deletion, Crashlytics delivery, and physical-device behavior remain open.

@@ -10,7 +10,7 @@ Default Android release:
 - Firebase Auth, Google Sign-In, Firestore, Firebase Storage, Crashlytics, App Check, local notifications, home widget, local preferences
 - AdMob and Google Play Billing SDK startup disabled by the runtime gate
 - No configured AdMob App ID or rewarded-ad unit ID in the default Android build
-- The final merged release manifest excludes advertising and billing permissions when the AdMob App ID is empty
+- The final merged release manifest excludes advertising/billing permissions and Mobile Ads application components when the AdMob App ID is empty
 - No Health Connect, Google Fit, medical/fitness sensor collection, or generative AI feature
 - Web QA Preview is excluded because it is a tester-only preview, not the Android package listing
 

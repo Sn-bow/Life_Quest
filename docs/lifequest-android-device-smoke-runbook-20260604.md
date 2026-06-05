@@ -8,15 +8,31 @@ submission. It is not satisfied by the Web QA Preview.
 
 ## Current Local Device Status
 
-Checked on 2026-06-04 KST:
+Checked on 2026-06-05 KST:
 
 ```text
 C:\Users\wjd54\AppData\Local\Android\Sdk\platform-tools\adb.exe devices
 ```
 
-Result: ADB starts successfully, but no authorized device is currently listed.
-The smoke test remains open until an Android device or emulator appears in
-`device` state.
+Result: a temporary Pixel 9 profile emulator running Android 16/API 36 reached
+`device` state. The rebuilt `1.0.1+2` release APK installed successfully.
+
+Verified:
+
+- The first release launch originally crashed in
+  `MobileAdsInitProvider` because the disabled-monetization build carried an
+  empty AdMob App ID.
+- The default release Manifest overlay now removes Mobile Ads application
+  components as well as advertising and billing permissions.
+- The rebuilt release APK remains alive after launch, renders the login screen,
+  navigates to the registration screen, and leaves the Android crash buffer
+  empty.
+
+Still open:
+
+- Authenticated onboarding, quest, dungeon, timer, and account deletion flows.
+- Firebase Console and Crashlytics confirmation.
+- At least one physical-device pass before production.
 
 ## Artifact Under Test
 

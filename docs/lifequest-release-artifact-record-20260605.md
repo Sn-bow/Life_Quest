@@ -17,12 +17,12 @@ cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub
 | Field | Value |
 | --- | --- |
 | Path | `build/app/outputs/bundle/release/app-release.aab` |
-| Size | `159,416,097` bytes |
+| Size | `159,415,691` bytes |
 | Flutter version source | `pubspec.yaml` |
 | App version | `1.0.1+2` |
 | Android package | `com.lifequest.app` |
 | Monetization scope | Default build; AdMob and Google Play Billing disabled unless explicit build flags are supplied |
-| Merged manifest | Advertising ID, AdServices attribution/topics, and Google Play Billing permissions absent |
+| Merged manifest | Advertising ID, AdServices attribution/topics, Google Play Billing permissions, and Mobile Ads application components absent |
 
 ## Submission Notes
 
