@@ -3163,3 +3163,34 @@ Close the Play review access gap for the authenticated Android app. Life Quest u
 ### Remaining risk
 
 - This does not create or store the actual reviewer account. A dedicated Firebase Auth reviewer account still must be created manually, tested on the Android build, and entered only in Play Console or a private credential manager.
+
+## 2026-06-05 KST - Play Console IARC draft gate
+
+### Purpose
+
+Prepare accurate content-rating answers for the default Android build and correct an important omission in the older runbook. Life Quest has no real-money gambling or active billing in the default build, but the game shop does sell randomized equipment boxes for earned in-game gold. That mechanic must not be hidden if the IARC questionnaire asks about loot boxes or uncertain rewards.
+
+### Source check
+
+- Rechecked official Google Play content ratings and content-rating requirements on 2026-06-05.
+- Confirmed fantasy monster combat, attack/damage, poison/burn, defeat, and dark-fantasy monster content in the shipped code.
+- Confirmed `shop_screen.dart` spends 100 or 300 earned gold for randomized Normal/Premium Equipment Boxes.
+- Confirmed default Android monetization remains disabled through `LIFEQUEST_MONETIZATION_ENABLED`.
+
+### Changes
+
+- Added `docs/lifequest-play-console-iarc-draft-20260605.md` covering violence, fear/horror review, random equipment boxes, public-vs-private UGC, ads, purchases, mature-content checks, and re-review triggers.
+- Added `test/docs/iarc_draft_test.dart` to gate fantasy combat disclosure, randomized equipment boxes, default monetization scope, private quest text, and inaccurate blanket claims.
+- Updated the Play Console submission runbook and release checklist so IARC answers disclose the in-game-gold random equipment boxes.
+- Extended `scripts/check_release_readiness.sh` to require the IARC draft policy test.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\dart.bat format test\docs\iarc_draft_test.dart`
+- `cmd /c C:\dev\flutter\bin\flutter.bat test --no-pub test\docs\iarc_draft_test.dart`
+- `bash scripts/check_release_readiness.sh`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+
+### Remaining risk
+
+- The final IARC questionnaire wording and assigned regional ratings are only available in Play Console. The developer must compare the installed Android build, localized text, monster/card/relic art, and exact questionnaire wording before submitting.

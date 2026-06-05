@@ -468,9 +468,12 @@
 | **작업 주체** | 수동 (디자인 도구 또는 AI 이미지 생성) |
 
 ### G-4. 콘텐츠 등급 설문 (IARC)
+
+2026-06-05 update: `docs/lifequest-play-console-iarc-draft-20260605.md` now records the default Android content-rating scope. `test/docs/iarc_draft_test.dart` gates fantasy combat, private-vs-public UGC scope, default-off ads/purchases, and the in-game-gold randomized equipment boxes that must be disclosed when the questionnaire asks about loot boxes or uncertain rewards.
+
 | 항목 | 내용 |
 |------|------|
-| **현재 정정** | IARC는 `docs/lifequest-play-console-submission-runbook-20260525.md` 기준으로 답변한다. 기본 Android 빌드는 판타지 카드 전투가 있지만 실제 도박, UGC, 활성 광고, 활성 인앱구매는 없다. |
+| **현재 정정** | IARC는 `docs/lifequest-play-console-iarc-draft-20260605.md`와 submission runbook 기준으로 답변한다. 기본 Android 빌드는 판타지 카드 전투가 있고, 현금 도박/카지노/현금성 보상은 없지만 획득한 게임 골드로 여는 랜덤 장비 상자는 있다. 공개 UGC/채팅, 활성 광고, 활성 인앱구매는 없다. |
 | **난이도** | 쉬움 |
 | **소요 시간** | 30분 |
 | **우선순위** | 🔴 P0 |

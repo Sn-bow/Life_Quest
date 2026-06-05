@@ -42,7 +42,9 @@ store listing, IARC, consent copy, and privacy policy review before submission.
 5. Complete Ads declaration as "No" for the default build.
 6. Complete Health apps declaration as "My app doesn't provide any health
    features" for the default build.
-7. Complete content rating / IARC based on the real Android build content.
+7. Complete content rating / IARC using
+   `docs/lifequest-play-console-iarc-draft-20260605.md` and the real Android
+   build content.
 8. Enter the store listing text from
    `docs/lifequest-play-store-listing-draft-20260520.md`.
 9. Upload fresh Android screenshots captured from the same build family.
@@ -94,7 +96,12 @@ Answer based on the exact Android build:
 
 - App type: game / RPG-style productivity.
 - Violence: fantasy/card battle against monsters is present.
-- Gambling: no real gambling, no simulated casino, no prize redemption.
+- Gambling: no real-money gambling, simulated casino, cash prize, or prize
+  redemption.
+- Random items: the shop sells randomized virtual equipment boxes for earned
+  in-game gold. They are not available for real-money purchase in the default
+  build, but must be disclosed if the questionnaire asks about loot boxes or
+  uncertain rewards.
 - UGC: no public user-generated content feed or user-to-user sharing.
 - Location/social/chat: no public chat or location sharing.
 - Ads: no active ads in the default build.
