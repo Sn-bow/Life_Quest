@@ -6,6 +6,7 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT_DIR"
 
 failures=0
+merged_release_manifest="build/app/intermediates/merged_manifests/release/processReleaseManifest/AndroidManifest.xml"
 
 pass() {
   printf 'PASS: %s\n' "$1"
@@ -142,6 +143,18 @@ check_file_exists "android/key.properties" \
   "Android release signing key.properties exists"
 check_file_min_bytes "build/app/outputs/bundle/release/app-release.aab" 104857600 \
   "Current release AAB exists and is at least 100 MiB"
+check_file_exists "$merged_release_manifest" \
+  "Merged release manifest exists"
+check_not_contains "$merged_release_manifest" 'com.google.android.gms.permission.AD_ID' \
+  "Default merged release manifest excludes Google advertising ID permission"
+check_not_contains "$merged_release_manifest" 'android.permission.ACCESS_ADSERVICES_AD_ID' \
+  "Default merged release manifest excludes AdServices advertising ID permission"
+check_not_contains "$merged_release_manifest" 'android.permission.ACCESS_ADSERVICES_ATTRIBUTION' \
+  "Default merged release manifest excludes AdServices attribution permission"
+check_not_contains "$merged_release_manifest" 'android.permission.ACCESS_ADSERVICES_TOPICS' \
+  "Default merged release manifest excludes AdServices topics permission"
+check_not_contains "$merged_release_manifest" 'com.android.vending.BILLING' \
+  "Default merged release manifest excludes Google Play Billing permission"
 check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.INTERNET' \
   "Android manifest declares only expected network access"
 check_contains "android/app/src/main/AndroidManifest.xml" 'android.permission.POST_NOTIFICATIONS' \
@@ -212,7 +225,7 @@ check_file_exists "docs/index.html" \
   "Public privacy/account-deletion page exists"
 check_file_exists "docs/lifequest-play-console-submission-runbook-20260525.md" \
   "Play Console submission runbook exists"
-check_contains "docs/lifequest-release-artifact-record-20260604.md" "flutter.bat build appbundle --release --no-pub" \
+check_contains "docs/lifequest-release-artifact-record-20260605.md" "flutter.bat build appbundle --release --no-pub" \
   "Release AAB artifact record exists"
 check_contains "docs/lifequest-android-device-smoke-runbook-20260604.md" "Default Monetization-Off Behavior" \
   "Android device smoke runbook exists"

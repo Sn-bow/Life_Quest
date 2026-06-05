@@ -1,0 +1,3 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Selected for release builds with ADMOB_ANDROID_APP_ID; SDK permissions merge normally. -->
+</manifest>

@@ -1,4 +1,4 @@
-# Life Quest Release Artifact Record - 2026-06-04
+# Life Quest Release Artifact Record - 2026-06-05
 
 Scope: default real Android release build for `com.lifequest.app`.
 
@@ -17,11 +17,12 @@ cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub
 | Field | Value |
 | --- | --- |
 | Path | `build/app/outputs/bundle/release/app-release.aab` |
-| Size | `159,416,214` bytes |
+| Size | `159,416,097` bytes |
 | Flutter version source | `pubspec.yaml` |
 | App version | `1.0.1+2` |
 | Android package | `com.lifequest.app` |
 | Monetization scope | Default build; AdMob and Google Play Billing disabled unless explicit build flags are supplied |
+| Merged manifest | Advertising ID, AdServices attribution/topics, and Google Play Billing permissions absent |
 
 ## Submission Notes
 

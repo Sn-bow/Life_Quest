@@ -21,6 +21,11 @@ val admobAndroidAppId = providers
     .gradleProperty("ADMOB_ANDROID_APP_ID")
     .orElse("")
     .get()
+val releaseManifestPath = if (admobAndroidAppId.isBlank()) {
+    "src/release/AndroidManifest.xml"
+} else {
+    "src/monetization/AndroidManifest.xml"
+}
 
 android {
     namespace = "com.lifequest.app"
@@ -44,6 +49,12 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         manifestPlaceholders["admobAppId"] = admobAndroidAppId
+    }
+
+    sourceSets {
+        getByName("release") {
+            manifest.srcFile(releaseManifestPath)
+        }
     }
 
     signingConfigs {

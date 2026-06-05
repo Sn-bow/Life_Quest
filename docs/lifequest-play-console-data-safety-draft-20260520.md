@@ -10,6 +10,7 @@ Default Android release:
 - Firebase Auth, Google Sign-In, Firestore, Firebase Storage, Crashlytics, App Check, local notifications, home widget, local preferences
 - AdMob and Google Play Billing SDK startup disabled by the runtime gate
 - No configured AdMob App ID or rewarded-ad unit ID in the default Android build
+- The final merged release manifest excludes advertising and billing permissions when the AdMob App ID is empty
 - No Health Connect, Google Fit, medical/fitness sensor collection, or generative AI feature
 - Web QA Preview is excluded because it is a tester-only preview, not the Android package listing
 
@@ -74,7 +75,7 @@ Leave these unselected unless the implementation changes:
 - Financial info / Purchase history: Google Play Billing startup is disabled by default.
 - Health and fitness: no Health Connect, Google Fit, medical, or sensor collection; "health" is only an in-game stat.
 - Messages, contacts, calendar, audio, files/docs, web browsing, installed apps: no current evidence in manifest or app code.
-- Advertising ID / ad interactions: AdMob startup and ad surfaces are disabled in the default build.
+- Advertising ID / ad interactions: AdMob startup and ad surfaces are disabled, and the final merged release manifest excludes advertising-related permissions in the default build.
 
 ## Optional Feature Notes
 
@@ -99,4 +100,5 @@ Home widget/local preferences:
 - Verify the final store listing does not claim features that alter data practices.
 - Run authenticated Android smoke tests for account deletion and profile image cleanup.
 - Confirm the default release build does not initialize AdMob or Billing and does not show ad/paywall UI.
+- Confirm `scripts/check_release_readiness.sh` passes against the rebuilt merged release manifest before uploading the AAB.
 - Re-run this draft if `LIFEQUEST_MONETIZATION_ENABLED=true`, Firebase Analytics is added, Health Connect is added, or any remote AI feature is added.

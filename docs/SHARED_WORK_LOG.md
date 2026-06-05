@@ -3194,3 +3194,29 @@ Prepare accurate content-rating answers for the default Android build and correc
 ### Remaining risk
 
 - The final IARC questionnaire wording and assigned regional ratings are only available in Play Console. The developer must compare the installed Android build, localized text, monster/card/relic art, and exact questionnaire wording before submitting.
+
+## 2026-06-05 KST - Default release advertising permission isolation
+
+### Purpose
+
+Align the actual default release artifact with its disabled-monetization and Data safety claims. Mobile Ads and Billing dependencies were still adding advertising and billing permissions to the merged release manifest even though runtime startup was disabled.
+
+### Changes
+
+- Added separate release Manifest overlays selected by whether `ADMOB_ANDROID_APP_ID` is supplied.
+- The default release overlay removes advertising ID, AdServices attribution/topics, and Google Play Billing permissions.
+- The monetization overlay allows SDK permissions to merge normally when a real AdMob App ID is injected.
+- Extended Data safety tests and release readiness to verify the default merged release Manifest, not only the app-owned source Manifest.
+- Rebuilt and recorded the default release AAB as `159,416,097` bytes.
+
+### Verification
+
+- `cmd /c C:\dev\flutter\bin\flutter.bat test test\docs\data_safety_draft_test.dart --no-pub`
+- `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub`
+- Final merged release Manifest contains none of `AD_ID`, `ACCESS_ADSERVICES_AD_ID`, `ACCESS_ADSERVICES_ATTRIBUTION`, `ACCESS_ADSERVICES_TOPICS`, or `com.android.vending.BILLING`.
+- `C:\Program Files\Git\usr\bin\bash.exe -lc './scripts/check_release_readiness.sh'`
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`
+
+### Remaining risk
+
+- A monetization-enabled artifact still requires real AdMob IDs, separate Data safety review, and device validation before submission.

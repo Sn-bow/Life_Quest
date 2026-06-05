@@ -7,6 +7,8 @@ void main() {
     late String draft;
     late String inventory;
     late String manifest;
+    late String releaseManifest;
+    late String monetizationManifest;
     late String buildGradle;
     late String monetizationConfig;
     late String pubspec;
@@ -20,6 +22,11 @@ void main() {
       ).readAsStringSync();
       manifest =
           File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
+      releaseManifest = File('android/app/src/release/AndroidManifest.xml')
+          .readAsStringSync();
+      monetizationManifest = File(
+        'android/app/src/monetization/AndroidManifest.xml',
+      ).readAsStringSync();
       buildGradle = File('android/app/build.gradle.kts').readAsStringSync();
       monetizationConfig = File(
         'lib/config/monetization_config.dart',
@@ -47,6 +54,32 @@ void main() {
       expect(monetizationConfig, contains('LIFEQUEST_MONETIZATION_ENABLED'));
       expect(buildGradle, contains('.gradleProperty("ADMOB_ANDROID_APP_ID")'));
       expect(buildGradle, contains('.orElse("")'));
+      expect(
+        buildGradle,
+        contains('manifest.srcFile(releaseManifestPath)'),
+      );
+      expect(releaseManifest, contains('tools:node="remove"'));
+      expect(
+        releaseManifest,
+        contains('com.google.android.gms.permission.AD_ID'),
+      );
+      expect(
+        releaseManifest,
+        contains('android.permission.ACCESS_ADSERVICES_AD_ID'),
+      );
+      expect(
+        releaseManifest,
+        contains('android.permission.ACCESS_ADSERVICES_ATTRIBUTION'),
+      );
+      expect(
+        releaseManifest,
+        contains('android.permission.ACCESS_ADSERVICES_TOPICS'),
+      );
+      expect(releaseManifest, contains('com.android.vending.BILLING'));
+      expect(
+        monetizationManifest,
+        isNot(contains('tools:node="remove"')),
+      );
       expect(pubspec, contains('google_mobile_ads:'));
       expect(pubspec, contains('in_app_purchase:'));
       expect(pubspec, isNot(contains('firebase_analytics:')));
@@ -108,6 +141,12 @@ void main() {
       expect(
         draft,
         contains('Advertising ID / ad interactions: AdMob startup'),
+      );
+      expect(
+        draft,
+        contains(
+          'final merged release manifest excludes advertising and billing',
+        ),
       );
     });
   });

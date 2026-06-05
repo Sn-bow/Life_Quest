@@ -21,11 +21,13 @@ Key interpretation:
 Default Android release build:
 - `LIFEQUEST_MONETIZATION_ENABLED` is not supplied, so AdMob and Google Play Billing runtime startup are disabled.
 - `ADMOB_ANDROID_APP_ID` and `ADMOB_REWARDED_AD_UNIT_ID_ANDROID` are not supplied, so the default build has no configured AdMob app/ad unit IDs.
+- The Android manifest merger removes advertising ID, attribution, topics, and Google Play Billing permissions when `ADMOB_ANDROID_APP_ID` is empty.
 - Firebase, Crashlytics, App Check, Firestore, Auth, Google Sign-In, Storage, local notifications, home widget, and local preferences remain in scope.
 
 Monetization-enabled build:
 - If `--dart-define=LIFEQUEST_MONETIZATION_ENABLED=true` is used, Data safety must be re-reviewed for AdMob and purchase history before submission.
 - A monetization-enabled Android build must also pass `-PADMOB_ANDROID_APP_ID=...` and `--dart-define=ADMOB_REWARDED_AD_UNIT_ID_ANDROID=...`.
+- Supplying `ADMOB_ANDROID_APP_ID` changes the manifest merge rule so the Mobile Ads SDK can declare the advertising ID permissions required by that build.
 
 ## Manifest Permissions
 
@@ -71,7 +73,7 @@ Use this as a Play Console drafting aid only:
 | Diagnostics | Yes | No under service provider exception | Device/app diagnostic and security signals |
 | Device or other IDs | Yes | No under service provider exception | Firebase installation/app check/crash identifiers |
 | Purchase history | No in default build | N/A | Re-review if monetization flag is enabled |
-| Advertising ID / ad interactions | No in default build | N/A | Re-review if monetization flag is enabled |
+| Advertising ID / ad interactions | No in default build | N/A | Runtime startup is disabled and the final merged manifest excludes advertising-related SDK permissions; re-review if monetization is enabled |
 | Health info / fitness info | No | N/A | The app has a "health" stat category, but no Health Connect/medical/fitness sensor collection is implemented |
 | Location, contacts, calendar, SMS, audio, files/docs | No current evidence | N/A | No matching Android permissions or code paths found |
 

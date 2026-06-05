@@ -7,14 +7,14 @@
 
 ---
 
-## 현재 상태 (2026-06-04 기준)
+## 현재 상태 (2026-06-05 기준)
 
 | 항목 | 결과 |
 |------|------|
 | `flutter analyze` | **No issues found** ✅ |
 | `flutter test` | **monetization gate 포함 통과** ✅ |
 | `flutter analyze --no-pub` | **No issues found** ✅ |
-| `flutter build appbundle --release --no-pub` | 성공 (152.0MB / 159,416,214 bytes) ✅ |
+| `flutter build appbundle --release --no-pub` | 성공 (152.0MB / 159,416,097 bytes) ✅ |
 
 ---
 

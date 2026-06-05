@@ -20,7 +20,7 @@ The smoke test remains open until an Android device or emulator appears in
 
 ## Artifact Under Test
 
-- AAB record: `docs/lifequest-release-artifact-record-20260604.md`
+- AAB record: `docs/lifequest-release-artifact-record-20260605.md`
 - Local AAB path: `build/app/outputs/bundle/release/app-release.aab`
 - Package name: `com.lifequest.app`
 - Default monetization scope: no active AdMob startup, rewarded-ad UI, Google

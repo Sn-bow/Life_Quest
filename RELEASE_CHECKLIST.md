@@ -21,7 +21,8 @@
 - 수익화 활성화 빌드는 별도 빌드 변형으로 취급하며 `ADMOB_ANDROID_APP_ID`, `ADMOB_REWARDED_AD_UNIT_ID_ANDROID`, `LIFEQUEST_MONETIZATION_ENABLED=true`를 명시적으로 주입한 뒤 Data safety를 재검토해야 한다.
 - R8/minify와 resource shrink는 release build에 적용되어 있다.
 - 개인정보처리방침은 `PRIVACY_POLICY.md`와 GitHub Pages 공개 페이지로 정리되어 있으며, Play Console URL 등록과 최종 Data safety 입력은 수동 미완료 항목이다.
-- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`, `bash scripts/check_release_readiness.sh`, `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub`는 2026-06-04에 통과했다.
+- `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`, `bash scripts/check_release_readiness.sh`, `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub`는 2026-06-05에 통과했다.
+- 기본 릴리스의 최종 병합 Manifest에서 광고 ID, AdServices attribution/topics, Google Play Billing 권한을 제거했다.
 - 2026-05-21 Google Play target API 공식 문서 재확인 결과, 새 앱/업데이트 제출 기준은 Android 15/API 35 이상이다. 현재 `targetSdk = 35`, `compileSdk = 36`은 기본 Android 릴리스 경로에 적합하다.
 
 계속 유효한 주요 미완료 항목:
@@ -45,7 +46,7 @@
 | 렐릭 / 이벤트 | 31개 / 10개 |
 | 던전 화면 | 9개 |
 | flutter analyze | ✅ No issues found |
-| 릴리스 빌드 | ✅ 2026-06-04 기본 release AAB 빌드 성공: 159,416,214 bytes / 152.0MB (v1.0.1+2) |
+| 릴리스 빌드 | ✅ 2026-06-05 기본 release AAB 빌드 성공: 159,416,097 bytes / 152.0MB (v1.0.1+2) |
 | 다국어 지원 | 한국어/영어/일본어/중국어 (데이터 모델 포함 완전 지원) |
 | 사운드 파일 | Soul Deck SFX 포함 다수 |
 | IAP 서버검증 | ✅ Cloud Function 구현 완료 (배포 수동 필요) |
@@ -132,7 +133,7 @@
 ### A-6. ProGuard / R8 코드 축소 설정
 | 항목 | 내용 |
 |------|------|
-| **현재 상태** | release build에 `isMinifyEnabled = true`, `isShrinkResources = true` 적용 완료. 2026-06-04 기본 release AAB 빌드 성공. `docs/lifequest-release-artifact-record-20260604.md`에 산출물 기록을 남겼고 readiness가 AAB 존재/최소 크기를 확인한다. |
+| **현재 상태** | release build에 `isMinifyEnabled = true`, `isShrinkResources = true` 적용 완료. 2026-06-05 기본 release AAB 빌드 성공. `docs/lifequest-release-artifact-record-20260605.md`에 산출물과 최종 Manifest 권한 검증 기록을 남겼고 readiness가 AAB 존재/최소 크기 및 광고·결제 권한 부재를 확인한다. |
 | **위치** | `android/app/build.gradle.kts:59-67` |
 | **위험** | APK 크기 비대, 코드 노출, Play Store 랭킹 불이익 |
 | **난이도** | 보통 |
