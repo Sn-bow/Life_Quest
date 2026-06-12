@@ -146,11 +146,20 @@ void main() {
         attackDamageBonus: 1,
         firstTurnDrawBonus: 1,
         startingGoldBonus: 3,
+        shopDiscountRate: 0.08,
+        restHealPercentBonus: 0.06,
       );
 
       expect(
         modifier.labels(),
-        containsAll(['던전 HP +5', '공격 피해 +1', '첫 턴 카드 +1', '시작 골드 +3']),
+        containsAll([
+          '던전 HP +5',
+          '공격 피해 +1',
+          '첫 턴 카드 +1',
+          '시작 골드 +3',
+          '상점 할인 -8%',
+          '휴식 회복 +6%',
+        ]),
       );
     });
 

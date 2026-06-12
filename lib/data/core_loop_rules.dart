@@ -140,9 +140,10 @@ class DailyModifier {
         '마법 카드 흐름 +${(magicCardWeightBonus * 100).round()}%',
       if (eventOptionBonusChance > 0)
         '이벤트 선택지 +${(eventOptionBonusChance * 100).round()}%',
-      if (shopDiscountRate > 0) '?곸젏 ?좎씤 -${(shopDiscountRate * 100).round()}%',
+      if (shopDiscountRate > 0)
+        '상점 할인 -${(shopDiscountRate * 100).round()}%',
       if (restHealPercentBonus > 0)
-        '?댁떇 ?뚮났 +${(restHealPercentBonus * 100).round()}%',
+        '휴식 회복 +${(restHealPercentBonus * 100).round()}%',
     ];
   }
 }

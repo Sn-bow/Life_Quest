@@ -21,8 +21,8 @@ val admobAndroidAppId = providers
     .gradleProperty("ADMOB_ANDROID_APP_ID")
     .orElse("")
     .get()
-val releaseManifestPath = if (admobAndroidAppId.isBlank()) {
-    "src/release/AndroidManifest.xml"
+val androidManifestPath = if (admobAndroidAppId.isBlank()) {
+    "src/nonMonetization/AndroidManifest.xml"
 } else {
     "src/monetization/AndroidManifest.xml"
 }
@@ -52,8 +52,14 @@ android {
     }
 
     sourceSets {
+        getByName("debug") {
+            manifest.srcFile(androidManifestPath)
+        }
+        getByName("profile") {
+            manifest.srcFile(androidManifestPath)
+        }
         getByName("release") {
-            manifest.srcFile(releaseManifestPath)
+            manifest.srcFile(androidManifestPath)
         }
     }
 

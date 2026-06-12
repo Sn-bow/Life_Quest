@@ -7,7 +7,7 @@ void main() {
     late String draft;
     late String inventory;
     late String manifest;
-    late String releaseManifest;
+    late String nonMonetizationManifest;
     late String monetizationManifest;
     late String buildGradle;
     late String monetizationConfig;
@@ -22,8 +22,9 @@ void main() {
       ).readAsStringSync();
       manifest =
           File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
-      releaseManifest = File('android/app/src/release/AndroidManifest.xml')
-          .readAsStringSync();
+      nonMonetizationManifest = File(
+        'android/app/src/nonMonetization/AndroidManifest.xml',
+      ).readAsStringSync();
       monetizationManifest = File(
         'android/app/src/monetization/AndroidManifest.xml',
       ).readAsStringSync();
@@ -56,36 +57,51 @@ void main() {
       expect(buildGradle, contains('.orElse("")'));
       expect(
         buildGradle,
-        contains('manifest.srcFile(releaseManifestPath)'),
+        contains('manifest.srcFile(androidManifestPath)'),
       );
-      expect(releaseManifest, contains('tools:node="remove"'));
       expect(
-        releaseManifest,
+        buildGradle,
+        contains('getByName("debug")'),
+      );
+      expect(
+        buildGradle,
+        contains('getByName("profile")'),
+      );
+      expect(
+        buildGradle,
+        contains('getByName("release")'),
+      );
+      expect(nonMonetizationManifest, contains('tools:node="remove"'));
+      expect(
+        nonMonetizationManifest,
         contains('com.google.android.gms.permission.AD_ID'),
       );
       expect(
-        releaseManifest,
+        nonMonetizationManifest,
         contains('android.permission.ACCESS_ADSERVICES_AD_ID'),
       );
       expect(
-        releaseManifest,
+        nonMonetizationManifest,
         contains('android.permission.ACCESS_ADSERVICES_ATTRIBUTION'),
       );
       expect(
-        releaseManifest,
+        nonMonetizationManifest,
         contains('android.permission.ACCESS_ADSERVICES_TOPICS'),
       );
-      expect(releaseManifest, contains('com.android.vending.BILLING'));
       expect(
-        releaseManifest,
+        nonMonetizationManifest,
+        contains('com.android.vending.BILLING'),
+      );
+      expect(
+        nonMonetizationManifest,
         contains('com.google.android.gms.ads.MobileAdsInitProvider'),
       );
       expect(
-        releaseManifest,
+        nonMonetizationManifest,
         contains('com.google.android.gms.ads.AdActivity'),
       );
       expect(
-        releaseManifest,
+        nonMonetizationManifest,
         contains('com.google.android.gms.ads.AdService'),
       );
       expect(
