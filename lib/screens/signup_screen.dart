@@ -226,6 +226,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final horizontalPadding =
+        screenWidth > 608 ? (screenWidth - 560) / 2 : 24.0;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -247,7 +250,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(24.0, 100.0, 24.0, 24.0),
+            padding: EdgeInsets.fromLTRB(
+              horizontalPadding,
+              100,
+              horizontalPadding,
+              24,
+            ),
             child: TranslucentCard(
               child: Padding(
                 padding: const EdgeInsets.all(24.0),

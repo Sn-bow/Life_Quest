@@ -127,6 +127,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final horizontalPadding =
+        screenWidth > 608 ? (screenWidth - 560) / 2 : 24.0;
 
     return Scaffold(
       body: Container(
@@ -141,7 +144,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: horizontalPadding,
+              vertical: 24.0,
+            ),
             child: TranslucentCard(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
