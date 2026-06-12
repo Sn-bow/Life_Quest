@@ -8,7 +8,7 @@ submission. It is not satisfied by the Web QA Preview.
 
 ## Current Local Device Status
 
-Checked on 2026-06-05 KST:
+Checked on 2026-06-13 KST:
 
 ```text
 C:\Users\wjd54\AppData\Local\Android\Sdk\platform-tools\adb.exe devices
@@ -27,10 +27,18 @@ Verified:
 - The rebuilt release APK remains alive after launch, renders the login screen,
   navigates to the registration screen, and leaves the Android crash buffer
   empty.
+- The non-monetized Android QA build completed the guest quest persistence,
+  Zone 1 battle, and focus-timer background/return paths without a crash.
+- The 15-minute focus timer showed `14:50` before backgrounding and `13:18`
+  after approximately 93 seconds of measured wall-clock time. The app kept PID
+  `3724`, deducted 92 timer seconds once, then continued from `13:18` to
+  `12:55` over the next 23 seconds.
 
 Still open:
 
-- Authenticated onboarding, quest, dungeon, timer, and account deletion flows.
+- Authenticated onboarding and account deletion flows.
+- Repeat the core-loop and timer pass on the exact release/closed-testing
+  artifact before submission.
 - Firebase Console and Crashlytics confirmation.
 - At least one physical-device pass before production.
 

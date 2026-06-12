@@ -3246,3 +3246,32 @@ The default release APK installed on an Android 16/API 36 emulator but crashed b
 ### Remaining risk
 
 - This pass did not use Firebase reviewer credentials. Authenticated onboarding, quest persistence, Soul Deck, timer background/return, account deletion, Crashlytics delivery, and physical-device behavior remain open.
+
+## 2026-06-13 KST - Android focus timer background/return smoke
+
+### Purpose
+
+Close the device-runtime portion of the focus timer lifecycle check without
+claiming that the exact release artifact or physical-device gate is complete.
+
+### Runtime verification
+
+- Used the non-monetized QA APK on `emulator-5554`, Pixel 9 profile,
+  Android 16/API 36, at 1080x2424.
+- Selected the 15-minute preset and observed `14:50` immediately before sending
+  the app to the Android home screen.
+- Returned to the app after approximately 93 seconds of measured wall-clock
+  time and observed `13:18`, a 92-second timer decrease showing that elapsed
+  background time was deducted once.
+- Confirmed the app PID remained `3724` before, during, and after backgrounding.
+- Observed the resumed timer continue from `13:18` to `12:55` over the next
+  23 seconds, with no duplicate subtraction or stalled ticker.
+- Confirmed the Android crash buffer was empty and found no Flutter fatal,
+  unhandled, missing-plugin, or render-overflow log entry.
+
+### Remaining risk
+
+- Repeat this timer check on the exact release/closed-testing artifact and at
+  least one physical Android device before production.
+- Authenticated account deletion and Firebase Crashlytics delivery remain
+  separate open release gates.

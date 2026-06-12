@@ -24,6 +24,7 @@
 - `cmd /c C:\dev\flutter\bin\flutter.bat analyze --no-pub`, `bash scripts/check_release_readiness.sh`, `cmd /c C:\dev\flutter\bin\flutter.bat build appbundle --release --no-pub`는 2026-06-05에 통과했다.
 - 기본 릴리스의 최종 병합 Manifest에서 광고 ID, AdServices attribution/topics, Google Play Billing 권한과 Mobile Ads 앱 구성요소를 제거했다.
 - Android 36 에뮬레이터에서 release APK 설치, 시작, 로그인 화면, 회원가입 화면, 빈 crash buffer를 확인했다. 인증 후 핵심 루프와 물리 기기 검증은 남아 있다.
+- 2026-06-13 Android 16/API 36 비수익화 QA 빌드에서 게스트 퀘스트 저장 복원, Zone 1 전투, 집중 타이머 background/return을 확인했다. 타이머는 약 93초의 실시간 경과 후 92초를 한 번만 차감했고 동일 PID로 재개됐으며 crash buffer는 비어 있었다. 정확한 release/closed-testing 산출물과 물리 기기 재검증은 남아 있다.
 - 2026-05-21 Google Play target API 공식 문서 재확인 결과, 새 앱/업데이트 제출 기준은 Android 15/API 35 이상이다. 현재 `targetSdk = 35`, `compileSdk = 36`은 기본 Android 릴리스 경로에 적합하다.
 
 계속 유효한 주요 미완료 항목:
@@ -75,8 +76,8 @@
 ### A-1. 실제 기기 테스트 & 크래시 검증
 | 항목 | 내용 |
 |------|------|
-| **현재 상태** | 2026-06-04 기준 ADB 실행 파일은 존재하지만 연결된 authorized device가 없다. `docs/lifequest-android-device-smoke-runbook-20260604.md`에 closed testing 전 필수 실기기 smoke 절차를 정리했고 readiness가 이 runbook 존재를 확인한다. |
-| **문제** | 최신 default release/closed-testing AAB가 실제 Android 기기에서 아직 smoke-tested 되지 않았다. Firebase, 계정 삭제, 타이머 background/return, Flame 렌더링, 기본 monetization-off UI, Crashlytics 이벤트 수집을 같은 빌드 기준으로 확인해야 한다. |
+| **현재 상태** | 2026-06-13 Android 16/API 36 에뮬레이터의 비수익화 QA 빌드에서 게스트 퀘스트 저장 복원, Zone 1 전투, 타이머 background/return, 빈 crash buffer를 확인했다. release APK 시작/로그인/회원가입 smoke도 통과했다. |
+| **문제** | 최신 default release/closed-testing AAB의 인증 계정, 계정 삭제, Firebase/Crashlytics, 전체 핵심 루프와 타이머를 동일 산출물 기준으로 재검증하고 최소 한 번 물리 기기에서 확인해야 한다. |
 | **위치** | 전체 앱 (`lib/main.dart` 초기화 시퀀스부터) |
 | **위험** | 런치 크래시, Firebase 연결 실패, Flame GPU 호환성 문제 |
 | **난이도** | 보통 |
