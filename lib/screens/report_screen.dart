@@ -70,7 +70,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
   Future<void> _unlockExpandedReport(BuildContext context) async {
     if (_unlockingExpandedReport) return;
-    if (!kLifeQuestMonetizationEnabled) return;
+    if (!kLifeQuestAdsEnabled) return;
     final characterState = context.read<CharacterState>();
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context)!;
@@ -121,11 +121,11 @@ class _ReportScreenState extends State<ReportScreen> {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
     final isExpandedUnlocked = kLifeQuestQaPreview ||
-        !kLifeQuestMonetizationEnabled ||
+        !kLifeQuestAdsEnabled ||
         characterState.isExpandedReportUnlockedToday;
     final remainingViews = kLifeQuestQaPreview
         ? 0
-        : (kLifeQuestMonetizationEnabled
+        : (kLifeQuestAdsEnabled
             ? AdService().getRemainingViews('report_detail')
             : 0);
     final monthlyCompletionRate = _completionRate(characterState.monthlyQuests);
@@ -318,7 +318,7 @@ class _ReportScreenState extends State<ReportScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            if (kLifeQuestMonetizationEnabled)
+            if (kLifeQuestAdsEnabled)
               _buildExpandedReportEntryCard(
                 context,
                 remainingViews,

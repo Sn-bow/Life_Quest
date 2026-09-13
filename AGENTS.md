@@ -1,5 +1,12 @@
 # Life Quest - 프로젝트 메모리
 
+> **현재 작업 (2026-09-14):** `codex/rebirth-2026-09`에서 Life Quest 2.0 재구축 중.
+> 아래 4월 이력의 “완료”를 현재 출시 상태로 해석하지 않는다.
+> 먼저 `docs/rebirth/CONTINUE.md`, `PRODUCT_BRIEF.md`, `BILLING_AND_RELEASE.md`를 확인한다.
+> Firebase 프로젝트는 최근 삭제됨 상태로 복원 여부 사용자 답변 대기. 프로덕션 배포나 매출은 아직 없다.
+> Flutter 도구 명령은 직렬 실행한다. Cloud/결제/광고는 기본 비활성이다.
+
+
 ## 프로젝트 개요
 - **앱 이름**: Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱
 - **프레임워크**: Flutter (Dart) + Flame 엔진 (Soul Deck 전투)

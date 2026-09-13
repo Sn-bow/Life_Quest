@@ -3757,4 +3757,312 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => '密码不正确。';
+
+  @override
+  String get lqToday => '今天';
+
+  @override
+  String get lqGrowth => '成长';
+
+  @override
+  String get lqDungeon => '地下城';
+
+  @override
+  String get lqHeadline => '今天，再进一步。';
+
+  @override
+  String get lqSubtitle => '小小行动，真实成长。';
+
+  @override
+  String get lqSystem => '个人任务系统';
+
+  @override
+  String get lqDailyMissions => '今日推荐';
+
+  @override
+  String get lqActiveQuests => '进行中的任务';
+
+  @override
+  String get lqAllQuests => '查看全部';
+
+  @override
+  String get lqCheckIn => '调整今日状态';
+
+  @override
+  String get lqCheckInHint => '从现在能做到的开始。';
+
+  @override
+  String get lqEnergy => '今日精力';
+
+  @override
+  String get lqEnergyLow => '轻松一点';
+
+  @override
+  String get lqEnergyMedium => '适中';
+
+  @override
+  String get lqEnergyHigh => '很充足';
+
+  @override
+  String get lqTimeBudget => '今天留给自己的时间';
+
+  @override
+  String get lqMinutes => '分钟';
+
+  @override
+  String get lqFocus => '想成长的领域';
+
+  @override
+  String get lqVitality => '活力';
+
+  @override
+  String get lqLearning => '学习';
+
+  @override
+  String get lqOrder => '整理';
+
+  @override
+  String get lqConnection => '关系';
+
+  @override
+  String get lqGoal => '最近想实现的事（可选）';
+
+  @override
+  String get lqGoalHint => '例如：下班后重新开始学英语';
+
+  @override
+  String get lqGoalPrivacy => '此笔记和个性化记录保存在本设备。';
+
+  @override
+  String get lqApply => '调整今日任务';
+
+  @override
+  String get lqAccept => '接受';
+
+  @override
+  String get lqDone => '完成了';
+
+  @override
+  String get lqCompleted => '完成';
+
+  @override
+  String get lqTooHard => '今天太难了';
+
+  @override
+  String get lqSkip => '换一个';
+
+  @override
+  String get lqWhy => '推荐此任务的理由';
+
+  @override
+  String get lqDefaultReason => '已匹配你的兴趣和可用时间。';
+
+  @override
+  String get lqRecoveryReason => '减少负担，更容易重新开始。';
+
+  @override
+  String get lqAllSet => '今日计划已定。';
+
+  @override
+  String get lqAllSetBody => '按自己的节奏完成已接受的任务。明天会有新推荐。';
+
+  @override
+  String get lqDirector => '你的任务AI';
+
+  @override
+  String get lqBasicMode => '基础推荐';
+
+  @override
+  String get lqLocalAi => '设备端AI';
+
+  @override
+  String get lqGenerate => 'AI个性化生成';
+
+  @override
+  String get lqGenerating => '正在生成你的任务…';
+
+  @override
+  String get lqModelName => 'Gemma 4 E2B · 免费开放模型';
+
+  @override
+  String get lqModelIntro => '安装后可离线在本设备生成任务。无需AI费用或订阅。';
+
+  @override
+  String get lqModelDownloadInfo =>
+      '模型2.59GB · 建议Wi-Fi · 至少3GB可用空间\n下载时请保持应用开启。可断点续传。可能产生运营商流量费用。';
+
+  @override
+  String get lqDownload => '下载免费模型';
+
+  @override
+  String get lqCancel => '取消';
+
+  @override
+  String get lqRemoveModel => '删除模型文件';
+
+  @override
+  String get lqModelUnavailable => '此环境使用基础推荐。AI需要内存充足的兼容Android设备。';
+
+  @override
+  String get lqModelRejected => '此次生成未通过验证。保留现有推荐。';
+
+  @override
+  String get lqModelError => '未能完成。请检查网络和存储后重试。';
+
+  @override
+  String get lqLearningHistory => '个性化记录';
+
+  @override
+  String get lqLearningHistoryBody =>
+      '参考完成、跳过、难度和近期重复来调整后续任务内容与分量。设备仅保留最近90天记录。';
+
+  @override
+  String get lqClearLearning => '重置学习记录';
+
+  @override
+  String get lqResetConfirm => '重置个性化记录吗？等级和已完成任务将保留。';
+
+  @override
+  String get lqStorageError => '保存未完成。关闭应用前请检查存储空间。';
+
+  @override
+  String get lqEarnedToday => '今日任务经验';
+
+  @override
+  String get lqStatusWindow => '我的状态栏';
+
+  @override
+  String get lqGrowthHint => '休息日也不会失去已积累的成长。';
+
+  @override
+  String get lqOpenGate => '检验成长的时刻';
+
+  @override
+  String get lqGateHint => '用现实行动积累的力量挑战短暂的卡牌战斗。';
+
+  @override
+  String get lqEnterDungeon => '进入地下城';
+
+  @override
+  String get lqOptional => '可选冒险';
+
+  @override
+  String get lqSaved => '已保存';
+
+  @override
+  String get lqReportSuggestion => '举报不当推荐';
+
+  @override
+  String get lqReportBody => '将此推荐的标题、行动、理由及当前账号标识发送给开发者。不附加目标笔记和学习记录。';
+
+  @override
+  String get lqSendReport => '发送举报';
+
+  @override
+  String get lqReportSent => '举报已发送。已隐藏此推荐。';
+
+  @override
+  String get lqReportQueued => '联网后会发送举报。已隐藏此推荐。';
+
+  @override
+  String get lqReportPreview => 'QA举报已保存到本机，未发送给开发者。';
+
+  @override
+  String get lqReportFailed => '未能发送举报，请重试。';
+
+  @override
+  String get lqCloudQuestNotice => '接受的任务通过账号保存到Firebase。AI生成本身仅在本设备运行。';
+
+  @override
+  String get lqOpenSourceLicenses => '开源许可';
+
+  @override
+  String get lqWelcomeTitle => '为日常，\n开启新的任务。';
+
+  @override
+  String get lqWelcomeBody => '不必立下宏大目标，从今天的一件小事开始。\n现实中的成长，就是你的故事。';
+
+  @override
+  String get lqFirstContract => '与你的第一个约定';
+
+  @override
+  String get lqWelcomeStepOne => '从今天的状态出发';
+
+  @override
+  String get lqWelcomeStepOneBody => '先选好可用的时间、精力和方向。';
+
+  @override
+  String get lqWelcomeStepTwo => '用小任务积累成长';
+
+  @override
+  String get lqWelcomeStepTwoBody => '在现实中完成行动，收获经验。';
+
+  @override
+  String get lqWelcomeStepThree => '开启属于你的故事';
+
+  @override
+  String get lqWelcomeStepThreeBody => '卡牌与地牢，让每一点成长都值得期待。';
+
+  @override
+  String get lqStartOnDevice => '在此设备上开始';
+
+  @override
+  String get lqStarting => '正在打开状态窗…';
+
+  @override
+  String get lqExistingAccount => '使用已有账号继续';
+
+  @override
+  String get lqDeviceStorageNotice => '无需注册，免费开始。记录仅保存在此设备上，卸载应用后将丢失。';
+
+  @override
+  String get lqGuestName => '觉醒者';
+
+  @override
+  String get lqProfileLoadFailed => '无法加载记录。已保存的数据仍被保留，请重试。';
+
+  @override
+  String get lqRetry => '重试';
+
+  @override
+  String get lqBackToStart => '返回开始页';
+
+  @override
+  String get lqLocalProfile => '设备专属档案';
+
+  @override
+  String get lqDeleteLocal => '删除设备记录';
+
+  @override
+  String get lqDeleteLocalBody => '删除此设备上的任务、成长和个性化历史。此操作无法撤销。';
+
+  @override
+  String get lqPurchasePending => '付款待确认，获批后将自动验证使用权限。';
+
+  @override
+  String get lqPurchasePendingShort => '待确认';
+
+  @override
+  String get lqPurchaseVerifying => '正在验证购买…';
+
+  @override
+  String get lqPurchaseGranted => '购买已验证，内容现已可用。';
+
+  @override
+  String get lqPurchaseCancelled => '购买已取消。';
+
+  @override
+  String get lqPurchaseRetry => '购买验证延迟，请使用同一账号重试恢复购买。';
+
+  @override
+  String get lqPurchaseFailed => '无法开始购买，请稍后重试。';
+
+  @override
+  String get lqPurchaseRestoring => '正在恢复购买…';
+
+  @override
+  String get lqPurchaseRestoreFinished => '已检查商店购买记录，请确认使用的是购买时的应用账号。';
+
+  @override
+  String get lqRestorePurchases => '恢复购买';
 }

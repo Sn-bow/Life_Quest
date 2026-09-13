@@ -13,6 +13,10 @@ import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import '../features/director/quest_director_state.dart';
+import '../features/session/session_state.dart';
+import '../services/purchase_service.dart';
+import 'qa_preview_gate_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -38,18 +42,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _handleLogout() async {
     final characterState = context.read<CharacterState>();
+    await characterState.forceSave();
+    if (!mounted) return;
+    await context.read<QuestDirectorState>().endSession();
+    await PurchaseService().endSession();
     await NotificationService().cancelAllNotifications();
-    await FirebaseAuth.instance.signOut();
+    if (characterState.isLocalGuest) {
+      if (!mounted) return;
+      await context.read<SessionState>().selectDevice(false);
+    } else if (!kLifeQuestQaPreview) {
+      await FirebaseAuth.instance.signOut();
+    }
     characterState.resetState();
     if (mounted) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      if (kLifeQuestQaPreview) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute<void>(builder: (_) => const QaPreviewGateScreen()),
+          (_) => false,
+        );
+      } else {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
     }
   }
 
+  Future<void> _deleteLocal() async {
+    final l = AppLocalizations.of(context)!;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l.lqDeleteLocal),
+        content: Text(l.lqDeleteLocalBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(l.lqDeleteLocal),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    final session = context.read<SessionState>();
+    final character = context.read<CharacterState>();
+    await context.read<QuestDirectorState>().endSession();
+    await PurchaseService().endSession();
+    await character.deleteLocalProfile();
+    await session.selectDevice(false);
+    if (mounted) Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
   void _showChangeNameDialog(
-      BuildContext context, CharacterState characterState) {
-    final nameController =
-        TextEditingController(text: characterState.character.name);
+    BuildContext context,
+    CharacterState characterState,
+  ) {
+    final nameController = TextEditingController(
+      text: characterState.character.name,
+    );
     showDialog(
       context: context,
       builder: (ctx) {
@@ -59,8 +111,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           content: TextField(
             controller: nameController,
             decoration: InputDecoration(
-                labelText: dialogL10n.settingsNicknameNewLabel,
-                counterText: ''),
+              labelText: dialogL10n.settingsNicknameNewLabel,
+              counterText: '',
+            ),
             autofocus: true,
             maxLength: 20,
           ),
@@ -106,14 +159,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
     if (picked == null || !context.mounted) return;
     await characterState.changeNotificationTime(
-      morningHour:
-          isMorning ? picked.hour : characterState.notificationMorningHour,
+      morningHour: isMorning
+          ? picked.hour
+          : characterState.notificationMorningHour,
       nightHour: isMorning ? characterState.notificationNightHour : picked.hour,
     );
   }
 
   void _showLanguagePicker(
-      BuildContext context, CharacterState characterState) {
+    BuildContext context,
+    CharacterState characterState,
+  ) {
     final l10n = AppLocalizations.of(context)!;
     final current = characterState.locale?.languageCode;
     final entries = <MapEntry<String?, String>>[
@@ -128,28 +184,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (ctx) => SimpleDialog(
         title: Text(l10n.settingsLanguage),
         children: entries
-            .map((e) => SimpleDialogOption(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    characterState
-                        .changeLocale(e.key == null ? null : Locale(e.key!));
-                  },
-                  child: Row(
-                    children: [
-                      Icon(
-                        e.key == current
-                            ? PhosphorIcons.checkCircleFill
-                            : PhosphorIcons.circle,
-                        size: 20,
-                        color: e.key == current
-                            ? Theme.of(ctx).colorScheme.primary
-                            : Colors.grey,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(child: Text(e.value)),
-                    ],
-                  ),
-                ))
+            .map(
+              (e) => SimpleDialogOption(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  characterState.changeLocale(
+                    e.key == null ? null : Locale(e.key!),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      e.key == current
+                          ? PhosphorIcons.checkCircleFill
+                          : PhosphorIcons.circle,
+                      size: 20,
+                      color: e.key == current
+                          ? Theme.of(ctx).colorScheme.primary
+                          : Colors.grey,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(child: Text(e.value)),
+                  ],
+                ),
+              ),
+            )
             .toList(),
       ),
     );
@@ -171,7 +230,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showDeleteAccountDialog(
-      BuildContext context, CharacterState characterState) {
+    BuildContext context,
+    CharacterState characterState,
+  ) {
     showDialog(
       context: context,
       builder: (ctx) {
@@ -195,8 +256,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 final confirmed = await _reauthenticateAndConfirm(context);
                 if (!confirmed) return;
                 if (!context.mounted) return;
+                final director = context.read<QuestDirectorState>();
+                final scope = characterState.personalizationScope;
+                await director.endSession();
+                await PurchaseService().endSession();
                 final didDelete = await characterState.deleteAccount();
-                if (!didDelete) return;
+                if (!didDelete) {
+                  await director.bind(scope);
+                  return;
+                }
                 if (!context.mounted) return;
                 Navigator.of(context).popUntil((route) => route.isFirst);
               },
@@ -226,7 +294,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
     // H-2 fix: 알 수 없는 provider는 재인증 불가로 처리 (안전하게 false 반환)
     debugPrint(
-        '[Settings] Unknown provider(s): $providerIds — denying delete without reauth.');
+      '[Settings] Unknown provider(s): $providerIds — denying delete without reauth.',
+    );
     return false;
   }
 
@@ -239,8 +308,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      await FirebaseAuth.instance.currentUser!
-          .reauthenticateWithCredential(credential);
+      await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(
+        credential,
+      );
       return true;
     } catch (e) {
       if (!context.mounted) return false;
@@ -274,9 +344,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 decoration: InputDecoration(
                   labelText: l10n.signupPasswordLabel,
                   suffixIcon: IconButton(
-                    icon: Icon(obscure
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined),
+                    icon: Icon(
+                      obscure
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                    ),
                     onPressed: () => setDialogState(() => obscure = !obscure),
                   ),
                 ),
@@ -328,15 +400,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final isNotificationEnabled = characterState.isNotificationEnabled;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.settingsScreenTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.settingsScreenTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          Text(l10n.settingsAccountSection,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(
+            characterState.isLocalGuest
+                ? l10n.lqLocalProfile
+                : l10n.settingsAccountSection,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          ),
           TranslucentCard(
             child: Column(
               children: [
@@ -351,9 +427,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          Text(l10n.settingsAppSection,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(
+            l10n.settingsAppSection,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          ),
           TranslucentCard(
             child: Column(
               children: [
@@ -427,8 +507,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ListTile(
                     leading: const Icon(PhosphorIcons.sunHorizon),
                     title: Text(l10n.settingsNotificationMorning),
-                    subtitle: Text(l10n.settingsNotificationTimeValue(
-                        characterState.notificationMorningHour)),
+                    subtitle: Text(
+                      l10n.settingsNotificationTimeValue(
+                        characterState.notificationMorningHour,
+                      ),
+                    ),
                     trailing: const Icon(PhosphorIcons.caretRight),
                     onTap: () => _pickNotificationHour(
                       context,
@@ -440,8 +523,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ListTile(
                     leading: const Icon(PhosphorIcons.moon),
                     title: Text(l10n.settingsNotificationNight),
-                    subtitle: Text(l10n.settingsNotificationTimeValue(
-                        characterState.notificationNightHour)),
+                    subtitle: Text(
+                      l10n.settingsNotificationTimeValue(
+                        characterState.notificationNightHour,
+                      ),
+                    ),
                     trailing: const Icon(PhosphorIcons.caretRight),
                     onTap: () => _pickNotificationHour(
                       context,
@@ -454,8 +540,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   leading: const Icon(PhosphorIcons.globe),
                   title: Text(l10n.settingsLanguage),
-                  subtitle: Text(_languageLabel(
-                      l10n, characterState.locale?.languageCode)),
+                  subtitle: Text(
+                    _languageLabel(l10n, characterState.locale?.languageCode),
+                  ),
                   trailing: const Icon(PhosphorIcons.caretRight),
                   onTap: () => _showLanguagePicker(context, characterState),
                 ),
@@ -463,12 +550,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          if (kDebugMode &&
-              !kLifeQuestQaPreview &&
-              kLifeQuestMonetizationEnabled) ...[
-            const Text('디버그 QA',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          if (kDebugMode && !kLifeQuestQaPreview && kLifeQuestAdsEnabled) ...[
+            const Text(
+              '디버그 QA',
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+            ),
             TranslucentCard(
               child: Column(
                 children: [
@@ -497,30 +583,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 24),
           ],
-          if (!kLifeQuestQaPreview && kLifeQuestMonetizationEnabled) ...[
+          if (!kLifeQuestQaPreview && kLifeQuestAdsEnabled) ...[
             TranslucentCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(l10n.settingsAdSupportSection,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Text(
+                      l10n.settingsAdSupportSection,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
                   ),
                   ListTile(
-                    leading: const Icon(PhosphorIcons.videoCamera,
-                        color: Colors.amber),
+                    leading: const Icon(
+                      PhosphorIcons.videoCamera,
+                      color: Colors.amber,
+                    ),
                     title: Text(l10n.settingsAdSupportTitle),
                     subtitle: Text(l10n.settingsAdSupportDesc),
                   ),
                   const Divider(),
                   ListTile(
-                    leading:
-                        const Icon(PhosphorIcons.coins, color: Colors.teal),
+                    leading: const Icon(
+                      PhosphorIcons.coins,
+                      color: Colors.teal,
+                    ),
                     title: Text(l10n.settingsAdModelTitle),
                     subtitle: Text(l10n.settingsAdModelDesc),
                   ),
@@ -529,9 +624,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 24),
           ],
-          Text(l10n.settingsLegalSection,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(
+            l10n.settingsLegalSection,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          ),
           TranslucentCard(
             child: Column(
               children: [
@@ -541,10 +640,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   trailing: const Icon(PhosphorIcons.arrowSquareOut, size: 18),
                   onTap: () async {
                     final uri = Uri.parse(
-                        'https://sn-bow.github.io/Life_Quest/#privacy');
+                      'https://sn-bow.github.io/Life_Quest/#privacy',
+                    );
                     if (await canLaunchUrl(uri)) {
-                      await launchUrl(uri,
-                          mode: LaunchMode.externalApplication);
+                      await launchUrl(
+                        uri,
+                        mode: LaunchMode.externalApplication,
+                      );
                     }
                   },
                 ),
@@ -554,11 +656,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Text(l10n.settingsTerms),
                   trailing: const Icon(PhosphorIcons.arrowSquareOut, size: 18),
                   onTap: () async {
-                    final uri =
-                        Uri.parse('https://sn-bow.github.io/Life_Quest/#terms');
+                    final uri = Uri.parse(
+                      'https://sn-bow.github.io/Life_Quest/#terms',
+                    );
                     if (await canLaunchUrl(uri)) {
-                      await launchUrl(uri,
-                          mode: LaunchMode.externalApplication);
+                      await launchUrl(
+                        uri,
+                        mode: LaunchMode.externalApplication,
+                      );
                     }
                   },
                 ),
@@ -570,20 +675,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 ListTile(
-                  leading:
-                      Icon(PhosphorIcons.signOut, color: Colors.red.shade400),
-                  title: Text(l10n.settingsLogout,
-                      style: TextStyle(color: Colors.red.shade400)),
+                  leading: Icon(
+                    PhosphorIcons.signOut,
+                    color: Colors.red.shade400,
+                  ),
+                  title: Text(
+                    characterState.isLocalGuest
+                        ? l10n.lqBackToStart
+                        : l10n.settingsLogout,
+                    style: TextStyle(color: Colors.red.shade400),
+                  ),
                   onTap: _handleLogout,
                 ),
                 const Divider(),
                 ListTile(
-                  leading: Icon(PhosphorIcons.userCircleMinus,
-                      color: Colors.red.shade400),
-                  title: Text(l10n.settingsWithdraw,
-                      style: TextStyle(color: Colors.red.shade400)),
-                  onTap: () =>
-                      _showDeleteAccountDialog(context, characterState),
+                  leading: Icon(
+                    PhosphorIcons.userCircleMinus,
+                    color: Colors.red.shade400,
+                  ),
+                  title: Text(
+                    characterState.isLocalGuest
+                        ? l10n.lqDeleteLocal
+                        : l10n.settingsWithdraw,
+                    style: TextStyle(color: Colors.red.shade400),
+                  ),
+                  onTap: kLifeQuestQaPreview
+                      ? null
+                      : characterState.isLocalGuest
+                      ? _deleteLocal
+                      : () => _showDeleteAccountDialog(context, characterState),
                 ),
               ],
             ),

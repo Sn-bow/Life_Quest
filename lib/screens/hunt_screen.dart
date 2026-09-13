@@ -320,7 +320,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
   Widget _buildActionButtons(CharacterState charState, CombatState combatState,
       bool isDark, AppLocalizations l10n) {
     if (combatState.status == CombatStatus.victory) {
-      final adService = kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled
+      final adService = kLifeQuestQaPreview || !kLifeQuestAdsEnabled
           ? null
           : AdService();
       final remainingMultiplier =
@@ -389,7 +389,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
         ),
       );
     } else if (combatState.status == CombatStatus.defeat) {
-      final adService = kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled
+      final adService = kLifeQuestQaPreview || !kLifeQuestAdsEnabled
           ? null
           : AdService();
       final remainingRevives =
@@ -565,7 +565,7 @@ class _HuntScreenState extends State<HuntScreen> with TickerProviderStateMixin {
 
   void _showApWarning() {
     final l10n = AppLocalizations.of(context)!;
-    if (kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled) {
+    if (kLifeQuestQaPreview || !kLifeQuestAdsEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

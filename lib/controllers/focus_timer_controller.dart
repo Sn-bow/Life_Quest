@@ -5,9 +5,8 @@ enum FocusTimerCompletion { none, focus, breakTime }
 class FocusTimerController {
   FocusTimerController({
     int focusMinutes = 25,
-    int breakMinutes = 5,
+    this._breakMinutes = 5,
   })  : _focusMinutes = focusMinutes,
-        _breakMinutes = breakMinutes,
         _remainingSeconds = focusMinutes * 60;
 
   int _focusMinutes;
