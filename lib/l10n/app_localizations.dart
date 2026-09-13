@@ -8111,6 +8111,330 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'삭제 요청을 접수했습니다. 앱을 닫아도 서버에서 처리를 계속합니다.'**
   String get lqDeletionQueued;
+
+  /// No description provided for @lqBackupTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업과 복원'**
+  String get lqBackupTitle;
+
+  /// No description provided for @lqBackupHeadline.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 기기에서도, 나의 기록.'**
+  String get lqBackupHeadline;
+
+  /// No description provided for @lqBackupBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'내가 정한 비밀번호로 기록을 암호화해 파일로 보관합니다. 백업은 무료이며, 저장할 위치는 직접 고릅니다.'**
+  String get lqBackupBody;
+
+  /// No description provided for @lqBackupExport.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업 파일 만들기'**
+  String get lqBackupExport;
+
+  /// No description provided for @lqBackupImport.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업 파일 불러오기'**
+  String get lqBackupImport;
+
+  /// No description provided for @lqBackupUndo.
+  ///
+  /// In ko, this message translates to:
+  /// **'복원 직전 기록으로 되돌리기'**
+  String get lqBackupUndo;
+
+  /// No description provided for @lqBackupIncluded.
+  ///
+  /// In ko, this message translates to:
+  /// **'파일에 담기는 기록'**
+  String get lqBackupIncluded;
+
+  /// No description provided for @lqBackupIncludesBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트·성장·완료한 던전·이야기 선택·개인화 이력을 담습니다. 진행 중인 탐험, 로그인 정보, 구매 권한, AI 모델 파일은 담지 않습니다. 복원한 기기의 알림은 꺼진 상태로 시작합니다.'**
+  String get lqBackupIncludesBody;
+
+  /// No description provided for @lqBackupPasswordNotice.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호를 잊으면 개발자도 백업을 열 수 없습니다. 앱을 지워도 내가 보관한 백업 파일은 남으므로, 필요 없어진 파일은 저장한 곳에서 직접 삭제해 주세요.'**
+  String get lqBackupPasswordNotice;
+
+  /// No description provided for @lqBackupSetPassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업 비밀번호 만들기'**
+  String get lqBackupSetPassword;
+
+  /// No description provided for @lqBackupEnterPassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업 비밀번호 입력'**
+  String get lqBackupEnterPassword;
+
+  /// No description provided for @lqBackupPasswordHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'12~128자를 사용하세요. 기억하기 쉬운 긴 문장을 권장합니다. 공백과 대소문자도 비밀번호에 포함됩니다.'**
+  String get lqBackupPasswordHint;
+
+  /// No description provided for @lqBackupPassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호'**
+  String get lqBackupPassword;
+
+  /// No description provided for @lqBackupRepeatPassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호 한 번 더'**
+  String get lqBackupRepeatPassword;
+
+  /// No description provided for @lqBackupShowPassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호 표시'**
+  String get lqBackupShowPassword;
+
+  /// No description provided for @lqBackupHidePassword.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호 숨기기'**
+  String get lqBackupHidePassword;
+
+  /// No description provided for @lqBackupPasswordMismatch.
+  ///
+  /// In ko, this message translates to:
+  /// **'두 비밀번호가 다릅니다.'**
+  String get lqBackupPasswordMismatch;
+
+  /// No description provided for @lqBackupUnlock.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업 내용 확인'**
+  String get lqBackupUnlock;
+
+  /// No description provided for @lqBackupReview.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 기록을 복원할까요?'**
+  String get lqBackupReview;
+
+  /// No description provided for @lqBackupReplaceBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'현재 기기의 기록을 이 백업으로 바꿉니다. 바꾸기 직전 기록은 기기에 보관해 한 번 되돌릴 수 있습니다. 로그인과 구매 권한은 바뀌지 않습니다. 알림은 다시 켜야 합니다.'**
+  String get lqBackupReplaceBody;
+
+  /// No description provided for @lqBackupRestore.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록 복원'**
+  String get lqBackupRestore;
+
+  /// No description provided for @lqBackupWorking.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록을 안전하게 처리하고 있어요…'**
+  String get lqBackupWorking;
+
+  /// No description provided for @lqBackupSaved.
+  ///
+  /// In ko, this message translates to:
+  /// **'암호화된 백업 파일을 저장했습니다.'**
+  String get lqBackupSaved;
+
+  /// No description provided for @lqBackupSaveFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업을 저장하지 못했습니다. 저장 공간과 선택한 위치를 확인해 주세요.'**
+  String get lqBackupSaveFailed;
+
+  /// No description provided for @lqBackupInvalid.
+  ///
+  /// In ko, this message translates to:
+  /// **'백업을 열지 못했습니다. 파일과 비밀번호를 확인해 주세요. 기록은 바뀌지 않았습니다.'**
+  String get lqBackupInvalid;
+
+  /// No description provided for @lqBackupRestored.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록을 복원했습니다. 알림은 설정에서 다시 켤 수 있어요.'**
+  String get lqBackupRestored;
+
+  /// No description provided for @lqBackupRestoreInterrupted.
+  ///
+  /// In ko, this message translates to:
+  /// **'복원 처리를 마무리하지 못했습니다. 다시 열거나 재시도하면 이어서 처리합니다.'**
+  String get lqBackupRestoreInterrupted;
+
+  /// No description provided for @lqDungeonIntro.
+  ///
+  /// In ko, this message translates to:
+  /// **'일상에서 얻은 힘으로, 첫 탐험.'**
+  String get lqDungeonIntro;
+
+  /// No description provided for @lqDungeonIntroBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드를 고르고 길을 선택하세요. 전투에서 져도 일상의 레벨과 경험치는 그대로입니다.'**
+  String get lqDungeonIntroBody;
+
+  /// No description provided for @lqDungeonStart.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 탐험 시작'**
+  String get lqDungeonStart;
+
+  /// No description provided for @lqDungeonResume.
+  ///
+  /// In ko, this message translates to:
+  /// **'진행 중인 탐험 계속'**
+  String get lqDungeonResume;
+
+  /// No description provided for @lqDungeonBonus.
+  ///
+  /// In ko, this message translates to:
+  /// **'일상에서 가져오는 보너스'**
+  String get lqDungeonBonus;
+
+  /// No description provided for @lqDungeonBonusBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'완료한 퀘스트와 장비가 다음 탐험의 시작 능력에 반영됩니다. 보너스 없이도 바로 시작할 수 있어요.'**
+  String get lqDungeonBonusBody;
+
+  /// No description provided for @lqDungeonPacks.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 팩'**
+  String get lqDungeonPacks;
+
+  /// No description provided for @lqDungeonPathHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'아래에서 빛나는 지점을 골라 시작하세요.'**
+  String get lqDungeonPathHint;
+
+  /// No description provided for @lqDungeonNextHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'연결된 다음 지점을 골라 계속하세요.'**
+  String get lqDungeonNextHint;
+
+  /// No description provided for @lqDungeonCurrent.
+  ///
+  /// In ko, this message translates to:
+  /// **'현재'**
+  String get lqDungeonCurrent;
+
+  /// No description provided for @lqDungeonAvailable.
+  ///
+  /// In ko, this message translates to:
+  /// **'선택 가능'**
+  String get lqDungeonAvailable;
+
+  /// No description provided for @lqDungeonLocked.
+  ///
+  /// In ko, this message translates to:
+  /// **'잠김'**
+  String get lqDungeonLocked;
+
+  /// No description provided for @lqDungeonDone.
+  ///
+  /// In ko, this message translates to:
+  /// **'완료'**
+  String get lqDungeonDone;
+
+  /// No description provided for @lqDungeonEntering.
+  ///
+  /// In ko, this message translates to:
+  /// **'진입 중…'**
+  String get lqDungeonEntering;
+
+  /// No description provided for @lqDungeonCombat.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투'**
+  String get lqDungeonCombat;
+
+  /// No description provided for @lqDungeonElite.
+  ///
+  /// In ko, this message translates to:
+  /// **'정예 전투'**
+  String get lqDungeonElite;
+
+  /// No description provided for @lqDungeonEvent.
+  ///
+  /// In ko, this message translates to:
+  /// **'이벤트'**
+  String get lqDungeonEvent;
+
+  /// No description provided for @lqDungeonShop.
+  ///
+  /// In ko, this message translates to:
+  /// **'상점'**
+  String get lqDungeonShop;
+
+  /// No description provided for @lqDungeonRest.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴식'**
+  String get lqDungeonRest;
+
+  /// No description provided for @lqDungeonBoss.
+  ///
+  /// In ko, this message translates to:
+  /// **'보스'**
+  String get lqDungeonBoss;
+
+  /// No description provided for @lqBattleGuideTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 전투 안내'**
+  String get lqBattleGuideTitle;
+
+  /// No description provided for @lqBattleGuideEnergy.
+  ///
+  /// In ko, this message translates to:
+  /// **'EP는 매 턴 사용할 에너지입니다. 카드 왼쪽 위 숫자만큼 소모합니다.'**
+  String get lqBattleGuideEnergy;
+
+  /// No description provided for @lqBattleGuideCards.
+  ///
+  /// In ko, this message translates to:
+  /// **'적이 여럿이면 대상을 고른 뒤 카드를 누르세요. 공격은 피해를 주고, 방어는 다음 적의 공격을 막아 줍니다.'**
+  String get lqBattleGuideCards;
+
+  /// No description provided for @lqBattleGuideTurn.
+  ///
+  /// In ko, this message translates to:
+  /// **'행동을 마치면 ‘턴 종료’를 누르세요. 적이 행동한 뒤 에너지와 손패가 새로 채워집니다.'**
+  String get lqBattleGuideTurn;
+
+  /// No description provided for @lqBattleBegin.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 시작'**
+  String get lqBattleBegin;
+
+  /// No description provided for @lqBattleExit.
+  ///
+  /// In ko, this message translates to:
+  /// **'전투 나가기'**
+  String get lqBattleExit;
+
+  /// No description provided for @lqDungeonNode.
+  ///
+  /// In ko, this message translates to:
+  /// **'{type}, {step}단계 {path}번 경로, {state}'**
+  String lqDungeonNode(String type, int step, int path, String state);
 }
 
 class _AppLocalizationsDelegate

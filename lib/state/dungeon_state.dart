@@ -154,16 +154,19 @@ class DungeonState extends ChangeNotifier {
   }
 
   /// Select a node to visit. The node must be accessible and not completed.
-  void selectNode(int nodeId) {
-    if (_currentMap == null) return;
-    if (_runPhase != RunPhase.exploring) return;
+  bool selectNode(int nodeId) {
+    if (_currentMap == null || !isRunActive) return false;
+    if (_runPhase != RunPhase.exploring) {
+      // Re-enter an unfinished visit without rerolling its shop/event state.
+      return _currentMap!.currentNodeId == nodeId;
+    }
 
     final nodes = _currentMap!.nodes;
     final nodeIndex = nodes.indexWhere((n) => n.id == nodeId);
-    if (nodeIndex < 0) return;
+    if (nodeIndex < 0) return false;
 
     final node = nodes[nodeIndex];
-    if (!node.isAccessible || node.isCompleted) return;
+    if (!node.isAccessible || node.isCompleted) return false;
 
     // Set current node
     _currentMap = _currentMap!.copyWith(currentNodeId: nodeId);
@@ -193,6 +196,7 @@ class DungeonState extends ChangeNotifier {
     }
 
     notifyListeners();
+    return true;
   }
 
   /// Build a list of [EnemyBattleData] appropriate for the given [node].
@@ -204,7 +208,8 @@ class DungeonState extends ChangeNotifier {
     // Ascension HP/ATK multipliers
     // Lv1: +10% HP, Lv2: +10% ATK, Lv8: boss +25% HP, Lv10: +20% HP all
     // _towerStatMult adds extra scaling per Infinite Tower floor
-    final hpMult = (1.0 +
+    final hpMult =
+        (1.0 +
             (_ascensionLevel >= 1 ? 0.1 : 0.0) +
             (_ascensionLevel >= 10 ? 0.2 : 0.0)) *
         _towerStatMult;
@@ -284,16 +289,20 @@ class DungeonState extends ChangeNotifier {
   void _generateShopInventory() {
     // 3 random cards from uncommon+ pool
     final allCards = CardDatabase.allCards
-        .where((c) =>
-            c.rarity != CardRarity.common && c.rarity != CardRarity.legendary)
+        .where(
+          (c) =>
+              c.rarity != CardRarity.common && c.rarity != CardRarity.legendary,
+        )
         .toList();
     allCards.shuffle();
     _shopCards = allCards.take(3).toList();
 
     // Also sometimes include a rare/legendary
     final rarePool = CardDatabase.allCards
-        .where((c) =>
-            c.rarity == CardRarity.rare || c.rarity == CardRarity.legendary)
+        .where(
+          (c) =>
+              c.rarity == CardRarity.rare || c.rarity == CardRarity.legendary,
+        )
         .toList();
     if (rarePool.isNotEmpty) {
       rarePool.shuffle();
@@ -322,14 +331,16 @@ class DungeonState extends ChangeNotifier {
       isAccessible: false,
     );
 
-    // Make connected nodes in the next row accessible
-    for (final connectedId in completedNode.connectedNodeIds) {
-      final connectedIndex = nodes.indexWhere((n) => n.id == connectedId);
-      if (connectedIndex >= 0 && !nodes[connectedIndex].isCompleted) {
-        nodes[connectedIndex] = nodes[connectedIndex].copyWith(
-          isAccessible: true,
-        );
-      }
+    // A branch is a choice: only this node's successors remain available.
+    // Leaving old siblings open lets a run revisit alternate paths for rewards.
+    for (var i = 0; i < nodes.length; i++) {
+      final node = nodes[i];
+      nodes[i] = node.copyWith(
+        isAccessible:
+            !node.isCompleted &&
+            node.row == completedNode.row + 1 &&
+            completedNode.connectedNodeIds.contains(node.id),
+      );
     }
 
     // Reconstruct DungeonMap without currentNodeId (copyWith can't set null)
@@ -574,12 +585,14 @@ class DungeonState extends ChangeNotifier {
     _currentZone = json['currentZone'] as int? ?? 1;
     _ascensionLevel = json['ascensionLevel'] as int? ?? 0;
 
-    _currentDeck = (json['currentDeck'] as List<dynamic>?)
+    _currentDeck =
+        (json['currentDeck'] as List<dynamic>?)
             ?.map((e) => CardData.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [];
 
-    _currentRelics = (json['currentRelics'] as List<dynamic>?)
+    _currentRelics =
+        (json['currentRelics'] as List<dynamic>?)
             ?.map((e) => RelicData.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [];

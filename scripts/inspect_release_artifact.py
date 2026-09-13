@@ -71,6 +71,10 @@ def main():
     for attr in ['debuggable', 'testOnly', 'usesCleartextTraffic']:
         check('Release ' + attr + ' is not true', app.get(ANDROID + attr) != 'true')
     check('Automatic cloud backup disabled', app.get(ANDROID + 'allowBackup') == 'false')
+    check('Android 12+ extraction policy included', bool(app.get(ANDROID + 'dataExtractionRules')))
+    check('Firebase waits for explicit application initialization',
+          not any(p.get(ANDROID + 'name') == 'com.google.firebase.provider.FirebaseInitProvider'
+                  for p in app.findall('provider')))
     permissions = {n.get(ANDROID + 'name') for n in manifest.findall('uses-permission')}
     forbidden = {'com.android.vending.BILLING', 'com.google.android.gms.permission.AD_ID',
                  'android.permission.ACCESS_ADSERVICES_AD_ID', 'android.permission.ACCESS_ADSERVICES_ATTRIBUTION',
@@ -99,7 +103,7 @@ def main():
             libraries.append({'path': name, 'loadAlignments': alignments})
             check(name + ' ELF LOAD alignment >= 16 KB', bool(alignments) and all(a >= 16384 for a in alignments))
             if name.endswith('/libapp.so'):
-                check(name + ' excludes native QA entry point', b'LIFEQUEST_RELEASE_PROBE=' not in data)
+                check(name + ' excludes native QA entry point', all(marker not in data for marker in [b'LIFEQUEST_RELEASE_PROBE=', b'LIFEQUEST_BACKUP_PROBE=']))
         check('On-device ARM64 JNI included', 'base/lib/arm64-v8a/liblitertlm_jni.so' in archive.namelist())
         check('Model downloaded separately', not any(n.endswith(('.litertlm', '.gguf')) for n in archive.namelist()))
     size = None
@@ -130,7 +134,7 @@ def main():
         'certificateSha256': expected, 'libraries': libraries, 'sampleDeviceDownloadBytes': size,
         'checks': checks, 'pass': all(c['pass'] for c in checks),
         'remaining': ['Physical Android device validation', 'Working AI reporting backend',
-                      'Real Play purchase/refund/restore before selling', 'Public privacy URL and Data safety review',
+                      'Real Play purchase/refund/restore before selling', 'Final Play content declarations and Data safety review',
                       'Closed testing eligibility and Play review'],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

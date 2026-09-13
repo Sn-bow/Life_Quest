@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../state/dungeon_state.dart';
 import '../services/purchase_service.dart';
 import '../config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/screens/growth_hub_screen.dart';
@@ -48,6 +49,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         unawaited(_director.record(quest, QuestFeedback.completed));
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
+      // A fresh profile must not inherit another profile’s in-memory run.
+      context.read<DungeonState>().resetRun();
       final purchases = PurchaseService();
       purchases.onEntitlementsChanged = _character.setPurchasedEntitlements;
       await purchases.bindUser(

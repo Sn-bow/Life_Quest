@@ -4161,4 +4161,174 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lqDeletionQueued => '削除を受け付けました。アプリを閉じてもサーバーで処理が続きます。';
+
+  @override
+  String get lqBackupTitle => 'バックアップと復元';
+
+  @override
+  String get lqBackupHeadline => '次の端末でも、あなたの記録を。';
+
+  @override
+  String get lqBackupBody =>
+      '自分で決めたパスワードで記録を暗号化し、ファイルに保存します。バックアップは無料で、保存先も自分で選べます。';
+
+  @override
+  String get lqBackupExport => 'バックアップを作成';
+
+  @override
+  String get lqBackupImport => 'バックアップを開く';
+
+  @override
+  String get lqBackupUndo => '復元前の記録に戻す';
+
+  @override
+  String get lqBackupIncluded => '保存される記録';
+
+  @override
+  String get lqBackupIncludesBody =>
+      'クエスト・成長・クリア済みダンジョン・物語の選択・個人化履歴を保存します。進行中の冒険、ログイン情報、購入権限、AIモデルは含みません。復元先の通知はオフで始まります。';
+
+  @override
+  String get lqBackupPasswordNotice =>
+      'パスワードを忘れると開発者も復元できません。保存したファイルはアプリ削除後も残ります。不要なバックアップは保存先で削除してください。';
+
+  @override
+  String get lqBackupSetPassword => 'バックアップのパスワード';
+
+  @override
+  String get lqBackupEnterPassword => 'パスワードを入力';
+
+  @override
+  String get lqBackupPasswordHint =>
+      '12～128文字。覚えやすい長いフレーズをおすすめします。空白や大文字・小文字も区別されます。';
+
+  @override
+  String get lqBackupPassword => 'パスワード';
+
+  @override
+  String get lqBackupRepeatPassword => 'パスワードを再入力';
+
+  @override
+  String get lqBackupShowPassword => 'パスワードを表示';
+
+  @override
+  String get lqBackupHidePassword => 'パスワードを隠す';
+
+  @override
+  String get lqBackupPasswordMismatch => 'パスワードが一致しません。';
+
+  @override
+  String get lqBackupUnlock => '内容を確認';
+
+  @override
+  String get lqBackupReview => 'この記録を復元しますか？';
+
+  @override
+  String get lqBackupReplaceBody =>
+      'この端末の記録を置き換えます。直前の記録は端末に保管され、戻すことができます。ログインと購入権限は元のアカウントに残ります。通知は再度オンにしてください。';
+
+  @override
+  String get lqBackupRestore => '記録を復元';
+
+  @override
+  String get lqBackupWorking => '記録を処理しています…';
+
+  @override
+  String get lqBackupSaved => '暗号化したバックアップを保存しました。';
+
+  @override
+  String get lqBackupSaveFailed => '保存できませんでした。空き容量と保存先を確認してください。';
+
+  @override
+  String get lqBackupInvalid => '開けませんでした。ファイルとパスワードを確認してください。記録は変更されていません。';
+
+  @override
+  String get lqBackupRestored => '記録を復元しました。通知は設定で再度オンにできます。';
+
+  @override
+  String get lqBackupRestoreInterrupted => '復元を完了できませんでした。アプリを開き直すか、再試行してください。';
+
+  @override
+  String get lqDungeonIntro => '日々の成長で、最初の冒険へ。';
+
+  @override
+  String get lqDungeonIntroBody => 'カードを使い、道を選びましょう。負けても日常のレベルと経験値は減りません。';
+
+  @override
+  String get lqDungeonStart => '冒険を始める';
+
+  @override
+  String get lqDungeonResume => '冒険を続ける';
+
+  @override
+  String get lqDungeonBonus => '日常からのボーナス';
+
+  @override
+  String get lqDungeonBonusBody => '完了したクエストと装備が次の冒険を支えます。ボーナスなしでも始められます。';
+
+  @override
+  String get lqDungeonPacks => 'カードパック';
+
+  @override
+  String get lqDungeonPathHint => '下の光る地点を選んで始めましょう。';
+
+  @override
+  String get lqDungeonNextHint => 'つながる次の地点を選びましょう。';
+
+  @override
+  String get lqDungeonCurrent => '現在地';
+
+  @override
+  String get lqDungeonAvailable => '選択可能';
+
+  @override
+  String get lqDungeonLocked => '未開放';
+
+  @override
+  String get lqDungeonDone => '完了';
+
+  @override
+  String get lqDungeonEntering => '移動中…';
+
+  @override
+  String get lqDungeonCombat => '戦闘';
+
+  @override
+  String get lqDungeonElite => '精鋭戦';
+
+  @override
+  String get lqDungeonEvent => 'イベント';
+
+  @override
+  String get lqDungeonShop => 'ショップ';
+
+  @override
+  String get lqDungeonRest => '休息';
+
+  @override
+  String get lqDungeonBoss => 'ボス';
+
+  @override
+  String get lqBattleGuideTitle => '初めての戦闘';
+
+  @override
+  String get lqBattleGuideEnergy => 'EPは毎ターンのエネルギーです。カード左上の数字だけ消費します。';
+
+  @override
+  String get lqBattleGuideCards =>
+      '敵が複数いる時は対象を選んでからカードを使います。攻撃はダメージを与え、防御は敵の攻撃を防ぎます。';
+
+  @override
+  String get lqBattleGuideTurn => '行動が終わったら「ターン終了」を押します。敵の行動後、エネルギーと手札が補充されます。';
+
+  @override
+  String get lqBattleBegin => '戦闘開始';
+
+  @override
+  String get lqBattleExit => '戦闘から退出';
+
+  @override
+  String lqDungeonNode(String type, int step, int path, String state) {
+    return '$type、$step段目、ルート$path、$state';
+  }
 }

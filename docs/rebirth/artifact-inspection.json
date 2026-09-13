@@ -1,8 +1,8 @@
 {
   "scope": "Local default-mode artifact only; NOT ready-to-publish certification",
   "bundle": "build/app/outputs/bundle/release/app-release.aab",
-  "bytes": 215022354,
-  "sha256": "fbc6ec584a03cd329ac4dc3b63427fab686d04846b3540dbf496fbbf6a14cefb",
+  "bytes": 216527189,
+  "sha256": "957f5234da51c1869febb66d21ad068f345164f09f75805660d9387691e734ef",
   "versionName": "2.0.0",
   "versionCode": "3",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
@@ -95,8 +95,8 @@
     }
   ],
   "sampleDeviceDownloadBytes": {
-    "MIN": 127933103,
-    "MAX": 127933103
+    "MIN": 128276151,
+    "MAX": 128276151
   },
   "checks": [
     {
@@ -121,6 +121,14 @@
     },
     {
       "check": "Automatic cloud backup disabled",
+      "pass": true
+    },
+    {
+      "check": "Android 12+ extraction policy included",
+      "pass": true
+    },
+    {
+      "check": "Firebase waits for explicit application initialization",
       "pass": true
     },
     {
@@ -253,7 +261,7 @@
     "Physical Android device validation",
     "Working AI reporting backend",
     "Real Play purchase/refund/restore before selling",
-    "Public privacy URL and Data safety review",
+    "Final Play content declarations and Data safety review",
     "Closed testing eligibility and Play review"
   ]
 }

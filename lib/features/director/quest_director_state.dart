@@ -42,6 +42,20 @@ class QuestDirectorState extends ChangeNotifier {
   }) : model = model ?? OnDeviceQuestModel(),
        clock = clock ?? DateTime.now;
 
+  Map<String, dynamic> exportDeviceProfile() {
+    if (_scope != 'device' || !ready) {
+      throw StateError('No device director is active.');
+    }
+    return jsonDecode(
+      jsonEncode({
+        'profile': profile.toJson(),
+        'history': _history.map((e) => e.toJson()).toList(),
+        'accepted': _accepted,
+        'day': _day,
+      }),
+    );
+  }
+
   List<QuestSignal> get history => List.unmodifiable(_history);
   OnDeviceModelStatus get modelStatus => modelSnapshot.status;
   bool get usedModel => suggestions.any((q) => q.generatedTitle != null);

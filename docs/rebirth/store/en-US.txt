@@ -1,0 +1,33 @@
+Life Quest: Daily Quests
+
+An RPG for your real life: quests, story choices and private on-device AI.
+
+Turn small everyday actions into quests that help you grow.
+
+Life Quest is a habit and goal app with a fantasy status window. Choose an action you can do today, finish it, and see your experience and progress build over time.
+
+THREE ACTIONS FOR TODAY
+Set your available time, energy and interests. Recommendations adapt using completion, skipped quests and difficulty feedback. A suggestion becomes your quest only when you accept it. You can also create and edit your own quests.
+
+PROGRESS THAT STAYS WITH YOU
+View your level, XP, stats and history in your status window. Taking a day off does not subtract your everyday level or XP.
+
+CHOOSE YOUR PATH THROUGH A CARD DUNGEON
+Play attack and defense cards, then choose the next branch. Completed everyday quests and equipment support your expedition. Losing a battle does not reduce your everyday level or XP.
+
+A STORY THAT OPENS WITH YOUR ACTIONS
+Explore the free Exit Zero prologue. Completing quests unlocks new scenes, and your choices are reflected in later dialogue.
+
+OPTIONAL AI, RUNNING ON YOUR DEVICE
+Install the public Gemma 4 E2B model on a supported Android device. After installation, generation runs locally: your goals and personalization history are not sent to a cloud AI service. There is no model-use or AI-call fee. Without the model, you can still use built-in recommendations and your own quests.
+
+Model installation requires an approximately 2.59GB download and free storage space. Your mobile carrier may charge for data. Generation speed varies by device. Review suggestions before accepting them; you can edit or skip a quest.
+
+START WITHOUT AN ACCOUNT
+The default mode stores your progress and personalization history on your device. Free encrypted backups let you save a file and restore it on another device. Keep the password safe: a forgotten backup password cannot be recovered.
+
+Active dungeon expeditions are not included in backups. After fully closing the app, an active expedition starts again.
+
+Languages: Korean, English, Japanese and Chinese.
+Support: logian621@gmail.com
+Privacy and deletion: https://sn-bow.github.io/Life_Quest/

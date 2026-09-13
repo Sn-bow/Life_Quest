@@ -1,3 +1,4 @@
+import '../features/backup/device_backup_store.dart';
 import '../features/story/story_chapter.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -101,7 +102,26 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _restoringLocal = false;
   bool _isLocalGuest = false;
+  Map<String, dynamic> exportDeviceProfile() {
+    if (!_isLocalGuest || !_isDataLoaded || _character == null) {
+      throw StateError('No device profile is active.');
+    }
+    return jsonDecode(
+      jsonEncode(_buildSavePayload(includeServerTimestamp: false)),
+    );
+  }
+
+  Future<void> suspendLocalPersistence() async {
+    if (!_isLocalGuest) throw StateError('No device profile is active.');
+    _restoringLocal = true;
+    _saveTimer?.cancel();
+    _hpRegenTimer?.cancel();
+    if (_isDataLoaded) await _performLocalSaveData(localProfileStorageKey);
+    await _localWrites;
+  }
+
   bool get isLocalGuest => _isLocalGuest;
   Future<void> _localWrites = Future.value();
 
@@ -119,6 +139,9 @@ class CharacterState extends ChangeNotifier {
           : 'en',
     );
     try {
+      await DeviceBackupStore.preferences(
+        await SharedPreferences.getInstance(),
+      ).recover();
       final restored = await _restoreLocalData(
         localProfileStorageKey,
         strict: true,
@@ -162,6 +185,8 @@ class CharacterState extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(localProfileStorageKey);
     await prefs.remove('lifequest.director.v1.device');
+    await prefs.remove(DeviceBackupStore.journalKey);
+    await prefs.remove(DeviceBackupStore.undoKey);
     resetState();
   }
 
@@ -739,6 +764,7 @@ class CharacterState extends ChangeNotifier {
   }
 
   void resetState() {
+    _restoringLocal = false;
     _deletingAccount = false;
     _purchasedEntitlements = {};
     _isLocalGuest = false;
@@ -1926,7 +1952,7 @@ class CharacterState extends ChangeNotifier {
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
   // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
-    if (_deletingAccount) return;
+    if (_deletingAccount || _restoringLocal) return;
     if (kLifeQuestQaPreview || _isLocalGuest) {
       await _performSaveData();
       return;
@@ -1941,7 +1967,7 @@ class CharacterState extends ChangeNotifier {
   // Uses _isSaving/_pendingSave to prevent concurrent writes while ensuring
   // the latest data is always saved (race condition prevention).
   Future<void> _performSaveData() async {
-    if (_deletingAccount) return;
+    if (_deletingAccount || _restoringLocal) return;
     if (_character == null) return;
     // m-2: gold 음수 방지 — 어떤 경로로든 음수가 됐을 때 저장 직전에 클램프
     if (_character!.gold < 0) _character!.gold = 0;

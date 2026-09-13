@@ -4173,4 +4173,179 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lqDeletionQueued => '삭제 요청을 접수했습니다. 앱을 닫아도 서버에서 처리를 계속합니다.';
+
+  @override
+  String get lqBackupTitle => '백업과 복원';
+
+  @override
+  String get lqBackupHeadline => '다음 기기에서도, 나의 기록.';
+
+  @override
+  String get lqBackupBody =>
+      '내가 정한 비밀번호로 기록을 암호화해 파일로 보관합니다. 백업은 무료이며, 저장할 위치는 직접 고릅니다.';
+
+  @override
+  String get lqBackupExport => '백업 파일 만들기';
+
+  @override
+  String get lqBackupImport => '백업 파일 불러오기';
+
+  @override
+  String get lqBackupUndo => '복원 직전 기록으로 되돌리기';
+
+  @override
+  String get lqBackupIncluded => '파일에 담기는 기록';
+
+  @override
+  String get lqBackupIncludesBody =>
+      '퀘스트·성장·완료한 던전·이야기 선택·개인화 이력을 담습니다. 진행 중인 탐험, 로그인 정보, 구매 권한, AI 모델 파일은 담지 않습니다. 복원한 기기의 알림은 꺼진 상태로 시작합니다.';
+
+  @override
+  String get lqBackupPasswordNotice =>
+      '비밀번호를 잊으면 개발자도 백업을 열 수 없습니다. 앱을 지워도 내가 보관한 백업 파일은 남으므로, 필요 없어진 파일은 저장한 곳에서 직접 삭제해 주세요.';
+
+  @override
+  String get lqBackupSetPassword => '백업 비밀번호 만들기';
+
+  @override
+  String get lqBackupEnterPassword => '백업 비밀번호 입력';
+
+  @override
+  String get lqBackupPasswordHint =>
+      '12~128자를 사용하세요. 기억하기 쉬운 긴 문장을 권장합니다. 공백과 대소문자도 비밀번호에 포함됩니다.';
+
+  @override
+  String get lqBackupPassword => '비밀번호';
+
+  @override
+  String get lqBackupRepeatPassword => '비밀번호 한 번 더';
+
+  @override
+  String get lqBackupShowPassword => '비밀번호 표시';
+
+  @override
+  String get lqBackupHidePassword => '비밀번호 숨기기';
+
+  @override
+  String get lqBackupPasswordMismatch => '두 비밀번호가 다릅니다.';
+
+  @override
+  String get lqBackupUnlock => '백업 내용 확인';
+
+  @override
+  String get lqBackupReview => '이 기록을 복원할까요?';
+
+  @override
+  String get lqBackupReplaceBody =>
+      '현재 기기의 기록을 이 백업으로 바꿉니다. 바꾸기 직전 기록은 기기에 보관해 한 번 되돌릴 수 있습니다. 로그인과 구매 권한은 바뀌지 않습니다. 알림은 다시 켜야 합니다.';
+
+  @override
+  String get lqBackupRestore => '기록 복원';
+
+  @override
+  String get lqBackupWorking => '기록을 안전하게 처리하고 있어요…';
+
+  @override
+  String get lqBackupSaved => '암호화된 백업 파일을 저장했습니다.';
+
+  @override
+  String get lqBackupSaveFailed => '백업을 저장하지 못했습니다. 저장 공간과 선택한 위치를 확인해 주세요.';
+
+  @override
+  String get lqBackupInvalid =>
+      '백업을 열지 못했습니다. 파일과 비밀번호를 확인해 주세요. 기록은 바뀌지 않았습니다.';
+
+  @override
+  String get lqBackupRestored => '기록을 복원했습니다. 알림은 설정에서 다시 켤 수 있어요.';
+
+  @override
+  String get lqBackupRestoreInterrupted =>
+      '복원 처리를 마무리하지 못했습니다. 다시 열거나 재시도하면 이어서 처리합니다.';
+
+  @override
+  String get lqDungeonIntro => '일상에서 얻은 힘으로, 첫 탐험.';
+
+  @override
+  String get lqDungeonIntroBody =>
+      '카드를 고르고 길을 선택하세요. 전투에서 져도 일상의 레벨과 경험치는 그대로입니다.';
+
+  @override
+  String get lqDungeonStart => '첫 탐험 시작';
+
+  @override
+  String get lqDungeonResume => '진행 중인 탐험 계속';
+
+  @override
+  String get lqDungeonBonus => '일상에서 가져오는 보너스';
+
+  @override
+  String get lqDungeonBonusBody =>
+      '완료한 퀘스트와 장비가 다음 탐험의 시작 능력에 반영됩니다. 보너스 없이도 바로 시작할 수 있어요.';
+
+  @override
+  String get lqDungeonPacks => '카드 팩';
+
+  @override
+  String get lqDungeonPathHint => '아래에서 빛나는 지점을 골라 시작하세요.';
+
+  @override
+  String get lqDungeonNextHint => '연결된 다음 지점을 골라 계속하세요.';
+
+  @override
+  String get lqDungeonCurrent => '현재';
+
+  @override
+  String get lqDungeonAvailable => '선택 가능';
+
+  @override
+  String get lqDungeonLocked => '잠김';
+
+  @override
+  String get lqDungeonDone => '완료';
+
+  @override
+  String get lqDungeonEntering => '진입 중…';
+
+  @override
+  String get lqDungeonCombat => '전투';
+
+  @override
+  String get lqDungeonElite => '정예 전투';
+
+  @override
+  String get lqDungeonEvent => '이벤트';
+
+  @override
+  String get lqDungeonShop => '상점';
+
+  @override
+  String get lqDungeonRest => '휴식';
+
+  @override
+  String get lqDungeonBoss => '보스';
+
+  @override
+  String get lqBattleGuideTitle => '첫 전투 안내';
+
+  @override
+  String get lqBattleGuideEnergy => 'EP는 매 턴 사용할 에너지입니다. 카드 왼쪽 위 숫자만큼 소모합니다.';
+
+  @override
+  String get lqBattleGuideCards =>
+      '적이 여럿이면 대상을 고른 뒤 카드를 누르세요. 공격은 피해를 주고, 방어는 다음 적의 공격을 막아 줍니다.';
+
+  @override
+  String get lqBattleGuideTurn =>
+      '행동을 마치면 ‘턴 종료’를 누르세요. 적이 행동한 뒤 에너지와 손패가 새로 채워집니다.';
+
+  @override
+  String get lqBattleBegin => '전투 시작';
+
+  @override
+  String get lqBattleExit => '전투 나가기';
+
+  @override
+  String lqDungeonNode(String type, int step, int path, String state) {
+    return '$type, $step단계 $path번 경로, $state';
+  }
 }

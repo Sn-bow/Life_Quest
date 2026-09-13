@@ -1789,5 +1789,75 @@
   "lqStoryBackToChapter": "View chapter records",
   "lqStoryChooseAgain": "Try a different choice",
   "lqStorySaveFailed": "Your choice could not be saved. Please try again.",
-  "lqDeletionQueued": "Deletion requested. Server cleanup continues even if you close the app."
+  "lqDeletionQueued": "Deletion requested. Server cleanup continues even if you close the app.",
+  "lqBackupTitle": "Backup and restore",
+  "lqBackupHeadline": "Your progress, on your next device.",
+  "lqBackupBody": "Protect your progress with a password and save it as a file. Backups are free, and you choose where to keep them.",
+  "lqBackupExport": "Create backup file",
+  "lqBackupImport": "Open backup file",
+  "lqBackupUndo": "Return to progress before restore",
+  "lqBackupIncluded": "What is included",
+  "lqBackupIncludesBody": "Includes quests, growth, cleared dungeons, story choices and personalization history. Active expeditions, sign-in details, purchase rights and AI model files are excluded. Notifications start off on the restored device.",
+  "lqBackupPasswordNotice": "The developer cannot unlock a backup if you forget its password. Your saved files remain after uninstalling the app; delete unneeded backups from wherever you stored them.",
+  "lqBackupSetPassword": "Set a backup password",
+  "lqBackupEnterPassword": "Enter backup password",
+  "lqBackupPasswordHint": "Use 12–128 characters. A long memorable phrase works well. Spaces and letter case are part of the password.",
+  "lqBackupPassword": "Password",
+  "lqBackupRepeatPassword": "Repeat password",
+  "lqBackupShowPassword": "Show password",
+  "lqBackupHidePassword": "Hide password",
+  "lqBackupPasswordMismatch": "The passwords do not match.",
+  "lqBackupUnlock": "Review backup",
+  "lqBackupReview": "Restore this progress?",
+  "lqBackupReplaceBody": "This replaces progress on this device. The previous progress is kept locally so you can return to it. Sign-in and purchase entitlements stay with their account. Turn reminders on again if wanted.",
+  "lqBackupRestore": "Restore progress",
+  "lqBackupWorking": "Securing your progress…",
+  "lqBackupSaved": "Encrypted backup file saved.",
+  "lqBackupSaveFailed": "Could not save the backup. Check available storage and your selected location.",
+  "lqBackupInvalid": "Could not open the backup. Check the file and password. Your progress has not changed.",
+  "lqBackupRestored": "Progress restored. You can enable reminders in Settings.",
+  "lqBackupRestoreInterrupted": "Restore could not finish. Reopen the app or retry to continue recovery.",
+  "lqDungeonIntro": "Turn everyday progress into an adventure.",
+  "lqDungeonIntroBody": "Play cards and choose your path. Losing a battle keeps your everyday level and XP intact.",
+  "lqDungeonStart": "Start exploring",
+  "lqDungeonResume": "Continue your expedition",
+  "lqDungeonBonus": "Bonuses from your day",
+  "lqDungeonBonusBody": "Completed quests and equipment support your next expedition. You can start with no bonuses.",
+  "lqDungeonPacks": "Card packs",
+  "lqDungeonPathHint": "Choose a glowing point below to begin.",
+  "lqDungeonNextHint": "Choose a connected point to continue.",
+  "lqDungeonCurrent": "Current",
+  "lqDungeonAvailable": "Available",
+  "lqDungeonLocked": "Locked",
+  "lqDungeonDone": "Completed",
+  "lqDungeonEntering": "Entering…",
+  "lqDungeonCombat": "Battle",
+  "lqDungeonElite": "Elite battle",
+  "lqDungeonEvent": "Event",
+  "lqDungeonShop": "Shop",
+  "lqDungeonRest": "Rest",
+  "lqDungeonBoss": "Boss",
+  "lqBattleGuideTitle": "Your first battle",
+  "lqBattleGuideEnergy": "EP is your energy each turn. Each card spends the number shown at its top left.",
+  "lqBattleGuideCards": "With several enemies, choose a target before a card. Attacks deal damage; defense blocks incoming damage.",
+  "lqBattleGuideTurn": "Press End Turn when ready. After enemies act, your energy and hand refresh.",
+  "lqBattleBegin": "Begin battle",
+  "lqBattleExit": "Leave battle",
+  "lqDungeonNode": "{type}, step {step}, path {path}, {state}",
+  "@lqDungeonNode": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "path": {
+        "type": "int"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  }
 }

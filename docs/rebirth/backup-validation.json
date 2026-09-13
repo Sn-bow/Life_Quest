@@ -1,0 +1,19 @@
+{
+  "pass": true,
+  "backend": "FlutterCryptography",
+  "decryptMs": 1475,
+  "encryptMs": 1460,
+  "fixtureLength": 2710,
+  "fixtureSha256": "346329b06d400fd68748249e36b125c77512a42b5aabdbb8030f797c8baaa50d",
+  "environment": "Android API 35 ARM64 emulator, 16 KiB page size, signed R8 release; synthetic data only",
+  "dartToAndroid": true,
+  "androidToPython": true,
+  "webUiExportToPython": true,
+  "uiImportRestartUndo": true,
+  "physicalDeviceFilePickerVerified": false,
+  "tests": {
+    "cryptoAndSchema": 8,
+    "restoreJournalAndUndo": 4,
+    "localizedLayout": 4
+  }
+}

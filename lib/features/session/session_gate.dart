@@ -1,3 +1,4 @@
+import '../backup/backup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class _SessionGateState extends State<SessionGate> {
     final session = context.watch<SessionState>();
     if (!session.ready) return const _Progress();
     if (session.deviceSelected) {
-      return const _ProfileLoader(key: ValueKey('device'));
+      return _ProfileLoader(key: ValueKey('device-${session.deviceRevision}'));
     }
     final welcome = WelcomeScreen(
       onStart: () => session.selectDevice(true),
@@ -118,6 +119,16 @@ class _ProfileLoaderState extends State<_ProfileLoader> {
                         onPressed: () => setState(() => _load = _initialize()),
                         child: Text(l.lqRetry),
                       ),
+                      if (widget.user == null)
+                        TextButton(
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) =>
+                                  const BackupScreen(restoreOnly: true),
+                            ),
+                          ),
+                          child: Text(l.lqBackupImport),
+                        ),
                       TextButton(
                         onPressed: () async {
                           if (widget.user != null) {

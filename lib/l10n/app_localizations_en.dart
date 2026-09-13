@@ -4291,4 +4291,182 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lqDeletionQueued =>
       'Deletion requested. Server cleanup continues even if you close the app.';
+
+  @override
+  String get lqBackupTitle => 'Backup and restore';
+
+  @override
+  String get lqBackupHeadline => 'Your progress, on your next device.';
+
+  @override
+  String get lqBackupBody =>
+      'Protect your progress with a password and save it as a file. Backups are free, and you choose where to keep them.';
+
+  @override
+  String get lqBackupExport => 'Create backup file';
+
+  @override
+  String get lqBackupImport => 'Open backup file';
+
+  @override
+  String get lqBackupUndo => 'Return to progress before restore';
+
+  @override
+  String get lqBackupIncluded => 'What is included';
+
+  @override
+  String get lqBackupIncludesBody =>
+      'Includes quests, growth, cleared dungeons, story choices and personalization history. Active expeditions, sign-in details, purchase rights and AI model files are excluded. Notifications start off on the restored device.';
+
+  @override
+  String get lqBackupPasswordNotice =>
+      'The developer cannot unlock a backup if you forget its password. Your saved files remain after uninstalling the app; delete unneeded backups from wherever you stored them.';
+
+  @override
+  String get lqBackupSetPassword => 'Set a backup password';
+
+  @override
+  String get lqBackupEnterPassword => 'Enter backup password';
+
+  @override
+  String get lqBackupPasswordHint =>
+      'Use 12–128 characters. A long memorable phrase works well. Spaces and letter case are part of the password.';
+
+  @override
+  String get lqBackupPassword => 'Password';
+
+  @override
+  String get lqBackupRepeatPassword => 'Repeat password';
+
+  @override
+  String get lqBackupShowPassword => 'Show password';
+
+  @override
+  String get lqBackupHidePassword => 'Hide password';
+
+  @override
+  String get lqBackupPasswordMismatch => 'The passwords do not match.';
+
+  @override
+  String get lqBackupUnlock => 'Review backup';
+
+  @override
+  String get lqBackupReview => 'Restore this progress?';
+
+  @override
+  String get lqBackupReplaceBody =>
+      'This replaces progress on this device. The previous progress is kept locally so you can return to it. Sign-in and purchase entitlements stay with their account. Turn reminders on again if wanted.';
+
+  @override
+  String get lqBackupRestore => 'Restore progress';
+
+  @override
+  String get lqBackupWorking => 'Securing your progress…';
+
+  @override
+  String get lqBackupSaved => 'Encrypted backup file saved.';
+
+  @override
+  String get lqBackupSaveFailed =>
+      'Could not save the backup. Check available storage and your selected location.';
+
+  @override
+  String get lqBackupInvalid =>
+      'Could not open the backup. Check the file and password. Your progress has not changed.';
+
+  @override
+  String get lqBackupRestored =>
+      'Progress restored. You can enable reminders in Settings.';
+
+  @override
+  String get lqBackupRestoreInterrupted =>
+      'Restore could not finish. Reopen the app or retry to continue recovery.';
+
+  @override
+  String get lqDungeonIntro => 'Turn everyday progress into an adventure.';
+
+  @override
+  String get lqDungeonIntroBody =>
+      'Play cards and choose your path. Losing a battle keeps your everyday level and XP intact.';
+
+  @override
+  String get lqDungeonStart => 'Start exploring';
+
+  @override
+  String get lqDungeonResume => 'Continue your expedition';
+
+  @override
+  String get lqDungeonBonus => 'Bonuses from your day';
+
+  @override
+  String get lqDungeonBonusBody =>
+      'Completed quests and equipment support your next expedition. You can start with no bonuses.';
+
+  @override
+  String get lqDungeonPacks => 'Card packs';
+
+  @override
+  String get lqDungeonPathHint => 'Choose a glowing point below to begin.';
+
+  @override
+  String get lqDungeonNextHint => 'Choose a connected point to continue.';
+
+  @override
+  String get lqDungeonCurrent => 'Current';
+
+  @override
+  String get lqDungeonAvailable => 'Available';
+
+  @override
+  String get lqDungeonLocked => 'Locked';
+
+  @override
+  String get lqDungeonDone => 'Completed';
+
+  @override
+  String get lqDungeonEntering => 'Entering…';
+
+  @override
+  String get lqDungeonCombat => 'Battle';
+
+  @override
+  String get lqDungeonElite => 'Elite battle';
+
+  @override
+  String get lqDungeonEvent => 'Event';
+
+  @override
+  String get lqDungeonShop => 'Shop';
+
+  @override
+  String get lqDungeonRest => 'Rest';
+
+  @override
+  String get lqDungeonBoss => 'Boss';
+
+  @override
+  String get lqBattleGuideTitle => 'Your first battle';
+
+  @override
+  String get lqBattleGuideEnergy =>
+      'EP is your energy each turn. Each card spends the number shown at its top left.';
+
+  @override
+  String get lqBattleGuideCards =>
+      'With several enemies, choose a target before a card. Attacks deal damage; defense blocks incoming damage.';
+
+  @override
+  String get lqBattleGuideTurn =>
+      'Press End Turn when ready. After enemies act, your energy and hand refresh.';
+
+  @override
+  String get lqBattleBegin => 'Begin battle';
+
+  @override
+  String get lqBattleExit => 'Leave battle';
+
+  @override
+  String lqDungeonNode(String type, int step, int path, String state) {
+    return '$type, step $step, path $path, $state';
+  }
 }

@@ -4141,4 +4141,172 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lqDeletionQueued => '已受理删除请求。即使关闭应用，服务器也会继续处理。';
+
+  @override
+  String get lqBackupTitle => '备份与恢复';
+
+  @override
+  String get lqBackupHeadline => '换一台设备，继续你的旅程。';
+
+  @override
+  String get lqBackupBody => '用自己设定的密码加密记录，保存为文件。备份免费，保存位置由你选择。';
+
+  @override
+  String get lqBackupExport => '创建备份文件';
+
+  @override
+  String get lqBackupImport => '打开备份文件';
+
+  @override
+  String get lqBackupUndo => '返回恢复前的记录';
+
+  @override
+  String get lqBackupIncluded => '备份内容';
+
+  @override
+  String get lqBackupIncludesBody =>
+      '包含任务、成长、已通关地下城、故事选择和个性化历史。不包含进行中的探索、登录信息、购买权限或AI模型文件。恢复后通知默认为关闭。';
+
+  @override
+  String get lqBackupPasswordNotice =>
+      '如果忘记密码，开发者也无法打开备份。卸载应用不会删除你保存的备份，请在保存位置自行删除不再需要的文件。';
+
+  @override
+  String get lqBackupSetPassword => '设置备份密码';
+
+  @override
+  String get lqBackupEnterPassword => '输入备份密码';
+
+  @override
+  String get lqBackupPasswordHint =>
+      '请使用 12–128 个字符。建议使用容易记住的长句。空格和字母大小写都是密码的一部分。';
+
+  @override
+  String get lqBackupPassword => '密码';
+
+  @override
+  String get lqBackupRepeatPassword => '再次输入密码';
+
+  @override
+  String get lqBackupShowPassword => '显示密码';
+
+  @override
+  String get lqBackupHidePassword => '隐藏密码';
+
+  @override
+  String get lqBackupPasswordMismatch => '两次输入的密码不一致。';
+
+  @override
+  String get lqBackupUnlock => '查看备份内容';
+
+  @override
+  String get lqBackupReview => '恢复这些记录？';
+
+  @override
+  String get lqBackupReplaceBody =>
+      '这将替换此设备上的记录。原记录会保留在设备中，方便撤回。登录与购买权益仍属于原账户。需要提醒时请重新开启。';
+
+  @override
+  String get lqBackupRestore => '恢复记录';
+
+  @override
+  String get lqBackupWorking => '正在处理记录…';
+
+  @override
+  String get lqBackupSaved => '已保存加密备份文件。';
+
+  @override
+  String get lqBackupSaveFailed => '无法保存备份，请检查可用空间和保存位置。';
+
+  @override
+  String get lqBackupInvalid => '无法打开备份，请检查文件和密码。记录未被更改。';
+
+  @override
+  String get lqBackupRestored => '记录已恢复，可在设置中重新开启提醒。';
+
+  @override
+  String get lqBackupRestoreInterrupted => '恢复未完成，请重新打开应用或重试以继续。';
+
+  @override
+  String get lqDungeonIntro => '带着日常积累的力量，开始冒险。';
+
+  @override
+  String get lqDungeonIntroBody => '使用卡牌，选择路线。战斗失败不会扣除日常等级和经验值。';
+
+  @override
+  String get lqDungeonStart => '开始探索';
+
+  @override
+  String get lqDungeonResume => '继续当前探索';
+
+  @override
+  String get lqDungeonBonus => '日常积累的加成';
+
+  @override
+  String get lqDungeonBonusBody => '完成的任务与装备会为下次探索提供加成。没有加成也能立即开始。';
+
+  @override
+  String get lqDungeonPacks => '卡包';
+
+  @override
+  String get lqDungeonPathHint => '选择下方发光的地点开始。';
+
+  @override
+  String get lqDungeonNextHint => '选择相连的下一地点继续。';
+
+  @override
+  String get lqDungeonCurrent => '当前位置';
+
+  @override
+  String get lqDungeonAvailable => '可选择';
+
+  @override
+  String get lqDungeonLocked => '未解锁';
+
+  @override
+  String get lqDungeonDone => '已完成';
+
+  @override
+  String get lqDungeonEntering => '正在进入…';
+
+  @override
+  String get lqDungeonCombat => '战斗';
+
+  @override
+  String get lqDungeonElite => '精英战';
+
+  @override
+  String get lqDungeonEvent => '事件';
+
+  @override
+  String get lqDungeonShop => '商店';
+
+  @override
+  String get lqDungeonRest => '休息';
+
+  @override
+  String get lqDungeonBoss => '首领';
+
+  @override
+  String get lqBattleGuideTitle => '首次战斗指引';
+
+  @override
+  String get lqBattleGuideEnergy => 'EP是每回合的能量。使用卡牌会消耗其左上角所示的点数。';
+
+  @override
+  String get lqBattleGuideCards => '敌人不止一个时，先选目标再用卡。攻击造成伤害，防御抵挡敌方伤害。';
+
+  @override
+  String get lqBattleGuideTurn => '行动结束后点击“结束回合”。敌方行动后会补充能量和手牌。';
+
+  @override
+  String get lqBattleBegin => '开始战斗';
+
+  @override
+  String get lqBattleExit => '离开战斗';
+
+  @override
+  String lqDungeonNode(String type, int step, int path, String state) {
+    return '$type，第$step层，路线$path，$state';
+  }
 }

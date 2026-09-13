@@ -1,3 +1,4 @@
+import '../features/backup/backup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -648,6 +649,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     subtitle: Text(l10n.settingsAdModelDesc),
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+          if (characterState.isLocalGuest) ...[
+            TranslucentCard(
+              child: ListTile(
+                leading: const Icon(Icons.lock_outline),
+                title: Text(l10n.lqBackupTitle),
+                subtitle: Text(l10n.lqBackupHeadline),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (_) => const BackupScreen()),
+                ),
               ),
             ),
             const SizedBox(height: 24),

@@ -1789,5 +1789,75 @@
   "lqStoryBackToChapter": "查看本章记录",
   "lqStoryChooseAgain": "尝试其他选择",
   "lqStorySaveFailed": "无法保存选择，请重试。",
-  "lqDeletionQueued": "已受理删除请求。即使关闭应用，服务器也会继续处理。"
+  "lqDeletionQueued": "已受理删除请求。即使关闭应用，服务器也会继续处理。",
+  "lqBackupTitle": "备份与恢复",
+  "lqBackupHeadline": "换一台设备，继续你的旅程。",
+  "lqBackupBody": "用自己设定的密码加密记录，保存为文件。备份免费，保存位置由你选择。",
+  "lqBackupExport": "创建备份文件",
+  "lqBackupImport": "打开备份文件",
+  "lqBackupUndo": "返回恢复前的记录",
+  "lqBackupIncluded": "备份内容",
+  "lqBackupIncludesBody": "包含任务、成长、已通关地下城、故事选择和个性化历史。不包含进行中的探索、登录信息、购买权限或AI模型文件。恢复后通知默认为关闭。",
+  "lqBackupPasswordNotice": "如果忘记密码，开发者也无法打开备份。卸载应用不会删除你保存的备份，请在保存位置自行删除不再需要的文件。",
+  "lqBackupSetPassword": "设置备份密码",
+  "lqBackupEnterPassword": "输入备份密码",
+  "lqBackupPasswordHint": "请使用 12–128 个字符。建议使用容易记住的长句。空格和字母大小写都是密码的一部分。",
+  "lqBackupPassword": "密码",
+  "lqBackupRepeatPassword": "再次输入密码",
+  "lqBackupShowPassword": "显示密码",
+  "lqBackupHidePassword": "隐藏密码",
+  "lqBackupPasswordMismatch": "两次输入的密码不一致。",
+  "lqBackupUnlock": "查看备份内容",
+  "lqBackupReview": "恢复这些记录？",
+  "lqBackupReplaceBody": "这将替换此设备上的记录。原记录会保留在设备中，方便撤回。登录与购买权益仍属于原账户。需要提醒时请重新开启。",
+  "lqBackupRestore": "恢复记录",
+  "lqBackupWorking": "正在处理记录…",
+  "lqBackupSaved": "已保存加密备份文件。",
+  "lqBackupSaveFailed": "无法保存备份，请检查可用空间和保存位置。",
+  "lqBackupInvalid": "无法打开备份，请检查文件和密码。记录未被更改。",
+  "lqBackupRestored": "记录已恢复，可在设置中重新开启提醒。",
+  "lqBackupRestoreInterrupted": "恢复未完成，请重新打开应用或重试以继续。",
+  "lqDungeonIntro": "带着日常积累的力量，开始冒险。",
+  "lqDungeonIntroBody": "使用卡牌，选择路线。战斗失败不会扣除日常等级和经验值。",
+  "lqDungeonStart": "开始探索",
+  "lqDungeonResume": "继续当前探索",
+  "lqDungeonBonus": "日常积累的加成",
+  "lqDungeonBonusBody": "完成的任务与装备会为下次探索提供加成。没有加成也能立即开始。",
+  "lqDungeonPacks": "卡包",
+  "lqDungeonPathHint": "选择下方发光的地点开始。",
+  "lqDungeonNextHint": "选择相连的下一地点继续。",
+  "lqDungeonCurrent": "当前位置",
+  "lqDungeonAvailable": "可选择",
+  "lqDungeonLocked": "未解锁",
+  "lqDungeonDone": "已完成",
+  "lqDungeonEntering": "正在进入…",
+  "lqDungeonCombat": "战斗",
+  "lqDungeonElite": "精英战",
+  "lqDungeonEvent": "事件",
+  "lqDungeonShop": "商店",
+  "lqDungeonRest": "休息",
+  "lqDungeonBoss": "首领",
+  "lqBattleGuideTitle": "首次战斗指引",
+  "lqBattleGuideEnergy": "EP是每回合的能量。使用卡牌会消耗其左上角所示的点数。",
+  "lqBattleGuideCards": "敌人不止一个时，先选目标再用卡。攻击造成伤害，防御抵挡敌方伤害。",
+  "lqBattleGuideTurn": "行动结束后点击“结束回合”。敌方行动后会补充能量和手牌。",
+  "lqBattleBegin": "开始战斗",
+  "lqBattleExit": "离开战斗",
+  "lqDungeonNode": "{type}，第{step}层，路线{path}，{state}",
+  "@lqDungeonNode": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "path": {
+        "type": "int"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  }
 }

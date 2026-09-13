@@ -3336,3 +3336,15 @@ claiming that the exact release artifact or physical-device gate is complete.
   least one physical Android device before production.
 - Authenticated account deletion and Firebase Crashlytics delivery remain
   separate open release gates.
+
+## 2026-09-14 · 무료 기기 백업과 던전 첫 탐험
+
+- Android FirebaseInitProvider 자동 초기화를 제거하고 Cloud 플래그의 명시적 초기화만 사용. Android 자동 클라우드/D2D 백업을 모든 대상 영역에서 제외.
+- 무료 암호화 파일 백업, 교체 미리보기, 이전 기록 되돌리기, 중단 복원 journal, 손상된 프로필에서 파일 복구 경로 추가. 실제 signed R8 Android + 독립 Python + CUA 브라우저 export/import/restart/undo 검증. `docs/rebirth/DEVICE_BACKUP.md` 참조.
+- 기존 게임 화면을 먼저 캡처·검토한 뒤 첫 탐험 CTA, 의미 없는 시즌 마감 제거, 재개, 지도 노드 접근성, 4언어 안내, 읽을 수 있는 보상 선택을 구현. 기존 배경/카드/몬스터 아트 재사용.
+- 전체 Flutter 테스트 240개 및 마지막 변경 후 analyze 통과. Android 파일 선택 UI/실기기 AI 성능/전체 게임 밸런스 검증은 남아 있다.
+- 개인정보 페이지는 orphan gh-pages branch로 복구해 공개 검증 완료. https://sn-bow.github.io/Life_Quest/#privacy 및 #delete-account. 정책 branch 9a3b460에 무료 백업 보관/삭제 안내 반영.
+- Firebase 프로젝트는 삭제 상태이며 복구/새 프로젝트 답변을 기다린다. 과금 연결/백엔드 배포/Play AAB 업로드/프로덕션 출시는 아직 실행하지 않았다.
+
+- 최종 main AAB 216,527,189 bytes / SHA256 957f5234da51c1869febb66d21ad068f345164f09f75805660d9387691e734ef. 표본 기기 다운로드 128,276,151 bytes, 서명/manifest/ELF 11개와 split ZIP 16KiB 검사 통과. AI/백업 QA entrypoint가 제품에 포함되지 않음 확인.
+- Play 초안의 앱/생산성 분류, 공개 지원 이메일·HTTPS URL, 영어/한국어 등록정보 문구 임시 저장 성공 확인. 스토어 그래픽은 미완성이므로 심사 제출 안 함.

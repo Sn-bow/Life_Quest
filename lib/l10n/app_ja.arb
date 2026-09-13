@@ -1789,5 +1789,75 @@
   "lqStoryBackToChapter": "この章の記録へ",
   "lqStoryChooseAgain": "別の選択で読む",
   "lqStorySaveFailed": "選択を保存できませんでした。もう一度お試しください。",
-  "lqDeletionQueued": "削除を受け付けました。アプリを閉じてもサーバーで処理が続きます。"
+  "lqDeletionQueued": "削除を受け付けました。アプリを閉じてもサーバーで処理が続きます。",
+  "lqBackupTitle": "バックアップと復元",
+  "lqBackupHeadline": "次の端末でも、あなたの記録を。",
+  "lqBackupBody": "自分で決めたパスワードで記録を暗号化し、ファイルに保存します。バックアップは無料で、保存先も自分で選べます。",
+  "lqBackupExport": "バックアップを作成",
+  "lqBackupImport": "バックアップを開く",
+  "lqBackupUndo": "復元前の記録に戻す",
+  "lqBackupIncluded": "保存される記録",
+  "lqBackupIncludesBody": "クエスト・成長・クリア済みダンジョン・物語の選択・個人化履歴を保存します。進行中の冒険、ログイン情報、購入権限、AIモデルは含みません。復元先の通知はオフで始まります。",
+  "lqBackupPasswordNotice": "パスワードを忘れると開発者も復元できません。保存したファイルはアプリ削除後も残ります。不要なバックアップは保存先で削除してください。",
+  "lqBackupSetPassword": "バックアップのパスワード",
+  "lqBackupEnterPassword": "パスワードを入力",
+  "lqBackupPasswordHint": "12～128文字。覚えやすい長いフレーズをおすすめします。空白や大文字・小文字も区別されます。",
+  "lqBackupPassword": "パスワード",
+  "lqBackupRepeatPassword": "パスワードを再入力",
+  "lqBackupShowPassword": "パスワードを表示",
+  "lqBackupHidePassword": "パスワードを隠す",
+  "lqBackupPasswordMismatch": "パスワードが一致しません。",
+  "lqBackupUnlock": "内容を確認",
+  "lqBackupReview": "この記録を復元しますか？",
+  "lqBackupReplaceBody": "この端末の記録を置き換えます。直前の記録は端末に保管され、戻すことができます。ログインと購入権限は元のアカウントに残ります。通知は再度オンにしてください。",
+  "lqBackupRestore": "記録を復元",
+  "lqBackupWorking": "記録を処理しています…",
+  "lqBackupSaved": "暗号化したバックアップを保存しました。",
+  "lqBackupSaveFailed": "保存できませんでした。空き容量と保存先を確認してください。",
+  "lqBackupInvalid": "開けませんでした。ファイルとパスワードを確認してください。記録は変更されていません。",
+  "lqBackupRestored": "記録を復元しました。通知は設定で再度オンにできます。",
+  "lqBackupRestoreInterrupted": "復元を完了できませんでした。アプリを開き直すか、再試行してください。",
+  "lqDungeonIntro": "日々の成長で、最初の冒険へ。",
+  "lqDungeonIntroBody": "カードを使い、道を選びましょう。負けても日常のレベルと経験値は減りません。",
+  "lqDungeonStart": "冒険を始める",
+  "lqDungeonResume": "冒険を続ける",
+  "lqDungeonBonus": "日常からのボーナス",
+  "lqDungeonBonusBody": "完了したクエストと装備が次の冒険を支えます。ボーナスなしでも始められます。",
+  "lqDungeonPacks": "カードパック",
+  "lqDungeonPathHint": "下の光る地点を選んで始めましょう。",
+  "lqDungeonNextHint": "つながる次の地点を選びましょう。",
+  "lqDungeonCurrent": "現在地",
+  "lqDungeonAvailable": "選択可能",
+  "lqDungeonLocked": "未開放",
+  "lqDungeonDone": "完了",
+  "lqDungeonEntering": "移動中…",
+  "lqDungeonCombat": "戦闘",
+  "lqDungeonElite": "精鋭戦",
+  "lqDungeonEvent": "イベント",
+  "lqDungeonShop": "ショップ",
+  "lqDungeonRest": "休息",
+  "lqDungeonBoss": "ボス",
+  "lqBattleGuideTitle": "初めての戦闘",
+  "lqBattleGuideEnergy": "EPは毎ターンのエネルギーです。カード左上の数字だけ消費します。",
+  "lqBattleGuideCards": "敵が複数いる時は対象を選んでからカードを使います。攻撃はダメージを与え、防御は敵の攻撃を防ぎます。",
+  "lqBattleGuideTurn": "行動が終わったら「ターン終了」を押します。敵の行動後、エネルギーと手札が補充されます。",
+  "lqBattleBegin": "戦闘開始",
+  "lqBattleExit": "戦闘から退出",
+  "lqDungeonNode": "{type}、{step}段目、ルート{path}、{state}",
+  "@lqDungeonNode": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "path": {
+        "type": "int"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  }
 }
