@@ -60,7 +60,7 @@ class AdService {
   /// Initialize the Mobile Ads SDK.
   /// GDPR: UMP SDK를 통해 사용자 동의 상태를 확인하고, 동의 완료 후 광고를 로드합니다.
   Future<void> init() async {
-    if (!kLifeQuestMonetizationEnabled) {
+    if (!kLifeQuestAdsEnabled) {
       debugPrint('[AdService] Monetization disabled; skipping AdMob init.');
       return;
     }
@@ -192,7 +192,7 @@ class AdService {
 
   /// Get remaining ad views for a specific reward type.
   int getRemainingViews(String rewardType) {
-    if (!kLifeQuestMonetizationEnabled) return 0;
+    if (!kLifeQuestAdsEnabled) return 0;
     _resetDailyCountsIfNeeded();
     final limit = dailyLimits[rewardType] ?? 0;
     final used = _dailyAdCounts[rewardType] ?? 0;
@@ -240,7 +240,7 @@ class AdService {
 
   /// Pre-load a rewarded ad for next display.
   void _loadRewardedAd() {
-    if (!kLifeQuestMonetizationEnabled) return;
+    if (!kLifeQuestAdsEnabled) return;
     if (!_hasRewardedAdUnitId) {
       debugPrint('[AdService] Rewarded ad unit ID is not configured.');
       return;
@@ -278,7 +278,7 @@ class AdService {
   /// Show a rewarded ad and return true if the user earned their reward.
   /// If ads are removed via IAP, immediately returns true (free reward).
   Future<bool> showRewardedAd(String rewardType) async {
-    if (!kLifeQuestMonetizationEnabled) return false;
+    if (!kLifeQuestAdsEnabled) return false;
     // If user purchased ad removal, grant reward immediately
     if (_isAdRemoved) return true;
 

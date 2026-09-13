@@ -1,17 +1,20 @@
 import 'dart:async';
+import 'package:life_quest_final_v2/theme/quest_theme.dart';
+import 'package:life_quest_final_v2/features/director/quest_director_state.dart';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:life_quest_final_v2/config/monetization_config.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/firebase_options.dart';
-import 'package:life_quest_final_v2/screens/login_screen.dart';
-import 'package:life_quest_final_v2/screens/loading_screen.dart';
+import 'features/session/session_gate.dart';
+import 'features/session/session_state.dart';
+import 'config/cloud_config.dart';
 import 'package:life_quest_final_v2/screens/qa_preview_gate_screen.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -31,18 +34,24 @@ const _homeWidgetAppGroupId = String.fromEnvironment(
   defaultValue: 'group.com.lifequest.app.widget',
 );
 
-const _lifeQuestFontFamily = 'NotoSansKR';
-const _lifeQuestFontFallback = [
-  'Arial',
-  'sans-serif',
-];
-
 void main() {
   // runZonedGuarded을 가장 먼저 시작해야 Flutter 바인딩 Zone 충돌을 방지함
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      if (!kLifeQuestQaPreview) {
+      LicenseRegistry.addLicense(() async* {
+        yield LicenseEntryWithLineBreaks(
+          ['Gemma 4 E2B'],
+          'Google Gemma 4 E2B. Unmodified model weights.\n'
+          'Source: https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm\n\n'
+          '${await rootBundle.loadString('assets/licenses/Apache-2.0.txt')}',
+        );
+        yield LicenseEntryWithLineBreaks(
+          ['LiteRT-LM Android 0.17.0'],
+          await rootBundle.loadString('assets/licenses/LiteRT-LM-LICENSE.txt'),
+        );
+      });
+      if (!kLifeQuestQaPreview && kLifeQuestCloudEnabled) {
         await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         );
@@ -81,6 +90,10 @@ void main() {
         MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => CharacterState()),
+            ChangeNotifierProvider(
+              create: (context) => SessionState()..initialize(),
+            ),
+            ChangeNotifierProvider(create: (context) => QuestDirectorState()),
             ChangeNotifierProvider(create: (context) => CombatState()),
             ChangeNotifierProvider(create: (context) => CardCombatState()),
             ChangeNotifierProvider(create: (context) => DungeonState()),
@@ -95,7 +108,9 @@ void main() {
       }
     },
     (error, stack) {
-      if (kLifeQuestQaPreview) {
+      if (kLifeQuestQaPreview ||
+          !kLifeQuestCloudEnabled ||
+          Firebase.apps.isEmpty) {
         debugPrint('Uncaught QA preview error: $error');
         debugPrintStack(stackTrace: stack);
         return;
@@ -110,16 +125,15 @@ Future<void> _initializeOptionalServices() async {
     'NotificationService.init',
     () => NotificationService().init(),
   );
-  await _runStartupTask(
-    'SoundService.init',
-    () => SoundService().init(),
-  );
-  if (kLifeQuestMonetizationEnabled) {
+  await _runStartupTask('SoundService.init', () => SoundService().init());
+  if (kLifeQuestAdsEnabled) {
     await _runStartupTask(
       'AdService.init',
       () => AdService().init(),
       timeout: const Duration(seconds: 12),
     );
+  }
+  if (kLifeQuestMonetizationEnabled) {
     await _runStartupTask(
       'PurchaseService.init',
       () => PurchaseService().init(),
@@ -141,6 +155,7 @@ Future<void> _runStartupTask(
     await task().timeout(timeout);
   } catch (error, stack) {
     debugPrint('$name failed: $error');
+    if (!kLifeQuestCloudEnabled) return;
     await FirebaseCrashlytics.instance.recordError(
       error,
       stack,
@@ -157,23 +172,9 @@ class LifeQuestApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CharacterState>(
       builder: (context, state, child) {
-        // --- Cosmetic Theme Logic ---
-        final equippedTheme =
-            state.isDataLoaded ? state.character.equippedTheme : null;
-        Color primaryColorLight = Colors.indigo.shade600;
-        Color primaryColorDark = Colors.indigo.shade300;
-        Color? customDarkBg;
-
-        if (equippedTheme == 'theme_neon_cyberpunk') {
-          primaryColorDark = Colors.pinkAccent;
-          primaryColorLight = Colors.pink;
-          customDarkBg = const Color(0xFF0D0221); // Deep dark purple/black
-        } else if (equippedTheme == 'theme_royal_gold') {
-          primaryColorDark = Colors.amber;
-          primaryColorLight = Colors.amber.shade700;
-          customDarkBg = const Color(0xFF1E1E1E); // Rich dark gray
-        }
-        // -----------------------------
+        final cosmetic = state.isDataLoaded
+            ? state.character.equippedTheme
+            : null;
 
         return MaterialApp(
           scaffoldMessengerKey: state.scaffoldMessengerKey,
@@ -193,198 +194,11 @@ class LifeQuestApp extends StatelessWidget {
             Locale('zh'),
           ],
           themeMode: state.themeMode,
-          theme: ThemeData(
-            brightness: Brightness.light,
-            useMaterial3: true,
-            fontFamily: _lifeQuestFontFamily,
-            fontFamilyFallback: _lifeQuestFontFallback,
-            scaffoldBackgroundColor: const Color(0xFFF8F9FA),
-            primaryColor: primaryColorLight,
-            colorScheme: ColorScheme.light(
-              primary: primaryColorLight,
-              secondary: Colors.teal.shade500,
-              surface: Colors.white,
-              onSurface: Colors.black87,
-            ),
-            appBarTheme: AppBarTheme(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              centerTitle: true,
-              titleTextStyle: TextStyle(
-                  color: Colors.indigo.shade900,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5),
-              iconTheme: IconThemeData(color: Colors.indigo.shade800),
-            ),
-            textTheme: const TextTheme(
-              bodyLarge: TextStyle(color: Colors.black87, fontSize: 16),
-              bodyMedium: TextStyle(color: Colors.black54, fontSize: 14),
-              headlineSmall: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 24,
-                  letterSpacing: -0.5),
-              titleLarge: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 20),
-              titleMedium: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
-            ),
-            cardTheme: CardThemeData(
-              color: Colors.white,
-              elevation: 4,
-              shadowColor: Colors.black.withValues(alpha: 0.05),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-            ),
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              backgroundColor: Colors.white,
-              selectedItemColor: Colors.indigo.shade600,
-              unselectedItemColor: Colors.grey.shade400,
-              elevation: 10,
-              type: BottomNavigationBarType.fixed,
-              showUnselectedLabels: true,
-              selectedLabelStyle:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-            ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              ),
-            ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-              ),
-            ),
-            inputDecorationTheme: InputDecorationTheme(
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.indigo.shade500, width: 2),
-              ),
-              labelStyle: TextStyle(color: Colors.grey.shade600, fontSize: 14),
-            ),
-          ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            useMaterial3: true,
-            fontFamily: _lifeQuestFontFamily,
-            fontFamilyFallback: _lifeQuestFontFallback,
-            primaryColor: primaryColorDark,
-            scaffoldBackgroundColor: customDarkBg ?? const Color(0xFF0F172A),
-            colorScheme: ColorScheme.dark(
-              primary: primaryColorDark, // Custom Cyan/Pink/Amber
-              secondary: const Color(0xFFA78BFA), // Pastel Purple
-              surface: customDarkBg ?? const Color(0xFF1E293B),
-              onSurface: const Color(0xFFF1F5F9), // Slate 100
-            ),
-            appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              centerTitle: true,
-              titleTextStyle: TextStyle(
-                  color: Color(0xFFF1F5F9),
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5),
-              iconTheme: IconThemeData(color: Color(0xFFF1F5F9)),
-            ),
-            cardTheme: CardThemeData(
-              color: const Color(0xFF1E293B),
-              elevation: 8,
-              shadowColor: Colors.black.withValues(alpha: 0.3),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-            ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: Color(0xFF1E293B),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              ),
-            ),
-            textTheme: const TextTheme(
-              bodyLarge: TextStyle(color: Color(0xFFF1F5F9), fontSize: 16),
-              bodyMedium: TextStyle(color: Color(0xFFCBD5E1), fontSize: 14),
-              headlineSmall: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 24,
-                  letterSpacing: -0.5),
-              titleLarge: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 20),
-              titleMedium: TextStyle(
-                  color: Color(0xFFF1F5F9),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
-            ),
-            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              backgroundColor: Color(0xFF0F172A),
-              selectedItemColor: Color(0xFF38BDF8),
-              unselectedItemColor: Color(0xFF64748B),
-              elevation: 10,
-              type: BottomNavigationBarType.fixed,
-              showUnselectedLabels: true,
-              selectedLabelStyle:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-            ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-              ),
-            ),
-            inputDecorationTheme: InputDecorationTheme(
-              filled: true,
-              fillColor: const Color(0xFF0F172A),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide:
-                    const BorderSide(color: Color(0xFF334155), width: 1),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide:
-                    const BorderSide(color: Color(0xFF38BDF8), width: 2),
-              ),
-              labelStyle:
-                  const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
-            ),
-          ),
+          theme: QuestTheme.build(Brightness.light, cosmetic: cosmetic),
+          darkTheme: QuestTheme.build(Brightness.dark, cosmetic: cosmetic),
           home: kLifeQuestQaPreview
               ? const QaPreviewGateScreen()
-              : const AuthWrapper(),
+              : const SessionGate(),
           debugShowCheckedModeBanner: false,
         );
       },
@@ -397,50 +211,9 @@ class LifeQuestScrollBehavior extends MaterialScrollBehavior {
 
   @override
   Set<PointerDeviceKind> get dragDevices => {
-        ...super.dragDevices,
-        PointerDeviceKind.mouse,
-        PointerDeviceKind.stylus,
-        PointerDeviceKind.unknown,
-      };
-}
-
-class AuthWrapper extends StatefulWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  State<AuthWrapper> createState() => _AuthWrapperState();
-}
-
-class _AuthWrapperState extends State<AuthWrapper> {
-  bool _showIntro = true;
-
-  @override
-  void initState() {
-    super.initState();
-    // M-6: 이미 로그인된 재방문 사용자는 인트로 스킵
-    if (FirebaseAuth.instance.currentUser != null) {
-      _showIntro = false;
-    } else {
-      Future<void>.delayed(const Duration(milliseconds: 1800), () {
-        if (!mounted) return;
-        setState(() => _showIntro = false);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (_showIntro || snapshot.connectionState != ConnectionState.active) {
-          return const LoadingScreen();
-        }
-        if (snapshot.hasData) {
-          return LoadingScreen(user: snapshot.data);
-        }
-        return const LoginScreen();
-      },
-    );
-  }
+    ...super.dragDevices,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.stylus,
+    PointerDeviceKind.unknown,
+  };
 }

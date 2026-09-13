@@ -861,7 +861,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsWithdrawTitle => '注销账户';
 
   @override
-  String get settingsWithdrawBody => '确定要注销账户吗？\n所有数据将被永久删除，此操作无法撤销。';
+  String get settingsWithdrawBody =>
+      '删除账户、云端记录、举报内容与购买关联。请求受理后将退出登录，关闭应用后也会继续处理。此账户将无法恢复购买内容。删除不可撤销，且不等于退款。';
 
   @override
   String get settingsWithdrawConfirm => '确认注销';
@@ -3757,4 +3758,555 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => '密码不正确。';
+
+  @override
+  String get lqToday => '今天';
+
+  @override
+  String get lqGrowth => '成长';
+
+  @override
+  String get lqDungeon => '地下城';
+
+  @override
+  String get lqHeadline => '今天，再进一步。';
+
+  @override
+  String get lqSubtitle => '小小行动，真实成长。';
+
+  @override
+  String get lqSystem => '个人任务系统';
+
+  @override
+  String get lqDailyMissions => '今日推荐';
+
+  @override
+  String get lqActiveQuests => '进行中的任务';
+
+  @override
+  String get lqAllQuests => '查看全部';
+
+  @override
+  String get lqCheckIn => '调整今日状态';
+
+  @override
+  String get lqCheckInHint => '从现在能做到的开始。';
+
+  @override
+  String get lqEnergy => '今日精力';
+
+  @override
+  String get lqEnergyLow => '轻松一点';
+
+  @override
+  String get lqEnergyMedium => '适中';
+
+  @override
+  String get lqEnergyHigh => '很充足';
+
+  @override
+  String get lqTimeBudget => '今天留给自己的时间';
+
+  @override
+  String get lqMinutes => '分钟';
+
+  @override
+  String get lqFocus => '想成长的领域';
+
+  @override
+  String get lqVitality => '活力';
+
+  @override
+  String get lqLearning => '学习';
+
+  @override
+  String get lqOrder => '整理';
+
+  @override
+  String get lqConnection => '关系';
+
+  @override
+  String get lqGoal => '最近想实现的事（可选）';
+
+  @override
+  String get lqGoalHint => '例如：下班后重新开始学英语';
+
+  @override
+  String get lqGoalPrivacy => '此笔记和个性化记录保存在本设备。';
+
+  @override
+  String get lqApply => '调整今日任务';
+
+  @override
+  String get lqAccept => '接受';
+
+  @override
+  String get lqDone => '完成了';
+
+  @override
+  String get lqCompleted => '完成';
+
+  @override
+  String get lqTooHard => '今天太难了';
+
+  @override
+  String get lqSkip => '换一个';
+
+  @override
+  String get lqWhy => '推荐此任务的理由';
+
+  @override
+  String get lqDefaultReason => '已匹配你的兴趣和可用时间。';
+
+  @override
+  String get lqRecoveryReason => '减少负担，更容易重新开始。';
+
+  @override
+  String get lqAllSet => '今日计划已定。';
+
+  @override
+  String get lqAllSetBody => '按自己的节奏完成已接受的任务。明天会有新推荐。';
+
+  @override
+  String get lqDirector => '你的任务AI';
+
+  @override
+  String get lqBasicMode => '基础推荐';
+
+  @override
+  String get lqLocalAi => '设备端AI';
+
+  @override
+  String get lqGenerate => 'AI个性化生成';
+
+  @override
+  String get lqGenerating => '正在生成你的任务…';
+
+  @override
+  String get lqModelName => 'Gemma 4 E2B · 免费开放模型';
+
+  @override
+  String get lqModelIntro => '安装后可离线在本设备生成任务。无需AI费用或订阅。';
+
+  @override
+  String get lqModelDownloadInfo =>
+      '模型2.59GB · 建议Wi-Fi · 至少3GB可用空间\n下载时请保持应用开启。可断点续传。可能产生运营商流量费用。';
+
+  @override
+  String get lqDownload => '下载免费模型';
+
+  @override
+  String get lqCancel => '取消';
+
+  @override
+  String get lqRemoveModel => '删除模型文件';
+
+  @override
+  String get lqModelUnavailable => '此环境使用基础推荐。AI需要内存充足的兼容Android设备。';
+
+  @override
+  String get lqModelRejected => '此次生成未通过验证。保留现有推荐。';
+
+  @override
+  String get lqModelError => '未能完成。请检查网络和存储后重试。';
+
+  @override
+  String get lqLearningHistory => '个性化记录';
+
+  @override
+  String get lqLearningHistoryBody =>
+      '参考完成、跳过、难度和近期重复来调整后续任务内容与分量。设备仅保留最近90天记录。';
+
+  @override
+  String get lqClearLearning => '重置学习记录';
+
+  @override
+  String get lqResetConfirm => '重置个性化记录吗？等级和已完成任务将保留。';
+
+  @override
+  String get lqStorageError => '保存未完成。关闭应用前请检查存储空间。';
+
+  @override
+  String get lqEarnedToday => '今日任务经验';
+
+  @override
+  String get lqStatusWindow => '我的状态栏';
+
+  @override
+  String get lqGrowthHint => '休息日也不会失去已积累的成长。';
+
+  @override
+  String get lqOpenGate => '检验成长的时刻';
+
+  @override
+  String get lqGateHint => '用现实行动积累的力量挑战短暂的卡牌战斗。';
+
+  @override
+  String get lqEnterDungeon => '进入地下城';
+
+  @override
+  String get lqOptional => '可选冒险';
+
+  @override
+  String get lqSaved => '已保存';
+
+  @override
+  String get lqReportSuggestion => '举报不当推荐';
+
+  @override
+  String get lqReportBody => '将此推荐的标题、行动、理由及当前账号标识发送给开发者。不附加目标笔记和学习记录。';
+
+  @override
+  String get lqSendReport => '发送举报';
+
+  @override
+  String get lqReportSent => '举报已发送。已隐藏此推荐。';
+
+  @override
+  String get lqReportQueued => '联网后会发送举报。已隐藏此推荐。';
+
+  @override
+  String get lqReportPreview => 'QA举报已保存到本机，未发送给开发者。';
+
+  @override
+  String get lqReportFailed => '未能发送举报，请重试。';
+
+  @override
+  String get lqCloudQuestNotice => '接受的任务通过账号保存到Firebase。AI生成本身仅在本设备运行。';
+
+  @override
+  String get lqOpenSourceLicenses => '开源许可';
+
+  @override
+  String get lqWelcomeTitle => '为日常，\n开启新的任务。';
+
+  @override
+  String get lqWelcomeBody => '不必立下宏大目标，从今天的一件小事开始。\n现实中的成长，就是你的故事。';
+
+  @override
+  String get lqFirstContract => '与你的第一个约定';
+
+  @override
+  String get lqWelcomeStepOne => '从今天的状态出发';
+
+  @override
+  String get lqWelcomeStepOneBody => '先选好可用的时间、精力和方向。';
+
+  @override
+  String get lqWelcomeStepTwo => '用小任务积累成长';
+
+  @override
+  String get lqWelcomeStepTwoBody => '在现实中完成行动，收获经验。';
+
+  @override
+  String get lqWelcomeStepThree => '开启属于你的故事';
+
+  @override
+  String get lqWelcomeStepThreeBody => '卡牌与地牢，让每一点成长都值得期待。';
+
+  @override
+  String get lqStartOnDevice => '在此设备上开始';
+
+  @override
+  String get lqStarting => '正在打开状态窗…';
+
+  @override
+  String get lqExistingAccount => '使用已有账号继续';
+
+  @override
+  String get lqDeviceStorageNotice => '无需注册，免费开始。记录仅保存在此设备上，卸载应用后将丢失。';
+
+  @override
+  String get lqGuestName => '觉醒者';
+
+  @override
+  String get lqProfileLoadFailed => '无法加载记录。已保存的数据仍被保留，请重试。';
+
+  @override
+  String get lqRetry => '重试';
+
+  @override
+  String get lqBackToStart => '返回开始页';
+
+  @override
+  String get lqLocalProfile => '设备专属档案';
+
+  @override
+  String get lqDeleteLocal => '删除设备记录';
+
+  @override
+  String get lqDeleteLocalBody => '删除此设备上的任务、成长和个性化历史。此操作无法撤销。';
+
+  @override
+  String get lqPurchasePending => '付款待确认，获批后将自动验证使用权限。';
+
+  @override
+  String get lqPurchasePendingShort => '待确认';
+
+  @override
+  String get lqPurchaseVerifying => '正在验证购买…';
+
+  @override
+  String get lqPurchaseGranted => '购买已验证，内容现已可用。';
+
+  @override
+  String get lqPurchaseCancelled => '购买已取消。';
+
+  @override
+  String get lqPurchaseRetry => '购买验证延迟，请使用同一账号重试恢复购买。';
+
+  @override
+  String get lqPurchaseFailed => '无法开始购买，请稍后重试。';
+
+  @override
+  String get lqPurchaseRestoring => '正在恢复购买…';
+
+  @override
+  String get lqPurchaseRestoreFinished => '已检查商店购买记录，请确认使用的是购买时的应用账号。';
+
+  @override
+  String get lqRestorePurchases => '恢复购买';
+
+  @override
+  String get lqStoryLibrary => '记录馆';
+
+  @override
+  String get lqStoryFreePrologue => '免费序章';
+
+  @override
+  String get lqStoryBannerTitle => '来自零号出口的信号';
+
+  @override
+  String get lqStoryBannerBody => '今天的小小行动，开启下一段故事。';
+
+  @override
+  String get lqStoryLibraryHeadline => '让你的行动，\n成为故事的地方。';
+
+  @override
+  String get lqStoryLibraryHint => '不用着急，你随时都能回来重读记录。';
+
+  @override
+  String get lqStoryProgress => '已完成的记录';
+
+  @override
+  String get lqStoryLoadFailed => '无法加载故事，请退出此页面后重试。';
+
+  @override
+  String get lqStoryFiction => '通过日常任务推进的虚构故事。';
+
+  @override
+  String get lqStoryNoDeadline => '没有期限，也不要求连续登录。完成任务即可开启下一份记录。';
+
+  @override
+  String get lqStoryActionCount => '累计完成的任务：';
+
+  @override
+  String get lqStoryReadAgain => '重读';
+
+  @override
+  String get lqStoryReadNow => '现在可以阅读';
+
+  @override
+  String get lqStoryUnlockAfter => '还需完成：';
+
+  @override
+  String get lqStoryQuestUnit => '个任务';
+
+  @override
+  String get lqStoryReadPrevious => '请先完成前一份记录。';
+
+  @override
+  String get lqStoryRecord => '记录';
+
+  @override
+  String get lqStoryChoose => '你会如何回应？';
+
+  @override
+  String get lqStoryNext => '阅读下一份记录';
+
+  @override
+  String get lqStoryChapterComplete => '本章记录已全部完成。你随时可以重读，尝试不同的选择。';
+
+  @override
+  String get lqStoryReturnLater => '再完成一些日常任务，即可开启下一份记录。已有的故事进度会一直保留。';
+
+  @override
+  String get lqStoryBackToChapter => '查看本章记录';
+
+  @override
+  String get lqStoryChooseAgain => '尝试其他选择';
+
+  @override
+  String get lqStorySaveFailed => '无法保存选择，请重试。';
+
+  @override
+  String get lqDeletionQueued => '已受理删除请求。即使关闭应用，服务器也会继续处理。';
+
+  @override
+  String get lqBackupTitle => '备份与恢复';
+
+  @override
+  String get lqBackupHeadline => '换一台设备，继续你的旅程。';
+
+  @override
+  String get lqBackupBody => '用自己设定的密码加密记录，保存为文件。备份免费，保存位置由你选择。';
+
+  @override
+  String get lqBackupExport => '创建备份文件';
+
+  @override
+  String get lqBackupImport => '打开备份文件';
+
+  @override
+  String get lqBackupUndo => '返回恢复前的记录';
+
+  @override
+  String get lqBackupIncluded => '备份内容';
+
+  @override
+  String get lqBackupIncludesBody =>
+      '包含任务、成长、已通关地下城、故事选择和个性化历史。不包含进行中的探索、登录信息、购买权限或AI模型文件。恢复后通知默认为关闭。';
+
+  @override
+  String get lqBackupPasswordNotice =>
+      '如果忘记密码，开发者也无法打开备份。卸载应用不会删除你保存的备份，请在保存位置自行删除不再需要的文件。';
+
+  @override
+  String get lqBackupSetPassword => '设置备份密码';
+
+  @override
+  String get lqBackupEnterPassword => '输入备份密码';
+
+  @override
+  String get lqBackupPasswordHint =>
+      '请使用 12–128 个字符。建议使用容易记住的长句。空格和字母大小写都是密码的一部分。';
+
+  @override
+  String get lqBackupPassword => '密码';
+
+  @override
+  String get lqBackupRepeatPassword => '再次输入密码';
+
+  @override
+  String get lqBackupShowPassword => '显示密码';
+
+  @override
+  String get lqBackupHidePassword => '隐藏密码';
+
+  @override
+  String get lqBackupPasswordMismatch => '两次输入的密码不一致。';
+
+  @override
+  String get lqBackupUnlock => '查看备份内容';
+
+  @override
+  String get lqBackupReview => '恢复这些记录？';
+
+  @override
+  String get lqBackupReplaceBody =>
+      '这将替换此设备上的记录。原记录会保留在设备中，方便撤回。登录与购买权益仍属于原账户。需要提醒时请重新开启。';
+
+  @override
+  String get lqBackupRestore => '恢复记录';
+
+  @override
+  String get lqBackupWorking => '正在处理记录…';
+
+  @override
+  String get lqBackupSaved => '已保存加密备份文件。';
+
+  @override
+  String get lqBackupSaveFailed => '无法保存备份，请检查可用空间和保存位置。';
+
+  @override
+  String get lqBackupInvalid => '无法打开备份，请检查文件和密码。记录未被更改。';
+
+  @override
+  String get lqBackupRestored => '记录已恢复，可在设置中重新开启提醒。';
+
+  @override
+  String get lqBackupRestoreInterrupted => '恢复未完成，请重新打开应用或重试以继续。';
+
+  @override
+  String get lqDungeonIntro => '带着日常积累的力量，开始冒险。';
+
+  @override
+  String get lqDungeonIntroBody => '使用卡牌，选择路线。战斗失败不会扣除日常等级和经验值。';
+
+  @override
+  String get lqDungeonStart => '开始探索';
+
+  @override
+  String get lqDungeonResume => '继续当前探索';
+
+  @override
+  String get lqDungeonBonus => '日常积累的加成';
+
+  @override
+  String get lqDungeonBonusBody => '完成的任务与装备会为下次探索提供加成。没有加成也能立即开始。';
+
+  @override
+  String get lqDungeonPacks => '卡包';
+
+  @override
+  String get lqDungeonPathHint => '选择下方发光的地点开始。';
+
+  @override
+  String get lqDungeonNextHint => '选择相连的下一地点继续。';
+
+  @override
+  String get lqDungeonCurrent => '当前位置';
+
+  @override
+  String get lqDungeonAvailable => '可选择';
+
+  @override
+  String get lqDungeonLocked => '未解锁';
+
+  @override
+  String get lqDungeonDone => '已完成';
+
+  @override
+  String get lqDungeonEntering => '正在进入…';
+
+  @override
+  String get lqDungeonCombat => '战斗';
+
+  @override
+  String get lqDungeonElite => '精英战';
+
+  @override
+  String get lqDungeonEvent => '事件';
+
+  @override
+  String get lqDungeonShop => '商店';
+
+  @override
+  String get lqDungeonRest => '休息';
+
+  @override
+  String get lqDungeonBoss => '首领';
+
+  @override
+  String get lqBattleGuideTitle => '首次战斗指引';
+
+  @override
+  String get lqBattleGuideEnergy => 'EP是每回合的能量。使用卡牌会消耗其左上角所示的点数。';
+
+  @override
+  String get lqBattleGuideCards => '敌人不止一个时，先选目标再用卡。攻击造成伤害，防御抵挡敌方伤害。';
+
+  @override
+  String get lqBattleGuideTurn => '行动结束后点击“结束回合”。敌方行动后会补充能量和手牌。';
+
+  @override
+  String get lqBattleBegin => '开始战斗';
+
+  @override
+  String get lqBattleExit => '离开战斗';
+
+  @override
+  String lqDungeonNode(String type, int step, int path, String state) {
+    return '$type，第$step层，路线$path，$state';
+  }
 }

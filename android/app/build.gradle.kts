@@ -30,7 +30,7 @@ val androidManifestPath = if (admobAndroidAppId.isBlank()) {
 android {
     namespace = "com.lifequest.app"
     compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "29.0.14206865"
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -38,14 +38,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
 
     defaultConfig {
         applicationId = "com.lifequest.app"
-        minSdk = flutter.minSdkVersion
-        targetSdk = 35
+        minSdk = 26
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         manifestPlaceholders["admobAppId"] = admobAndroidAppId
@@ -79,9 +76,10 @@ android {
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
             } else {
-                throw GradleException(
-                    "Missing android/key.properties for release signing"
-                )
+                if (gradle.startParameter.taskNames.any { it.contains("Release", ignoreCase = true) }) {
+                    throw GradleException("Missing android/key.properties for release signing")
+                }
+                null
             }
             isMinifyEnabled = true
             isShrinkResources = true
@@ -93,6 +91,12 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
+}
+
 flutter {
     source = "../.."
 }
@@ -100,5 +104,6 @@ flutter {
 // --- 추가된 부분: 디슈가링 라이브러리 의존성 추가 ---
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("com.google.ai.edge.litertlm:litertlm-android:0.17.0")
 }
 // --- 여기까지 ---

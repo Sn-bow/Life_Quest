@@ -1,10 +1,11 @@
-﻿name: life_quest_final_v2
+name: life_quest_final_v2
 description: "Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱 (applicationId: com.lifequest.app)"
 publish_to: 'none'
-version: 1.0.1+2
+version: 2.0.0+3
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: '>=3.12.0 <4.0.0'
+  flutter: '>=3.44.0'
 
 dependencies:
   flutter:
@@ -13,7 +14,8 @@ dependencies:
     sdk: flutter
 
   provider: ^6.1.2
-  phosphor_flutter: ^1.4.0
+  phosphor_flutter:
+    path: third_party/phosphor_flutter
   cupertino_icons: ^1.0.2
   fl_chart: ^0.68.0
   shared_preferences: ^2.2.3
@@ -32,17 +34,24 @@ dependencies:
   home_widget: ^0.9.0
   flutter_timezone: ^5.0.1
   google_mobile_ads: ^6.0.0
-  in_app_purchase: ^3.2.3
+  in_app_purchase: ^3.3.0
+  in_app_purchase_android: ^0.5.3
+  crypto: ^3.0.7
   intl: ^0.20.2
   flame: ^1.21.0
   flame_audio: ^2.10.4
   url_launcher: ^6.3.0
   cloud_functions: ^5.0.0
+  cryptography: ^2.9.0
+  cryptography_flutter: ^2.3.4
+  file_picker: ^12.3.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.4.0
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   mockito: ^5.6.3
@@ -72,6 +81,8 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
+    - assets/story/
+    - assets/licenses/
     - assets/images/
     - assets/images/monsters/
     - assets/images/backgrounds/

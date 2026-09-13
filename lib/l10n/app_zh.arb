@@ -29,11 +29,23 @@
   "loginErrorGoogleToken": "无法获取Google认证令牌，请重试。",
   "loginErrorGoogle": "Google登录失败。",
   "loginErrorUnknown": "发生错误: {error}",
-  "@loginErrorUnknown": {"placeholders": {"error": {"type": "String"}}},
+  "@loginErrorUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "loginForgotPassword": "忘记密码了吗?",
   "loginForgotPasswordEmailRequired": "请先输入邮箱地址。",
   "loginForgotPasswordSent": "密码重置邮件已发送至 {email}。",
-  "@loginForgotPasswordSent": {"placeholders": {"email": {"type": "String"}}},
+  "@loginForgotPasswordSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "signupTitle": "注册新冒险者",
   "signupPickPhoto": "选择头像",
   "signupEmailLabel": "邮箱",
@@ -49,7 +61,13 @@
   "signupSuccess": "🎉 注册成功！欢迎加入！",
   "signupErrorFailed": "注册失败。",
   "signupErrorUnknown": "发生未知错误: {error}",
-  "@signupErrorUnknown": {"placeholders": {"error": {"type": "String"}}},
+  "@signupErrorUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "signupErrorUserCreate": "创建用户失败。",
   "statusScreenTitle": "状态",
   "statusTimerTooltip": "专注计时器",
@@ -57,9 +75,21 @@
   "statusHpLabel": "生活HP",
   "statusHpRecoveryHint": "生活HP表示日常任务状态。非战斗状态下，每10分钟会自然缓慢恢复。",
   "statusStreakLabel": "连续达成: {days}天",
-  "@statusStreakLabel": {"placeholders": {"days": {"type": "int"}}},
+  "@statusStreakLabel": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "statusStreakBonus": "XP +{percent}%",
-  "@statusStreakBonus": {"placeholders": {"percent": {"type": "int"}}},
+  "@statusStreakBonus": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "statusStatHint": "升级时，3点根据最近完成任务的倾向自动成长，其余点数可自行分配。",
   "statusGoldLabel": "金币",
   "statusApLabel": "行动力",
@@ -77,7 +107,13 @@
   "statusTitleChangeTitle": "更换称号",
   "statusStatApplyTitle": "确认属性分配",
   "statusStatApplyBody": "是否应用以下属性？\n\n{summary}\n\n应用后无法撤销。",
-  "@statusStatApplyBody": {"placeholders": {"summary": {"type": "String"}}},
+  "@statusStatApplyBody": {
+    "placeholders": {
+      "summary": {
+        "type": "String"
+      }
+    }
+  },
   "questsScreenTitle": "任务列表",
   "questsTabDaily": "每日任务",
   "questsTabWeekly": "每周任务",
@@ -101,12 +137,24 @@
   "questsTypeYearly": "年度副本",
   "questsCompleteTitle": "完成任务",
   "questsCompleteConfirm": "确认完成任务「{questName}」？",
-  "@questsCompleteConfirm": {"placeholders": {"questName": {"type": "String"}}},
+  "@questsCompleteConfirm": {
+    "placeholders": {
+      "questName": {
+        "type": "String"
+      }
+    }
+  },
   "questsBaseRewardLabel": "基础奖励",
   "questsGoldUnit": "金币",
   "questsAdRewardApplied": "🎉 广告奖励已应用",
   "questsDoubleAdButton": "看广告获得2倍奖励 (剩余{remaining}次)",
-  "@questsDoubleAdButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@questsDoubleAdButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "questsAdUnavailable": "广告加载失败，已发放基础奖励。",
   "questsEditTitle": "编辑任务",
   "questsAddTitle": "添加新任务",
@@ -115,29 +163,95 @@
   "questsCategoryLabel": "分类",
   "questsDifficultyLabel": "难度",
   "questsRewardPreview": "{type}奖励: {xp} XP · {gold} 金币",
-  "@questsRewardPreview": {"placeholders": {"type": {"type": "String"}, "xp": {"type": "int"}, "gold": {"type": "int"}}},
+  "@questsRewardPreview": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
   "questsNameRequired": "请输入任务名称。",
   "questsDeleteTitle": "删除任务",
   "questsDeleteBody": "确认删除任务「{questName}」？\n\n删除后无法恢复。",
-  "@questsDeleteBody": {"placeholders": {"questName": {"type": "String"}}},
+  "@questsDeleteBody": {
+    "placeholders": {
+      "questName": {
+        "type": "String"
+      }
+    }
+  },
   "questsRaidClear": "副本通关 {count} 次",
-  "@questsRaidClear": {"placeholders": {"count": {"type": "int"}}},
+  "@questsRaidClear": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardSummary": "总奖励: {xp} XP · {gold} 金币 · AP +{ap}",
-  "@questsRewardSummary": {"placeholders": {"xp": {"type": "int"}, "gold": {"type": "int"}, "ap": {"type": "int"}}},
+  "@questsRewardSummary": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      },
+      "ap": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardStatPoints": "额外属性点 +{sp}",
-  "@questsRewardStatPoints": {"placeholders": {"sp": {"type": "int"}}},
+  "@questsRewardStatPoints": {
+    "placeholders": {
+      "sp": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardUnlockedTitles": "解锁称号: {titles}",
-  "@questsRewardUnlockedTitles": {"placeholders": {"titles": {"type": "String"}}},
+  "@questsRewardUnlockedTitles": {
+    "placeholders": {
+      "titles": {
+        "type": "String"
+      }
+    }
+  },
   "questsRewardUnlockedCosmetics": "解锁奖励: {cosmetics}",
-  "@questsRewardUnlockedCosmetics": {"placeholders": {"cosmetics": {"type": "String"}}},
+  "@questsRewardUnlockedCosmetics": {
+    "placeholders": {
+      "cosmetics": {
+        "type": "String"
+      }
+    }
+  },
   "questsRaidBonusMonthly": "副本奖励\n额外XP·额外金币\nAP +2·SP +1\n解锁进度奖励",
   "questsRaidBonusYearly": "副本奖励\n大量XP·大量金币\nAP +4·SP +2\n解锁稀有奖励",
   "huntScreenTitle": "狩猎场",
   "huntMyHpLabel": "战斗HP",
   "huntComboBadge": "💥 连击: {count}",
-  "@huntComboBadge": {"placeholders": {"count": {"type": "int"}}},
+  "@huntComboBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "huntApBadge": "⚡ AP: {ap}",
-  "@huntApBadge": {"placeholders": {"ap": {"type": "int"}}},
+  "@huntApBadge": {
+    "placeholders": {
+      "ap": {
+        "type": "int"
+      }
+    }
+  },
   "huntActionAttack": "攻击 (1 AP)",
   "huntActionDefend": "防御 (1 AP)",
   "huntActionSkill": "技能 (自由)",
@@ -150,16 +264,34 @@
   "huntSkillEmpty": "还没有学习战斗技能。",
   "huntApLowTitle": "AP不足",
   "huntApLowBody": "AP不足。看广告回复2 AP吗？\n(今日剩余: {remaining}次)",
-  "@huntApLowBody": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntApLowBody": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntApRecoverButton": "看广告回复",
   "huntApExhausted": "⚡ AP不足！请完成任务。(今日广告回复已全部用完)",
   "huntDoubleRewardButton": "看广告获得2倍战利品 (剩余{remaining}次)",
-  "@huntDoubleRewardButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntDoubleRewardButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntDoubleRewardSuccess": "🎉 通过广告奖励获得了2倍战利品！",
   "huntAdUnavailable": "广告加载失败，请重试。",
   "huntResultButton": "查看结果并返回",
   "huntReviveButton": "看广告复活 (今日剩余{remaining}次)",
-  "@huntReviveButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntReviveButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntReviveSuccess": "❤️ 通过广告奖励立即复活！",
   "huntReviveAdUnavailable": "广告加载失败，请稍后重试。",
   "huntRetreatButton": "放弃并返回",
@@ -167,7 +299,13 @@
   "inventoryEquippedSection": "已装备",
   "inventoryCombatStatSection": "战斗属性",
   "inventoryItemsSection": "持有道具 ({count})",
-  "@inventoryItemsSection": {"placeholders": {"count": {"type": "int"}}},
+  "@inventoryItemsSection": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "inventorySlotWeapon": "⚔️ 武器",
   "inventorySlotArmor": "🛡️ 防具",
   "inventorySlotAccessory": "💍 饰品",
@@ -186,9 +324,21 @@
   "inventoryStatAttack": "攻击力",
   "inventoryStatDefense": "防御力",
   "inventoryUsedHp": "使用了{itemName}。(HP回复)",
-  "@inventoryUsedHp": {"placeholders": {"itemName": {"type": "String"}}},
+  "@inventoryUsedHp": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "inventoryUsedAp": "使用了{itemName}。(AP回复)",
-  "@inventoryUsedAp": {"placeholders": {"itemName": {"type": "String"}}},
+  "@inventoryUsedAp": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "inventoryRarityCommon": "普通",
   "inventoryRarityUncommon": "优质",
   "inventoryRarityRare": "稀有",
@@ -234,7 +384,13 @@
   "shopCustomRewardIconLabel": "图标 (表情符号)",
   "shopCustomRewardAddButton": "添加奖励",
   "shopCustomRewardDeleted": "{name}已删除",
-  "@shopCustomRewardDeleted": {"placeholders": {"name": {"type": "String"}}},
+  "@shopCustomRewardDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shopAdSupportTitle": "可选奖励广告已停用",
   "shopAdSupportDesc": "当前默认 Android 版本不提供广告奖励功能。",
   "shopAdModelTitle": "变现功能准备中",
@@ -245,12 +401,30 @@
   "achievementEmptyInProgress": "所有成就已达成，或等待新挑战！",
   "achievementEmptyCompleted": "还没有完成的成就。",
   "achievementRewardXp": "奖励: {xp} XP",
-  "@achievementRewardXp": {"placeholders": {"xp": {"type": "int"}}},
+  "@achievementRewardXp": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "achievementRewardSp": "奖励: {sp} SP",
-  "@achievementRewardSp": {"placeholders": {"sp": {"type": "int"}}},
+  "@achievementRewardSp": {
+    "placeholders": {
+      "sp": {
+        "type": "int"
+      }
+    }
+  },
   "skillScreenTitle": "技能",
   "skillRequiredLevel": "需求条件: Lv.{level}",
-  "@skillRequiredLevel": {"placeholders": {"level": {"type": "int"}}},
+  "@skillRequiredLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "settingsScreenTitle": "设置",
   "settingsAccountSection": "账户",
   "settingsNicknameLabel": "昵称",
@@ -268,7 +442,13 @@
   "settingsNotificationMorning": "早晨通知时间",
   "settingsNotificationNight": "晚间通知时间",
   "settingsNotificationTimeValue": "每天{hour}时",
-  "@settingsNotificationTimeValue": {"placeholders": {"hour": {"type": "int"}}},
+  "@settingsNotificationTimeValue": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
   "settingsLanguage": "语言",
   "settingsLanguageSubtitle": "选择应用的显示语言。",
   "settingsLanguageSystem": "系统默认",
@@ -293,7 +473,7 @@
   "settingsLogout": "退出登录",
   "settingsWithdraw": "注销账户",
   "settingsWithdrawTitle": "注销账户",
-  "settingsWithdrawBody": "确定要注销账户吗？\n所有数据将被永久删除，此操作无法撤销。",
+  "settingsWithdrawBody": "删除账户、云端记录、举报内容与购买关联。请求受理后将退出登录，关闭应用后也会继续处理。此账户将无法恢复购买内容。删除不可撤销，且不等于退款。",
   "settingsWithdrawConfirm": "确认注销",
   "settingsReauthPasswordTitle": "确认密码",
   "settingsPrivacyPolicy": "隐私政策",
@@ -309,13 +489,31 @@
   "timerFocusMode": "专注模式",
   "timerBreakMode": "休息模式",
   "timerSessionCount": "第{count}次专注完成",
-  "@timerSessionCount": {"placeholders": {"count": {"type": "int"}}},
+  "@timerSessionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "timerFocusCompleteTitle": "🎉 专注完成！",
   "timerFocusCompleteBody": "{minutes}分钟专注会话完成！",
-  "@timerFocusCompleteBody": {"placeholders": {"minutes": {"type": "int"}}},
+  "@timerFocusCompleteBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "timerGoldRewardLabel": "金币 +",
   "timerTodaySessions": "今日完成: {count} 次",
-  "@timerTodaySessions": {"placeholders": {"count": {"type": "int"}}},
+  "@timerTodaySessions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "timerStartBreak": "开始休息",
   "timerFocusRewardLabel": "专注完成奖励:",
   "cosmeticShopTitle": "主题展示",
@@ -350,11 +548,23 @@
   "reportAdFailed": "广告加载失败，请稍后再试。",
   "reportSummaryStreak": "当前连续记录",
   "reportSummaryStreakValue": "{days}天",
-  "@reportSummaryStreakValue": {"placeholders": {"days": {"type": "int"}}},
+  "@reportSummaryStreakValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "reportSummaryXp": "当前XP",
   "reportSummaryQuestCount": "完成的任务",
   "reportSummaryQuestCountValue": "{count}个",
-  "@reportSummaryQuestCountValue": {"placeholders": {"count": {"type": "int"}}},
+  "@reportSummaryQuestCountValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportSummaryTitle": "当前称号",
   "reportWeeklyActivityTitle": "本周活动记录",
   "reportWeeklyActivitySubtitle": "查看本周的日常维持情况。",
@@ -373,7 +583,13 @@
   "reportFeatureAutoGrowth": "上一等级自动成长记录",
   "reportUnlockedToday": "今日扩展报告已解锁",
   "reportWatchAdButton": "观看广告解锁扩展报告（今日剩余{count}次）",
-  "@reportWatchAdButton": {"placeholders": {"count": {"type": "int"}}},
+  "@reportWatchAdButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportNoMoreViews": "今日已无法再次解锁",
   "reportCategoryRatioTitle": "任务类别比例",
   "reportInsightGrowthTrendTitle": "本等级成长倾向",
@@ -384,7 +600,13 @@
   "reportInsightAutoGrowthCaption": "升级时3点将根据行动统计自动分配。",
   "reportInsightBestDayTitle": "本周最佳专注日",
   "reportInsightBestDayCaption": "本周共完成了{count}个任务。",
-  "@reportInsightBestDayCaption": {"placeholders": {"count": {"type": "int"}}},
+  "@reportInsightBestDayCaption": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportInsightRecommendedStatTitle": "推荐专注属性",
   "reportInsightBalanced": "均衡",
   "reportNextLevelPredictionTitle": "下一等级自动成长预测",
@@ -403,17 +625,47 @@
   "reportCalendarWeekdayFri": "五",
   "reportCalendarWeekdaySat": "六",
   "reportCalendarSelectedTitle": "{month}月{day}日 已完成任务",
-  "@reportCalendarSelectedTitle": {"placeholders": {"month": {"type": "int"}, "day": {"type": "int"}}},
+  "@reportCalendarSelectedTitle": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
   "reportCalendarSelectPrompt": "请选择日期",
   "reportCalendarNoQuests": "该日期没有已完成的任务。",
   "reportNoRecord": "无记录",
   "reportStatBalanced": "目前属性均衡，状态稳定。",
   "reportAddQuestSuggestion": "尝试添加{category}系任务",
-  "@reportAddQuestSuggestion": {"placeholders": {"category": {"type": "String"}}},
+  "@reportAddQuestSuggestion": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
   "reportRecommendedAction": "推荐行动: {action}",
-  "@reportRecommendedAction": {"placeholders": {"action": {"type": "String"}}},
+  "@reportRecommendedAction": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
   "reportBestWeekday": "{weekday} ({count}个)",
-  "@reportBestWeekday": {"placeholders": {"weekday": {"type": "String"}, "count": {"type": "int"}}},
+  "@reportBestWeekday": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportWeekdayMonday": "周一",
   "reportWeekdayTuesday": "周二",
   "reportWeekdayWednesday": "周三",
@@ -422,18 +674,45 @@
   "reportWeekdaySaturday": "周六",
   "reportWeekdaySunday": "周日",
   "reportStatValue": "{stat} {value}",
-  "@reportStatValue": {"placeholders": {"stat": {"type": "String"}, "value": {"type": "int"}}},
+  "@reportStatValue": {
+    "placeholders": {
+      "stat": {
+        "type": "String"
+      },
+      "value": {
+        "type": "int"
+      }
+    }
+  },
   "shopItemAcquired": "获得了{name}！",
-  "@shopItemAcquired": {"placeholders": {"name": {"type": "String"}}},
+  "@shopItemAcquired": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shopCustomRewardFabLabel": "添加奖励",
   "statusReportTooltip": "查看详细报告",
   "dungeonHomeTitle": "灵魂牌组",
   "dungeonHomeCardCollectionTooltip": "卡牌收藏",
   "dungeonHomeDungeonSelection": "选择地下城",
   "dungeonHomeRequiredLevel": "需要{requiredLevel}级或以上",
-  "@dungeonHomeRequiredLevel": {"placeholders": {"requiredLevel": {"type": "int"}}},
+  "@dungeonHomeRequiredLevel": {
+    "placeholders": {
+      "requiredLevel": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonHomeLockedHint": "达到Lv.{requiredLevel}即可解锁 — 完成任务提升等级",
-  "@dungeonHomeLockedHint": {"placeholders": {"requiredLevel": {"type": "int"}}},
+  "@dungeonHomeLockedHint": {
+    "placeholders": {
+      "requiredLevel": {
+        "type": "int"
+      }
+    }
+  },
   "zone1Name": "青色草原",
   "zone1Description": "适合新手冒险者的第一个地下城",
   "zone2Name": "黑暗森林",
@@ -447,7 +726,13 @@
   "seasonName": "赛季1：灵魂觉醒",
   "seasonEnded": "已结束",
   "seasonCountdown": "D-{days}",
-  "@seasonCountdown": {"placeholders": {"days": {"type": "int"}}},
+  "@seasonCountdown": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "ascensionModeTitle": "飞升模式",
   "ascensionInactive": "未激活",
   "ascensionActiveModifiers": "当前惩罚：",
@@ -464,15 +749,33 @@
   "ascensionLevel10Modifier": "Lv 10: 所有敌人HP +20%",
   "infiniteTowerTitle": "无限之塔",
   "infiniteTowerBestFloorDesc": "无尽挑战 · 最高记录: {bestFloor}层",
-  "@infiniteTowerBestFloorDesc": {"placeholders": {"bestFloor": {"type": "int"}}},
+  "@infiniteTowerBestFloorDesc": {
+    "placeholders": {
+      "bestFloor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerSelectFloor": "选择挑战楼层",
   "infiniteTowerFloorInfo": "楼层信息",
   "infiniteTowerChallengeFloor": "挑战{targetFloor}层",
-  "@infiniteTowerChallengeFloor": {"placeholders": {"targetFloor": {"type": "int"}}},
+  "@infiniteTowerChallengeFloor": {
+    "placeholders": {
+      "targetFloor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerFloorComposition": "楼层构成",
   "infiniteTowerBestFloorLabel": "最高记录",
   "infiniteTowerFloorDisplay": "{floor}层",
-  "@infiniteTowerFloorDisplay": {"placeholders": {"floor": {"type": "int"}}},
+  "@infiniteTowerFloorDisplay": {
+    "placeholders": {
+      "floor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerEnemyHp": "敌人HP",
   "infiniteTowerEnemyAttack": "敌人攻击",
   "infiniteTowerDefault": "基础",
@@ -490,7 +793,13 @@
   "dungeonRestRestTitle": "休息",
   "dungeonRestRestDescription": "回复30%的HP",
   "dungeonRestHealResult": "HP回复了{healAmount}！",
-  "@dungeonRestHealResult": {"placeholders": {"healAmount": {"type": "int"}}},
+  "@dungeonRestHealResult": {
+    "placeholders": {
+      "healAmount": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonRestTrainTitle": "修炼",
   "dungeonRestTrainDescription": "强化1张卡牌",
   "dungeonRestNoCardsToUpgrade": "没有可强化的卡牌",
@@ -498,7 +807,13 @@
   "dungeonRestSelectCardToUpgrade": "选择要强化的卡牌",
   "dungeonRestCardUpgraded": "已强化",
   "dungeonRestCardUpgradeResult": "「{name}」卡牌已强化！",
-  "@dungeonRestCardUpgradeResult": {"placeholders": {"name": {"type": "String"}}},
+  "@dungeonRestCardUpgradeResult": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "dungeonEventCardRewardTitle": "请选择一张卡牌",
   "dungeonShopTitle": "地下城商店",
   "dungeonShopCardsSection": "卡牌",
@@ -509,11 +824,23 @@
   "dungeonShopLeaveButton": "离开商店",
   "dungeonShopSelectCardToRemove": "选择要移除的卡牌",
   "dungeonShopRemovalCost": "费用: {cost}金币",
-  "@dungeonShopRemovalCost": {"placeholders": {"cost": {"type": "int"}}},
+  "@dungeonShopRemovalCost": {
+    "placeholders": {
+      "cost": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonShopPurchaseComplete": "购买完成",
   "dungeonShopRemoveOneCard": "移除1张卡牌",
   "dungeonShopRemovalDescription": "从牌组中移除不需要的卡牌（当前牌组: {deckSize}张）",
-  "@dungeonShopRemovalDescription": {"placeholders": {"deckSize": {"type": "int"}}},
+  "@dungeonShopRemovalDescription": {
+    "placeholders": {
+      "deckSize": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonEventTitle": "事件",
   "dungeonEventNoData": "没有事件数据",
   "dungeonEventChooseAction": "请选择",
@@ -534,16 +861,34 @@
   "dungeonResultStatsMonsterKilled": "击杀怪物",
   "dungeonResultRewardsTitle": "奖励",
   "dungeonResultXpReward": "+{xpGained} XP",
-  "@dungeonResultXpReward": {"placeholders": {"xpGained": {"type": "int"}}},
+  "@dungeonResultXpReward": {
+    "placeholders": {
+      "xpGained": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonResultGoldReward": "+{goldGained}金币",
-  "@dungeonResultGoldReward": {"placeholders": {"goldGained": {"type": "int"}}},
+  "@dungeonResultGoldReward": {
+    "placeholders": {
+      "goldGained": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonResultVictoryBonus": "通关奖励 x1.5 + Boss击杀奖励",
   "dungeonResultDefeatPenalty": "失败惩罚: 奖励 x0.5",
   "dungeonResultReturnHomeButton": "返回主页",
   "cardBattleYourTurn": "你的回合",
   "cardBattleEnemyTurn": "敌人回合",
   "cardBattleTurnCount": "第{turnCount}回合",
-  "@cardBattleTurnCount": {"placeholders": {"turnCount": {"type": "int"}}},
+  "@cardBattleTurnCount": {
+    "placeholders": {
+      "turnCount": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleAbandonDialog": "放弃战斗",
   "cardBattleAbandonConfirmation": "要放弃本次战斗吗？进度将会丢失。",
   "cardBattleAbandonButton": "放弃",
@@ -552,12 +897,24 @@
   "cardBattleNoCardsInHand": "手牌中没有卡牌",
   "cardBattleVictory": "胜利！",
   "cardBattleGoldReward": "+{gold}金币",
-  "@cardBattleGoldReward": {"placeholders": {"gold": {"type": "int"}}},
+  "@cardBattleGoldReward": {
+    "placeholders": {
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleSelectCard": "请选择一张卡牌",
   "cardBattleSkipButton": "跳过",
   "cardBattleEpEmpty": "EP不足",
   "cardBattlePlayableCount": "可出{count}张",
-  "@cardBattlePlayableCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cardBattlePlayableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleDrawPile": "摸牌",
   "cardBattleDiscardPile": "弃牌",
   "cardBattleIntentAttack": "攻击",
@@ -578,18 +935,42 @@
   "cardCollectionFilterAll": "全部",
   "cardCollectionMyCollection": "我的收藏",
   "cardCollectionCardCount": "({count}张)",
-  "@cardCollectionCardCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cardCollectionCardCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionNoCards": "你没有卡牌。\n完成任务可以获得卡牌！",
   "cardCollectionDeckInclusion": "牌组中有{copyCount}张",
-  "@cardCollectionDeckInclusion": {"placeholders": {"copyCount": {"type": "int"}}},
+  "@cardCollectionDeckInclusion": {
+    "placeholders": {
+      "copyCount": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionAddToDeck": "添加到牌组",
   "cardCollectionDeckFull": "牌组已满 (20张)",
   "cardCollectionMaxCopies": "最多可添加3张",
   "cardCollectionAddedToDeck": "{cardName}已添加到牌组",
-  "@cardCollectionAddedToDeck": {"placeholders": {"cardName": {"type": "String"}}},
+  "@cardCollectionAddedToDeck": {
+    "placeholders": {
+      "cardName": {
+        "type": "String"
+      }
+    }
+  },
   "cardCollectionMyDeck": "我的牌组",
   "cardCollectionDeckSize": "({deckSize}/20张)",
-  "@cardCollectionDeckSize": {"placeholders": {"deckSize": {"type": "int"}}},
+  "@cardCollectionDeckSize": {
+    "placeholders": {
+      "deckSize": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionResetDeckDialog": "重置牌组",
   "cardCollectionResetDeckConfirmation": "删除自定义牌组并恢复为默认初始牌组？",
   "cardCollectionResetButton": "重置",
@@ -648,7 +1029,6 @@
   "cardDescAtkC10": "对所有敌人造成3点伤害。",
   "cardNameAtkC10Up": "刀刃风暴+",
   "cardDescAtkC10Up": "对所有敌人造成5点伤害。",
-
   "cardNameAtkU01": "强力斩击",
   "cardDescAtkU01": "造成14点伤害，施加脆弱2回合。",
   "cardNameAtkU01Up": "强力斩击+",
@@ -681,7 +1061,6 @@
   "cardDescAtkU08": "对脆弱状态敌人造成双倍伤害（基础6点伤害）。",
   "cardNameAtkU08Up": "无情+",
   "cardDescAtkU08Up": "对脆弱状态敌人造成双倍伤害（基础9点伤害）。",
-
   "cardNameAtkR01": "龙之一击",
   "cardDescAtkR01": "造成30点伤害，施加燃烧3回合。",
   "cardNameAtkR01Up": "龙之一击+",
@@ -702,7 +1081,6 @@
   "cardDescAtkR05": "获得力量+5，3回合后力量-5。",
   "cardNameAtkR05Up": "狂战士+",
   "cardDescAtkR05Up": "获得力量+7，3回合后力量-5。",
-
   "cardNameAtkL01": "王者之剑",
   "cardDescAtkL01": "造成50点伤害，施加脆弱+虚弱3回合。使用后消耗。",
   "cardNameAtkL01Up": "王者之剑+",
@@ -711,7 +1089,6 @@
   "cardDescAtkL02": "造成8点伤害。每次使用永久+2伤害。",
   "cardNameAtkL02Up": "无限之刃+",
   "cardDescAtkL02Up": "造成12点伤害。每次使用永久+2伤害。",
-
   "cardNameMagC01": "火球",
   "cardDescMagC01": "造成4点伤害，施加燃烧2回合。",
   "cardNameMagC01Up": "火球+",
@@ -752,7 +1129,6 @@
   "cardDescMagC10": "使下一张牌的效果提高50%。",
   "cardNameMagC10Up": "元素和谐+",
   "cardDescMagC10Up": "使下一张牌的效果提高100%。",
-
   "cardNameMagU01": "连锁闪电",
   "cardDescMagU01": "造成8点伤害，对所有敌人造成4点伤害。",
   "cardNameMagU01Up": "连锁闪电+",
@@ -785,7 +1161,6 @@
   "cardDescMagU08": "复制手牌中1张牌（仅本回合）。",
   "cardNameMagU08Up": "复制术+",
   "cardDescMagU08Up": "以费用0复制手牌中1张牌（仅本回合）。",
-
   "cardNameMagR01": "陨石",
   "cardDescMagR01": "对所有敌人造成25点伤害，施加燃烧3回合。",
   "cardNameMagR01Up": "陨石+",
@@ -806,7 +1181,6 @@
   "cardDescMagR05": "使所有敌人冰结，造成10点伤害。",
   "cardNameMagR05Up": "绝对零度+",
   "cardDescMagR05Up": "使所有敌人冰结，造成15点伤害。",
-
   "cardNameMagL01": "末日审判",
   "cardDescMagL01": "对所有敌人造成99点伤害。自身受到30点伤害。使用后消耗。",
   "cardNameMagL01Up": "末日审判+",
@@ -815,7 +1189,6 @@
   "cardDescMagL02": "抽5张牌，获得能量+2。使用后消耗。",
   "cardNameMagL02Up": "无限智慧+",
   "cardDescMagL02Up": "抽7张牌，获得能量+3。使用后消耗。",
-
   "cardNameDefC01": "防御",
   "cardDescDefC01": "获得5格挡。",
   "cardNameDefC01Up": "防御+",
@@ -856,7 +1229,6 @@
   "cardDescDefC10": "获得6格挡并嘲讽1个敌人。",
   "cardNameDefC10Up": "嘲讽盾+",
   "cardDescDefC10Up": "获得9格挡并嘲讽1个敌人。",
-
   "cardNameDefU01": "路障",
   "cardDescDefU01": "获得12格挡和2回合坚定。",
   "cardNameDefU01Up": "路障+",
@@ -889,7 +1261,6 @@
   "cardDescDefU08": "获得20格挡。下回合获得10格挡。",
   "cardNameDefU08Up": "强化盔甲+",
   "cardDescDefU08Up": "获得25格挡。下回合获得15格挡。",
-
   "cardNameDefR01": "无敌",
   "cardDescDefR01": "本回合所有伤害降为0。消耗。",
   "cardNameDefR01Up": "无敌+",
@@ -910,7 +1281,6 @@
   "cardDescDefR05": "本次战斗死亡时以30%HP复活。消耗。",
   "cardNameDefR05Up": "重生药水+",
   "cardDescDefR05Up": "本次战斗死亡时以50%HP复活。消耗。",
-
   "cardNameDefL01": "永恒盾",
   "cardDescDefL01": "获得30格挡并每回合自动获得5格挡（战斗中）。消耗。",
   "cardNameDefL01Up": "永恒盾+",
@@ -919,7 +1289,6 @@
   "cardDescDefL02": "完全回复HP并获得最大HP+10（永久）。消耗。",
   "cardNameDefL02Up": "生命之泉+",
   "cardDescDefL02Up": "完全回复HP并获得最大HP+20（永久）。消耗。",
-
   "cardNameTacC01": "观察",
   "cardDescTacC01": "查看敌人意图并抽1张牌。",
   "cardNameTacC01Up": "观察+",
@@ -960,7 +1329,6 @@
   "cardDescTacC10": "50%概率抽2张牌。",
   "cardNameTacC10Up": "幸运硬币+",
   "cardDescTacC10Up": "70%概率抽2张牌。",
-
   "cardNameTacU01": "战场分析",
   "cardDescTacU01": "抽3张牌，将最高费用牌本回合费用降为0。",
   "cardNameTacU01Up": "战场分析+",
@@ -993,7 +1361,6 @@
   "cardDescTacU08": "获得3荆棘（永久）。被击中时施加虚弱1回合。",
   "cardNameTacU08Up": "连环陷阱+",
   "cardDescTacU08Up": "获得5荆棘（永久）。被击中时施加虚弱1回合。",
-
   "cardNameTacR01": "完美计划",
   "cardDescTacR01": "获得能量+3并抽3张牌。下回合抽牌数为0。",
   "cardNameTacR01Up": "完美计划+",
@@ -1014,7 +1381,6 @@
   "cardDescTacR05": "对所有敌人施加易伤+虚弱2回合和毒3。",
   "cardNameTacR05Up": "大混乱+",
   "cardDescTacR05Up": "对所有敌人施加易伤+虚弱3回合和毒3。",
-
   "cardNameTacL01": "时间主宰",
   "cardDescTacL01": "获得2个额外回合（每回合能量2）。消耗。",
   "cardNameTacL01Up": "时间主宰+",
@@ -1023,7 +1389,6 @@
   "cardDescTacL02": "本次战斗升级所有牌。消耗。",
   "cardNameTacL02Up": "命运转化+",
   "cardDescTacL02Up": "本次战斗升级所有牌并获得能量+2。消耗。",
-
   "relicNameStart01": "冒险者背包",
   "relicDescStart01": "战斗奖励卡牌选项+1张(3→4)",
   "relicNameStart02": "旧护符",
@@ -1086,7 +1451,6 @@
   "relicDescB04": "每回合在手牌中生成1张随机卡牌",
   "relicNameB05": "时间王冠",
   "relicDescB05": "第一回合额外再来一回合",
-
   "achievementNameAc1": "第一步",
   "achievementDescAc1": "完成1次任务",
   "achievementNameAc2": "勤勉证明",
@@ -1137,7 +1501,6 @@
   "achievementDescAc24": "魅力属性达到30",
   "achievementNameAc25": "魅力之王",
   "achievementDescAc25": "魅力属性达到80",
-
   "titleNameT0": "嫩芽冒险者",
   "titleDescT0": "一切都是新的开始",
   "titleNameT1": "勤勉冒险者",
@@ -1194,7 +1557,6 @@
   "titleDescT26": "年间突袭通关1次",
   "titleNameT27": "年间突袭君主",
   "titleDescT27": "年间突袭通关3次",
-
   "skillNameSk1": "力量强化",
   "skillDescSk1": "力量任务XP+10%",
   "skillNameSk2": "智慧之光",
@@ -1243,7 +1605,6 @@
   "skillDescSk23": "所有任务XP+20%",
   "skillNameSk24": "神的祝福",
   "skillDescSk24": "升级时额外获得SP3",
-
   "monsterSlimeGreen": "绿色史莱姆",
   "monsterBat": "洞穴蝙蝠",
   "monsterMushroom": "毒蘑菇",
@@ -1280,7 +1641,6 @@
   "chapterName3": "废墟城堡",
   "chapterName4": "熔岩地牢",
   "chapterName5": "深渊次元",
-
   "timerDuration15": "15分钟",
   "timerDuration25": "25分钟",
   "timerDuration45": "45分钟",
@@ -1288,11 +1648,216 @@
   "huntApRecovered": "⚡ AP恢复2点！",
   "huntSkillCooldownTurns": "{turns}回合",
   "@huntSkillCooldownTurns": {
-    "placeholders": { "turns": { "type": "int" } }
+    "placeholders": {
+      "turns": {
+        "type": "int"
+      }
+    }
   },
   "settingsReauthFailed": "重新验证失败: {error}",
   "@settingsReauthFailed": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
-  "settingsReauthWrongPassword": "密码不正确。"
+  "settingsReauthWrongPassword": "密码不正确。",
+  "lqToday": "今天",
+  "lqGrowth": "成长",
+  "lqDungeon": "地下城",
+  "lqHeadline": "今天，再进一步。",
+  "lqSubtitle": "小小行动，真实成长。",
+  "lqSystem": "个人任务系统",
+  "lqDailyMissions": "今日推荐",
+  "lqActiveQuests": "进行中的任务",
+  "lqAllQuests": "查看全部",
+  "lqCheckIn": "调整今日状态",
+  "lqCheckInHint": "从现在能做到的开始。",
+  "lqEnergy": "今日精力",
+  "lqEnergyLow": "轻松一点",
+  "lqEnergyMedium": "适中",
+  "lqEnergyHigh": "很充足",
+  "lqTimeBudget": "今天留给自己的时间",
+  "lqMinutes": "分钟",
+  "lqFocus": "想成长的领域",
+  "lqVitality": "活力",
+  "lqLearning": "学习",
+  "lqOrder": "整理",
+  "lqConnection": "关系",
+  "lqGoal": "最近想实现的事（可选）",
+  "lqGoalHint": "例如：下班后重新开始学英语",
+  "lqGoalPrivacy": "此笔记和个性化记录保存在本设备。",
+  "lqApply": "调整今日任务",
+  "lqAccept": "接受",
+  "lqDone": "完成了",
+  "lqCompleted": "完成",
+  "lqTooHard": "今天太难了",
+  "lqSkip": "换一个",
+  "lqWhy": "推荐此任务的理由",
+  "lqDefaultReason": "已匹配你的兴趣和可用时间。",
+  "lqRecoveryReason": "减少负担，更容易重新开始。",
+  "lqAllSet": "今日计划已定。",
+  "lqAllSetBody": "按自己的节奏完成已接受的任务。明天会有新推荐。",
+  "lqDirector": "你的任务AI",
+  "lqBasicMode": "基础推荐",
+  "lqLocalAi": "设备端AI",
+  "lqGenerate": "AI个性化生成",
+  "lqGenerating": "正在生成你的任务…",
+  "lqModelName": "Gemma 4 E2B · 免费开放模型",
+  "lqModelIntro": "安装后可离线在本设备生成任务。无需AI费用或订阅。",
+  "lqModelDownloadInfo": "模型2.59GB · 建议Wi-Fi · 至少3GB可用空间\n下载时请保持应用开启。可断点续传。可能产生运营商流量费用。",
+  "lqDownload": "下载免费模型",
+  "lqCancel": "取消",
+  "lqRemoveModel": "删除模型文件",
+  "lqModelUnavailable": "此环境使用基础推荐。AI需要内存充足的兼容Android设备。",
+  "lqModelRejected": "此次生成未通过验证。保留现有推荐。",
+  "lqModelError": "未能完成。请检查网络和存储后重试。",
+  "lqLearningHistory": "个性化记录",
+  "lqLearningHistoryBody": "参考完成、跳过、难度和近期重复来调整后续任务内容与分量。设备仅保留最近90天记录。",
+  "lqClearLearning": "重置学习记录",
+  "lqResetConfirm": "重置个性化记录吗？等级和已完成任务将保留。",
+  "lqStorageError": "保存未完成。关闭应用前请检查存储空间。",
+  "lqEarnedToday": "今日任务经验",
+  "lqStatusWindow": "我的状态栏",
+  "lqGrowthHint": "休息日也不会失去已积累的成长。",
+  "lqOpenGate": "检验成长的时刻",
+  "lqGateHint": "用现实行动积累的力量挑战短暂的卡牌战斗。",
+  "lqEnterDungeon": "进入地下城",
+  "lqOptional": "可选冒险",
+  "lqSaved": "已保存",
+  "lqReportSuggestion": "举报不当推荐",
+  "lqReportBody": "将此推荐的标题、行动、理由及当前账号标识发送给开发者。不附加目标笔记和学习记录。",
+  "lqSendReport": "发送举报",
+  "lqReportSent": "举报已发送。已隐藏此推荐。",
+  "lqReportQueued": "联网后会发送举报。已隐藏此推荐。",
+  "lqReportPreview": "QA举报已保存到本机，未发送给开发者。",
+  "lqReportFailed": "未能发送举报，请重试。",
+  "lqCloudQuestNotice": "接受的任务通过账号保存到Firebase。AI生成本身仅在本设备运行。",
+  "lqOpenSourceLicenses": "开源许可",
+  "lqWelcomeTitle": "为日常，\n开启新的任务。",
+  "lqWelcomeBody": "不必立下宏大目标，从今天的一件小事开始。\n现实中的成长，就是你的故事。",
+  "lqFirstContract": "与你的第一个约定",
+  "lqWelcomeStepOne": "从今天的状态出发",
+  "lqWelcomeStepOneBody": "先选好可用的时间、精力和方向。",
+  "lqWelcomeStepTwo": "用小任务积累成长",
+  "lqWelcomeStepTwoBody": "在现实中完成行动，收获经验。",
+  "lqWelcomeStepThree": "开启属于你的故事",
+  "lqWelcomeStepThreeBody": "卡牌与地牢，让每一点成长都值得期待。",
+  "lqStartOnDevice": "在此设备上开始",
+  "lqStarting": "正在打开状态窗…",
+  "lqExistingAccount": "使用已有账号继续",
+  "lqDeviceStorageNotice": "无需注册，免费开始。记录仅保存在此设备上，卸载应用后将丢失。",
+  "lqGuestName": "觉醒者",
+  "lqProfileLoadFailed": "无法加载记录。已保存的数据仍被保留，请重试。",
+  "lqRetry": "重试",
+  "lqBackToStart": "返回开始页",
+  "lqLocalProfile": "设备专属档案",
+  "lqDeleteLocal": "删除设备记录",
+  "lqDeleteLocalBody": "删除此设备上的任务、成长和个性化历史。此操作无法撤销。",
+  "lqPurchasePending": "付款待确认，获批后将自动验证使用权限。",
+  "lqPurchasePendingShort": "待确认",
+  "lqPurchaseVerifying": "正在验证购买…",
+  "lqPurchaseGranted": "购买已验证，内容现已可用。",
+  "lqPurchaseCancelled": "购买已取消。",
+  "lqPurchaseRetry": "购买验证延迟，请使用同一账号重试恢复购买。",
+  "lqPurchaseFailed": "无法开始购买，请稍后重试。",
+  "lqPurchaseRestoring": "正在恢复购买…",
+  "lqPurchaseRestoreFinished": "已检查商店购买记录，请确认使用的是购买时的应用账号。",
+  "lqRestorePurchases": "恢复购买",
+  "lqStoryLibrary": "记录馆",
+  "lqStoryFreePrologue": "免费序章",
+  "lqStoryBannerTitle": "来自零号出口的信号",
+  "lqStoryBannerBody": "今天的小小行动，开启下一段故事。",
+  "lqStoryLibraryHeadline": "让你的行动，\n成为故事的地方。",
+  "lqStoryLibraryHint": "不用着急，你随时都能回来重读记录。",
+  "lqStoryProgress": "已完成的记录",
+  "lqStoryLoadFailed": "无法加载故事，请退出此页面后重试。",
+  "lqStoryFiction": "通过日常任务推进的虚构故事。",
+  "lqStoryNoDeadline": "没有期限，也不要求连续登录。完成任务即可开启下一份记录。",
+  "lqStoryActionCount": "累计完成的任务：",
+  "lqStoryReadAgain": "重读",
+  "lqStoryReadNow": "现在可以阅读",
+  "lqStoryUnlockAfter": "还需完成：",
+  "lqStoryQuestUnit": "个任务",
+  "lqStoryReadPrevious": "请先完成前一份记录。",
+  "lqStoryRecord": "记录",
+  "lqStoryChoose": "你会如何回应？",
+  "lqStoryNext": "阅读下一份记录",
+  "lqStoryChapterComplete": "本章记录已全部完成。你随时可以重读，尝试不同的选择。",
+  "lqStoryReturnLater": "再完成一些日常任务，即可开启下一份记录。已有的故事进度会一直保留。",
+  "lqStoryBackToChapter": "查看本章记录",
+  "lqStoryChooseAgain": "尝试其他选择",
+  "lqStorySaveFailed": "无法保存选择，请重试。",
+  "lqDeletionQueued": "已受理删除请求。即使关闭应用，服务器也会继续处理。",
+  "lqBackupTitle": "备份与恢复",
+  "lqBackupHeadline": "换一台设备，继续你的旅程。",
+  "lqBackupBody": "用自己设定的密码加密记录，保存为文件。备份免费，保存位置由你选择。",
+  "lqBackupExport": "创建备份文件",
+  "lqBackupImport": "打开备份文件",
+  "lqBackupUndo": "返回恢复前的记录",
+  "lqBackupIncluded": "备份内容",
+  "lqBackupIncludesBody": "包含任务、成长、已通关地下城、故事选择和个性化历史。不包含进行中的探索、登录信息、购买权限或AI模型文件。恢复后通知默认为关闭。",
+  "lqBackupPasswordNotice": "如果忘记密码，开发者也无法打开备份。卸载应用不会删除你保存的备份，请在保存位置自行删除不再需要的文件。",
+  "lqBackupSetPassword": "设置备份密码",
+  "lqBackupEnterPassword": "输入备份密码",
+  "lqBackupPasswordHint": "请使用 12–128 个字符。建议使用容易记住的长句。空格和字母大小写都是密码的一部分。",
+  "lqBackupPassword": "密码",
+  "lqBackupRepeatPassword": "再次输入密码",
+  "lqBackupShowPassword": "显示密码",
+  "lqBackupHidePassword": "隐藏密码",
+  "lqBackupPasswordMismatch": "两次输入的密码不一致。",
+  "lqBackupUnlock": "查看备份内容",
+  "lqBackupReview": "恢复这些记录？",
+  "lqBackupReplaceBody": "这将替换此设备上的记录。原记录会保留在设备中，方便撤回。登录与购买权益仍属于原账户。需要提醒时请重新开启。",
+  "lqBackupRestore": "恢复记录",
+  "lqBackupWorking": "正在处理记录…",
+  "lqBackupSaved": "已保存加密备份文件。",
+  "lqBackupSaveFailed": "无法保存备份，请检查可用空间和保存位置。",
+  "lqBackupInvalid": "无法打开备份，请检查文件和密码。记录未被更改。",
+  "lqBackupRestored": "记录已恢复，可在设置中重新开启提醒。",
+  "lqBackupRestoreInterrupted": "恢复未完成，请重新打开应用或重试以继续。",
+  "lqDungeonIntro": "带着日常积累的力量，开始冒险。",
+  "lqDungeonIntroBody": "使用卡牌，选择路线。战斗失败不会扣除日常等级和经验值。",
+  "lqDungeonStart": "开始探索",
+  "lqDungeonResume": "继续当前探索",
+  "lqDungeonBonus": "日常积累的加成",
+  "lqDungeonBonusBody": "完成的任务与装备会为下次探索提供加成。没有加成也能立即开始。",
+  "lqDungeonPacks": "卡包",
+  "lqDungeonPathHint": "选择下方发光的地点开始。",
+  "lqDungeonNextHint": "选择相连的下一地点继续。",
+  "lqDungeonCurrent": "当前位置",
+  "lqDungeonAvailable": "可选择",
+  "lqDungeonLocked": "未解锁",
+  "lqDungeonDone": "已完成",
+  "lqDungeonEntering": "正在进入…",
+  "lqDungeonCombat": "战斗",
+  "lqDungeonElite": "精英战",
+  "lqDungeonEvent": "事件",
+  "lqDungeonShop": "商店",
+  "lqDungeonRest": "休息",
+  "lqDungeonBoss": "首领",
+  "lqBattleGuideTitle": "首次战斗指引",
+  "lqBattleGuideEnergy": "EP是每回合的能量。使用卡牌会消耗其左上角所示的点数。",
+  "lqBattleGuideCards": "敌人不止一个时，先选目标再用卡。攻击造成伤害，防御抵挡敌方伤害。",
+  "lqBattleGuideTurn": "行动结束后点击“结束回合”。敌方行动后会补充能量和手牌。",
+  "lqBattleBegin": "开始战斗",
+  "lqBattleExit": "离开战斗",
+  "lqDungeonNode": "{type}，第{step}层，路线{path}，{state}",
+  "@lqDungeonNode": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "path": {
+        "type": "int"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -1,10 +1,12 @@
+import '../features/backup/device_backup_store.dart';
+import '../features/story/story_chapter.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
@@ -76,11 +78,123 @@ class _RaidRewardOutcome {
 
 class CharacterState extends ChangeNotifier {
   static const String _qaPreviewStorageKey = 'lifequest.qaPreview.state.v2';
+  static const String localProfileStorageKey = 'lifequest.local.state.v1';
+  Set<String> _purchasedEntitlements = {};
+  bool ownsCosmetic(String id) =>
+      _purchasedEntitlements.contains(id) ||
+      (_character?.unlockedCosmetics.contains(id) ?? false);
+
+  void setPurchasedEntitlements(Set<String> owned) {
+    _purchasedEntitlements = Set.of(owned);
+    final c = _character;
+    if (c == null) return;
+    if (c.equippedTheme != null && !ownsCosmetic(c.equippedTheme!)) {
+      c.equippedTheme = null;
+    }
+    if (c.equippedTitleEffect != null &&
+        !ownsCosmetic(c.equippedTitleEffect!)) {
+      c.equippedTitleEffect = null;
+    }
+    if (c.equippedCombatEffect != null &&
+        !ownsCosmetic(c.equippedCombatEffect!)) {
+      c.equippedCombatEffect = null;
+    }
+    notifyListeners();
+  }
+
+  bool _restoringLocal = false;
+  bool _isLocalGuest = false;
+  Map<String, dynamic> exportDeviceProfile() {
+    if (!_isLocalGuest || !_isDataLoaded || _character == null) {
+      throw StateError('No device profile is active.');
+    }
+    return jsonDecode(
+      jsonEncode(_buildSavePayload(includeServerTimestamp: false)),
+    );
+  }
+
+  Future<void> suspendLocalPersistence() async {
+    if (!_isLocalGuest) throw StateError('No device profile is active.');
+    _restoringLocal = true;
+    _saveTimer?.cancel();
+    _hpRegenTimer?.cancel();
+    if (_isDataLoaded) await _performLocalSaveData(localProfileStorageKey);
+    await _localWrites;
+  }
+
+  bool get isLocalGuest => _isLocalGuest;
+  Future<void> _localWrites = Future.value();
+
+  /// An actual device profile: no Firebase identity and no synthetic QA tasks.
+  /// Malformed saved data is preserved and surfaced for recovery, never reset.
+  Future<void> initializeForLocalGuest({
+    required String name,
+    String languageCode = 'ko',
+  }) async {
+    resetState();
+    _isLocalGuest = true;
+    _locale = Locale(
+      const {'ko', 'en', 'ja', 'zh'}.contains(languageCode)
+          ? languageCode
+          : 'en',
+    );
+    try {
+      await DeviceBackupStore.preferences(
+        await SharedPreferences.getInstance(),
+      ).recover();
+      final restored = await _restoreLocalData(
+        localProfileStorageKey,
+        strict: true,
+      );
+      if (!restored) {
+        _initializeLocalPreviewCharacter(name: name);
+        _dailyQuests = [];
+        _weeklyQuests = [];
+        _monthlyQuests = [];
+        _yearlyQuests = [];
+        _invalidateQuestCache();
+      }
+      _resetQuestsIfNeeded(_character!.lastLoginDate ?? DateTime.now());
+      _applyHpRecovery(notify: false);
+      _hasSeenOnboarding = true;
+      await _performLocalSaveData(localProfileStorageKey);
+      _isLoading = false;
+      _isDataLoaded = true;
+      _startHpRegenLoop();
+      if (_isNotificationEnabled) {
+        try {
+          await _syncNotificationSchedule();
+        } catch (_) {
+          debugPrint('Device reminder could not be scheduled.');
+        }
+      }
+      notifyListeners();
+    } catch (_) {
+      _isDataLoaded = false;
+      _isLoading = false;
+      _hasLoadError = true;
+      rethrow;
+    }
+  }
+
+  Future<void> deleteLocalProfile() async {
+    if (!_isLocalGuest) throw StateError('No device profile is active.');
+    _saveTimer?.cancel();
+    _hpRegenTimer?.cancel();
+    await _localWrites.catchError((Object _) {});
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(localProfileStorageKey);
+    await prefs.remove('lifequest.director.v1.device');
+    await prefs.remove(DeviceBackupStore.journalKey);
+    await prefs.remove(DeviceBackupStore.undoKey);
+    resetState();
+  }
 
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
 
-  static List<CustomReward> _buildDefaultCustomRewards(
-      {String langCode = 'ko'}) {
+  static List<CustomReward> _buildDefaultCustomRewards({
+    String langCode = 'ko',
+  }) {
     final Map<String, List<List<String>>> strings = {
       'en': [
         ['Eat a tasty snack', 'Enjoy your favorite snack'],
@@ -106,23 +220,26 @@ class CharacterState extends ChangeNotifier {
     final s = strings[langCode] ?? strings['ko']!;
     return [
       CustomReward(
-          id: 'cr_1',
-          name: s[0][0],
-          description: s[0][1],
-          cost: 50,
-          icon: '🍪'),
+        id: 'cr_1',
+        name: s[0][0],
+        description: s[0][1],
+        cost: 50,
+        icon: '🍪',
+      ),
       CustomReward(
-          id: 'cr_2',
-          name: s[1][0],
-          description: s[1][1],
-          cost: 100,
-          icon: '🎮'),
+        id: 'cr_2',
+        name: s[1][0],
+        description: s[1][1],
+        cost: 100,
+        icon: '🎮',
+      ),
       CustomReward(
-          id: 'cr_3',
-          name: s[2][0],
-          description: s[2][1],
-          cost: 150,
-          icon: '🎬'),
+        id: 'cr_3',
+        name: s[2][0],
+        description: s[2][1],
+        cost: 150,
+        icon: '🎬',
+      ),
     ];
   }
 
@@ -137,10 +254,10 @@ class CharacterState extends ChangeNotifier {
   /// This must stay separate from Firebase-backed user loading. The preview
   /// profile is intentionally disposable and exists only inside the QA build.
   Future<void> initializeForQaPreview({String name = '게스트 모험가'}) async {
-    final restored = await _restoreQaPreviewData();
+    final restored = await _restoreLocalData(_qaPreviewStorageKey);
     if (!restored) {
       _initializeLocalPreviewCharacter(name: name);
-      await _performQaPreviewSaveData();
+      await _performLocalSaveData(_qaPreviewStorageKey);
     }
     _hasSeenOnboarding = true;
     _isLoading = false;
@@ -175,8 +292,9 @@ class CharacterState extends ChangeNotifier {
         'mag_c01',
         'tac_c01',
       ],
-      customRewards:
-          _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko'),
+      customRewards: _buildDefaultCustomRewards(
+        langCode: _locale?.languageCode ?? 'ko',
+      ),
       lastLoginDate: DateTime.now(),
       lastHpRegenAt: DateTime.now(),
     );
@@ -355,6 +473,7 @@ class CharacterState extends ChangeNotifier {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   VoidCallback? onLevelUp;
+  void Function(Quest quest)? onQuestCompleted;
 
   Character? _character;
   bool _isLoading = true;
@@ -386,22 +505,16 @@ class CharacterState extends ChangeNotifier {
   FirebaseFirestore get _firestore =>
       _firestoreOverride ?? FirebaseFirestore.instance;
   final String? _deleteAccountUidOverride;
-  final Future<void> Function(String uid)? _deleteKnownAccountDataOverride;
-  final Future<void> Function(String uid)? _deleteOptionalProfileImageOverride;
-  final Future<void> Function()? _deleteAuthAccountOverride;
+  final Future<bool> Function(String uid)? _requestAccountDeletionOverride;
+  final Future<void> Function()? _signOutAfterDeletionOverride;
+  bool _deletingAccount = false;
 
   CharacterState({
     FirebaseFirestore? firestore,
-    String? deleteAccountUidOverride,
-    Future<void> Function(String uid)? deleteKnownAccountDataOverride,
-    Future<void> Function(String uid)? deleteOptionalProfileImageOverride,
-    Future<void> Function()? deleteAuthAccountOverride,
-  })  : _firestoreOverride = firestore,
-        _deleteAccountUidOverride = deleteAccountUidOverride,
-        _deleteKnownAccountDataOverride = deleteKnownAccountDataOverride,
-        _deleteOptionalProfileImageOverride =
-            deleteOptionalProfileImageOverride,
-        _deleteAuthAccountOverride = deleteAuthAccountOverride {
+    this._deleteAccountUidOverride,
+    this._requestAccountDeletionOverride,
+    this._signOutAfterDeletionOverride,
+  }) : _firestoreOverride = firestore {
     _initializeAchievementProgress();
   }
 
@@ -425,6 +538,9 @@ class CharacterState extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isDataLoaded => _isDataLoaded;
   bool get hasLoadError => _hasLoadError;
+  String get personalizationScope => kLifeQuestQaPreview
+      ? 'qa-preview'
+      : (_isLocalGuest ? 'device' : (_lastLoadUser?.uid ?? 'local'));
 
   /// 로드 실패 후 재시도. 로그인 화면에서 retry 버튼 연결 시 사용.
   Future<void> retryLoad() async {
@@ -449,8 +565,10 @@ class CharacterState extends ChangeNotifier {
   int get notificationMorningHour => _notificationMorningHour;
   int get notificationNightHour => _notificationNightHour;
   bool get isNotificationEnabled => _isNotificationEnabled;
-  int get questCompletionCount =>
-      _progressCountFor(AchievementCondition.questCompleted);
+  int get questCompletionCount => math.max(
+    _character?.totalQuestCompletions ?? 0,
+    _progressCountFor(AchievementCondition.questCompleted),
+  );
   bool get isExpandedReportUnlockedToday =>
       _character != null &&
       _character!.expandedReportUnlockedOn == _todayKey(DateTime.now());
@@ -465,8 +583,7 @@ class CharacterState extends ChangeNotifier {
   // build()에서 매번 정렬하지 않도록 정렬된 목록을 제공 (미완료 우선)
   static List<Quest> _sortedQuests(List<Quest> quests) => quests.isEmpty
       ? quests
-      : (List<Quest>.from(quests)
-        ..sort((a, b) {
+      : (List<Quest>.from(quests)..sort((a, b) {
           if (!a.isCompleted && b.isCompleted) return -1;
           if (a.isCompleted && !b.isCompleted) return 1;
           return 0;
@@ -479,15 +596,17 @@ class CharacterState extends ChangeNotifier {
   List<Quest> get todayCompletedQuests {
     final now = DateTime.now();
     return [
-      ..._dailyQuests,
-      ..._weeklyQuests,
-      ..._monthlyQuests,
-      ..._yearlyQuests,
-    ]
-        .where((quest) =>
-            quest.isCompleted &&
-            quest.completedDate != null &&
-            CoreLoopRules.isSameDay(quest.completedDate!, now))
+          ..._dailyQuests,
+          ..._weeklyQuests,
+          ..._monthlyQuests,
+          ..._yearlyQuests,
+        ]
+        .where(
+          (quest) =>
+              quest.isCompleted &&
+              quest.completedDate != null &&
+              CoreLoopRules.isSameDay(quest.completedDate!, now),
+        )
         .toList(growable: false);
   }
 
@@ -498,24 +617,23 @@ class CharacterState extends ChangeNotifier {
       CoreLoopRules.dailyModifierFor(todayGrowthDelta);
 
   RecommendedAction get todayRecommendedAction => CoreLoopRules.recommendAction(
-        quests: [
-          ...sortedDailyQuests,
-          ...sortedWeeklyQuests,
-        ],
-        todayGrowth: todayGrowthDelta,
-        nextTitleProgress: nextTitleProgress,
-      );
+    quests: [...sortedDailyQuests, ...sortedWeeklyQuests],
+    todayGrowth: todayGrowthDelta,
+    nextTitleProgress: nextTitleProgress,
+  );
 
   TitleProgressSnapshot? get nextTitleProgress {
     if (_character == null) return null;
 
     final lockedTitles = _allTitles
         .where((title) => !_unlockedTitleIds.contains(title.id))
-        .map((title) => TitleProgressSnapshot(
-              title: title,
-              current: _titleCurrentValue(title),
-              required: title.conditionValue,
-            ))
+        .map(
+          (title) => TitleProgressSnapshot(
+            title: title,
+            current: _titleCurrentValue(title),
+            required: title.conditionValue,
+          ),
+        )
         .toList();
     if (lockedTitles.isEmpty) return null;
 
@@ -547,7 +665,7 @@ class CharacterState extends ChangeNotifier {
     }
 
     final Map<StatType, int> counts = {
-      for (var type in StatType.values) type: 0
+      for (var type in StatType.values) type: 0,
     };
     int totalCount = 0;
 
@@ -607,8 +725,10 @@ class CharacterState extends ChangeNotifier {
       for (final type in StatType.values)
         type: _character!.levelGrowthWeights[type.name] ?? 0.0,
     };
-    final total = weights.values
-        .fold<double>(0, (runningTotal, value) => runningTotal + value);
+    final total = weights.values.fold<double>(
+      0,
+      (runningTotal, value) => runningTotal + value,
+    );
 
     if (total <= 0) {
       return {for (var type in StatType.values) type: 0.0};
@@ -644,6 +764,12 @@ class CharacterState extends ChangeNotifier {
   }
 
   void resetState() {
+    _restoringLocal = false;
+    _deletingAccount = false;
+    _purchasedEntitlements = {};
+    _isLocalGuest = false;
+    _lastLoadUser = null;
+    _hasLoadError = false;
     _saveTimer?.cancel();
     _hpRegenTimer?.cancel();
     _character = null;
@@ -733,29 +859,45 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
+  /// True means the server durably accepted deletion and local sign-out finished.
+  /// Cleanup is retried by the server even after this app closes.
   Future<bool> deleteAccount() async {
     final canUseTestDeletion =
-        _deleteAccountUidOverride != null && _deleteAuthAccountOverride != null;
+        _deleteAccountUidOverride != null &&
+        _requestAccountDeletionOverride != null;
     final user = canUseTestDeletion ? null : FirebaseAuth.instance.currentUser;
     final uid = _deleteAccountUidOverride ?? user?.uid;
     if (uid == null) return false;
-
     _saveTimer?.cancel();
-
+    _deletingAccount = true;
+    var accepted = false;
     try {
-      final deleteKnownAccountData =
-          _deleteKnownAccountDataOverride ?? _deleteKnownAccountData;
-      await deleteKnownAccountData(uid);
-      final deleteAuthAccount = _deleteAuthAccountOverride;
-      if (deleteAuthAccount != null) {
-        await deleteAuthAccount();
+      final request = _requestAccountDeletionOverride;
+      if (request != null) {
+        accepted = await request(uid);
       } else {
-        final authUser = user;
-        if (authUser == null) return false;
-        await authUser.delete();
+        await user!.getIdToken(true);
+        final response = await FirebaseFunctions.instance
+            .httpsCallable(
+              'requestAccountDeletion',
+              options: HttpsCallableOptions(
+                timeout: const Duration(seconds: 30),
+              ),
+            )
+            .call();
+        accepted = response.data is Map && response.data['accepted'] == true;
       }
+      if (!accepted) {
+        _deletingAccount = false;
+        return false;
+      }
+      final preferences = await SharedPreferences.getInstance();
+      await preferences.remove('lifequest.director.v1.$uid');
+      await preferences.remove('lifequest.purchases.v1.$uid');
+      await (_signOutAfterDeletionOverride ?? FirebaseAuth.instance.signOut)();
       return true;
-    } catch (e) {
+    } catch (_) {
+      if (!accepted) _deletingAccount = false;
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           content: Row(
@@ -763,8 +905,11 @@ class CharacterState extends ChangeNotifier {
               const Icon(Icons.warning_amber_rounded, color: Colors.white),
               const SizedBox(width: 8),
               Expanded(
-                  child: Text(_localizedDeleteAccountError(),
-                      style: const TextStyle(color: Colors.white))),
+                child: Text(
+                  _localizedDeleteAccountError(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
             ],
           ),
           backgroundColor: Colors.red.shade800,
@@ -778,43 +923,13 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  Future<void> _deleteKnownAccountData(String uid) async {
-    final deleteOptionalProfileImage =
-        _deleteOptionalProfileImageOverride ?? _deleteOptionalProfileImage;
-    await deleteOptionalProfileImage(uid);
-    await _deleteKnownUserSubcollectionDocs(uid);
-    await _firestore.collection('users').doc(uid).delete();
-  }
-
-  Future<void> _deleteOptionalProfileImage(String uid) async {
-    try {
-      await FirebaseStorage.instance.ref('users/$uid/profile.jpg').delete();
-    } on FirebaseException catch (e) {
-      if (e.code == 'object-not-found') return;
-      rethrow;
-    }
-  }
-
-  Future<void> _deleteKnownUserSubcollectionDocs(String uid) async {
-    try {
-      await _firestore
-          .collection('users')
-          .doc(uid)
-          .collection('_meta')
-          .doc('adServerTime')
-          .delete();
-    } on FirebaseException catch (e) {
-      if (e.code == 'not-found') return;
-      rethrow;
-    }
-  }
-
   Future<void> changeCharacterName(String newName) async {
     if (_character == null) return;
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-
-    await user.updateDisplayName(newName);
+    if (!_isLocalGuest && !kLifeQuestQaPreview) {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+      await user.updateDisplayName(newName);
+    }
     _character!.name = newName;
     await _saveData();
     notifyListeners();
@@ -828,8 +943,10 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  QuestCompletionResult? completeQuest(Quest quest,
-      {double xpMultiplier = 1.0}) {
+  QuestCompletionResult? completeQuest(
+    Quest quest, {
+    double xpMultiplier = 1.0,
+  }) {
     if (!quest.isCompleted) {
       quest.isCompleted = true;
       quest.completedDate = DateTime.now();
@@ -917,6 +1034,7 @@ class CharacterState extends ChangeNotifier {
       while (_character!.xp >= _character!.maxXp) {
         _levelUp();
       }
+      _character!.totalQuestCompletions = questCompletionCount + 1;
       unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
       final unlockedCardName = _tryUnlockRandomCard();
@@ -926,7 +1044,9 @@ class CharacterState extends ChangeNotifier {
             content: Text(
               _localizedCardUnlock(unlockedCardName), // Y-2: locale 기반 다국어
               style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold),
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             backgroundColor: const Color(0xFF00FFFF),
             behavior: SnackBarBehavior.floating,
@@ -953,6 +1073,7 @@ class CharacterState extends ChangeNotifier {
       _invalidateQuestCache();
       unawaited(_saveData());
       notifyListeners();
+      onQuestCompleted?.call(quest);
       return QuestCompletionResult(
         totalXpAwarded: totalXp,
         totalGoldAwarded: totalGoldReward,
@@ -1014,8 +1135,13 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addQuest(String name, int xp, QuestType type, StatType category,
-      {QuestDifficulty difficulty = QuestDifficulty.normal}) {
+  void addQuest(
+    String name,
+    int xp,
+    QuestType type,
+    StatType category, {
+    QuestDifficulty difficulty = QuestDifficulty.normal,
+  }) {
     final newQuest = Quest(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
@@ -1041,6 +1167,37 @@ class CharacterState extends ChangeNotifier {
     _invalidateQuestCache();
     unawaited(_saveData());
     notifyListeners();
+  }
+
+  /// One-off daily recommendations retain their identity across restarts.
+  bool acceptDailySuggestion(Quest quest, {DateTime? now}) {
+    final date = now ?? DateTime.now();
+    final day = DateTime(
+      date.year,
+      date.month,
+      date.day,
+    ).toIso8601String().split('T').first;
+    if (_character == null ||
+        quest.type != QuestType.daily ||
+        quest.scheduledDay != day ||
+        quest.directorTemplateId == null ||
+        quest.isCompleted ||
+        quest.id != 'director:$day:${quest.directorTemplateId}' ||
+        quest.estimatedMinutes == null ||
+        quest.estimatedMinutes! < 1 ||
+        quest.estimatedMinutes! > 15 ||
+        quest.xp != Quest.xpForDifficulty(quest.difficulty, QuestType.daily)) {
+      return false;
+    }
+    if (_dailyQuests.any((q) => q.id == quest.id)) return true;
+    if (_dailyQuests.where((q) => q.scheduledDay == day).length >= 3) {
+      return false;
+    }
+    _dailyQuests.add(quest);
+    _invalidateQuestCache();
+    unawaited(_saveData());
+    notifyListeners();
+    return true;
   }
 
   void editQuest(Quest quest, String newName, int newXp, StatType newCategory) {
@@ -1184,8 +1341,10 @@ class CharacterState extends ChangeNotifier {
   /// maxActionPoints를 초과하지 않도록 clamp 적용.
   Future<void> recoverActionPoints(int amount) async {
     if (_character == null) return;
-    _character!.actionPoints = (_character!.actionPoints + amount)
-        .clamp(0, _character!.maxActionPoints);
+    _character!.actionPoints = (_character!.actionPoints + amount).clamp(
+      0,
+      _character!.maxActionPoints,
+    );
     await _performSaveData();
     notifyListeners();
   }
@@ -1242,8 +1401,10 @@ class CharacterState extends ChangeNotifier {
     _character!.maxXp = xpRequiredForLevel(_character!.level);
 
     final autoGrowthAllocation = _applyAutomaticGrowthOnLevelUp();
-    final autoGrowthPoints = autoGrowthAllocation.values
-        .fold<int>(0, (runningTotal, value) => runningTotal + value);
+    final autoGrowthPoints = autoGrowthAllocation.values.fold<int>(
+      0,
+      (runningTotal, value) => runningTotal + value,
+    );
 
     // Dynamically sum all learned spBonusOnLevelUp skills
     int baseSP = 5;
@@ -1283,23 +1444,31 @@ class CharacterState extends ChangeNotifier {
       switch (stat) {
         case StatType.strength:
           _character!.strength += statIncrease;
-          _updateAchievement(AchievementCondition.strengthReached,
-              _character!.strength.toInt());
+          _updateAchievement(
+            AchievementCondition.strengthReached,
+            _character!.strength.toInt(),
+          );
           break;
         case StatType.wisdom:
           _character!.wisdom += statIncrease;
           _updateAchievement(
-              AchievementCondition.wisdomReached, _character!.wisdom.toInt());
+            AchievementCondition.wisdomReached,
+            _character!.wisdom.toInt(),
+          );
           break;
         case StatType.health:
           _character!.health += statIncrease;
           _updateAchievement(
-              AchievementCondition.healthReached, _character!.health.toInt());
+            AchievementCondition.healthReached,
+            _character!.health.toInt(),
+          );
           break;
         case StatType.charisma:
           _character!.charisma += statIncrease;
-          _updateAchievement(AchievementCondition.charismaReached,
-              _character!.charisma.toInt());
+          _updateAchievement(
+            AchievementCondition.charismaReached,
+            _character!.charisma.toInt(),
+          );
           break;
       }
       _character!.statPoints--;
@@ -1374,17 +1543,18 @@ class CharacterState extends ChangeNotifier {
       TitleConditionType.monthlyRaidClears => _character!.monthlyRaidClears,
       TitleConditionType.yearlyRaidClears => _character!.yearlyRaidClears,
       TitleConditionType.allStats => [
-          _character!.strength,
-          _character!.wisdom,
-          _character!.health,
-          _character!.charisma,
-        ].reduce(math.min).floor(),
+        _character!.strength,
+        _character!.wisdom,
+        _character!.health,
+        _character!.charisma,
+      ].reduce(math.min).floor(),
     };
   }
 
   void _updateAchievement(AchievementCondition condition, int value) {
-    final relevantAchievements =
-        _allAchievements.where((ach) => ach.condition == condition);
+    final relevantAchievements = _allAchievements.where(
+      (ach) => ach.condition == condition,
+    );
     for (final achievement in relevantAchievements) {
       final progress = _achievementProgress[achievement.id];
       if (progress == null || progress.isCompleted) continue;
@@ -1413,7 +1583,9 @@ class CharacterState extends ChangeNotifier {
             content: Text(
               _localizedAchievementUnlock(achievement.name, rewardText), // Y-2
               style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold),
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             backgroundColor: const Color(0xFF00FFFF),
             behavior: SnackBarBehavior.floating,
@@ -1537,9 +1709,9 @@ class CharacterState extends ChangeNotifier {
     final base = (_character == null || _character!.starterDeckCardIds.isEmpty)
         ? CardDatabase.starterDeck
         : _character!.starterDeckCardIds
-            .map((id) => CardDatabase.getCard(id))
-            .whereType<CardData>()
-            .toList();
+              .map((id) => CardDatabase.getCard(id))
+              .whereType<CardData>()
+              .toList();
 
     // Skill → Card mapping (GAME_DESIGN § 9.4)
     const skillCardMap = <String, String>{
@@ -1637,9 +1809,9 @@ class CharacterState extends ChangeNotifier {
     }
     if (rarity == null) return null;
 
-    final pool = CardDatabase.getCardsByRarity(rarity)
-        .where((c) => !_character!.unlockedCardIds.contains(c.id))
-        .toList();
+    final pool = CardDatabase.getCardsByRarity(
+      rarity,
+    ).where((c) => !_character!.unlockedCardIds.contains(c.id)).toList();
     if (pool.isEmpty) return null;
 
     final card = pool[_random.nextInt(pool.length)];
@@ -1667,8 +1839,9 @@ class CharacterState extends ChangeNotifier {
       'yearlyQuests': _yearlyQuests.map((q) => q.toJson()).toList(),
       'unlockedTitleIds': _unlockedTitleIds.toList(),
       'learnedSkillIds': _learnedSkillIds.toList(),
-      'achievementProgress':
-          _achievementProgress.map((k, v) => MapEntry(k, v.toJson())),
+      'achievementProgress': _achievementProgress.map(
+        (k, v) => MapEntry(k, v.toJson()),
+      ),
       'themeMode': _themeMode.index,
       'localeCode': _locale?.languageCode,
       'hasSeenOnboarding': _hasSeenOnboarding,
@@ -1679,15 +1852,23 @@ class CharacterState extends ChangeNotifier {
     };
   }
 
-  Future<bool> _restoreQaPreviewData() async {
+  Future<bool> _restoreLocalData(
+    String storageKey, {
+    bool strict = false,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final raw = prefs.getString(_qaPreviewStorageKey);
-      if (raw == null || raw.isEmpty) return false;
+      final raw = prefs.getString(storageKey);
+      if (raw == null) return false;
+      if (raw.isEmpty) {
+        if (strict) throw const FormatException('Empty saved profile.');
+        return false;
+      }
 
       final decoded = jsonDecode(raw);
-      if (decoded is! Map<String, dynamic>) return false;
-      if (decoded['character'] is! Map) return false;
+      if (decoded is! Map<String, dynamic> || decoded['character'] is! Map) {
+        throw const FormatException('Invalid local profile.');
+      }
 
       _character = Character.fromJson(
         Map<String, dynamic>.from(decoded['character'] as Map),
@@ -1719,14 +1900,16 @@ class CharacterState extends ChangeNotifier {
       _themeMode =
           ThemeMode.values[decoded['themeMode'] ?? ThemeMode.dark.index];
       final localeCode = decoded['localeCode'] as String?;
-      _locale = (localeCode != null &&
+      _locale =
+          (localeCode != null &&
               const {'ko', 'en', 'ja', 'zh'}.contains(localeCode))
           ? Locale(localeCode)
           : const Locale('ko');
       _hasSeenOnboarding = true;
       _notificationMorningHour = decoded['notificationMorningHour'] ?? 9;
       _notificationNightHour = decoded['notificationNightHour'] ?? 20;
-      _isNotificationEnabled = false;
+      _isNotificationEnabled =
+          strict && decoded['isNotificationEnabled'] == true;
 
       if (_character!.unlockedCardIds.isEmpty) {
         _initStarterCards();
@@ -1744,26 +1927,33 @@ class CharacterState extends ChangeNotifier {
       _invalidateQuestCache();
       return true;
     } catch (error) {
-      debugPrint('QA preview restore failed: $error');
+      if (strict) rethrow;
+      debugPrint('QA preview restore failed.');
       return false;
     }
   }
 
-  Future<void> _performQaPreviewSaveData() async {
+  Future<void> _performLocalSaveData(String storageKey) async {
     if (_character == null) return;
-    try {
+    // Capture before awaiting: a later login must not redirect an earlier save.
+    final payload = jsonEncode(
+      _buildSavePayload(includeServerTimestamp: false),
+    );
+    final write = _localWrites.catchError((Object _) {}).then((_) async {
       final prefs = await SharedPreferences.getInstance();
-      final payload = _buildSavePayload(includeServerTimestamp: false);
-      await prefs.setString(_qaPreviewStorageKey, jsonEncode(payload));
-    } catch (error) {
-      debugPrint('QA preview local save failed: $error');
-    }
+      if (!await prefs.setString(storageKey, payload)) {
+        throw StateError('Device profile could not be saved.');
+      }
+    });
+    _localWrites = write;
+    await write;
   }
 
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
   // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
-    if (kLifeQuestQaPreview) {
+    if (_deletingAccount || _restoringLocal) return;
+    if (kLifeQuestQaPreview || _isLocalGuest) {
       await _performSaveData();
       return;
     }
@@ -1777,11 +1967,16 @@ class CharacterState extends ChangeNotifier {
   // Uses _isSaving/_pendingSave to prevent concurrent writes while ensuring
   // the latest data is always saved (race condition prevention).
   Future<void> _performSaveData() async {
+    if (_deletingAccount || _restoringLocal) return;
     if (_character == null) return;
     // m-2: gold 음수 방지 — 어떤 경로로든 음수가 됐을 때 저장 직전에 클램프
     if (_character!.gold < 0) _character!.gold = 0;
+    if (_isLocalGuest) {
+      await _performLocalSaveData(localProfileStorageKey);
+      return;
+    }
     if (kLifeQuestQaPreview) {
-      await _performQaPreviewSaveData();
+      await _performLocalSaveData(_qaPreviewStorageKey);
       return;
     }
     if (_isSaving) {
@@ -1806,12 +2001,18 @@ class CharacterState extends ChangeNotifier {
 
       // Update Home Widget data for iOS/Android
       await HomeWidget.saveWidgetData<String>(
-          'characterName', _character!.name);
+        'characterName',
+        _character!.name,
+      );
       await HomeWidget.saveWidgetData<int>('characterLevel', _character!.level);
       await HomeWidget.saveWidgetData<int>(
-          'characterHp', _character!.characterHp);
+        'characterHp',
+        _character!.characterHp,
+      );
       await HomeWidget.saveWidgetData<int>(
-          'characterMaxHp', _character!.characterMaxHp);
+        'characterMaxHp',
+        _character!.characterMaxHp,
+      );
       await HomeWidget.updateWidget(
         iOSName: 'LifeQuestWidget',
         androidName: 'LifeQuestWidgetReceiver',
@@ -1836,6 +2037,7 @@ class CharacterState extends ChangeNotifier {
   }
 
   Future<void> loadDataForUser(User user) async {
+    _isLocalGuest = false;
     if (_isLoadingInProgress) return;
     _isLoadingInProgress = true;
     _isLoading = true;
@@ -1962,11 +2164,13 @@ class CharacterState extends ChangeNotifier {
           };
           if (equippedIds.isNotEmpty) {
             final before = _character!.inventory.length;
-            _character!.inventory
-                .removeWhere((item) => equippedIds.contains(item.id));
+            _character!.inventory.removeWhere(
+              (item) => equippedIds.contains(item.id),
+            );
             if (_character!.inventory.length != before) {
               debugPrint(
-                  '[CharacterState] O-4: removed ${before - _character!.inventory.length} duplicate equipped item(s) from inventory.');
+                '[CharacterState] O-4: removed ${before - _character!.inventory.length} duplicate equipped item(s) from inventory.',
+              );
               needsSave = true;
             }
           }
@@ -1977,20 +2181,24 @@ class CharacterState extends ChangeNotifier {
             data['customRewards'] is List) {
           _character!.customRewards = (data['customRewards'] as List<dynamic>)
               .whereType<Map>()
-              .map((reward) =>
-                  CustomReward.fromJson(Map<String, dynamic>.from(reward)))
+              .map(
+                (reward) =>
+                    CustomReward.fromJson(Map<String, dynamic>.from(reward)),
+              )
               .toList();
           needsSave = true;
         } else if (_character!.customRewards.isEmpty) {
           _character!.customRewards = _buildDefaultCustomRewards(
-              langCode: _locale?.languageCode ?? 'ko');
+            langCode: _locale?.languageCode ?? 'ko',
+          );
           needsSave = true;
         }
 
         _themeMode =
             ThemeMode.values[data['themeMode'] ?? ThemeMode.dark.index];
         final savedLocaleCode = data['localeCode'] as String?;
-        _locale = (savedLocaleCode != null &&
+        _locale =
+            (savedLocaleCode != null &&
                 const {'ko', 'en', 'ja', 'zh'}.contains(savedLocaleCode))
             ? Locale(savedLocaleCode)
             : null;
@@ -2070,39 +2278,22 @@ class CharacterState extends ChangeNotifier {
   bool _resetQuestsIfNeeded(DateTime lastLogin, {DateTime? now}) {
     bool didChange = false;
     final currentTime = now ?? DateTime.now();
-    final today =
-        DateTime(currentTime.year, currentTime.month, currentTime.day);
+    final today = DateTime(
+      currentTime.year,
+      currentTime.month,
+      currentTime.day,
+    );
     final lastDay = DateTime(lastLogin.year, lastLogin.month, lastLogin.day);
     final isNewDay = today.isAfter(lastDay);
 
     if (isNewDay) {
       didChange = true;
-      // --- Penalty: HP damage for incomplete daily quests ---
-      int incompleteDailyCount = 0;
-      bool allDailiesCompleted = _dailyQuests.isNotEmpty;
-      for (var quest in _dailyQuests) {
-        if (!quest.isCompleted) {
-          incompleteDailyCount++;
-          allDailiesCompleted = false;
-        }
-      }
-
-      if (incompleteDailyCount > 0) {
-        int damage = incompleteDailyCount * 10;
-        _character!.characterHp -= damage;
-        // Streak breaks if any daily was missed
-        _character!.streak = 0;
-
-        // Death penalty: if HP drops to 0 or below
-        if (_character!.characterHp <= 0) {
-          _character!.characterHp = _character!.characterMaxHp;
-          if (_character!.level > 1) {
-            _character!.level -= 1;
-            _character!.maxXp = xpRequiredForLevel(_character!.level);
-          }
-          _character!.xp = 0;
-        }
-      }
+      // Missing a habit never removes earned levels, XP or combat health.
+      // Consecutive completion is a bonus; returning after a break is welcome.
+      final allDailiesCompleted =
+          _dailyQuests.isNotEmpty &&
+          _dailyQuests.every((quest) => quest.isCompleted);
+      if (!allDailiesCompleted) _character!.streak = 0;
 
       // --- Streak: increment if ALL daily quests were completed ---
       if (allDailiesCompleted && _dailyQuests.isNotEmpty) {
@@ -2117,7 +2308,8 @@ class CharacterState extends ChangeNotifier {
         }
       }
 
-      // Reset daily quests for the new day
+      // Suggested actions expire; recurring user quests reset normally.
+      _dailyQuests.removeWhere((quest) => quest.scheduledDay != null);
       for (var quest in _dailyQuests) {
         quest.isCompleted = false;
         quest.completedDate = null;
@@ -2144,7 +2336,8 @@ class CharacterState extends ChangeNotifier {
       }
     }
 
-    final isNewMonth = currentTime.year != lastLogin.year ||
+    final isNewMonth =
+        currentTime.year != lastLogin.year ||
         currentTime.month != lastLogin.month;
     if (isNewMonth) {
       didChange = true;
@@ -2185,70 +2378,79 @@ class CharacterState extends ChangeNotifier {
     );
     _dailyQuests = [
       Quest(
-          id: 'd1',
-          name: '아침 7시 기상',
-          xp: 10,
-          type: QuestType.daily,
-          category: StatType.health),
+        id: 'd1',
+        name: '아침 7시 기상',
+        xp: 10,
+        type: QuestType.daily,
+        category: StatType.health,
+      ),
       Quest(
-          id: 'd2',
-          name: '운동 30분',
-          xp: 20,
-          type: QuestType.daily,
-          category: StatType.strength),
+        id: 'd2',
+        name: '운동 30분',
+        xp: 20,
+        type: QuestType.daily,
+        category: StatType.strength,
+      ),
       Quest(
-          id: 'd3',
-          name: '책 10페이지 읽기',
-          xp: 15,
-          type: QuestType.daily,
-          category: StatType.wisdom),
+        id: 'd3',
+        name: '책 10페이지 읽기',
+        xp: 15,
+        type: QuestType.daily,
+        category: StatType.wisdom,
+      ),
     ];
     _weeklyQuests = [
       Quest(
-          id: 'w1',
-          name: '주 3회 이상 운동하기',
-          xp: 100,
-          type: QuestType.weekly,
-          category: StatType.strength),
+        id: 'w1',
+        name: '주 3회 이상 운동하기',
+        xp: 100,
+        type: QuestType.weekly,
+        category: StatType.strength,
+      ),
       Quest(
-          id: 'w2',
-          name: '새로운 기술/지식 학습하기',
-          xp: 120,
-          type: QuestType.weekly,
-          category: StatType.wisdom),
+        id: 'w2',
+        name: '새로운 기술/지식 학습하기',
+        xp: 120,
+        type: QuestType.weekly,
+        category: StatType.wisdom,
+      ),
     ];
     _monthlyQuests = [
       Quest(
-          id: 'm1',
-          name: '이번 달 운동 12회 달성',
-          xp: 140,
-          type: QuestType.monthly,
-          category: StatType.health,
-          difficulty: QuestDifficulty.hard),
+        id: 'm1',
+        name: '이번 달 운동 12회 달성',
+        xp: 140,
+        type: QuestType.monthly,
+        category: StatType.health,
+        difficulty: QuestDifficulty.hard,
+      ),
       Quest(
-          id: 'm2',
-          name: '사이드 프로젝트 핵심 기능 완성',
-          xp: 200,
-          type: QuestType.monthly,
-          category: StatType.wisdom,
-          difficulty: QuestDifficulty.veryHard),
+        id: 'm2',
+        name: '사이드 프로젝트 핵심 기능 완성',
+        xp: 200,
+        type: QuestType.monthly,
+        category: StatType.wisdom,
+        difficulty: QuestDifficulty.veryHard,
+      ),
     ];
     _yearlyQuests = [
       Quest(
-          id: 'y1',
-          name: '올해 대표 목표 하나 완수하기',
-          xp: 280,
-          type: QuestType.yearly,
-          category: StatType.charisma,
-          difficulty: QuestDifficulty.veryHard),
+        id: 'y1',
+        name: '올해 대표 목표 하나 완수하기',
+        xp: 280,
+        type: QuestType.yearly,
+        category: StatType.charisma,
+        difficulty: QuestDifficulty.veryHard,
+      ),
     ];
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
     _isNotificationEnabled = false;
     if (_character != null) {
-      _character!.customRewards =
-          _buildDefaultCustomRewards(langCode: _locale?.languageCode ?? 'ko');
+      _character!.customRewards = _buildDefaultCustomRewards(
+        langCode: _locale?.languageCode ?? 'ko',
+      );
       _initStarterCards();
     }
   }
@@ -2321,10 +2523,14 @@ class CharacterState extends ChangeNotifier {
         currentTime.difference(lastTick).inMinutes ~/ regenIntervalMinutes;
     if (ticks <= 0) return false;
 
-    final healPerTick =
-        math.max(1, (_character!.characterMaxHp * 0.03).round());
-    final recoveredHp = (_character!.characterHp + (healPerTick * ticks))
-        .clamp(0, _character!.characterMaxHp);
+    final healPerTick = math.max(
+      1,
+      (_character!.characterMaxHp * 0.03).round(),
+    );
+    final recoveredHp = (_character!.characterHp + (healPerTick * ticks)).clamp(
+      0,
+      _character!.characterMaxHp,
+    );
     final changed = recoveredHp != _character!.characterHp;
 
     _character!.characterHp = recoveredHp;
@@ -2359,7 +2565,7 @@ class CharacterState extends ChangeNotifier {
 
     _character!.levelGrowthWeights[quest.category.name] =
         (_character!.levelGrowthWeights[quest.category.name] ?? 0) +
-            contribution;
+        contribution;
   }
 
   Map<StatType, int> _applyAutomaticGrowthOnLevelUp() {
@@ -2372,8 +2578,10 @@ class CharacterState extends ChangeNotifier {
       for (final type in StatType.values)
         type: _character!.levelGrowthWeights[type.name] ?? 0.0,
     };
-    final total = weights.values
-        .fold<double>(0, (runningTotal, value) => runningTotal + value);
+    final total = weights.values.fold<double>(
+      0,
+      (runningTotal, value) => runningTotal + value,
+    );
     if (total <= 0) {
       _character!.lastLevelAutoGrowth = {
         for (final type in StatType.values) type.name: 0,
@@ -2421,22 +2629,30 @@ class CharacterState extends ChangeNotifier {
       case StatType.strength:
         _character!.strength += amount;
         _updateAchievement(
-            AchievementCondition.strengthReached, _character!.strength.toInt());
+          AchievementCondition.strengthReached,
+          _character!.strength.toInt(),
+        );
         break;
       case StatType.wisdom:
         _character!.wisdom += amount;
         _updateAchievement(
-            AchievementCondition.wisdomReached, _character!.wisdom.toInt());
+          AchievementCondition.wisdomReached,
+          _character!.wisdom.toInt(),
+        );
         break;
       case StatType.health:
         _character!.health += amount;
         _updateAchievement(
-            AchievementCondition.healthReached, _character!.health.toInt());
+          AchievementCondition.healthReached,
+          _character!.health.toInt(),
+        );
         break;
       case StatType.charisma:
         _character!.charisma += amount;
         _updateAchievement(
-            AchievementCondition.charismaReached, _character!.charisma.toInt());
+          AchievementCondition.charismaReached,
+          _character!.charisma.toInt(),
+        );
         break;
     }
   }
@@ -2499,8 +2715,11 @@ class CharacterState extends ChangeNotifier {
   int get highestDungeonFloor => _character?.highestDungeonFloor ?? 1;
   int get currentDungeonChapter => _character?.currentDungeonChapter ?? 1;
 
-  void unlockNextFloor(int completedChapter, int completedFloor,
-      {bool isBoss = false}) {
+  void unlockNextFloor(
+    int completedChapter,
+    int completedFloor, {
+    bool isBoss = false,
+  }) {
     if (_character == null) return;
 
     // Only advance if they are completing their highest unwon stage.
@@ -2520,7 +2739,7 @@ class CharacterState extends ChangeNotifier {
   void _initializeAchievementProgress() {
     _achievementProgress = {
       for (var ach in _allAchievements)
-        ach.id: AchievementProgress(achievementId: ach.id)
+        ach.id: AchievementProgress(achievementId: ach.id),
     };
   }
 
@@ -2567,6 +2786,48 @@ class CharacterState extends ChangeNotifier {
     return highestValue;
   }
 
+  Map<String, String> get storyChoices =>
+      Map.unmodifiable(_character?.storyChoices ?? {});
+  bool ownsStory(StoryChapter chapter) =>
+      chapter.productId == null ||
+      _purchasedEntitlements.contains(chapter.productId);
+  bool canOpenStory(StoryChapter chapter, int index) => chapter.canOpen(
+    index,
+    completedQuests: questCompletionCount,
+    choices: storyChoices,
+    owned: ownsStory(chapter),
+  );
+
+  Future<bool> chooseStory(
+    StoryChapter chapter,
+    int index,
+    String choiceId,
+  ) async {
+    final character = _character;
+    if (character == null || !_isDataLoaded || !canOpenStory(chapter, index)) {
+      return false;
+    }
+    if (!chapter.scenes[index].choices.any((c) => c.id == choiceId)) {
+      return false;
+    }
+    final key = chapter.choiceKey(index);
+    final previous = character.storyChoices[key];
+    character.storyChoices[key] = choiceId;
+    try {
+      await _performSaveData();
+      if (!identical(character, _character)) return false;
+      notifyListeners();
+      return true;
+    } catch (_) {
+      if (previous == null) {
+        character.storyChoices.remove(key);
+      } else {
+        character.storyChoices[key] = previous;
+      }
+      return false;
+    }
+  }
+
   // --- Cosmetics ---
   void unlockCosmetic(String id) {
     if (_character == null) return;
@@ -2595,7 +2856,7 @@ class CharacterState extends ChangeNotifier {
 
   void equipCosmetic(CosmeticItem item) {
     if (_character == null) return;
-    if (!_character!.unlockedCosmetics.contains(item.id)) return;
+    if (!ownsCosmetic(item.id)) return;
 
     switch (item.category) {
       case CosmeticCategory.theme:

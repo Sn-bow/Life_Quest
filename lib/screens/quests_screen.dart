@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/widgets/quest_tile.dart';
-import 'package:life_quest_final_v2/widgets/today_adventure_summary.dart';
 import 'package:provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:life_quest_final_v2/config/monetization_config.dart';
@@ -100,6 +99,7 @@ class QuestsScreen extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          tooltip: l10n.questsScreenTitle,
           onPressed: () => _showAddQuestDialog(context),
           backgroundColor: Theme.of(context).colorScheme.primary,
           child: Icon(PhosphorIcons.plus,
@@ -115,15 +115,13 @@ class QuestsScreen extends StatelessWidget {
       CharacterState state, QuestType type, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    final showTodaySummary = type == QuestType.daily;
 
     if (quests.isEmpty) {
       return ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          if (showTodaySummary) TodayAdventureSummary(state: state),
           SizedBox(
-            height: showTodaySummary ? 260 : 420,
+            height: 420,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -147,12 +145,9 @@ class QuestsScreen extends StatelessWidget {
 
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: quests.length + (showTodaySummary ? 1 : 0),
+      itemCount: quests.length,
       itemBuilder: (context, index) {
-        if (showTodaySummary && index == 0) {
-          return TodayAdventureSummary(state: state);
-        }
-        final quest = quests[index - (showTodaySummary ? 1 : 0)];
+        final quest = quests[index];
         return QuestTile(
           quest: quest,
           rewardPreview:
@@ -350,7 +345,7 @@ class QuestsScreen extends StatelessWidget {
     if (quest.isCompleted) return;
     if (state.isQuestPending(quest.id)) return;
 
-    final adService = kLifeQuestQaPreview || !kLifeQuestMonetizationEnabled
+    final adService = kLifeQuestQaPreview || !kLifeQuestAdsEnabled
         ? null
         : AdService();
     final remainingDouble = adService?.getRemainingViews('quest_double') ?? 0;
