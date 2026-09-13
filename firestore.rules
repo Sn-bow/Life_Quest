@@ -6,6 +6,10 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == userId;
     }
 
+    function isActiveOwner(userId) {
+      return isOwner(userId) && !exists(/databases/$(database)/documents/accountDeletions/$(userId));
+    }
+
     function hasValidCharacterProgress() {
       return !('character' in request.resource.data)
              || (request.resource.data.character.gold >= 0
@@ -13,30 +17,34 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read, create, delete: if isOwner(userId);
+      allow read: if isActiveOwner(userId);
+      allow delete: if false; // Request coordinated deletion through the callable.
+      allow create: if isActiveOwner(userId) && hasValidCharacterProgress()
+          && !('deletionPending' in request.resource.data);
 
-      allow update: if isOwner(userId) && hasValidCharacterProgress();
+      allow update: if isActiveOwner(userId) && hasValidCharacterProgress()
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['deletionPending']);
     }
 
     match /users/{userId}/_meta/{doc} {
-      allow read, write: if isOwner(userId);
+      allow read, write: if isActiveOwner(userId);
     }
 
     match /users/{userId}/entitlements/{productId} {
-      allow read, delete: if isOwner(userId);
+      allow read: if isActiveOwner(userId);
       // Only trusted Cloud Functions grant or revoke paid content.
-      allow create, update: if false;
+      allow create, update, delete: if false;
     }
 
     match /users/{userId}/aiReports/{reportId} {
-      allow read, delete: if isOwner(userId);
-      allow create: if isOwner(userId)
+      allow read, delete: if isActiveOwner(userId);
+      allow create: if isActiveOwner(userId)
           && request.resource.data.keys().hasOnly(['schema', 'model', 'title', 'instruction', 'reason', 'locale', 'reportedAt'])
           && request.resource.data.schema == 1
           && request.resource.data.model == 'gemma-4-e2b'
-          && request.resource.data.title is string && request.resource.data.title.size() <= 100
-          && request.resource.data.instruction is string && request.resource.data.instruction.size() <= 320
-          && request.resource.data.reason is string && request.resource.data.reason.size() <= 240
+          && request.resource.data.title is string && request.resource.data.title.size() > 0 && request.resource.data.title.size() <= 100
+          && request.resource.data.instruction is string && request.resource.data.instruction.size() > 0 && request.resource.data.instruction.size() <= 320
+          && request.resource.data.reason is string && request.resource.data.reason.size() > 0 && request.resource.data.reason.size() <= 240
           && request.resource.data.locale in ['ko', 'en', 'ja', 'zh']
           && request.resource.data.reportedAt == request.time;
       allow update: if false;

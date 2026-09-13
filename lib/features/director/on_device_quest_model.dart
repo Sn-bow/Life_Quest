@@ -9,7 +9,7 @@ enum OnDeviceModelStatus {
   available,
   downloadable,
   downloading,
-  unavailable
+  unavailable,
 }
 
 class ModelSnapshot {
@@ -23,8 +23,10 @@ class OnDeviceQuestModel {
   static const channel = MethodChannel('com.lifequest.app/quest_director');
   Future<ModelSnapshot> status() async {
     if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
-      return const ModelSnapshot(OnDeviceModelStatus.unavailable,
-          reason: 'platform');
+      return const ModelSnapshot(
+        OnDeviceModelStatus.unavailable,
+        reason: 'platform',
+      );
     }
     try {
       final json = await channel
@@ -35,11 +37,13 @@ class OnDeviceQuestModel {
           .firstOrNull;
       final total = json?['total'];
       final downloaded = json?['downloaded'];
-      return ModelSnapshot(value ?? OnDeviceModelStatus.unavailable,
-          progress: total is num && total > 0 && downloaded is num
-              ? (downloaded / total).clamp(0, 1)
-              : 0,
-          reason: json?['reason'] is String ? json!['reason'] : null);
+      return ModelSnapshot(
+        value ?? OnDeviceModelStatus.unavailable,
+        progress: total is num && total > 0 && downloaded is num
+            ? (downloaded / total).clamp(0, 1)
+            : 0,
+        reason: json?['reason'] is String ? json!['reason'] : null,
+      );
     } on Exception {
       return const ModelSnapshot(OnDeviceModelStatus.unavailable);
     }
@@ -50,21 +54,33 @@ class OnDeviceQuestModel {
   Future<void> cancel() async {
     try {
       await channel.invokeMethod<void>('cancel');
-    } on Exception {/* Already stopped. */}
+    } on Exception {
+      /* Already stopped. */
+    }
   }
 
   Future<List<DirectedQuest>?> generate(
-      List<DirectedQuest> plan,
-      HunterProfile profile,
-      List<QuestSignal> history,
-      String locale,
-      DateTime now) async {
+    List<DirectedQuest> plan,
+    HunterProfile profile,
+    List<QuestSignal> history,
+    String locale,
+    DateTime now,
+  ) async {
     try {
-      final raw = await channel.invokeMethod<String>('generate', {
-        'system': QuestGeneration.system(locale, plan.length),
-        'prompt': QuestGeneration.prompt(plan, profile, history, now),
-      }).timeout(const Duration(seconds: 90));
-      return raw == null ? null : QuestGeneration.parse(raw, plan, locale);
+      final raw = await channel
+          .invokeMethod<String>('generate', {
+            'system': QuestGeneration.system(locale, plan.length),
+            'prompt': QuestGeneration.prompt(plan, profile, history, now),
+          })
+          .timeout(const Duration(seconds: 90));
+      return raw == null
+          ? null
+          : QuestGeneration.parse(
+              raw,
+              plan,
+              locale,
+              silenceRequired: QuestGeneration.quietHours(now),
+            );
     } on TimeoutException {
       await cancel();
       return null;

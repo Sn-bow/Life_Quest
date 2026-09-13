@@ -873,7 +873,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsWithdrawBody =>
-      '정말로 탈퇴하시겠습니까?\n모든 데이터가 영구적으로 삭제되며, 이 작업은 되돌릴 수 없습니다.';
+      '계정, 클라우드 기록, 신고 내용과 구매 연결을 삭제합니다. 삭제 요청이 접수되면 로그아웃되며, 앱을 닫아도 처리가 계속됩니다. 이 계정의 구매 복원도 사용할 수 없게 됩니다. 삭제는 취소할 수 없으며 결제 환불을 뜻하지 않습니다.';
 
   @override
   String get settingsWithdrawConfirm => '탈퇴 확인';
@@ -4096,4 +4096,81 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lqRestorePurchases => '구매 복원';
+
+  @override
+  String get lqStoryLibrary => '기록관';
+
+  @override
+  String get lqStoryFreePrologue => '무료 프롤로그';
+
+  @override
+  String get lqStoryBannerTitle => '0번 출구에서 온 신호';
+
+  @override
+  String get lqStoryBannerBody => '오늘의 작은 행동이 다음 이야기를 엽니다.';
+
+  @override
+  String get lqStoryLibraryHeadline => '나의 행동이,\n이야기가 되는 곳.';
+
+  @override
+  String get lqStoryLibraryHint => '서두르지 않아도 괜찮아요. 기록은 언제든 다시 펼칠 수 있습니다.';
+
+  @override
+  String get lqStoryProgress => '완성한 기록';
+
+  @override
+  String get lqStoryLoadFailed => '이야기를 불러오지 못했습니다. 화면을 나갔다가 다시 열어주세요.';
+
+  @override
+  String get lqStoryFiction => '일상 퀘스트로 진행하는 가상의 이야기입니다.';
+
+  @override
+  String get lqStoryNoDeadline => '기한도, 연속 접속 조건도 없습니다. 퀘스트를 완료하면 다음 기록이 열려요.';
+
+  @override
+  String get lqStoryActionCount => '지금까지 완료한 퀘스트';
+
+  @override
+  String get lqStoryReadAgain => '다시 읽기';
+
+  @override
+  String get lqStoryReadNow => '지금 읽을 수 있어요';
+
+  @override
+  String get lqStoryUnlockAfter => '추가 완료 필요:';
+
+  @override
+  String get lqStoryQuestUnit => '개 퀘스트';
+
+  @override
+  String get lqStoryReadPrevious => '이전 기록을 먼저 완성해 주세요.';
+
+  @override
+  String get lqStoryRecord => '기록';
+
+  @override
+  String get lqStoryChoose => '어떻게 응답할까요?';
+
+  @override
+  String get lqStoryNext => '다음 기록 읽기';
+
+  @override
+  String get lqStoryChapterComplete =>
+      '이 장의 기록을 모두 완성했어요. 언제든 다른 선택으로 다시 읽을 수 있습니다.';
+
+  @override
+  String get lqStoryReturnLater =>
+      '다음 기록은 일상 퀘스트를 더 완료하면 열립니다. 지금까지의 이야기는 그대로 남아요.';
+
+  @override
+  String get lqStoryBackToChapter => '이 장의 기록 보기';
+
+  @override
+  String get lqStoryChooseAgain => '다른 선택으로 읽기';
+
+  @override
+  String get lqStorySaveFailed => '선택을 저장하지 못했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get lqDeletionQueued => '삭제 요청을 접수했습니다. 앱을 닫아도 서버에서 처리를 계속합니다.';
 }

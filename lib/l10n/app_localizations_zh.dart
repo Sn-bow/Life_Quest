@@ -861,7 +861,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsWithdrawTitle => '注销账户';
 
   @override
-  String get settingsWithdrawBody => '确定要注销账户吗？\n所有数据将被永久删除，此操作无法撤销。';
+  String get settingsWithdrawBody =>
+      '删除账户、云端记录、举报内容与购买关联。请求受理后将退出登录，关闭应用后也会继续处理。此账户将无法恢复购买内容。删除不可撤销，且不等于退款。';
 
   @override
   String get settingsWithdrawConfirm => '确认注销';
@@ -4065,4 +4066,79 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lqRestorePurchases => '恢复购买';
+
+  @override
+  String get lqStoryLibrary => '记录馆';
+
+  @override
+  String get lqStoryFreePrologue => '免费序章';
+
+  @override
+  String get lqStoryBannerTitle => '来自零号出口的信号';
+
+  @override
+  String get lqStoryBannerBody => '今天的小小行动，开启下一段故事。';
+
+  @override
+  String get lqStoryLibraryHeadline => '让你的行动，\n成为故事的地方。';
+
+  @override
+  String get lqStoryLibraryHint => '不用着急，你随时都能回来重读记录。';
+
+  @override
+  String get lqStoryProgress => '已完成的记录';
+
+  @override
+  String get lqStoryLoadFailed => '无法加载故事，请退出此页面后重试。';
+
+  @override
+  String get lqStoryFiction => '通过日常任务推进的虚构故事。';
+
+  @override
+  String get lqStoryNoDeadline => '没有期限，也不要求连续登录。完成任务即可开启下一份记录。';
+
+  @override
+  String get lqStoryActionCount => '累计完成的任务：';
+
+  @override
+  String get lqStoryReadAgain => '重读';
+
+  @override
+  String get lqStoryReadNow => '现在可以阅读';
+
+  @override
+  String get lqStoryUnlockAfter => '还需完成：';
+
+  @override
+  String get lqStoryQuestUnit => '个任务';
+
+  @override
+  String get lqStoryReadPrevious => '请先完成前一份记录。';
+
+  @override
+  String get lqStoryRecord => '记录';
+
+  @override
+  String get lqStoryChoose => '你会如何回应？';
+
+  @override
+  String get lqStoryNext => '阅读下一份记录';
+
+  @override
+  String get lqStoryChapterComplete => '本章记录已全部完成。你随时可以重读，尝试不同的选择。';
+
+  @override
+  String get lqStoryReturnLater => '再完成一些日常任务，即可开启下一份记录。已有的故事进度会一直保留。';
+
+  @override
+  String get lqStoryBackToChapter => '查看本章记录';
+
+  @override
+  String get lqStoryChooseAgain => '尝试其他选择';
+
+  @override
+  String get lqStorySaveFailed => '无法保存选择，请重试。';
+
+  @override
+  String get lqDeletionQueued => '已受理删除请求。即使关闭应用，服务器也会继续处理。';
 }

@@ -1,10 +1,11 @@
+import '../features/story/story_chapter.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
@@ -479,16 +480,15 @@ class CharacterState extends ChangeNotifier {
   FirebaseFirestore get _firestore =>
       _firestoreOverride ?? FirebaseFirestore.instance;
   final String? _deleteAccountUidOverride;
-  final Future<void> Function(String uid)? _deleteKnownAccountDataOverride;
-  final Future<void> Function(String uid)? _deleteOptionalProfileImageOverride;
-  final Future<void> Function()? _deleteAuthAccountOverride;
+  final Future<bool> Function(String uid)? _requestAccountDeletionOverride;
+  final Future<void> Function()? _signOutAfterDeletionOverride;
+  bool _deletingAccount = false;
 
   CharacterState({
     FirebaseFirestore? firestore,
     this._deleteAccountUidOverride,
-    this._deleteKnownAccountDataOverride,
-    this._deleteOptionalProfileImageOverride,
-    this._deleteAuthAccountOverride,
+    this._requestAccountDeletionOverride,
+    this._signOutAfterDeletionOverride,
   }) : _firestoreOverride = firestore {
     _initializeAchievementProgress();
   }
@@ -540,8 +540,10 @@ class CharacterState extends ChangeNotifier {
   int get notificationMorningHour => _notificationMorningHour;
   int get notificationNightHour => _notificationNightHour;
   bool get isNotificationEnabled => _isNotificationEnabled;
-  int get questCompletionCount =>
-      _progressCountFor(AchievementCondition.questCompleted);
+  int get questCompletionCount => math.max(
+    _character?.totalQuestCompletions ?? 0,
+    _progressCountFor(AchievementCondition.questCompleted),
+  );
   bool get isExpandedReportUnlockedToday =>
       _character != null &&
       _character!.expandedReportUnlockedOn == _todayKey(DateTime.now());
@@ -737,6 +739,7 @@ class CharacterState extends ChangeNotifier {
   }
 
   void resetState() {
+    _deletingAccount = false;
     _purchasedEntitlements = {};
     _isLocalGuest = false;
     _lastLoadUser = null;
@@ -830,32 +833,45 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
+  /// True means the server durably accepted deletion and local sign-out finished.
+  /// Cleanup is retried by the server even after this app closes.
   Future<bool> deleteAccount() async {
     final canUseTestDeletion =
-        _deleteAccountUidOverride != null && _deleteAuthAccountOverride != null;
+        _deleteAccountUidOverride != null &&
+        _requestAccountDeletionOverride != null;
     final user = canUseTestDeletion ? null : FirebaseAuth.instance.currentUser;
     final uid = _deleteAccountUidOverride ?? user?.uid;
     if (uid == null) return false;
-
     _saveTimer?.cancel();
-
+    _deletingAccount = true;
+    var accepted = false;
     try {
-      final deleteKnownAccountData =
-          _deleteKnownAccountDataOverride ?? _deleteKnownAccountData;
-      await deleteKnownAccountData(uid);
-      final deleteAuthAccount = _deleteAuthAccountOverride;
-      if (deleteAuthAccount != null) {
-        await deleteAuthAccount();
+      final request = _requestAccountDeletionOverride;
+      if (request != null) {
+        accepted = await request(uid);
       } else {
-        final authUser = user;
-        if (authUser == null) return false;
-        await authUser.delete();
+        await user!.getIdToken(true);
+        final response = await FirebaseFunctions.instance
+            .httpsCallable(
+              'requestAccountDeletion',
+              options: HttpsCallableOptions(
+                timeout: const Duration(seconds: 30),
+              ),
+            )
+            .call();
+        accepted = response.data is Map && response.data['accepted'] == true;
+      }
+      if (!accepted) {
+        _deletingAccount = false;
+        return false;
       }
       final preferences = await SharedPreferences.getInstance();
       await preferences.remove('lifequest.director.v1.$uid');
       await preferences.remove('lifequest.purchases.v1.$uid');
+      await (_signOutAfterDeletionOverride ?? FirebaseAuth.instance.signOut)();
       return true;
-    } catch (e) {
+    } catch (_) {
+      if (!accepted) _deletingAccount = false;
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           content: Row(
@@ -878,67 +894,6 @@ class CharacterState extends ChangeNotifier {
         ),
       );
       return false;
-    }
-  }
-
-  Future<void> _deleteKnownAccountData(String uid) async {
-    await _firestore.collection('users').doc(uid).set({
-      'deletionPending': true,
-    }, SetOptions(merge: true));
-    final deleteOptionalProfileImage =
-        _deleteOptionalProfileImageOverride ?? _deleteOptionalProfileImage;
-    await deleteOptionalProfileImage(uid);
-    await _deleteKnownUserSubcollectionDocs(uid);
-    // Reports are explicitly submitted by the user and follow account deletion.
-    final reports = _firestore
-        .collection('users')
-        .doc(uid)
-        .collection('aiReports');
-    while (true) {
-      final page = await reports.limit(100).get();
-      if (page.docs.isEmpty) break;
-      final batch = _firestore.batch();
-      for (final document in page.docs) {
-        batch.delete(document.reference);
-      }
-      await batch.commit();
-    }
-    final grants = _firestore
-        .collection('users')
-        .doc(uid)
-        .collection('entitlements');
-    while (true) {
-      final page = await grants.limit(100).get();
-      if (page.docs.isEmpty) break;
-      final batch = _firestore.batch();
-      for (final doc in page.docs) {
-        batch.delete(doc.reference);
-      }
-      await batch.commit();
-    }
-    await _firestore.collection('users').doc(uid).delete();
-  }
-
-  Future<void> _deleteOptionalProfileImage(String uid) async {
-    try {
-      await FirebaseStorage.instance.ref('users/$uid/profile.jpg').delete();
-    } on FirebaseException catch (e) {
-      if (e.code == 'object-not-found') return;
-      rethrow;
-    }
-  }
-
-  Future<void> _deleteKnownUserSubcollectionDocs(String uid) async {
-    try {
-      await _firestore
-          .collection('users')
-          .doc(uid)
-          .collection('_meta')
-          .doc('adServerTime')
-          .delete();
-    } on FirebaseException catch (e) {
-      if (e.code == 'not-found') return;
-      rethrow;
     }
   }
 
@@ -1053,6 +1008,7 @@ class CharacterState extends ChangeNotifier {
       while (_character!.xp >= _character!.maxXp) {
         _levelUp();
       }
+      _character!.totalQuestCompletions = questCompletionCount + 1;
       unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
       final unlockedCardName = _tryUnlockRandomCard();
@@ -1970,6 +1926,7 @@ class CharacterState extends ChangeNotifier {
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
   // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
+    if (_deletingAccount) return;
     if (kLifeQuestQaPreview || _isLocalGuest) {
       await _performSaveData();
       return;
@@ -1984,6 +1941,7 @@ class CharacterState extends ChangeNotifier {
   // Uses _isSaving/_pendingSave to prevent concurrent writes while ensuring
   // the latest data is always saved (race condition prevention).
   Future<void> _performSaveData() async {
+    if (_deletingAccount) return;
     if (_character == null) return;
     // m-2: gold 음수 방지 — 어떤 경로로든 음수가 됐을 때 저장 직전에 클램프
     if (_character!.gold < 0) _character!.gold = 0;
@@ -2800,6 +2758,48 @@ class CharacterState extends ChangeNotifier {
       }
     }
     return highestValue;
+  }
+
+  Map<String, String> get storyChoices =>
+      Map.unmodifiable(_character?.storyChoices ?? {});
+  bool ownsStory(StoryChapter chapter) =>
+      chapter.productId == null ||
+      _purchasedEntitlements.contains(chapter.productId);
+  bool canOpenStory(StoryChapter chapter, int index) => chapter.canOpen(
+    index,
+    completedQuests: questCompletionCount,
+    choices: storyChoices,
+    owned: ownsStory(chapter),
+  );
+
+  Future<bool> chooseStory(
+    StoryChapter chapter,
+    int index,
+    String choiceId,
+  ) async {
+    final character = _character;
+    if (character == null || !_isDataLoaded || !canOpenStory(chapter, index)) {
+      return false;
+    }
+    if (!chapter.scenes[index].choices.any((c) => c.id == choiceId)) {
+      return false;
+    }
+    final key = chapter.choiceKey(index);
+    final previous = character.storyChoices[key];
+    character.storyChoices[key] = choiceId;
+    try {
+      await _performSaveData();
+      if (!identical(character, _character)) return false;
+      notifyListeners();
+      return true;
+    } catch (_) {
+      if (previous == null) {
+        character.storyChoices.remove(key);
+      } else {
+        character.storyChoices[key] = previous;
+      }
+      return false;
+    }
   }
 
   // --- Cosmetics ---

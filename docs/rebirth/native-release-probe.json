@@ -1,0 +1,107 @@
+{
+  "pass": true,
+  "cases": [
+    {
+      "case": "ko_new",
+      "milliseconds": 9368,
+      "valid": true
+    },
+    {
+      "case": "ko_history",
+      "milliseconds": 7867,
+      "valid": true
+    }
+  ],
+  "quests": [
+    {
+      "case": "ko_new",
+      "quest": {
+        "id": "director:2026-09-15:recall",
+        "templateId": "recall",
+        "minutes": 1,
+        "recovery": true,
+        "title": "배운 것 떠올리기",
+        "instruction": "방금 배운 영어 단어 하나를 마음속으로 되새기세요.",
+        "reason": "영어 학습 기억 강화",
+        "locale": "ko"
+      }
+    },
+    {
+      "case": "ko_new",
+      "quest": {
+        "id": "director:2026-09-15:tomorrow",
+        "templateId": "tomorrow",
+        "minutes": 1,
+        "recovery": true,
+        "title": "다음 행동 적기",
+        "instruction": "내일 할 아주 작은 영어 단어 하나를 적으세요.",
+        "reason": "다음 학습 계획 세우기",
+        "locale": "ko"
+      }
+    },
+    {
+      "case": "ko_new",
+      "quest": {
+        "id": "director:2026-09-15:read",
+        "templateId": "read",
+        "minutes": 1,
+        "recovery": true,
+        "title": "짧은 문장 읽기",
+        "instruction": "관심 있는 주제의 짧은 영어 문장 하나를 조용히 읽으세요.",
+        "reason": "영어 독해 연습 시작",
+        "locale": "ko"
+      }
+    },
+    {
+      "case": "ko_history",
+      "quest": {
+        "id": "director:2026-09-15:bag",
+        "templateId": "bag",
+        "minutes": 1,
+        "recovery": true,
+        "title": "내일 준비",
+        "instruction": "내일 할 일 중 하나를 정해두세요.",
+        "reason": "내일 계획 세우기 시작",
+        "locale": "ko"
+      }
+    },
+    {
+      "case": "ko_history",
+      "quest": {
+        "id": "director:2026-09-15:read",
+        "templateId": "read",
+        "minutes": 1,
+        "recovery": true,
+        "title": "짧은 문장 읽기",
+        "instruction": "관심사 관련 짧은 문장 하나를 조용히 읽으세요.",
+        "reason": "영어 학습에 집중하기",
+        "locale": "ko"
+      }
+    },
+    {
+      "case": "ko_history",
+      "quest": {
+        "id": "director:2026-09-15:desk",
+        "templateId": "desk",
+        "minutes": 1,
+        "recovery": true,
+        "title": "책상 정리",
+        "instruction": "책상 위에 물건을 제자리에 두세요.",
+        "reason": "공부 환경 정리하기",
+        "locale": "ko"
+      }
+    }
+  ],
+  "environment": {
+    "device": "LifeQuest_API35_16KB Android emulator, ARM64, API 35, 6 GB RAM, Mac host",
+    "build": "Flutter release / AOT / R8, dedicated opt-in QA entry point",
+    "runtime": "LiteRT-LM 0.17.0, CPU 4 threads, Gemma 4 E2B IT",
+    "modelCached": true
+  },
+  "limitations": [
+    "Synthetic inputs only; not physical-phone performance evidence",
+    "This warm repeat follows model downloads/earlier inference; cold run was 21,364 / 11,748 ms",
+    "Structural parsing passed; Korean naturalness and action-family adherence still need improvement",
+    "QA entry point must never be uploaded to Play"
+  ]
+}

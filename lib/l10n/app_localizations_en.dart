@@ -890,7 +890,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsWithdrawBody =>
-      'Are you sure you want to delete your account?\nAll data will be permanently deleted and cannot be recovered.';
+      'Delete your account, cloud progress, reports and purchase links. Once accepted, you will be signed out and cleanup continues even if you close the app. Purchases can no longer be restored to this account. Deletion cannot be cancelled and does not issue a refund.';
 
   @override
   String get settingsWithdrawConfirm => 'Confirm Deletion';
@@ -4208,4 +4208,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lqRestorePurchases => 'Restore purchases';
+
+  @override
+  String get lqStoryLibrary => 'Archive';
+
+  @override
+  String get lqStoryFreePrologue => 'FREE PROLOGUE';
+
+  @override
+  String get lqStoryBannerTitle => 'A signal from Exit Zero';
+
+  @override
+  String get lqStoryBannerBody => 'Today’s small actions open the next page.';
+
+  @override
+  String get lqStoryLibraryHeadline => 'Where your actions\nbecome a story.';
+
+  @override
+  String get lqStoryLibraryHint =>
+      'Take your time. Your records are always here to revisit.';
+
+  @override
+  String get lqStoryProgress => 'records completed';
+
+  @override
+  String get lqStoryLoadFailed =>
+      'The story could not be loaded. Close this screen and try again.';
+
+  @override
+  String get lqStoryFiction =>
+      'A fictional story that progresses through your everyday quests.';
+
+  @override
+  String get lqStoryNoDeadline =>
+      'No deadlines or streak requirements. Complete quests to open the next record.';
+
+  @override
+  String get lqStoryActionCount => 'Quests completed so far:';
+
+  @override
+  String get lqStoryReadAgain => 'Read again';
+
+  @override
+  String get lqStoryReadNow => 'Ready to read';
+
+  @override
+  String get lqStoryUnlockAfter => 'More to complete:';
+
+  @override
+  String get lqStoryQuestUnit => 'quests';
+
+  @override
+  String get lqStoryReadPrevious => 'Complete the previous record first.';
+
+  @override
+  String get lqStoryRecord => 'RECORD';
+
+  @override
+  String get lqStoryChoose => 'How will you respond?';
+
+  @override
+  String get lqStoryNext => 'Read the next record';
+
+  @override
+  String get lqStoryChapterComplete =>
+      'This chapter is complete. Revisit it anytime and try a different choice.';
+
+  @override
+  String get lqStoryReturnLater =>
+      'Complete more everyday quests to open the next record. Your story so far stays with you.';
+
+  @override
+  String get lqStoryBackToChapter => 'View chapter records';
+
+  @override
+  String get lqStoryChooseAgain => 'Try a different choice';
+
+  @override
+  String get lqStorySaveFailed =>
+      'Your choice could not be saved. Please try again.';
+
+  @override
+  String get lqDeletionQueued =>
+      'Deletion requested. Server cleanup continues even if you close the app.';
 }

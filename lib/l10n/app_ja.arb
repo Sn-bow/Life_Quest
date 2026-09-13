@@ -29,11 +29,23 @@
   "loginErrorGoogleToken": "Google認証トークンを取得できません。再試行してください。",
   "loginErrorGoogle": "Googleサインインに失敗しました。",
   "loginErrorUnknown": "エラーが発生しました: {error}",
-  "@loginErrorUnknown": {"placeholders": {"error": {"type": "String"}}},
+  "@loginErrorUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "loginForgotPassword": "パスワードをお忘れですか?",
   "loginForgotPasswordEmailRequired": "先にメールアドレスを入力してください。",
   "loginForgotPasswordSent": "{email}にパスワードリセットメールを送信しました。",
-  "@loginForgotPasswordSent": {"placeholders": {"email": {"type": "String"}}},
+  "@loginForgotPasswordSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "signupTitle": "新しい冒険者登録",
   "signupPickPhoto": "プロフィール写真を選択",
   "signupEmailLabel": "メール",
@@ -49,7 +61,13 @@
   "signupSuccess": "🎉 登録成功！ようこそ！",
   "signupErrorFailed": "登録に失敗しました。",
   "signupErrorUnknown": "不明なエラーが発生しました: {error}",
-  "@signupErrorUnknown": {"placeholders": {"error": {"type": "String"}}},
+  "@signupErrorUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "signupErrorUserCreate": "ユーザーの作成に失敗しました。",
   "statusScreenTitle": "ステータス",
   "statusTimerTooltip": "集中タイマー",
@@ -57,9 +75,21 @@
   "statusHpLabel": "生活HP",
   "statusHpRecoveryHint": "生活HPは日々のクエスト状態を表します。非戦闘中は10分ごとに少しずつ自然回復します。",
   "statusStreakLabel": "連続達成: {days}日",
-  "@statusStreakLabel": {"placeholders": {"days": {"type": "int"}}},
+  "@statusStreakLabel": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "statusStreakBonus": "XP +{percent}%",
-  "@statusStreakBonus": {"placeholders": {"percent": {"type": "int"}}},
+  "@statusStreakBonus": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "statusStatHint": "レベルアップ時、3ポイントは最近完了したクエストの傾向に応じて自動成長し、残りのポイントのみ自分で割り振れます。",
   "statusGoldLabel": "ゴールド",
   "statusApLabel": "行動力",
@@ -77,7 +107,13 @@
   "statusTitleChangeTitle": "称号変更",
   "statusStatApplyTitle": "ステータス適用確認",
   "statusStatApplyBody": "以下のステータスを適用しますか？\n\n{summary}\n\n適用後は元に戻せません。",
-  "@statusStatApplyBody": {"placeholders": {"summary": {"type": "String"}}},
+  "@statusStatApplyBody": {
+    "placeholders": {
+      "summary": {
+        "type": "String"
+      }
+    }
+  },
   "questsScreenTitle": "クエスト一覧",
   "questsTabDaily": "デイリークエスト",
   "questsTabWeekly": "ウィークリークエスト",
@@ -101,12 +137,24 @@
   "questsTypeYearly": "年間レイド",
   "questsCompleteTitle": "クエスト完了",
   "questsCompleteConfirm": "「{questName}」を完了しますか？",
-  "@questsCompleteConfirm": {"placeholders": {"questName": {"type": "String"}}},
+  "@questsCompleteConfirm": {
+    "placeholders": {
+      "questName": {
+        "type": "String"
+      }
+    }
+  },
   "questsBaseRewardLabel": "基本報酬",
   "questsGoldUnit": "ゴールド",
   "questsAdRewardApplied": "🎉 広告報酬適用",
   "questsDoubleAdButton": "広告を見て2倍報酬 (残り{remaining}回)",
-  "@questsDoubleAdButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@questsDoubleAdButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "questsAdUnavailable": "広告を読み込めません。基本報酬が付与されます。",
   "questsEditTitle": "クエスト編集",
   "questsAddTitle": "新しいクエスト追加",
@@ -115,29 +163,95 @@
   "questsCategoryLabel": "カテゴリ",
   "questsDifficultyLabel": "難易度",
   "questsRewardPreview": "{type}報酬: {xp} XP · {gold} ゴールド",
-  "@questsRewardPreview": {"placeholders": {"type": {"type": "String"}, "xp": {"type": "int"}, "gold": {"type": "int"}}},
+  "@questsRewardPreview": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
   "questsNameRequired": "クエスト名を入力してください。",
   "questsDeleteTitle": "クエスト削除",
   "questsDeleteBody": "「{questName}」を削除しますか？\n\n削除されたクエストは復元できません。",
-  "@questsDeleteBody": {"placeholders": {"questName": {"type": "String"}}},
+  "@questsDeleteBody": {
+    "placeholders": {
+      "questName": {
+        "type": "String"
+      }
+    }
+  },
   "questsRaidClear": "レイドクリア {count}回達成",
-  "@questsRaidClear": {"placeholders": {"count": {"type": "int"}}},
+  "@questsRaidClear": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardSummary": "合計報酬: {xp} XP · {gold} ゴールド · AP +{ap}",
-  "@questsRewardSummary": {"placeholders": {"xp": {"type": "int"}, "gold": {"type": "int"}, "ap": {"type": "int"}}},
+  "@questsRewardSummary": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      },
+      "ap": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardStatPoints": "追加ステータスポイント +{sp}",
-  "@questsRewardStatPoints": {"placeholders": {"sp": {"type": "int"}}},
+  "@questsRewardStatPoints": {
+    "placeholders": {
+      "sp": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardUnlockedTitles": "解放称号: {titles}",
-  "@questsRewardUnlockedTitles": {"placeholders": {"titles": {"type": "String"}}},
+  "@questsRewardUnlockedTitles": {
+    "placeholders": {
+      "titles": {
+        "type": "String"
+      }
+    }
+  },
   "questsRewardUnlockedCosmetics": "解放報酬: {cosmetics}",
-  "@questsRewardUnlockedCosmetics": {"placeholders": {"cosmetics": {"type": "String"}}},
+  "@questsRewardUnlockedCosmetics": {
+    "placeholders": {
+      "cosmetics": {
+        "type": "String"
+      }
+    }
+  },
   "questsRaidBonusMonthly": "レイドボーナス\n追加XP・追加ゴールド\nAP +2・SP +1\n進行報酬解放",
   "questsRaidBonusYearly": "レイドボーナス\n大量XP・大量ゴールド\nAP +4・SP +2\nレア報酬解放",
   "huntScreenTitle": "狩猟場",
   "huntMyHpLabel": "戦闘HP",
   "huntComboBadge": "💥 コンボ: {count}",
-  "@huntComboBadge": {"placeholders": {"count": {"type": "int"}}},
+  "@huntComboBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "huntApBadge": "⚡ AP: {ap}",
-  "@huntApBadge": {"placeholders": {"ap": {"type": "int"}}},
+  "@huntApBadge": {
+    "placeholders": {
+      "ap": {
+        "type": "int"
+      }
+    }
+  },
   "huntActionAttack": "攻撃 (1 AP)",
   "huntActionDefend": "防御 (1 AP)",
   "huntActionSkill": "スキル (自由)",
@@ -150,16 +264,34 @@
   "huntSkillEmpty": "覚えた戦闘スキルがありません。",
   "huntApLowTitle": "AP不足",
   "huntApLowBody": "APが不足しています。広告を見てAP 2を回復しますか？\n(今日の残り: {remaining}回)",
-  "@huntApLowBody": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntApLowBody": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntApRecoverButton": "広告を見て回復",
   "huntApExhausted": "⚡ AP不足！クエストを完了してください。(今日の広告回復はすべて消費済み)",
   "huntDoubleRewardButton": "広告を見て報酬2倍 (残り{remaining}回)",
-  "@huntDoubleRewardButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntDoubleRewardButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntDoubleRewardSuccess": "🎉 広告報酬で戦利品を2倍獲得しました！",
   "huntAdUnavailable": "広告を読み込めません。再試行してください。",
   "huntResultButton": "結果確認 & 戻る",
   "huntReviveButton": "広告を見て復活 (今日残り{remaining}回)",
-  "@huntReviveButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntReviveButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntReviveSuccess": "❤️ 広告報酬で即時復活しました！",
   "huntReviveAdUnavailable": "広告を読み込めません。しばらくしてから再試行してください。",
   "huntRetreatButton": "あきらめて戻る",
@@ -167,7 +299,13 @@
   "inventoryEquippedSection": "装備中",
   "inventoryCombatStatSection": "戦闘ステータス",
   "inventoryItemsSection": "所持アイテム ({count})",
-  "@inventoryItemsSection": {"placeholders": {"count": {"type": "int"}}},
+  "@inventoryItemsSection": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "inventorySlotWeapon": "⚔️ 武器",
   "inventorySlotArmor": "🛡️ 防具",
   "inventorySlotAccessory": "💍 アクセサリー",
@@ -186,9 +324,21 @@
   "inventoryStatAttack": "攻撃力",
   "inventoryStatDefense": "防御力",
   "inventoryUsedHp": "{itemName}を使用しました。(HP回復)",
-  "@inventoryUsedHp": {"placeholders": {"itemName": {"type": "String"}}},
+  "@inventoryUsedHp": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "inventoryUsedAp": "{itemName}を使用しました。(AP回復)",
-  "@inventoryUsedAp": {"placeholders": {"itemName": {"type": "String"}}},
+  "@inventoryUsedAp": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "inventoryRarityCommon": "コモン",
   "inventoryRarityUncommon": "アンコモン",
   "inventoryRarityRare": "レア",
@@ -234,7 +384,13 @@
   "shopCustomRewardIconLabel": "アイコン (絵文字)",
   "shopCustomRewardAddButton": "報酬追加",
   "shopCustomRewardDeleted": "{name}が削除されました",
-  "@shopCustomRewardDeleted": {"placeholders": {"name": {"type": "String"}}},
+  "@shopCustomRewardDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shopAdSupportTitle": "選択型報酬広告は無効です",
   "shopAdSupportDesc": "現在の標準Androidリリースでは広告報酬を提供していません。",
   "shopAdModelTitle": "収益化機能は準備中です",
@@ -245,12 +401,30 @@
   "achievementEmptyInProgress": "すべての実績を達成したか、新しい挑戦を待っています！",
   "achievementEmptyCompleted": "まだ完了した実績がありません。",
   "achievementRewardXp": "報酬: {xp} XP",
-  "@achievementRewardXp": {"placeholders": {"xp": {"type": "int"}}},
+  "@achievementRewardXp": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "achievementRewardSp": "報酬: {sp} SP",
-  "@achievementRewardSp": {"placeholders": {"sp": {"type": "int"}}},
+  "@achievementRewardSp": {
+    "placeholders": {
+      "sp": {
+        "type": "int"
+      }
+    }
+  },
   "skillScreenTitle": "スキル",
   "skillRequiredLevel": "必要条件: Lv.{level}",
-  "@skillRequiredLevel": {"placeholders": {"level": {"type": "int"}}},
+  "@skillRequiredLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "settingsScreenTitle": "設定",
   "settingsAccountSection": "アカウント",
   "settingsNicknameLabel": "ニックネーム",
@@ -268,7 +442,13 @@
   "settingsNotificationMorning": "朝の通知時間",
   "settingsNotificationNight": "夜の通知時間",
   "settingsNotificationTimeValue": "毎日{hour}時",
-  "@settingsNotificationTimeValue": {"placeholders": {"hour": {"type": "int"}}},
+  "@settingsNotificationTimeValue": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
   "settingsLanguage": "言語",
   "settingsLanguageSubtitle": "アプリの表示言語を選択します。",
   "settingsLanguageSystem": "システムの既定",
@@ -293,7 +473,7 @@
   "settingsLogout": "ログアウト",
   "settingsWithdraw": "アカウント削除",
   "settingsWithdrawTitle": "アカウント削除",
-  "settingsWithdrawBody": "本当に退会しますか？\nすべてのデータが永久に削除され、この操作は元に戻せません。",
+  "settingsWithdrawBody": "アカウント、クラウドの記録、報告内容、購入との紐づけを削除します。受付後はログアウトし、アプリを閉じても処理は続きます。このアカウントで購入を復元できなくなります。削除は取り消せず、返金は行われません。",
   "settingsWithdrawConfirm": "削除確認",
   "settingsReauthPasswordTitle": "パスワード確認",
   "settingsPrivacyPolicy": "プライバシーポリシー",
@@ -309,13 +489,31 @@
   "timerFocusMode": "集中モード",
   "timerBreakMode": "休憩モード",
   "timerSessionCount": "セッション {count} 完了",
-  "@timerSessionCount": {"placeholders": {"count": {"type": "int"}}},
+  "@timerSessionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "timerFocusCompleteTitle": "🎉 集中完了！",
   "timerFocusCompleteBody": "{minutes}分集中セッション完了！",
-  "@timerFocusCompleteBody": {"placeholders": {"minutes": {"type": "int"}}},
+  "@timerFocusCompleteBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "timerGoldRewardLabel": "ゴールド +",
   "timerTodaySessions": "今日: {count} セッション",
-  "@timerTodaySessions": {"placeholders": {"count": {"type": "int"}}},
+  "@timerTodaySessions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "timerStartBreak": "休憩開始",
   "timerFocusRewardLabel": "集中完了報酬:",
   "cosmeticShopTitle": "テーマショーケース",
@@ -350,11 +548,23 @@
   "reportAdFailed": "広告を読み込めませんでした。しばらくしてからもう一度お試しください。",
   "reportSummaryStreak": "現在の連続記録",
   "reportSummaryStreakValue": "{days}日",
-  "@reportSummaryStreakValue": {"placeholders": {"days": {"type": "int"}}},
+  "@reportSummaryStreakValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "reportSummaryXp": "現在のXP",
   "reportSummaryQuestCount": "完了クエスト数",
   "reportSummaryQuestCountValue": "{count}個",
-  "@reportSummaryQuestCountValue": {"placeholders": {"count": {"type": "int"}}},
+  "@reportSummaryQuestCountValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportSummaryTitle": "現在の称号",
   "reportWeeklyActivityTitle": "1週間の活動記録",
   "reportWeeklyActivitySubtitle": "今週のルーティン維持の流れを確認できます。",
@@ -373,7 +583,13 @@
   "reportFeatureAutoGrowth": "前のレベル自動成長記録",
   "reportUnlockedToday": "本日の拡張レポート解放済み",
   "reportWatchAdButton": "広告を見て拡張レポートを解放（残り{count}回）",
-  "@reportWatchAdButton": {"placeholders": {"count": {"type": "int"}}},
+  "@reportWatchAdButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportNoMoreViews": "本日はこれ以上解放できません",
   "reportCategoryRatioTitle": "クエストカテゴリ比率",
   "reportInsightGrowthTrendTitle": "今レベルの成長傾向",
@@ -384,7 +600,13 @@
   "reportInsightAutoGrowthCaption": "レベルアップ時に3ポイントが行動統計に基づいて自動配分されます。",
   "reportInsightBestDayTitle": "今週の最高集中日",
   "reportInsightBestDayCaption": "今週完了したクエストは合計{count}個です。",
-  "@reportInsightBestDayCaption": {"placeholders": {"count": {"type": "int"}}},
+  "@reportInsightBestDayCaption": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportInsightRecommendedStatTitle": "推奨集中ステータス",
   "reportInsightBalanced": "バランス良好",
   "reportNextLevelPredictionTitle": "次のレベル自動成長予測",
@@ -403,17 +625,47 @@
   "reportCalendarWeekdayFri": "金",
   "reportCalendarWeekdaySat": "土",
   "reportCalendarSelectedTitle": "{month}月{day}日 完了クエスト",
-  "@reportCalendarSelectedTitle": {"placeholders": {"month": {"type": "int"}, "day": {"type": "int"}}},
+  "@reportCalendarSelectedTitle": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
   "reportCalendarSelectPrompt": "日付を選択してください",
   "reportCalendarNoQuests": "この日付に完了したクエストはありません。",
   "reportNoRecord": "記録なし",
   "reportStatBalanced": "現在ステータスバランスは安定しています。",
   "reportAddQuestSuggestion": "{category}系のクエストを追加してみましょう",
-  "@reportAddQuestSuggestion": {"placeholders": {"category": {"type": "String"}}},
+  "@reportAddQuestSuggestion": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
   "reportRecommendedAction": "推奨行動: {action}",
-  "@reportRecommendedAction": {"placeholders": {"action": {"type": "String"}}},
+  "@reportRecommendedAction": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
   "reportBestWeekday": "{weekday} {count}個",
-  "@reportBestWeekday": {"placeholders": {"weekday": {"type": "String"}, "count": {"type": "int"}}},
+  "@reportBestWeekday": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportWeekdayMonday": "月曜日",
   "reportWeekdayTuesday": "火曜日",
   "reportWeekdayWednesday": "水曜日",
@@ -422,18 +674,45 @@
   "reportWeekdaySaturday": "土曜日",
   "reportWeekdaySunday": "日曜日",
   "reportStatValue": "{stat} {value}",
-  "@reportStatValue": {"placeholders": {"stat": {"type": "String"}, "value": {"type": "int"}}},
+  "@reportStatValue": {
+    "placeholders": {
+      "stat": {
+        "type": "String"
+      },
+      "value": {
+        "type": "int"
+      }
+    }
+  },
   "shopItemAcquired": "{name}を獲得しました！",
-  "@shopItemAcquired": {"placeholders": {"name": {"type": "String"}}},
+  "@shopItemAcquired": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shopCustomRewardFabLabel": "報酬追加",
   "statusReportTooltip": "詳細レポートを見る",
   "dungeonHomeTitle": "ソウルデッキ",
   "dungeonHomeCardCollectionTooltip": "カードコレクション",
   "dungeonHomeDungeonSelection": "ダンジョン選択",
   "dungeonHomeRequiredLevel": "レベル{requiredLevel}以上が必要です",
-  "@dungeonHomeRequiredLevel": {"placeholders": {"requiredLevel": {"type": "int"}}},
+  "@dungeonHomeRequiredLevel": {
+    "placeholders": {
+      "requiredLevel": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonHomeLockedHint": "Lv.{requiredLevel}達成で解放 — クエストを完了してレベルアップしよう",
-  "@dungeonHomeLockedHint": {"placeholders": {"requiredLevel": {"type": "int"}}},
+  "@dungeonHomeLockedHint": {
+    "placeholders": {
+      "requiredLevel": {
+        "type": "int"
+      }
+    }
+  },
   "zone1Name": "青い草原",
   "zone1Description": "初心者冒険者のための最初のダンジョン",
   "zone2Name": "闇の森",
@@ -447,7 +726,13 @@
   "seasonName": "シーズン1: ソウルの覚醒",
   "seasonEnded": "終了",
   "seasonCountdown": "D-{days}",
-  "@seasonCountdown": {"placeholders": {"days": {"type": "int"}}},
+  "@seasonCountdown": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "ascensionModeTitle": "アセンションモード",
   "ascensionInactive": "非アクティブ",
   "ascensionActiveModifiers": "適用中のペナルティ:",
@@ -464,15 +749,33 @@
   "ascensionLevel10Modifier": "Lv 10: 全敵HP +20%",
   "infiniteTowerTitle": "無限の塔",
   "infiniteTowerBestFloorDesc": "終わりなき挑戦 · 最高記録: {bestFloor}階",
-  "@infiniteTowerBestFloorDesc": {"placeholders": {"bestFloor": {"type": "int"}}},
+  "@infiniteTowerBestFloorDesc": {
+    "placeholders": {
+      "bestFloor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerSelectFloor": "挑戦する階を選択",
   "infiniteTowerFloorInfo": "階情報",
   "infiniteTowerChallengeFloor": "{targetFloor}階に挑戦する",
-  "@infiniteTowerChallengeFloor": {"placeholders": {"targetFloor": {"type": "int"}}},
+  "@infiniteTowerChallengeFloor": {
+    "placeholders": {
+      "targetFloor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerFloorComposition": "階構成",
   "infiniteTowerBestFloorLabel": "最高記録",
   "infiniteTowerFloorDisplay": "{floor}階",
-  "@infiniteTowerFloorDisplay": {"placeholders": {"floor": {"type": "int"}}},
+  "@infiniteTowerFloorDisplay": {
+    "placeholders": {
+      "floor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerEnemyHp": "敵HP",
   "infiniteTowerEnemyAttack": "敵攻撃力",
   "infiniteTowerDefault": "基本",
@@ -490,7 +793,13 @@
   "dungeonRestRestTitle": "休憩",
   "dungeonRestRestDescription": "HPの30%を回復します",
   "dungeonRestHealResult": "HPが{healAmount}回復しました！",
-  "@dungeonRestHealResult": {"placeholders": {"healAmount": {"type": "int"}}},
+  "@dungeonRestHealResult": {
+    "placeholders": {
+      "healAmount": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonRestTrainTitle": "修練",
   "dungeonRestTrainDescription": "カード1枚を強化します",
   "dungeonRestNoCardsToUpgrade": "強化できるカードがありません",
@@ -498,7 +807,13 @@
   "dungeonRestSelectCardToUpgrade": "強化するカードを選んでください",
   "dungeonRestCardUpgraded": "強化済み",
   "dungeonRestCardUpgradeResult": "「{name}」カードが強化されました！",
-  "@dungeonRestCardUpgradeResult": {"placeholders": {"name": {"type": "String"}}},
+  "@dungeonRestCardUpgradeResult": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "dungeonEventCardRewardTitle": "カードを選んでください",
   "dungeonShopTitle": "ダンジョンショップ",
   "dungeonShopCardsSection": "カード",
@@ -509,11 +824,23 @@
   "dungeonShopLeaveButton": "ショップを出る",
   "dungeonShopSelectCardToRemove": "除去するカードを選んでください",
   "dungeonShopRemovalCost": "費用: {cost}ゴールド",
-  "@dungeonShopRemovalCost": {"placeholders": {"cost": {"type": "int"}}},
+  "@dungeonShopRemovalCost": {
+    "placeholders": {
+      "cost": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonShopPurchaseComplete": "購入完了",
   "dungeonShopRemoveOneCard": "カード1枚除去",
   "dungeonShopRemovalDescription": "デッキから不要なカードを除去します（現在のデッキ: {deckSize}枚）",
-  "@dungeonShopRemovalDescription": {"placeholders": {"deckSize": {"type": "int"}}},
+  "@dungeonShopRemovalDescription": {
+    "placeholders": {
+      "deckSize": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonEventTitle": "イベント",
   "dungeonEventNoData": "イベントデータがありません",
   "dungeonEventChooseAction": "選んでください",
@@ -534,16 +861,34 @@
   "dungeonResultStatsMonsterKilled": "モンスター討伐",
   "dungeonResultRewardsTitle": "報酬",
   "dungeonResultXpReward": "+{xpGained} XP",
-  "@dungeonResultXpReward": {"placeholders": {"xpGained": {"type": "int"}}},
+  "@dungeonResultXpReward": {
+    "placeholders": {
+      "xpGained": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonResultGoldReward": "+{goldGained}ゴールド",
-  "@dungeonResultGoldReward": {"placeholders": {"goldGained": {"type": "int"}}},
+  "@dungeonResultGoldReward": {
+    "placeholders": {
+      "goldGained": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonResultVictoryBonus": "クリアボーナス x1.5 + ボス討伐ボーナス",
   "dungeonResultDefeatPenalty": "敗北ペナルティ: 報酬 x0.5",
   "dungeonResultReturnHomeButton": "ホームに戻る",
   "cardBattleYourTurn": "あなたのターン",
   "cardBattleEnemyTurn": "敵のターン",
   "cardBattleTurnCount": "ターン{turnCount}",
-  "@cardBattleTurnCount": {"placeholders": {"turnCount": {"type": "int"}}},
+  "@cardBattleTurnCount": {
+    "placeholders": {
+      "turnCount": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleAbandonDialog": "戦闘放棄",
   "cardBattleAbandonConfirmation": "戦闘を放棄しますか？進行状況が失われます。",
   "cardBattleAbandonButton": "放棄",
@@ -552,12 +897,24 @@
   "cardBattleNoCardsInHand": "手札にカードがありません",
   "cardBattleVictory": "勝利！",
   "cardBattleGoldReward": "+{gold}ゴールド",
-  "@cardBattleGoldReward": {"placeholders": {"gold": {"type": "int"}}},
+  "@cardBattleGoldReward": {
+    "placeholders": {
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleSelectCard": "カードを選んでください",
   "cardBattleSkipButton": "スキップ",
   "cardBattleEpEmpty": "EP不足",
   "cardBattlePlayableCount": "{count}枚プレイ可能",
-  "@cardBattlePlayableCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cardBattlePlayableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleDrawPile": "ドロー",
   "cardBattleDiscardPile": "捨て札",
   "cardBattleIntentAttack": "攻撃",
@@ -578,18 +935,42 @@
   "cardCollectionFilterAll": "全て",
   "cardCollectionMyCollection": "マイコレクション",
   "cardCollectionCardCount": "({count}枚)",
-  "@cardCollectionCardCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cardCollectionCardCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionNoCards": "カードを持っていません。\nクエストを完了するとカードを獲得できます！",
   "cardCollectionDeckInclusion": "デッキに{copyCount}枚含まれる",
-  "@cardCollectionDeckInclusion": {"placeholders": {"copyCount": {"type": "int"}}},
+  "@cardCollectionDeckInclusion": {
+    "placeholders": {
+      "copyCount": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionAddToDeck": "デッキに追加",
   "cardCollectionDeckFull": "デッキが満杯 (20枚)",
   "cardCollectionMaxCopies": "最大3枚まで追加可能",
   "cardCollectionAddedToDeck": "{cardName}をデッキに追加しました",
-  "@cardCollectionAddedToDeck": {"placeholders": {"cardName": {"type": "String"}}},
+  "@cardCollectionAddedToDeck": {
+    "placeholders": {
+      "cardName": {
+        "type": "String"
+      }
+    }
+  },
   "cardCollectionMyDeck": "マイデッキ",
   "cardCollectionDeckSize": "({deckSize}/20枚)",
-  "@cardCollectionDeckSize": {"placeholders": {"deckSize": {"type": "int"}}},
+  "@cardCollectionDeckSize": {
+    "placeholders": {
+      "deckSize": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionResetDeckDialog": "デッキリセット",
   "cardCollectionResetDeckConfirmation": "カスタムデッキを削除してデフォルトのスターターデッキに戻しますか？",
   "cardCollectionResetButton": "リセット",
@@ -648,7 +1029,6 @@
   "cardDescAtkC10": "全ての敵に3ダメージを与える。",
   "cardNameAtkC10Up": "刃の嵐+",
   "cardDescAtkC10Up": "全ての敵に5ダメージを与える。",
-
   "cardNameAtkU01": "パワースラッシュ",
   "cardDescAtkU01": "14ダメージを与え、脆弱2ターンを付与する。",
   "cardNameAtkU01Up": "パワースラッシュ+",
@@ -681,7 +1061,6 @@
   "cardDescAtkU08": "脆弱状態の敵に2倍ダメージ（基本6ダメージ）。",
   "cardNameAtkU08Up": "無慈悲+",
   "cardDescAtkU08Up": "脆弱状態の敵に2倍ダメージ（基本9ダメージ）。",
-
   "cardNameAtkR01": "ドラゴンストライク",
   "cardDescAtkR01": "30ダメージを与え、炎上3ターンを付与する。",
   "cardNameAtkR01Up": "ドラゴンストライク+",
@@ -702,7 +1081,6 @@
   "cardDescAtkR05": "力+5を得る。3ターン後に力-5。",
   "cardNameAtkR05Up": "バーサーク+",
   "cardDescAtkR05Up": "力+7を得る。3ターン後に力-5。",
-
   "cardNameAtkL01": "エクスカリバー",
   "cardDescAtkL01": "50ダメージを与え、脆弱+脱力3ターンを付与する。使用後消滅。",
   "cardNameAtkL01Up": "エクスカリバー+",
@@ -711,7 +1089,6 @@
   "cardDescAtkL02": "8ダメージを与える。使用するたびに永久+2ダメージ。",
   "cardNameAtkL02Up": "無限の刃+",
   "cardDescAtkL02Up": "12ダメージを与える。使用するたびに永久+2ダメージ。",
-
   "cardNameMagC01": "火炎弾",
   "cardDescMagC01": "4ダメージを与え、炎上2ターンを付与する。",
   "cardNameMagC01Up": "火炎弾+",
@@ -752,7 +1129,6 @@
   "cardDescMagC10": "次のカードの効果を50%増加させる。",
   "cardNameMagC10Up": "元素調和+",
   "cardDescMagC10Up": "次のカードの効果を100%増加させる。",
-
   "cardNameMagU01": "連鎖雷",
   "cardDescMagU01": "8ダメージを与え、全ての敵に4ダメージを与える。",
   "cardNameMagU01Up": "連鎖雷+",
@@ -785,7 +1161,6 @@
   "cardDescMagU08": "手札のカード1枚をコピーする（このターンのみ）。",
   "cardNameMagU08Up": "複製術+",
   "cardDescMagU08Up": "手札のカード1枚をコスト0でコピーする（このターンのみ）。",
-
   "cardNameMagR01": "メテオ",
   "cardDescMagR01": "全ての敵に25ダメージを与え、炎上3ターンを付与する。",
   "cardNameMagR01Up": "メテオ+",
@@ -806,7 +1181,6 @@
   "cardDescMagR05": "全ての敵を氷結させ、10ダメージを与える。",
   "cardNameMagR05Up": "絶対零度+",
   "cardDescMagR05Up": "全ての敵を氷結させ、15ダメージを与える。",
-
   "cardNameMagL01": "アルマゲドン",
   "cardDescMagL01": "全ての敵に99ダメージを与える。自分も30ダメージ。使用後消滅。",
   "cardNameMagL01Up": "アルマゲドン+",
@@ -815,7 +1189,6 @@
   "cardDescMagL02": "カードを5枚引き、エネルギー+2を得る。使用後消滅。",
   "cardNameMagL02Up": "無限の知恵+",
   "cardDescMagL02Up": "カードを7枚引き、エネルギー+3を得る。使用後消滅。",
-
   "cardNameDefC01": "守備",
   "cardDescDefC01": "防御5を得る。",
   "cardNameDefC01Up": "守備+",
@@ -856,7 +1229,6 @@
   "cardDescDefC10": "防御6を得て、敵1体を挑発する。",
   "cardNameDefC10Up": "挑発の盾+",
   "cardDescDefC10Up": "防御9を得て、敵1体を挑発する。",
-
   "cardNameDefU01": "バリケード",
   "cardDescDefU01": "防御12を得て、不屈2ターンを得る。",
   "cardNameDefU01Up": "バリケード+",
@@ -889,7 +1261,6 @@
   "cardDescDefU08": "防御20を得る。次のターン防御10を得る。",
   "cardNameDefU08Up": "強化アーマー+",
   "cardDescDefU08Up": "防御25を得る。次のターン防御15を得る。",
-
   "cardNameDefR01": "無敵",
   "cardDescDefR01": "このターン全ダメージを0にする。消滅。",
   "cardNameDefR01Up": "無敵+",
@@ -910,7 +1281,6 @@
   "cardDescDefR05": "この戦闘で死亡時、HP30%で復活する。消滅。",
   "cardNameDefR05Up": "再生の霊薬+",
   "cardDescDefR05Up": "この戦闘で死亡時、HP50%で復活する。消滅。",
-
   "cardNameDefL01": "永遠の盾",
   "cardDescDefL01": "防御30を得て、毎ターン自動で防御5を得る（戦闘中）。消滅。",
   "cardNameDefL01Up": "永遠の盾+",
@@ -919,7 +1289,6 @@
   "cardDescDefL02": "HPを全回復し、最大HP+10（永続）。消滅。",
   "cardNameDefL02Up": "生命の泉+",
   "cardDescDefL02Up": "HPを全回復し、最大HP+20（永続）。消滅。",
-
   "cardNameTacC01": "観察",
   "cardDescTacC01": "敵の意図を確認し、カードを1枚引く。",
   "cardNameTacC01Up": "観察+",
@@ -960,7 +1329,6 @@
   "cardDescTacC10": "50%の確率でカードを2枚引く。",
   "cardNameTacC10Up": "ラッキーコイン+",
   "cardDescTacC10Up": "70%の確率でカードを2枚引く。",
-
   "cardNameTacU01": "戦場分析",
   "cardDescTacU01": "カードを3枚引き、最もコストの高いカードのこのターンのコストを0にする。",
   "cardNameTacU01Up": "戦場分析+",
@@ -993,7 +1361,6 @@
   "cardDescTacU08": "棘3を得る（永続）。被撃時に衰弱1ターンを付与する。",
   "cardNameTacU08Up": "連鎖罠+",
   "cardDescTacU08Up": "棘5を得る（永続）。被撃時に衰弱1ターンを付与する。",
-
   "cardNameTacR01": "完璧な計画",
   "cardDescTacR01": "エネルギー+3、カードを3枚引く。次のターンドロー0。",
   "cardNameTacR01Up": "完璧な計画+",
@@ -1014,7 +1381,6 @@
   "cardDescTacR05": "全敵に脆弱+衰弱2ターン、毒3を付与する。",
   "cardNameTacR05Up": "大混乱+",
   "cardDescTacR05Up": "全敵に脆弱+衰弱3ターン、毒3を付与する。",
-
   "cardNameTacL01": "時の支配者",
   "cardDescTacL01": "追加ターン2回を得る（エネルギー2ずつ）。使用後消滅。",
   "cardNameTacL01Up": "時の支配者+",
@@ -1023,7 +1389,6 @@
   "cardDescTacL02": "デッキ全カードをこの戦闘中アップグレードする。使用後消滅。",
   "cardNameTacL02Up": "運命変換+",
   "cardDescTacL02Up": "デッキ全カードをこの戦闘中アップグレードし、エネルギー+2を得る。使用後消滅。",
-
   "relicNameStart01": "冒険者のバッグ",
   "relicDescStart01": "戦闘報酬カード選択肢+1枚(3→4)",
   "relicNameStart02": "古びたお守り",
@@ -1086,7 +1451,6 @@
   "relicDescB04": "毎ターンランダムカード1枚を手札に生成",
   "relicNameB05": "時の王冠",
   "relicDescB05": "初ターンに追加ターン1回",
-
   "achievementNameAc1": "最初の一歩",
   "achievementDescAc1": "クエスト1回完了",
   "achievementNameAc2": "誠実の証",
@@ -1137,7 +1501,6 @@
   "achievementDescAc24": "魅力ステータス30達成",
   "achievementNameAc25": "カリスマの王",
   "achievementDescAc25": "魅力ステータス80達成",
-
   "titleNameT0": "新芽の冒険者",
   "titleDescT0": "全てが新しい始まり",
   "titleNameT1": "誠実な冒険者",
@@ -1194,7 +1557,6 @@
   "titleDescT26": "年間レイド1回クリア",
   "titleNameT27": "年間レイド君主",
   "titleDescT27": "年間レイド3回クリア",
-
   "skillNameSk1": "筋力強化",
   "skillDescSk1": "力クエストXP+10%",
   "skillNameSk2": "知恵の光",
@@ -1243,7 +1605,6 @@
   "skillDescSk23": "全クエストXP+20%",
   "skillNameSk24": "神の祝福",
   "skillDescSk24": "レベルアップ時SP+3",
-
   "monsterSlimeGreen": "緑スライム",
   "monsterBat": "洞窟コウモリ",
   "monsterMushroom": "毒キノコ",
@@ -1280,7 +1641,6 @@
   "chapterName3": "廃墟の城",
   "chapterName4": "溶岩ダンジョン",
   "chapterName5": "深淵の次元",
-
   "timerDuration15": "15分",
   "timerDuration25": "25分",
   "timerDuration45": "45分",
@@ -1288,11 +1648,19 @@
   "huntApRecovered": "⚡ APが2回復しました！",
   "huntSkillCooldownTurns": "{turns}ターン",
   "@huntSkillCooldownTurns": {
-    "placeholders": { "turns": { "type": "int" } }
+    "placeholders": {
+      "turns": {
+        "type": "int"
+      }
+    }
   },
   "settingsReauthFailed": "再認証に失敗しました: {error}",
   "@settingsReauthFailed": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "settingsReauthWrongPassword": "パスワードが正しくありません。",
   "lqToday": "今日",
@@ -1367,34 +1735,59 @@
   "lqReportFailed": "報告を送信できませんでした。再試行してください。",
   "lqCloudQuestNotice": "受けたクエストはアカウント機能でFirebaseに保存。AI生成自体は端末内のみで実行されます。",
   "lqOpenSourceLicenses": "オープンソースライセンス",
-    "lqWelcomeTitle": "日常に、\n新しいクエストを。",
-    "lqWelcomeBody": "大きな決意より、今日の小さな一歩。\n現実の成長が、あなたの物語になります。",
-    "lqFirstContract": "あなたとの最初の約束",
-    "lqWelcomeStepOne": "今日の自分に合わせる",
-    "lqWelcomeStepOneBody": "使える時間とエネルギーを選びましょう。",
-    "lqWelcomeStepTwo": "小さなクエストで成長する",
-    "lqWelcomeStepTwoBody": "現実でできたことで経験値を得られます。",
-    "lqWelcomeStepThree": "自分だけの物語を開く",
-    "lqWelcomeStepThreeBody": "カードとダンジョンで、小さな成長を楽しめます。",
-    "lqStartOnDevice": "この端末で始める",
-    "lqStarting": "ステータスを開いています…",
-    "lqExistingAccount": "既存のアカウントで続ける",
-    "lqDeviceStorageNotice": "登録なしで無料で始められます。記録はこの端末だけに保存され、アプリを削除すると失われます。",
-    "lqGuestName": "覚醒者",
-    "lqProfileLoadFailed": "記録を読み込めませんでした。保存済みデータは保持されています。もう一度お試しください。",
-    "lqRetry": "再試行",
-    "lqBackToStart": "スタート画面へ",
-    "lqLocalProfile": "端末専用プロフィール",
-    "lqDeleteLocal": "端末の記録を削除",
-    "lqDeleteLocalBody": "この端末のクエスト、成長、パーソナライズ履歴を削除します。元に戻せません。",
-    "lqPurchasePending": "支払いの承認待ちです。承認後に利用権を確認します。",
-    "lqPurchasePendingShort": "承認待ち",
-    "lqPurchaseVerifying": "購入内容を確認しています…",
-    "lqPurchaseGranted": "購入を確認しました。コンテンツを利用できます。",
-    "lqPurchaseCancelled": "購入がキャンセルされました。",
-    "lqPurchaseRetry": "購入確認が遅れています。同じアカウントで購入を復元してください。",
-    "lqPurchaseFailed": "購入を開始できませんでした。後でもう一度お試しください。",
-    "lqPurchaseRestoring": "購入を復元しています…",
-    "lqPurchaseRestoreFinished": "ストアの購入履歴を確認しました。購入時と同じアプリアカウントか確認してください。",
-    "lqRestorePurchases": "購入を復元"
+  "lqWelcomeTitle": "日常に、\n新しいクエストを。",
+  "lqWelcomeBody": "大きな決意より、今日の小さな一歩。\n現実の成長が、あなたの物語になります。",
+  "lqFirstContract": "あなたとの最初の約束",
+  "lqWelcomeStepOne": "今日の自分に合わせる",
+  "lqWelcomeStepOneBody": "使える時間とエネルギーを選びましょう。",
+  "lqWelcomeStepTwo": "小さなクエストで成長する",
+  "lqWelcomeStepTwoBody": "現実でできたことで経験値を得られます。",
+  "lqWelcomeStepThree": "自分だけの物語を開く",
+  "lqWelcomeStepThreeBody": "カードとダンジョンで、小さな成長を楽しめます。",
+  "lqStartOnDevice": "この端末で始める",
+  "lqStarting": "ステータスを開いています…",
+  "lqExistingAccount": "既存のアカウントで続ける",
+  "lqDeviceStorageNotice": "登録なしで無料で始められます。記録はこの端末だけに保存され、アプリを削除すると失われます。",
+  "lqGuestName": "覚醒者",
+  "lqProfileLoadFailed": "記録を読み込めませんでした。保存済みデータは保持されています。もう一度お試しください。",
+  "lqRetry": "再試行",
+  "lqBackToStart": "スタート画面へ",
+  "lqLocalProfile": "端末専用プロフィール",
+  "lqDeleteLocal": "端末の記録を削除",
+  "lqDeleteLocalBody": "この端末のクエスト、成長、パーソナライズ履歴を削除します。元に戻せません。",
+  "lqPurchasePending": "支払いの承認待ちです。承認後に利用権を確認します。",
+  "lqPurchasePendingShort": "承認待ち",
+  "lqPurchaseVerifying": "購入内容を確認しています…",
+  "lqPurchaseGranted": "購入を確認しました。コンテンツを利用できます。",
+  "lqPurchaseCancelled": "購入がキャンセルされました。",
+  "lqPurchaseRetry": "購入確認が遅れています。同じアカウントで購入を復元してください。",
+  "lqPurchaseFailed": "購入を開始できませんでした。後でもう一度お試しください。",
+  "lqPurchaseRestoring": "購入を復元しています…",
+  "lqPurchaseRestoreFinished": "ストアの購入履歴を確認しました。購入時と同じアプリアカウントか確認してください。",
+  "lqRestorePurchases": "購入を復元",
+  "lqStoryLibrary": "記録室",
+  "lqStoryFreePrologue": "無料プロローグ",
+  "lqStoryBannerTitle": "0番出口からの信号",
+  "lqStoryBannerBody": "今日の小さな行動で、次の物語が開きます。",
+  "lqStoryLibraryHeadline": "あなたの行動が、\n物語になる場所。",
+  "lqStoryLibraryHint": "急がなくて大丈夫。記録はいつでも読み返せます。",
+  "lqStoryProgress": "完成した記録",
+  "lqStoryLoadFailed": "物語を読み込めませんでした。画面を閉じてもう一度お試しください。",
+  "lqStoryFiction": "日常のクエストで進む、フィクションの物語です。",
+  "lqStoryNoDeadline": "期限や連続ログインの条件はありません。クエストを達成すると次の記録が開きます。",
+  "lqStoryActionCount": "これまでの達成クエスト数",
+  "lqStoryReadAgain": "読み返す",
+  "lqStoryReadNow": "今すぐ読めます",
+  "lqStoryUnlockAfter": "あと",
+  "lqStoryQuestUnit": "クエスト",
+  "lqStoryReadPrevious": "先に前の記録を完成させてください。",
+  "lqStoryRecord": "記録",
+  "lqStoryChoose": "どう応えますか？",
+  "lqStoryNext": "次の記録を読む",
+  "lqStoryChapterComplete": "この章の記録が完成しました。いつでも別の選択で読み返せます。",
+  "lqStoryReturnLater": "日常クエストをさらに達成すると、次の記録が開きます。ここまでの物語はそのまま残ります。",
+  "lqStoryBackToChapter": "この章の記録へ",
+  "lqStoryChooseAgain": "別の選択で読む",
+  "lqStorySaveFailed": "選択を保存できませんでした。もう一度お試しください。",
+  "lqDeletionQueued": "削除を受け付けました。アプリを閉じてもサーバーで処理が続きます。"
 }

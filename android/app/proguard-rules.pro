@@ -20,6 +20,12 @@
 -keep class kotlin.** { *; }
 -keep class kotlinx.** { *; }
 
+# LiteRT-LM 0.17.0 looks up Kotlin config getters/callbacks from native C++.
+# R8 cannot see those calls and otherwise removes SamplerConfig/ThinkingConfig
+# accessors, causing a fatal JNI CallIntMethodV (mid == null) in release only.
+# Preserve this small JNI-facing SDK while keeping app shrinking enabled.
+-keep class com.google.ai.edge.litertlm.** { *; }
+
 # Flame (game engine uses reflection for some components)
 -keep class dev.flameengine.** { *; }
 

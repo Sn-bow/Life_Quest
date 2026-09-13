@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/quest.dart';
 import 'on_device_quest_model.dart';
 import 'quest_director_engine.dart';
+import 'quest_generation.dart';
 
 class QuestDirectorState extends ChangeNotifier {
   final QuestDirectorEngine engine;
@@ -15,14 +16,16 @@ class QuestDirectorState extends ChangeNotifier {
   final List<QuestSignal> _history = [];
   final Map<String, int> _accepted = {};
   List<DirectedQuest> suggestions = [];
-  ModelSnapshot modelSnapshot =
-      const ModelSnapshot(OnDeviceModelStatus.checking);
+  ModelSnapshot modelSnapshot = const ModelSnapshot(
+    OnDeviceModelStatus.checking,
+  );
   bool ready = false;
   bool busy = false;
   bool saveFailed = false;
   String? modelIssue;
   String? _scope;
   String? _day;
+  bool? _quietHours;
   String? _lastAutomaticContext;
   String? _pendingAutomaticLocale;
   int _revision = 0;
@@ -32,12 +35,12 @@ class QuestDirectorState extends ChangeNotifier {
   Timer? _downloadPoll;
   bool _disposed = false;
 
-  QuestDirectorState(
-      {this.engine = const QuestDirectorEngine(),
-      OnDeviceQuestModel? model,
-      DateTime Function()? clock})
-      : model = model ?? OnDeviceQuestModel(),
-        clock = clock ?? DateTime.now;
+  QuestDirectorState({
+    this.engine = const QuestDirectorEngine(),
+    OnDeviceQuestModel? model,
+    DateTime Function()? clock,
+  }) : model = model ?? OnDeviceQuestModel(),
+       clock = clock ?? DateTime.now;
 
   List<QuestSignal> get history => List.unmodifiable(_history);
   OnDeviceModelStatus get modelStatus => modelSnapshot.status;
@@ -65,6 +68,7 @@ class QuestDirectorState extends ChangeNotifier {
     modelIssue = null;
     _pendingAutomaticLocale = null;
     _lastAutomaticContext = null;
+    _quietHours = null;
     if (notify) _notify();
     await model.cancel();
     await _writes;
@@ -101,9 +105,11 @@ class QuestDirectorState extends ChangeNotifier {
           profile = HunterProfile.fromJson(json['profile']);
         }
         if (json['history'] is List) {
-          _history.addAll((json['history'] as List)
-              .map(QuestSignal.fromJson)
-              .whereType<QuestSignal>());
+          _history.addAll(
+            (json['history'] as List)
+                .map(QuestSignal.fromJson)
+                .whereType<QuestSignal>(),
+          );
         }
         if (json['accepted'] is Map) {
           for (final entry in (json['accepted'] as Map).entries) {
@@ -112,7 +118,9 @@ class QuestDirectorState extends ChangeNotifier {
             }
           }
         }
-        if (json['day'] == localDay(clock()) && json['suggestions'] is List) {
+        if (json['day'] == localDay(clock()) &&
+            json['quietHours'] == QuestGeneration.quietHours(clock()) &&
+            json['suggestions'] is List) {
           suggestions = (json['suggestions'] as List)
               .map(DirectedQuest.fromJson)
               .whereType<DirectedQuest>()
@@ -127,9 +135,13 @@ class QuestDirectorState extends ChangeNotifier {
     _prune();
     if (suggestions.isEmpty) _buildPlan();
     _day = localDay(clock());
+    _quietHours = QuestGeneration.quietHours(clock());
     suggestions = suggestions
-        .where((q) =>
-            q.id.startsWith('director:$_day:') && !_accepted.containsKey(q.id))
+        .where(
+          (q) =>
+              q.id.startsWith('director:$_day:') &&
+              !_accepted.containsKey(q.id),
+        )
         .toList();
     ready = true;
     _notify();
@@ -143,28 +155,35 @@ class QuestDirectorState extends ChangeNotifier {
     final now = clock();
     final day = localDay(now);
     _history.removeWhere(
-        (e) => e.at.isAfter(now) || now.difference(e.at).inDays >= 90);
+      (e) => e.at.isAfter(now) || now.difference(e.at).inDays >= 90,
+    );
     if (_history.length > 270) _history.removeRange(0, _history.length - 270);
     _accepted.removeWhere((id, _) => !id.startsWith('director:$day:'));
   }
 
   void _buildPlan() {
     _day = localDay(clock());
+    _quietHours = QuestGeneration.quietHours(clock());
     final excluded = {
       ..._accepted.keys,
-      ..._history.where((e) => localDay(e.at) == _day).map((e) => e.questId)
+      ..._history.where((e) => localDay(e.at) == _day).map((e) => e.questId),
     };
     suggestions = engine.plan(
-        profile: profile,
-        history: _history,
-        now: clock(),
-        excludedIds: excluded,
-        slots: (3 - _accepted.length).clamp(0, 3),
-        usedMinutes: _accepted.values.fold(0, (sum, m) => sum + m));
+      profile: profile,
+      history: _history,
+      now: clock(),
+      excludedIds: excluded,
+      slots: (3 - _accepted.length).clamp(0, 3),
+      usedMinutes: _accepted.values.fold(0, (sum, m) => sum + m),
+    );
   }
 
   Future<void> refreshDay() async {
-    if (!ready || _day == localDay(clock())) return;
+    if (!ready ||
+        (_day == localDay(clock()) &&
+            _quietHours == QuestGeneration.quietHours(clock()))) {
+      return;
+    }
     ++_revision;
     _prune();
     _buildPlan();
@@ -176,8 +195,9 @@ class QuestDirectorState extends ChangeNotifier {
   Future<void> reconcile(List<Quest> quests) async {
     if (!ready) return;
     var changed = false;
-    for (final quest
-        in quests.where((q) => q.scheduledDay == localDay(clock()))) {
+    for (final quest in quests.where(
+      (q) => q.scheduledDay == localDay(clock()),
+    )) {
       if (!_accepted.containsKey(quest.id)) {
         _accepted[quest.id] = quest.estimatedMinutes ?? 1;
         changed = true;
@@ -185,8 +205,9 @@ class QuestDirectorState extends ChangeNotifier {
     }
     if (changed) {
       ++_revision;
-      suggestions =
-          suggestions.where((q) => !_accepted.containsKey(q.id)).toList();
+      suggestions = suggestions
+          .where((q) => !_accepted.containsKey(q.id))
+          .toList();
       _notify();
       await _save();
     }
@@ -216,15 +237,20 @@ class QuestDirectorState extends ChangeNotifier {
   }
 
   Future<void> record(Quest quest, QuestFeedback feedback) => recordSignal(
-      quest.id,
-      quest.directorTemplateId ?? 'manual:${quest.category.name}',
-      feedback,
-      title: quest.name,
-      minutes: quest.estimatedMinutes ?? 0);
+    quest.id,
+    quest.directorTemplateId ?? 'manual:${quest.category.name}',
+    feedback,
+    title: quest.name,
+    minutes: quest.estimatedMinutes ?? 0,
+  );
 
   Future<void> recordSignal(
-      String id, String templateId, QuestFeedback feedback,
-      {String title = '', int minutes = 0}) async {
+    String id,
+    String templateId,
+    QuestFeedback feedback, {
+    String title = '',
+    int minutes = 0,
+  }) async {
     if (!ready) return;
     final day = localDay(clock());
     final previous = _history
@@ -233,13 +259,16 @@ class QuestDirectorState extends ChangeNotifier {
     if (previous?.feedback == QuestFeedback.completed) return;
     ++_revision;
     _history.removeWhere((e) => e.questId == id && localDay(e.at) == day);
-    _history.add(QuestSignal(
+    _history.add(
+      QuestSignal(
         questId: id,
         templateId: templateId,
         feedback: feedback,
         at: clock(),
         title: title,
-        minutes: minutes));
+        minutes: minutes,
+      ),
+    );
     suggestions = suggestions.where((q) => q.id != id).toList();
     _prune();
     _notify();
@@ -247,11 +276,19 @@ class QuestDirectorState extends ChangeNotifier {
   }
 
   Future<void> skip(
-      DirectedQuest quest, QuestFeedback feedback, String locale) async {
+    DirectedQuest quest,
+    QuestFeedback feedback,
+    String locale,
+  ) async {
     if (!ready) return;
     final binding = _binding;
-    await recordSignal(quest.id, quest.template.id, feedback,
-        title: quest.title(locale), minutes: quest.minutes);
+    await recordSignal(
+      quest.id,
+      quest.template.id,
+      feedback,
+      title: quest.title(locale),
+      minutes: quest.minutes,
+    );
     if (!ready || binding != _binding || _disposed) return;
     _buildPlan();
     _notify();
@@ -271,6 +308,7 @@ class QuestDirectorState extends ChangeNotifier {
     final revision = _revision;
     final operation = ++_operation;
     final day = localDay(clock());
+    final quiet = QuestGeneration.quietHours(clock());
     final plan = List<DirectedQuest>.of(suggestions);
     final inputProfile = profile;
     final inputHistory = history;
@@ -278,11 +316,18 @@ class QuestDirectorState extends ChangeNotifier {
     try {
       await _save();
       if (_disposed || revision != _revision || operation != _operation) return;
-      final result = await model.generate(plan, inputProfile, inputHistory, locale, clock());
+      final result = await model.generate(
+        plan,
+        inputProfile,
+        inputHistory,
+        locale,
+        clock(),
+      );
       if (_disposed ||
           revision != _revision ||
           operation != _operation ||
-          day != localDay(clock())) {
+          day != localDay(clock()) ||
+          quiet != QuestGeneration.quietHours(clock())) {
         return;
       }
       if (result == null) {
@@ -303,12 +348,13 @@ class QuestDirectorState extends ChangeNotifier {
   }
 
   String _automaticContext(String locale) => jsonEncode([
-        localDay(clock()),
-        locale,
-        profile.toJson(),
-      ]);
+    localDay(clock()),
+    locale,
+    QuestGeneration.quietHours(clock()),
+    profile.toJson(),
+  ]);
 
-  /// At most one automatic attempt per day, locale and check-in combination.
+  /// At most one automatic attempt per day, quiet-hours, locale and check-in.
   /// Inference runs only from a visible app; explicit retry remains available.
   Future<void> personalizeIfNeeded(String locale) async {
     if (!ready ||
@@ -330,8 +376,10 @@ class QuestDirectorState extends ChangeNotifier {
     busy = true;
     modelIssue = null;
     final operation = ++_operation;
-    modelSnapshot = ModelSnapshot(OnDeviceModelStatus.downloading,
-        progress: modelSnapshot.progress);
+    modelSnapshot = ModelSnapshot(
+      OnDeviceModelStatus.downloading,
+      progress: modelSnapshot.progress,
+    );
     _notify();
     _downloadPoll = Timer.periodic(const Duration(seconds: 1), (_) async {
       final status = await model.status();
@@ -395,9 +443,10 @@ class QuestDirectorState extends ChangeNotifier {
       'profile': profile.toJson(),
       'lastAutomaticContext': _lastAutomaticContext,
       'day': _day,
+      'quietHours': _quietHours,
       'history': _history.map((e) => e.toJson()).toList(),
       'accepted': _accepted,
-      'suggestions': suggestions.map((q) => q.toJson()).toList()
+      'suggestions': suggestions.map((q) => q.toJson()).toList(),
     });
     _writes = _writes.then((_) async {
       try {

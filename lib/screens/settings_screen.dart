@@ -258,15 +258,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (!context.mounted) return;
                 final director = context.read<QuestDirectorState>();
                 final scope = characterState.personalizationScope;
+                final navigator = Navigator.of(context);
+                final messenger = ScaffoldMessenger.of(context);
+                final queuedMessage = AppLocalizations.of(
+                  context,
+                )!.lqDeletionQueued;
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => const PopScope(
+                    canPop: false,
+                    child: Center(
+                      child: Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(28),
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
                 await director.endSession();
                 await PurchaseService().endSession();
                 final didDelete = await characterState.deleteAccount();
+                if (navigator.mounted) navigator.pop();
                 if (!didDelete) {
                   await director.bind(scope);
+                  await PurchaseService().bindUser(scope);
                   return;
                 }
-                if (!context.mounted) return;
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                if (navigator.mounted) {
+                  navigator.popUntil((route) => route.isFirst);
+                }
+                if (messenger.mounted) {
+                  messenger.showSnackBar(
+                    SnackBar(content: Text(queuedMessage)),
+                  );
+                }
               },
               child: Text(dialogL10n.settingsWithdrawConfirm),
             ),

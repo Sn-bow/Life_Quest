@@ -49,3 +49,22 @@ API 35 / ARM64 / RAM 6GB / 16KB 페이지 에뮬레이터 `LifeQuest_API35_16KB`
 - 실행: `flutter test integration_test/on_device_model_smoke_test.dart -d emulator-5556 --dart-define=LIFEQUEST_QA_PREVIEW=true --dart-define=LIFEQUEST_AI_MODEL_SMOKE=true`.
 - 2.59GB 다운로드를 명시적으로 켜는 테스트다. 전용 QA 기기에만 실행한다. 테스트 종료 시 Flutter가 테스트 앱을 제거할 수 있다.
 - APK ZIP 정렬 검사 `zipalign -c -P 16 4` 성공. release AAB 전체 ELF 세그먼트 검사는 별도 진행한다.
+
+
+## 실제 제품 프롬프트 보완 및 release 검증 — 2026-09-14
+
+초기 비교의 8/8은 당시 V2 합성 평가 결과이며 제품 완성도를 뜻하지 않는다. 실제 Dart 프롬프트를 4언어 × 신규/긴 기록 8개 조건으로 내보내어 로컬 Gemma로 다시 검사했다.
+
+- 첫 제품 프롬프트에서는 5/8 구조 검증, 야간 낭독/영어 사유 길이 초과/중국어 영어 혼합을 발견했다. 기록이 길면 과거 활동과 새 슬롯 지시를 혼동하기도 했다.
+- 앱 정책은 전체 최근 14일을 사용하고 모델에는 최근 6개 제목(각 25자)과 피드백만 전달한다. 입력은 이 합성 집합에서 419–630 토큰, 모델 출력 550 + 예약 64를 더해도 2,048 토큰 이내다.
+- 밤 21시–07시는 모델과 기본 추천 모두 조용한 활동으로 제한한다. 시간대가 바뀌면 아직 수락하지 않은 추천을 새로 구성한다. 야간 소리/재생 문구를 결과 검사에서 거부한다.
+- 출력에 앱이 제공한 슬롯 ID를 요구해 순서가 바뀌어도 시간/성장 분야/보상 결속이 유지된다. 한국어·일본어·중국어는 해당 문자 포함 여부도 검사한다.
+- 최신 Mac CPU 4-thread 합성 8개는 제품 파서 8/8 통과(한 중국어 응답은 완성된 배열 뒤 최종 루트 괄호 하나 누락을 제한적으로 복구). 조각난 항목/누락된 필드/추가 텍스트는 복구하지 않는다. 단순 문자 검사는 완전한 의미 안전성·정확성을 보증하지 않는다.
+- R8/AOT release APK의 첫 실제 실행에서 JNI `mid == null` 종료를 재현했다. 압축 결과에서 SamplerConfig/ThinkingConfig getter가 제거된 것을 확인했다. 해당 JNI SDK 멤버 보존 규칙 추가 후 동일 16KB 에뮬레이터에서 신규 21,364ms, 긴 기록 11,748ms, 두 조건 모두 통과. 앱 압축 자체는 유지한다.
+- 실물 기기 RAM/발열/배터리, 다양한 실제 목표, 공격성 입력, 회복/운동 제약 의미 검토, 신고 전달 검증은 여전히 공개 출시 전 과제다. 현재 수치는 에뮬레이터 결과다.
+
+재현 도구: `test/features/quest_model_contract_test.dart`의 opt-in fixture 내보내기 → `scripts/probe_production_quest_model.py` → opt-in Dart 파서 검증. 원시 합성 결과는 로컬 QA 폴더에 보관한다. `integration_test/native_release_probe.dart`는 전용 QA 기기용이며 해당 타깃의 APK/AAB를 Play에 올리면 안 된다.
+
+JNI 근거: https://github.com/google-ai-edge/LiteRT-LM/blob/v0.17.0/kotlin/java/com/google/ai/edge/litertlm/jni/litertlm.cc
+
+합성 원시 기록: `production-model-probe.json`, Android release 재실행 `native-release-probe.json`. 캐시가 따뜻한 반복에서 9,368/7,867ms였으며 첫 release 성공의 21,364/11,748ms와 환경이 다르다. 서로 다른 조건을 평균화하지 않는다.

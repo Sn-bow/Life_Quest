@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
@@ -8,130 +6,58 @@ import 'package:life_quest_final_v2/state/character_state.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   SoundService.muteForTesting();
-  setUp(() => SharedPreferences.setMockInitialValues({}));
-
-  group('account deletion result contract', () {
-    test('returns false when data cleanup fails', () async {
-      final state = CharacterState(
-        firestore: FakeFirebaseFirestore(),
-        deleteAccountUidOverride: 'test-user',
-        deleteKnownAccountDataOverride: (_) async {
-          throw Exception('storage cleanup failed');
-        },
-        deleteAuthAccountOverride: () async {},
-      );
-
-      final didDelete = await state.deleteAccount();
-
-      expect(didDelete, isFalse);
-    });
-
-    test('returns true after data and auth cleanup', () async {
+  setUp(
+    () => SharedPreferences.setMockInitialValues({
+      'lifequest.director.v1.test-user': 'synthetic private history',
+      'lifequest.purchases.v1.test-user': ['theme_neon_cyberpunk'],
+      'lifequest.director.v1.other-user': 'other account history',
+      'lifequest.local.state.v1': 'device profile',
+    }),
+  );
+  test(
+    'unaccepted or failed request preserves sign-in and local records',
+    () async {
+      for (final fails in [false, true]) {
+        var signedOut = false;
+        final state = CharacterState(
+          deleteAccountUidOverride: 'test-user',
+          requestAccountDeletionOverride: (_) async {
+            if (fails) throw StateError('Synthetic network failure');
+            return false;
+          },
+          signOutAfterDeletionOverride: () async => signedOut = true,
+        );
+        expect(await state.deleteAccount(), false);
+        expect(signedOut, false);
+        final prefs = await SharedPreferences.getInstance();
+        expect(prefs.containsKey('lifequest.director.v1.test-user'), true);
+        state.dispose();
+      }
+    },
+  );
+  test(
+    'durable request clears only that account caches, then signs out',
+    () async {
       final calls = <String>[];
       final state = CharacterState(
-        firestore: FakeFirebaseFirestore(),
         deleteAccountUidOverride: 'test-user',
-        deleteKnownAccountDataOverride: (uid) async {
-          calls.add('data:$uid');
+        requestAccountDeletionOverride: (uid) async {
+          calls.add('request:$uid');
+          return true;
         },
-        deleteAuthAccountOverride: () async {
-          calls.add('auth');
-        },
-      );
-
-      final didDelete = await state.deleteAccount();
-
-      expect(didDelete, isTrue);
-      expect(calls, ['data:test-user', 'auth']);
-    });
-
-    test('deletes known Firestore account data before auth account', () async {
-      final firestore = FakeFirebaseFirestore();
-      final calls = <String>[];
-
-      await firestore.collection('users').doc('test-user').set({
-        'character': {'name': 'Tester', 'level': 3, 'gold': 100},
-      });
-      await firestore
-          .collection('users')
-          .doc('test-user')
-          .collection('_meta')
-          .doc('adServerTime')
-          .set({'t': DateTime(2026, 5, 21).toIso8601String()});
-
-      final state = CharacterState(
-        firestore: firestore,
-        deleteAccountUidOverride: 'test-user',
-        deleteOptionalProfileImageOverride: (uid) async {
-          calls.add('storage:$uid');
-        },
-        deleteAuthAccountOverride: () async {
-          calls.add('auth');
+        signOutAfterDeletionOverride: () async {
+          final prefs = await SharedPreferences.getInstance();
+          expect(prefs.containsKey('lifequest.director.v1.test-user'), false);
+          expect(prefs.containsKey('lifequest.purchases.v1.test-user'), false);
+          calls.add('sign-out');
         },
       );
-
-      final preferences = await SharedPreferences.getInstance();
-      await preferences.setString(
-        'lifequest.director.v1.test-user',
-        'private history',
-      );
-      await firestore
-          .collection('users')
-          .doc('test-user')
-          .collection('aiReports')
-          .add({'title': 'reported'});
-      await preferences.setStringList('lifequest.purchases.v1.test-user', [
-        'theme_neon_cyberpunk',
-      ]);
-      await firestore
-          .collection('users')
-          .doc('test-user')
-          .collection('entitlements')
-          .doc('cosmetic_theme_neon')
-          .set({'active': true});
-      final didDelete = await state.deleteAccount();
-
-      expect(didDelete, isTrue);
-      expect(
-        preferences.containsKey('lifequest.purchases.v1.test-user'),
-        isFalse,
-      );
-      expect(
-        (await firestore
-                .collection('users')
-                .doc('test-user')
-                .collection('entitlements')
-                .get())
-            .docs,
-        isEmpty,
-      );
-      expect(
-        preferences.containsKey('lifequest.director.v1.test-user'),
-        isFalse,
-      );
-      expect(
-        (await firestore
-                .collection('users')
-                .doc('test-user')
-                .collection('aiReports')
-                .get())
-            .docs,
-        isEmpty,
-      );
-      expect(calls, ['storage:test-user', 'auth']);
-      expect(
-        await firestore.collection('users').doc('test-user').get(),
-        isA<DocumentSnapshot>().having((doc) => doc.exists, 'exists', false),
-      );
-      expect(
-        await firestore
-            .collection('users')
-            .doc('test-user')
-            .collection('_meta')
-            .doc('adServerTime')
-            .get(),
-        isA<DocumentSnapshot>().having((doc) => doc.exists, 'exists', false),
-      );
-    });
-  });
+      expect(await state.deleteAccount(), true);
+      expect(calls, ['request:test-user', 'sign-out']);
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.containsKey('lifequest.director.v1.other-user'), true);
+      expect(prefs.containsKey('lifequest.local.state.v1'), true);
+      state.dispose();
+    },
+  );
 }

@@ -1,0 +1,72 @@
+{
+  "runtime": "Mac CPU 4 threads; not a phone benchmark",
+  "prompt_source": "shipping Dart QuestGeneration",
+  "context_tokens": 2048,
+  "max_output_tokens": 550,
+  "cases": [
+    {
+      "id": "ko_new",
+      "input_tokens": 427,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"recall\",\n      \"title\": \"배운 것 떠올리기\",\n      \"instruction\": \"방금 배운 영어 단어 하나를 마음속으로 되새기세요.\",\n      \"reason\": \"영어 학습 기억 강화\"\n    },\n    {\n      \"id\": \"tomorrow\",\n      \"title\": \"다음 행동 적기\",\n      \"instruction\": \"내일 할 아주 작은 영어 단어 하나를 적으세요.\",\n      \"reason\": \"다음 학습 계획 세우기\"\n    },\n    {\n      \"id\": \"read\",\n      \"title\": \"짧은 문장 읽기\",\n      \"instruction\": \"관심 있는 주제의 짧은 영어 문장 하나를 조용히 읽으세요.\",\n      \"reason\": \"영어 독해 연습 시작\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 642,
+      "seconds": 10.74
+    },
+    {
+      "id": "ko_history",
+      "input_tokens": 586,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"bag\",\n      \"title\": \"내일 준비\",\n      \"instruction\": \"내일 할 일 중 하나를 정해두세요.\",\n      \"reason\": \"내일 계획 세우기 시작\"\n    },\n    {\n      \"id\": \"read\",\n      \"title\": \"짧은 문장 읽기\",\n      \"instruction\": \"관심사 관련 짧은 문장 하나를 조용히 읽으세요.\",\n      \"reason\": \"영어 학습에 집중하기\"\n    },\n    {\n      \"id\": \"desk\",\n      \"title\": \"책상 정리\",\n      \"instruction\": \"책상 위에 물건을 제자리에 두세요.\",\n      \"reason\": \"공부 환경 정리하기\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 790,
+      "seconds": 7.19
+    },
+    {
+      "id": "en_new",
+      "input_tokens": 419,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"recall\",\n      \"title\": \"Recall English\",\n      \"instruction\": \"Silently recall a past word.\",\n      \"reason\": \"Review learned vocabulary quietly.\"\n    },\n    {\n      \"id\": \"tomorrow\",\n      \"title\": \"Plan Next Step\",\n      \"instruction\": \"Silently write one study task.\",\n      \"reason\": \"Define next quiet study step.\"\n    },\n    {\n      \"id\": \"read\",\n      \"title\": \"Read Sentence\",\n      \"instruction\": \"Silently read one sentence.\",\n      \"reason\": \"Expose to new English text.\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 595,
+      "seconds": 5.97
+    },
+    {
+      "id": "en_history",
+      "input_tokens": 502,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"bag\",\n      \"title\": \"Prep for study\",\n      \"instruction\": \"Set aside one book for tomorrow's English.\",\n      \"reason\": \"Prepare materials for learning.\"\n    },\n    {\n      \"id\": \"read\",\n      \"title\": \"Quiet reading\",\n      \"instruction\": \"Silently read one English sentence now.\",\n      \"reason\": \"Practice reading new words.\"\n    },\n    {\n      \"id\": \"desk\",\n      \"title\": \"Desk tidy\",\n      \"instruction\": \"Put one pen on the desk in its spot.\",\n      \"reason\": \"Organize study space now.\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 684,
+      "seconds": 6.34
+    },
+    {
+      "id": "ja_new",
+      "input_tokens": 425,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"recall\",\n      \"title\": \"学習内容を思い出す\",\n      \"instruction\": \"学んだことを静かに思い出す。\",\n      \"reason\": \"知識を定着させるため\"\n    },\n    {\n      \"id\": \"tomorrow\",\n      \"title\": \"次の行動を記録\",\n      \"instruction\": \"明日の小さな次の行動を書き出す。\",\n      \"reason\": \"計画を具体化するため\"\n    },\n    {\n      \"id\": \"read\",\n      \"title\": \"短い文章を読む\",\n      \"instruction\": \"トピックに関する短い文章を静かに読む。\",\n      \"reason\": \"英語のインプットを増やすため\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 619,
+      "seconds": 6.72
+    },
+    {
+      "id": "ja_history",
+      "input_tokens": 618,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"bag\",\n      \"title\": \"翌日の準備\",\n      \"instruction\": \"明日使うものを一つ選んで用意する。\",\n      \"reason\": \"翌日の学習を準備する。\"\n    },\n    {\n      \"id\": \"read\",\n      \"title\": \"短い文を読む\",\n      \"instruction\": \"興味のある分野の短い英文を静かに読む。\",\n      \"reason\": \"新しい語彙を学ぶ。\"\n    },\n    {\n      \"id\": \"desk\",\n      \"title\": \"机の上を整える\",\n      \"instruction\": \"机の上に一つのものをその場所に置く。\",\n      \"reason\": \"作業スペースを整理する。\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 808,
+      "seconds": 6.81
+    },
+    {
+      "id": "zh_new",
+      "input_tokens": 423,
+      "output": "```json\n{\"quests\":[{\"id\":\"recall\",\"title\":\"回顾学习内容\",\"instruction\":\"静心回忆一个已学到的词汇。\",\"reason\":\"巩固已学知识点。\"},{\"id\":\"tomorrow\",\"title\":\"规划下一步行动\",\"instruction\":\"写下下班后学习的第一个具体步骤。\",\"reason\":\"明确学习的下一步方向。\"},{\"id\":\"read\",\"title\":\"静读短句\",\"instruction\":\"静心阅读一个关于英语的短句。\",\"reason\":\"接触新词汇和表达。\"}\n]\n```",
+      "error": null,
+      "conversation_tokens": 548,
+      "seconds": 4.52
+    },
+    {
+      "id": "zh_history",
+      "input_tokens": 630,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"bag\",\n      \"title\": \"准备明天学习\",\n      \"instruction\": \"把明天要用的书包放在桌上。\",\n      \"reason\": \"为学习做准备\"\n    },\n    {\n      \"id\": \"read\",\n      \"title\": \"静心阅读\",\n      \"instruction\": \"静静读一句英语短语。\",\n      \"reason\": \"进行英语学习\"\n    },\n    {\n      \"id\": \"desk\",\n      \"title\": \"整理桌面\",\n      \"instruction\": \"把一个笔放回原位。\",\n      \"reason\": \"保持学习环境整洁\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 810,
+      "seconds": 6.69
+    }
+  ]
+}

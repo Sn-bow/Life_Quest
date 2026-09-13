@@ -1,3 +1,4 @@
+import '../features/story/story_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -214,7 +215,9 @@ class TodayScreen extends StatelessWidget {
                           child: _acceptedCard(context, quest)),
                   ],
                   const SizedBox(height: 26),
-                  _gate(context),
+                  const StoryBanner(),
+                  const SizedBox(height: 10),
+                  TextButton.icon(onPressed: onOpenDungeon, icon: const Icon(PhosphorIcons.sword, size: 18), label: Text(s.lqEnterDungeon)),
                 ])));
   }
 
@@ -484,58 +487,4 @@ class TodayScreen extends StatelessWidget {
                 ])));
   }
 
-  Widget _gate(BuildContext context) {
-    final s = AppLocalizations.of(context)!;
-    return ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Stack(children: [
-          Positioned.fill(
-              child: Image.asset(
-                  'assets/images/backgrounds/bg_zone2_dark_forest.png',
-                  fit: BoxFit.cover,
-                  alignment: const Alignment(0, .25),
-                  excludeFromSemantics: true)),
-          Positioned.fill(
-              child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                const Color(0xFF09111D).withValues(alpha: .97),
-                const Color(0xFF09111D).withValues(alpha: .45)
-              ])))),
-          Padding(
-              padding: const EdgeInsets.all(21),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(s.lqOptional,
-                        style: const TextStyle(
-                            color: Color(0xFFBDB0F4),
-                            fontSize: 10,
-                            letterSpacing: .5)),
-                    const SizedBox(height: 8),
-                    Text(s.lqOpenGate,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700)),
-                    const SizedBox(height: 7),
-                    Text(s.lqGateHint,
-                        style: const TextStyle(
-                            color: Color(0xFFBDCCD9),
-                            fontSize: 12,
-                            height: 1.6)),
-                    const SizedBox(height: 13),
-                    TextButton.icon(
-                        style: TextButton.styleFrom(
-                            foregroundColor: const Color(0xFF95E8F0),
-                            padding: EdgeInsets.zero),
-                        onPressed: onOpenDungeon,
-                        icon: const Icon(PhosphorIcons.arrowUpRight, size: 17),
-                        label: Text(s.lqEnterDungeon)),
-                  ])),
-        ]));
-  }
 }

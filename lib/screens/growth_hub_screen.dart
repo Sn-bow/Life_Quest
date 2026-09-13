@@ -1,3 +1,4 @@
+import '../features/story/story_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class GrowthHubScreen extends StatelessWidget {
     void open(Widget page) => Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => page));
     final links = <({IconData icon, String label, Widget page})>[
+      (icon: PhosphorIcons.bookOpen, label: s.lqStoryLibrary, page: const StoryLibraryScreen()),
       (
         icon: PhosphorIcons.chartBar,
         label: s.statusScreenTitle,
