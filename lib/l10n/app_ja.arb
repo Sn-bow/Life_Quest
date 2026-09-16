@@ -852,12 +852,12 @@
   "dungeonEventEffectCardUpgrade": "カード強化",
   "dungeonEventEffectCurseAdded": "呪い追加",
   "dungeonResultVictoryTitle": "ダンジョンクリア！",
-  "dungeonResultDefeatTitle": "冒険失敗...",
+  "dungeonResultDefeatTitle": "冒険の終了",
   "dungeonResultVictoryMessage": "おめでとうございます！全ての敵を倒してダンジョンを制覇しました。",
-  "dungeonResultDefeatMessage": "残念ながら今回の冒険は失敗しました。もう一度挑戦しましょう。",
+  "dungeonResultDefeatMessage": "完了した部屋の成果は残ります。準備ができたら、また探索しましょう。",
   "dungeonResultStatsTitle": "冒険記録",
   "dungeonResultStatsZone": "エリア",
-  "dungeonResultStatsNodesCompleted": "ノード完了",
+  "dungeonResultStatsNodesCompleted": "完了した部屋",
   "dungeonResultStatsMonsterKilled": "モンスター討伐",
   "dungeonResultRewardsTitle": "報酬",
   "dungeonResultXpReward": "+{xpGained} XP",
@@ -890,7 +890,7 @@
     }
   },
   "cardBattleAbandonDialog": "戦闘放棄",
-  "cardBattleAbandonConfirmation": "戦闘を放棄しますか？進行状況が失われます。",
+  "cardBattleAbandonConfirmation": "今回の冒険を終えますか？完了した部屋の報酬を受け取り、日常のレベルと経験値はそのまま残ります。",
   "cardBattleAbandonButton": "放棄",
   "cardBattleNoEnemies": "敵がいません",
   "cardBattleEndTurnButton": "ターン終了",
@@ -1859,5 +1859,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "lqDungeonCheckpointHint": "部屋への出入り時に保存します。アプリを閉じると、途中の部屋は入口から再開します。",
+  "lqDungeonSaveFailed": "進行を保存できませんでした。空き容量を確認して、もう一度お試しください。",
+  "lqDungeonCollectResult": "冒険の結果を受け取る"
 }

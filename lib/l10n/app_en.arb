@@ -852,12 +852,12 @@
   "dungeonEventEffectCardUpgrade": "Card Upgraded",
   "dungeonEventEffectCurseAdded": "Curse Added",
   "dungeonResultVictoryTitle": "Dungeon Cleared!",
-  "dungeonResultDefeatTitle": "Adventure Failed...",
+  "dungeonResultDefeatTitle": "Expedition complete",
   "dungeonResultVictoryMessage": "Congratulations! You conquered the dungeon defeating all enemies.",
-  "dungeonResultDefeatMessage": "Unfortunately this adventure failed. Try again!",
+  "dungeonResultDefeatMessage": "Your completed rooms still count. Return when you are ready.",
   "dungeonResultStatsTitle": "Adventure Log",
   "dungeonResultStatsZone": "Zone",
-  "dungeonResultStatsNodesCompleted": "Nodes Completed",
+  "dungeonResultStatsNodesCompleted": "Rooms completed",
   "dungeonResultStatsMonsterKilled": "Monsters Defeated",
   "dungeonResultRewardsTitle": "Rewards",
   "dungeonResultXpReward": "+{xpGained} XP",
@@ -890,7 +890,7 @@
     }
   },
   "cardBattleAbandonDialog": "Forfeit Battle",
-  "cardBattleAbandonConfirmation": "Forfeit this battle? Your progress will be lost.",
+  "cardBattleAbandonConfirmation": "End this expedition? You keep rewards for completed rooms, and your everyday level and XP stay intact.",
   "cardBattleAbandonButton": "Forfeit",
   "cardBattleNoEnemies": "No enemies",
   "cardBattleEndTurnButton": "End Turn",
@@ -1859,5 +1859,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "lqDungeonCheckpointHint": "Saved when you enter or leave a room. After closing the app, an unfinished room restarts from its entrance.",
+  "lqDungeonSaveFailed": "Progress could not be saved. Check device storage and try again.",
+  "lqDungeonCollectResult": "Collect expedition results"
 }

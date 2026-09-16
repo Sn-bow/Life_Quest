@@ -3,7 +3,7 @@
   "title": "Exit Zero",
   "subtitle": "Prologue · The forest below the city",
   "description": "An unfamiliar exit appears at your usual station. Meet Yeon, an archivist collecting the traces of forgotten days. Small actions can set a silent city moving again.",
-  "artwork": "assets/images/backgrounds/bg_zone2_dark_forest.png",
+  "artwork": "assets/images/backgrounds/exit_zero_gateway.jpg",
   "scenes": [
     {
       "id": "signal",

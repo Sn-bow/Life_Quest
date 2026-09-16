@@ -1,5 +1,6 @@
 import '../features/backup/device_backup_store.dart';
 import '../features/story/story_chapter.dart';
+import 'dungeon_state.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
@@ -79,6 +80,83 @@ class _RaidRewardOutcome {
 class CharacterState extends ChangeNotifier {
   static const String _qaPreviewStorageKey = 'lifequest.qaPreview.state.v2';
   static const String localProfileStorageKey = 'lifequest.local.state.v1';
+  Map<String, dynamic>? _dungeonCheckpoint;
+  String? _settledDungeonRunId;
+  bool _atomicProfileMutation = false;
+  Map<String, dynamic>? get dungeonCheckpoint => _dungeonCheckpoint == null
+      ? null
+      : jsonDecode(jsonEncode(_dungeonCheckpoint));
+
+  Future<void> saveDungeonCheckpoint(Map<String, dynamic>? checkpoint) async {
+    if (_character == null || _restoringLocal || _deletingAccount) {
+      throw StateError('Profile is not available for expedition saves.');
+    }
+    _dungeonCheckpoint = checkpoint == null
+        ? null
+        : jsonDecode(jsonEncode(checkpoint));
+    await _performSaveData();
+  }
+
+  /// XP, zone unlock, tower progress and the receipt share ONE profile write.
+  /// If storage fails, retry writes the same in-memory result without adding XP.
+  /// If the process dies, disk contains either the pending or settled result.
+  Future<void> settleDungeonRun(DungeonState dungeon) async {
+    if (_character == null ||
+        !dungeon.hasResult ||
+        dungeon.runId == null ||
+        _dungeonCheckpoint?['runId'] != dungeon.runId ||
+        _restoringLocal ||
+        _deletingAccount) {
+      throw StateError('No matching expedition result.');
+    }
+    if (_settledDungeonRunId != dungeon.runId) {
+      _atomicProfileMutation = true;
+      try {
+        final rewards = dungeon.calculateRunRewards();
+        _character!.xp += rewards['xp'] as int;
+        _character!.gold += rewards['gold'] as int;
+        _settledDungeonRunId = dungeon.runId;
+        if (dungeon.runPhase == RunPhase.completed) {
+          if (dungeon.towerFloor != null) {
+            _character!.infiniteTowerFloor = math.max(
+              _character!.infiniteTowerFloor,
+              dungeon.towerFloor! + 1,
+            );
+          } else {
+            _character!.completedZones.add(dungeon.currentZone);
+          }
+        }
+        while (_character!.xp >= _character!.maxXp) {
+          _levelUp();
+        }
+        _checkTitleUnlock();
+      } finally {
+        _atomicProfileMutation = false;
+      }
+    }
+    await _performSaveData();
+    notifyListeners();
+  }
+
+  void _restoreExpedition(Map<String, dynamic> profile) {
+    final raw = profile['dungeonCheckpoint'];
+    if (raw != null) {
+      final validator = DungeonState();
+      try {
+        validator.fromJson(
+          Map<String, dynamic>.from(raw as Map),
+          notify: false,
+        );
+        _dungeonCheckpoint = validator.toJson();
+      } finally {
+        validator.dispose();
+      }
+    } else {
+      _dungeonCheckpoint = null;
+    }
+    _settledDungeonRunId = profile['settledDungeonRunId'] as String?;
+  }
+
   Set<String> _purchasedEntitlements = {};
   bool ownsCosmetic(String id) =>
       _purchasedEntitlements.contains(id) ||
@@ -764,6 +842,8 @@ class CharacterState extends ChangeNotifier {
   }
 
   void resetState() {
+    _dungeonCheckpoint = null;
+    _settledDungeonRunId = null;
     _restoringLocal = false;
     _deletingAccount = false;
     _purchasedEntitlements = {};
@@ -1832,6 +1912,8 @@ class CharacterState extends ChangeNotifier {
 
   Map<String, dynamic> _buildSavePayload({bool includeServerTimestamp = true}) {
     return {
+      'dungeonCheckpoint': _dungeonCheckpoint,
+      'settledDungeonRunId': _settledDungeonRunId,
       'character': _character!.toJson(),
       'dailyQuests': _dailyQuests.map((q) => q.toJson()).toList(),
       'weeklyQuests': _weeklyQuests.map((q) => q.toJson()).toList(),
@@ -1873,6 +1955,7 @@ class CharacterState extends ChangeNotifier {
       _character = Character.fromJson(
         Map<String, dynamic>.from(decoded['character'] as Map),
       );
+      _restoreExpedition(decoded);
       _dailyQuests = (decoded['dailyQuests'] as List<dynamic>? ?? [])
           .whereType<Map>()
           .map((q) => Quest.fromJson(Map<String, dynamic>.from(q)))
@@ -1952,7 +2035,7 @@ class CharacterState extends ChangeNotifier {
   // Schedules _performSaveData() after a 3-second delay, cancelling any pending save.
   // Note: _saveData uses debounce timer - callers don't need to await
   Future<void> _saveData() async {
-    if (_deletingAccount || _restoringLocal) return;
+    if (_deletingAccount || _restoringLocal || _atomicProfileMutation) return;
     if (kLifeQuestQaPreview || _isLocalGuest) {
       await _performSaveData();
       return;
@@ -2071,6 +2154,7 @@ class CharacterState extends ChangeNotifier {
         _character = Character.fromJson(
           Map<String, dynamic>.from(data['character'] as Map),
         );
+        _restoreExpedition(data);
         _character!.lastHpRegenAt ??= DateTime.now();
         final expectedMaxXp = xpRequiredForLevel(_character!.level);
         if (_character!.maxXp != expectedMaxXp) {

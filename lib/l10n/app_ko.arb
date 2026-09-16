@@ -852,12 +852,12 @@
   "dungeonEventEffectCardUpgrade": "카드 강화",
   "dungeonEventEffectCurseAdded": "저주 추가",
   "dungeonResultVictoryTitle": "던전 클리어!",
-  "dungeonResultDefeatTitle": "모험 실패...",
+  "dungeonResultDefeatTitle": "탐험 종료",
   "dungeonResultVictoryMessage": "축하합니다! 모든 적을 물리치고 던전을 정복했습니다.",
-  "dungeonResultDefeatMessage": "아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.",
+  "dungeonResultDefeatMessage": "완료한 방의 성장은 남습니다. 준비되면 다시 탐험하세요.",
   "dungeonResultStatsTitle": "모험 기록",
   "dungeonResultStatsZone": "지역",
-  "dungeonResultStatsNodesCompleted": "노드 완료",
+  "dungeonResultStatsNodesCompleted": "완료한 방",
   "dungeonResultStatsMonsterKilled": "몬스터 처치",
   "dungeonResultRewardsTitle": "보상",
   "dungeonResultXpReward": "+{xpGained} XP",
@@ -890,7 +890,7 @@
     }
   },
   "cardBattleAbandonDialog": "전투 포기",
-  "cardBattleAbandonConfirmation": "전투를 포기하시겠습니까? 진행 사항이 사라집니다.",
+  "cardBattleAbandonConfirmation": "이번 탐험을 마칠까요? 완료한 방의 보상은 받고, 일상의 레벨과 경험치는 유지됩니다.",
   "cardBattleAbandonButton": "포기",
   "cardBattleNoEnemies": "적이 없습니다",
   "cardBattleEndTurnButton": "턴 종료",
@@ -1859,5 +1859,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "lqDungeonCheckpointHint": "탐험은 방에 들어갈 때와 나올 때 저장됩니다. 앱을 종료하면 진행 중이던 방의 처음부터 이어집니다.",
+  "lqDungeonSaveFailed": "진행을 저장하지 못했습니다. 저장 공간을 확인한 뒤 다시 시도하세요.",
+  "lqDungeonCollectResult": "탐험 결과 받기"
 }

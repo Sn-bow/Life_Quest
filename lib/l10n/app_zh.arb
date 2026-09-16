@@ -852,12 +852,12 @@
   "dungeonEventEffectCardUpgrade": "强化卡牌",
   "dungeonEventEffectCurseAdded": "添加诅咒",
   "dungeonResultVictoryTitle": "地下城通关！",
-  "dungeonResultDefeatTitle": "冒险失败...",
+  "dungeonResultDefeatTitle": "探索结束",
   "dungeonResultVictoryMessage": "恭喜！你击败了所有敌人，征服了地下城。",
-  "dungeonResultDefeatMessage": "很遗憾，本次冒险失败了。再次挑战吧！",
+  "dungeonResultDefeatMessage": "已完成房间的成果会保留。准备好后再来探索吧。",
   "dungeonResultStatsTitle": "冒险记录",
   "dungeonResultStatsZone": "区域",
-  "dungeonResultStatsNodesCompleted": "完成节点",
+  "dungeonResultStatsNodesCompleted": "已完成房间",
   "dungeonResultStatsMonsterKilled": "击杀怪物",
   "dungeonResultRewardsTitle": "奖励",
   "dungeonResultXpReward": "+{xpGained} XP",
@@ -890,7 +890,7 @@
     }
   },
   "cardBattleAbandonDialog": "放弃战斗",
-  "cardBattleAbandonConfirmation": "要放弃本次战斗吗？进度将会丢失。",
+  "cardBattleAbandonConfirmation": "结束本次探索吗？你会获得已完成房间的奖励，日常等级和经验值保持不变。",
   "cardBattleAbandonButton": "放弃",
   "cardBattleNoEnemies": "没有敌人",
   "cardBattleEndTurnButton": "结束回合",
@@ -1859,5 +1859,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "lqDungeonCheckpointHint": "进入或离开房间时保存。关闭应用后，未完成的房间会从入口重新开始。",
+  "lqDungeonSaveFailed": "无法保存进度。请检查设备存储空间后重试。",
+  "lqDungeonCollectResult": "领取探索结果"
 }

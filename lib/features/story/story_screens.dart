@@ -28,7 +28,7 @@ class StoryBanner extends StatelessWidget {
               child: SizedBox(
                 height: 112,
                 child: Image.asset(
-                  'assets/images/backgrounds/bg_zone2_dark_forest.png',
+                  'assets/images/backgrounds/exit_zero_gateway.jpg',
                   fit: BoxFit.cover,
                 ),
               ),

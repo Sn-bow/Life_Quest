@@ -3,7 +3,7 @@
   "title": "0번 출구",
   "subtitle": "프롤로그 · 도시 아래의 숲",
   "description": "늘 지나치던 역에 없는 출구가 나타났다. 사라진 일상의 흔적을 모으는 기록관, 연. 당신의 작은 행동이 멈춘 도시를 다시 움직인다.",
-  "artwork": "assets/images/backgrounds/bg_zone2_dark_forest.png",
+  "artwork": "assets/images/backgrounds/exit_zero_gateway.jpg",
   "scenes": [
     {
       "id": "signal",

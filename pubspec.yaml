@@ -54,28 +54,37 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  shared_preferences_platform_interface: ^2.4.1
   mockito: ^5.6.3
   fake_cloud_firestore: ^3.1.0
   firebase_auth_mocks: ^0.14.2
 
 flutter_launcher_icons:
   android: "launcher_icon"
-  ios: true
+  ios: false
   image_path: "assets/images/app_icon.png"
-  adaptive_icon_background: "assets/images/app_icon_android_background.png"
+  adaptive_icon_background: "#090F1C"
   adaptive_icon_foreground: "assets/images/app_icon_android_foreground.png"
-  adaptive_icon_monochrome: "assets/images/app_icon_android_monochrome.png"
-  adaptive_icon_foreground_inset: 0
+  adaptive_icon_foreground_inset: 14
   min_sdk_android: 21
   remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/images/app_icon.png"
+    background_color: "#090F1C"
+    theme_color: "#090F1C"
 
 flutter_native_splash:
-  color: "#060B14"
-  color_dark: "#060B14"
+  color: "#090F1C"
+  color_dark: "#090F1C"
   image: assets/images/splash_mark.png
   image_dark: assets/images/splash_mark_dark.png
+  android_12:
+    color: "#090F1C"
+    image: assets/images/splash_mark_dark.png
+    icon_background_color: "#090F1C"
   android: true
-  ios: true
+  ios: false
 
 flutter:
   generate: true

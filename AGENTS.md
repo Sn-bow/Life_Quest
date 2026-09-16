@@ -1,9 +1,10 @@
 # Life Quest - 프로젝트 메모리
 
-> **현재 작업 (2026-09-14):** `codex/rebirth-2026-09`에서 Life Quest 2.0 재구축 중.
+> **현재 작업 (2026-09-17):** `codex/rebirth-2026-09`에서 Life Quest 2.0 재구축 중.
 > 아래 4월 이력의 “완료”를 현재 출시 상태로 해석하지 않는다.
 > 먼저 `docs/rebirth/CONTINUE.md`, `PRODUCT_BRIEF.md`, `BILLING_AND_RELEASE.md`를 확인한다.
 > Firebase 프로젝트는 최근 삭제됨 상태로 복원 여부 사용자 답변 대기. 프로덕션 배포나 매출은 아직 없다.
+> 사용자 최신 지시: 이미지 아트는 image_gen 또는 라이선스가 확인된 무료 이미지/템플릿을 사용. SVG/HTML/Canvas로 직접 그린 아트 금지. 사용량은 5% 잔량 부근에서 보존.
 > Flutter 도구 명령은 직렬 실행한다. Cloud/결제/광고는 기본 비활성이다.
 
 

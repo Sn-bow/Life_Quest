@@ -3348,3 +3348,11 @@ claiming that the exact release artifact or physical-device gate is complete.
 
 - 최종 main AAB 216,527,189 bytes / SHA256 957f5234da51c1869febb66d21ad068f345164f09f75805660d9387691e734ef. 표본 기기 다운로드 128,276,151 bytes, 서명/manifest/ELF 11개와 split ZIP 16KiB 검사 통과. AI/백업 QA entrypoint가 제품에 포함되지 않음 확인.
 - Play 초안의 앱/생산성 분류, 공개 지원 이메일·HTTPS URL, 영어/한국어 등록정보 문구 임시 저장 성공 확인. 스토어 그래픽은 미완성이므로 심사 제출 안 함.
+
+## 2026-09-17 · 생성 아트와 탐험 체크포인트
+
+- 사용자 사용량 하한을20%에서5%로 변경. 신규 이미지 아트는 내장 image_gen 사용, SVG/HTML/Canvas 그림 금지.
+- 게이트 아이콘·알파 foreground·도시 역 배경·Play 배너 생성. 앱/런처/스플래시/프롤로그 적용,512px아이콘과1024×500배너 내보내기. `docs/rebirth/artwork/README.md`.
+- 방 진입/완료 체크포인트, 같은 적/상점 복원, 최종 XP/골드/해금/수령ID 단일레코드, 실패 재시도, 활성 run 덮어쓰기 방지, 타워 클리어 시 진척. `DUNGEON_CHECKPOINTS.md`.
+- Flutter analyze 및258테스트 통과. 실제 web release UI에서 전투75HP→재시작입장80HP, 방 완료+12탐험골드/카드, 종료+15XP/+8골드, 결과재진입 후75XP 유지 확인. 실기기 증거 아님.
+- Chrome확장 파일액세스 제한으로 스토어 이미지 업로드는 실패. 사용자 설정 안내/답변 대기. 이번코드의 새AAB 빌드와 구매계정 분리 구현은 후속 작업.

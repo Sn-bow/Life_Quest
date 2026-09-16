@@ -2949,7 +2949,7 @@ abstract class AppLocalizations {
   /// No description provided for @dungeonResultDefeatTitle.
   ///
   /// In ko, this message translates to:
-  /// **'모험 실패...'**
+  /// **'탐험 종료'**
   String get dungeonResultDefeatTitle;
 
   /// No description provided for @dungeonResultVictoryMessage.
@@ -2961,7 +2961,7 @@ abstract class AppLocalizations {
   /// No description provided for @dungeonResultDefeatMessage.
   ///
   /// In ko, this message translates to:
-  /// **'아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.'**
+  /// **'완료한 방의 성장은 남습니다. 준비되면 다시 탐험하세요.'**
   String get dungeonResultDefeatMessage;
 
   /// No description provided for @dungeonResultStatsTitle.
@@ -2979,7 +2979,7 @@ abstract class AppLocalizations {
   /// No description provided for @dungeonResultStatsNodesCompleted.
   ///
   /// In ko, this message translates to:
-  /// **'노드 완료'**
+  /// **'완료한 방'**
   String get dungeonResultStatsNodesCompleted;
 
   /// No description provided for @dungeonResultStatsMonsterKilled.
@@ -3051,7 +3051,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardBattleAbandonConfirmation.
   ///
   /// In ko, this message translates to:
-  /// **'전투를 포기하시겠습니까? 진행 사항이 사라집니다.'**
+  /// **'이번 탐험을 마칠까요? 완료한 방의 보상은 받고, 일상의 레벨과 경험치는 유지됩니다.'**
   String get cardBattleAbandonConfirmation;
 
   /// No description provided for @cardBattleAbandonButton.
@@ -8435,6 +8435,24 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'{type}, {step}단계 {path}번 경로, {state}'**
   String lqDungeonNode(String type, int step, int path, String state);
+
+  /// No description provided for @lqDungeonCheckpointHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'탐험은 방에 들어갈 때와 나올 때 저장됩니다. 앱을 종료하면 진행 중이던 방의 처음부터 이어집니다.'**
+  String get lqDungeonCheckpointHint;
+
+  /// No description provided for @lqDungeonSaveFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'진행을 저장하지 못했습니다. 저장 공간을 확인한 뒤 다시 시도하세요.'**
+  String get lqDungeonSaveFailed;
+
+  /// No description provided for @lqDungeonCollectResult.
+  ///
+  /// In ko, this message translates to:
+  /// **'탐험 결과 받기'**
+  String get lqDungeonCollectResult;
 }
 
 class _AppLocalizationsDelegate

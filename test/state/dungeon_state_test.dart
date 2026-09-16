@@ -115,6 +115,7 @@ void main() {
       expect(state.playerMaxHp, 85);
       expect(state.dailyModifier.combatHpBonus, 5);
 
+      state.resetRun();
       state.startRun(
         zone: 1,
         startingDeck: const <CardData>[],

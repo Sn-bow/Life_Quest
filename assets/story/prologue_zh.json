@@ -3,7 +3,7 @@
   "title": "零号出口",
   "subtitle": "序章 · 城市之下的森林",
   "description": "熟悉的车站里出现了陌生的出口。记录员延收集着被遗忘的日常。你的小小行动，能让停滞的城市再次运转。",
-  "artwork": "assets/images/backgrounds/bg_zone2_dark_forest.png",
+  "artwork": "assets/images/backgrounds/exit_zero_gateway.jpg",
   "scenes": [
     {
       "id": "signal",

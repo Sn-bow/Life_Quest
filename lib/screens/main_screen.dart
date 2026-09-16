@@ -26,6 +26,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   late CharacterState _character;
   late QuestDirectorState _director;
+  late DungeonState _dungeon;
   late ConfettiController _confettiController;
   Timer? _timeSensitiveRefreshTimer;
   bool _isForeground = true;
@@ -40,6 +41,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
     _character = context.read<CharacterState>();
     _director = context.read<QuestDirectorState>();
+    _dungeon = context.read<DungeonState>();
+    _dungeon.bindCheckpoint(
+      saved: _character.dungeonCheckpoint,
+      save: _character.saveDungeonCheckpoint,
+    );
     _character.onLevelUp = () {
       if (mounted && !MediaQuery.disableAnimationsOf(context)) {
         _confettiController.play();
@@ -49,8 +55,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         unawaited(_director.record(quest, QuestFeedback.completed));
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
-      // A fresh profile must not inherit another profile’s in-memory run.
-      context.read<DungeonState>().resetRun();
       final purchases = PurchaseService();
       purchases.onEntitlementsChanged = _character.setPurchasedEntitlements;
       await purchases.bindUser(
@@ -84,6 +88,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       unawaited(_refresh());
     } else if (state == AppLifecycleState.paused) {
       unawaited(_director.cancelModelOperation());
+      unawaited(_dungeon.flushCheckpoint());
       unawaited(_character.forceSave());
     }
   }
@@ -105,6 +110,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    _dungeon.unbindCheckpoint();
     WidgetsBinding.instance.removeObserver(this);
     _timeSensitiveRefreshTimer?.cancel();
     _confettiController.dispose();

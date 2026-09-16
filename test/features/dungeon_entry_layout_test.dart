@@ -71,6 +71,16 @@ void main() {
           accessible.column + 1,
           l.lqDungeonAvailable,
         );
+        await tester.scrollUntilVisible(
+          find.bySemanticsLabel(label),
+          180,
+          scrollable: find
+              .descendant(
+                of: find.byType(DungeonMapScreen),
+                matching: find.byType(Scrollable),
+              )
+              .first,
+        );
         expect(find.bySemanticsLabel(label), findsOneWidget);
         expect(
           tester

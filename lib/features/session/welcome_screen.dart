@@ -62,7 +62,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 38),
+                const SizedBox(height: 24),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(
+                    'assets/images/backgrounds/exit_zero_gateway.jpg',
+                    height: 180,
+                    fit: BoxFit.cover,
+                    alignment: const Alignment(.55, 0),
+                    excludeFromSemantics: true,
+                  ),
+                ),
+                const SizedBox(height: 28),
                 Text(
                   'CHAPTER 00',
                   style: t.textTheme.labelMedium?.copyWith(

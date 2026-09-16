@@ -1536,13 +1536,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dungeonResultVictoryTitle => '地下城通关！';
 
   @override
-  String get dungeonResultDefeatTitle => '冒险失败...';
+  String get dungeonResultDefeatTitle => '探索结束';
 
   @override
   String get dungeonResultVictoryMessage => '恭喜！你击败了所有敌人，征服了地下城。';
 
   @override
-  String get dungeonResultDefeatMessage => '很遗憾，本次冒险失败了。再次挑战吧！';
+  String get dungeonResultDefeatMessage => '已完成房间的成果会保留。准备好后再来探索吧。';
 
   @override
   String get dungeonResultStatsTitle => '冒险记录';
@@ -1551,7 +1551,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dungeonResultStatsZone => '区域';
 
   @override
-  String get dungeonResultStatsNodesCompleted => '完成节点';
+  String get dungeonResultStatsNodesCompleted => '已完成房间';
 
   @override
   String get dungeonResultStatsMonsterKilled => '击杀怪物';
@@ -1593,7 +1593,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cardBattleAbandonDialog => '放弃战斗';
 
   @override
-  String get cardBattleAbandonConfirmation => '要放弃本次战斗吗？进度将会丢失。';
+  String get cardBattleAbandonConfirmation =>
+      '结束本次探索吗？你会获得已完成房间的奖励，日常等级和经验值保持不变。';
 
   @override
   String get cardBattleAbandonButton => '放弃';
@@ -4309,4 +4310,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String lqDungeonNode(String type, int step, int path, String state) {
     return '$type，第$step层，路线$path，$state';
   }
+
+  @override
+  String get lqDungeonCheckpointHint => '进入或离开房间时保存。关闭应用后，未完成的房间会从入口重新开始。';
+
+  @override
+  String get lqDungeonSaveFailed => '无法保存进度。请检查设备存储空间后重试。';
+
+  @override
+  String get lqDungeonCollectResult => '领取探索结果';
 }

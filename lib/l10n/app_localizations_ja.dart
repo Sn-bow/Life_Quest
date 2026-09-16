@@ -1547,13 +1547,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dungeonResultVictoryTitle => 'ダンジョンクリア！';
 
   @override
-  String get dungeonResultDefeatTitle => '冒険失敗...';
+  String get dungeonResultDefeatTitle => '冒険の終了';
 
   @override
   String get dungeonResultVictoryMessage => 'おめでとうございます！全ての敵を倒してダンジョンを制覇しました。';
 
   @override
-  String get dungeonResultDefeatMessage => '残念ながら今回の冒険は失敗しました。もう一度挑戦しましょう。';
+  String get dungeonResultDefeatMessage => '完了した部屋の成果は残ります。準備ができたら、また探索しましょう。';
 
   @override
   String get dungeonResultStatsTitle => '冒険記録';
@@ -1562,7 +1562,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dungeonResultStatsZone => 'エリア';
 
   @override
-  String get dungeonResultStatsNodesCompleted => 'ノード完了';
+  String get dungeonResultStatsNodesCompleted => '完了した部屋';
 
   @override
   String get dungeonResultStatsMonsterKilled => 'モンスター討伐';
@@ -1604,7 +1604,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cardBattleAbandonDialog => '戦闘放棄';
 
   @override
-  String get cardBattleAbandonConfirmation => '戦闘を放棄しますか？進行状況が失われます。';
+  String get cardBattleAbandonConfirmation =>
+      '今回の冒険を終えますか？完了した部屋の報酬を受け取り、日常のレベルと経験値はそのまま残ります。';
 
   @override
   String get cardBattleAbandonButton => '放棄';
@@ -4331,4 +4332,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String lqDungeonNode(String type, int step, int path, String state) {
     return '$type、$step段目、ルート$path、$state';
   }
+
+  @override
+  String get lqDungeonCheckpointHint =>
+      '部屋への出入り時に保存します。アプリを閉じると、途中の部屋は入口から再開します。';
+
+  @override
+  String get lqDungeonSaveFailed => '進行を保存できませんでした。空き容量を確認して、もう一度お試しください。';
+
+  @override
+  String get lqDungeonCollectResult => '冒険の結果を受け取る';
 }

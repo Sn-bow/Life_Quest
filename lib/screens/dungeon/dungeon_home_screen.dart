@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'dungeon_result_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
@@ -122,20 +123,27 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                             width: double.infinity,
                             child: FilledButton.icon(
                               icon: Icon(
-                                dungeon.isRunActive
+                                dungeon.hasRun
                                     ? Icons.play_arrow
                                     : Icons.explore,
                               ),
                               label: Text(
-                                dungeon.isRunActive
+                                dungeon.hasResult
+                                    ? l.lqDungeonCollectResult
+                                    : dungeon.hasRun
                                     ? l.lqDungeonResume
                                     : l.lqDungeonStart,
                               ),
-                              onPressed: () => dungeon.isRunActive
+                              onPressed: () => dungeon.hasRun
                                   ? Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (_) =>
-                                            const DungeonMapScreen(),
+                                        builder: (_) => dungeon.hasResult
+                                            ? DungeonResultScreen(
+                                                isVictory:
+                                                    dungeon.runPhase ==
+                                                    RunPhase.completed,
+                                              )
+                                            : const DungeonMapScreen(),
                                       ),
                                     )
                                   : _startBattle(context, 1),
@@ -147,6 +155,16 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+              Text(
+                l.lqDungeonCheckpointHint,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              if (dungeon.saveFailed)
+                Text(
+                  l.lqDungeonSaveFailed,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
               const SizedBox(height: 16),
               ExpansionTile(
                 tilePadding: EdgeInsets.zero,
@@ -210,7 +228,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
                     // An active run is resumed first, so a zone tap never discards it.
                     enabled:
                         character.character.level >= levels[i] &&
-                        !dungeon.isRunActive,
+                        !dungeon.hasRun,
                     onTap: () => _startBattle(context, i + 1),
                   ),
                 ),
@@ -225,7 +243,9 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     );
   }
 
-  void _startBattle(BuildContext context, int zone) {
+  Future<void> _startBattle(BuildContext context, int zone) async {
+    final dungeon = context.read<DungeonState>();
+    if (dungeon.hasRun) return;
     final charState = context.read<CharacterState>();
     final character = charState.character;
     final dailyModifier = charState.todayDailyModifier;
@@ -299,6 +319,7 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
       dailyModifier: dailyModifier,
     );
 
+    if (!await dungeon.flushCheckpoint() || !context.mounted) return;
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => const DungeonMapScreen()));

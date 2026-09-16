@@ -3,7 +3,7 @@
   "title": "0番出口",
   "subtitle": "プロローグ · 街の下の森",
   "description": "いつもの駅に、知らない出口が現れた。忘れられた日々を集める記録係、ヨン。あなたの小さな行動が、止まった街を動かし始める。",
-  "artwork": "assets/images/backgrounds/bg_zone2_dark_forest.png",
+  "artwork": "assets/images/backgrounds/exit_zero_gateway.jpg",
   "scenes": [
     {
       "id": "signal",

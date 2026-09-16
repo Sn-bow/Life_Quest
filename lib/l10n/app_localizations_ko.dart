@@ -1552,13 +1552,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dungeonResultVictoryTitle => '던전 클리어!';
 
   @override
-  String get dungeonResultDefeatTitle => '모험 실패...';
+  String get dungeonResultDefeatTitle => '탐험 종료';
 
   @override
   String get dungeonResultVictoryMessage => '축하합니다! 모든 적을 물리치고 던전을 정복했습니다.';
 
   @override
-  String get dungeonResultDefeatMessage => '아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.';
+  String get dungeonResultDefeatMessage => '완료한 방의 성장은 남습니다. 준비되면 다시 탐험하세요.';
 
   @override
   String get dungeonResultStatsTitle => '모험 기록';
@@ -1567,7 +1567,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dungeonResultStatsZone => '지역';
 
   @override
-  String get dungeonResultStatsNodesCompleted => '노드 완료';
+  String get dungeonResultStatsNodesCompleted => '완료한 방';
 
   @override
   String get dungeonResultStatsMonsterKilled => '몬스터 처치';
@@ -1609,7 +1609,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cardBattleAbandonDialog => '전투 포기';
 
   @override
-  String get cardBattleAbandonConfirmation => '전투를 포기하시겠습니까? 진행 사항이 사라집니다.';
+  String get cardBattleAbandonConfirmation =>
+      '이번 탐험을 마칠까요? 완료한 방의 보상은 받고, 일상의 레벨과 경험치는 유지됩니다.';
 
   @override
   String get cardBattleAbandonButton => '포기';
@@ -4348,4 +4349,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String lqDungeonNode(String type, int step, int path, String state) {
     return '$type, $step단계 $path번 경로, $state';
   }
+
+  @override
+  String get lqDungeonCheckpointHint =>
+      '탐험은 방에 들어갈 때와 나올 때 저장됩니다. 앱을 종료하면 진행 중이던 방의 처음부터 이어집니다.';
+
+  @override
+  String get lqDungeonSaveFailed => '진행을 저장하지 못했습니다. 저장 공간을 확인한 뒤 다시 시도하세요.';
+
+  @override
+  String get lqDungeonCollectResult => '탐험 결과 받기';
 }

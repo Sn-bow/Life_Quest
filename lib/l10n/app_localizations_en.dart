@@ -1580,7 +1580,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dungeonResultVictoryTitle => 'Dungeon Cleared!';
 
   @override
-  String get dungeonResultDefeatTitle => 'Adventure Failed...';
+  String get dungeonResultDefeatTitle => 'Expedition complete';
 
   @override
   String get dungeonResultVictoryMessage =>
@@ -1588,7 +1588,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dungeonResultDefeatMessage =>
-      'Unfortunately this adventure failed. Try again!';
+      'Your completed rooms still count. Return when you are ready.';
 
   @override
   String get dungeonResultStatsTitle => 'Adventure Log';
@@ -1597,7 +1597,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dungeonResultStatsZone => 'Zone';
 
   @override
-  String get dungeonResultStatsNodesCompleted => 'Nodes Completed';
+  String get dungeonResultStatsNodesCompleted => 'Rooms completed';
 
   @override
   String get dungeonResultStatsMonsterKilled => 'Monsters Defeated';
@@ -1641,7 +1641,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cardBattleAbandonConfirmation =>
-      'Forfeit this battle? Your progress will be lost.';
+      'End this expedition? You keep rewards for completed rooms, and your everyday level and XP stay intact.';
 
   @override
   String get cardBattleAbandonButton => 'Forfeit';
@@ -4469,4 +4469,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String lqDungeonNode(String type, int step, int path, String state) {
     return '$type, step $step, path $path, $state';
   }
+
+  @override
+  String get lqDungeonCheckpointHint =>
+      'Saved when you enter or leave a room. After closing the app, an unfinished room restarts from its entrance.';
+
+  @override
+  String get lqDungeonSaveFailed =>
+      'Progress could not be saved. Check device storage and try again.';
+
+  @override
+  String get lqDungeonCollectResult => 'Collect expedition results';
 }

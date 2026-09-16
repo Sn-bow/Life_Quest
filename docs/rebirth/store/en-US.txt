@@ -26,7 +26,7 @@ Model installation requires an approximately 2.59GB download and free storage sp
 START WITHOUT AN ACCOUNT
 The default mode stores your progress and personalization history on your device. Free encrypted backups let you save a file and restore it on another device. Keep the password safe: a forgotten backup password cannot be recovered.
 
-Active dungeon expeditions are not included in backups. After fully closing the app, an active expedition starts again.
+Active dungeon expeditions are not included in backups. Expeditions are saved on the device when you enter or leave a room. After closing the app, an unfinished room restarts from its entrance.
 
 Languages: Korean, English, Japanese and Chinese.
 Support: logian621@gmail.com

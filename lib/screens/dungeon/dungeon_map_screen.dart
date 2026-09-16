@@ -95,6 +95,19 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
         children: [
           ListView(
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: Text(
+                  dungeonState.saveFailed
+                      ? l10n.lqDungeonSaveFailed
+                      : l10n.lqDungeonCheckpointHint,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: dungeonState.saveFailed
+                        ? Theme.of(context).colorScheme.error
+                        : null,
+                  ),
+                ),
+              ),
               // Progress bar
               _ProgressHeader(
                 zoneName: zoneName,
@@ -238,8 +251,12 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
     }
 
     setState(() => _pendingNodeId = node.id);
-    await Future<void>.delayed(const Duration(milliseconds: 40));
+    final saved = await dungeonState.flushCheckpoint();
     if (!context.mounted) return;
+    if (!saved) {
+      setState(() => _pendingNodeId = null);
+      return;
+    }
 
     if (!dungeonState.selectNode(node.id)) {
       setState(() => _pendingNodeId = null);
@@ -248,6 +265,7 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
     final nav = Navigator.of(context);
 
     try {
+      if (!await dungeonState.flushCheckpoint() || !context.mounted) return;
       switch (node.type) {
         case NodeType.combat:
         case NodeType.elite:
@@ -327,6 +345,13 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
           if (completed == true) {
             dungeonState.completeCurrentNode();
           }
+          if (dungeonState.hasResult) {
+            nav.push(
+              MaterialPageRoute(
+                builder: (_) => const DungeonResultScreen(isVictory: false),
+              ),
+            );
+          }
           break;
 
         case NodeType.shop:
@@ -344,6 +369,7 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
           break;
       }
     } finally {
+      await dungeonState.flushCheckpoint();
       if (mounted) {
         setState(() => _pendingNodeId = null);
       }
