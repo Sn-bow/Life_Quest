@@ -25,21 +25,23 @@ test('private progress is restricted to its owner, with valid progress on create
   await assertFails(updateDoc(doc(a, path), {'character.level': 0}));
   await assertFails(deleteDoc(doc(a, path)));
 });
-test('AI reports permit only reviewed fields, server time and supported locale', async () => {
+test('reports are created only by the server; their owner can read and delete', async () => {
   const report = doc(owner(), 'users/alice/aiReports/report');
-  await assertSucceeds(setDoc(report, payload()));
+  await assertFails(setDoc(report, payload()));
+  await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), report.path), {...payload(), expiresAt: new Date()}));
+  await assertSucceeds(getDoc(report));
   await assertFails(updateDoc(report, {title: 'edited'}));
   await assertFails(getDoc(doc(other(), report.path)));
+  await assertFails(deleteDoc(doc(other(), report.path)));
   await assertSucceeds(deleteDoc(report));
-  for (const invalid of [{...payload(), goal: 'must not be sent'}, {...payload(), title: ''},
-    {...payload(), locale: 'unknown'}, {...payload(), instruction: 'x'.repeat(400)}, {...payload(), reportedAt: new Date(0)}]) {
-    await assertFails(setDoc(report, invalid));
-  }
 });
-test('anonymous report identity can submit its own reviewed report only', async () => {
+test('anonymous identity can delete its own server report but cannot forge quotas', async () => {
   const anon = env.authenticatedContext('report-only', {firebase: {sign_in_provider: 'anonymous'}}).firestore();
-  await assertSucceeds(setDoc(doc(anon, 'users/report-only/aiReports/r'), payload()));
-  await assertFails(setDoc(doc(anon, 'users/alice/aiReports/r'), payload()));
+  await assertFails(setDoc(doc(anon, 'users/report-only/aiReports/r'), payload()));
+  await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), 'users/report-only/aiReports/r'), payload()));
+  await assertSucceeds(deleteDoc(doc(anon, 'users/report-only/aiReports/r')));
+  await assertFails(setDoc(doc(anon, 'users/report-only/_private/aiReportQuota'), {count: 0}));
+  await assertFails(getDoc(doc(anon, 'users/report-only/_private/aiReportQuota')));
 });
 test('paid rights cannot be forged or modified by the client', async () => {
   const path = 'users/alice/entitlements/cosmetic_theme_neon';
@@ -56,6 +58,19 @@ test('purchase-token ledger is inaccessible even to authenticated clients', asyn
   await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), path), {uid: 'alice'}));
   await assertFails(getDoc(doc(owner(), path)));
   await assertFails(deleteDoc(doc(owner(), path)));
+});
+
+test('purchase-only accounts reject profile uploads and client purpose changes', async () => {
+  const a = owner(), path = 'users/alice';
+  await assertFails(setDoc(doc(a, path), {accountKind: 'purchaseOnly'}));
+  await assertSucceeds(setDoc(doc(a, path), {character: {gold: 0, level: 1}}));
+  await assertFails(updateDoc(doc(a, path), {accountKind: 'purchaseOnly'}));
+  await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), path), {accountKind: 'purchaseOnly', createdAt: new Date()}));
+  await assertSucceeds(getDoc(doc(a, path)));
+  await assertFails(updateDoc(doc(a, path), {character: {gold: 0, level: 1}}));
+  await assertFails(setDoc(doc(a, path), {character: {gold: 0, level: 1}}));
+  await assertFails(updateDoc(doc(a, path), {accountKind: 'cloud'}));
+  await assertFails(setDoc(doc(a, 'users/alice/aiReports/r'), payload()));
 });
 
 test('a deletion request prevents recreation, new reports and forged cancellation', async () => {

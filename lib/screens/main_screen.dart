@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../features/billing/purchase_account_state.dart';
 import '../state/dungeon_state.dart';
 import '../services/purchase_service.dart';
 import '../config/qa_preview_config.dart';
@@ -30,6 +31,20 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late ConfettiController _confettiController;
   Timer? _timeSensitiveRefreshTimer;
   bool _isForeground = true;
+  PurchaseAccountState? _purchaseAccount;
+
+  void _bindPurchaseIdentity() {
+    if (!mounted) return;
+    unawaited(
+      PurchaseService().bindUser(
+        kLifeQuestQaPreview
+            ? null
+            : _character.isLocalGuest
+            ? _purchaseAccount?.uid
+            : _character.personalizationScope,
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -40,6 +55,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     );
 
     _character = context.read<CharacterState>();
+    _purchaseAccount = context.read<PurchaseAccountState?>();
+    _purchaseAccount?.addListener(_bindPurchaseIdentity);
     _director = context.read<QuestDirectorState>();
     _dungeon = context.read<DungeonState>();
     _dungeon.bindCheckpoint(
@@ -57,9 +74,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       if (!mounted) return;
       final purchases = PurchaseService();
       purchases.onEntitlementsChanged = _character.setPurchasedEntitlements;
+      await _purchaseAccount?.initialize();
+      if (!mounted) return;
       await purchases.bindUser(
-        _character.isLocalGuest || kLifeQuestQaPreview
+        kLifeQuestQaPreview
             ? null
+            : _character.isLocalGuest
+            ? _purchaseAccount?.uid
             : _character.personalizationScope,
       );
       if (!mounted) return;
@@ -110,6 +131,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    _purchaseAccount?.removeListener(_bindPurchaseIdentity);
     _dungeon.unbindCheckpoint();
     WidgetsBinding.instance.removeObserver(this);
     _timeSensitiveRefreshTimer?.cancel();

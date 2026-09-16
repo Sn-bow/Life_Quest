@@ -46,8 +46,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- Empty by default because monetization is disabled for the release candidate. -->
-        <!-- Supply -PADMOB_ANDROID_APP_ID only for a monetization-enabled Android build. -->
+        <!-- Removed unless LIFEQUEST_ADS_ENABLED is explicitly true. -->
+        <!-- Advertising builds also require -PADMOB_ANDROID_APP_ID. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${admobAppId}" />

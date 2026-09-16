@@ -4092,15 +4092,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqReportSent => 'Report sent. This suggestion is hidden.';
 
   @override
-  String get lqReportQueued =>
-      'The report will send when connected. This suggestion is hidden.';
-
-  @override
   String get lqReportPreview =>
       'QA report stored locally. Nothing was sent to the developer.';
 
   @override
-  String get lqReportFailed => 'Could not send the report. Please try again.';
+  String get lqReportFailed =>
+      'Could not confirm the report action. Check your connection and try again.';
 
   @override
   String get lqCloudQuestNotice =>
@@ -4480,4 +4477,85 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lqDungeonCollectResult => 'Collect expedition results';
+
+  @override
+  String get lqPurchaseAccount => 'Purchase account';
+
+  @override
+  String get lqPurchaseAccountOptional => 'Connect only when you need it';
+
+  @override
+  String get lqPurchaseAccountPrivacy =>
+      'Your Google account is used to verify and restore purchases. Quests, progress and AI personalization stay on this device. Signing in does not make a purchase.';
+
+  @override
+  String get lqPurchaseAccountRestoreHint =>
+      'To restore purchases on another device, use both the same Google Play account and the same app purchase account used to buy. Transfer progress separately with an encrypted backup.';
+
+  @override
+  String get lqPurchaseAccountConnected => 'Purchase account connected';
+
+  @override
+  String get lqPurchaseAccountConnect => 'Connect Google account';
+
+  @override
+  String get lqPurchaseAccountDisconnect => 'Disconnect on this device';
+
+  @override
+  String get lqPurchaseAccountDelete => 'Delete purchase account';
+
+  @override
+  String get lqPurchaseAccountDeleteBody =>
+      'This deletes purchase access, reports and any existing cloud profile for this account. Purchases cannot be restored after deletion. This does not issue a refund. Quests and progress on this device remain. Confirm your Google account again to request deletion.';
+
+  @override
+  String get lqPurchaseAccountFailed =>
+      'The action could not be completed. Check your connection and account, then try again.';
+
+  @override
+  String get lqPurchaseAccountDeleted =>
+      'Deletion requested. The server will continue removing account data. Progress on this device is kept.';
+
+  @override
+  String get lqPurchaseAccountCleanup =>
+      'Deletion was accepted. Tap Disconnect again to finish signing out on this device. Server deletion will continue.';
+
+  @override
+  String get lqReportCopyReceipt => 'Copy receipt';
+
+  @override
+  String get lqReportRetention =>
+      'Report content becomes eligible for automatic deletion 90 days after submission. Removal may take additional processing time. You can also delete it in Settings → AI report receipts.';
+
+  @override
+  String get lqReportReceipts => 'AI report receipts';
+
+  @override
+  String get lqReportReceiptHelp =>
+      'This device keeps up to 100 recent receipt IDs. Delete here while connected to the same reporting account. If your account changed or you cannot access the app, copy the receipt ID and request deletion at logian621@gmail.com.';
+
+  @override
+  String get lqReportReceiptsEmpty =>
+      'No receipt IDs are saved on this device.';
+
+  @override
+  String get lqReportDelete => 'Delete report';
+
+  @override
+  String get lqReportDeleteBody =>
+      'Delete this report from the server and remove its local receipt. Your daily quests and progress stay on this device.';
+
+  @override
+  String get lqReportDeleted => 'Report deleted.';
+
+  @override
+  String get lqReportDeleteIdentity => 'Delete anonymous report account';
+
+  @override
+  String get lqReportDeleteIdentityBody =>
+      'Request deletion of this device’s current anonymous report account and all reports sent by it. Your device progress remains. Sending another report later creates a new anonymous account.';
+
+  @override
+  String get lqReportIdentityDeleted =>
+      'Deletion accepted. Server processing continues even after you close the app.';
 }

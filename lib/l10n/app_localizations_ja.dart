@@ -3979,13 +3979,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqReportSent => '報告を送信し、この推薦を非表示にしました。';
 
   @override
-  String get lqReportQueued => '接続後に報告を送信します。この推薦は非表示にしました。';
-
-  @override
   String get lqReportPreview => 'QA報告を端末内に記録。開発者には送信していません。';
 
   @override
-  String get lqReportFailed => '報告を送信できませんでした。再試行してください。';
+  String get lqReportFailed => '報告に関する操作の結果を確認できませんでした。接続を確認して再試行してください。';
 
   @override
   String get lqCloudQuestNotice =>
@@ -4342,4 +4339,82 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lqDungeonCollectResult => '冒険の結果を受け取る';
+
+  @override
+  String get lqPurchaseAccount => '購入用アカウント';
+
+  @override
+  String get lqPurchaseAccountOptional => '必要なときだけ連携';
+
+  @override
+  String get lqPurchaseAccountPrivacy =>
+      'Google アカウントは購入の確認と復元に使用します。クエスト、成長記録、AI の個人化履歴は引き続きこの端末に保存されます。ログインだけで課金されることはありません。';
+
+  @override
+  String get lqPurchaseAccountRestoreHint =>
+      '別の端末で購入を復元するには、購入時と同じ Google Play アカウントとアプリの購入用アカウントを使用してください。成長記録は暗号化バックアップで別途移行できます。';
+
+  @override
+  String get lqPurchaseAccountConnected => '購入用アカウント連携済み';
+
+  @override
+  String get lqPurchaseAccountConnect => 'Google アカウントを連携';
+
+  @override
+  String get lqPurchaseAccountDisconnect => 'この端末で連携を解除';
+
+  @override
+  String get lqPurchaseAccountDelete => '購入用アカウントを削除';
+
+  @override
+  String get lqPurchaseAccountDeleteBody =>
+      'このアカウントの購入権限、報告、既存のクラウドプロフィールが削除されます。削除後は購入を復元できません。返金は行われません。この端末のクエストと成長記録は残ります。Google アカウントを再確認して削除を依頼します。';
+
+  @override
+  String get lqPurchaseAccountFailed =>
+      '操作を完了できませんでした。接続とアカウントを確認して、もう一度お試しください。';
+
+  @override
+  String get lqPurchaseAccountDeleted =>
+      '削除依頼を受け付けました。サーバーでアカウントの削除を続行します。この端末の成長記録は残ります。';
+
+  @override
+  String get lqPurchaseAccountCleanup =>
+      '削除依頼は受け付け済みです。この端末のログアウトを完了するには、もう一度連携解除を押してください。サーバーでの削除は続行されます。';
+
+  @override
+  String get lqReportCopyReceipt => '受付番号をコピー';
+
+  @override
+  String get lqReportRetention =>
+      '報告内容は受付から90日後に自動削除の対象となります。実際の削除には処理時間がかかる場合があります。設定の「AI 報告の受付履歴」から削除することもできます。';
+
+  @override
+  String get lqReportReceipts => 'AI 報告の受付履歴';
+
+  @override
+  String get lqReportReceiptHelp =>
+      'この端末には最新100件までの受付番号を保存します。同じ報告用アカウントならここで削除できます。アカウントが変わった場合やアプリを開けない場合は、受付番号を添えて logian621@gmail.com に削除をご依頼ください。';
+
+  @override
+  String get lqReportReceiptsEmpty => 'この端末に保存された受付番号はありません。';
+
+  @override
+  String get lqReportDelete => '報告を削除';
+
+  @override
+  String get lqReportDeleteBody => 'サーバー上の報告と端末の受付番号を削除します。日常のクエストと成長記録は残ります。';
+
+  @override
+  String get lqReportDeleted => '報告を削除しました。';
+
+  @override
+  String get lqReportDeleteIdentity => '匿名の報告用アカウントを削除';
+
+  @override
+  String get lqReportDeleteIdentityBody =>
+      '現在の匿名の報告用アカウントと、そのアカウントから送信したすべての報告の削除を依頼します。端末の成長記録は残ります。その後に報告すると、新しい匿名アカウントが作成されます。';
+
+  @override
+  String get lqReportIdentityDeleted => '削除依頼を受け付けました。アプリを閉じてもサーバーで処理を続けます。';
 }

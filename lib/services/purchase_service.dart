@@ -25,7 +25,10 @@ enum PurchasePhase {
 class PurchaseService extends ChangeNotifier {
   static final PurchaseService _instance = PurchaseService._();
   factory PurchaseService() => _instance;
-  PurchaseService._();
+  final bool _connectToCloud;
+  PurchaseService._() : _connectToCloud = true;
+  @visibleForTesting
+  PurchaseService.cacheOnlyForTesting() : _connectToCloud = false;
   InAppPurchase get _store => InAppPurchase.instance;
   StreamSubscription<List<PurchaseDetails>>? _purchases;
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _grants;
@@ -87,6 +90,7 @@ class PurchaseService extends ChangeNotifier {
 
   Future<void> bindUser(String? uid) async {
     if (_uid == uid) return;
+    final previousUid = _uid;
     final revision = ++_revision;
     final previous = _grants;
     _grants = null;
@@ -96,16 +100,21 @@ class PurchaseService extends ChangeNotifier {
     _entitlements = {};
     _phase = PurchasePhase.idle;
     _activeProduct = null;
-    if (uid == null) onEntitlementsChanged?.call(entitlements);
+    // An initial cache load must not unequip an owned, persisted theme before
+    // reading its verified cache. Switching away from an identity revokes first.
+    if (uid == null || previousUid != null) {
+      onEntitlementsChanged?.call(entitlements);
+    }
     notifyListeners();
-    if (uid == null || !kLifeQuestCloudEnabled) return;
+    if (uid == null || (_connectToCloud && !kLifeQuestCloudEnabled)) return;
     final prefs = await SharedPreferences.getInstance();
     if (revision != _revision) return;
     _entitlements = (prefs.getStringList('lifequest.purchases.v1.$uid') ?? [])
         .where(playEntitlements.containsValue)
         .toSet();
-    if (_entitlements.isNotEmpty) onEntitlementsChanged?.call(entitlements);
+    onEntitlementsChanged?.call(entitlements);
     notifyListeners();
+    if (!_connectToCloud) return;
     _grants = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)

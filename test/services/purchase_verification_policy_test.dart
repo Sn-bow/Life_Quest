@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:life_quest_final_v2/features/billing/purchase_verifier.dart';
 import 'package:life_quest_final_v2/models/cosmetic.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:life_quest_final_v2/services/purchase_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -120,4 +122,46 @@ void main() {
     expect(state.character.xp, beforeXp);
     state.dispose();
   });
+
+  test(
+    'cold start keeps an equipped theme confirmed by the account cache',
+    () async {
+      SharedPreferences.setMockInitialValues({
+        'lifequest.purchases.v1.account-a': [
+          'theme_neon_cyberpunk',
+          'untrusted_entitlement',
+        ],
+      });
+      final state = CharacterState()..initializeForTesting();
+      state.character.equippedTheme = 'theme_neon_cyberpunk';
+      final purchases = PurchaseService.cacheOnlyForTesting();
+      purchases.onEntitlementsChanged = state.setPurchasedEntitlements;
+      await purchases.bindUser('account-a');
+      expect(state.character.equippedTheme, 'theme_neon_cyberpunk');
+      expect(purchases.entitlements, {'theme_neon_cyberpunk'});
+      await purchases.bindUser('account-b');
+      expect(state.character.equippedTheme, isNull);
+      expect(state.ownsCosmetic('theme_neon_cyberpunk'), false);
+      purchases.dispose();
+      state.dispose();
+    },
+  );
+
+  test(
+    'empty initial cache clears paid selections but preserves earned cosmetics',
+    () async {
+      SharedPreferences.setMockInitialValues({});
+      final state = CharacterState()..initializeForTesting();
+      state.character.equippedTheme = 'theme_neon_cyberpunk';
+      state.character.unlockedCosmetics.add('title_effect_sparkle');
+      state.character.equippedTitleEffect = 'title_effect_sparkle';
+      final purchases = PurchaseService.cacheOnlyForTesting();
+      purchases.onEntitlementsChanged = state.setPurchasedEntitlements;
+      await purchases.bindUser('account-a');
+      expect(state.character.equippedTheme, isNull);
+      expect(state.character.equippedTitleEffect, 'title_effect_sparkle');
+      purchases.dispose();
+      state.dispose();
+    },
+  );
 }

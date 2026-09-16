@@ -3,6 +3,22 @@ class AccountDeletionError extends Error {
   constructor(code, message) { super(message); this.code = code; }
 }
 
+// An anonymous report identity has no recoverable sign-in credential to
+// reauthenticate. Its authenticated device token and App Check authorize this
+// dedicated path; it can never delete a permanent Google/email account.
+async function requestAnonymousReportDeletion(input) {
+  if (input.provider !== 'anonymous') {
+    throw new AccountDeletionError('permission-denied', 'Only an anonymous report identity can use this action.');
+  }
+  // An old anonymous ID token can outlive linking a permanent provider. Check
+  // the current Admin Auth record as well, so that token cannot use this path.
+  const current = await input.loadAuthUser(input.uid);
+  if (!current || current.uid !== input.uid || current.email || current.phoneNumber || current.providerData?.length) {
+    throw new AccountDeletionError('permission-denied', 'Reauthenticate the permanent account before deleting it.');
+  }
+  return requestDeletion({...input, authTime: input.nowMillis / 1000});
+}
+
 /** A durable request, independent of the app staying open or connected. */
 async function requestDeletion({uid, authTime, nowMillis, db, timestamp}) {
   if (!uid || typeof uid !== 'string' || uid.includes('/')) {
@@ -52,4 +68,4 @@ async function completeDeletion({uid, db, auth, deleteFiles, timestamp, nowMilli
     expiresAt: new Date(nowMillis + 7 * 24 * 60 * 60 * 1000)}, {merge: true});
 }
 
-module.exports = {AccountDeletionError, requestDeletion, completeDeletion};
+module.exports = {AccountDeletionError, requestDeletion, completeDeletion, requestAnonymousReportDeletion};

@@ -106,3 +106,18 @@ test('missing auth is idempotent, other auth failures remain pending until retri
     assert.equal(f.rows.get('accountDeletions/alice').state, 'complete');
   }
 });
+
+test('anonymous report deletion never bypasses permanent-account reauthentication', async () => {
+  const {requestAnonymousReportDeletion} = require('../account_deletion');
+  for (const provider of ['google.com', 'password', undefined]) {
+    const f = fixture();
+    await assert.rejects(requestAnonymousReportDeletion({...f.input, provider}), {code: 'permission-denied'});
+    assert.equal(f.rows.has('accountDeletions/alice'), false);
+  }
+  const f = fixture();
+  await assert.rejects(requestAnonymousReportDeletion({...f.input, provider: 'anonymous',
+    loadAuthUser: async () => ({uid: 'alice', providerData: [{providerId: 'google.com'}]})}), {code: 'permission-denied'});
+  assert.deepEqual(await requestAnonymousReportDeletion({...f.input, provider: 'anonymous', authTime: 0,
+    loadAuthUser: async () => ({uid: 'alice', providerData: []})}), {accepted: true});
+  assert.equal(f.rows.get('accountDeletions/alice').state, 'pending');
+});

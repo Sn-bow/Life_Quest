@@ -7,14 +7,39 @@ const {initializeApp, getApp} = require('firebase-admin/app');
 const {getFirestore, FieldValue} = require('firebase-admin/firestore');
 const {getAuth} = require('firebase-admin/auth');
 const {getStorage} = require('firebase-admin/storage');
-const {AccountDeletionError, requestDeletion, completeDeletion} = require('./account_deletion');
+const {AccountDeletionError, requestDeletion, completeDeletion, requestAnonymousReportDeletion} = require('./account_deletion');
 const {PurchasePolicyError, verifyAndGrant, reconcileNotification} = require('./purchase_policy');
+const {PurchaseAccountError, ensurePurchaseAccount} = require('./purchase_account');
+const {AiReportError, submitAiReport} = require('./ai_reports');
 initializeApp();
 // Application Default Credentials: grant the runtime service account access in
 // Play Console. Never download or embed a service-account private JSON key.
 const auth = new google.auth.GoogleAuth({scopes: ['https://www.googleapis.com/auth/androidpublisher']});
 const publisher = google.androidpublisher({version: 'v3', auth});
 const dependencies = {publisher, db: getFirestore(), timestamp: () => FieldValue.serverTimestamp()};
+
+exports.submitAiReport = onCall({enforceAppCheck: true, maxInstances: 2,
+  timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  try {
+    return await submitAiReport({uid: request.auth?.uid, data: request.data,
+      nowMillis: Date.now(), ...dependencies});
+  } catch (error) {
+    if (error instanceof AiReportError) throw new HttpsError(error.code, error.message);
+    // Reviewed output may contain personal information; never log it.
+    throw new HttpsError('unavailable', 'Report receipt could not be confirmed. Please try again.');
+  }
+});
+
+exports.ensurePurchaseAccount = onCall({enforceAppCheck: true, maxInstances: 2,
+  timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  try {
+    return await ensurePurchaseAccount({uid: request.auth?.uid,
+      provider: request.auth?.token?.firebase?.sign_in_provider, ...dependencies});
+  } catch (error) {
+    if (error instanceof PurchaseAccountError) throw new HttpsError(error.code, error.message);
+    throw new HttpsError('unavailable', 'The purchase account could not be prepared. Please try again.');
+  }
+});
 
 exports.verifyPurchase = onCall({enforceAppCheck: true, maxInstances: 3, timeoutSeconds: 30, memory: '256MiB'}, async request => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Sign in to verify purchases.');
@@ -44,6 +69,19 @@ exports.requestAccountDeletion = onCall({enforceAppCheck: true, maxInstances: 2,
   } catch (error) {
     if (error instanceof AccountDeletionError) throw new HttpsError(error.code, error.message);
     throw new HttpsError('unavailable', 'The request could not be saved. Please try again.');
+  }
+});
+
+exports.requestReportIdentityDeletion = onCall({enforceAppCheck: true, maxInstances: 2,
+  timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  try {
+    return await requestAnonymousReportDeletion({uid: request.auth?.uid,
+      provider: request.auth?.token?.firebase?.sign_in_provider,
+      loadAuthUser: uid => getAuth().getUser(uid),
+      nowMillis: Date.now(), ...dependencies});
+  } catch (error) {
+    if (error instanceof AccountDeletionError) throw new HttpsError(error.code, error.message);
+    throw new HttpsError('unavailable', 'The deletion request could not be saved. Please try again.');
   }
 });
 

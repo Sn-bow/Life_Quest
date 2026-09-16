@@ -1,6 +1,6 @@
 # 구매 권한과 출시 스위치
 
-2026-09-14. 구현 기반 검증 기록이며 실제 상품 판매/배포 완료 기록이 아니다.
+2026-09-17. 구현 기반 검증 기록이며 실제 상품 판매/배포 완료 기록이 아니다.
 
 ## 현재 동작
 
@@ -31,14 +31,14 @@
 - 계정 삭제는 최근 5분 이내 재인증 + App Check가 검증된 Callable이 `accountDeletions/{uid}`에 요청을 저장한다. 생성 이벤트가 Storage → 사용자 문서 전체/신고/권한 → 구매 토큰 소유 연결 → Auth 순서로 정리한다. 중간 실패는 재시도하며 앱 종료와 무관하다. Firestore/Storage 규칙은 삭제 중 재생성과 예전 토큰의 접근을 차단한다.
 - 완료 후 내용 없는 삭제 표지만 7일 뒤 TTL로 정리한다. 미완료 요청은 자동 만료시키지 않는다. 실제 배포에서는 실패 알림/오래된 pending 요청 점검과 TTL 활성화, Storage의 Firestore 조회 권한을 검증해야 한다. 새 indexes 파일 배포 전 기존 원격 인덱스를 조회해 보존한다.
 - 구매 토큰 원문은 저장/로그에 남기지 않는다. 계정 삭제 시 토큰 해시와 UID 연결도 삭제한다. 다른 앱 계정은 Google 영수증의 obfuscated account ID 검사 때문에 해당 구매를 가져갈 수 없다. 계정 삭제 후 구매 복원이 불가하고 삭제가 환불을 뜻하지 않음을 확인 화면에 표시한다.
-- 기기 프로필의 **선택적 구매 계정 연결 화면은 아직 미구현**이다. 현재 기기 전용 프로필은 결제가 꺼져 있다. 진행 기록을 자동 업로드하지 않는 계정 연결/다른 기기 복원 흐름을 완성한 뒤 판매한다.
-- 익명 프로필의 AI 신고는 사용자가 검토·전송 버튼을 눌렀을 때만 익명 인증을 만든다. Firebase가 꺼진 빌드에서는 전송 실패를 표시한다. **신고 전송 검증 전 AI 활성 빌드를 공개 출시하지 않는다.**
+- **선택적 Google 구매 계정 연결 화면과 서버 최소 계정 생성은 구현·로컬 검증 완료**. 기기 진행은 업로드하지 않으며 목적 플래그와 서버 쓰기 차단을 둔다. `PURCHASE_ACCOUNT.md` 참조. 실제 Google/Play 검증 전 결제는 계속 꺼져 있다.
+- AI 신고는 사용자 검토 후 Callable 접수번호를 받아야 성공이며, 동일 출력 재시도는 중복 생성하지 않는다. 90일 본문 TTL/개별 신고 및 익명 계정 삭제를 구현했다. `AI_REPORTING.md` 참조. 기본 Cloud off 및 Firebase 미배포 상태다. **실제 신고 전송 검증 전 AI 활성 빌드를 공개 출시하지 않는다.**
 
 ## SDK 검증
 
 - Node 22 배포 설정, firebase-admin 14.4.0(모듈별 import), firebase-functions 7.3.2, googleapis 180.0.0.
 - `npm audit` 0건. gaxios 6.x의 uuid v4 호출은 유지하면서 uuid 11.1.1로 고정했다. upstream 취약점은 v3/v5/v6 버퍼 경계 검증이며, v4 문자열 API 호환성을 확인했다.
-- Node 22 서버 정책 테스트 15개 통과. Firestore/Storage 실제 로컬 에뮬레이터 8개 검사 통과(비소유자 접근, 권한 위조, 삭제 중 재생성, 파일 재업로드 차단 포함). Flutter는 서버 실패/잘못된 응답/계정 전환/중복 권한/환불 후 게임 획득 장식 보존을 검사한다. 실제 금융 거래를 수행한 것은 아니다.
+- Node 22 서버 정책 테스트26개 통과. Firestore/Storage 실제 로컬 에뮬레이터9개 검사 통과(비소유자 접근, 권한 위조, 삭제 중 재생성, 파일 재업로드 차단 포함). Flutter는 서버 실패/잘못된 응답/계정 전환/중복 권한/환불 후 게임 획득 장식 보존을 검사한다. 실제 금융 거래를 수행한 것은 아니다.
 
 근거: [Billing security](https://developer.android.com/google/play/billing/security), [Flutter Android Billing changelog](https://pub.dev/packages/in_app_purchase_android/changelog), [Firebase Admin release notes](https://firebase.google.com/support/release-notes/admin/node), [uuid 보안 공지](https://github.com/uuidjs/uuid/security/advisories/GHSA-w5hq-g745-h8pq).
 
@@ -52,3 +52,9 @@
 근거: [Kotlin/R8 지원표](https://developer.android.com/build/kotlin-support), [R8 공식 override](https://r8.googlesource.com/r8/+/refs/heads/main/README.md), [bundletool](https://developer.android.com/tools/bundletool).
 
 계정 삭제/비용 근거: [이벤트 재시도](https://firebase.google.com/docs/functions/retries), [Firestore TTL 배포 형식](https://firebase.google.com/docs/reference/firestore/indexes), [Functions 플랜/한도](https://firebase.google.com/docs/functions/quotas). 무료 모델은 API 호출 요금이 없지만, Firebase Functions는 Blaze 연결이 필요하고 무조건 무료인 인프라가 아니다. 아직 비용 계정 연결/배포 없음.
+
+## Android 권한 스위치 검증 · 2026-09-17
+
+Gradle이 Flutter의 Base64 `dart-defines`에서 Cloud/Billing/Ads를 읽어 네 가지 manifest를 선택한다. 결제만 켜면 BILLING은 있고 광고 권한·초기화 provider는 없다. AdMob App ID가 남아 있어도 Ads 플래그가 false이면 광고를 켜지 않는다. 결제/광고는 Cloud 없이 빌드할 수 없고 광고에는 유효한 App ID가 필요하다.
+
+`scripts/check_android_feature_manifests.py`로 실제 Gradle manifest merger 7가지 조합을 검사했고 전부 통과했다. 광고 검사에는 Google의 공개 테스트 ID만 사용했고 해당 APK를 설치·배포하지 않았다. `feature-manifests.json` 참조. 기존 `scripts/apply_release_values.sh`는 과거 iOS·광고 통합 설정용이므로 2.0 출시 절차에 사용하지 않는다.

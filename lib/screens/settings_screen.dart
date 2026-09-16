@@ -1,4 +1,7 @@
 import '../features/backup/backup_screen.dart';
+import '../features/billing/purchase_account_screen.dart';
+import '../features/director/ai_report_receipts_screen.dart';
+import '../config/cloud_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -654,6 +657,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 24),
           ],
           if (characterState.isLocalGuest) ...[
+            const PurchaseAccountTile(),
             TranslucentCard(
               child: ListTile(
                 leading: const Icon(Icons.lock_outline),
@@ -677,6 +681,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
           TranslucentCard(
             child: Column(
               children: [
+                if (kLifeQuestCloudEnabled)
+                  ListTile(
+                    leading: const Icon(Icons.flag_outlined),
+                    title: Text(l10n.lqReportReceipts),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const AiReportReceiptsScreen(),
+                      ),
+                    ),
+                  ),
                 ListTile(
                   leading: const Icon(PhosphorIcons.shieldCheck),
                   title: Text(l10n.settingsPrivacyPolicy),

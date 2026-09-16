@@ -80,3 +80,6 @@ functions/node_modules/
 
 # Rebuild analysis and local visual QA
 graphify-out/
+
+# Kotlin compiler session cache
+android/.kotlin/

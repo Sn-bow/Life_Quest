@@ -29,11 +29,11 @@ class _SessionGateState extends State<SessionGate> {
     }
     final welcome = WelcomeScreen(
       onStart: () => session.selectDevice(true),
-      onLogin: kLifeQuestCloudEnabled
+      onLogin: kLifeQuestCloudEnabled && !session.purchaseOnlyAuth
           ? () => setState(() => _showLogin = true)
           : null,
     );
-    if (!kLifeQuestCloudEnabled) return welcome;
+    if (!kLifeQuestCloudEnabled || session.purchaseOnlyAuth) return welcome;
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       initialData: FirebaseAuth.instance.currentUser,

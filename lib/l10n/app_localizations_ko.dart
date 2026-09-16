@@ -3990,13 +3990,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqReportSent => '신고를 보냈어요. 이 추천은 숨겼습니다.';
 
   @override
-  String get lqReportQueued => '연결되면 신고를 전송합니다. 이 추천은 숨겼습니다.';
-
-  @override
   String get lqReportPreview => 'QA 신고를 기기에 기록했어요. 개발자에게 전송하지 않았습니다.';
 
   @override
-  String get lqReportFailed => '신고를 보내지 못했어요. 잠시 후 다시 시도해주세요.';
+  String get lqReportFailed => '신고 작업의 결과를 확인하지 못했어요. 연결을 확인하고 다시 시도해 주세요.';
 
   @override
   String get lqCloudQuestNotice =>
@@ -4359,4 +4356,83 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lqDungeonCollectResult => '탐험 결과 받기';
+
+  @override
+  String get lqPurchaseAccount => '구매 계정';
+
+  @override
+  String get lqPurchaseAccountOptional => '필요할 때만 계정 연결';
+
+  @override
+  String get lqPurchaseAccountPrivacy =>
+      'Google 계정은 구매 확인과 복원에 사용합니다. 퀘스트, 성장 기록, AI 개인화 이력은 계속 이 기기에 저장됩니다. 로그인만으로 결제되지 않습니다.';
+
+  @override
+  String get lqPurchaseAccountRestoreHint =>
+      '다른 기기에서 구매를 복원하려면 구매할 때 사용한 Google Play 계정과 앱의 구매 계정을 모두 동일하게 사용하세요. 성장 기록은 암호화 백업으로 따로 옮길 수 있습니다.';
+
+  @override
+  String get lqPurchaseAccountConnected => '구매 계정 연결됨';
+
+  @override
+  String get lqPurchaseAccountConnect => 'Google 계정 연결';
+
+  @override
+  String get lqPurchaseAccountDisconnect => '이 기기에서 연결 해제';
+
+  @override
+  String get lqPurchaseAccountDelete => '구매 계정 삭제';
+
+  @override
+  String get lqPurchaseAccountDeleteBody =>
+      '이 계정의 구매 권한, 신고, 기존 클라우드 프로필이 삭제됩니다. 삭제 후 구매를 복원할 수 없으며 결제가 환불되지는 않습니다. 이 기기의 퀘스트와 성장 기록은 남습니다. Google 계정을 다시 확인한 후 삭제를 요청합니다.';
+
+  @override
+  String get lqPurchaseAccountFailed =>
+      '작업을 마치지 못했습니다. 연결 상태와 계정을 확인한 후 다시 시도해 주세요.';
+
+  @override
+  String get lqPurchaseAccountDeleted =>
+      '삭제 요청이 접수되었습니다. 서버에서 계정 정리를 계속합니다. 이 기기의 성장 기록은 유지됩니다.';
+
+  @override
+  String get lqPurchaseAccountCleanup =>
+      '삭제 요청은 접수되었습니다. 이 기기의 로그아웃을 마치려면 연결 해제를 다시 눌러 주세요. 서버의 삭제 작업은 계속됩니다.';
+
+  @override
+  String get lqReportCopyReceipt => '접수번호 복사';
+
+  @override
+  String get lqReportRetention =>
+      '신고 내용은 접수 후 90일이 지나면 자동 삭제 대상이 됩니다. 실제 제거까지 처리 지연이 있을 수 있습니다. 설정의 AI 신고 내역에서 삭제할 수도 있습니다.';
+
+  @override
+  String get lqReportReceipts => 'AI 신고 내역';
+
+  @override
+  String get lqReportReceiptHelp =>
+      '이 기기에 최근 접수번호 100개까지 보관합니다. 같은 신고 계정으로 연결되어 있으면 여기서 삭제할 수 있습니다. 계정이 달라졌거나 앱에 접근할 수 없으면 접수번호를 복사해 logian621@gmail.com으로 삭제를 요청하세요.';
+
+  @override
+  String get lqReportReceiptsEmpty => '이 기기에 보관된 접수번호가 없습니다.';
+
+  @override
+  String get lqReportDelete => '신고 삭제';
+
+  @override
+  String get lqReportDeleteBody =>
+      '이 신고의 서버 내용과 기기에 저장한 접수번호를 삭제합니다. 일상의 퀘스트와 성장 기록은 유지됩니다.';
+
+  @override
+  String get lqReportDeleted => '신고가 삭제되었습니다.';
+
+  @override
+  String get lqReportDeleteIdentity => '익명 신고 계정 삭제';
+
+  @override
+  String get lqReportDeleteIdentityBody =>
+      '현재 기기의 익명 신고 계정과 그 계정으로 보낸 신고를 모두 삭제 요청합니다. 일상의 기기 기록은 남습니다. 이후 새 신고를 보내면 새로운 익명 계정이 만들어집니다.';
+
+  @override
+  String get lqReportIdentityDeleted => '삭제 요청이 접수되었습니다. 앱을 닫아도 서버에서 계속 처리합니다.';
 }

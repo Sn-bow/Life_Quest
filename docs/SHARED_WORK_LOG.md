@@ -3356,3 +3356,12 @@ claiming that the exact release artifact or physical-device gate is complete.
 - 방 진입/완료 체크포인트, 같은 적/상점 복원, 최종 XP/골드/해금/수령ID 단일레코드, 실패 재시도, 활성 run 덮어쓰기 방지, 타워 클리어 시 진척. `DUNGEON_CHECKPOINTS.md`.
 - Flutter analyze 및258테스트 통과. 실제 web release UI에서 전투75HP→재시작입장80HP, 방 완료+12탐험골드/카드, 종료+15XP/+8골드, 결과재진입 후75XP 유지 확인. 실기기 증거 아님.
 - Chrome확장 파일액세스 제한으로 스토어 이미지 업로드는 실패. 사용자 설정 안내/답변 대기. 이번코드의 새AAB 빌드와 구매계정 분리 구현은 후속 작업.
+
+
+## 2026-09-17 · 구매 계정 분리와 신고 운영 경로
+
+- 기기 기록을 업로드하지 않는 선택적 Google 구매 계정, 최소 서버 계정, 오프라인 복원, 연결 해제/삭제 UX 구현. legacy cloud loader로의 잘못된 진입과 구매 전용 root 업로드 차단.
+- 신고는 App Check callable 접수 확인 후 성공. 접수번호, 중복 방지,20건24시간 쿼터,90일 TTL, 신고별 삭제와 현재 익명 신고 계정 전체 삭제 경로 구현. 현재 Admin Auth provider 검사로 오래된 익명 토큰의 영구 계정 삭제를 차단.
+- Android 결제·광고 권한 분리. 실제 Gradle merger7조건 통과. Cloud 없는 결제/광고와 ID 없는 광고 설정 거부.
+- Flutter analyze/283테스트, 서버26테스트, Firestore·Storage emulator9검사 통과. 실제 Firebase/Auth/Play/TTL 운영 검증은 아직이다.
+- Play 한국어·영어 최신 소개 초안 저장. 공개 정책 페이지 gh-pages a4ea4f4 배포/화면 확인. 스토어 이미지 권한, Firebase 복원 결정, 실기기 및 실제12명14일 테스트는 사용자 답변/외부 상태 대기.

@@ -14,6 +14,8 @@ import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/firebase_options.dart';
 import 'features/session/session_gate.dart';
 import 'features/session/session_state.dart';
+import 'features/billing/purchase_account_state.dart';
+import 'features/billing/firebase_purchase_account_gateway.dart';
 import 'config/cloud_config.dart';
 import 'package:life_quest_final_v2/screens/qa_preview_gate_screen.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
@@ -92,6 +94,20 @@ void main() {
             ChangeNotifierProvider(create: (context) => CharacterState()),
             ChangeNotifierProvider(
               create: (context) => SessionState()..initialize(),
+            ),
+            ChangeNotifierProvider(
+              create: (context) {
+                final session = context.read<SessionState>();
+                return PurchaseAccountState(
+                  enabled:
+                      kPurchaseAccountEnabled &&
+                      !kIsWeb &&
+                      defaultTargetPlatform == TargetPlatform.android,
+                  isPurchaseOnly: () => session.purchaseOnlyAuth,
+                  markPurchaseOnly: session.markPurchaseOnlyAuth,
+                  createGateway: FirebasePurchaseAccountGateway.new,
+                );
+              },
             ),
             ChangeNotifierProvider(create: (context) => QuestDirectorState()),
             ChangeNotifierProvider(create: (context) => CombatState()),

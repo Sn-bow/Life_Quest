@@ -3964,13 +3964,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqReportSent => '举报已发送。已隐藏此推荐。';
 
   @override
-  String get lqReportQueued => '联网后会发送举报。已隐藏此推荐。';
-
-  @override
   String get lqReportPreview => 'QA举报已保存到本机，未发送给开发者。';
 
   @override
-  String get lqReportFailed => '未能发送举报，请重试。';
+  String get lqReportFailed => '无法确认举报操作的结果。请检查网络连接后重试。';
 
   @override
   String get lqCloudQuestNotice => '接受的任务通过账号保存到Firebase。AI生成本身仅在本设备运行。';
@@ -4319,4 +4316,80 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lqDungeonCollectResult => '领取探索结果';
+
+  @override
+  String get lqPurchaseAccount => '购买账号';
+
+  @override
+  String get lqPurchaseAccountOptional => '需要时再连接账号';
+
+  @override
+  String get lqPurchaseAccountPrivacy =>
+      'Google 账号仅用于验证和恢复购买。任务、成长记录和 AI 个性化历史仍保存在此设备上。登录不会产生购买或扣款。';
+
+  @override
+  String get lqPurchaseAccountRestoreHint =>
+      '在其他设备恢复购买时，请同时使用购买时的 Google Play 账号和应用购买账号。成长记录可通过加密备份另行迁移。';
+
+  @override
+  String get lqPurchaseAccountConnected => '购买账号已连接';
+
+  @override
+  String get lqPurchaseAccountConnect => '连接 Google 账号';
+
+  @override
+  String get lqPurchaseAccountDisconnect => '在此设备断开连接';
+
+  @override
+  String get lqPurchaseAccountDelete => '删除购买账号';
+
+  @override
+  String get lqPurchaseAccountDeleteBody =>
+      '将删除此账号的购买权限、举报和已有云端个人资料。删除后无法恢复购买，此操作不会退款。此设备上的任务和成长记录将保留。请再次验证 Google 账号以申请删除。';
+
+  @override
+  String get lqPurchaseAccountFailed => '未能完成操作。请检查网络连接和账号，然后重试。';
+
+  @override
+  String get lqPurchaseAccountDeleted => '已受理删除申请。服务器将继续删除账号数据。此设备上的成长记录将保留。';
+
+  @override
+  String get lqPurchaseAccountCleanup =>
+      '删除申请已受理。请再次点击断开连接，完成此设备上的退出操作。服务器端删除将继续。';
+
+  @override
+  String get lqReportCopyReceipt => '复制回执编号';
+
+  @override
+  String get lqReportRetention =>
+      '举报内容在提交90天后进入自动删除流程。实际删除可能需要额外处理时间。也可在设置中的 AI 举报回执页面删除。';
+
+  @override
+  String get lqReportReceipts => 'AI 举报回执';
+
+  @override
+  String get lqReportReceiptHelp =>
+      '此设备最多保存最近100个回执编号。连接同一举报账号时，可在此删除。若账号已更换或无法打开应用，请复制回执编号并向 logian621@gmail.com 申请删除。';
+
+  @override
+  String get lqReportReceiptsEmpty => '此设备没有保存回执编号。';
+
+  @override
+  String get lqReportDelete => '删除举报';
+
+  @override
+  String get lqReportDeleteBody => '删除服务器上的举报及本地回执。此设备上的日常任务和成长记录将保留。';
+
+  @override
+  String get lqReportDeleted => '举报已删除。';
+
+  @override
+  String get lqReportDeleteIdentity => '删除匿名举报账号';
+
+  @override
+  String get lqReportDeleteIdentityBody =>
+      '申请删除此设备当前的匿名举报账号及其提交的所有举报。设备上的成长记录将保留。之后再次举报时会创建新的匿名账号。';
+
+  @override
+  String get lqReportIdentityDeleted => '删除申请已受理。即使关闭应用，服务器仍会继续处理。';
 }

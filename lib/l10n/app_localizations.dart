@@ -7752,12 +7752,6 @@ abstract class AppLocalizations {
   /// **'신고를 보냈어요. 이 추천은 숨겼습니다.'**
   String get lqReportSent;
 
-  /// No description provided for @lqReportQueued.
-  ///
-  /// In ko, this message translates to:
-  /// **'연결되면 신고를 전송합니다. 이 추천은 숨겼습니다.'**
-  String get lqReportQueued;
-
   /// No description provided for @lqReportPreview.
   ///
   /// In ko, this message translates to:
@@ -7767,7 +7761,7 @@ abstract class AppLocalizations {
   /// No description provided for @lqReportFailed.
   ///
   /// In ko, this message translates to:
-  /// **'신고를 보내지 못했어요. 잠시 후 다시 시도해주세요.'**
+  /// **'신고 작업의 결과를 확인하지 못했어요. 연결을 확인하고 다시 시도해 주세요.'**
   String get lqReportFailed;
 
   /// No description provided for @lqCloudQuestNotice.
@@ -8453,6 +8447,144 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'탐험 결과 받기'**
   String get lqDungeonCollectResult;
+
+  /// No description provided for @lqPurchaseAccount.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매 계정'**
+  String get lqPurchaseAccount;
+
+  /// No description provided for @lqPurchaseAccountOptional.
+  ///
+  /// In ko, this message translates to:
+  /// **'필요할 때만 계정 연결'**
+  String get lqPurchaseAccountOptional;
+
+  /// No description provided for @lqPurchaseAccountPrivacy.
+  ///
+  /// In ko, this message translates to:
+  /// **'Google 계정은 구매 확인과 복원에 사용합니다. 퀘스트, 성장 기록, AI 개인화 이력은 계속 이 기기에 저장됩니다. 로그인만으로 결제되지 않습니다.'**
+  String get lqPurchaseAccountPrivacy;
+
+  /// No description provided for @lqPurchaseAccountRestoreHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'다른 기기에서 구매를 복원하려면 구매할 때 사용한 Google Play 계정과 앱의 구매 계정을 모두 동일하게 사용하세요. 성장 기록은 암호화 백업으로 따로 옮길 수 있습니다.'**
+  String get lqPurchaseAccountRestoreHint;
+
+  /// No description provided for @lqPurchaseAccountConnected.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매 계정 연결됨'**
+  String get lqPurchaseAccountConnected;
+
+  /// No description provided for @lqPurchaseAccountConnect.
+  ///
+  /// In ko, this message translates to:
+  /// **'Google 계정 연결'**
+  String get lqPurchaseAccountConnect;
+
+  /// No description provided for @lqPurchaseAccountDisconnect.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 기기에서 연결 해제'**
+  String get lqPurchaseAccountDisconnect;
+
+  /// No description provided for @lqPurchaseAccountDelete.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매 계정 삭제'**
+  String get lqPurchaseAccountDelete;
+
+  /// No description provided for @lqPurchaseAccountDeleteBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 계정의 구매 권한, 신고, 기존 클라우드 프로필이 삭제됩니다. 삭제 후 구매를 복원할 수 없으며 결제가 환불되지는 않습니다. 이 기기의 퀘스트와 성장 기록은 남습니다. Google 계정을 다시 확인한 후 삭제를 요청합니다.'**
+  String get lqPurchaseAccountDeleteBody;
+
+  /// No description provided for @lqPurchaseAccountFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'작업을 마치지 못했습니다. 연결 상태와 계정을 확인한 후 다시 시도해 주세요.'**
+  String get lqPurchaseAccountFailed;
+
+  /// No description provided for @lqPurchaseAccountDeleted.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제 요청이 접수되었습니다. 서버에서 계정 정리를 계속합니다. 이 기기의 성장 기록은 유지됩니다.'**
+  String get lqPurchaseAccountDeleted;
+
+  /// No description provided for @lqPurchaseAccountCleanup.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제 요청은 접수되었습니다. 이 기기의 로그아웃을 마치려면 연결 해제를 다시 눌러 주세요. 서버의 삭제 작업은 계속됩니다.'**
+  String get lqPurchaseAccountCleanup;
+
+  /// No description provided for @lqReportCopyReceipt.
+  ///
+  /// In ko, this message translates to:
+  /// **'접수번호 복사'**
+  String get lqReportCopyReceipt;
+
+  /// No description provided for @lqReportRetention.
+  ///
+  /// In ko, this message translates to:
+  /// **'신고 내용은 접수 후 90일이 지나면 자동 삭제 대상이 됩니다. 실제 제거까지 처리 지연이 있을 수 있습니다. 설정의 AI 신고 내역에서 삭제할 수도 있습니다.'**
+  String get lqReportRetention;
+
+  /// No description provided for @lqReportReceipts.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 신고 내역'**
+  String get lqReportReceipts;
+
+  /// No description provided for @lqReportReceiptHelp.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 기기에 최근 접수번호 100개까지 보관합니다. 같은 신고 계정으로 연결되어 있으면 여기서 삭제할 수 있습니다. 계정이 달라졌거나 앱에 접근할 수 없으면 접수번호를 복사해 logian621@gmail.com으로 삭제를 요청하세요.'**
+  String get lqReportReceiptHelp;
+
+  /// No description provided for @lqReportReceiptsEmpty.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 기기에 보관된 접수번호가 없습니다.'**
+  String get lqReportReceiptsEmpty;
+
+  /// No description provided for @lqReportDelete.
+  ///
+  /// In ko, this message translates to:
+  /// **'신고 삭제'**
+  String get lqReportDelete;
+
+  /// No description provided for @lqReportDeleteBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 신고의 서버 내용과 기기에 저장한 접수번호를 삭제합니다. 일상의 퀘스트와 성장 기록은 유지됩니다.'**
+  String get lqReportDeleteBody;
+
+  /// No description provided for @lqReportDeleted.
+  ///
+  /// In ko, this message translates to:
+  /// **'신고가 삭제되었습니다.'**
+  String get lqReportDeleted;
+
+  /// No description provided for @lqReportDeleteIdentity.
+  ///
+  /// In ko, this message translates to:
+  /// **'익명 신고 계정 삭제'**
+  String get lqReportDeleteIdentity;
+
+  /// No description provided for @lqReportDeleteIdentityBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'현재 기기의 익명 신고 계정과 그 계정으로 보낸 신고를 모두 삭제 요청합니다. 일상의 기기 기록은 남습니다. 이후 새 신고를 보내면 새로운 익명 계정이 만들어집니다.'**
+  String get lqReportDeleteIdentityBody;
+
+  /// No description provided for @lqReportIdentityDeleted.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제 요청이 접수되었습니다. 앱을 닫아도 서버에서 계속 처리합니다.'**
+  String get lqReportIdentityDeleted;
 }
 
 class _AppLocalizationsDelegate

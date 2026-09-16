@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../features/billing/purchase_account_screen.dart';
 import '../features/billing/purchase_status_banner.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:life_quest_final_v2/models/cosmetic.dart';
@@ -61,6 +62,7 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
             return ListView(
               padding: const EdgeInsets.all(16),
               children: [
+                if (characterState.isLocalGuest) const PurchaseAccountTile(),
                 if (!kLifeQuestQaPreview) ...[
                   TranslucentCard(
                     child: ListTile(

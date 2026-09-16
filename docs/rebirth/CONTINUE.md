@@ -16,11 +16,15 @@
 
 ## 이번 회차 진행 · 2026-09-17
 
-- 생성 아트 4종을 프로젝트에 적용. 아이콘/스플래시/첫 화면/프롤로그/Play 배너는 `artwork/README.md` 및 `store/` 참조. 이미지 아트는 내장 image_gen으로 생성했으며 SVG/HTML로 직접 그리지 않았다.
-- 방 경계 체크포인트 + 단일 프로필 레코드 보상 정산 구현. 프로세스 재시작, 같은 방/적, 중복 수령 방지, 오류 재시도, 타워 진행 보호. `DUNGEON_CHECKPOINTS.md` 참조.
-- Flutter analyze, 전체258테스트 통과. 이후 결과/종료 안내 문구 개선 후 결과 화면8개를 재검증. CUA 실제 web release에서 XP60→75가 재진입 후에도75 유지됨 확인.
-- Chrome 파일 업로드가 `Not allowed`로 실패. 확장의 파일 URL 액세스 설정을 안내했고 답변 대기. 그래픽은 준비됐으나 Play 업로드 완료가 아니다. 기존 스토어 문구도 새로운 방 저장 동작으로 수정해야 한다.
-- 아래 AAB 검사 증거는 **9/14 빌드**다. 이번 변경을 포함하는 최종 AAB는 아직 다시 만들지 않았다.
+- 생성 아트4종 적용. `artwork/README.md`, `store/` 및 `screens/story-generated-cover.png`. 이미지 아트는 내장 image_gen으로 생성했으며 SVG/HTML로 직접 그리지 않았다.
+- 방 경계 체크포인트와 최종 보상 원자 정산. CUA 실제 web UI에서 전투 중 재시작, 같은 적/방 입구, 재수령 후 XP75 유지 확인. `DUNGEON_CHECKPOINTS.md`.
+- 선택적 Google 구매 계정 UI/상태/서버 최소 계정 생성, 기기 기록 업로드 방지, 오프라인 UID 복원, 연결 해제, 삭제 접수와 로그아웃 실패 구별. `PURCHASE_ACCOUNT.md`.
+- AI 신고 Callable, 서버 접수번호/중복 방지/20건24시간 제한/90일 TTL, 신고 내역·개별 삭제·익명 계정 삭제. `AI_REPORTING.md`. 오래된 anonymous 토큰으로 permanent 계정을 지우지 못하도록 현재 Admin Auth provider도 검사한다.
+- Android Billing/Ads 권한을 Dart 설정과 일치하도록 분리. 실제 Gradle merger7조합 통과. `feature-manifests.json`.
+- Flutter analyze / 전체283테스트, 서버Node22 26테스트, Firestore·Storage emulator9검사 통과.
+- Play EN2,194자/KR1,228자 소개를 최신 방 저장 동작으로 수정하여 초안 저장 성공 확인. 이미지 업로드는 Chrome확장 `Allow access to file URLs`가 꺼져 실패. 사용자 설정 질문에 답변 대기. 그래픽 파일은 준비됨.
+- 공개 개인정보·삭제 페이지에 구매 계정과 신고 보관/삭제 경로 반영. gh-pages a4ea4f4 배포와 CUA 공개 화면 확인.
+- 이 회차 마지막 native/web 빌드와 산출물 검사가 진행 중이면 먼저 상태를 확인한다. 아래 산출물 항목은 최종 검사 후 갱신한다.
 
 ## 구현·검증 완료
 
@@ -32,7 +36,7 @@
 - 무료 4장면 원작 프롤로그 「0번 출구」, 4언어. 0/1/3/6개 완료 해금, 선택 반영 대사·저장·다시 읽기. 읽기/선택으로 XP를 늘리지 않는다.
 - 무료 암호화 파일 백업: AES-256-GCM + PBKDF2-SHA256 600k, 확인/복원/undo/journal, 손상 프로필에서 복구. Dart→Android→Python 상호 해독, 실제 UI export/import/restart/undo 확인. 네이티브 파일 선택기 UI는 실기기에서 확인해야 한다. `DEVICE_BACKUP.md` / `backup-validation.json`.
 - 던전 첫 CTA, 보너스 접기, 지도 버튼/경로 이름, 4언어 안내, 다시 여는 도움말, 읽기 쉬운 보상 선택. 안내/보상에서 배경 semantics·focus 차단. 이전 갈림길이 계속 열리는 로직과 미완료 방문의 다른 경로 진입을 수정. 320px/200%/4언어 입장·지도·보상 테스트 포함. `UX_AUDIT.md`와 `screens/`.
-- Flutter analyze 및 **258개 테스트 통과**. 서버 Node22 15개, Firestore+Storage emulator 8개는 앞선 commit에서 통과했고 그 코드에는 이후 변경 없음.
+- Flutter analyze 및 **283개 테스트 통과**. 서버 Node22 26개, Firestore+Storage emulator9개 통과.
 - Android 자동 FirebaseInitProvider 제거; 명시적 Cloud 플래그에서만 초기화. 자동 cloud/D2D 백업 제외. 기본 Cloud/Monetization/Ads는 모두 꺼져 있다.
 - 최종 main AAB 216,527,189 bytes, SHA256 `957f5234da51c1869febb66d21ad068f345164f09f75805660d9387691e734ef`, 표본 기기 다운로드 128,276,151 bytes. AAB/서명/manifest/native ELF/split 검증 증거는 `artifact-inspection.json`. 검사 스크립트는 실제 바이너리와 공개 인증서를 검사하며 QA target 문자열을 거부한다. 이 검사는 Play 업로드/공개 승인과 다르다.
 
@@ -44,17 +48,17 @@
 - **Firebase `life-quest-app-95eb9`는 삭제 상태**. 기존 Android app ID도 구 패키지에 묶여 있다. 복원/새 프로젝트 선택을 질문했고 답변 대기. 임의 복원·프로젝트 생성·요금제 연결·배포 없음. Functions는 Blaze/결제 계정 검토 필요; 모델의 무료 실행과 별개다.
 - 기존 배포 키 비밀값은 재사용하지 않았다. 새 key/p12/password는 `~/.local/share/lifequest/signing/`와 Git 제외 android/key.properties. 내용을 출력·업로드하지 않는다. 공개 SHA256: `15:37:D6:F3:9E:E3:EE:D1:53:E1:34:12:8B:BE:66:11:32:18:38:47:CA:3A:A7:F4:B5:11:27:6B:FD:35:2B:B3`.
 - **개인정보/약관/삭제 공개 페이지 정상 배포·CUA 검증 완료**: https://sn-bow.github.io/Life_Quest/ (#privacy, #terms, #delete-account).
-- Pages는 orphan `gh-pages` branch / root. 정책 checkout `~/.local/share/lifequest/policy-site.daHZpl`, 9a3b460까지 반영. 앱 branch의 docs/index.html이 canonical. 변경 후 checkout에 복사·commit·push, 필요 시 `gh api --method POST repos/Sn-bow/Life_Quest/pages/builds`. 앱 main을 정책 게시 때문에 병합하지 않는다.
+- Pages는 orphan `gh-pages` branch / root. 정책 checkout `~/.local/share/lifequest/policy-site.daHZpl`, a4ea4f4까지 반영. 앱 branch의 docs/index.html이 canonical. 변경 후 checkout에 복사·commit·push, 필요 시 `gh api --method POST repos/Sn-bow/Life_Quest/pages/builds`. 앱 main을 정책 게시 때문에 병합하지 않는다.
 - Play 앱/생산성 카테고리와 기존 공개 지원 이메일·HTTPS 웹사이트를 초안에 저장했다. 심사 제출은 하지 않았다. `store/`의 한국어·영어 이름/소개를 기본 스토어 등록정보 임시보관함에 저장했고 저장 성공을 확인했다. 필수 그래픽이 없어 등록 완료/심사 가능 상태는 아니다. 원문과 실제 테스트 계획을 같은 폴더에 보관. 기존 콘텐츠 선언이 완료로 보여도 2.0 제출 빌드에 맞춰 재검토 필요.
 
 ## 다음 작업 순서
 
 1. 사용자 답변이 있으면 Firebase 처리와 실기기 검증부터 이어간다. 답변 전에도 아래 로컬 구현은 가능하다.
-2. 기본 기기 프로필을 클라우드에 올리지 않는 **선택적 Google 구매 계정 연결** 구현. 현재 로컬 모드는 PurchaseService.bindUser(null)이며 SessionGate의 legacy cloud profile과 구별해야 한다.
-3. AI 신고 접수 운영 백엔드, 익명 신고의 삭제/보관 안내, 실제 전송·탈퇴 검증. 실제 제출 전 이 기능을 갖춘다.
+2. 구현된 선택적 Google 구매 계정의 실제 Auth/App Check/서버 준비/다른 기기 구매 복원을 검증한다. 로컬 profile과 구매 identity를 분리했으며 서버 최소 계정 생성과 오프라인 복원은 로컬 테스트 통과.
+3. 구현된 AI 신고 callable·규칙·TTL을 실제 배포하고 기기→접수번호→저장→개별/익명 전체 삭제를 검증한다. `AI_REPORTING.md`의 운영 절차와 인덱스 보존 주의사항을 따른다.
 4. Functions의 결제 검증/서버 권한/RTDN 환불/삭제 job을 실제 배포·테스트한다. 원격 Firestore 인덱스를 보존하고 TTL만 안전하게 추가. Storage→Firestore 규칙 권한 및 실제 bucket 확인. 계정 삭제 수락 뒤 로컬 정리만 실패할 때의 안내 보강.
 5. 완결 유료 이야기/테마 상품을 완성한 다음 실제 Play 테스트 구매/보류/취소/복원/환불/계정 변경을 검증한다. 가격은 `PRODUCT_BRIEF.md`의 실험 가설이며 실제 매출 없음. 현재 판매 UI는 off.
 6. 던전 방 경계 복원/최종 보상 정산은 구현·검증했다. 남은 게임 화면의 4언어/큰 글자·전체5구역 밸런스와 실제 Android 종료/저장 부족 검증이 필요하다. 백업은 진행 중인 탐험을 계속 제외한다.
-7. 식별력 있는 최종 아이콘/feature graphic와 실제 Android 스크린샷, 스토어 문구·정책·콘텐츠 선언 완성 → 검증한 signed AAB 내부 테스트 업로드 → 실제 12명/14일 비공개 테스트 → 프로덕션 액세스/공개 심사.
+7. 준비한 생성 아이콘/feature graphic 업로드와 실제 Android 스크린샷, 스토어 문구·정책·콘텐츠 선언 완성 → 검증한 signed AAB 내부 테스트 업로드 → 실제 12명/14일 비공개 테스트 → 프로덕션 액세스/공개 심사.
 
 재개 시 기존 테스트를 무조건 전부 반복하지 말고 변경·실패·미검증 범위에 맞춰 실행한다. 출시 승인이나 수익 발생을 확인하지 않고 완료됐다고 표현하지 않는다.
