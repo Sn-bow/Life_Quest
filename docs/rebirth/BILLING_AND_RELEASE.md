@@ -47,7 +47,7 @@
 - Flutter 3.47.4, target SDK 36, min 26, ARM64 LiteRT-LM 0.17.0.
 - AGP 8.13.2 + Gradle 8.14.3를 유지하고 R8 9.1.43을 공식 방식으로 override. LiteRT-LM의 Kotlin 2.4 메타데이터를 처리하지 못하던 이전 R8 경고가 없어졌고 release AAB 215.9 MB가 만들어졌다.
 - 실제 AOT/R8 release QA APK에서 `SamplerConfig`/`ThinkingConfig` getter 제거로 JNI `CallIntMethodV mid == null` 종료를 재현했다. 0.17.0 JNI가 이름으로 찾는 SDK 멤버를 보존하는 ProGuard 규칙을 추가했고 같은 16KB 에뮬레이터에서 신규/긴 기록 두 조건의 생성 성공을 확인했다(21,364ms / 11,748ms). 이전 20.087초 결과는 debug instrumentation이다. QA 진입점 `integration_test/native_release_probe.dart`로 만든 APK는 Play 업로드 금지.
-- AAB 파일 크기는 기기별 Play 다운로드 용량이 아니다. bundletool 기기별 분할 용량 확인이 남아 있다.
+- 2026-09-17 최종 AAB 225,181,387 bytes, 표본 API35/ARM64 기기 다운로드 132,105,680 bytes. 실제 서명·manifest·11개 native ELF 및 split ZIP16KiB 정렬 검사를 통과했다. `artifact-inspection.json` 참조. AAB 용량은 기기별 Play 다운로드 용량과 다르다.
 
 근거: [Kotlin/R8 지원표](https://developer.android.com/build/kotlin-support), [R8 공식 override](https://r8.googlesource.com/r8/+/refs/heads/main/README.md), [bundletool](https://developer.android.com/tools/bundletool).
 

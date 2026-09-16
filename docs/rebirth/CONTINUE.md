@@ -24,7 +24,7 @@
 - Flutter analyze / 전체283테스트, 서버Node22 26테스트, Firestore·Storage emulator9검사 통과.
 - Play EN2,194자/KR1,228자 소개를 최신 방 저장 동작으로 수정하여 초안 저장 성공 확인. 이미지 업로드는 Chrome확장 `Allow access to file URLs`가 꺼져 실패. 사용자 설정 질문에 답변 대기. 그래픽 파일은 준비됨.
 - 공개 개인정보·삭제 페이지에 구매 계정과 신고 보관/삭제 경로 반영. gh-pages a4ea4f4 배포와 CUA 공개 화면 확인.
-- 이 회차 마지막 native/web 빌드와 산출물 검사가 진행 중이면 먼저 상태를 확인한다. 아래 산출물 항목은 최종 검사 후 갱신한다.
+- 최종 native AAB와 web release 재빌드 완료. 소스 e024614의 실제 산출물 서명·권한·네이티브 ELF 및 split ZIP16KiB 검사 통과. `artifact-inspection.json` 참조. 기본 빌드의 로그인/과금/신고는 계속 off다.
 
 ## 구현·검증 완료
 
@@ -38,7 +38,7 @@
 - 던전 첫 CTA, 보너스 접기, 지도 버튼/경로 이름, 4언어 안내, 다시 여는 도움말, 읽기 쉬운 보상 선택. 안내/보상에서 배경 semantics·focus 차단. 이전 갈림길이 계속 열리는 로직과 미완료 방문의 다른 경로 진입을 수정. 320px/200%/4언어 입장·지도·보상 테스트 포함. `UX_AUDIT.md`와 `screens/`.
 - Flutter analyze 및 **283개 테스트 통과**. 서버 Node22 26개, Firestore+Storage emulator9개 통과.
 - Android 자동 FirebaseInitProvider 제거; 명시적 Cloud 플래그에서만 초기화. 자동 cloud/D2D 백업 제외. 기본 Cloud/Monetization/Ads는 모두 꺼져 있다.
-- 최종 main AAB 216,527,189 bytes, SHA256 `957f5234da51c1869febb66d21ad068f345164f09f75805660d9387691e734ef`, 표본 기기 다운로드 128,276,151 bytes. AAB/서명/manifest/native ELF/split 검증 증거는 `artifact-inspection.json`. 검사 스크립트는 실제 바이너리와 공개 인증서를 검사하며 QA target 문자열을 거부한다. 이 검사는 Play 업로드/공개 승인과 다르다.
+- 최종 main AAB 225,181,387 bytes, SHA256 `19204e4d7e03d003b1678a203c81095c8ff6276a6c5ac21dfc910b6995d10257`, 표본 기기 다운로드 132,105,680 bytes. AAB/서명/manifest/native ELF/split 검증 증거는 `artifact-inspection.json`. 검사 스크립트는 실제 바이너리와 공개 인증서를 검사하며 QA target 문자열을 거부한다. 이 검사는 Play 업로드/공개 승인과 다르다.
 
 ## 운영 상태와 사용자 답변 대기
 
@@ -56,9 +56,19 @@
 1. 사용자 답변이 있으면 Firebase 처리와 실기기 검증부터 이어간다. 답변 전에도 아래 로컬 구현은 가능하다.
 2. 구현된 선택적 Google 구매 계정의 실제 Auth/App Check/서버 준비/다른 기기 구매 복원을 검증한다. 로컬 profile과 구매 identity를 분리했으며 서버 최소 계정 생성과 오프라인 복원은 로컬 테스트 통과.
 3. 구현된 AI 신고 callable·규칙·TTL을 실제 배포하고 기기→접수번호→저장→개별/익명 전체 삭제를 검증한다. `AI_REPORTING.md`의 운영 절차와 인덱스 보존 주의사항을 따른다.
-4. Functions의 결제 검증/서버 권한/RTDN 환불/삭제 job을 실제 배포·테스트한다. 원격 Firestore 인덱스를 보존하고 TTL만 안전하게 추가. Storage→Firestore 규칙 권한 및 실제 bucket 확인. 계정 삭제 수락 뒤 로컬 정리만 실패할 때의 안내 보강.
+4. Functions의 결제 검증/서버 권한/RTDN 환불/삭제 job을 실제 배포·테스트한다. 레거시 클라우드 계정 화면은 삭제 accepted 후 기기 로그아웃만 실패할 때의 안내가 아직 보강 대상이다(새 구매 계정 경로에서는 처리함). 원격 Firestore 인덱스를 보존하고 TTL만 안전하게 추가. Storage→Firestore 규칙 권한 및 실제 bucket 확인.
 5. 완결 유료 이야기/테마 상품을 완성한 다음 실제 Play 테스트 구매/보류/취소/복원/환불/계정 변경을 검증한다. 가격은 `PRODUCT_BRIEF.md`의 실험 가설이며 실제 매출 없음. 현재 판매 UI는 off.
 6. 던전 방 경계 복원/최종 보상 정산은 구현·검증했다. 남은 게임 화면의 4언어/큰 글자·전체5구역 밸런스와 실제 Android 종료/저장 부족 검증이 필요하다. 백업은 진행 중인 탐험을 계속 제외한다.
 7. 준비한 생성 아이콘/feature graphic 업로드와 실제 Android 스크린샷, 스토어 문구·정책·콘텐츠 선언 완성 → 검증한 signed AAB 내부 테스트 업로드 → 실제 12명/14일 비공개 테스트 → 프로덕션 액세스/공개 심사.
 
 재개 시 기존 테스트를 무조건 전부 반복하지 말고 변경·실패·미검증 범위에 맞춰 실행한다. 출시 승인이나 수익 발생을 확인하지 않고 완료됐다고 표현하지 않는다.
+
+
+## 회차 종료 인계
+
+- 앱 소스 기준 e024614, 생성 아트/던전 체크포인트는7d8ba19. 두 commit 모두 원격 codex/rebirth-2026-09와 draft PR1에 반영. 후속 문서 commit은 `git log`로 확인한다.
+- `flutter analyze` / 전체283개 / Node22 26개 / Firestore·Storage emulator9개 / 실제 Android manifest7조합 모두 통과. 최종 AAB2.0.0+3, source e024614, artifact report와 일치.
+- `qa_artifacts/rebirth/main-release-device.apks`는 크기·정렬 검사만을 위해 debug signing한 분할 모음이다. 배포하지 않는다. Play 업로드 대상은 검증된 signed AAB다.
+- `build/web`은 최종 소스로 다시 빌드. localhost:8765에서 serving 중일 수 있다. CUA 브라우저 프로필은 합성 데이터(각성자/75XP)이며 실제 사용자 데이터나 Android 검증 결과로 취급하지 않는다.
+- 사용량은5% 부근까지 허용받았으므로 새로운 기능은 재개 때 남은 한도를 먼저 확인하고 시작한다. 자동 일정/새 작업은 만들지 않았다.
+- 다음 턴은 Firebase 답변/실기기/Chrome 파일 업로드 권한부터 확인한 뒤 운영 검증 또는 완결 유료 콘텐츠 제작을 진행한다. 이미지 파일은 `store/app-icon-512.png`, `store/feature-graphic-1024x500.png`. 스크린샷은 실제 Android에서 새로 얻는다.

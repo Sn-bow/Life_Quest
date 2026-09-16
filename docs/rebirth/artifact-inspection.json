@@ -1,8 +1,8 @@
 {
   "scope": "Local default-mode artifact only; NOT ready-to-publish certification",
   "bundle": "build/app/outputs/bundle/release/app-release.aab",
-  "bytes": 216527189,
-  "sha256": "957f5234da51c1869febb66d21ad068f345164f09f75805660d9387691e734ef",
+  "bytes": 225181387,
+  "sha256": "19204e4d7e03d003b1678a203c81095c8ff6276a6c5ac21dfc910b6995d10257",
   "versionName": "2.0.0",
   "versionCode": "3",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
@@ -95,8 +95,8 @@
     }
   ],
   "sampleDeviceDownloadBytes": {
-    "MIN": 128276151,
-    "MAX": 128276151
+    "MIN": 132105680,
+    "MAX": 132105680
   },
   "checks": [
     {
@@ -263,5 +263,8 @@
     "Real Play purchase/refund/restore before selling",
     "Final Play content declarations and Data safety review",
     "Closed testing eligibility and Play review"
-  ]
+  ],
+  "sourceCommit": "e0246141f4668af57b71b84132a4267ac1180510",
+  "inspectedAtUtc": "2026-09-16T16:11:40.297023+00:00",
+  "deviceApksSigning": "Debug signing for size/alignment inspection only; do not distribute. The AAB has the verified upload certificate."
 }

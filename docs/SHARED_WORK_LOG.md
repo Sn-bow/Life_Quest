@@ -3365,3 +3365,5 @@ claiming that the exact release artifact or physical-device gate is complete.
 - Android 결제·광고 권한 분리. 실제 Gradle merger7조건 통과. Cloud 없는 결제/광고와 ID 없는 광고 설정 거부.
 - Flutter analyze/283테스트, 서버26테스트, Firestore·Storage emulator9검사 통과. 실제 Firebase/Auth/Play/TTL 운영 검증은 아직이다.
 - Play 한국어·영어 최신 소개 초안 저장. 공개 정책 페이지 gh-pages a4ea4f4 배포/화면 확인. 스토어 이미지 권한, Firebase 복원 결정, 실기기 및 실제12명14일 테스트는 사용자 답변/외부 상태 대기.
+
+- 소스 e024614 최종 signed AAB 225,181,387 bytes / SHA256 19204e4d7e03d003b1678a203c81095c8ff6276a6c5ac21dfc910b6995d10257. 표본 기기 다운로드 132,105,680 bytes, 서명/manifest/ELF11개/split ZIP16KiB 검사 통과. 검사 분할 APK는 debug 서명이므로 배포 대상이 아니다.
