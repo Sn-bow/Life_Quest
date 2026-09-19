@@ -5,15 +5,20 @@ import 'package:flutter/material.dart';
 class QuestTheme {
   static ThemeData build(Brightness brightness, {String? cosmetic}) {
     final dark = brightness == Brightness.dark;
+    final tide = cosmetic == 'theme_tide_postoffice';
     final accent = switch (cosmetic) {
+      'theme_tide_postoffice' =>
+        dark ? const Color(0xFFA0DFD1) : const Color(0xFF186356),
       'theme_royal_gold' =>
         dark ? const Color(0xFFF4D38A) : const Color(0xFF785400),
       'theme_neon_cyberpunk' =>
         dark ? const Color(0xFFFFA2DC) : const Color(0xFF9E246A),
       _ => dark ? const Color(0xFFE8C58E) : const Color(0xFF79531C),
     };
-    final background = dark ? const Color(0xFF101619) : const Color(0xFFF7F4ED);
-    final surface = dark ? const Color(0xFF1B2428) : Colors.white;
+    final background = dark
+        ? Color(tide ? 0xFF101D20 : 0xFF101619)
+        : Color(tide ? 0xFFF0F6F2 : 0xFFF7F4ED);
+    final surface = dark ? Color(tide ? 0xFF192C30 : 0xFF1B2428) : Colors.white;
     final foreground = dark ? const Color(0xFFF4F0E7) : const Color(0xFF202B30);
     final muted = dark ? const Color(0xFFAFBBB9) : const Color(0xFF5C6867);
     final border = dark ? const Color(0xFF374344) : const Color(0xFFDCDDD3);

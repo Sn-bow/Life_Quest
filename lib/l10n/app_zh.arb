@@ -1915,5 +1915,28 @@
   "lqDeletionLocalFinished": "此设备已断开连接。",
   "lqDeletionLocalHint": "仅清除此账号在本机剩余的缓存和登录连接。独立的本机档案及其他账号记录会保留。",
   "lqDeletionFinishLocal": "完成断开本机连接",
-  "lqDeletionLocalRetry": "本机清理未完成，请重试。此账号的同步仍处于停止状态。"
+  "lqDeletionLocalRetry": "本机清理未完成，请重试。此账号的同步仍处于停止状态。",
+  "lqPackCollection": "完整故事包",
+  "lqPackContents": "12个场景、随选择变化的两种结局、海色主题和纸船印记。一次购买，无使用期限。",
+  "lqPackPreview": "前两个场景免费体验",
+  "lqPackLocked": "购买故事包后可解锁此场景。",
+  "lqPackUnavailable": "此版本暂不销售。您仍可阅读免费体验内容。",
+  "lqPackBuy": "购买完整故事包 · {price}",
+  "lqPackOwned": "已购买的故事包",
+  "lqPackThemeApply": "应用海色主题",
+  "lqPackThemeRemove": "恢复默认主题",
+  "lqPackThemeHint": "主题和印记不会改变经验、属性或任务推荐。",
+  "lqPackMark": "潮汐邮局 · 纸船印记",
+  "lqPackMarkHint": "完成最后一个场景后，印记将显示在成长页面。",
+  "lqPackEndingHint": "前十一次选择中更常采用的方式决定结局。您可以重读并更改选择。",
+  "lqPackPacing": "从第三个场景起，每完成两次现实行动即可继续，累计20次解锁最终场景。购买不会跳过行动条件。",
+  "@lqPackBuy": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "lqPackPreviewEnd": "免费体验到此结束。返回章节可查看故事包内容与销售状态。",
+  "lqPackStoreUnavailable": "请连接Google Play以查看商品信息。"
 }

@@ -64,4 +64,4 @@ Gradle이 Flutter의 Base64 `dart-defines`에서 Cloud/Billing/Ads를 읽어 네
 
 소스3a243d9, signed main AAB2.0.0+4: **220,936,025bytes**, 표본 ARM64/API35 다운로드129,807,283bytes. 서명/manifest/11개 ELF 및 기기 split ZIP16KB 검사 통과. 최신 SHA와 실제 검사 목록은 `artifact-inspection.json`을 따른다.9월17일 버전3은 역사 기록이다. 기본 Cloud/Billing/Ads는 계속 꺼져 있다.
 
-수익 방향은 `CONCEPT_AND_REVENUE.md`의 완결 세계관 팩 하나로 변경됐다. 세 무료 단편은 판매하지 않는다. 유료 본편/두 장면 체험/상품 조회 목록·서버 allowlist·Play SKU의 연결은 아직 구현 과제다. 특히 legacy cloud 삭제 경로와 운영 전제조건은 `RELEASE_GATES.md`에 남겨 두었다. 빌드 통과를 판매 활성화 승인으로 해석하지 않는다.
+수익 방향은 `CONCEPT_AND_REVENUE.md`의 완결 세계관 팩 하나로 변경됐다. 세 무료 단편은 판매하지 않는다. 「조수 우체국」본편/두 장면 체험/상품 조회 목록·서버 allowlist는 story_tide_postoffice_01로 연결했다. 실제 Play SKU 생성·가격·거래 검증은 남았다. 특히 legacy cloud 삭제 경로와 운영 전제조건은 `RELEASE_GATES.md`에 남겨 두었다. 빌드 통과를 판매 활성화 승인으로 해석하지 않는다.

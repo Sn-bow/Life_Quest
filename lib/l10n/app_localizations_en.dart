@@ -4619,4 +4619,62 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lqDeletionLocalRetry =>
       'Local cleanup did not finish. Please retry. Sync for this account remains stopped.';
+
+  @override
+  String get lqPackCollection => 'Complete story packs';
+
+  @override
+  String get lqPackContents =>
+      '12 scenes, two choice-based endings, a sea-glass theme and a paper-boat mark. One purchase, no expiry.';
+
+  @override
+  String get lqPackPreview => 'First two scenes free';
+
+  @override
+  String get lqPackLocked => 'This scene requires the story pack.';
+
+  @override
+  String get lqPackUnavailable =>
+      'Purchases are unavailable in this build. You can still read the free preview.';
+
+  @override
+  String lqPackBuy(String price) {
+    return 'Buy complete pack · $price';
+  }
+
+  @override
+  String get lqPackOwned => 'Owned story pack';
+
+  @override
+  String get lqPackThemeApply => 'Apply sea-glass theme';
+
+  @override
+  String get lqPackThemeRemove => 'Use default theme';
+
+  @override
+  String get lqPackThemeHint =>
+      'The theme and mark do not change XP, stats or quest recommendations.';
+
+  @override
+  String get lqPackMark => 'Tide Post Office · Paper-boat mark';
+
+  @override
+  String get lqPackMarkHint =>
+      'Finish the final scene to display this mark in Growth.';
+
+  @override
+  String get lqPackEndingHint =>
+      'Your majority approach across the first eleven choices determines the ending. You can revisit your choices.';
+
+  @override
+  String get lqPackPacing =>
+      'From scene three, each scene opens after two more real-life actions. The finale opens at 20 total. Purchasing does not skip these milestones.';
+
+  @override
+  String get lqPackPreviewEnd =>
+      'Your free preview ends here. Return to the chapter to see the pack contents and availability.';
+
+  @override
+  String get lqPackStoreUnavailable =>
+      'Reconnect to Google Play to check product availability.';
 }

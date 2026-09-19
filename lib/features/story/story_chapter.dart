@@ -40,9 +40,20 @@ class StoryScene {
   );
 }
 
+class StoryEnding {
+  final String title, narration;
+  const StoryEnding({required this.title, required this.narration});
+  factory StoryEnding.fromJson(Map<String, dynamic> data) => StoryEnding(
+    title: data['title'] as String,
+    narration: data['narration'] as String,
+  );
+}
+
 class StoryChapter {
   final String id, title, subtitle, description, artwork;
-  final String? productId;
+  final String? productId, themeId, markArtwork;
+  final int previewScenes;
+  final Map<String, StoryEnding> endings;
   final List<StoryScene> scenes;
   const StoryChapter({
     required this.id,
@@ -51,6 +62,10 @@ class StoryChapter {
     required this.description,
     required this.artwork,
     this.productId,
+    this.themeId,
+    this.markArtwork,
+    this.previewScenes = 1,
+    this.endings = const {},
     required this.scenes,
   });
   factory StoryChapter.fromJson(Map<String, dynamic> data) => StoryChapter(
@@ -60,6 +75,13 @@ class StoryChapter {
     description: data['description'] as String,
     artwork: data['artwork'] as String,
     productId: data['productId'] as String?,
+    themeId: data['themeId'] as String?,
+    markArtwork: data['markArtwork'] as String?,
+    previewScenes: data['previewScenes'] as int? ?? 1,
+    endings: (data['endings'] as Map<String, dynamic>? ?? {}).map(
+      (key, value) =>
+          MapEntry(key, StoryEnding.fromJson(Map<String, dynamic>.from(value))),
+    ),
     scenes: (data['scenes'] as List)
         .map((e) => StoryScene.fromJson(Map<String, dynamic>.from(e)))
         .toList(),
@@ -84,6 +106,26 @@ class StoryChapter {
     return null;
   }
 
+  /// The first eleven Tide choices each vote for one approach. The odd count
+  /// avoids an arbitrary tie-break. Earlier choices can be revisited; no XP is
+  /// awarded and the finale is derived, never persisted as a second reward.
+  StoryEnding? endingFor(Map<String, String> choices) {
+    if (endings.isEmpty) return null;
+    final votes = <String, int>{};
+    for (var i = 0; i < scenes.length - 1; i++) {
+      final choice = selectedChoice(i, choices);
+      if (choice == null || !endings.containsKey(choice)) return null;
+      votes[choice] = (votes[choice] ?? 0) + 1;
+    }
+    final ranked = votes.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    if (ranked.length > 1 && ranked[0].value == ranked[1].value) return null;
+    return ranked.isEmpty ? null : endings[ranked.first.key];
+  }
+
+  bool needsPurchase(int index, {required bool owned}) =>
+      productId != null && !owned && index >= previewScenes;
+
   bool canOpen(
     int index, {
     required int completedQuests,
@@ -91,9 +133,7 @@ class StoryChapter {
     required bool owned,
   }) {
     if (index < 0 || index >= scenes.length) return false;
-    if (productId != null && !owned && index > 0) {
-      return false; // First scene is a free sample.
-    }
+    if (needsPurchase(index, owned: owned)) return false;
     if (completedQuests < scenes[index].quests) return false;
     for (var i = 0; i < index; i++) {
       if (selectedChoice(i, choices) == null) return false;
@@ -103,7 +143,8 @@ class StoryChapter {
 }
 
 class StoryRepository {
-  static const chapterIds = ['prologue', 'courtyard', 'atlas'];
+  static const freeChapterIds = ['prologue', 'courtyard', 'atlas'];
+  static const chapterIds = [...freeChapterIds, 'tide'];
   static final Map<String, Future<List<StoryChapter>>> _loading = {};
   static final Map<String, List<StoryChapter>> _loaded = {};
   static Future<List<StoryChapter>> load(String language) {

@@ -9,6 +9,7 @@ const PRODUCTS = Object.freeze({
   cosmetic_title_sparkle: 'title_effect_sparkle',
   cosmetic_combat_lightning: 'combat_effect_lightning',
   story_neon_archive_01: 'story_neon_archive_01',
+  story_tide_postoffice_01: 'story_tide_postoffice_01',
 });
 const hash = value => createHash('sha256').update(value).digest('hex');
 class PurchasePolicyError extends Error {

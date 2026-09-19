@@ -32,7 +32,7 @@ void main() {
       ),
   ];
 
-  for (final id in StoryRepository.chapterIds) {
+  for (final id in StoryRepository.freeChapterIds) {
     test(
       '$id ships complete matching choices, assets and echoes in every locale',
       () {

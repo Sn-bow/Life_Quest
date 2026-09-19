@@ -93,3 +93,20 @@ test('expired receipt revokes, while temporary Google failure is retried', async
     assert.equal(f.rows.get('users/alice/entitlements/cosmetic_theme_neon').active, code === 503);
   }
 });
+
+
+test('Tide pack grants one durable bundle and a refund revokes the same bundle', async () => {
+  const f = fixture();
+  f.input.data.productId = 'story_tide_postoffice_01';
+  const result = await verifyAndGrant(f.input);
+  assert.deepEqual(result, {isValid: true, entitlementId: 'story_tide_postoffice_01'});
+  const path = 'users/alice/entitlements/story_tide_postoffice_01';
+  assert.equal(f.rows.get(path).active, true);
+  assert.equal(f.rows.size, 4); // One user grant and one token binding, no stat rewards.
+  f.current.purchaseState = 1;
+  await reconcileNotification({...f.input, notification: {
+    packageName: PACKAGE_NAME,
+    oneTimeProductNotification: {purchaseToken: f.input.data.purchaseToken},
+  }});
+  assert.equal(f.rows.get(path).active, false);
+});

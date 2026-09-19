@@ -1,11 +1,13 @@
 # 경계의 서가 아트 · 2026-09-20
 
-기존 게이트 중심 브랜드를 열린 기록장과 세 세계로 교체했다. 새 자산6개 모두 내장 **image_gen**으로 생성·편집했다. SVG/HTML/Canvas 아트를 새로 만들지 않았다. sips는 출력 크기·포맷 변환에만 사용했다. 다른 작품의 이미지·로고·인물은 자산으로 복사하지 않았다.
+기존 게이트 중심 브랜드를 열린 기록장과 세 세계로 교체했다. 새 자산8개 모두 내장 **image_gen**으로 생성·편집했다. SVG/HTML/Canvas 아트를 새로 만들지 않았다. sips는 출력 크기·포맷 변환에만 사용했다. 다른 작품의 이미지·로고·인물은 자산으로 복사하지 않았다.
 
 레퍼런스 조사와 해석: [CONCEPT_AND_REVENUE.md](../CONCEPT_AND_REVENUE.md). 도시의 게이트는 무료 단편 한 권에만 유지한다. 아래 이전 기록은 제작 이력이며 현재 브랜드 기준이 아니다.
 
 | 생성 원본 | 현재 사용 | image_gen 결과 식별자 |
 |---|---|---|
+| tide-postoffice-master.png | 「조수 우체국」표지1200px JPEG | exec-8bc8fb03-9823-4774-85e5-9ee4204b5661 |
+| tide-mark-master.png | 종이배 완독 표식256px alpha PNG | exec-5596ac0a-ff44-48c0-ab86-de91b7dd4aec |
 | courtyard-master.png | 수련 표지 courtyard.jpg | exec-6a236eb8-7e58-4a74-afd6-01495773dcb8 |
 | atlas-master.png | 탐사 표지 atlas.jpg | exec-88b0aadd-9216-4883-896b-b92c939d3246 |
 | journal_worlds-master.png | 첫 화면·미선택 이야기 배너 | exec-9162cfcb-525d-4a1a-9cdc-c1fdd159bf25 |
@@ -51,3 +53,5 @@
 ## 스토어 상태
 
 Play Console 초안 업로드 시도는 Chrome 확장 ‘파일 URL에 대한 액세스 허용’이 꺼져 `fileChooser.setFiles: Not allowed`로 실패했다. 사용자에게 설정을 안내하고 답변을 기다린다. 실제 업로드/저장 완료로 기록하지 않는다. 필수 Android 스크린샷도 아직 미등록이다.
+
+조수 우체국 표지는 비 오는 현대 해안 거리와 물에 비친 옥색 문·황동 우편함·따뜻한 작업실을 오리지널 회화로 생성했다. 표식은 파도 위 종이배를 담은 황동 메달로 투명 배경을 요청했다. 기존 작품 캐릭터/로고/작가 지정 없이 생성했고, 변환은 sips의 크기·포맷 출력만 사용했다.

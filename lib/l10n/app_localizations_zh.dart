@@ -4447,4 +4447,54 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lqDeletionLocalRetry => '本机清理未完成，请重试。此账号的同步仍处于停止状态。';
+
+  @override
+  String get lqPackCollection => '完整故事包';
+
+  @override
+  String get lqPackContents => '12个场景、随选择变化的两种结局、海色主题和纸船印记。一次购买，无使用期限。';
+
+  @override
+  String get lqPackPreview => '前两个场景免费体验';
+
+  @override
+  String get lqPackLocked => '购买故事包后可解锁此场景。';
+
+  @override
+  String get lqPackUnavailable => '此版本暂不销售。您仍可阅读免费体验内容。';
+
+  @override
+  String lqPackBuy(String price) {
+    return '购买完整故事包 · $price';
+  }
+
+  @override
+  String get lqPackOwned => '已购买的故事包';
+
+  @override
+  String get lqPackThemeApply => '应用海色主题';
+
+  @override
+  String get lqPackThemeRemove => '恢复默认主题';
+
+  @override
+  String get lqPackThemeHint => '主题和印记不会改变经验、属性或任务推荐。';
+
+  @override
+  String get lqPackMark => '潮汐邮局 · 纸船印记';
+
+  @override
+  String get lqPackMarkHint => '完成最后一个场景后，印记将显示在成长页面。';
+
+  @override
+  String get lqPackEndingHint => '前十一次选择中更常采用的方式决定结局。您可以重读并更改选择。';
+
+  @override
+  String get lqPackPacing => '从第三个场景起，每完成两次现实行动即可继续，累计20次解锁最终场景。购买不会跳过行动条件。';
+
+  @override
+  String get lqPackPreviewEnd => '免费体验到此结束。返回章节可查看故事包内容与销售状态。';
+
+  @override
+  String get lqPackStoreUnavailable => '请连接Google Play以查看商品信息。';
 }

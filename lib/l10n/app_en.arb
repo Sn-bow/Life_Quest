@@ -1915,5 +1915,28 @@
   "lqDeletionLocalFinished": "This device has been disconnected.",
   "lqDeletionLocalHint": "Only this account’s remaining device caches and sign-in will be cleared. Your separate device profile and other accounts stay intact.",
   "lqDeletionFinishLocal": "Finish disconnecting this device",
-  "lqDeletionLocalRetry": "Local cleanup did not finish. Please retry. Sync for this account remains stopped."
+  "lqDeletionLocalRetry": "Local cleanup did not finish. Please retry. Sync for this account remains stopped.",
+  "lqPackCollection": "Complete story packs",
+  "lqPackContents": "12 scenes, two choice-based endings, a sea-glass theme and a paper-boat mark. One purchase, no expiry.",
+  "lqPackPreview": "First two scenes free",
+  "lqPackLocked": "This scene requires the story pack.",
+  "lqPackUnavailable": "Purchases are unavailable in this build. You can still read the free preview.",
+  "lqPackBuy": "Buy complete pack · {price}",
+  "lqPackOwned": "Owned story pack",
+  "lqPackThemeApply": "Apply sea-glass theme",
+  "lqPackThemeRemove": "Use default theme",
+  "lqPackThemeHint": "The theme and mark do not change XP, stats or quest recommendations.",
+  "lqPackMark": "Tide Post Office · Paper-boat mark",
+  "lqPackMarkHint": "Finish the final scene to display this mark in Growth.",
+  "lqPackEndingHint": "Your majority approach across the first eleven choices determines the ending. You can revisit your choices.",
+  "lqPackPacing": "From scene three, each scene opens after two more real-life actions. The finale opens at 20 total. Purchasing does not skip these milestones.",
+  "@lqPackBuy": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "lqPackPreviewEnd": "Your free preview ends here. Return to the chapter to see the pack contents and availability.",
+  "lqPackStoreUnavailable": "Reconnect to Google Play to check product availability."
 }

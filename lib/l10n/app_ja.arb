@@ -1915,5 +1915,28 @@
   "lqDeletionLocalFinished": "この端末の接続を解除しました。",
   "lqDeletionLocalHint": "このアカウントの端末キャッシュとログイン接続だけを整理します。別の端末専用プロフィールや他のアカウントは保持します。",
   "lqDeletionFinishLocal": "端末の接続解除を完了する",
-  "lqDeletionLocalRetry": "端末の整理が完了しませんでした。再試行してください。このアカウントの同期は引き続き停止しています。"
+  "lqDeletionLocalRetry": "端末の整理が完了しませんでした。再試行してください。このアカウントの同期は引き続き停止しています。",
+  "lqPackCollection": "完結ストーリーパック",
+  "lqPackContents": "12場面、選択で変わる2つの結末、海色テーマ、紙の舟のしるし。買い切りで利用期限はありません。",
+  "lqPackPreview": "最初の2場面は無料",
+  "lqPackLocked": "この場面にはストーリーパックの購入が必要です。",
+  "lqPackUnavailable": "このビルドでは販売していません。無料体験は引き続き読めます。",
+  "lqPackBuy": "パックを購入 · {price}",
+  "lqPackOwned": "購入済みパック",
+  "lqPackThemeApply": "海色テーマを適用",
+  "lqPackThemeRemove": "標準テーマに戻す",
+  "lqPackThemeHint": "テーマとしるしはXP・能力値・クエストの提案を変えません。",
+  "lqPackMark": "潮の郵便局 · 紙の舟のしるし",
+  "lqPackMarkHint": "最後の場面を記録すると、成長画面にしるしが残ります。",
+  "lqPackEndingHint": "前の11回の選択で多く選んだ方針が結末を決めます。読み返して選び直すこともできます。",
+  "lqPackPacing": "第3場面から現実の行動を2回終えるごとに次へ進み、合計20回で最後の場面が開きます。購入しても行動の条件は変わりません。",
+  "@lqPackBuy": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "lqPackPreviewEnd": "無料体験はここまでです。章に戻ると、パックの内容と販売状況を確認できます。",
+  "lqPackStoreUnavailable": "Google Playに接続して商品情報を確認してください。"
 }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/character_state.dart';
 import 'story_chapter.dart';
+import 'story_pack_panel.dart';
 
 void _openChapter(
   BuildContext context,
@@ -54,6 +55,8 @@ class StoryBanner extends StatelessWidget {
             ? l.lqWorldChooseHint
             : next == null
             ? l.lqStoryReadAgain
+            : chapter.needsPurchase(next, owned: state.ownsStory(chapter))
+            ? l.lqPackLocked
             : remaining > 0
             ? l.lqStoryActionsRemaining(remaining)
             : l.lqStoryReadNow;
@@ -211,7 +214,12 @@ class _StoryLibraryScreenState extends State<StoryLibraryScreen> {
                   ),
                 ),
                 const SizedBox(height: 22),
-                for (final chapter in snapshot.data!)
+                for (final chapter in snapshot.data!) ...[
+                  if (chapter.productId != null) ...[
+                    const SizedBox(height: 10),
+                    Text(l.lqPackCollection, style: t.textTheme.titleMedium),
+                    const SizedBox(height: 12),
+                  ],
                   Padding(
                     padding: const EdgeInsets.only(bottom: 18),
                     child: Card(
@@ -294,6 +302,9 @@ class _StoryLibraryScreenState extends State<StoryLibraryScreen> {
                                     ? l.lqWorldSaving
                                     : state.activeStoryChapterId == chapter.id
                                     ? l.lqWorldContinue
+                                    : chapter.productId != null &&
+                                          !state.ownsStory(chapter)
+                                    ? l.lqPackPreview
                                     : l.lqWorldSelect,
                               ),
                             ),
@@ -302,6 +313,7 @@ class _StoryLibraryScreenState extends State<StoryLibraryScreen> {
                       ),
                     ),
                   ),
+                ],
                 Text(l.lqWorldCollectionPromise, style: t.textTheme.bodySmall),
               ],
             ),
@@ -320,6 +332,10 @@ class StoryChapterScreen extends StatelessWidget {
     final l = AppLocalizations.of(context)!;
     final t = Theme.of(context);
     final state = context.watch<CharacterState>();
+    final nextIndex = chapter.nextSceneIndex(state.storyChoices);
+    final canContinue =
+        nextIndex != null && state.canOpenStory(chapter, nextIndex);
+    final resumeIndex = canContinue ? nextIndex : 0;
     return Scaffold(
       appBar: AppBar(title: Text(chapter.title)),
       body: _StoryWidth(
@@ -346,6 +362,31 @@ class StoryChapterScreen extends StatelessWidget {
             Text(chapter.description, style: t.textTheme.bodyLarge),
             const SizedBox(height: 12),
             Text(l.lqStoryFiction, style: t.textTheme.bodySmall),
+            if (chapter.productId != null) ...[
+              const SizedBox(height: 18),
+              if (state.canOpenStory(chapter, resumeIndex)) ...[
+                FilledButton.icon(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => StoryReaderScreen(
+                        chapter: chapter,
+                        index: resumeIndex,
+                      ),
+                    ),
+                  ),
+                  icon: const Icon(Icons.menu_book_outlined),
+                  label: Text(
+                    !canContinue
+                        ? l.lqStoryReadAgain
+                        : state.ownsStory(chapter)
+                        ? l.lqWorldContinue
+                        : l.lqPackPreview,
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+              StoryPackPanel(chapter: chapter),
+            ],
             const SizedBox(height: 24),
             for (var i = 0; i < chapter.scenes.length; i++)
               _SceneRow(chapter: chapter, index: i),
@@ -379,7 +420,13 @@ class _SceneRow extends StatelessWidget {
       0,
       scene.quests,
     );
-    final subtitle = completed
+    final needsPurchase = chapter.needsPurchase(
+      index,
+      owned: state.ownsStory(chapter),
+    );
+    final subtitle = needsPurchase
+        ? l.lqPackLocked
+        : completed
         ? l.lqStoryReadAgain
         : open
         ? l.lqStoryReadNow
@@ -396,7 +443,7 @@ class _SceneRow extends StatelessWidget {
             vertical: 9,
           ),
           leading: Icon(
-            completed
+            completed && open
                 ? Icons.check_circle_outline
                 : open
                 ? Icons.menu_book_outlined
@@ -478,7 +525,22 @@ class _StoryReaderScreenState extends State<StoryReaderScreen> {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text(l.lqStoryReadPrevious),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    chapter.needsPurchase(
+                          index,
+                          owned: state.ownsStory(chapter),
+                        )
+                        ? l.lqPackLocked
+                        : l.lqStoryReadPrevious,
+                  ),
+                  if (chapter.productId != null)
+                    StoryPackPanel(chapter: chapter),
+                ],
+              ),
+            ),
           ),
         ),
       );
@@ -486,6 +548,9 @@ class _StoryReaderScreenState extends State<StoryReaderScreen> {
     final selectedId = chapter.selectedChoice(index, state.storyChoices);
     final selected = scene.choices.where((c) => c.id == selectedId).firstOrNull;
     final next = index + 1;
+    final ending = next == chapter.scenes.length
+        ? chapter.endingFor(state.storyChoices)
+        : null;
     return Scaffold(
       appBar: AppBar(title: Text(chapter.title)),
       body: Center(
@@ -523,6 +588,17 @@ class _StoryReaderScreenState extends State<StoryReaderScreen> {
                     padding: const EdgeInsets.only(top: 16),
                     child: Text(entry.value, style: t.textTheme.bodyLarge),
                   ),
+              if (ending != null) ...[
+                const SizedBox(height: 24),
+                Text(ending.title, style: t.textTheme.titleLarge),
+                const SizedBox(height: 16),
+                Text(
+                  ending.narration,
+                  style: t.textTheme.bodyLarge?.copyWith(height: 1.9),
+                ),
+                const SizedBox(height: 16),
+                Text(l.lqPackEndingHint, style: t.textTheme.bodySmall),
+              ],
               const SizedBox(height: 28),
               if (selected == null || _choosingAgain) ...[
                 Text(l.lqStoryChoose, style: t.textTheme.labelLarge),
@@ -586,6 +662,11 @@ class _StoryReaderScreenState extends State<StoryReaderScreen> {
                   Text(
                     next == chapter.scenes.length
                         ? l.lqStoryChapterComplete
+                        : chapter.needsPurchase(
+                            next,
+                            owned: state.ownsStory(chapter),
+                          )
+                        ? l.lqPackPreviewEnd
                         : l.lqStoryReturnLater,
                     style: t.textTheme.bodyMedium,
                   ),

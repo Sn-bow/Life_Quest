@@ -1,3 +1,4 @@
+import '../features/billing/purchase_verifier.dart';
 import '../features/session/account_deletion_journal.dart';
 import '../features/backup/device_backup_store.dart';
 import '../features/story/story_chapter.dart';
@@ -159,9 +160,12 @@ class CharacterState extends ChangeNotifier {
   }
 
   Set<String> _purchasedEntitlements = {};
-  bool ownsCosmetic(String id) =>
-      _purchasedEntitlements.contains(id) ||
-      (_character?.unlockedCosmetics.contains(id) ?? false);
+  bool ownsCosmetic(String id) {
+    final bundle = bundledCosmeticProducts[id];
+    if (bundle != null) return _purchasedEntitlements.contains(bundle);
+    return _purchasedEntitlements.contains(id) ||
+        (_character?.unlockedCosmetics.contains(id) ?? false);
+  }
 
   void setPurchasedEntitlements(Set<String> owned) {
     _purchasedEntitlements = Set.of(owned);
@@ -2945,6 +2949,46 @@ class CharacterState extends ChangeNotifier {
       return true;
     } catch (_) {
       character.activeStoryChapterId = previous;
+      return false;
+    } finally {
+      _selectingStory = false;
+    }
+  }
+
+  Future<bool> setStoryTheme(
+    StoryChapter chapter, {
+    required bool enabled,
+  }) async {
+    final c = _character;
+    final id = chapter.themeId;
+    if (c == null ||
+        !_isDataLoaded ||
+        _restoringLocal ||
+        _deletingAccount ||
+        _selectingStory ||
+        id == null ||
+        !ownsCosmetic(id)) {
+      return false;
+    }
+    final previous = c.equippedTheme;
+    _selectingStory = true;
+    c.equippedTheme = enabled ? id : null;
+    try {
+      await _performSaveData();
+      if (!identical(c, _character)) return false;
+      // Ownership may have been revoked while the write was in flight.
+      if (!ownsCosmetic(id)) {
+        c.equippedTheme = null;
+        await _performSaveData();
+        notifyListeners();
+        return false;
+      }
+      notifyListeners();
+      return true;
+    } catch (_) {
+      c.equippedTheme = previous != null && ownsCosmetic(previous)
+          ? previous
+          : null;
       return false;
     } finally {
       _selectingStory = false;

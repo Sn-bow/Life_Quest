@@ -8687,6 +8687,102 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'기기 정리가 끝나지 않았습니다. 다시 시도해 주세요. 이 계정의 동기화는 계속 중지됩니다.'**
   String get lqDeletionLocalRetry;
+
+  /// No description provided for @lqPackCollection.
+  ///
+  /// In ko, this message translates to:
+  /// **'완결 이야기 팩'**
+  String get lqPackCollection;
+
+  /// No description provided for @lqPackContents.
+  ///
+  /// In ko, this message translates to:
+  /// **'12장면 · 선택에 반응하는 두 결말 · 바다빛 테마 · 종이배 표식. 한 번 구매하며 이용 기한은 없습니다.'**
+  String get lqPackContents;
+
+  /// No description provided for @lqPackPreview.
+  ///
+  /// In ko, this message translates to:
+  /// **'처음 두 장면 무료 체험'**
+  String get lqPackPreview;
+
+  /// No description provided for @lqPackLocked.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 장면은 이야기 팩 구매 후 열립니다.'**
+  String get lqPackLocked;
+
+  /// No description provided for @lqPackUnavailable.
+  ///
+  /// In ko, this message translates to:
+  /// **'현재 이 빌드에서는 판매하지 않습니다. 무료 체험은 계속 읽을 수 있습니다.'**
+  String get lqPackUnavailable;
+
+  /// No description provided for @lqPackBuy.
+  ///
+  /// In ko, this message translates to:
+  /// **'{price}에 전체 팩 구매'**
+  String lqPackBuy(String price);
+
+  /// No description provided for @lqPackOwned.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매한 이야기 팩'**
+  String get lqPackOwned;
+
+  /// No description provided for @lqPackThemeApply.
+  ///
+  /// In ko, this message translates to:
+  /// **'바다빛 테마 적용'**
+  String get lqPackThemeApply;
+
+  /// No description provided for @lqPackThemeRemove.
+  ///
+  /// In ko, this message translates to:
+  /// **'기본 테마로 돌아가기'**
+  String get lqPackThemeRemove;
+
+  /// No description provided for @lqPackThemeHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'테마와 표식은 XP·능력치·퀘스트 추천을 바꾸지 않습니다.'**
+  String get lqPackThemeHint;
+
+  /// No description provided for @lqPackMark.
+  ///
+  /// In ko, this message translates to:
+  /// **'조수 우체국 · 종이배 표식'**
+  String get lqPackMark;
+
+  /// No description provided for @lqPackMarkHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'마지막 장면을 기록하면 표식이 성장 화면에 남습니다.'**
+  String get lqPackMarkHint;
+
+  /// No description provided for @lqPackEndingHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'앞선 열한 선택에서 더 자주 고른 방식이 결말을 정합니다. 다시 읽으며 선택을 바꿀 수 있습니다.'**
+  String get lqPackEndingHint;
+
+  /// No description provided for @lqPackPacing.
+  ///
+  /// In ko, this message translates to:
+  /// **'세 번째 장면부터 현실 행동 2개마다 이어져, 총 20개를 마치면 마지막 장면이 열립니다. 구매로 행동 조건이 사라지지는 않습니다.'**
+  String get lqPackPacing;
+
+  /// No description provided for @lqPackPreviewEnd.
+  ///
+  /// In ko, this message translates to:
+  /// **'무료 체험은 여기까지입니다. 서가에서 팩 구성과 판매 여부를 확인할 수 있습니다.'**
+  String get lqPackPreviewEnd;
+
+  /// No description provided for @lqPackStoreUnavailable.
+  ///
+  /// In ko, this message translates to:
+  /// **'Play 스토어에 연결해 상품 정보를 다시 확인해 주세요.'**
+  String get lqPackStoreUnavailable;
 }
 
 class _AppLocalizationsDelegate

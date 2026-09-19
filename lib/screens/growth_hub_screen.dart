@@ -1,4 +1,5 @@
 import '../features/story/story_screens.dart';
+import '../features/story/story_pack_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -84,6 +85,7 @@ class GrowthHubScreen extends StatelessWidget {
           Text(s.lqGrowthHint, style: theme.textTheme.bodySmall),
           const SizedBox(height: 22),
           ProgressStatusSummary(state: state),
+          const StoryMarks(),
           const SizedBox(height: 18),
           LayoutBuilder(
             builder: (context, box) {

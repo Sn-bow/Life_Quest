@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
+const tideProductId = 'story_tide_postoffice_01';
+const saleProductIds = {tideProductId};
+const bundledCosmeticProducts = {'theme_tide_postoffice': tideProductId};
+
 const playPackageName = 'com.lifequest.app';
 const playEntitlements = <String, String>{
   'remove_ads_4900': 'remove_ads',
@@ -10,6 +14,7 @@ const playEntitlements = <String, String>{
   'cosmetic_title_sparkle': 'title_effect_sparkle',
   'cosmetic_combat_lightning': 'combat_effect_lightning',
   'story_neon_archive_01': 'story_neon_archive_01',
+  tideProductId: tideProductId,
 };
 String playAccountId(String uid) => sha256.convert(utf8.encode(uid)).toString();
 

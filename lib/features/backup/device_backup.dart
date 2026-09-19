@@ -73,7 +73,10 @@ class DeviceSnapshot {
         throw const InvalidBackup();
       }
       character.photoUrl = null;
-      final paid = playEntitlements.values.toSet();
+      final paid = {
+        ...playEntitlements.values,
+        ...bundledCosmeticProducts.keys,
+      };
       character.unlockedCosmetics.removeWhere(paid.contains);
       if (paid.contains(character.equippedTheme)) {
         character.equippedTheme = null;

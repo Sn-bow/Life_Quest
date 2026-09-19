@@ -4477,4 +4477,56 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get lqDeletionLocalRetry =>
       '端末の整理が完了しませんでした。再試行してください。このアカウントの同期は引き続き停止しています。';
+
+  @override
+  String get lqPackCollection => '完結ストーリーパック';
+
+  @override
+  String get lqPackContents =>
+      '12場面、選択で変わる2つの結末、海色テーマ、紙の舟のしるし。買い切りで利用期限はありません。';
+
+  @override
+  String get lqPackPreview => '最初の2場面は無料';
+
+  @override
+  String get lqPackLocked => 'この場面にはストーリーパックの購入が必要です。';
+
+  @override
+  String get lqPackUnavailable => 'このビルドでは販売していません。無料体験は引き続き読めます。';
+
+  @override
+  String lqPackBuy(String price) {
+    return 'パックを購入 · $price';
+  }
+
+  @override
+  String get lqPackOwned => '購入済みパック';
+
+  @override
+  String get lqPackThemeApply => '海色テーマを適用';
+
+  @override
+  String get lqPackThemeRemove => '標準テーマに戻す';
+
+  @override
+  String get lqPackThemeHint => 'テーマとしるしはXP・能力値・クエストの提案を変えません。';
+
+  @override
+  String get lqPackMark => '潮の郵便局 · 紙の舟のしるし';
+
+  @override
+  String get lqPackMarkHint => '最後の場面を記録すると、成長画面にしるしが残ります。';
+
+  @override
+  String get lqPackEndingHint => '前の11回の選択で多く選んだ方針が結末を決めます。読み返して選び直すこともできます。';
+
+  @override
+  String get lqPackPacing =>
+      '第3場面から現実の行動を2回終えるごとに次へ進み、合計20回で最後の場面が開きます。購入しても行動の条件は変わりません。';
+
+  @override
+  String get lqPackPreviewEnd => '無料体験はここまでです。章に戻ると、パックの内容と販売状況を確認できます。';
+
+  @override
+  String get lqPackStoreUnavailable => 'Google Playに接続して商品情報を確認してください。';
 }

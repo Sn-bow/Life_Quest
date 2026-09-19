@@ -49,7 +49,7 @@ void main() {
   SoundService.muteForTesting();
   setUp(() => SharedPreferences.setMockInitialValues({}));
   for (final locale in ['ko', 'en', 'ja', 'zh']) {
-    testWidgets('all three books can be selected at 320px / 200% in $locale', (
+    testWidgets('free stories and the pack preview can be selected at 320px / 200% in $locale', (
       tester,
     ) async {
       tester.view.physicalSize = const Size(320, 900);

@@ -1,0 +1,279 @@
+{
+  "id": "tide",
+  "title": "The Tide Post Office",
+  "subtitle": "A Crossing Library story · Complete pack",
+  "description": "A letter you never sent returns in your name. Follow a tide-bound post office through city alleys, a training courtyard and a lighthouse, and uncover the cost of a borrowed name.",
+  "artwork": "assets/images/backgrounds/tide_postoffice.jpg",
+  "productId": "story_tide_postoffice_01",
+  "previewScenes": 2,
+  "themeId": "theme_tide_postoffice",
+  "markArtwork": "assets/images/ui/tide_mark.png",
+  "scenes": [
+    {
+      "id": "door",
+      "title": "A name in the returns drawer",
+      "quests": 0,
+      "narration": "On the way home, you notice a post office beside your bus stop. Yesterday it was a shuttered laundry. A tide table hangs where the opening hours should be. Paper rustles in your pocket: an envelope you have never sent. It is addressed to you. The sender is “A day that has not arrived.”\n\nWhen you open the door, traffic becomes the sound of waves. A woman with rolled sleeves is drying the mail. She introduces herself as Naru, the temporary keeper. Your status window appears over the desk.\n\n“Role: Chronicler. Delivery deadline: none. Penalty for unfinished work: none.”\n\n“We keep words that people couldn’t send,” Naru says. “A route opens only when someone is willing to receive them.” She studies your envelope. “But yours is strange. Everything addressed to you goes straight to the returns drawer.”\n\nInside a brass drawer, dozens of envelopes tremble. Every one bears your name. As you reach for them, the water outside rises a handspan. Naru stops you. “Let’s find out where they came from first.”",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Examine the delivery bicycle outside",
+          "response": "A map in the basket shows ordinary streets beside lanes across the sea. You loosen a cord caught in the wheel. Naru brings an empty delivery bag. “You look for answers along the route.”"
+        },
+        {
+          "id": "keep",
+          "label": "Arrange the returned envelopes in order",
+          "response": "You spread the damp envelopes on a towel. Every stamp has a different date. Naru brings little weights to hold the corners down. “You notice how long things have waited.”"
+        }
+      ]
+    },
+    {
+      "id": "receipt",
+      "title": "A letter nobody can accept for you",
+      "quests": 0,
+      "narration": "A receipt lies beneath the drawer. Its description reads “One small real-life action.” The price is blank. Notes fill the space below: a glass of water drunk, a corner of a desk cleared, one postponed sentence finally read.\n\n“Choices in here don’t replace things you do out there,” Naru says. “And resting out there doesn’t make a letter disappear.”\n\nUnder your name on the oldest envelope, another address shows through: “The Tide Post Office, care of the keeper.” The seal is unbroken. Yet you can hear a reply folding itself inside.\n\nA knock comes from the delivery bag. A little walking mailbox emerges with a letter stamped “Refused.” It backs away when Naru reaches for it. It was taught to destroy refused letters. It has believed that for years.\n\nYou don’t direct it to the bin. There should be another place between delivery and destruction. Your status window adds a line: “The next record opens at two real-life actions in total. There is no hurry.”",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Make a place to ask the sender again",
+          "response": "Naru labels a compartment “Ask again.” The little mailbox finally puts the letter down. Before deciding where it should go, there is someone it can consult."
+        },
+        {
+          "id": "keep",
+          "label": "Make a place where the letter can wait",
+          "response": "Naru labels a compartment “Held here.” The mailbox opens its little door to inspect it. On some days, a place where you will not be discarded is enough."
+        }
+      ],
+      "echoes": {
+        "tide/door:open": "The route map you rescued from the bicycle lies open beside the receipt.",
+        "tide/door:keep": "Dates from your ordered envelopes help Naru find the oldest receipt."
+      }
+    },
+    {
+      "id": "alley",
+      "title": "An alley with dry doorsteps",
+      "quests": 2,
+      "narration": "After two real-life actions, a new door appears behind the post office. Beyond it, water reaches your knees, but every doorstep is dry. Naru hands you three letters and an empty delivery slip. “Willingness comes before a signature.”\n\nAt the first house, an old man passes an empty teacup through the window without opening his door. At the second, a notice says, “No visitors today.” A child welcomes you at the third, but the letter is for an older brother who has moved away.\n\nYour delivery slip stays blank. It feels as if you have finished nothing. Then the child points out blue lines on the walls. They mark places where neighbors exchange news, not the height of the water. “He only drinks tea in the afternoon. That house opens tomorrow.”\n\n“What you learned today counts as a record,” Naru says, folding the blank slip into the bag. “You won’t knock on the same doors at the same time again.”\n\nAs you turn back, an envelope bearing your name floats to the surface. Its dry corner carries the post office’s old seal.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Mark when each household welcomes news",
+          "response": "With the child, you draw little clocks on the map. Not everyone needs the same delivery time. You will bring the first letter back when the afternoon cup is empty."
+        },
+        {
+          "id": "keep",
+          "label": "Leave a route to collect the letters later",
+          "response": "You leave collection slips instead of envelopes. People may collect their letters whenever they wish, or leave them there. The doors along the alley seem a little less tight."
+        }
+      ],
+      "echoes": {
+        "tide/receipt:open": "The compartment for asking again gives you somewhere to record these new delivery times.",
+        "tide/receipt:keep": "The waiting compartment is ready for any letters the households do not collect."
+      }
+    },
+    {
+      "id": "courtyard",
+      "title": "Three breaths",
+      "quests": 4,
+      "narration": "At the alley’s end is a stone courtyard where no rain falls. Dan, a maker of scabbards, brings out two chairs when he sees the mailbag. His letter has waited ten years. It is addressed to a former fellow student.\n\n“What I wanted to say changed,” he tells you. “An apology, then an excuse. Now perhaps just a greeting.” Instead of a sword, he holds a short wooden stick. His first lesson is to put it down over three breaths. He teaches how to choose a stopping point, not how to strike harder.\n\nAs you copy him, ripples settle across the paving. Faded words become visible: “Keeper Naru. Handover incomplete.”\n\nNaru does not recognize them. She remembers becoming the temporary keeper, but not who gave her the key. Dan folds his envelope again. “Sometimes trying to hold on to a memory holds a person in place.”\n\nBefore asking whether he wants to send it, you ask if those are still the words he wishes to say. After a long pause, he asks for fresh paper.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Help find a current address for the new letter",
+          "response": "Dan removes the old title beneath his friend’s name. First, he wants to learn who that person has become. Naru carefully dries the empty address field."
+        },
+        {
+          "id": "keep",
+          "label": "Help keep the old and new letters separate",
+          "response": "Dan places the wooden stick between the envelopes: a small boundary so words from ten years ago cannot cover today’s. Naru clears a drawer of her own."
+        }
+      ],
+      "echoes": {
+        "tide/alley:open": "The clocks on your map leave enough time to sit with Dan.",
+        "tide/alley:keep": "The collection slips let you visit the courtyard without leaving anyone waiting at a door."
+      }
+    },
+    {
+      "id": "map",
+      "title": "A lighthouse without an address",
+      "quests": 6,
+      "narration": "After your sixth action, a lighthouse appears at the center of the map. Its beam points toward the post office rather than the sea. The keeper, Iden, sends the same envelope every day. It always returns, but the words inside grow shorter.\n\nFirst it was an explanation. Then an apology. The latest contains one line: “I will come to take over.” It is addressed to Naru.\n\n“A keeper cannot leave while even one letter has no owner,” Iden explains. “Naru wrote that rule after a flood carried letters away.”\n\nYou remember the drawer full of your name. Someone has been giving ownerless letters a recipient so they can remain in storage. But why you? Iden says a chronicler of the Crossing Library has an address that has not yet been written. The post office has been borrowing that address without asking.\n\nOutside the lighthouse window, brass drawers open and close like shells. Naru stays silent, troubled most by the fact that she cannot remember doing it.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Ask Iden to offer the handover in person",
+          "response": "Iden prepares a boat instead of another letter. He will give Naru a chance to explain, and listen to her answer. You check the route from the lighthouse to the office."
+        },
+        {
+          "id": "keep",
+          "label": "Ask to examine the storage rules first",
+          "response": "You borrow the old ledger. Before assigning blame, you need to understand what keeps a person bound to a drawer. Naru finally raises her head."
+        }
+      ],
+      "echoes": {
+        "tide/courtyard:open": "Dan adds a possible new address to the map you carry toward the lighthouse.",
+        "tide/courtyard:keep": "Dan lends you the wooden divider; Naru keeps it beside the old ledger."
+      }
+    },
+    {
+      "id": "ledger",
+      "title": "The weight of a borrowed name",
+      "quests": 8,
+      "narration": "You find the first appearance of your name in the ledger. It is the day you opened the Crossing Library. Since then, ownerless envelopes have been changing their recipient, one by one.\n\nNaru reads to the end. She was never temporary. She replaced her name with each new chronicler’s, then stored her own memories in a drawer. She had also written the rule that she could rest only after putting those memories away.\n\n“I never asked you to take this on,” she says, without an excuse. “I’ll put it right.”\n\nAll the drawers shake when she touches the ledger. Erasing the name would erase the storage space; leaving it would make you the new keeper. A red sentence demands that you choose between them.\n\nYour own window shows a different line: “The author of a rule is not the rule itself.”\n\nDan sets a repaired scabbard on the desk. Even empty, it keeps its shape. Must a place for keeping things bear a person’s name? You draw a blank line beside the name field.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Ask openly who could share the work",
+          "response": "Blank handover forms go to the alley, courtyard and lighthouse. People can choose their own role and time. Nobody needs to offer an entire day."
+        },
+        {
+          "id": "keep",
+          "label": "Assign the storage to the place, not a person",
+          "response": "You write “Tide Post Office storeroom” on the new line. One drawer grows quiet. If a place can hold responsibility, a letter can remain when a person leaves."
+        }
+      ],
+      "echoes": {
+        "tide/map:open": "Iden arrives by boat and sets his unused handover letter on the desk.",
+        "tide/map:keep": "The ledger you borrowed lets you trace each change of recipient."
+      }
+    },
+    {
+      "id": "storm",
+      "title": "A storm outside the forecast",
+      "quests": 10,
+      "narration": "An unforecast storm arrives. The tide table tears; waves climb past the alley’s blue marks. Naru lifts envelopes from the lowest drawers. You reach to help, but the drawers seem endless.\n\nNo warning demands that you save everything. Your window lights only three compartments within reach. Your real-life records do not make you larger. They make it easier to see where to begin.\n\nThe child arrives at the door. The old man has sent dry boxes. The house that wanted no visitors has sent towels. Dan braces the threshold; Iden’s light marks the safe stairs.\n\nFor the first time, Naru hands someone else a drawer key. A high compartment opens. Inside is not a letter but a note in her own handwriting: “I was afraid it would vanish without me.”\n\nYou give her the note. She doesn’t hide it. She pins it beside the rattling window. The storm has not ended. There are simply more hands now.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Help arriving neighbors choose a role",
+          "response": "Not everyone needs to touch the mail. Someone dries the floor; someone makes tea. The little mailbox starts carrying empty boxes."
+        },
+        {
+          "id": "keep",
+          "label": "Sort the damp mail safely inside",
+          "response": "You do not unfold private letters. You record only how wet they are and where they belong. Naru quietly repeats that care does not require knowing every story."
+        }
+      ],
+      "echoes": {
+        "tide/ledger:open": "People who received your handover forms arrive with the roles they chose.",
+        "tide/ledger:keep": "The drawer bearing the storeroom name stays still while the others shake."
+      }
+    },
+    {
+      "id": "room",
+      "title": "An envelope that can stay closed",
+      "quests": 12,
+      "narration": "After the storm, only the oldest envelope refuses to dry. It is tightly sealed and has no recipient. Seeing it, Naru remembers.\n\nThe letter is hers. She began writing that she wanted to leave on the day the post office first flooded. Unable to send it, she placed it among the mail she kept. The rule against leaving ownerless letters behind was made for that single envelope.\n\n“Will opening it let me finish?” she asks.\n\nYou return it to her. Ending something need not require making its contents public. Dan lowers his hands as he taught you in the courtyard. Iden puts the key on the desk and looks out the window. Everyone can wait.\n\nNaru writes her name on the envelope, in a new field: “Returned to.” Your name disappears from the drawers one at a time. You are no longer carrying someone else’s duty.\n\nThe post office does not vanish. One person has become free to leave. The building is still standing.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Walk toward the sea with Naru, if she wishes",
+          "response": "Naru takes one step outside, then another. You do not choose the destination first. She might walk to the lighthouse, or turn back at the corner."
+        },
+        {
+          "id": "keep",
+          "label": "Clear a space where Naru can be alone",
+          "response": "You leave a dry towel and tea in the little room. Nobody enters, even though the door is unlocked. For the first time in years, Naru sits alone with her own letter."
+        }
+      ],
+      "echoes": {
+        "tide/storm:open": "The neighbors you welcomed keep the stairs clear without needing Naru to direct them.",
+        "tide/storm:keep": "Your sorting notes identify the one envelope that still has no storage location."
+      }
+    },
+    {
+      "id": "route",
+      "title": "Returned is not failed",
+      "quests": 14,
+      "narration": "The post office holds its first proper returns day. Previously, every returned letter went into “Unfinished.” Now there are three places: ask for an address, return to sender, or hold for an agreed period.\n\nInstead of signing, the old man says, “I’ll receive it today.” The second house remains closed. You do not remove it from the map. The child’s brother sends a new address, and asks that they no longer use his childhood nickname.\n\nDan receives his ten-year-old letter back. He has not sent the new one yet. “A return can be an answer too.” He puts both pages in the same pocket without mixing them.\n\nIden asks who should sign the new rules. Naru should not decide alone; people who cannot visit daily should still have a say. The little mailbox retrieves its “Refused” stamp from beside the bin. The stamp now means stop, not destroy.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Post a delivery schedule open to suggestions",
+          "response": "You leave many spaces blank instead of rushing to fill them with names. A time nobody can cover will remain a time to rest."
+        },
+        {
+          "id": "keep",
+          "label": "Make the keeping and return rules readable",
+          "response": "You replace difficult rules with short examples: not receiving, reclaiming, waiting. Different decisions deserve the same respect."
+        }
+      ],
+      "echoes": {
+        "tide/room:open": "Naru returns from the walk when she is ready, with the letter still closed.",
+        "tide/room:keep": "Naru leaves the quiet room when she chooses, carrying her own envelope."
+      }
+    },
+    {
+      "id": "key",
+      "title": "How to share a key",
+      "quests": 16,
+      "narration": "Copying the key proves unexpectedly difficult. An identical brass key also copies the rule requiring one person to do everything. Iden suggests changing the locks first.\n\nNobody should need access to every drawer. A shift should be able to end without forcing someone else to take it. Letters should be safe while the office is closed. Dan makes a resting position in each lock: secure without a keeper, ready to open when its owner returns.\n\nNaru writes her own hours for the first time: two short afternoons a week. Your status window contains the same kind of blank space. Filling every space is not the only evidence of growth. Choosing an amount you can continue is a record too.\n\nTwo routes leave the desk: broad steps toward the alley and a quiet corridor toward the storeroom. The way you have chosen more often holds a little more light. Neither erases the other.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Choose work that connects with the outside",
+          "response": "You offer to explain routes and welcome returning visitors. You also write down when you cannot stay long."
+        },
+        {
+          "id": "keep",
+          "label": "Choose work that cares for the records inside",
+          "response": "You offer to organize locations and check old arrangements. You now understand why a day with no change can still be necessary."
+        }
+      ],
+      "echoes": {
+        "tide/route:open": "Your schedule shows exactly which shifts need no keeper at all.",
+        "tide/route:keep": "Your short examples help Dan design locks that respect a refusal."
+      }
+    },
+    {
+      "id": "dawn",
+      "title": "A space finally left empty",
+      "quests": 18,
+      "narration": "After eighteen real-life actions, the final envelope in the returns drawer is handed to you. It is the one you first found in your pocket. “A day that has not arrived” is blurred by rain, but still readable.\n\nYou open it. There is nothing inside. Naru smiles with relief. “It can be empty now. We haven’t filled it with someone else’s obligation.”\n\nThe little mailbox brings your nameplate. You can choose where it belongs. There is no contract requiring you to remain. A chronicler can return to ordinary life, then visit again. The post office’s next shape will reflect the choices you have made and one final addition.\n\nNaru does not ask what you will do tomorrow. She reads the things you have already done together: waiting, asking, stopping, offering again. She adds no penalty to unfinished lines.\n\nAs the dawn tide retreats, it leaves a small shell on the threshold. There is a hole through it, much like a keyhole.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Leave your nameplate on the sign outside",
+          "response": "You add one line about the route you took, so the next lost visitor can find the door. There is room for more than one name."
+        },
+        {
+          "id": "keep",
+          "label": "Leave your nameplate in an empty drawer",
+          "response": "Someone who returns asking whether you are still remembered can be shown it. An empty drawer no longer means an unresolved duty."
+        }
+      ],
+      "echoes": {
+        "tide/key:open": "Your name is on the welcome rota, with your unavailable hours clearly marked.",
+        "tide/key:keep": "Your name is on the records rota, beside a note that quiet days count too."
+      }
+    },
+    {
+      "id": "home",
+      "title": "A stamp to take home",
+      "quests": 20,
+      "narration": "After twenty real-life actions, the post office’s new seal is finished: a small paper boat riding a wave. It does not make anyone faster or stronger. It marks a world you helped shape in your own way.\n\nNaru gives you an empty envelope and a stamp. No recipient has been chosen. Beyond the doorway, a familiar bus passes your ordinary stop, making an ordinary sound.\n\nThe post office will keep its own time while you are away. What follows is the last scene of this visit, shaped by your earlier choices. Rereading and choosing differently will not change the things you have done in real life.",
+      "choices": [
+        {
+          "id": "open",
+          "label": "Place the stamp inside your journal",
+          "response": "A sea-colored mark settles on the first page. The next blank space is somewhere you may write, not another promise you must keep. The Tide Post Office is complete."
+        },
+        {
+          "id": "keep",
+          "label": "Fold the envelope away for another visit",
+          "response": "You slip the envelope into your pocket. It is fine to return without writing anything yet. A bus comes to a halt at the stop. The Tide Post Office is complete."
+        }
+      ]
+    }
+  ],
+  "endings": {
+    "open": {
+      "title": "Ending · Open waterways",
+      "narration": "Each time you made a way outward, the post office became more like a little harbor joining the alley, courtyard and lighthouse. The board lists times to rest as well as times to deliver. When nobody can take a shift, the door closes. Nobody mistakes that for being abandoned: they know when it will open again.\n\nIden lowers the lighthouse beam. There is now more than one route to the office. Dan brings chairs from the courtyard. The child writes to an older brother using his new name. At the end of her shift, Naru returns her key and goes for a walk without carrying any mail.\n\nThe little mailbox greets the next visitor. “Would you like this delivered now, or kept for a while?” It does not hurry the answer.\n\nYou return to your ordinary bus stop. For an instant, the alley’s blue marks appear among the passing crowd. Every door need not stay open. It is enough to ask when each person wishes to open theirs."
+    },
+    "keep": {
+      "title": "Ending · A light that remains",
+      "narration": "Each time you made a place for something to remain, the post office became a quiet refuge for things people might reclaim. Drawers explain how to retrieve a letter instead of bearing a keeper’s name. Unopened letters belong here, and letters that will never be sent. Not every envelope must reach a destination for its story to end.\n\nIden stops sending the same letter every day. Dan keeps the ten-year-old envelope at his workbench. One afternoon, someone from the closed house brings a collection slip. Naru leaves her own letter on the desk instead of locking it away. It is still there when she returns.\n\nThe little mailbox trims the lamp. The light is modest, but enough to recognize the door in rain. A new notice says, “Come in even if you haven’t decided.”\n\nYou return to your ordinary bus stop. The empty envelope rustles, dry, in your pocket. Even things you did not finish today can have somewhere to stay. Keeping them need not cost your entire day."
+    }
+  }
+}

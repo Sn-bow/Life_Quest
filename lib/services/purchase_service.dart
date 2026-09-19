@@ -35,6 +35,8 @@ class PurchaseService extends ChangeNotifier {
   Future<void> _events = Future.value();
   Future<void> _cacheWrites = Future.value();
   bool _initialized = false;
+  Future<void>? _catalogLoad;
+  bool get checkingStore => _catalogLoad != null;
   bool _available = false;
   String? _uid;
   int _revision = 0;
@@ -70,22 +72,48 @@ class PurchaseService extends ChangeNotifier {
         _initialized) {
       return;
     }
-    // Subscribe before querying so resumed pending purchases cannot be missed.
-    _purchases ??= _store.purchaseStream.listen((events) {
-      _events = _events.catchError((Object _) {}).then((_) => _handle(events));
-    }, onError: (Object _) => _setPhase(PurchasePhase.retry));
-    _available = await _store.isAvailable();
-    if (_available) {
-      // Only completed, reviewed content is listed for sale. A story draft must
-      // not accidentally become buyable because its product exists in Console.
-      final response = await _store.queryProductDetails({
-        'cosmetic_theme_neon',
-        'cosmetic_theme_gold',
-      });
-      _products = response.productDetails;
-      _initialized = true;
-    }
+    if (_catalogLoad != null) return _catalogLoad;
+    final load = _loadCatalog();
+    _catalogLoad = load;
     notifyListeners();
+    try {
+      await load;
+    } finally {
+      _catalogLoad = null;
+      notifyListeners();
+    }
+  }
+
+  Future<void> refreshCatalog() async {
+    if (busy || checkingStore) return;
+    _initialized = false;
+    await init();
+  }
+
+  Future<void> _loadCatalog() async {
+    try {
+      // Listen before the query so a resumed pending purchase is never missed.
+      _purchases ??= _store.purchaseStream.listen((events) {
+        _events = _events
+            .catchError((Object _) {})
+            .then((_) => _handle(events));
+      }, onError: (Object _) => _setPhase(PurchasePhase.retry));
+      _products = [];
+      _available = await _store.isAvailable();
+      if (!_available) return;
+      final response = await _store.queryProductDetails(saleProductIds);
+      if (response.error != null) return;
+      _products = response.productDetails
+          .where((p) => saleProductIds.contains(p.id))
+          .toList();
+      _initialized = true;
+    } catch (_) {
+      // A Store outage must leave the preview usable and the query retryable.
+      // Do not log Store exceptions, which may contain account/receipt details.
+      _available = false;
+      _products = [];
+      _initialized = false;
+    }
   }
 
   Future<void> bindUser(String? uid) async {
@@ -156,7 +184,10 @@ class PurchaseService extends ChangeNotifier {
   }
 
   Future<void> buyProduct(ProductDetails product) async {
-    if (!isAvailable || busy || !_products.any((p) => p.id == product.id)) {
+    if (!isAvailable ||
+        busy ||
+        checkingStore ||
+        !_products.any((p) => p.id == product.id)) {
       return;
     }
     final uid = _uid!;
