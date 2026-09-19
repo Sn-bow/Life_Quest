@@ -116,10 +116,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   Future<void> _refresh() async {
     if (!mounted || !_isForeground) return;
-    await _character.refreshTimeSensitiveState();
-    if (!mounted) return;
-    await _director.refreshDay();
-    await _director.reconcile(_character.dailyQuests);
+    try {
+      await _character.refreshTimeSensitiveState();
+      if (!mounted) return;
+      await _director.refreshDay();
+      await _director.reconcile(_character.dailyQuests);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.lqStorageError)),
+        );
+      }
+    }
     if (mounted && _isForeground) {
       unawaited(
         _director.personalizeIfNeeded(

@@ -46,8 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _handleLogout() async {
     final characterState = context.read<CharacterState>();
-    await characterState.forceSave();
-    if (!mounted) return;
+    if (!await characterState.forceSave() || !mounted) return;
     await context.read<QuestDirectorState>().endSession();
     await PurchaseService().endSession();
     await NotificationService().cancelAllNotifications();

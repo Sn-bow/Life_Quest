@@ -1,3 +1,4 @@
+import '../features/session/profile_write_queue.dart';
 import '../features/billing/purchase_verifier.dart';
 import '../features/session/account_deletion_journal.dart';
 import '../features/backup/device_backup_store.dart';
@@ -332,6 +333,19 @@ class CharacterState extends ChangeNotifier {
     _initializeLocalPreviewCharacter(name: 'Test');
   }
 
+  @visibleForTesting
+  void initializeCloudForTesting(String uid) {
+    if (_currentCloudUidOverride == null ||
+        _cloudProfileWriterOverride == null) {
+      throw StateError(
+        'Cloud tests require explicit identity and write boundaries.',
+      );
+    }
+    resetState();
+    _initializeLocalPreviewCharacter(name: 'Cloud test');
+    _cloudProfileUid = uid;
+  }
+
   /// Initialises a local-only character for Web QA Preview.
   ///
   /// This must stay separate from Firebase-backed user loading. The preview
@@ -457,9 +471,33 @@ class CharacterState extends ChangeNotifier {
   }
 
   /// Forces saving current character data to Firebase and rebuilds UI
-  Future<void> forceSave() async {
-    await _performSaveData();
-    notifyListeners();
+  Future<bool> forceSave() async {
+    try {
+      await _performSaveData();
+      if (!_disposed) notifyListeners();
+      return true;
+    } catch (_) {
+      _reportSaveFailure();
+      return false;
+    }
+  }
+
+  void _reportSaveFailure() {
+    if (_disposed || _deletingAccount) return;
+    if (!_isLocalGuest &&
+        !kLifeQuestQaPreview &&
+        (_cloudProfileUid == null || _currentCloudUid != _cloudProfileUid)) {
+      return;
+    }
+    final message = switch (_locale?.languageCode) {
+      'en' => 'Saving did not finish. Keep the app open and try again.',
+      'ja' => '保存が完了しませんでした。アプリを閉じずに再試行してください。',
+      'zh' => '保存未完成。请保持应用开启并重试。',
+      _ => '저장이 끝나지 않았습니다. 앱을 닫지 말고 다시 시도해 주세요.',
+    };
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   /// Schedules a debounced save for direct character mutations initiated by UI.
@@ -482,6 +520,9 @@ class CharacterState extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
+    ++_profileGeneration;
+    _cloudProfileUid = null;
     _saveTimer?.cancel();
     _hpRegenTimer?.cancel();
     super.dispose();
@@ -574,8 +615,25 @@ class CharacterState extends ChangeNotifier {
   Timer? _saveTimer;
   Timer? _hpRegenTimer;
   bool _isCombatActive = false;
-  bool _isSaving = false;
-  bool _pendingSave = false;
+  final ProfileWriteQueue _cloudWrites = ProfileWriteQueue();
+  int _profileGeneration = 0;
+  String? _cloudProfileUid;
+  bool _disposed = false;
+  final String? Function()? _currentCloudUidOverride;
+  final Future<void> Function(String uid, Map<String, dynamic> payload)?
+  _cloudProfileWriterOverride;
+  String? get _currentCloudUid => _currentCloudUidOverride != null
+      ? _currentCloudUidOverride()
+      : FirebaseAuth.instance.currentUser?.uid;
+  bool _cloudSessionCurrent(int generation, String uid) =>
+      !_disposed &&
+      !_deletingAccount &&
+      !_restoringLocal &&
+      !_isLocalGuest &&
+      generation == _profileGeneration &&
+      _cloudProfileUid == uid &&
+      _currentCloudUid == uid;
+
   // Y-1: questCategoryDistribution 메모이제이션 캐시
   Map<StatType, double>? _cachedCategoryDistribution;
   // Y-4: 매번 Random() 신규 생성 대신 단일 인스턴스 재사용
@@ -607,6 +665,8 @@ class CharacterState extends ChangeNotifier {
 
   CharacterState({
     FirebaseFirestore? firestore,
+    this._currentCloudUidOverride,
+    this._cloudProfileWriterOverride,
     this._deleteAccountUidOverride,
     this._requestAccountDeletionOverride,
     this._signOutAfterDeletionOverride,
@@ -860,6 +920,8 @@ class CharacterState extends ChangeNotifier {
   }
 
   void resetState() {
+    ++_profileGeneration;
+    _cloudProfileUid = null;
     _dungeonCheckpoint = null;
     _settledDungeonRunId = null;
     _restoringLocal = false;
@@ -2089,18 +2151,22 @@ class CharacterState extends ChangeNotifier {
       return;
     }
     _saveTimer?.cancel();
+    final generation = _profileGeneration;
     _saveTimer = Timer(const Duration(seconds: 3), () {
-      _performSaveData();
+      if (generation != _profileGeneration) return;
+      unawaited(
+        _performSaveData().catchError((Object _) => _reportSaveFailure()),
+      );
     });
   }
 
-  // The actual database write operation, wrapped in try-catch.
-  // Uses _isSaving/_pendingSave to prevent concurrent writes while ensuring
-  // the latest data is always saved (race condition prevention).
+  /// A returned Future means this exact snapshot reached its storage boundary.
+  /// It never returns early merely because another write is already pending.
   Future<void> _performSaveData() async {
-    if (_deletingAccount || _restoringLocal) return;
+    if (_deletingAccount || _restoringLocal || _disposed) {
+      throw StateError('Profile is not available for saving.');
+    }
     if (_character == null) return;
-    // m-2: gold 음수 방지 — 어떤 경로로든 음수가 됐을 때 저장 직전에 클램프
     if (_character!.gold < 0) _character!.gold = 0;
     if (_isLocalGuest) {
       await _performLocalSaveData(localProfileStorageKey);
@@ -2110,66 +2176,75 @@ class CharacterState extends ChangeNotifier {
       await _performLocalSaveData(_qaPreviewStorageKey);
       return;
     }
-    if (_isSaving) {
-      // 이미 저장 중이면 대기열에 추가하고 반환
-      _pendingSave = true;
-      return;
+    final uid = _cloudProfileUid;
+    final generation = _profileGeneration;
+    if (uid == null || !_cloudSessionCurrent(generation, uid)) {
+      throw StateError('No loaded cloud profile matches this identity.');
     }
-    _isSaving = true;
-
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      // R-3 fix: user == null 시 return 대신 예외 처리로 finally 진입 보장
-      // 이전 코드는 여기서 return 하면 _isSaving = true인 채로 잠겨
-      // 이후 모든 _performSaveData() 호출이 무시되는 버그 존재
-      if (user == null) {
-        debugPrint('[CharacterState] Save skipped: no auth user.');
-        return;
-      }
-      final docRef = _firestore.collection('users').doc(user.uid);
-      final data = _buildSavePayload();
-      await docRef.set(data, SetOptions(merge: true));
-
-      // Update Home Widget data for iOS/Android
-      await HomeWidget.saveWidgetData<String>(
-        'characterName',
-        _character!.name,
-      );
-      await HomeWidget.saveWidgetData<int>('characterLevel', _character!.level);
-      await HomeWidget.saveWidgetData<int>(
-        'characterHp',
-        _character!.characterHp,
-      );
-      await HomeWidget.saveWidgetData<int>(
-        'characterMaxHp',
-        _character!.characterMaxHp,
-      );
-      await HomeWidget.updateWidget(
-        iOSName: 'LifeQuestWidget',
-        androidName: 'LifeQuestWidgetReceiver',
-      );
-    } catch (e) {
-      debugPrint('Save data error: $e');
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        const SnackBar(
-          content: Text('클라우드 서버 저장 실패. 네트워크 상태를 확인해주세요.'),
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
-        ),
-      );
-    } finally {
-      _isSaving = false;
-      // 저장 중에 새로운 변경이 있었으면 최신 데이터로 다시 저장
-      if (_pendingSave) {
-        _pendingSave = false;
-        await _performSaveData();
-      }
-    }
+    // Deep snapshot before awaiting. Character.toJson contains list fields that
+    // later UI actions may mutate; a queued write must not alias those lists.
+    final data = Map<String, dynamic>.from(
+      jsonDecode(jsonEncode(_buildSavePayload(includeServerTimestamp: false)))
+          as Map,
+    );
+    data['lastLoginDate'] = FieldValue.serverTimestamp();
+    await _cloudWrites.enqueue(
+      isCurrent: () => _cloudSessionCurrent(generation, uid),
+      commit: () async {
+        final writer = _cloudProfileWriterOverride;
+        if (writer != null) {
+          await writer(uid, data);
+        } else {
+          await _firestore
+              .collection('users')
+              .doc(uid)
+              .set(data, SetOptions(merge: true));
+        }
+        // Widget refresh is ancillary. Its failure cannot undo a durable cloud
+        // write or cause a choice to roll back after it has already been saved.
+        if (writer == null && _cloudSessionCurrent(generation, uid)) {
+          try {
+            final c = data['character'] as Map<String, dynamic>;
+            for (final entry in <String, Object>{
+              'characterName': c['name'] as String,
+              'characterLevel': c['level'] as int,
+              'characterHp': c['characterHp'] as int,
+              'characterMaxHp': c['characterMaxHp'] as int,
+            }.entries) {
+              if (!_cloudSessionCurrent(generation, uid)) return;
+              if (entry.value is String) {
+                await HomeWidget.saveWidgetData<String>(
+                  entry.key,
+                  entry.value as String,
+                );
+              } else {
+                await HomeWidget.saveWidgetData<int>(
+                  entry.key,
+                  entry.value as int,
+                );
+              }
+            }
+            if (_cloudSessionCurrent(generation, uid)) {
+              await HomeWidget.updateWidget(
+                iOSName: 'LifeQuestWidget',
+                androidName: 'LifeQuestWidgetReceiver',
+              );
+            }
+          } catch (_) {
+            /* Profile persistence already succeeded. */
+          }
+        }
+      },
+    );
   }
 
   Future<void> loadDataForUser(User user) async {
-    _isLocalGuest = false;
     if (_isLoadingInProgress) return;
+    final generation = ++_profileGeneration;
+    _cloudProfileUid = null;
+    _saveTimer?.cancel();
+    _hpRegenTimer?.cancel();
+    _isLocalGuest = false;
     _isLoadingInProgress = true;
     _isLoading = true;
     _isDataLoaded = false;
@@ -2182,7 +2257,9 @@ class CharacterState extends ChangeNotifier {
       }
       await user.reload();
       final freshUser = FirebaseAuth.instance.currentUser;
-      if (freshUser == null || freshUser.uid != user.uid) {
+      if (generation != _profileGeneration ||
+          freshUser == null ||
+          freshUser.uid != user.uid) {
         throw StateError('Account changed while loading profile.');
       }
       _deletingAccount = false;
@@ -2198,6 +2275,10 @@ class CharacterState extends ChangeNotifier {
         retries++;
       }
 
+      if (generation != _profileGeneration || _currentCloudUid != user.uid) {
+        throw StateError('Account changed while fetching profile.');
+      }
+      _cloudProfileUid = user.uid;
       if (doc.exists) {
         final data = doc.data()!;
         bool needsSave = false;
@@ -2347,6 +2428,9 @@ class CharacterState extends ChangeNotifier {
           debugPrint('Notification schedule error (non-fatal): $e');
         }
 
+        if (!_cloudSessionCurrent(generation, user.uid)) {
+          throw StateError('Account changed during notification setup.');
+        }
         final lastLogin = _parseLastLoginDate(data);
         if (lastLogin != null) {
           _character!.lastLoginDate = lastLogin;
@@ -2366,6 +2450,9 @@ class CharacterState extends ChangeNotifier {
           await _performSaveData();
         }
 
+        if (!_cloudSessionCurrent(generation, user.uid)) {
+          throw StateError('Account changed while finishing profile load.');
+        }
         _isDataLoaded = true;
         _startHpRegenLoop();
       } else {
@@ -2375,13 +2462,22 @@ class CharacterState extends ChangeNotifier {
         } catch (e) {
           debugPrint('Notification schedule error (non-fatal): $e');
         }
+        if (!_cloudSessionCurrent(generation, user.uid)) {
+          throw StateError('Account changed during notification setup.');
+        }
         // Save initial data immediately instead of debouncing
         await _performSaveData();
+        if (!_cloudSessionCurrent(generation, user.uid)) {
+          throw StateError('Account changed while finishing profile load.');
+        }
         _isDataLoaded = true;
         _startHpRegenLoop();
       }
     } catch (e) {
-      debugPrint('Load data error: $e');
+      if (generation != _profileGeneration) return;
+      _cloudProfileUid = null;
+      _isDataLoaded = false;
+      debugPrint('Cloud profile could not be loaded.');
       // O-1: 로드 실패 시 재시도 플래그 세팅 (UI에서 retryLoad() 버튼 표시용)
       _hasLoadError = true;
       scaffoldMessengerKey.currentState?.showSnackBar(
@@ -2404,9 +2500,11 @@ class CharacterState extends ChangeNotifier {
         // 재시도 성공 시 loadDataForUser가 올바른 데이터로 덮어씀
       }
     } finally {
-      _isLoading = false;
-      _isLoadingInProgress = false;
-      notifyListeners();
+      if (generation == _profileGeneration && !_disposed) {
+        _isLoading = false;
+        _isLoadingInProgress = false;
+        notifyListeners();
+      }
     }
   }
 
