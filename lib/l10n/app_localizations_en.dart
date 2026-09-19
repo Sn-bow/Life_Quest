@@ -4597,4 +4597,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String lqStoryActionsRemaining(int count) {
     return '$count quests to the next scene';
   }
+
+  @override
+  String get lqDeletionUncertain =>
+      'The deletion request could not be confirmed. Sync for this account is stopped. Finish disconnecting this device, then sign in again to check.';
+
+  @override
+  String get lqDeletionCheckFailed =>
+      'This device’s account status could not be read. Sync has not started, to protect your records.';
+
+  @override
+  String get lqDeletionLocalFinished => 'This device has been disconnected.';
+
+  @override
+  String get lqDeletionLocalHint =>
+      'Only this account’s remaining device caches and sign-in will be cleared. Your separate device profile and other accounts stay intact.';
+
+  @override
+  String get lqDeletionFinishLocal => 'Finish disconnecting this device';
+
+  @override
+  String get lqDeletionLocalRetry =>
+      'Local cleanup did not finish. Please retry. Sync for this account remains stopped.';
 }

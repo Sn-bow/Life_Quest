@@ -4475,4 +4475,26 @@ class AppLocalizationsKo extends AppLocalizations {
   String lqStoryActionsRemaining(int count) {
     return '다음 장면까지 퀘스트 $count개';
   }
+
+  @override
+  String get lqDeletionUncertain =>
+      '삭제 요청의 접수 여부를 확인하지 못했습니다. 이 계정의 동기화를 중지했습니다. 기기 연결을 정리한 뒤 다시 로그인해 확인해 주세요.';
+
+  @override
+  String get lqDeletionCheckFailed =>
+      '이 기기의 계정 상태를 읽지 못했습니다. 기록을 보호하기 위해 동기화를 시작하지 않았습니다.';
+
+  @override
+  String get lqDeletionLocalFinished => '기기 연결 해제가 끝났습니다.';
+
+  @override
+  String get lqDeletionLocalHint =>
+      '남은 기기 캐시와 로그인 연결만 정리합니다. 별도의 기기 전용 프로필과 다른 계정의 기록은 유지합니다.';
+
+  @override
+  String get lqDeletionFinishLocal => '기기 연결 해제 마치기';
+
+  @override
+  String get lqDeletionLocalRetry =>
+      '기기 정리가 끝나지 않았습니다. 다시 시도해 주세요. 이 계정의 동기화는 계속 중지됩니다.';
 }

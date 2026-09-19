@@ -1,3 +1,4 @@
+import 'account_deletion_gate.dart';
 import '../backup/backup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,17 @@ class _SessionGateState extends State<SessionGate> {
         final user = snapshot.data;
         // An anonymous identity exists only to send a user-reviewed AI report.
         if (user != null && !user.isAnonymous) {
-          return _ProfileLoader(key: ValueKey(user.uid), user: user);
+          return AccountDeletionGate(
+            key: ValueKey('deletion-guard-${user.uid}'),
+            uid: user.uid,
+            signOut: () async {
+              // Never sign out a different identity after an account switch.
+              if (FirebaseAuth.instance.currentUser?.uid == user.uid) {
+                await FirebaseAuth.instance.signOut();
+              }
+            },
+            child: _ProfileLoader(key: ValueKey(user.uid), user: user),
+          );
         }
         if (!_showLogin) return welcome;
         return PopScope(

@@ -4455,4 +4455,26 @@ class AppLocalizationsJa extends AppLocalizations {
   String lqStoryActionsRemaining(int count) {
     return '次の場面までクエスト $count件';
   }
+
+  @override
+  String get lqDeletionUncertain =>
+      '削除リクエストの受付を確認できませんでした。このアカウントの同期は停止しています。端末の接続を解除してから再ログインし、確認してください。';
+
+  @override
+  String get lqDeletionCheckFailed =>
+      'この端末のアカウント状態を読み込めませんでした。記録を守るため、同期を開始していません。';
+
+  @override
+  String get lqDeletionLocalFinished => 'この端末の接続を解除しました。';
+
+  @override
+  String get lqDeletionLocalHint =>
+      'このアカウントの端末キャッシュとログイン接続だけを整理します。別の端末専用プロフィールや他のアカウントは保持します。';
+
+  @override
+  String get lqDeletionFinishLocal => '端末の接続解除を完了する';
+
+  @override
+  String get lqDeletionLocalRetry =>
+      '端末の整理が完了しませんでした。再試行してください。このアカウントの同期は引き続き停止しています。';
 }

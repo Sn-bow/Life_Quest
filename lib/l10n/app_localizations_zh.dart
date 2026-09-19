@@ -4428,4 +4428,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String lqStoryActionsRemaining(int count) {
     return '再完成 $count 个任务即可开启下一幕';
   }
+
+  @override
+  String get lqDeletionUncertain =>
+      '无法确认删除请求是否已受理。此账号的同步已停止。请完成设备断开连接后，重新登录确认。';
+
+  @override
+  String get lqDeletionCheckFailed => '无法读取本机账号状态。为保护记录，尚未开始同步。';
+
+  @override
+  String get lqDeletionLocalFinished => '此设备已断开连接。';
+
+  @override
+  String get lqDeletionLocalHint => '仅清除此账号在本机剩余的缓存和登录连接。独立的本机档案及其他账号记录会保留。';
+
+  @override
+  String get lqDeletionFinishLocal => '完成断开本机连接';
+
+  @override
+  String get lqDeletionLocalRetry => '本机清理未完成，请重试。此账号的同步仍处于停止状态。';
 }

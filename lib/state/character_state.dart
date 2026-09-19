@@ -1,3 +1,4 @@
+import '../features/session/account_deletion_journal.dart';
 import '../features/backup/device_backup_store.dart';
 import '../features/story/story_chapter.dart';
 import 'dungeon_state.dart';
@@ -586,6 +587,19 @@ class CharacterState extends ChangeNotifier {
   final Future<bool> Function(String uid)? _requestAccountDeletionOverride;
   final Future<void> Function()? _signOutAfterDeletionOverride;
   bool _deletingAccount = false;
+  String? _pendingDeletionUid;
+  bool _accountDeletionAccepted = false;
+  String? get pendingDeletionUid => _pendingDeletionUid;
+  bool get accountDeletionAccepted => _accountDeletionAccepted;
+
+  /// Called only after the journal has cleared authentication and caches.
+  /// Keep the old profile write-blocked until a fresh session is loaded.
+  void forgetFinishedDeletion(String uid) {
+    if (_pendingDeletionUid == uid) {
+      _pendingDeletionUid = null;
+      _accountDeletionAccepted = false;
+    }
+  }
 
   CharacterState({
     FirebaseFirestore? firestore,
@@ -939,9 +953,11 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  /// True means the server durably accepted deletion and local sign-out finished.
+  /// True means the server durably accepted deletion, even if local cleanup
+  /// needs retry. A pending guard also quarantines an uncertain network result.
   /// Cleanup is retried by the server even after this app closes.
   Future<bool> deleteAccount() async {
+    if (_deletingAccount) return false;
     final canUseTestDeletion =
         _deleteAccountUidOverride != null &&
         _requestAccountDeletionOverride != null;
@@ -951,12 +967,19 @@ class CharacterState extends ChangeNotifier {
     _saveTimer?.cancel();
     _deletingAccount = true;
     var accepted = false;
+    var requestStarted = false;
+    _accountDeletionAccepted = false;
     try {
+      await AccountDeletionJournal.write(uid, AccountDeletionPhase.requesting);
+      requestStarted = true;
       final request = _requestAccountDeletionOverride;
       if (request != null) {
         accepted = await request(uid);
       } else {
         await user!.getIdToken(true);
+        if (FirebaseAuth.instance.currentUser?.uid != uid) {
+          throw StateError('Account changed before deletion request.');
+        }
         final response = await FirebaseFunctions.instance
             .httpsCallable(
               'requestAccountDeletion',
@@ -965,19 +988,40 @@ class CharacterState extends ChangeNotifier {
               ),
             )
             .call();
-        accepted = response.data is Map && response.data['accepted'] == true;
+        final receipt = response.data;
+        if (receipt is! Map || receipt['accepted'] is! bool) {
+          throw StateError('Deletion response could not be confirmed.');
+        }
+        accepted = receipt['accepted'] as bool;
       }
       if (!accepted) {
+        await AccountDeletionJournal.clear(uid);
         _deletingAccount = false;
         return false;
       }
-      final preferences = await SharedPreferences.getInstance();
-      await preferences.remove('lifequest.director.v1.$uid');
-      await preferences.remove('lifequest.purchases.v1.$uid');
-      await (_signOutAfterDeletionOverride ?? FirebaseAuth.instance.signOut)();
+      _accountDeletionAccepted = true;
+      await AccountDeletionJournal.write(uid, AccountDeletionPhase.accepted);
+      await AccountDeletionJournal.finishLocalCleanup(
+        uid,
+        signOut:
+            _signOutAfterDeletionOverride ??
+            () async {
+              if (FirebaseAuth.instance.currentUser?.uid == uid) {
+                await FirebaseAuth.instance.signOut();
+              }
+            },
+      );
+      _pendingDeletionUid = null;
       return true;
     } catch (_) {
-      if (!accepted) _deletingAccount = false;
+      if (requestStarted) {
+        // A timeout may hide a successful server request. Do not rebind this
+        // identity or resume writes until its local authentication is cleared.
+        _pendingDeletionUid = uid;
+        notifyListeners();
+        return accepted;
+      }
+      _deletingAccount = false;
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           content: Row(
@@ -2129,13 +2173,16 @@ class CharacterState extends ChangeNotifier {
     _lastLoadUser = user; // O-1: 재시도에 필요한 사용자 정보 보관
 
     try {
+      if (await AccountDeletionJournal.read(user.uid) != null) {
+        throw StateError('Account deletion recovery is required.');
+      }
       await user.reload();
       final freshUser = FirebaseAuth.instance.currentUser;
-      if (freshUser == null) {
-        _isLoading = false;
-        notifyListeners();
-        return;
+      if (freshUser == null || freshUser.uid != user.uid) {
+        throw StateError('Account changed while loading profile.');
       }
+      _deletingAccount = false;
+      forgetFinishedDeletion(user.uid);
 
       final docRef = _firestore.collection('users').doc(freshUser.uid);
       var doc = await docRef.get().timeout(const Duration(seconds: 10));

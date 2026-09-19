@@ -1909,5 +1909,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "lqDeletionUncertain": "无法确认删除请求是否已受理。此账号的同步已停止。请完成设备断开连接后，重新登录确认。",
+  "lqDeletionCheckFailed": "无法读取本机账号状态。为保护记录，尚未开始同步。",
+  "lqDeletionLocalFinished": "此设备已断开连接。",
+  "lqDeletionLocalHint": "仅清除此账号在本机剩余的缓存和登录连接。独立的本机档案及其他账号记录会保留。",
+  "lqDeletionFinishLocal": "完成断开本机连接",
+  "lqDeletionLocalRetry": "本机清理未完成，请重试。此账号的同步仍处于停止状态。"
 }

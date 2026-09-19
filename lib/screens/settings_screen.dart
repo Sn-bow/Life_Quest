@@ -267,6 +267,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 final queuedMessage = AppLocalizations.of(
                   context,
                 )!.lqDeletionQueued;
+                final uncertainMessage = AppLocalizations.of(
+                  context,
+                )!.lqDeletionUncertain;
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false,
@@ -286,7 +289,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 await PurchaseService().endSession();
                 final didDelete = await characterState.deleteAccount();
                 if (navigator.mounted) navigator.pop();
-                if (!didDelete) {
+                if (!didDelete && characterState.pendingDeletionUid == null) {
                   await director.bind(scope);
                   await PurchaseService().bindUser(scope);
                   return;
@@ -296,7 +299,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }
                 if (messenger.mounted) {
                   messenger.showSnackBar(
-                    SnackBar(content: Text(queuedMessage)),
+                    SnackBar(
+                      content: Text(
+                        didDelete ? queuedMessage : uncertainMessage,
+                      ),
+                    ),
                   );
                 }
               },
