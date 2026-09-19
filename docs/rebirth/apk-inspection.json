@@ -1,0 +1,14 @@
+{
+  "scope": "Signed ARM64 development review APK, not public release or physical-device certification",
+  "sourceCommit": "3a243d9b6dacafed66de5d57bed2e4778c034b34",
+  "apk": "build/app/outputs/flutter-apk/app-release.apk",
+  "bytes": 185910493,
+  "sha256": "18bd3011b0c4215f217bd8399d6d6170d46bddc58b49d6f3c0d77327ffc49076",
+  "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
+  "versionCode": 4,
+  "signatureVerified": true,
+  "zip16KiBAligned": true,
+  "releaseManifestVerified": true,
+  "physicalDeviceTested": false,
+  "inspectedDate": "2026-09-20"
+}
