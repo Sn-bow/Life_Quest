@@ -48,10 +48,11 @@ python3 scripts/check_android_feature_manifests.py
 
 ## 확인된 범위
 
-- Flutter analyze: 문제 없음. 2026-09-20 전체300개 테스트 통과.
-- Node22 서버 정책26개, 실제 Firestore/Storage 로컬 emulator9개 검사 통과.
+- Flutter analyze: 문제 없음. 2026-09-20 전체337개 테스트 통과. 별도 Cloud/Billing 활성 상품 카탈로그 검사1개 통과(기본 전체 실행에서는 의도적 skip).
+- Node22 서버 정책27개 통과(9월20일). 실제 Firestore/Storage 로컬 emulator9개와 아래 manifest 검사는9월17일 기준선입니다.
 - 실제 Gradle manifest merger의7개 권한 조합 통과.
 - 서명된 R8 Android probe에서 모델 생성과 암호화 백업 상호 호환 확인. 에뮬레이터 측정이며 실물 성능 인증이 아닙니다.
+- 추가 캠페인 검사6개:1,000개 생성 지도 연결 및5구역의 모든 방 저장/복원·보상 재수령 방지. 전투 밸런스 검증은 별도입니다.
 - 실제 브라우저 UI에서 첫 퀘스트, 프롤로그, 백업/복원/재시작, 전투 체크포인트와 보상 중복 방지 확인.
 - 정확한 최신 AAB의 서명·16KiB·용량 증거는 [artifact-inspection.json](docs/rebirth/artifact-inspection.json). 빌드 검사와 Play 출시 승인은 다릅니다.
 

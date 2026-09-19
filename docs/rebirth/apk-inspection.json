@@ -1,14 +1,95 @@
 {
-  "scope": "Signed ARM64 development review APK, not public release or physical-device certification",
-  "sourceCommit": "3a243d9b6dacafed66de5d57bed2e4778c034b34",
+  "scope": "Signed ARM64 development review APK; not public release or physical-device certification",
+  "sourceCommit": "489ccff232fd5114df96d6b2e261720b6a5bd963",
   "apk": "build/app/outputs/flutter-apk/app-release.apk",
-  "bytes": 185910493,
-  "sha256": "18bd3011b0c4215f217bd8399d6d6170d46bddc58b49d6f3c0d77327ffc49076",
+  "bytes": 186524856,
+  "sha256": "7a3686ab065d0901e3f005b8d4c828aa0b5c36fe409ad25111f0a8b3ce93ab5c",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
-  "versionCode": 4,
-  "signatureVerified": true,
-  "zip16KiBAligned": true,
-  "releaseManifestVerified": true,
+  "versionCode": 5,
+  "versionName": "2.0.0",
+  "checks": [
+    {
+      "check": "APK signature and expected public upload certificate",
+      "pass": true
+    },
+    {
+      "check": "APK ZIP 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "Expected package and version",
+      "pass": true
+    },
+    {
+      "check": "Target API at least 36",
+      "pass": true
+    },
+    {
+      "check": "debuggable is not true",
+      "pass": true
+    },
+    {
+      "check": "testOnly is not true",
+      "pass": true
+    },
+    {
+      "check": "usesCleartextTraffic is not true",
+      "pass": true
+    },
+    {
+      "check": "allowBackup is not true",
+      "pass": true
+    },
+    {
+      "check": "No Billing or Ads permissions in default build",
+      "pass": true
+    },
+    {
+      "check": "Firebase initialization is explicit",
+      "pass": true
+    },
+    {
+      "check": "Review APK targets ARM64",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/libapp.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "No native QA entry point",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/libdatastore_shared_counter.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/libflutter.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/liblitertlm_jni.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "lib/armeabi-v7a/libdatastore_shared_counter.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "lib/x86_64/libdatastore_shared_counter.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "lib/x86_64/liblitertlm_jni.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "Paid story and new generated artwork bundled",
+      "pass": true
+    }
+  ],
+  "pass": true,
   "physicalDeviceTested": false,
   "inspectedDate": "2026-09-20"
 }
