@@ -459,7 +459,7 @@
   "onboardingPage1Title": "日常をクエストに",
   "onboardingPage1Body": "やることをクエストとして登録しましょう。\n完了するたびにXPとゴールドを獲得し\nあなたの実力が成長します。",
   "onboardingPage2Title": "ダンジョンを探索せよ",
-  "onboardingPage2Body": "Soul Deckダンジョンに入り\nカードバトルでモンスターと戦いましょう。\nクエストで積んだ力が実力になります。",
+  "onboardingPage2Body": "好きなときにカード探索を。\n日々の成長が冒険を支えます。\n負けても日常のXPは減りません。",
   "onboardingPage3Title": "冒険を始めよう",
   "onboardingPage3Body": "クエストをこなし、ダンジョンをクリアして\n実績や称号を集めましょう。\nあなたの日常がRPGになります。",
   "onboardingNext": "次へ",
@@ -694,7 +694,7 @@
   },
   "shopCustomRewardFabLabel": "報酬追加",
   "statusReportTooltip": "詳細レポートを見る",
-  "dungeonHomeTitle": "ソウルデッキ",
+  "dungeonHomeTitle": "カード探索",
   "dungeonHomeCardCollectionTooltip": "カードコレクション",
   "dungeonHomeDungeonSelection": "ダンジョン選択",
   "dungeonHomeRequiredLevel": "レベル{requiredLevel}以上が必要です",
@@ -1666,8 +1666,8 @@
   "lqToday": "今日",
   "lqGrowth": "成長",
   "lqDungeon": "ダンジョン",
-  "lqHeadline": "今日、もう一歩。",
-  "lqSubtitle": "小さな行動が経験値になる。",
+  "lqHeadline": "今日を、もう一ページ。",
+  "lqSubtitle": "現実の小さな行動が、次の物語を開きます。",
   "lqSystem": "パーソナルクエスト",
   "lqDailyMissions": "今日のおすすめ",
   "lqActiveQuests": "進行中のクエスト",
@@ -1734,20 +1734,20 @@
   "lqReportFailed": "報告に関する操作の結果を確認できませんでした。接続を確認して再試行してください。",
   "lqCloudQuestNotice": "受けたクエストはアカウント機能でFirebaseに保存。AI生成自体は端末内のみで実行されます。",
   "lqOpenSourceLicenses": "オープンソースライセンス",
-  "lqWelcomeTitle": "日常に、\n新しいクエストを。",
-  "lqWelcomeBody": "大きな決意より、今日の小さな一歩。\n現実の成長が、あなたの物語になります。",
+  "lqWelcomeTitle": "私の一日が、\n物語になる。",
+  "lqWelcomeBody": "街の謎、山里の修練、星を探す旅。\n今日の小さな行動で、好きな世界の続きを。",
   "lqFirstContract": "あなたとの最初の約束",
   "lqWelcomeStepOne": "今日の自分に合わせる",
   "lqWelcomeStepOneBody": "使える時間とエネルギーを選びましょう。",
   "lqWelcomeStepTwo": "小さなクエストで成長する",
   "lqWelcomeStepTwoBody": "現実でできたことで経験値を得られます。",
-  "lqWelcomeStepThree": "自分だけの物語を開く",
-  "lqWelcomeStepThreeBody": "カードとダンジョンで、小さな成長を楽しめます。",
+  "lqWelcomeStepThree": "三つの世界で続く成長",
+  "lqWelcomeStepThreeBody": "物語を選び、現実の行動で次の場面を開きましょう。",
   "lqStartOnDevice": "この端末で始める",
   "lqStarting": "ステータスを開いています…",
   "lqExistingAccount": "既存のアカウントで続ける",
   "lqDeviceStorageNotice": "登録なしで無料で始められます。記録はこの端末だけに保存され、アプリを削除すると失われます。",
-  "lqGuestName": "覚醒者",
+  "lqGuestName": "記録者",
   "lqProfileLoadFailed": "記録を読み込めませんでした。保存済みデータは保持されています。もう一度お試しください。",
   "lqRetry": "再試行",
   "lqBackToStart": "スタート画面へ",
@@ -1764,12 +1764,12 @@
   "lqPurchaseRestoring": "購入を復元しています…",
   "lqPurchaseRestoreFinished": "ストアの購入履歴を確認しました。購入時と同じアプリアカウントか確認してください。",
   "lqRestorePurchases": "購入を復元",
-  "lqStoryLibrary": "記録室",
+  "lqStoryLibrary": "境界の書架",
   "lqStoryFreePrologue": "無料プロローグ",
   "lqStoryBannerTitle": "0番出口からの信号",
   "lqStoryBannerBody": "今日の小さな行動で、次の物語が開きます。",
-  "lqStoryLibraryHeadline": "あなたの行動が、\n物語になる場所。",
-  "lqStoryLibraryHint": "急がなくて大丈夫。記録はいつでも読み返せます。",
+  "lqStoryLibraryHeadline": "同じ一日、\n違う世界の物語。",
+  "lqStoryLibraryHint": "今日に置く本を選びましょう。本を替えても成長と選択は残ります。",
   "lqStoryProgress": "完成した記録",
   "lqStoryLoadFailed": "物語を読み込めませんでした。画面を閉じてもう一度お試しください。",
   "lqStoryFiction": "日常のクエストで進む、フィクションの物語です。",
@@ -1884,5 +1884,30 @@
   "lqReportDeleted": "報告を削除しました。",
   "lqReportDeleteIdentity": "匿名の報告用アカウントを削除",
   "lqReportDeleteIdentityBody": "現在の匿名の報告用アカウントと、そのアカウントから送信したすべての報告の削除を依頼します。端末の成長記録は残ります。その後に報告すると、新しい匿名アカウントが作成されます。",
-  "lqReportIdentityDeleted": "削除依頼を受け付けました。アプリを閉じてもサーバーで処理を続けます。"
+  "lqReportIdentityDeleted": "削除依頼を受け付けました。アプリを閉じてもサーバーで処理を続けます。",
+  "lqWorldCurrent": "今日の物語",
+  "lqWorldChoose": "どの世界へ進みますか？",
+  "lqWorldChooseHint": "街・修練・探索。三つの無料短編。",
+  "lqWorldChange": "本を替える",
+  "lqWorldSelect": "この本から始める",
+  "lqWorldContinue": "今日の本の続きを読む",
+  "lqWorldSaving": "しおりを保存中…",
+  "lqWorldFreeCollection": "三つの短編は無料・期限なし",
+  "lqWorldCollectionPromise": "基本クエスト・AI・記録は無料です。この書架の三つの短編に購入は不要です。",
+  "lqActionsRecorded": "現実で達成したクエスト {count}件",
+  "lqStoryActionsRemaining": "次の場面までクエスト {count}件",
+  "@lqActionsRecorded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@lqStoryActionsRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

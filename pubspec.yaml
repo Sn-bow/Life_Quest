@@ -1,7 +1,7 @@
 name: life_quest_final_v2
 description: "Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱 (applicationId: com.lifequest.app)"
 publish_to: 'none'
-version: 2.0.0+3
+version: 2.0.0+4
 
 environment:
   sdk: '>=3.12.0 <4.0.0'
@@ -63,7 +63,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: false
   image_path: "assets/images/app_icon.png"
-  adaptive_icon_background: "#090F1C"
+  adaptive_icon_background: "#101619"
   adaptive_icon_foreground: "assets/images/app_icon_android_foreground.png"
   adaptive_icon_foreground_inset: 14
   min_sdk_android: 21
@@ -71,18 +71,18 @@ flutter_launcher_icons:
   web:
     generate: true
     image_path: "assets/images/app_icon.png"
-    background_color: "#090F1C"
-    theme_color: "#090F1C"
+    background_color: "#101619"
+    theme_color: "#101619"
 
 flutter_native_splash:
-  color: "#090F1C"
-  color_dark: "#090F1C"
+  color: "#101619"
+  color_dark: "#101619"
   image: assets/images/splash_mark.png
   image_dark: assets/images/splash_mark_dark.png
   android_12:
-    color: "#090F1C"
+    color: "#101619"
     image: assets/images/splash_mark_dark.png
-    icon_background_color: "#090F1C"
+    icon_background_color: "#101619"
   android: true
   ios: false
 

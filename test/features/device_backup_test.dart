@@ -22,9 +22,10 @@ void main() {
       expect(result.name, '검증용 각성자');
       expect(result.profile['character']['xp'], 60);
       expect(
-        result.profile['character']['storyChoices']['prologue:signal'],
+        result.profile['character']['storyChoices']['prologue/signal'],
         'answer',
       );
+      expect(result.profile['character']['activeStoryChapterId'], 'courtyard');
       expect(result.profile['dailyQuests'].single['isCompleted'], true);
       expect(result.director['profile']['goal'], '퇴근 후 조용한 영어 공부');
       expect(result.director['accepted']['director:2026-09-14:read'], 5);

@@ -818,8 +818,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPage2Title => '探索地下城';
 
   @override
-  String get onboardingPage2Body =>
-      '进入灵魂牌组地下城，\n用卡牌战斗与怪物对决。\n通过任务积累的力量将成为真实的战力。';
+  String get onboardingPage2Body => '随时开启一次卡牌探索。\n日常成长为冒险增添力量。\n战斗失败不会扣除日常XP。';
 
   @override
   String get onboardingPage3Title => '开始你的冒险';
@@ -1252,7 +1251,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get statusReportTooltip => '查看详细报告';
 
   @override
-  String get dungeonHomeTitle => '灵魂牌组';
+  String get dungeonHomeTitle => '卡牌探索';
 
   @override
   String get dungeonHomeCardCollectionTooltip => '卡牌收藏';
@@ -3770,10 +3769,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqDungeon => '地下城';
 
   @override
-  String get lqHeadline => '今天，再进一步。';
+  String get lqHeadline => '今天，再写一页。';
 
   @override
-  String get lqSubtitle => '小小行动，真实成长。';
+  String get lqSubtitle => '现实中的小小行动，开启下一段故事。';
 
   @override
   String get lqSystem => '个人任务系统';
@@ -3976,10 +3975,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqOpenSourceLicenses => '开源许可';
 
   @override
-  String get lqWelcomeTitle => '为日常，\n开启新的任务。';
+  String get lqWelcomeTitle => '我的一天，\n成为故事。';
 
   @override
-  String get lqWelcomeBody => '不必立下宏大目标，从今天的一件小事开始。\n现实中的成长，就是你的故事。';
+  String get lqWelcomeBody => '城市谜案、山中修习、寻星之旅。\n用今天的小小行动，续写你选择的世界。';
 
   @override
   String get lqFirstContract => '与你的第一个约定';
@@ -3997,10 +3996,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqWelcomeStepTwoBody => '在现实中完成行动，收获经验。';
 
   @override
-  String get lqWelcomeStepThree => '开启属于你的故事';
+  String get lqWelcomeStepThree => '在三个世界中成长';
 
   @override
-  String get lqWelcomeStepThreeBody => '卡牌与地牢，让每一点成长都值得期待。';
+  String get lqWelcomeStepThreeBody => '选择故事，用现实行动开启下一幕。';
 
   @override
   String get lqStartOnDevice => '在此设备上开始';
@@ -4015,7 +4014,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqDeviceStorageNotice => '无需注册，免费开始。记录仅保存在此设备上，卸载应用后将丢失。';
 
   @override
-  String get lqGuestName => '觉醒者';
+  String get lqGuestName => '记录者';
 
   @override
   String get lqProfileLoadFailed => '无法加载记录。已保存的数据仍被保留，请重试。';
@@ -4066,7 +4065,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqRestorePurchases => '恢复购买';
 
   @override
-  String get lqStoryLibrary => '记录馆';
+  String get lqStoryLibrary => '交界书阁';
 
   @override
   String get lqStoryFreePrologue => '免费序章';
@@ -4078,10 +4077,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqStoryBannerBody => '今天的小小行动，开启下一段故事。';
 
   @override
-  String get lqStoryLibraryHeadline => '让你的行动，\n成为故事的地方。';
+  String get lqStoryLibraryHeadline => '同样的一天，\n不同世界的故事。';
 
   @override
-  String get lqStoryLibraryHint => '不用着急，你随时都能回来重读记录。';
+  String get lqStoryLibraryHint => '选一本书放在“今天”。换书后，成长与选择都会保留。';
 
   @override
   String get lqStoryProgress => '已完成的记录';
@@ -4392,4 +4391,41 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lqReportIdentityDeleted => '删除申请已受理。即使关闭应用，服务器仍会继续处理。';
+
+  @override
+  String get lqWorldCurrent => '今天的故事';
+
+  @override
+  String get lqWorldChoose => '今天想走进哪个世界？';
+
+  @override
+  String get lqWorldChooseHint => '城市·修习·探索，三篇免费故事。';
+
+  @override
+  String get lqWorldChange => '换一本书';
+
+  @override
+  String get lqWorldSelect => '从这本书开始';
+
+  @override
+  String get lqWorldContinue => '继续今天的书';
+
+  @override
+  String get lqWorldSaving => '正在保存书签…';
+
+  @override
+  String get lqWorldFreeCollection => '三篇故事均免费·没有期限';
+
+  @override
+  String get lqWorldCollectionPromise => '基础任务、AI和记录免费。本书阁的三篇故事无需购买。';
+
+  @override
+  String lqActionsRecorded(int count) {
+    return '已完成 $count 个现实任务';
+  }
+
+  @override
+  String lqStoryActionsRemaining(int count) {
+    return '再完成 $count 个任务即可开启下一幕';
+  }
 }

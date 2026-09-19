@@ -826,7 +826,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Soul Deckダンジョンに入り\nカードバトルでモンスターと戦いましょう。\nクエストで積んだ力が実力になります。';
+      '好きなときにカード探索を。\n日々の成長が冒険を支えます。\n負けても日常のXPは減りません。';
 
   @override
   String get onboardingPage3Title => '冒険を始めよう';
@@ -1263,7 +1263,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get statusReportTooltip => '詳細レポートを見る';
 
   @override
-  String get dungeonHomeTitle => 'ソウルデッキ';
+  String get dungeonHomeTitle => 'カード探索';
 
   @override
   String get dungeonHomeCardCollectionTooltip => 'カードコレクション';
@@ -3783,10 +3783,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqDungeon => 'ダンジョン';
 
   @override
-  String get lqHeadline => '今日、もう一歩。';
+  String get lqHeadline => '今日を、もう一ページ。';
 
   @override
-  String get lqSubtitle => '小さな行動が経験値になる。';
+  String get lqSubtitle => '現実の小さな行動が、次の物語を開きます。';
 
   @override
   String get lqSystem => 'パーソナルクエスト';
@@ -3992,10 +3992,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqOpenSourceLicenses => 'オープンソースライセンス';
 
   @override
-  String get lqWelcomeTitle => '日常に、\n新しいクエストを。';
+  String get lqWelcomeTitle => '私の一日が、\n物語になる。';
 
   @override
-  String get lqWelcomeBody => '大きな決意より、今日の小さな一歩。\n現実の成長が、あなたの物語になります。';
+  String get lqWelcomeBody => '街の謎、山里の修練、星を探す旅。\n今日の小さな行動で、好きな世界の続きを。';
 
   @override
   String get lqFirstContract => 'あなたとの最初の約束';
@@ -4013,10 +4013,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqWelcomeStepTwoBody => '現実でできたことで経験値を得られます。';
 
   @override
-  String get lqWelcomeStepThree => '自分だけの物語を開く';
+  String get lqWelcomeStepThree => '三つの世界で続く成長';
 
   @override
-  String get lqWelcomeStepThreeBody => 'カードとダンジョンで、小さな成長を楽しめます。';
+  String get lqWelcomeStepThreeBody => '物語を選び、現実の行動で次の場面を開きましょう。';
 
   @override
   String get lqStartOnDevice => 'この端末で始める';
@@ -4032,7 +4032,7 @@ class AppLocalizationsJa extends AppLocalizations {
       '登録なしで無料で始められます。記録はこの端末だけに保存され、アプリを削除すると失われます。';
 
   @override
-  String get lqGuestName => '覚醒者';
+  String get lqGuestName => '記録者';
 
   @override
   String get lqProfileLoadFailed =>
@@ -4085,7 +4085,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqRestorePurchases => '購入を復元';
 
   @override
-  String get lqStoryLibrary => '記録室';
+  String get lqStoryLibrary => '境界の書架';
 
   @override
   String get lqStoryFreePrologue => '無料プロローグ';
@@ -4097,10 +4097,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqStoryBannerBody => '今日の小さな行動で、次の物語が開きます。';
 
   @override
-  String get lqStoryLibraryHeadline => 'あなたの行動が、\n物語になる場所。';
+  String get lqStoryLibraryHeadline => '同じ一日、\n違う世界の物語。';
 
   @override
-  String get lqStoryLibraryHint => '急がなくて大丈夫。記録はいつでも読み返せます。';
+  String get lqStoryLibraryHint => '今日に置く本を選びましょう。本を替えても成長と選択は残ります。';
 
   @override
   String get lqStoryProgress => '完成した記録';
@@ -4417,4 +4417,42 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lqReportIdentityDeleted => '削除依頼を受け付けました。アプリを閉じてもサーバーで処理を続けます。';
+
+  @override
+  String get lqWorldCurrent => '今日の物語';
+
+  @override
+  String get lqWorldChoose => 'どの世界へ進みますか？';
+
+  @override
+  String get lqWorldChooseHint => '街・修練・探索。三つの無料短編。';
+
+  @override
+  String get lqWorldChange => '本を替える';
+
+  @override
+  String get lqWorldSelect => 'この本から始める';
+
+  @override
+  String get lqWorldContinue => '今日の本の続きを読む';
+
+  @override
+  String get lqWorldSaving => 'しおりを保存中…';
+
+  @override
+  String get lqWorldFreeCollection => '三つの短編は無料・期限なし';
+
+  @override
+  String get lqWorldCollectionPromise =>
+      '基本クエスト・AI・記録は無料です。この書架の三つの短編に購入は不要です。';
+
+  @override
+  String lqActionsRecorded(int count) {
+    return '現実で達成したクエスト $count件';
+  }
+
+  @override
+  String lqStoryActionsRemaining(int count) {
+    return '次の場面までクエスト $count件';
+  }
 }

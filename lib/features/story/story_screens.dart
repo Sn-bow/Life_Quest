@@ -4,72 +4,172 @@ import '../../l10n/app_localizations.dart';
 import '../../state/character_state.dart';
 import 'story_chapter.dart';
 
+void _openChapter(
+  BuildContext context,
+  StoryChapter chapter, {
+  bool continueReading = false,
+}) {
+  final state = context.read<CharacterState>();
+  final next = chapter.nextSceneIndex(state.storyChoices);
+  Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (_) =>
+          continueReading && next != null && state.canOpenStory(chapter, next)
+          ? StoryReaderScreen(
+              chapter: chapter,
+              index: next,
+              openedDirectly: true,
+            )
+          : StoryChapterScreen(chapter: chapter),
+    ),
+  );
+}
+
 class StoryBanner extends StatelessWidget {
   const StoryBanner({super.key});
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final t = Theme.of(context);
-    return InkWell(
-      borderRadius: BorderRadius.circular(20),
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (_) => const StoryLibraryScreen()),
+    final state = context.watch<CharacterState>();
+    void library() => Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const StoryLibraryScreen()));
+    return FutureBuilder<List<StoryChapter>>(
+      future: StoryRepository.load(
+        Localizations.localeOf(context).languageCode,
       ),
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: t.colorScheme.outline),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ExcludeSemantics(
-              child: SizedBox(
-                height: 112,
-                child: Image.asset(
-                  'assets/images/backgrounds/exit_zero_gateway.jpg',
-                  fit: BoxFit.cover,
+      builder: (context, snapshot) {
+        final chapter = snapshot.data
+            ?.where((book) => book.id == state.activeStoryChapterId)
+            .firstOrNull;
+        final next = chapter?.nextSceneIndex(state.storyChoices);
+        final remaining = next == null
+            ? 0
+            : (chapter!.scenes[next].quests - state.questCompletionCount).clamp(
+                0,
+                chapter.scenes[next].quests,
+              );
+        final caption = chapter == null
+            ? l.lqWorldChooseHint
+            : next == null
+            ? l.lqStoryReadAgain
+            : remaining > 0
+            ? l.lqStoryActionsRemaining(remaining)
+            : l.lqStoryReadNow;
+        return Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InkWell(
+                onTap: chapter == null
+                    ? library
+                    : () =>
+                          _openChapter(context, chapter, continueReading: true),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Row(
+                    children: [
+                      ExcludeSemantics(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(
+                            chapter?.artwork ??
+                                'assets/images/backgrounds/journal_worlds.jpg',
+                            width: 70,
+                            height: 76,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l.lqWorldCurrent,
+                              style: t.textTheme.labelSmall?.copyWith(
+                                color: t.colorScheme.primary,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              chapter?.title ?? l.lqWorldChoose,
+                              style: t.textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(caption, style: t.textTheme.bodySmall),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      const Icon(Icons.chevron_right, size: 20),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l.lqStoryFreePrologue,
-                    style: t.textTheme.labelMedium?.copyWith(
-                      color: t.colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
+              if (snapshot.hasError)
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(l.lqStoryLoadFailed),
+                ),
+              if (chapter != null)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 0, 8, 2),
+                  child: Row(
                     children: [
                       Expanded(
                         child: Text(
-                          l.lqStoryBannerTitle,
-                          style: t.textTheme.titleLarge,
+                          '${chapter.completed(state.storyChoices)} / ${chapter.scenes.length} · ${l.lqStoryProgress}',
+                          style: t.textTheme.bodySmall,
                         ),
                       ),
-                      const Icon(Icons.arrow_forward_rounded, size: 20),
+                      Flexible(
+                        child: TextButton(
+                          onPressed: library,
+                          child: Text(l.lqWorldChange),
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 6),
-                  Text(l.lqStoryBannerBody, style: t.textTheme.bodySmall),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
 
-class StoryLibraryScreen extends StatelessWidget {
+class StoryLibraryScreen extends StatefulWidget {
   const StoryLibraryScreen({super.key});
+  @override
+  State<StoryLibraryScreen> createState() => _StoryLibraryScreenState();
+}
+
+class _StoryLibraryScreenState extends State<StoryLibraryScreen> {
+  String? _saving;
+  Future<void> _select(StoryChapter chapter) async {
+    if (_saving != null) return;
+    setState(() => _saving = chapter.id);
+    final saved = await context.read<CharacterState>().selectStoryChapter(
+      chapter.id,
+    );
+    if (!mounted) return;
+    setState(() => _saving = null);
+    if (saved) {
+      _openChapter(context, chapter, continueReading: true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.lqStorySaveFailed),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -103,79 +203,106 @@ class StoryLibraryScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(l.lqStoryLibraryHint, style: t.textTheme.bodyMedium),
-                const SizedBox(height: 24),
+                const SizedBox(height: 10),
+                Text(
+                  l.lqWorldFreeCollection,
+                  style: t.textTheme.labelLarge?.copyWith(
+                    color: t.colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 22),
                 for (final chapter in snapshot.data!)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 22),
+                    padding: const EdgeInsets.only(bottom: 18),
                     child: Card(
-                      margin: EdgeInsets.zero,
                       clipBehavior: Clip.antiAlias,
-                      child: InkWell(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) =>
-                                StoryChapterScreen(chapter: chapter),
-                          ),
-                        ),
-                        child: Semantics(
-                          button: true,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              ExcludeSemantics(
-                                child: AspectRatio(
-                                  aspectRatio: 1.85,
-                                  child: Image.asset(
-                                    chapter.artwork,
-                                    fit: BoxFit.cover,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          InkWell(
+                            onTap: () => _openChapter(context, chapter),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ExcludeSemantics(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          child: Image.asset(
+                                            chapter.artwork,
+                                            width: 84,
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 14),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              chapter.subtitle,
+                                              style: t.textTheme.labelSmall
+                                                  ?.copyWith(
+                                                    color:
+                                                        t.colorScheme.primary,
+                                                  ),
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Text(
+                                              chapter.title,
+                                              style: t.textTheme.titleMedium,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              '${chapter.completed(state.storyChoices)} / ${chapter.scenes.length} · ${l.lqStoryProgress}',
+                                              style: t.textTheme.bodySmall,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Icon(Icons.chevron_right, size: 18),
+                                    ],
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      chapter.subtitle,
-                                      style: t.textTheme.labelMedium?.copyWith(
-                                        color: t.colorScheme.primary,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      chapter.title,
-                                      style: t.textTheme.titleLarge,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      chapter.description,
-                                      style: t.textTheme.bodyMedium,
-                                    ),
-                                    const SizedBox(height: 18),
-                                    ExcludeSemantics(
-                                      child: LinearProgressIndicator(
-                                        value:
-                                            chapter.completed(
-                                              state.storyChoices,
-                                            ) /
-                                            chapter.scenes.length,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      '${chapter.completed(state.storyChoices)} / ${chapter.scenes.length} · ${l.lqStoryProgress}',
-                                      style: t.textTheme.bodySmall,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                            child: OutlinedButton.icon(
+                              onPressed: _saving != null
+                                  ? null
+                                  : () => _select(chapter),
+                              icon: Icon(
+                                state.activeStoryChapterId == chapter.id
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_add_outlined,
+                                size: 18,
+                              ),
+                              label: Text(
+                                _saving == chapter.id
+                                    ? l.lqWorldSaving
+                                    : state.activeStoryChapterId == chapter.id
+                                    ? l.lqWorldContinue
+                                    : l.lqWorldSelect,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
+                Text(l.lqWorldCollectionPromise, style: t.textTheme.bodySmall),
               ],
             ),
           );
@@ -301,10 +428,12 @@ class _SceneRow extends StatelessWidget {
 class StoryReaderScreen extends StatefulWidget {
   final StoryChapter chapter;
   final int index;
+  final bool openedDirectly;
   const StoryReaderScreen({
     super.key,
     required this.chapter,
     required this.index,
+    this.openedDirectly = false,
   });
   @override
   State<StoryReaderScreen> createState() => _StoryReaderScreenState();
@@ -444,8 +573,11 @@ class _StoryReaderScreenState extends State<StoryReaderScreen> {
                   FilledButton(
                     onPressed: () => Navigator.of(context).pushReplacement(
                       MaterialPageRoute<void>(
-                        builder: (_) =>
-                            StoryReaderScreen(chapter: chapter, index: next),
+                        builder: (_) => StoryReaderScreen(
+                          chapter: chapter,
+                          index: next,
+                          openedDirectly: widget.openedDirectly,
+                        ),
                       ),
                     ),
                     child: Text(l.lqStoryNext),
@@ -459,7 +591,18 @@ class _StoryReaderScreenState extends State<StoryReaderScreen> {
                   ),
                   const SizedBox(height: 12),
                   FilledButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      if (widget.openedDirectly) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute<void>(
+                            builder: (_) =>
+                                StoryChapterScreen(chapter: chapter),
+                          ),
+                        );
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    },
                     child: Text(l.lqStoryBackToChapter),
                   ),
                 ],

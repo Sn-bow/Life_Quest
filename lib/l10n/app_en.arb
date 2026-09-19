@@ -459,7 +459,7 @@
   "onboardingPage1Title": "Daily Life as Quests",
   "onboardingPage1Body": "Register your tasks as quests.\nEarn XP and gold each time you complete one\nand grow your stats and skills.",
   "onboardingPage2Title": "Explore the Dungeon",
-  "onboardingPage2Body": "Enter the Soul Deck dungeon\nand battle monsters with card combat.\nThe strength you build from quests becomes real power.",
+  "onboardingPage2Body": "Try a card expedition whenever you like.\nDaily progress supports your adventure.\nLosing a battle never takes your everyday XP.",
   "onboardingPage3Title": "Start Your Adventure",
   "onboardingPage3Body": "Complete quests, clear dungeons,\nand collect achievements and titles.\nYour everyday life becomes an RPG.",
   "onboardingNext": "Next",
@@ -694,7 +694,7 @@
   },
   "shopCustomRewardFabLabel": "Add Reward",
   "statusReportTooltip": "View Detailed Report",
-  "dungeonHomeTitle": "Soul Deck",
+  "dungeonHomeTitle": "Card Expeditions",
   "dungeonHomeCardCollectionTooltip": "Card Collection",
   "dungeonHomeDungeonSelection": "Select Dungeon",
   "dungeonHomeRequiredLevel": "Level {requiredLevel} or higher required",
@@ -1666,8 +1666,8 @@
   "lqToday": "Today",
   "lqGrowth": "Growth",
   "lqDungeon": "Dungeon",
-  "lqHeadline": "One step further.",
-  "lqSubtitle": "Small actions. Real progress.",
+  "lqHeadline": "One more page, today.",
+  "lqSubtitle": "Small real-world actions open your next scene.",
   "lqSystem": "PERSONAL QUEST SYSTEM",
   "lqDailyMissions": "Your daily quests",
   "lqActiveQuests": "In progress",
@@ -1734,20 +1734,20 @@
   "lqReportFailed": "Could not confirm the report action. Check your connection and try again.",
   "lqCloudQuestNotice": "Accepted quests are saved to Firebase through your account. AI generation itself runs only on this device.",
   "lqOpenSourceLicenses": "Open-source licenses",
-  "lqWelcomeTitle": "A new quest.\nYour real life.",
-  "lqWelcomeBody": "One small action today is enough to begin.\nYour progress becomes your story.",
+  "lqWelcomeTitle": "Your day.\nYour unfolding story.",
+  "lqWelcomeBody": "A city mystery, a mountain courtyard, a map of stars.\nCarry your everyday progress into a world you choose.",
   "lqFirstContract": "YOUR FIRST CONTRACT",
   "lqWelcomeStepOne": "Start where you are",
   "lqWelcomeStepOneBody": "Choose your time, energy and focus.",
   "lqWelcomeStepTwo": "Grow through small quests",
   "lqWelcomeStepTwoBody": "Earn experience for what you do in real life.",
-  "lqWelcomeStepThree": "Unlock your own story",
-  "lqWelcomeStepThreeBody": "Cards and dungeons make each small win a reward.",
+  "lqWelcomeStepThree": "Grow across three worlds",
+  "lqWelcomeStepThreeBody": "Choose a story. Real-life actions unlock the next scene.",
   "lqStartOnDevice": "Start on this device",
   "lqStarting": "Opening your status…",
   "lqExistingAccount": "Continue with an existing account",
   "lqDeviceStorageNotice": "Start free, without an account. Your progress stays on this device and is lost if you uninstall the app.",
-  "lqGuestName": "Awakener",
+  "lqGuestName": "Chronicler",
   "lqProfileLoadFailed": "Your profile could not be loaded. Saved data has been preserved. Please try again.",
   "lqRetry": "Try again",
   "lqBackToStart": "Back to start",
@@ -1764,12 +1764,12 @@
   "lqPurchaseRestoring": "Restoring purchases…",
   "lqPurchaseRestoreFinished": "Store purchases checked. Make sure you are using the same app account used to purchase.",
   "lqRestorePurchases": "Restore purchases",
-  "lqStoryLibrary": "Archive",
+  "lqStoryLibrary": "The Crossing Library",
   "lqStoryFreePrologue": "FREE PROLOGUE",
   "lqStoryBannerTitle": "A signal from Exit Zero",
   "lqStoryBannerBody": "Today’s small actions open the next page.",
-  "lqStoryLibraryHeadline": "Where your actions\nbecome a story.",
-  "lqStoryLibraryHint": "Take your time. Your records are always here to revisit.",
+  "lqStoryLibraryHeadline": "One life.\nMany stories to unfold.",
+  "lqStoryLibraryHint": "Choose a book to keep on Today. Switching books preserves your progress and choices.",
   "lqStoryProgress": "records completed",
   "lqStoryLoadFailed": "The story could not be loaded. Close this screen and try again.",
   "lqStoryFiction": "A fictional story that progresses through your everyday quests.",
@@ -1884,5 +1884,30 @@
   "lqReportDeleted": "Report deleted.",
   "lqReportDeleteIdentity": "Delete anonymous report account",
   "lqReportDeleteIdentityBody": "Request deletion of this device’s current anonymous report account and all reports sent by it. Your device progress remains. Sending another report later creates a new anonymous account.",
-  "lqReportIdentityDeleted": "Deletion accepted. Server processing continues even after you close the app."
+  "lqReportIdentityDeleted": "Deletion accepted. Server processing continues even after you close the app.",
+  "lqWorldCurrent": "YOUR CURRENT STORY",
+  "lqWorldChoose": "Where will today take you?",
+  "lqWorldChooseHint": "City · Practice · Discovery. Three free stories.",
+  "lqWorldChange": "Change book",
+  "lqWorldSelect": "Begin with this book",
+  "lqWorldContinue": "Continue this book",
+  "lqWorldSaving": "Saving bookmark…",
+  "lqWorldFreeCollection": "Three free stories · No deadlines",
+  "lqWorldCollectionPromise": "Core quests, AI and records are free. All three stories in this library require no purchase.",
+  "lqActionsRecorded": "{count} real-life quests completed",
+  "lqStoryActionsRemaining": "{count} quests to the next scene",
+  "@lqActionsRecorded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@lqStoryActionsRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

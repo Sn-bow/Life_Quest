@@ -66,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(18),
                   child: Image.asset(
-                    'assets/images/backgrounds/exit_zero_gateway.jpg',
+                    'assets/images/backgrounds/journal_worlds.jpg',
                     height: 180,
                     fit: BoxFit.cover,
                     alignment: const Alignment(.55, 0),

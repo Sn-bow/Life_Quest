@@ -844,7 +844,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Enter the Soul Deck dungeon\nand battle monsters with card combat.\nThe strength you build from quests becomes real power.';
+      'Try a card expedition whenever you like.\nDaily progress supports your adventure.\nLosing a battle never takes your everyday XP.';
 
   @override
   String get onboardingPage3Title => 'Start Your Adventure';
@@ -1291,7 +1291,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusReportTooltip => 'View Detailed Report';
 
   @override
-  String get dungeonHomeTitle => 'Soul Deck';
+  String get dungeonHomeTitle => 'Card Expeditions';
 
   @override
   String get dungeonHomeCardCollectionTooltip => 'Card Collection';
@@ -3888,10 +3888,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqDungeon => 'Dungeon';
 
   @override
-  String get lqHeadline => 'One step further.';
+  String get lqHeadline => 'One more page, today.';
 
   @override
-  String get lqSubtitle => 'Small actions. Real progress.';
+  String get lqSubtitle => 'Small real-world actions open your next scene.';
 
   @override
   String get lqSystem => 'PERSONAL QUEST SYSTEM';
@@ -4107,11 +4107,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqOpenSourceLicenses => 'Open-source licenses';
 
   @override
-  String get lqWelcomeTitle => 'A new quest.\nYour real life.';
+  String get lqWelcomeTitle => 'Your day.\nYour unfolding story.';
 
   @override
   String get lqWelcomeBody =>
-      'One small action today is enough to begin.\nYour progress becomes your story.';
+      'A city mystery, a mountain courtyard, a map of stars.\nCarry your everyday progress into a world you choose.';
 
   @override
   String get lqFirstContract => 'YOUR FIRST CONTRACT';
@@ -4130,11 +4130,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Earn experience for what you do in real life.';
 
   @override
-  String get lqWelcomeStepThree => 'Unlock your own story';
+  String get lqWelcomeStepThree => 'Grow across three worlds';
 
   @override
   String get lqWelcomeStepThreeBody =>
-      'Cards and dungeons make each small win a reward.';
+      'Choose a story. Real-life actions unlock the next scene.';
 
   @override
   String get lqStartOnDevice => 'Start on this device';
@@ -4150,7 +4150,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Start free, without an account. Your progress stays on this device and is lost if you uninstall the app.';
 
   @override
-  String get lqGuestName => 'Awakener';
+  String get lqGuestName => 'Chronicler';
 
   @override
   String get lqProfileLoadFailed =>
@@ -4207,7 +4207,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqRestorePurchases => 'Restore purchases';
 
   @override
-  String get lqStoryLibrary => 'Archive';
+  String get lqStoryLibrary => 'The Crossing Library';
 
   @override
   String get lqStoryFreePrologue => 'FREE PROLOGUE';
@@ -4219,11 +4219,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqStoryBannerBody => 'Today’s small actions open the next page.';
 
   @override
-  String get lqStoryLibraryHeadline => 'Where your actions\nbecome a story.';
+  String get lqStoryLibraryHeadline => 'One life.\nMany stories to unfold.';
 
   @override
   String get lqStoryLibraryHint =>
-      'Take your time. Your records are always here to revisit.';
+      'Choose a book to keep on Today. Switching books preserves your progress and choices.';
 
   @override
   String get lqStoryProgress => 'records completed';
@@ -4558,4 +4558,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lqReportIdentityDeleted =>
       'Deletion accepted. Server processing continues even after you close the app.';
+
+  @override
+  String get lqWorldCurrent => 'YOUR CURRENT STORY';
+
+  @override
+  String get lqWorldChoose => 'Where will today take you?';
+
+  @override
+  String get lqWorldChooseHint =>
+      'City · Practice · Discovery. Three free stories.';
+
+  @override
+  String get lqWorldChange => 'Change book';
+
+  @override
+  String get lqWorldSelect => 'Begin with this book';
+
+  @override
+  String get lqWorldContinue => 'Continue this book';
+
+  @override
+  String get lqWorldSaving => 'Saving bookmark…';
+
+  @override
+  String get lqWorldFreeCollection => 'Three free stories · No deadlines';
+
+  @override
+  String get lqWorldCollectionPromise =>
+      'Core quests, AI and records are free. All three stories in this library require no purchase.';
+
+  @override
+  String lqActionsRecorded(int count) {
+    return '$count real-life quests completed';
+  }
+
+  @override
+  String lqStoryActionsRemaining(int count) {
+    return '$count quests to the next scene';
+  }
 }

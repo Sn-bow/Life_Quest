@@ -2872,6 +2872,38 @@ class CharacterState extends ChangeNotifier {
 
   Map<String, String> get storyChoices =>
       Map.unmodifiable(_character?.storyChoices ?? {});
+  bool _selectingStory = false;
+  String? get activeStoryChapterId {
+    final id = _character?.activeStoryChapterId;
+    return StoryRepository.chapterIds.contains(id) ? id : null;
+  }
+
+  Future<bool> selectStoryChapter(String id) async {
+    final character = _character;
+    if (character == null ||
+        !_isDataLoaded ||
+        _restoringLocal ||
+        _deletingAccount ||
+        _selectingStory ||
+        !StoryRepository.chapterIds.contains(id)) {
+      return false;
+    }
+    final previous = character.activeStoryChapterId;
+    _selectingStory = true;
+    character.activeStoryChapterId = id;
+    try {
+      await _performSaveData();
+      if (!identical(character, _character)) return false;
+      notifyListeners();
+      return true;
+    } catch (_) {
+      character.activeStoryChapterId = previous;
+      return false;
+    } finally {
+      _selectingStory = false;
+    }
+  }
+
   bool ownsStory(StoryChapter chapter) =>
       chapter.productId == null ||
       _purchasedEntitlements.contains(chapter.productId);
@@ -2888,7 +2920,11 @@ class CharacterState extends ChangeNotifier {
     String choiceId,
   ) async {
     final character = _character;
-    if (character == null || !_isDataLoaded || !canOpenStory(chapter, index)) {
+    if (character == null ||
+        !_isDataLoaded ||
+        _restoringLocal ||
+        _deletingAccount ||
+        !canOpenStory(chapter, index)) {
       return false;
     }
     if (!chapter.scenes[index].choices.any((c) => c.id == choiceId)) {

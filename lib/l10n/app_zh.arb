@@ -459,7 +459,7 @@
   "onboardingPage1Title": "将日常变成任务",
   "onboardingPage1Body": "将待办事项注册为任务吧。\n每次完成都能获得经验和金币，\n不断提升自己的实力。",
   "onboardingPage2Title": "探索地下城",
-  "onboardingPage2Body": "进入灵魂牌组地下城，\n用卡牌战斗与怪物对决。\n通过任务积累的力量将成为真实的战力。",
+  "onboardingPage2Body": "随时开启一次卡牌探索。\n日常成长为冒险增添力量。\n战斗失败不会扣除日常XP。",
   "onboardingPage3Title": "开始你的冒险",
   "onboardingPage3Body": "完成任务，通关地下城，\n收集成就与称号。\n你的日常将变成一场RPG。",
   "onboardingNext": "下一步",
@@ -694,7 +694,7 @@
   },
   "shopCustomRewardFabLabel": "添加奖励",
   "statusReportTooltip": "查看详细报告",
-  "dungeonHomeTitle": "灵魂牌组",
+  "dungeonHomeTitle": "卡牌探索",
   "dungeonHomeCardCollectionTooltip": "卡牌收藏",
   "dungeonHomeDungeonSelection": "选择地下城",
   "dungeonHomeRequiredLevel": "需要{requiredLevel}级或以上",
@@ -1666,8 +1666,8 @@
   "lqToday": "今天",
   "lqGrowth": "成长",
   "lqDungeon": "地下城",
-  "lqHeadline": "今天，再进一步。",
-  "lqSubtitle": "小小行动，真实成长。",
+  "lqHeadline": "今天，再写一页。",
+  "lqSubtitle": "现实中的小小行动，开启下一段故事。",
   "lqSystem": "个人任务系统",
   "lqDailyMissions": "今日推荐",
   "lqActiveQuests": "进行中的任务",
@@ -1734,20 +1734,20 @@
   "lqReportFailed": "无法确认举报操作的结果。请检查网络连接后重试。",
   "lqCloudQuestNotice": "接受的任务通过账号保存到Firebase。AI生成本身仅在本设备运行。",
   "lqOpenSourceLicenses": "开源许可",
-  "lqWelcomeTitle": "为日常，\n开启新的任务。",
-  "lqWelcomeBody": "不必立下宏大目标，从今天的一件小事开始。\n现实中的成长，就是你的故事。",
+  "lqWelcomeTitle": "我的一天，\n成为故事。",
+  "lqWelcomeBody": "城市谜案、山中修习、寻星之旅。\n用今天的小小行动，续写你选择的世界。",
   "lqFirstContract": "与你的第一个约定",
   "lqWelcomeStepOne": "从今天的状态出发",
   "lqWelcomeStepOneBody": "先选好可用的时间、精力和方向。",
   "lqWelcomeStepTwo": "用小任务积累成长",
   "lqWelcomeStepTwoBody": "在现实中完成行动，收获经验。",
-  "lqWelcomeStepThree": "开启属于你的故事",
-  "lqWelcomeStepThreeBody": "卡牌与地牢，让每一点成长都值得期待。",
+  "lqWelcomeStepThree": "在三个世界中成长",
+  "lqWelcomeStepThreeBody": "选择故事，用现实行动开启下一幕。",
   "lqStartOnDevice": "在此设备上开始",
   "lqStarting": "正在打开状态窗…",
   "lqExistingAccount": "使用已有账号继续",
   "lqDeviceStorageNotice": "无需注册，免费开始。记录仅保存在此设备上，卸载应用后将丢失。",
-  "lqGuestName": "觉醒者",
+  "lqGuestName": "记录者",
   "lqProfileLoadFailed": "无法加载记录。已保存的数据仍被保留，请重试。",
   "lqRetry": "重试",
   "lqBackToStart": "返回开始页",
@@ -1764,12 +1764,12 @@
   "lqPurchaseRestoring": "正在恢复购买…",
   "lqPurchaseRestoreFinished": "已检查商店购买记录，请确认使用的是购买时的应用账号。",
   "lqRestorePurchases": "恢复购买",
-  "lqStoryLibrary": "记录馆",
+  "lqStoryLibrary": "交界书阁",
   "lqStoryFreePrologue": "免费序章",
   "lqStoryBannerTitle": "来自零号出口的信号",
   "lqStoryBannerBody": "今天的小小行动，开启下一段故事。",
-  "lqStoryLibraryHeadline": "让你的行动，\n成为故事的地方。",
-  "lqStoryLibraryHint": "不用着急，你随时都能回来重读记录。",
+  "lqStoryLibraryHeadline": "同样的一天，\n不同世界的故事。",
+  "lqStoryLibraryHint": "选一本书放在“今天”。换书后，成长与选择都会保留。",
   "lqStoryProgress": "已完成的记录",
   "lqStoryLoadFailed": "无法加载故事，请退出此页面后重试。",
   "lqStoryFiction": "通过日常任务推进的虚构故事。",
@@ -1884,5 +1884,30 @@
   "lqReportDeleted": "举报已删除。",
   "lqReportDeleteIdentity": "删除匿名举报账号",
   "lqReportDeleteIdentityBody": "申请删除此设备当前的匿名举报账号及其提交的所有举报。设备上的成长记录将保留。之后再次举报时会创建新的匿名账号。",
-  "lqReportIdentityDeleted": "删除申请已受理。即使关闭应用，服务器仍会继续处理。"
+  "lqReportIdentityDeleted": "删除申请已受理。即使关闭应用，服务器仍会继续处理。",
+  "lqWorldCurrent": "今天的故事",
+  "lqWorldChoose": "今天想走进哪个世界？",
+  "lqWorldChooseHint": "城市·修习·探索，三篇免费故事。",
+  "lqWorldChange": "换一本书",
+  "lqWorldSelect": "从这本书开始",
+  "lqWorldContinue": "继续今天的书",
+  "lqWorldSaving": "正在保存书签…",
+  "lqWorldFreeCollection": "三篇故事均免费·没有期限",
+  "lqWorldCollectionPromise": "基础任务、AI和记录免费。本书阁的三篇故事无需购买。",
+  "lqActionsRecorded": "已完成 {count} 个现实任务",
+  "lqStoryActionsRemaining": "再完成 {count} 个任务即可开启下一幕",
+  "@lqActionsRecorded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@lqStoryActionsRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

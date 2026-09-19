@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/models/custom_reward.dart';
 class Character {
   int totalQuestCompletions;
   Map<String, String> storyChoices;
+  String? activeStoryChapterId;
   String name;
   String? photoUrl;
   int level;
@@ -67,6 +68,7 @@ class Character {
     required this.name,
     this.totalQuestCompletions = 0,
     Map<String, String>? storyChoices,
+    this.activeStoryChapterId,
     this.photoUrl,
     required this.level,
     required this.title,
@@ -129,6 +131,7 @@ class Character {
       storyChoices: (json['storyChoices'] as Map? ?? {}).map(
         (key, value) => MapEntry(key.toString(), value.toString()),
       ),
+      activeStoryChapterId: json['activeStoryChapterId'] as String?,
       photoUrl: json['photoUrl'],
       level: level,
       title: json['title'] ?? '새싹 모험가',
@@ -224,6 +227,7 @@ class Character {
       'name': name,
       'totalQuestCompletions': totalQuestCompletions,
       'storyChoices': storyChoices,
+      'activeStoryChapterId': activeStoryChapterId,
       'photoUrl': photoUrl,
       'level': level,
       'title': title,

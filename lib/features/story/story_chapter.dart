@@ -74,6 +74,16 @@ class StoryChapter {
     scenes.length,
     (i) => i,
   ).where((i) => selectedChoice(i, choices) != null).length;
+
+  /// Find the first unanswered scene, even if a restored record has gaps.
+  /// A completed book returns null and remains available for rereading.
+  int? nextSceneIndex(Map<String, String> choices) {
+    for (var i = 0; i < scenes.length; i++) {
+      if (selectedChoice(i, choices) == null) return i;
+    }
+    return null;
+  }
+
   bool canOpen(
     int index, {
     required int completedQuests,
@@ -93,15 +103,21 @@ class StoryChapter {
 }
 
 class StoryRepository {
-  static const chapterIds = ['prologue'];
-  static final Map<String, Future<List<StoryChapter>>> _cache = {};
+  static const chapterIds = ['prologue', 'courtyard', 'atlas'];
+  static final Map<String, Future<List<StoryChapter>>> _loading = {};
+  static final Map<String, List<StoryChapter>> _loaded = {};
   static Future<List<StoryChapter>> load(String language) {
     final locale = const {'ko', 'en', 'ja', 'zh'}.contains(language)
         ? language
         : 'en';
-    return _cache.putIfAbsent(
-      locale,
-      () async => [
+    final loaded = _loaded[locale];
+    if (loaded != null) return Future.value(loaded);
+    return _loading.putIfAbsent(locale, () => _read(locale));
+  }
+
+  static Future<List<StoryChapter>> _read(String locale) async {
+    try {
+      final books = <StoryChapter>[
         for (final id in chapterIds)
           StoryChapter.fromJson(
             jsonDecode(
@@ -111,7 +127,12 @@ class StoryRepository {
                 )
                 as Map<String, dynamic>,
           ),
-      ],
-    );
+      ];
+      _loaded[locale] = List.unmodifiable(books);
+      return _loaded[locale]!;
+    } finally {
+      // A transient asset failure must be retryable on the next visit.
+      _loading.remove(locale);
+    }
   }
 }

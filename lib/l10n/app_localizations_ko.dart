@@ -827,7 +827,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Soul Deck 던전에 입장하면\n카드 전투로 몬스터와 싸웁니다.\n퀘스트로 쌓은 힘이 실력이 됩니다.';
+      '원할 때 카드 탐험을 즐기세요.\n일상의 성장이 탐험에 힘을 보탭니다.\n전투에서 져도 현실의 XP는 줄지 않아요.';
 
   @override
   String get onboardingPage3Title => '모험을 시작하세요';
@@ -1267,7 +1267,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get statusReportTooltip => '상세 리포트 보기';
 
   @override
-  String get dungeonHomeTitle => '소울 덱';
+  String get dungeonHomeTitle => '카드 탐험';
 
   @override
   String get dungeonHomeCardCollectionTooltip => '카드 컬렉션';
@@ -3793,10 +3793,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqDungeon => '던전';
 
   @override
-  String get lqHeadline => '오늘, 한 단계 더.';
+  String get lqHeadline => '오늘을, 한 장 더.';
 
   @override
-  String get lqSubtitle => '작은 행동이 나의 경험치가 됩니다.';
+  String get lqSubtitle => '현실의 작은 행동이 다음 이야기를 엽니다.';
 
   @override
   String get lqSystem => '개인 퀘스트 시스템';
@@ -4003,10 +4003,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqOpenSourceLicenses => '오픈소스 라이선스';
 
   @override
-  String get lqWelcomeTitle => '당신의 일상에,\n새로운 퀘스트.';
+  String get lqWelcomeTitle => '나의 하루가,\n이야기가 된다.';
 
   @override
-  String get lqWelcomeBody => '거창한 결심보다 오늘의 작은 행동 하나.\n현실의 성장이 당신의 이야기가 됩니다.';
+  String get lqWelcomeBody =>
+      '도시의 미스터리, 산속의 수련, 별을 찾는 탐사.\n오늘의 작은 행동으로 원하는 세계를 이어가세요.';
 
   @override
   String get lqFirstContract => '당신과의 첫 번째 약속';
@@ -4024,10 +4025,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqWelcomeStepTwoBody => '현실에서 해낸 일로 경험치를 쌓아요.';
 
   @override
-  String get lqWelcomeStepThree => '나만의 이야기를 열기';
+  String get lqWelcomeStepThree => '세 세계에서 이어지는 성장';
 
   @override
-  String get lqWelcomeStepThreeBody => '카드와 던전은 작은 성장을 즐기는 보상이에요.';
+  String get lqWelcomeStepThreeBody => '이야기를 고르고, 현실의 행동으로 다음 장면을 열어요.';
 
   @override
   String get lqStartOnDevice => '기기에서 시작하기';
@@ -4043,7 +4044,7 @@ class AppLocalizationsKo extends AppLocalizations {
       '가입 없이 무료로 시작합니다. 기록은 이 기기에만 저장되며, 앱을 삭제하면 사라집니다.';
 
   @override
-  String get lqGuestName => '각성자';
+  String get lqGuestName => '기록자';
 
   @override
   String get lqProfileLoadFailed =>
@@ -4096,7 +4097,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqRestorePurchases => '구매 복원';
 
   @override
-  String get lqStoryLibrary => '기록관';
+  String get lqStoryLibrary => '경계의 서가';
 
   @override
   String get lqStoryFreePrologue => '무료 프롤로그';
@@ -4108,10 +4109,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqStoryBannerBody => '오늘의 작은 행동이 다음 이야기를 엽니다.';
 
   @override
-  String get lqStoryLibraryHeadline => '나의 행동이,\n이야기가 되는 곳.';
+  String get lqStoryLibraryHeadline => '같은 하루,\n다른 세계의 이야기.';
 
   @override
-  String get lqStoryLibraryHint => '서두르지 않아도 괜찮아요. 기록은 언제든 다시 펼칠 수 있습니다.';
+  String get lqStoryLibraryHint =>
+      '마음이 가는 책을 골라 오늘에 두세요. 책을 바꿔도 성장과 선택은 그대로 남습니다.';
 
   @override
   String get lqStoryProgress => '완성한 기록';
@@ -4435,4 +4437,42 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lqReportIdentityDeleted => '삭제 요청이 접수되었습니다. 앱을 닫아도 서버에서 계속 처리합니다.';
+
+  @override
+  String get lqWorldCurrent => '오늘의 이야기';
+
+  @override
+  String get lqWorldChoose => '어떤 세계로 이어갈까요?';
+
+  @override
+  String get lqWorldChooseHint => '도시 · 수련 · 탐사, 세 무료 단편';
+
+  @override
+  String get lqWorldChange => '다른 책 고르기';
+
+  @override
+  String get lqWorldSelect => '이 책으로 시작하기';
+
+  @override
+  String get lqWorldContinue => '오늘의 책 이어 읽기';
+
+  @override
+  String get lqWorldSaving => '책갈피 저장 중…';
+
+  @override
+  String get lqWorldFreeCollection => '세 단편 모두 무료 · 기한 없음';
+
+  @override
+  String get lqWorldCollectionPromise =>
+      '기본 퀘스트·AI·기록은 무료입니다. 이 서가의 세 단편에는 결제가 필요하지 않습니다.';
+
+  @override
+  String lqActionsRecorded(int count) {
+    return '현실에서 완료한 퀘스트 $count개';
+  }
+
+  @override
+  String lqStoryActionsRemaining(int count) {
+    return '다음 장면까지 퀘스트 $count개';
+  }
 }

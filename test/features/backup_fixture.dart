@@ -18,7 +18,8 @@ DeviceSnapshot backupFixture({String name = '검증용 각성자', int level = 1
           statPoints: 0,
           skillPoints: 0,
           totalQuestCompletions: 1,
-          storyChoices: {'prologue:signal': 'answer'},
+          storyChoices: {'prologue/signal': 'answer'},
+          activeStoryChapterId: 'courtyard',
         ).toJson(),
         'dailyQuests': [
           {

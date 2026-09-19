@@ -68,3 +68,8 @@ API 35 / ARM64 / RAM 6GB / 16KB 페이지 에뮬레이터 `LifeQuest_API35_16KB`
 JNI 근거: https://github.com/google-ai-edge/LiteRT-LM/blob/v0.17.0/kotlin/java/com/google/ai/edge/litertlm/jni/litertlm.cc
 
 합성 원시 기록: `production-model-probe.json`, Android release 재실행 `native-release-probe.json`. 캐시가 따뜻한 반복에서 9,368/7,867ms였으며 첫 release 성공의 21,364/11,748ms와 환경이 다르다. 서로 다른 조건을 평균화하지 않는다.
+
+
+## 공식 문서 재확인 · 2026-09-20
+
+[Gemma4 개요](https://ai.google.dev/gemma/docs/core)와 [현재 LiteRT 배포 저장소](https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm)를 다시 열었다. 공식 문서는 E2B를 모바일·엣지 대상 소형 모델로 안내한다. 공식 메모리 표의 Mobile/Text-only 값은 앱 파일 크기·전체 런타임 메모리·실물 성능을 보증하지 않으므로, 기존 고정 파일2,588,147,712bytes와 실제 앱 측정치를 그대로 구분한다. 이번 콘셉트 개편에서 모델·해시·런타임·프롬프트를 교체하지 않았다. 실물 검증과 실제 신고 접수는 여전히 출시 게이트다.

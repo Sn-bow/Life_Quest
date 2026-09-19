@@ -1,4 +1,24 @@
-# Life Quest gateway art · 2026-09-17
+# 경계의 서가 아트 · 2026-09-20
+
+기존 게이트 중심 브랜드를 열린 기록장과 세 세계로 교체했다. 새 자산6개 모두 내장 **image_gen**으로 생성·편집했다. SVG/HTML/Canvas 아트를 새로 만들지 않았다. sips는 출력 크기·포맷 변환에만 사용했다. 다른 작품의 이미지·로고·인물은 자산으로 복사하지 않았다.
+
+레퍼런스 조사와 해석: [CONCEPT_AND_REVENUE.md](../CONCEPT_AND_REVENUE.md). 도시의 게이트는 무료 단편 한 권에만 유지한다. 아래 이전 기록은 제작 이력이며 현재 브랜드 기준이 아니다.
+
+| 생성 원본 | 현재 사용 | image_gen 결과 식별자 |
+|---|---|---|
+| courtyard-master.png | 수련 표지 courtyard.jpg | exec-6a236eb8-7e58-4a74-afd6-01495773dcb8 |
+| atlas-master.png | 탐사 표지 atlas.jpg | exec-88b0aadd-9216-4883-896b-b92c939d3246 |
+| journal_worlds-master.png | 첫 화면·미선택 이야기 배너 | exec-9162cfcb-525d-4a1a-9cdc-c1fdd159bf25 |
+| journal-icon-foreground-master.png | alpha adaptive foreground·스플래시·로그인 마크 | exec-f4a02b54-687c-43de-b7e5-cf83bdb7e609 |
+| journal-icon-master.png | 런처·512px Play 아이콘 | exec-836f3e8d-d070-43cc-8122-17cba709210b |
+| journal-feature-master.png | 1024×500 Play 피처 그래픽 | exec-66e621d8-4398-4257-8729-c576b75ef14a |
+
+프롬프트 의도 기록: ① 옥색 산중 수련 마당·목조 정자·빗자루와 낡은 연습검·아침빛, 전투 인물이나 원작 문양 없음 ② 황동 관측소·지도 수선 작업대·호박색 조명과 달빛, 텍스트 없음 ③ 현대 책상의 열린 기록장 위에 도시 역·수련 정자·관측소를 동등한 종이 풍경으로 표현 ④ 투명 배경 위 아이보리 기록장·옥색과 호박색 책 모서리·황동 나침반 책갈피, 작은 크기에서 읽히는 아이콘 ⑤ 같은 아이콘에 먹색 불투명 배경 추가 ⑥ 기록장 장면을 오른쪽에 두고 왼쪽에 정확한 문구 ‘LIFE QUEST / Your day. Your unfolding story.’를 이미지 생성으로 렌더링.
+
+원본은 docs에 보존되어 앱에 포함되지 않는다. 런타임 표지는1280px JPEG, foreground는1024px alpha PNG다. Play 아이콘512×512와 피처1024×500는 알파가 없음을 sips로 확인했다. Flutter 공식 icon/splash 생성기로 밀도별 자산을 출력했다. 완전한 법적 독점성·상표 등록 가능성을 보증하지 않는다.
+
+## 이전 게이트 아트 제작 이력 (2026-09-17)
+
 
 사용자 지시: SVG/HTML/Canvas로 일러스트나 홍보 이미지를 직접 만들지 않는다. 내장 **image_gen**으로 원본 아트를 생성했다. CLI 이미지 생성/API 키/유료 스톡은 사용하지 않았다. Flutter의 버튼·레이아웃·지도 연결선 등 기능 UI와 이미지 아트를 구별한다.
 

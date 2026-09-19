@@ -3,9 +3,9 @@
   "short_name": "Life Quest",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#090F1C",
-  "theme_color": "#090F1C",
-  "description": "Daily quests, private growth and a card dungeon.",
+  "background_color": "#101619",
+  "theme_color": "#101619",
+  "description": "Your day opens three worlds. Personal quests and a private status window.",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [

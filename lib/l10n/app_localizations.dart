@@ -1611,7 +1611,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPage2Body.
   ///
   /// In ko, this message translates to:
-  /// **'Soul Deck 던전에 입장하면\n카드 전투로 몬스터와 싸웁니다.\n퀘스트로 쌓은 힘이 실력이 됩니다.'**
+  /// **'원할 때 카드 탐험을 즐기세요.\n일상의 성장이 탐험에 힘을 보탭니다.\n전투에서 져도 현실의 XP는 줄지 않아요.'**
   String get onboardingPage2Body;
 
   /// No description provided for @onboardingPage3Title.
@@ -2421,7 +2421,7 @@ abstract class AppLocalizations {
   /// No description provided for @dungeonHomeTitle.
   ///
   /// In ko, this message translates to:
-  /// **'소울 덱'**
+  /// **'카드 탐험'**
   String get dungeonHomeTitle;
 
   /// No description provided for @dungeonHomeCardCollectionTooltip.
@@ -7371,13 +7371,13 @@ abstract class AppLocalizations {
   /// No description provided for @lqHeadline.
   ///
   /// In ko, this message translates to:
-  /// **'오늘, 한 단계 더.'**
+  /// **'오늘을, 한 장 더.'**
   String get lqHeadline;
 
   /// No description provided for @lqSubtitle.
   ///
   /// In ko, this message translates to:
-  /// **'작은 행동이 나의 경험치가 됩니다.'**
+  /// **'현실의 작은 행동이 다음 이야기를 엽니다.'**
   String get lqSubtitle;
 
   /// No description provided for @lqSystem.
@@ -7779,13 +7779,13 @@ abstract class AppLocalizations {
   /// No description provided for @lqWelcomeTitle.
   ///
   /// In ko, this message translates to:
-  /// **'당신의 일상에,\n새로운 퀘스트.'**
+  /// **'나의 하루가,\n이야기가 된다.'**
   String get lqWelcomeTitle;
 
   /// No description provided for @lqWelcomeBody.
   ///
   /// In ko, this message translates to:
-  /// **'거창한 결심보다 오늘의 작은 행동 하나.\n현실의 성장이 당신의 이야기가 됩니다.'**
+  /// **'도시의 미스터리, 산속의 수련, 별을 찾는 탐사.\n오늘의 작은 행동으로 원하는 세계를 이어가세요.'**
   String get lqWelcomeBody;
 
   /// No description provided for @lqFirstContract.
@@ -7821,13 +7821,13 @@ abstract class AppLocalizations {
   /// No description provided for @lqWelcomeStepThree.
   ///
   /// In ko, this message translates to:
-  /// **'나만의 이야기를 열기'**
+  /// **'세 세계에서 이어지는 성장'**
   String get lqWelcomeStepThree;
 
   /// No description provided for @lqWelcomeStepThreeBody.
   ///
   /// In ko, this message translates to:
-  /// **'카드와 던전은 작은 성장을 즐기는 보상이에요.'**
+  /// **'이야기를 고르고, 현실의 행동으로 다음 장면을 열어요.'**
   String get lqWelcomeStepThreeBody;
 
   /// No description provided for @lqStartOnDevice.
@@ -7857,7 +7857,7 @@ abstract class AppLocalizations {
   /// No description provided for @lqGuestName.
   ///
   /// In ko, this message translates to:
-  /// **'각성자'**
+  /// **'기록자'**
   String get lqGuestName;
 
   /// No description provided for @lqProfileLoadFailed.
@@ -7959,7 +7959,7 @@ abstract class AppLocalizations {
   /// No description provided for @lqStoryLibrary.
   ///
   /// In ko, this message translates to:
-  /// **'기록관'**
+  /// **'경계의 서가'**
   String get lqStoryLibrary;
 
   /// No description provided for @lqStoryFreePrologue.
@@ -7983,13 +7983,13 @@ abstract class AppLocalizations {
   /// No description provided for @lqStoryLibraryHeadline.
   ///
   /// In ko, this message translates to:
-  /// **'나의 행동이,\n이야기가 되는 곳.'**
+  /// **'같은 하루,\n다른 세계의 이야기.'**
   String get lqStoryLibraryHeadline;
 
   /// No description provided for @lqStoryLibraryHint.
   ///
   /// In ko, this message translates to:
-  /// **'서두르지 않아도 괜찮아요. 기록은 언제든 다시 펼칠 수 있습니다.'**
+  /// **'마음이 가는 책을 골라 오늘에 두세요. 책을 바꿔도 성장과 선택은 그대로 남습니다.'**
   String get lqStoryLibraryHint;
 
   /// No description provided for @lqStoryProgress.
@@ -8585,6 +8585,72 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'삭제 요청이 접수되었습니다. 앱을 닫아도 서버에서 계속 처리합니다.'**
   String get lqReportIdentityDeleted;
+
+  /// No description provided for @lqWorldCurrent.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘의 이야기'**
+  String get lqWorldCurrent;
+
+  /// No description provided for @lqWorldChoose.
+  ///
+  /// In ko, this message translates to:
+  /// **'어떤 세계로 이어갈까요?'**
+  String get lqWorldChoose;
+
+  /// No description provided for @lqWorldChooseHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'도시 · 수련 · 탐사, 세 무료 단편'**
+  String get lqWorldChooseHint;
+
+  /// No description provided for @lqWorldChange.
+  ///
+  /// In ko, this message translates to:
+  /// **'다른 책 고르기'**
+  String get lqWorldChange;
+
+  /// No description provided for @lqWorldSelect.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 책으로 시작하기'**
+  String get lqWorldSelect;
+
+  /// No description provided for @lqWorldContinue.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘의 책 이어 읽기'**
+  String get lqWorldContinue;
+
+  /// No description provided for @lqWorldSaving.
+  ///
+  /// In ko, this message translates to:
+  /// **'책갈피 저장 중…'**
+  String get lqWorldSaving;
+
+  /// No description provided for @lqWorldFreeCollection.
+  ///
+  /// In ko, this message translates to:
+  /// **'세 단편 모두 무료 · 기한 없음'**
+  String get lqWorldFreeCollection;
+
+  /// No description provided for @lqWorldCollectionPromise.
+  ///
+  /// In ko, this message translates to:
+  /// **'기본 퀘스트·AI·기록은 무료입니다. 이 서가의 세 단편에는 결제가 필요하지 않습니다.'**
+  String get lqWorldCollectionPromise;
+
+  /// No description provided for @lqActionsRecorded.
+  ///
+  /// In ko, this message translates to:
+  /// **'현실에서 완료한 퀘스트 {count}개'**
+  String lqActionsRecorded(int count);
+
+  /// No description provided for @lqStoryActionsRemaining.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 장면까지 퀘스트 {count}개'**
+  String lqStoryActionsRemaining(int count);
 }
 
 class _AppLocalizationsDelegate
