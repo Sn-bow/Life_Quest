@@ -102,6 +102,14 @@ class DungeonMap {
   List<DungeonNode> get accessibleNodes =>
       nodes.where((n) => n.isAccessible && !n.isCompleted).toList();
 
+  /// A run takes one branch per row; alternative branches are not extra steps.
+  int get stepCount => nodes.map((node) => node.row).toSet().length;
+  int get completedStepCount => nodes
+      .where((node) => node.isCompleted)
+      .map((node) => node.row)
+      .toSet()
+      .length;
+
   DungeonMap copyWith({
     List<DungeonNode>? nodes,
     int? zone,

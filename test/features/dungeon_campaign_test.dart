@@ -110,6 +110,8 @@ void main() {
           dungeon.completeCurrentNode();
           expect(await dungeon.flushCheckpoint(), true);
           expect(dungeon.nodesCompleted, row + 1);
+          expect(dungeon.currentMap!.stepCount, 6);
+          expect(dungeon.currentMap!.completedStepCount, row + 1);
         }
         expect(dungeon.runPhase, RunPhase.completed);
         expect(dungeon.accessibleNodes, isEmpty);

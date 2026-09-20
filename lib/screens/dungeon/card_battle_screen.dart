@@ -632,11 +632,8 @@ class _TopBar extends StatelessWidget {
               runSpacing: 6,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                _PlayableCardsBadge(
-                  playableCount: combat.hand
-                      .where((c) => c.cost <= combat.currentEnergy)
-                      .length,
-                  totalInHand: combat.hand.length,
+                PlayableCardsBadge(
+                  playableCount: combat.playableCardCount,
                   currentEnergy: combat.currentEnergy,
                   isDark: isDark,
                 ),
@@ -793,15 +790,14 @@ class _EnergyDisplay extends StatelessWidget {
 // Playable cards badge — shows how many cards in hand can be played now
 // ============================================================================
 
-class _PlayableCardsBadge extends StatelessWidget {
+class PlayableCardsBadge extends StatelessWidget {
   final int playableCount;
-  final int totalInHand;
   final int currentEnergy;
   final bool isDark;
 
-  const _PlayableCardsBadge({
+  const PlayableCardsBadge({
+    super.key,
     required this.playableCount,
-    required this.totalInHand,
     required this.currentEnergy,
     required this.isDark,
   });
@@ -809,7 +805,7 @@ class _PlayableCardsBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final canPlay = playableCount > 0;
-    final noEnergy = currentEnergy == 0;
+    final noEnergy = currentEnergy == 0 && !canPlay;
     final l10n = AppLocalizations.of(context)!;
 
     return AnimatedContainer(
@@ -1426,12 +1422,9 @@ class _CardHand extends StatelessWidget {
           key: ValueKey('${hand[index].id}_$index'),
           card: hand[index],
           index: index,
-          canPlay:
-              combat.phase == CombatPhase.playerTurn &&
-              hand[index].cost <= combat.currentEnergy,
+          canPlay: combat.canPlayCard(index),
           onTap: () {
-            if (combat.phase == CombatPhase.playerTurn &&
-                hand[index].cost <= combat.currentEnergy) {
+            if (combat.canPlayCard(index)) {
               onCardPlayed(index);
             }
           },

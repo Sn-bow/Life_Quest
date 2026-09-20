@@ -111,8 +111,8 @@ class _DungeonMapScreenState extends State<DungeonMapScreen> {
               // Progress bar
               _ProgressHeader(
                 zoneName: zoneName,
-                completedCount: map.nodes.where((n) => n.isCompleted).length,
-                totalCount: map.nodes.length,
+                completedCount: map.completedStepCount,
+                totalCount: map.stepCount,
                 isDark: isDark,
                 accent: accent,
               ),

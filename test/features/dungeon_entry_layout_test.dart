@@ -63,6 +63,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(dungeon.isRunActive, isTrue);
         expect(find.byType(DungeonMapScreen), findsOneWidget);
+        expect(find.text('0 / 6'), findsOneWidget);
         expect(tester.takeException(), isNull);
         final accessible = dungeon.accessibleNodes.first;
         final label = l.lqDungeonNode(
