@@ -1,10 +1,10 @@
 {
   "scope": "Local default-mode artifact only; NOT ready-to-publish certification",
   "bundle": "build/app/outputs/bundle/release/app-release.aab",
-  "bytes": 221628319,
-  "sha256": "1f8895dcdf91f4d509c342f4702129eaa321f8c1cface5992101708e74dfdef0",
+  "bytes": 221659038,
+  "sha256": "10e98578510204a5e827be28ab8701469b593830366c351d7c386045b019524f",
   "versionName": "2.0.0",
-  "versionCode": "5",
+  "versionCode": "6",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
   "libraries": [
     {
@@ -95,8 +95,8 @@
     }
   ],
   "sampleDeviceDownloadBytes": {
-    "MIN": 130430117,
-    "MAX": 130430117
+    "MIN": 130433973,
+    "MAX": 130433973
   },
   "checks": [
     {
@@ -254,24 +254,22 @@
     {
       "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/liblitertlm_jni.so matches AAB",
       "pass": true
-    },
-    {
-      "check": "Version 2.0.0+5",
-      "pass": true
-    },
-    {
-      "check": "Tide story bundled in four languages",
-      "pass": true
     }
   ],
   "pass": true,
   "remaining": [
+    "Real-user repeat-use and full-story value evidence before public sale",
     "Physical Android device validation",
     "Working AI reporting backend",
     "Real Play purchase/refund/restore before selling",
     "Final Play content declarations and Data safety review",
     "Closed testing eligibility and Play review"
   ],
-  "sourceCommit": "489ccff232fd5114df96d6b2e261720b6a5bd963",
-  "inspectedDate": "2026-09-20"
+  "sourceCommit": "e05f117182b212227fe963ed263aba322d175bf3",
+  "declaredBuildConfiguration": {
+    "researchEnabled": false,
+    "cloudEnabled": false,
+    "billingEnabled": false,
+    "adsEnabled": false
+  }
 }

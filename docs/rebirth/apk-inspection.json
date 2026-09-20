@@ -1,11 +1,11 @@
 {
-  "scope": "Signed ARM64 development review APK; not public release or physical-device certification",
-  "sourceCommit": "489ccff232fd5114df96d6b2e261720b6a5bd963",
-  "apk": "build/app/outputs/flutter-apk/app-release.apk",
-  "bytes": 186524856,
-  "sha256": "7a3686ab065d0901e3f005b8d4c828aa0b5c36fe409ad25111f0a8b3ce93ab5c",
+  "scope": "Private opt-in usability-study APK, main entry point; not public release or physical-device certification",
+  "sourceCommit": "e05f117182b212227fe963ed263aba322d175bf3",
+  "apk": "qa_artifacts/rebirth/LifeQuest-2.0.0-6-research-arm64.apk",
+  "bytes": 160585298,
+  "sha256": "a70b9face4cdb022daa73ee177a4076009fdf2d05045e723ff55d081f9a6d190",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
-  "versionCode": 5,
+  "versionCode": 6,
   "versionName": "2.0.0",
   "checks": [
     {
@@ -73,23 +73,19 @@
       "pass": true
     },
     {
-      "check": "lib/armeabi-v7a/libdatastore_shared_counter.so ELF 16 KiB alignment",
-      "pass": true
-    },
-    {
-      "check": "lib/x86_64/libdatastore_shared_counter.so ELF 16 KiB alignment",
-      "pass": true
-    },
-    {
-      "check": "lib/x86_64/liblitertlm_jni.so ELF 16 KiB alignment",
-      "pass": true
-    },
-    {
       "check": "Paid story and new generated artwork bundled",
       "pass": true
     }
   ],
   "pass": true,
   "physicalDeviceTested": false,
-  "inspectedDate": "2026-09-20"
+  "declaredBuildConfiguration": {
+    "researchEnabled": true,
+    "cloudEnabled": false,
+    "billingEnabled": false,
+    "adsEnabled": false,
+    "splitPerAbi": true,
+    "forceVersionCodeIgnoringAbi": true
+  },
+  "nativeFilePickerTested": false
 }

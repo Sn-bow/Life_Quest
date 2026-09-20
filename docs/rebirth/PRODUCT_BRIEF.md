@@ -5,7 +5,7 @@
 
 Life Quest: 경계의 서가. 사용자는 ‘기록자’이며 도시 미스터리·무협 수련·기록 탐사 중 오늘 이어 읽을 책을 고른다. 완료한 현실 퀘스트가 다음 장면을 연다. 책을 바꿔도 성장과 선택은 이어진다.
 
-2026-09-20 콘셉트·레퍼런스·수익 구조의 기준은 [CONCEPT_AND_REVENUE.md](CONCEPT_AND_REVENUE.md)다. [실제 화면 검토](CONCEPT_UX_REVIEW.md)에서 확인한 개선을 적용했다. 이번 회차는 최대30%만 사용하고 잔여70%를 남긴다. 공유 계정 한도는 실제 도구로 확인한다.
+2026-09-20 콘셉트·레퍼런스·수익 구조의 기준은 [CONCEPT_AND_REVENUE.md](CONCEPT_AND_REVENUE.md)다. [실제 화면 검토](CONCEPT_UX_REVIEW.md)에서 확인한 개선을 적용했다. 최신 사용자 요청은 잔여60% 이상 보존이며 수익화 가능성 검증 전 공개 판매를 보류한다. [수익화 검증 계획](REVENUE_VALIDATION.md)을 따른다. 공유 계정 한도는 실제 도구로 확인한다.
 
 ## 코드 및 운영에서 확인한 사실
 - 기준 커밋: bdc7801, Flutter/Provider/Firebase + Flame, Android com.lifequest.app.

@@ -20,9 +20,9 @@
 
 ## 수익화와 계정
 
-기본 퀘스트·AI·백업·세 단편은 무료입니다. 별도 완결 세계관 팩(12장면·두 결말·테마·기록 표식)을 한 번 구매해 소장하는 방식을 검증하려 합니다. 「조수 우체국」의12장면×4언어·두 결말·두 장면 체험·테마·표식을 구현했습니다. 가격 후보는6,900원이며 Play 상품 등록·실제 결제·독자 검수 전입니다. 실제 상품이 완성되고 테스트 구매·환불·복원이 확인되기 전에는 판매하지 않습니다. 가격·전환율·수익은 아직 검증되지 않았습니다.
+기본 퀘스트·AI·백업·세 단편은 무료입니다. 별도 완결 세계관 팩(12장면·두 결말·테마·기록 표식)을 한 번 구매해 소장하는 방식을 검증하려 합니다. 「조수 우체국」의12장면×4언어·두 결말·두 장면 체험·테마·표식을 구현했습니다. 가격은 미정이며 2,900/4,900/6,900원·비구매·미정을 비교합니다. Play 상품 등록·실제 결제·독자 검수 전입니다. **반복 사용과 콘텐츠의 지불 가치가 확인되기 전에는 공개 판매하지 않습니다.** 실제 상품 완성·테스트 구매·환불·복원 검증도 필요합니다. 가격·전환율·수익은 아직 검증되지 않았습니다.
 
-선택적 Google 구매 계정은 기기의 진행 기록과 분리했습니다. 최소 계정 생성, 서버 영수증 확인, 구매 권한 복원, RTDN 환불, 재시도 가능한 계정 삭제를 구현했습니다. 신고는 사용자 검토 문구만 접수하며 접수번호, 중복 방지, 개별 삭제, 익명 신고 계정 삭제,90일 TTL을 갖춥니다. **삭제된 Firebase 프로젝트 처리와 실제 운영 배포·검증은 아직 필요합니다.**
+선택적 Google 구매 계정은 기기의 진행 기록과 분리했습니다. 최소 계정 생성, 서버 영수증 확인, 구매 권한 복원, RTDN 환불, 재시도 가능한 계정 삭제를 구현했습니다. 신고는 사용자 검토 문구만 접수하며 접수번호, 중복 방지, 개별 삭제, 익명 신고 계정 삭제,90일 TTL을 갖춥니다. **지정한 개발자 계정에는 현재 Firebase 프로젝트가 없어 프로젝트 준비와 실제 운영 검증이 필요합니다.**
 
 결제와 광고의 Android 권한은 독립적입니다. 결제를 켜도 광고가 켜지지 않습니다. 무료 모델 실행과 별개로 Functions·Firestore·TTL 삭제에는 플랫폼 요금이 발생할 수 있습니다.
 
@@ -48,16 +48,17 @@ python3 scripts/check_android_feature_manifests.py
 
 ## 확인된 범위
 
-- Flutter analyze: 문제 없음. 2026-09-20 전체337개 테스트 통과. 별도 Cloud/Billing 활성 상품 카탈로그 검사1개 통과(기본 전체 실행에서는 의도적 skip).
+- Flutter analyze: 문제 없음. 2026-09-20 전체368개 테스트 통과. 별도 Cloud/Billing 활성 상품 카탈로그 검사1개 통과(기본 전체 실행에서는 의도적 skip).
 - Node22 서버 정책27개 통과(9월20일). 실제 Firestore/Storage 로컬 emulator9개와 아래 manifest 검사는9월17일 기준선입니다.
 - 실제 Gradle manifest merger의7개 권한 조합 통과.
 - 서명된 R8 Android probe에서 모델 생성과 암호화 백업 상호 호환 확인. 에뮬레이터 측정이며 실물 성능 인증이 아닙니다.
-- 추가 캠페인 검사6개:1,000개 생성 지도 연결 및5구역의 모든 방 저장/복원·보상 재수령 방지. 전투 밸런스 검증은 별도입니다.
-- 실제 브라우저 UI에서 첫 퀘스트, 프롤로그, 백업/복원/재시작, 전투 체크포인트와 보상 중복 방지 확인.
+- 캠페인 검사6개:1,000개 생성 지도 연결 및5구역의 모든 방 저장/복원·보상 재수령 방지. 전투 밸런스 검증은 별도입니다.
+- 실제 브라우저 UI에서 첫 퀘스트, 이야기 체험, 백업/복원/재시작과 첫 전투를 확인했습니다. 최신 검토에서 탐험 진행도를 경로의6단계로 수정하고, 0비용 카드 안내와 저주 카드 활성 조건을 바로잡았습니다.
+- 내부 빌드의 자발적14일 연구는 기기에만 저장하고 직접 파일로 내보냅니다. Python 집계8개 검사 통과. 이 기능과 개발용 웹 입력은 실제 사용자 유지율·구매 증거가 아닙니다.
 - 정확한 최신 AAB의 서명·16KiB·용량 증거는 [artifact-inspection.json](docs/rebirth/artifact-inspection.json). 빌드 검사와 Play 출시 승인은 다릅니다.
 
 ## 설계·출시 문서
 
-[콘셉트·수익 결정](docs/rebirth/CONCEPT_AND_REVENUE.md) · [화면 검토](docs/rebirth/CONCEPT_UX_REVIEW.md) · [제품 방향](docs/rebirth/PRODUCT_BRIEF.md) · [모델 선정·실측](docs/rebirth/ON_DEVICE_AI_DECISION.md) · [던전 저장](docs/rebirth/DUNGEON_CHECKPOINTS.md) · [암호화 백업](docs/rebirth/DEVICE_BACKUP.md) · [구매 계정](docs/rebirth/PURCHASE_ACCOUNT.md) · [신고 운영](docs/rebirth/AI_REPORTING.md) · [결제·출시](docs/rebirth/BILLING_AND_RELEASE.md) · [Play 초안·테스트](docs/rebirth/store/STORE_AND_TEST_PLAN.md)
+[수익화 검증 계획](docs/rebirth/REVENUE_VALIDATION.md) · [테스터 안내](docs/rebirth/RESEARCH_TESTER_GUIDE.md) · [최신 화면 검토](docs/rebirth/REVENUE_UX_REVIEW.md) · [콘셉트·수익 결정](docs/rebirth/CONCEPT_AND_REVENUE.md) · [화면 검토](docs/rebirth/CONCEPT_UX_REVIEW.md) · [제품 방향](docs/rebirth/PRODUCT_BRIEF.md) · [모델 선정·실측](docs/rebirth/ON_DEVICE_AI_DECISION.md) · [던전 저장](docs/rebirth/DUNGEON_CHECKPOINTS.md) · [암호화 백업](docs/rebirth/DEVICE_BACKUP.md) · [구매 계정](docs/rebirth/PURCHASE_ACCOUNT.md) · [신고 운영](docs/rebirth/AI_REPORTING.md) · [결제·출시](docs/rebirth/BILLING_AND_RELEASE.md) · [Play 초안·테스트](docs/rebirth/store/STORE_AND_TEST_PLAN.md)
 
 공개 안내: [개인정보·데이터 삭제·이용약관](https://sn-bow.github.io/Life_Quest/). 지원: logian621@gmail.com.
