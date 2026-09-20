@@ -8,7 +8,7 @@
 
 - 기존 `Alpha` 트랙을 사용했다. 새 트랙을 중복 생성하지 않았다.
 - [트랙 관리](https://play.google.com/console/u/1/developers/8167226228602257815/app/4972166589004992203/tracks/4698525131707810433)
-- 국가: 대한민국. 프로덕션 국가와 동기화 해제, 추가 변경사항이 게시 개요에 저장됨을 확인했다.
+- 국가: **대한민국·대만·일본·미국·캐나다·프랑스**. 사용자 후속 요청에 따라 5곳을 추가하고 저장한 뒤, 페이지 재진입 시 `타겟팅됨(6개)`와 6개 국가 행을 확인했다. 비공개 테스트 대상 설정이며 프로덕션 출시가 아니다. 해외 스토어 조사/언어 준비 상태는 `INTERNATIONAL_DISTRIBUTION.md` 참고.
 - 전용 이메일 목록: `Life Quest 2.0 Closed Test`. 준비용 개발자 본인 계정1개만 추가했다. 기존 다른 앱/품앗이/친구 목록은 연결하거나 변경하지 않았다. 목록1명은 실제 테스터 참여1명이라는 뜻이 아니다.
 - 의견 주소: https://sn-bow.github.io/Life_Quest/#contact
 - 트랙 설정 완료 표시는 **2/4**, 트랙은 **비활성**이었다.
@@ -37,4 +37,4 @@
 
 공식 절차: [테스트 트랙 설정](https://support.google.com/googleplay/android-developer/answer/9845334?hl=ko), [개인 계정 테스트 요건](https://support.google.com/googleplay/android-developer/answer/14151465?hl=ko).
 
-로컬 증거: `qa_artifacts/rebirth/closed-test/release-draft.png`. Chrome 초안 탭은 후속 작업용으로 보존했다. 비밀키·브라우저 인증 저장소·타인 이메일 원문을 읽거나 기록하지 않았다.
+로컬 증거: `qa_artifacts/rebirth/closed-test/release-draft.png`, `qa_artifacts/rebirth/closed-test/regions-six.png`. Chrome 트랙 탭은 후속 작업용으로 보존했다. 비밀키·브라우저 인증 저장소·타인 이메일 원문을 읽거나 기록하지 않았다.
