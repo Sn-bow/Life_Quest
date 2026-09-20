@@ -46,10 +46,14 @@
   },
   "functions": {
     "source": "functions",
-    "ignore": ["node_modules", ".git"]
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
   },
   "firestore": {
-    "rules": "firestore.rules"
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
   "storage": {
     "rules": "storage.rules"
@@ -70,16 +74,16 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "life-quest-app-95eb9",
-          "appId": "1:249227775121:android:4401425d2261adde894330",
+          "projectId": "lifequest-crossing-2026",
+          "appId": "1:61563760091:android:4f449ea668e5a19120cbfe",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "life-quest-app-95eb9",
+          "projectId": "lifequest-crossing-2026",
           "configurations": {
-            "android": "1:249227775121:android:4401425d2261adde894330"
+            "android": "1:61563760091:android:4f449ea668e5a19120cbfe"
           }
         }
       }

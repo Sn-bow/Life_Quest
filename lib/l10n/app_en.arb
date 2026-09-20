@@ -29,11 +29,23 @@
   "loginErrorGoogleToken": "Unable to get Google auth token. Please try again.",
   "loginErrorGoogle": "Google sign-in failed.",
   "loginErrorUnknown": "An error occurred: {error}",
-  "@loginErrorUnknown": {"placeholders": {"error": {"type": "String"}}},
+  "@loginErrorUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "loginForgotPassword": "Forgot your password?",
   "loginForgotPasswordEmailRequired": "Please enter your email first.",
   "loginForgotPasswordSent": "Password reset email sent to {email}.",
-  "@loginForgotPasswordSent": {"placeholders": {"email": {"type": "String"}}},
+  "@loginForgotPasswordSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "signupTitle": "Register New Adventurer",
   "signupPickPhoto": "Pick Profile Photo",
   "signupEmailLabel": "Email",
@@ -49,7 +61,13 @@
   "signupSuccess": "🎉 Registration successful! Welcome!",
   "signupErrorFailed": "Registration failed.",
   "signupErrorUnknown": "An unknown error occurred: {error}",
-  "@signupErrorUnknown": {"placeholders": {"error": {"type": "String"}}},
+  "@signupErrorUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "signupErrorUserCreate": "Failed to create user.",
   "statusScreenTitle": "Status",
   "statusTimerTooltip": "Focus Timer",
@@ -57,9 +75,21 @@
   "statusHpLabel": "Life HP",
   "statusHpRecoveryHint": "Life HP reflects your daily quest condition. It gradually recovers every 10 minutes outside combat.",
   "statusStreakLabel": "Streak: {days} days",
-  "@statusStreakLabel": {"placeholders": {"days": {"type": "int"}}},
+  "@statusStreakLabel": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "statusStreakBonus": "XP +{percent}%",
-  "@statusStreakBonus": {"placeholders": {"percent": {"type": "int"}}},
+  "@statusStreakBonus": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "statusStatHint": "On level up, 3 points are auto-distributed based on recent quest tendencies; the rest are yours to allocate.",
   "statusGoldLabel": "Gold",
   "statusApLabel": "Action Points",
@@ -77,7 +107,13 @@
   "statusTitleChangeTitle": "Change Title",
   "statusStatApplyTitle": "Confirm Stat Allocation",
   "statusStatApplyBody": "Apply the following stats?\n\n{summary}\n\nThis cannot be undone.",
-  "@statusStatApplyBody": {"placeholders": {"summary": {"type": "String"}}},
+  "@statusStatApplyBody": {
+    "placeholders": {
+      "summary": {
+        "type": "String"
+      }
+    }
+  },
   "questsScreenTitle": "Quest List",
   "questsTabDaily": "Daily Quests",
   "questsTabWeekly": "Weekly Quests",
@@ -101,12 +137,24 @@
   "questsTypeYearly": "Annual Raid",
   "questsCompleteTitle": "Complete Quest",
   "questsCompleteConfirm": "Complete quest '{questName}'?",
-  "@questsCompleteConfirm": {"placeholders": {"questName": {"type": "String"}}},
+  "@questsCompleteConfirm": {
+    "placeholders": {
+      "questName": {
+        "type": "String"
+      }
+    }
+  },
   "questsBaseRewardLabel": "Base Reward",
   "questsGoldUnit": "Gold",
   "questsAdRewardApplied": "🎉 Ad Reward Applied",
   "questsDoubleAdButton": "Watch Ad for 2x Reward ({remaining} left)",
-  "@questsDoubleAdButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@questsDoubleAdButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "questsAdUnavailable": "Ad unavailable. Base reward granted.",
   "questsEditTitle": "Edit Quest",
   "questsAddTitle": "Add New Quest",
@@ -115,29 +163,95 @@
   "questsCategoryLabel": "Category",
   "questsDifficultyLabel": "Difficulty",
   "questsRewardPreview": "{type} Reward: {xp} XP · {gold} Gold",
-  "@questsRewardPreview": {"placeholders": {"type": {"type": "String"}, "xp": {"type": "int"}, "gold": {"type": "int"}}},
+  "@questsRewardPreview": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
   "questsNameRequired": "Please enter a quest name.",
   "questsDeleteTitle": "Delete Quest",
   "questsDeleteBody": "Delete quest '{questName}'?\n\nThis action cannot be undone.",
-  "@questsDeleteBody": {"placeholders": {"questName": {"type": "String"}}},
+  "@questsDeleteBody": {
+    "placeholders": {
+      "questName": {
+        "type": "String"
+      }
+    }
+  },
   "questsRaidClear": "Raid cleared {count} time(s)",
-  "@questsRaidClear": {"placeholders": {"count": {"type": "int"}}},
+  "@questsRaidClear": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardSummary": "Total rewards: {xp} XP · {gold} Gold · AP +{ap}",
-  "@questsRewardSummary": {"placeholders": {"xp": {"type": "int"}, "gold": {"type": "int"}, "ap": {"type": "int"}}},
+  "@questsRewardSummary": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      },
+      "ap": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardStatPoints": "Bonus stat points +{sp}",
-  "@questsRewardStatPoints": {"placeholders": {"sp": {"type": "int"}}},
+  "@questsRewardStatPoints": {
+    "placeholders": {
+      "sp": {
+        "type": "int"
+      }
+    }
+  },
   "questsRewardUnlockedTitles": "Unlocked titles: {titles}",
-  "@questsRewardUnlockedTitles": {"placeholders": {"titles": {"type": "String"}}},
+  "@questsRewardUnlockedTitles": {
+    "placeholders": {
+      "titles": {
+        "type": "String"
+      }
+    }
+  },
   "questsRewardUnlockedCosmetics": "Unlocked rewards: {cosmetics}",
-  "@questsRewardUnlockedCosmetics": {"placeholders": {"cosmetics": {"type": "String"}}},
+  "@questsRewardUnlockedCosmetics": {
+    "placeholders": {
+      "cosmetics": {
+        "type": "String"
+      }
+    }
+  },
   "questsRaidBonusMonthly": "Raid Bonus\nBonus XP · Bonus Gold\nAP +2 · SP +1\nUnlock Progress Rewards",
   "questsRaidBonusYearly": "Raid Bonus\nMassive XP · Massive Gold\nAP +4 · SP +2\nUnlock Rare Rewards",
   "huntScreenTitle": "Hunting Ground",
   "huntMyHpLabel": "Combat HP",
   "huntComboBadge": "💥 Combo: {count}",
-  "@huntComboBadge": {"placeholders": {"count": {"type": "int"}}},
+  "@huntComboBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "huntApBadge": "⚡ AP: {ap}",
-  "@huntApBadge": {"placeholders": {"ap": {"type": "int"}}},
+  "@huntApBadge": {
+    "placeholders": {
+      "ap": {
+        "type": "int"
+      }
+    }
+  },
   "huntActionAttack": "Attack (1 AP)",
   "huntActionDefend": "Defend (1 AP)",
   "huntActionSkill": "Skill (Free)",
@@ -150,16 +264,34 @@
   "huntSkillEmpty": "No combat skills learned.",
   "huntApLowTitle": "Low AP",
   "huntApLowBody": "Not enough AP. Watch an ad to recover 2 AP?\n(Today remaining: {remaining})",
-  "@huntApLowBody": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntApLowBody": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntApRecoverButton": "Watch Ad to Recover",
   "huntApExhausted": "⚡ Low AP! Complete quests. (Today's ad recovery exhausted)",
   "huntDoubleRewardButton": "Watch Ad for 2x Loot ({remaining} left)",
-  "@huntDoubleRewardButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntDoubleRewardButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntDoubleRewardSuccess": "🎉 Got 2x loot from ad reward!",
   "huntAdUnavailable": "Ad unavailable. Please try again.",
   "huntResultButton": "View Results & Return",
   "huntReviveButton": "Watch Ad to Revive ({remaining} left today)",
-  "@huntReviveButton": {"placeholders": {"remaining": {"type": "int"}}},
+  "@huntReviveButton": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
   "huntReviveSuccess": "❤️ Instantly revived via ad reward!",
   "huntReviveAdUnavailable": "Ad unavailable. Please try again later.",
   "huntRetreatButton": "Give Up & Return",
@@ -167,7 +299,13 @@
   "inventoryEquippedSection": "Equipped",
   "inventoryCombatStatSection": "Combat Stats",
   "inventoryItemsSection": "Items ({count})",
-  "@inventoryItemsSection": {"placeholders": {"count": {"type": "int"}}},
+  "@inventoryItemsSection": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "inventorySlotWeapon": "⚔️ Weapon",
   "inventorySlotArmor": "🛡️ Armor",
   "inventorySlotAccessory": "💍 Accessory",
@@ -186,9 +324,21 @@
   "inventoryStatAttack": "Attack",
   "inventoryStatDefense": "Defense",
   "inventoryUsedHp": "Used {itemName}. (HP recovered)",
-  "@inventoryUsedHp": {"placeholders": {"itemName": {"type": "String"}}},
+  "@inventoryUsedHp": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "inventoryUsedAp": "Used {itemName}. (AP recovered)",
-  "@inventoryUsedAp": {"placeholders": {"itemName": {"type": "String"}}},
+  "@inventoryUsedAp": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "inventoryRarityCommon": "Common",
   "inventoryRarityUncommon": "Uncommon",
   "inventoryRarityRare": "Rare",
@@ -234,7 +384,13 @@
   "shopCustomRewardIconLabel": "Icon (Emoji)",
   "shopCustomRewardAddButton": "Add Reward",
   "shopCustomRewardDeleted": "{name} deleted",
-  "@shopCustomRewardDeleted": {"placeholders": {"name": {"type": "String"}}},
+  "@shopCustomRewardDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shopAdSupportTitle": "Optional rewarded ads are disabled",
   "shopAdSupportDesc": "The current default Android release does not offer ad rewards.",
   "shopAdModelTitle": "Monetization is in preparation",
@@ -245,12 +401,30 @@
   "achievementEmptyInProgress": "All achievements unlocked, or waiting for new challenges!",
   "achievementEmptyCompleted": "No achievements completed yet.",
   "achievementRewardXp": "Reward: {xp} XP",
-  "@achievementRewardXp": {"placeholders": {"xp": {"type": "int"}}},
+  "@achievementRewardXp": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "achievementRewardSp": "Reward: {sp} SP",
-  "@achievementRewardSp": {"placeholders": {"sp": {"type": "int"}}},
+  "@achievementRewardSp": {
+    "placeholders": {
+      "sp": {
+        "type": "int"
+      }
+    }
+  },
   "skillScreenTitle": "Skills",
   "skillRequiredLevel": "Required: Lv.{level}",
-  "@skillRequiredLevel": {"placeholders": {"level": {"type": "int"}}},
+  "@skillRequiredLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "settingsScreenTitle": "Settings",
   "settingsAccountSection": "Account",
   "settingsNicknameLabel": "Nickname",
@@ -268,7 +442,13 @@
   "settingsNotificationMorning": "Morning notification time",
   "settingsNotificationNight": "Evening notification time",
   "settingsNotificationTimeValue": "Daily at {hour}:00",
-  "@settingsNotificationTimeValue": {"placeholders": {"hour": {"type": "int"}}},
+  "@settingsNotificationTimeValue": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
   "settingsLanguage": "Language",
   "settingsLanguageSubtitle": "Choose the app display language.",
   "settingsLanguageSystem": "System default",
@@ -279,7 +459,7 @@
   "onboardingPage1Title": "Daily Life as Quests",
   "onboardingPage1Body": "Register your tasks as quests.\nEarn XP and gold each time you complete one\nand grow your stats and skills.",
   "onboardingPage2Title": "Explore the Dungeon",
-  "onboardingPage2Body": "Enter the Soul Deck dungeon\nand battle monsters with card combat.\nThe strength you build from quests becomes real power.",
+  "onboardingPage2Body": "Try a card expedition whenever you like.\nDaily progress supports your adventure.\nLosing a battle never takes your everyday XP.",
   "onboardingPage3Title": "Start Your Adventure",
   "onboardingPage3Body": "Complete quests, clear dungeons,\nand collect achievements and titles.\nYour everyday life becomes an RPG.",
   "onboardingNext": "Next",
@@ -293,7 +473,7 @@
   "settingsLogout": "Logout",
   "settingsWithdraw": "Delete Account",
   "settingsWithdrawTitle": "Delete Account",
-  "settingsWithdrawBody": "Are you sure you want to delete your account?\nAll data will be permanently deleted and cannot be recovered.",
+  "settingsWithdrawBody": "Delete your account, cloud progress, reports and purchase links. Once accepted, you will be signed out and cleanup continues even if you close the app. Purchases can no longer be restored to this account. Deletion cannot be cancelled and does not issue a refund.",
   "settingsWithdrawConfirm": "Confirm Deletion",
   "settingsReauthPasswordTitle": "Confirm Password",
   "settingsPrivacyPolicy": "Privacy Policy",
@@ -309,13 +489,31 @@
   "timerFocusMode": "Focus Mode",
   "timerBreakMode": "Break Mode",
   "timerSessionCount": "Session {count} complete",
-  "@timerSessionCount": {"placeholders": {"count": {"type": "int"}}},
+  "@timerSessionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "timerFocusCompleteTitle": "🎉 Focus Complete!",
   "timerFocusCompleteBody": "{minutes}-minute focus session complete!",
-  "@timerFocusCompleteBody": {"placeholders": {"minutes": {"type": "int"}}},
+  "@timerFocusCompleteBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "timerGoldRewardLabel": "Gold +",
   "timerTodaySessions": "Today: {count} sessions",
-  "@timerTodaySessions": {"placeholders": {"count": {"type": "int"}}},
+  "@timerTodaySessions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "timerStartBreak": "Start Break",
   "timerFocusRewardLabel": "Focus Reward:",
   "cosmeticShopTitle": "Theme Showcase",
@@ -350,11 +548,23 @@
   "reportAdFailed": "Failed to load ad. Please try again later.",
   "reportSummaryStreak": "Current Streak",
   "reportSummaryStreakValue": "{days} days",
-  "@reportSummaryStreakValue": {"placeholders": {"days": {"type": "int"}}},
+  "@reportSummaryStreakValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "reportSummaryXp": "Current XP",
   "reportSummaryQuestCount": "Quests Completed",
   "reportSummaryQuestCountValue": "{count}",
-  "@reportSummaryQuestCountValue": {"placeholders": {"count": {"type": "int"}}},
+  "@reportSummaryQuestCountValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportSummaryTitle": "Current Title",
   "reportWeeklyActivityTitle": "Weekly Activity",
   "reportWeeklyActivitySubtitle": "Check your routine flow for the week.",
@@ -373,7 +583,13 @@
   "reportFeatureAutoGrowth": "Previous Level Auto-Growth Record",
   "reportUnlockedToday": "Expanded report unlocked today",
   "reportWatchAdButton": "Watch Ad to Unlock ({count} left today)",
-  "@reportWatchAdButton": {"placeholders": {"count": {"type": "int"}}},
+  "@reportWatchAdButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportNoMoreViews": "No more unlocks available today",
   "reportCategoryRatioTitle": "Quest Category Ratio",
   "reportInsightGrowthTrendTitle": "This Level Growth Trend",
@@ -384,7 +600,13 @@
   "reportInsightAutoGrowthCaption": "On level up, 3 points are auto-distributed based on action stats.",
   "reportInsightBestDayTitle": "Best Focus Day This Week",
   "reportInsightBestDayCaption": "You completed {count} quests this week.",
-  "@reportInsightBestDayCaption": {"placeholders": {"count": {"type": "int"}}},
+  "@reportInsightBestDayCaption": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportInsightRecommendedStatTitle": "Recommended Focus Stat",
   "reportInsightBalanced": "Balanced",
   "reportNextLevelPredictionTitle": "Next Level Auto-Growth Prediction",
@@ -403,17 +625,47 @@
   "reportCalendarWeekdayFri": "Fri",
   "reportCalendarWeekdaySat": "Sat",
   "reportCalendarSelectedTitle": "{month}/{day} Completed Quests",
-  "@reportCalendarSelectedTitle": {"placeholders": {"month": {"type": "int"}, "day": {"type": "int"}}},
+  "@reportCalendarSelectedTitle": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
   "reportCalendarSelectPrompt": "Select a date",
   "reportCalendarNoQuests": "No completed quests on this date.",
   "reportNoRecord": "No record",
   "reportStatBalanced": "Stat balance is currently stable.",
   "reportAddQuestSuggestion": "Try adding a {category} quest",
-  "@reportAddQuestSuggestion": {"placeholders": {"category": {"type": "String"}}},
+  "@reportAddQuestSuggestion": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
   "reportRecommendedAction": "Recommended: {action}",
-  "@reportRecommendedAction": {"placeholders": {"action": {"type": "String"}}},
+  "@reportRecommendedAction": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
   "reportBestWeekday": "{weekday} ({count})",
-  "@reportBestWeekday": {"placeholders": {"weekday": {"type": "String"}, "count": {"type": "int"}}},
+  "@reportBestWeekday": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reportWeekdayMonday": "Monday",
   "reportWeekdayTuesday": "Tuesday",
   "reportWeekdayWednesday": "Wednesday",
@@ -422,18 +674,45 @@
   "reportWeekdaySaturday": "Saturday",
   "reportWeekdaySunday": "Sunday",
   "reportStatValue": "{stat} {value}",
-  "@reportStatValue": {"placeholders": {"stat": {"type": "String"}, "value": {"type": "int"}}},
+  "@reportStatValue": {
+    "placeholders": {
+      "stat": {
+        "type": "String"
+      },
+      "value": {
+        "type": "int"
+      }
+    }
+  },
   "shopItemAcquired": "Acquired {name}!",
-  "@shopItemAcquired": {"placeholders": {"name": {"type": "String"}}},
+  "@shopItemAcquired": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "shopCustomRewardFabLabel": "Add Reward",
   "statusReportTooltip": "View Detailed Report",
-  "dungeonHomeTitle": "Soul Deck",
+  "dungeonHomeTitle": "Card Expeditions",
   "dungeonHomeCardCollectionTooltip": "Card Collection",
   "dungeonHomeDungeonSelection": "Select Dungeon",
   "dungeonHomeRequiredLevel": "Level {requiredLevel} or higher required",
-  "@dungeonHomeRequiredLevel": {"placeholders": {"requiredLevel": {"type": "int"}}},
+  "@dungeonHomeRequiredLevel": {
+    "placeholders": {
+      "requiredLevel": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonHomeLockedHint": "Unlocks at Lv.{requiredLevel} — complete quests to level up",
-  "@dungeonHomeLockedHint": {"placeholders": {"requiredLevel": {"type": "int"}}},
+  "@dungeonHomeLockedHint": {
+    "placeholders": {
+      "requiredLevel": {
+        "type": "int"
+      }
+    }
+  },
   "zone1Name": "Blue Meadow",
   "zone1Description": "The first dungeon for novice adventurers",
   "zone2Name": "Dark Forest",
@@ -447,7 +726,13 @@
   "seasonName": "Season 1: Soul Awakening",
   "seasonEnded": "Ended",
   "seasonCountdown": "D-{days}",
-  "@seasonCountdown": {"placeholders": {"days": {"type": "int"}}},
+  "@seasonCountdown": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "ascensionModeTitle": "Ascension Mode",
   "ascensionInactive": "Inactive",
   "ascensionActiveModifiers": "Active Penalties:",
@@ -464,15 +749,33 @@
   "ascensionLevel10Modifier": "Lv 10: All Enemy HP +20%",
   "infiniteTowerTitle": "Infinite Tower",
   "infiniteTowerBestFloorDesc": "Endless challenge · Best: Floor {bestFloor}",
-  "@infiniteTowerBestFloorDesc": {"placeholders": {"bestFloor": {"type": "int"}}},
+  "@infiniteTowerBestFloorDesc": {
+    "placeholders": {
+      "bestFloor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerSelectFloor": "Select Floor",
   "infiniteTowerFloorInfo": "Floor Info",
   "infiniteTowerChallengeFloor": "Challenge Floor {targetFloor}",
-  "@infiniteTowerChallengeFloor": {"placeholders": {"targetFloor": {"type": "int"}}},
+  "@infiniteTowerChallengeFloor": {
+    "placeholders": {
+      "targetFloor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerFloorComposition": "Floor Composition",
   "infiniteTowerBestFloorLabel": "Best Floor",
   "infiniteTowerFloorDisplay": "Floor {floor}",
-  "@infiniteTowerFloorDisplay": {"placeholders": {"floor": {"type": "int"}}},
+  "@infiniteTowerFloorDisplay": {
+    "placeholders": {
+      "floor": {
+        "type": "int"
+      }
+    }
+  },
   "infiniteTowerEnemyHp": "Enemy HP",
   "infiniteTowerEnemyAttack": "Enemy ATK",
   "infiniteTowerDefault": "Base",
@@ -490,7 +793,13 @@
   "dungeonRestRestTitle": "Rest",
   "dungeonRestRestDescription": "Recover 30% of HP",
   "dungeonRestHealResult": "Recovered {healAmount} HP!",
-  "@dungeonRestHealResult": {"placeholders": {"healAmount": {"type": "int"}}},
+  "@dungeonRestHealResult": {
+    "placeholders": {
+      "healAmount": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonRestTrainTitle": "Train",
   "dungeonRestTrainDescription": "Upgrade 1 card",
   "dungeonRestNoCardsToUpgrade": "No cards to upgrade",
@@ -498,7 +807,13 @@
   "dungeonRestSelectCardToUpgrade": "Select a card to upgrade",
   "dungeonRestCardUpgraded": "Upgraded",
   "dungeonRestCardUpgradeResult": "\"{name}\" card has been upgraded!",
-  "@dungeonRestCardUpgradeResult": {"placeholders": {"name": {"type": "String"}}},
+  "@dungeonRestCardUpgradeResult": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "dungeonEventCardRewardTitle": "Select a card",
   "dungeonShopTitle": "Dungeon Shop",
   "dungeonShopCardsSection": "Cards",
@@ -509,11 +824,23 @@
   "dungeonShopLeaveButton": "Leave Shop",
   "dungeonShopSelectCardToRemove": "Select a card to remove",
   "dungeonShopRemovalCost": "Cost: {cost} Gold",
-  "@dungeonShopRemovalCost": {"placeholders": {"cost": {"type": "int"}}},
+  "@dungeonShopRemovalCost": {
+    "placeholders": {
+      "cost": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonShopPurchaseComplete": "Purchase complete",
   "dungeonShopRemoveOneCard": "Remove 1 Card",
   "dungeonShopRemovalDescription": "Remove an unwanted card from your deck (deck: {deckSize} cards)",
-  "@dungeonShopRemovalDescription": {"placeholders": {"deckSize": {"type": "int"}}},
+  "@dungeonShopRemovalDescription": {
+    "placeholders": {
+      "deckSize": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonEventTitle": "Event",
   "dungeonEventNoData": "No event data",
   "dungeonEventChooseAction": "Choose",
@@ -525,39 +852,69 @@
   "dungeonEventEffectCardUpgrade": "Card Upgraded",
   "dungeonEventEffectCurseAdded": "Curse Added",
   "dungeonResultVictoryTitle": "Dungeon Cleared!",
-  "dungeonResultDefeatTitle": "Adventure Failed...",
+  "dungeonResultDefeatTitle": "Expedition complete",
   "dungeonResultVictoryMessage": "Congratulations! You conquered the dungeon defeating all enemies.",
-  "dungeonResultDefeatMessage": "Unfortunately this adventure failed. Try again!",
+  "dungeonResultDefeatMessage": "Your completed rooms still count. Return when you are ready.",
   "dungeonResultStatsTitle": "Adventure Log",
   "dungeonResultStatsZone": "Zone",
-  "dungeonResultStatsNodesCompleted": "Nodes Completed",
+  "dungeonResultStatsNodesCompleted": "Rooms completed",
   "dungeonResultStatsMonsterKilled": "Monsters Defeated",
   "dungeonResultRewardsTitle": "Rewards",
   "dungeonResultXpReward": "+{xpGained} XP",
-  "@dungeonResultXpReward": {"placeholders": {"xpGained": {"type": "int"}}},
+  "@dungeonResultXpReward": {
+    "placeholders": {
+      "xpGained": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonResultGoldReward": "+{goldGained} Gold",
-  "@dungeonResultGoldReward": {"placeholders": {"goldGained": {"type": "int"}}},
+  "@dungeonResultGoldReward": {
+    "placeholders": {
+      "goldGained": {
+        "type": "int"
+      }
+    }
+  },
   "dungeonResultVictoryBonus": "Clear Bonus x1.5 + Boss Defeat Bonus",
   "dungeonResultDefeatPenalty": "Defeat Penalty: Rewards x0.5",
   "dungeonResultReturnHomeButton": "Return Home",
   "cardBattleYourTurn": "Your Turn",
   "cardBattleEnemyTurn": "Enemy Turn",
   "cardBattleTurnCount": "Turn {turnCount}",
-  "@cardBattleTurnCount": {"placeholders": {"turnCount": {"type": "int"}}},
+  "@cardBattleTurnCount": {
+    "placeholders": {
+      "turnCount": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleAbandonDialog": "Forfeit Battle",
-  "cardBattleAbandonConfirmation": "Forfeit this battle? Your progress will be lost.",
+  "cardBattleAbandonConfirmation": "End this expedition? You keep rewards for completed rooms, and your everyday level and XP stay intact.",
   "cardBattleAbandonButton": "Forfeit",
   "cardBattleNoEnemies": "No enemies",
   "cardBattleEndTurnButton": "End Turn",
   "cardBattleNoCardsInHand": "No cards in hand",
   "cardBattleVictory": "Victory!",
   "cardBattleGoldReward": "+{gold} Gold",
-  "@cardBattleGoldReward": {"placeholders": {"gold": {"type": "int"}}},
+  "@cardBattleGoldReward": {
+    "placeholders": {
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleSelectCard": "Select a card",
   "cardBattleSkipButton": "Skip",
   "cardBattleEpEmpty": "No EP",
   "cardBattlePlayableCount": "{count} playable",
-  "@cardBattlePlayableCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cardBattlePlayableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "cardBattleDrawPile": "Draw",
   "cardBattleDiscardPile": "Discard",
   "cardBattleIntentAttack": "Attack",
@@ -578,18 +935,42 @@
   "cardCollectionFilterAll": "All",
   "cardCollectionMyCollection": "My Collection",
   "cardCollectionCardCount": "({count} cards)",
-  "@cardCollectionCardCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cardCollectionCardCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionNoCards": "You have no cards.\nComplete quests to obtain cards!",
   "cardCollectionDeckInclusion": "{copyCount} in deck",
-  "@cardCollectionDeckInclusion": {"placeholders": {"copyCount": {"type": "int"}}},
+  "@cardCollectionDeckInclusion": {
+    "placeholders": {
+      "copyCount": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionAddToDeck": "Add to Deck",
   "cardCollectionDeckFull": "Deck full (20 cards)",
   "cardCollectionMaxCopies": "Max 3 copies allowed",
   "cardCollectionAddedToDeck": "{cardName} added to deck",
-  "@cardCollectionAddedToDeck": {"placeholders": {"cardName": {"type": "String"}}},
+  "@cardCollectionAddedToDeck": {
+    "placeholders": {
+      "cardName": {
+        "type": "String"
+      }
+    }
+  },
   "cardCollectionMyDeck": "My Deck",
   "cardCollectionDeckSize": "({deckSize}/20)",
-  "@cardCollectionDeckSize": {"placeholders": {"deckSize": {"type": "int"}}},
+  "@cardCollectionDeckSize": {
+    "placeholders": {
+      "deckSize": {
+        "type": "int"
+      }
+    }
+  },
   "cardCollectionResetDeckDialog": "Reset Deck",
   "cardCollectionResetDeckConfirmation": "Delete custom deck and revert to default starter deck?",
   "cardCollectionResetButton": "Reset",
@@ -648,7 +1029,6 @@
   "cardDescAtkC10": "Deal 3 damage to all enemies.",
   "cardNameAtkC10Up": "Blade Storm+",
   "cardDescAtkC10Up": "Deal 5 damage to all enemies.",
-
   "cardNameAtkU01": "Power Slash",
   "cardDescAtkU01": "Deal 14 damage and apply Vulnerable for 2 turns.",
   "cardNameAtkU01Up": "Power Slash+",
@@ -681,7 +1061,6 @@
   "cardDescAtkU08": "Deal double damage to Vulnerable enemies (base 6 damage).",
   "cardNameAtkU08Up": "Merciless+",
   "cardDescAtkU08Up": "Deal double damage to Vulnerable enemies (base 9 damage).",
-
   "cardNameAtkR01": "Dragon Strike",
   "cardDescAtkR01": "Deal 30 damage and apply Burn for 3 turns.",
   "cardNameAtkR01Up": "Dragon Strike+",
@@ -702,7 +1081,6 @@
   "cardDescAtkR05": "Gain Strength +5 for 3 turns, then lose Strength -5.",
   "cardNameAtkR05Up": "Berserk+",
   "cardDescAtkR05Up": "Gain Strength +7 for 3 turns, then lose Strength -5.",
-
   "cardNameAtkL01": "Excalibur",
   "cardDescAtkL01": "Deal 50 damage, apply Vulnerable+Weak for 3 turns. Exhaust.",
   "cardNameAtkL01Up": "Excalibur+",
@@ -711,7 +1089,6 @@
   "cardDescAtkL02": "Deal 8 damage. Permanently gains +2 damage on each use.",
   "cardNameAtkL02Up": "Infinite Blade+",
   "cardDescAtkL02Up": "Deal 12 damage. Permanently gains +2 damage on each use.",
-
   "cardNameMagC01": "Fireball",
   "cardDescMagC01": "Deal 4 damage and apply Burn for 2 turns.",
   "cardNameMagC01Up": "Fireball+",
@@ -752,7 +1129,6 @@
   "cardDescMagC10": "Increase the next card's effect by 50%.",
   "cardNameMagC10Up": "Elemental Harmony+",
   "cardDescMagC10Up": "Increase the next card's effect by 100%.",
-
   "cardNameMagU01": "Chain Lightning",
   "cardDescMagU01": "Deal 8 damage and deal 4 damage to all enemies.",
   "cardNameMagU01Up": "Chain Lightning+",
@@ -785,7 +1161,6 @@
   "cardDescMagU08": "Copy a card from your hand (this turn only).",
   "cardNameMagU08Up": "Replicate+",
   "cardDescMagU08Up": "Copy a card at cost 0 from your hand (this turn only).",
-
   "cardNameMagR01": "Meteor",
   "cardDescMagR01": "Deal 25 damage to all enemies and apply Burn for 3 turns.",
   "cardNameMagR01Up": "Meteor+",
@@ -806,7 +1181,6 @@
   "cardDescMagR05": "Freeze all enemies and deal 10 damage.",
   "cardNameMagR05Up": "Absolute Zero+",
   "cardDescMagR05Up": "Freeze all enemies and deal 15 damage.",
-
   "cardNameMagL01": "Armageddon",
   "cardDescMagL01": "Deal 99 damage to all enemies. Take 30 damage yourself. Exhaust.",
   "cardNameMagL01Up": "Armageddon+",
@@ -815,7 +1189,6 @@
   "cardDescMagL02": "Draw 5 cards and gain Energy +2. Exhaust.",
   "cardNameMagL02Up": "Infinite Wisdom+",
   "cardDescMagL02Up": "Draw 7 cards and gain Energy +3. Exhaust.",
-
   "cardNameDefC01": "Guard",
   "cardDescDefC01": "Gain 5 Block.",
   "cardNameDefC01Up": "Guard+",
@@ -856,7 +1229,6 @@
   "cardDescDefC10": "Gain 6 Block and taunt 1 enemy.",
   "cardNameDefC10Up": "Taunt Shield+",
   "cardDescDefC10Up": "Gain 9 Block and taunt 1 enemy.",
-
   "cardNameDefU01": "Barricade",
   "cardDescDefU01": "Gain 12 Block and Stalwart for 2 turns.",
   "cardNameDefU01Up": "Barricade+",
@@ -889,7 +1261,6 @@
   "cardDescDefU08": "Gain 20 Block. Gain 10 Block next turn.",
   "cardNameDefU08Up": "Reinforced Armor+",
   "cardDescDefU08Up": "Gain 25 Block. Gain 15 Block next turn.",
-
   "cardNameDefR01": "Invincible",
   "cardDescDefR01": "Reduce all damage to 0 this turn. Exhaust.",
   "cardNameDefR01Up": "Invincible+",
@@ -910,7 +1281,6 @@
   "cardDescDefR05": "Revive with 30% HP on death this combat. Exhaust.",
   "cardNameDefR05Up": "Elixir of Rebirth+",
   "cardDescDefR05Up": "Revive with 50% HP on death this combat. Exhaust.",
-
   "cardNameDefL01": "Eternal Shield",
   "cardDescDefL01": "Gain 30 Block and automatically gain 5 Block each turn (during combat). Exhaust.",
   "cardNameDefL01Up": "Eternal Shield+",
@@ -919,7 +1289,6 @@
   "cardDescDefL02": "Fully restore HP and gain max HP +10 (permanent). Exhaust.",
   "cardNameDefL02Up": "Font of Life+",
   "cardDescDefL02Up": "Fully restore HP and gain max HP +20 (permanent). Exhaust.",
-
   "cardNameTacC01": "Observe",
   "cardDescTacC01": "Check enemy intent and draw 1 card.",
   "cardNameTacC01Up": "Observe+",
@@ -960,7 +1329,6 @@
   "cardDescTacC10": "50% chance to draw 2 cards.",
   "cardNameTacC10Up": "Lucky Coin+",
   "cardDescTacC10Up": "70% chance to draw 2 cards.",
-
   "cardNameTacU01": "Battlefield Analysis",
   "cardDescTacU01": "Draw 3 cards and reduce the cost of the highest-cost card to 0 this turn.",
   "cardNameTacU01Up": "Battlefield Analysis+",
@@ -993,7 +1361,6 @@
   "cardDescTacU08": "Gain Thorns 3 (permanent). Apply Weak 1 turn when struck.",
   "cardNameTacU08Up": "Chain Trap+",
   "cardDescTacU08Up": "Gain Thorns 5 (permanent). Apply Weak 1 turn when struck.",
-
   "cardNameTacR01": "Perfect Plan",
   "cardDescTacR01": "Gain Energy +3 and draw 3 cards. Draw 0 next turn.",
   "cardNameTacR01Up": "Perfect Plan+",
@@ -1014,7 +1381,6 @@
   "cardDescTacR05": "Apply Vulnerable + Weak 2 turns and Poison 3 to all enemies.",
   "cardNameTacR05Up": "Total Chaos+",
   "cardDescTacR05Up": "Apply Vulnerable + Weak 3 turns and Poison 3 to all enemies.",
-
   "cardNameTacL01": "Master of Time",
   "cardDescTacL01": "Gain 2 extra turns (Energy 2 each). Exhaust.",
   "cardNameTacL01Up": "Master of Time+",
@@ -1023,7 +1389,6 @@
   "cardDescTacL02": "Upgrade all cards in your deck for this combat. Exhaust.",
   "cardNameTacL02Up": "Fate Conversion+",
   "cardDescTacL02Up": "Upgrade all cards in your deck for this combat and gain Energy +2. Exhaust.",
-
   "relicNameStart01": "Adventurer's Bag",
   "relicDescStart01": "Combat card reward choices +1 (3→4)",
   "relicNameStart02": "Worn Amulet",
@@ -1086,7 +1451,6 @@
   "relicDescB04": "Generate 1 random card in hand each turn",
   "relicNameB05": "Crown of Time",
   "relicDescB05": "Gain 1 extra turn on the first turn",
-
   "achievementNameAc1": "First Step",
   "achievementDescAc1": "Complete 1 quest",
   "achievementNameAc2": "Diligence Emblem",
@@ -1137,7 +1501,6 @@
   "achievementDescAc24": "Reach Charisma stat 30",
   "achievementNameAc25": "King of Charisma",
   "achievementDescAc25": "Reach Charisma stat 80",
-
   "titleNameT0": "Sprout Adventurer",
   "titleDescT0": "Everything is a new beginning",
   "titleNameT1": "Diligent Adventurer",
@@ -1194,7 +1557,6 @@
   "titleDescT26": "Clear Yearly Raid 1 time",
   "titleNameT27": "Yearly Raid Lord",
   "titleDescT27": "Clear Yearly Raid 3 times",
-
   "skillNameSk1": "Strength Training",
   "skillDescSk1": "Strength quest XP +10%",
   "skillNameSk2": "Light of Wisdom",
@@ -1243,7 +1605,6 @@
   "skillDescSk23": "All quest XP +20%",
   "skillNameSk24": "God's Blessing",
   "skillDescSk24": "Gain +3 SP on level up",
-
   "monsterSlimeGreen": "Green Slime",
   "monsterBat": "Cave Bat",
   "monsterMushroom": "Poison Mushroom",
@@ -1280,7 +1641,6 @@
   "chapterName3": "Ruined Castle",
   "chapterName4": "Lava Dungeon",
   "chapterName5": "Abyssal Dimension",
-
   "timerDuration15": "15 min",
   "timerDuration25": "25 min",
   "timerDuration45": "45 min",
@@ -1288,11 +1648,321 @@
   "huntApRecovered": "⚡ AP recovered by 2!",
   "huntSkillCooldownTurns": "{turns} turn(s)",
   "@huntSkillCooldownTurns": {
-    "placeholders": { "turns": { "type": "int" } }
+    "placeholders": {
+      "turns": {
+        "type": "int"
+      }
+    }
   },
   "settingsReauthFailed": "Re-authentication failed: {error}",
   "@settingsReauthFailed": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
-  "settingsReauthWrongPassword": "Incorrect password."
+  "settingsReauthWrongPassword": "Incorrect password.",
+  "lqToday": "Today",
+  "lqGrowth": "Growth",
+  "lqDungeon": "Dungeon",
+  "lqHeadline": "One more page, today.",
+  "lqSubtitle": "Small real-world actions open your next scene.",
+  "lqSystem": "PERSONAL QUEST SYSTEM",
+  "lqDailyMissions": "Your daily quests",
+  "lqActiveQuests": "In progress",
+  "lqAllQuests": "View all",
+  "lqCheckIn": "Daily check-in",
+  "lqCheckInHint": "Start with what feels manageable.",
+  "lqEnergy": "Energy today",
+  "lqEnergyLow": "Take it easy",
+  "lqEnergyMedium": "Steady",
+  "lqEnergyHigh": "Ready",
+  "lqTimeBudget": "Time for yourself today",
+  "lqMinutes": "min",
+  "lqFocus": "Areas to grow",
+  "lqVitality": "Vitality",
+  "lqLearning": "Learning",
+  "lqOrder": "Order",
+  "lqConnection": "Connection",
+  "lqGoal": "A goal on your mind (optional)",
+  "lqGoalHint": "e.g. Restart English study after work",
+  "lqGoalPrivacy": "This note and personalization history stay on this device.",
+  "lqApply": "Set my daily quests",
+  "lqAccept": "Accept",
+  "lqDone": "I did it",
+  "lqCompleted": "Complete",
+  "lqTooHard": "Too much today",
+  "lqSkip": "Try something else",
+  "lqWhy": "Why this quest",
+  "lqDefaultReason": "Matched to your interests and available time.",
+  "lqRecoveryReason": "A smaller step to make returning easier.",
+  "lqAllSet": "Your plan is set.",
+  "lqAllSetBody": "Take your accepted quests at your pace. A fresh plan comes tomorrow.",
+  "lqDirector": "Your quest AI",
+  "lqBasicMode": "Guided suggestions",
+  "lqLocalAi": "On-device AI",
+  "lqGenerate": "Personalize with AI",
+  "lqGenerating": "Creating your quests…",
+  "lqModelName": "Gemma 4 E2B · free open model",
+  "lqModelIntro": "After installation, quests are generated on this device, offline. No AI fee or subscription.",
+  "lqModelDownloadInfo": "2.59GB model · Wi-Fi recommended · 3GB free space\nKeep the app open while downloading. Interrupted downloads can resume. Carrier data charges may apply.",
+  "lqDownload": "Download free model",
+  "lqCancel": "Cancel",
+  "lqRemoveModel": "Remove model file",
+  "lqModelUnavailable": "Guided suggestions work here. AI requires a compatible Android device with enough memory.",
+  "lqModelRejected": "This generation did not pass validation. Your existing suggestions are kept.",
+  "lqModelError": "Could not finish. Check connection and storage, then retry.",
+  "lqLearningHistory": "Personalization history",
+  "lqLearningHistoryBody": "Completed, skipped and difficult tasks help adjust future content and effort. Up to 90 days of history is kept on this device.",
+  "lqClearLearning": "Reset learning history",
+  "lqResetConfirm": "Reset personalization history? Your level and completed quests remain.",
+  "lqStorageError": "Saving did not finish. Check storage before closing the app.",
+  "lqEarnedToday": "Today’s quest XP",
+  "lqStatusWindow": "My status window",
+  "lqGrowthHint": "Your progress stays with you on rest days.",
+  "lqOpenGate": "Put your growth to the test",
+  "lqGateHint": "Try a short card battle powered by your real-life actions.",
+  "lqEnterDungeon": "Enter dungeon",
+  "lqOptional": "Optional adventure",
+  "lqSaved": "Saved",
+  "lqReportSuggestion": "Report suggestion",
+  "lqReportBody": "Send this suggestion’s title, action and reason, linked to your account, to the developer. Your goal note and learning history are not attached.",
+  "lqSendReport": "Send report",
+  "lqReportSent": "Report sent. This suggestion is hidden.",
+  "lqReportPreview": "QA report stored locally. Nothing was sent to the developer.",
+  "lqReportFailed": "Could not confirm the report action. Check your connection and try again.",
+  "lqCloudQuestNotice": "Accepted quests are saved to Firebase through your account. AI generation itself runs only on this device.",
+  "lqOpenSourceLicenses": "Open-source licenses",
+  "lqWelcomeTitle": "Your day.\nYour unfolding story.",
+  "lqWelcomeBody": "A city mystery, a mountain courtyard, a map of stars.\nCarry your everyday progress into a world you choose.",
+  "lqFirstContract": "YOUR FIRST CONTRACT",
+  "lqWelcomeStepOne": "Start where you are",
+  "lqWelcomeStepOneBody": "Choose your time, energy and focus.",
+  "lqWelcomeStepTwo": "Grow through small quests",
+  "lqWelcomeStepTwoBody": "Earn experience for what you do in real life.",
+  "lqWelcomeStepThree": "Grow across three worlds",
+  "lqWelcomeStepThreeBody": "Choose a story. Real-life actions unlock the next scene.",
+  "lqStartOnDevice": "Start on this device",
+  "lqStarting": "Opening your status…",
+  "lqExistingAccount": "Continue with an existing account",
+  "lqDeviceStorageNotice": "Start free, without an account. Your progress stays on this device and is lost if you uninstall the app.",
+  "lqGuestName": "Chronicler",
+  "lqProfileLoadFailed": "Your profile could not be loaded. Saved data has been preserved. Please try again.",
+  "lqRetry": "Try again",
+  "lqBackToStart": "Back to start",
+  "lqLocalProfile": "Device profile",
+  "lqDeleteLocal": "Delete device progress",
+  "lqDeleteLocalBody": "Delete quests, progress and personalization history on this device. This cannot be undone.",
+  "lqPurchasePending": "Payment is pending. Access will be verified when payment is approved.",
+  "lqPurchasePendingShort": "Pending",
+  "lqPurchaseVerifying": "Verifying your purchase…",
+  "lqPurchaseGranted": "Purchase verified. Your content is ready.",
+  "lqPurchaseCancelled": "Purchase cancelled.",
+  "lqPurchaseRetry": "Verification is delayed. Try restoring purchases with the same account.",
+  "lqPurchaseFailed": "The purchase could not be started. Please try again later.",
+  "lqPurchaseRestoring": "Restoring purchases…",
+  "lqPurchaseRestoreFinished": "Store purchases checked. Make sure you are using the same app account used to purchase.",
+  "lqRestorePurchases": "Restore purchases",
+  "lqStoryLibrary": "The Crossing Library",
+  "lqStoryFreePrologue": "FREE PROLOGUE",
+  "lqStoryBannerTitle": "A signal from Exit Zero",
+  "lqStoryBannerBody": "Today’s small actions open the next page.",
+  "lqStoryLibraryHeadline": "One life.\nMany stories to unfold.",
+  "lqStoryLibraryHint": "Choose a book to keep on Today. Switching books preserves your progress and choices.",
+  "lqStoryProgress": "records completed",
+  "lqStoryLoadFailed": "The story could not be loaded. Close this screen and try again.",
+  "lqStoryFiction": "A fictional story that progresses through your everyday quests.",
+  "lqStoryNoDeadline": "No deadlines or streak requirements. Complete quests to open the next record.",
+  "lqStoryActionCount": "Quests completed so far:",
+  "lqStoryReadAgain": "Read again",
+  "lqStoryReadNow": "Ready to read",
+  "lqStoryUnlockAfter": "More to complete:",
+  "lqStoryQuestUnit": "quests",
+  "lqStoryReadPrevious": "Complete the previous record first.",
+  "lqStoryRecord": "RECORD",
+  "lqStoryChoose": "How will you respond?",
+  "lqStoryNext": "Read the next record",
+  "lqStoryChapterComplete": "This chapter is complete. Revisit it anytime and try a different choice.",
+  "lqStoryReturnLater": "Complete more everyday quests to open the next record. Your story so far stays with you.",
+  "lqStoryBackToChapter": "View chapter records",
+  "lqStoryChooseAgain": "Try a different choice",
+  "lqStorySaveFailed": "Your choice could not be saved. Please try again.",
+  "lqDeletionQueued": "Deletion requested. Server cleanup continues even if you close the app.",
+  "lqBackupTitle": "Backup and restore",
+  "lqBackupHeadline": "Your progress, on your next device.",
+  "lqBackupBody": "Protect your progress with a password and save it as a file. Backups are free, and you choose where to keep them.",
+  "lqBackupExport": "Create backup file",
+  "lqBackupImport": "Open backup file",
+  "lqBackupUndo": "Return to progress before restore",
+  "lqBackupIncluded": "What is included",
+  "lqBackupIncludesBody": "Includes quests, growth, cleared dungeons, story choices and personalization history. Active expeditions, sign-in details, purchase rights and AI model files are excluded. Notifications start off on the restored device.",
+  "lqBackupPasswordNotice": "The developer cannot unlock a backup if you forget its password. Your saved files remain after uninstalling the app; delete unneeded backups from wherever you stored them.",
+  "lqBackupSetPassword": "Set a backup password",
+  "lqBackupEnterPassword": "Enter backup password",
+  "lqBackupPasswordHint": "Use 12–128 characters. A long memorable phrase works well. Spaces and letter case are part of the password.",
+  "lqBackupPassword": "Password",
+  "lqBackupRepeatPassword": "Repeat password",
+  "lqBackupShowPassword": "Show password",
+  "lqBackupHidePassword": "Hide password",
+  "lqBackupPasswordMismatch": "The passwords do not match.",
+  "lqBackupUnlock": "Review backup",
+  "lqBackupReview": "Restore this progress?",
+  "lqBackupReplaceBody": "This replaces progress on this device. The previous progress is kept locally so you can return to it. Sign-in and purchase entitlements stay with their account. Turn reminders on again if wanted.",
+  "lqBackupRestore": "Restore progress",
+  "lqBackupWorking": "Securing your progress…",
+  "lqBackupSaved": "Encrypted backup file saved.",
+  "lqBackupSaveFailed": "Could not save the backup. Check available storage and your selected location.",
+  "lqBackupInvalid": "Could not open the backup. Check the file and password. Your progress has not changed.",
+  "lqBackupRestored": "Progress restored. You can enable reminders in Settings.",
+  "lqBackupRestoreInterrupted": "Restore could not finish. Reopen the app or retry to continue recovery.",
+  "lqDungeonIntro": "Turn everyday progress into an adventure.",
+  "lqDungeonIntroBody": "Play cards and choose your path. Losing a battle keeps your everyday level and XP intact.",
+  "lqDungeonStart": "Start exploring",
+  "lqDungeonResume": "Continue your expedition",
+  "lqDungeonBonus": "Bonuses from your day",
+  "lqDungeonBonusBody": "Completed quests and equipment support your next expedition. You can start with no bonuses.",
+  "lqDungeonPacks": "Card packs",
+  "lqDungeonPathHint": "Choose a glowing point below to begin.",
+  "lqDungeonNextHint": "Choose a connected point to continue.",
+  "lqDungeonCurrent": "Current",
+  "lqDungeonAvailable": "Available",
+  "lqDungeonLocked": "Locked",
+  "lqDungeonDone": "Completed",
+  "lqDungeonEntering": "Entering…",
+  "lqDungeonCombat": "Battle",
+  "lqDungeonElite": "Elite battle",
+  "lqDungeonEvent": "Event",
+  "lqDungeonShop": "Shop",
+  "lqDungeonRest": "Rest",
+  "lqDungeonBoss": "Boss",
+  "lqBattleGuideTitle": "Your first battle",
+  "lqBattleGuideEnergy": "EP is your energy each turn. Each card spends the number shown at its top left.",
+  "lqBattleGuideCards": "With several enemies, choose a target before a card. Attacks deal damage; defense blocks incoming damage.",
+  "lqBattleGuideTurn": "Press End Turn when ready. After enemies act, your energy and hand refresh.",
+  "lqBattleBegin": "Begin battle",
+  "lqBattleExit": "Leave battle",
+  "lqDungeonNode": "{type}, step {step}, path {path}, {state}",
+  "@lqDungeonNode": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "path": {
+        "type": "int"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "lqDungeonCheckpointHint": "Saved when you enter or leave a room. After closing the app, an unfinished room restarts from its entrance.",
+  "lqDungeonSaveFailed": "Progress could not be saved. Check device storage and try again.",
+  "lqDungeonCollectResult": "Collect expedition results",
+  "lqPurchaseAccount": "Purchase account",
+  "lqPurchaseAccountOptional": "Connect only when you need it",
+  "lqPurchaseAccountPrivacy": "Your Google account is used to verify and restore purchases. Quests, progress and AI personalization stay on this device. Signing in does not make a purchase.",
+  "lqPurchaseAccountRestoreHint": "To restore purchases on another device, use both the same Google Play account and the same app purchase account used to buy. Transfer progress separately with an encrypted backup.",
+  "lqPurchaseAccountConnected": "Purchase account connected",
+  "lqPurchaseAccountConnect": "Connect Google account",
+  "lqPurchaseAccountDisconnect": "Disconnect on this device",
+  "lqPurchaseAccountDelete": "Delete purchase account",
+  "lqPurchaseAccountDeleteBody": "This deletes purchase access, reports and any existing cloud profile for this account. Purchases cannot be restored after deletion. This does not issue a refund. Quests and progress on this device remain. Confirm your Google account again to request deletion.",
+  "lqPurchaseAccountFailed": "The action could not be completed. Check your connection and account, then try again.",
+  "lqPurchaseAccountDeleted": "Deletion requested. The server will continue removing account data. Progress on this device is kept.",
+  "lqPurchaseAccountCleanup": "Deletion was accepted. Tap Disconnect again to finish signing out on this device. Server deletion will continue.",
+  "lqReportCopyReceipt": "Copy receipt",
+  "lqReportRetention": "Report content becomes eligible for automatic deletion 90 days after submission. Removal may take additional processing time. You can also delete it in Settings → AI report receipts.",
+  "lqReportReceipts": "AI report receipts",
+  "lqReportReceiptHelp": "This device keeps up to 100 recent receipt IDs. Delete here while connected to the same reporting account. If your account changed or you cannot access the app, copy the receipt ID and request deletion at logian621@gmail.com.",
+  "lqReportReceiptsEmpty": "No receipt IDs are saved on this device.",
+  "lqReportDelete": "Delete report",
+  "lqReportDeleteBody": "Delete this report from the server and remove its local receipt. Your daily quests and progress stay on this device.",
+  "lqReportDeleted": "Report deleted.",
+  "lqReportDeleteIdentity": "Delete anonymous report account",
+  "lqReportDeleteIdentityBody": "Request deletion of this device’s current anonymous report account and all reports sent by it. Your device progress remains. Sending another report later creates a new anonymous account.",
+  "lqReportIdentityDeleted": "Deletion accepted. Server processing continues even after you close the app.",
+  "lqWorldCurrent": "YOUR CURRENT STORY",
+  "lqWorldChoose": "Where will today take you?",
+  "lqWorldChooseHint": "City · Practice · Discovery. Three free stories.",
+  "lqWorldChange": "Change book",
+  "lqWorldSelect": "Begin with this book",
+  "lqWorldContinue": "Continue this book",
+  "lqWorldSaving": "Saving bookmark…",
+  "lqWorldFreeCollection": "Three free stories · No deadlines",
+  "lqWorldCollectionPromise": "Core quests, AI and records are free. All three stories in this library require no purchase.",
+  "lqActionsRecorded": "{count} real-life quests completed",
+  "lqStoryActionsRemaining": "{count} quests to the next scene",
+  "@lqActionsRecorded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@lqStoryActionsRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lqDeletionUncertain": "The deletion request could not be confirmed. Sync for this account is stopped. Finish disconnecting this device, then sign in again to check.",
+  "lqDeletionCheckFailed": "This device’s account status could not be read. Sync has not started, to protect your records.",
+  "lqDeletionLocalFinished": "This device has been disconnected.",
+  "lqDeletionLocalHint": "Only this account’s remaining device caches and sign-in will be cleared. Your separate device profile and other accounts stay intact.",
+  "lqDeletionFinishLocal": "Finish disconnecting this device",
+  "lqDeletionLocalRetry": "Local cleanup did not finish. Please retry. Sync for this account remains stopped.",
+  "lqPackCollection": "Complete story packs",
+  "lqPackContents": "12 scenes, two choice-based endings, a sea-glass theme and a paper-boat mark. One purchase, no expiry.",
+  "lqPackPreview": "First two scenes free",
+  "lqPackLocked": "This scene requires the story pack.",
+  "lqPackUnavailable": "Purchases are unavailable in this build. You can still read the free preview.",
+  "lqPackBuy": "Buy complete pack · {price}",
+  "lqPackOwned": "Owned story pack",
+  "lqPackThemeApply": "Apply sea-glass theme",
+  "lqPackThemeRemove": "Use default theme",
+  "lqPackThemeHint": "The theme and mark do not change XP, stats or quest recommendations.",
+  "lqPackMark": "Tide Post Office · Paper-boat mark",
+  "lqPackMarkHint": "Finish the final scene to display this mark in Growth.",
+  "lqPackEndingHint": "Your majority approach across the first eleven choices determines the ending. You can revisit your choices.",
+  "lqPackPacing": "From scene three, each scene opens after two more real-life actions. The finale opens at 20 total. Purchasing does not skip these milestones.",
+  "@lqPackBuy": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "lqPackPreviewEnd": "Your free preview ends here. Return to the chapter to see the pack contents and availability.",
+  "lqPackStoreUnavailable": "Reconnect to Google Play to check product availability.",
+  "lqDeviceQuestNotice": "Accepted quests and personalization stay on this device. Connecting a Google purchase account does not upload your progress.",
+  "lqStudyTitle": "14-day usability study",
+  "lqStudyIntro": "Optional · stored only on this device",
+  "lqStudyConsent": "If you join, for 14 days we record daily app visits, quest completion counts, story preview completion and optional ratings. A random participation code is created. Names, goals, quest text and Google accounts are excluded. Nothing is sent automatically; the developer receives your report only if you choose to share the file. You can delete study records at any time without affecting the app. Each study day is 24 hours from enrollment.",
+  "lqStudyStart": "I understand and choose to join",
+  "lqStudySummary": "Recorded days / completions",
+  "lqStudyValue": "Appeal after reading the free preview (1–5)",
+  "lqStudyPrice": "Most you would consider paying for this pack",
+  "lqStudyPriceNote": "This is a pricing question, not a purchase or reservation. The pack is not on sale. You can change your answer.",
+  "lqStudyUndecided": "Not sure yet",
+  "lqStudyNoPurchase": "I would not buy it",
+  "lqStudyPreviewFirst": "Read and make your choices in both free Tide Post Office scenes to leave a rating.",
+  "lqStudySave": "Save rating",
+  "lqStudyExport": "Save report file",
+  "lqStudyExportNote": "The file includes the code below, completions by study day, preview status, ratings and record-quality flags. It does not verify real-world actions or purchases. After saving, share it yourself only if you wish.",
+  "lqStudyWithdraw": "Leave and delete study records",
+  "lqStudyWithdrawNote": "Only the study records on this device will be deleted. Your quests and story progress stay. Files you already shared are not deleted.",
+  "lqStudySaved": "Saved.",
+  "lqStudyError": "Could not read or save the record. Existing records were preserved. Retry or delete study records.",
+  "lqStudyFlagged": "A record change or storage problem was detected. This report will be excluded from retention analysis. You can keep using the app.",
+  "lqStudyWebPreview": "Web preview data is excluded from real-user validation.",
+  "lqFeedbackTitle": "Feedback and help",
+  "lqFeedbackDescription": "Tell us what went wrong or what you would like. Your records are not attached automatically.",
+  "lqReportManualDescription": "This preview does not send reports inside the app. Review this suggestion, then optionally copy it and email it through the support page. Remove personal details before sending. Opening support does not transmit this text.",
+  "lqReportCopySuggestion": "Copy suggestion",
+  "lqReportManualCopied": "Suggestion copied. It has not been sent."
 }

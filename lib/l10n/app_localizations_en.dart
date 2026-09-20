@@ -844,7 +844,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Enter the Soul Deck dungeon\nand battle monsters with card combat.\nThe strength you build from quests becomes real power.';
+      'Try a card expedition whenever you like.\nDaily progress supports your adventure.\nLosing a battle never takes your everyday XP.';
 
   @override
   String get onboardingPage3Title => 'Start Your Adventure';
@@ -890,7 +890,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsWithdrawBody =>
-      'Are you sure you want to delete your account?\nAll data will be permanently deleted and cannot be recovered.';
+      'Delete your account, cloud progress, reports and purchase links. Once accepted, you will be signed out and cleanup continues even if you close the app. Purchases can no longer be restored to this account. Deletion cannot be cancelled and does not issue a refund.';
 
   @override
   String get settingsWithdrawConfirm => 'Confirm Deletion';
@@ -1291,7 +1291,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusReportTooltip => 'View Detailed Report';
 
   @override
-  String get dungeonHomeTitle => 'Soul Deck';
+  String get dungeonHomeTitle => 'Card Expeditions';
 
   @override
   String get dungeonHomeCardCollectionTooltip => 'Card Collection';
@@ -1580,7 +1580,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dungeonResultVictoryTitle => 'Dungeon Cleared!';
 
   @override
-  String get dungeonResultDefeatTitle => 'Adventure Failed...';
+  String get dungeonResultDefeatTitle => 'Expedition complete';
 
   @override
   String get dungeonResultVictoryMessage =>
@@ -1588,7 +1588,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dungeonResultDefeatMessage =>
-      'Unfortunately this adventure failed. Try again!';
+      'Your completed rooms still count. Return when you are ready.';
 
   @override
   String get dungeonResultStatsTitle => 'Adventure Log';
@@ -1597,7 +1597,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dungeonResultStatsZone => 'Zone';
 
   @override
-  String get dungeonResultStatsNodesCompleted => 'Nodes Completed';
+  String get dungeonResultStatsNodesCompleted => 'Rooms completed';
 
   @override
   String get dungeonResultStatsMonsterKilled => 'Monsters Defeated';
@@ -1641,7 +1641,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cardBattleAbandonConfirmation =>
-      'Forfeit this battle? Your progress will be lost.';
+      'End this expedition? You keep rewards for completed rooms, and your everyday level and XP stay intact.';
 
   @override
   String get cardBattleAbandonButton => 'Forfeit';
@@ -3877,4 +3877,893 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => 'Incorrect password.';
+
+  @override
+  String get lqToday => 'Today';
+
+  @override
+  String get lqGrowth => 'Growth';
+
+  @override
+  String get lqDungeon => 'Dungeon';
+
+  @override
+  String get lqHeadline => 'One more page, today.';
+
+  @override
+  String get lqSubtitle => 'Small real-world actions open your next scene.';
+
+  @override
+  String get lqSystem => 'PERSONAL QUEST SYSTEM';
+
+  @override
+  String get lqDailyMissions => 'Your daily quests';
+
+  @override
+  String get lqActiveQuests => 'In progress';
+
+  @override
+  String get lqAllQuests => 'View all';
+
+  @override
+  String get lqCheckIn => 'Daily check-in';
+
+  @override
+  String get lqCheckInHint => 'Start with what feels manageable.';
+
+  @override
+  String get lqEnergy => 'Energy today';
+
+  @override
+  String get lqEnergyLow => 'Take it easy';
+
+  @override
+  String get lqEnergyMedium => 'Steady';
+
+  @override
+  String get lqEnergyHigh => 'Ready';
+
+  @override
+  String get lqTimeBudget => 'Time for yourself today';
+
+  @override
+  String get lqMinutes => 'min';
+
+  @override
+  String get lqFocus => 'Areas to grow';
+
+  @override
+  String get lqVitality => 'Vitality';
+
+  @override
+  String get lqLearning => 'Learning';
+
+  @override
+  String get lqOrder => 'Order';
+
+  @override
+  String get lqConnection => 'Connection';
+
+  @override
+  String get lqGoal => 'A goal on your mind (optional)';
+
+  @override
+  String get lqGoalHint => 'e.g. Restart English study after work';
+
+  @override
+  String get lqGoalPrivacy =>
+      'This note and personalization history stay on this device.';
+
+  @override
+  String get lqApply => 'Set my daily quests';
+
+  @override
+  String get lqAccept => 'Accept';
+
+  @override
+  String get lqDone => 'I did it';
+
+  @override
+  String get lqCompleted => 'Complete';
+
+  @override
+  String get lqTooHard => 'Too much today';
+
+  @override
+  String get lqSkip => 'Try something else';
+
+  @override
+  String get lqWhy => 'Why this quest';
+
+  @override
+  String get lqDefaultReason => 'Matched to your interests and available time.';
+
+  @override
+  String get lqRecoveryReason => 'A smaller step to make returning easier.';
+
+  @override
+  String get lqAllSet => 'Your plan is set.';
+
+  @override
+  String get lqAllSetBody =>
+      'Take your accepted quests at your pace. A fresh plan comes tomorrow.';
+
+  @override
+  String get lqDirector => 'Your quest AI';
+
+  @override
+  String get lqBasicMode => 'Guided suggestions';
+
+  @override
+  String get lqLocalAi => 'On-device AI';
+
+  @override
+  String get lqGenerate => 'Personalize with AI';
+
+  @override
+  String get lqGenerating => 'Creating your quests…';
+
+  @override
+  String get lqModelName => 'Gemma 4 E2B · free open model';
+
+  @override
+  String get lqModelIntro =>
+      'After installation, quests are generated on this device, offline. No AI fee or subscription.';
+
+  @override
+  String get lqModelDownloadInfo =>
+      '2.59GB model · Wi-Fi recommended · 3GB free space\nKeep the app open while downloading. Interrupted downloads can resume. Carrier data charges may apply.';
+
+  @override
+  String get lqDownload => 'Download free model';
+
+  @override
+  String get lqCancel => 'Cancel';
+
+  @override
+  String get lqRemoveModel => 'Remove model file';
+
+  @override
+  String get lqModelUnavailable =>
+      'Guided suggestions work here. AI requires a compatible Android device with enough memory.';
+
+  @override
+  String get lqModelRejected =>
+      'This generation did not pass validation. Your existing suggestions are kept.';
+
+  @override
+  String get lqModelError =>
+      'Could not finish. Check connection and storage, then retry.';
+
+  @override
+  String get lqLearningHistory => 'Personalization history';
+
+  @override
+  String get lqLearningHistoryBody =>
+      'Completed, skipped and difficult tasks help adjust future content and effort. Up to 90 days of history is kept on this device.';
+
+  @override
+  String get lqClearLearning => 'Reset learning history';
+
+  @override
+  String get lqResetConfirm =>
+      'Reset personalization history? Your level and completed quests remain.';
+
+  @override
+  String get lqStorageError =>
+      'Saving did not finish. Check storage before closing the app.';
+
+  @override
+  String get lqEarnedToday => 'Today’s quest XP';
+
+  @override
+  String get lqStatusWindow => 'My status window';
+
+  @override
+  String get lqGrowthHint => 'Your progress stays with you on rest days.';
+
+  @override
+  String get lqOpenGate => 'Put your growth to the test';
+
+  @override
+  String get lqGateHint =>
+      'Try a short card battle powered by your real-life actions.';
+
+  @override
+  String get lqEnterDungeon => 'Enter dungeon';
+
+  @override
+  String get lqOptional => 'Optional adventure';
+
+  @override
+  String get lqSaved => 'Saved';
+
+  @override
+  String get lqReportSuggestion => 'Report suggestion';
+
+  @override
+  String get lqReportBody =>
+      'Send this suggestion’s title, action and reason, linked to your account, to the developer. Your goal note and learning history are not attached.';
+
+  @override
+  String get lqSendReport => 'Send report';
+
+  @override
+  String get lqReportSent => 'Report sent. This suggestion is hidden.';
+
+  @override
+  String get lqReportPreview =>
+      'QA report stored locally. Nothing was sent to the developer.';
+
+  @override
+  String get lqReportFailed =>
+      'Could not confirm the report action. Check your connection and try again.';
+
+  @override
+  String get lqCloudQuestNotice =>
+      'Accepted quests are saved to Firebase through your account. AI generation itself runs only on this device.';
+
+  @override
+  String get lqOpenSourceLicenses => 'Open-source licenses';
+
+  @override
+  String get lqWelcomeTitle => 'Your day.\nYour unfolding story.';
+
+  @override
+  String get lqWelcomeBody =>
+      'A city mystery, a mountain courtyard, a map of stars.\nCarry your everyday progress into a world you choose.';
+
+  @override
+  String get lqFirstContract => 'YOUR FIRST CONTRACT';
+
+  @override
+  String get lqWelcomeStepOne => 'Start where you are';
+
+  @override
+  String get lqWelcomeStepOneBody => 'Choose your time, energy and focus.';
+
+  @override
+  String get lqWelcomeStepTwo => 'Grow through small quests';
+
+  @override
+  String get lqWelcomeStepTwoBody =>
+      'Earn experience for what you do in real life.';
+
+  @override
+  String get lqWelcomeStepThree => 'Grow across three worlds';
+
+  @override
+  String get lqWelcomeStepThreeBody =>
+      'Choose a story. Real-life actions unlock the next scene.';
+
+  @override
+  String get lqStartOnDevice => 'Start on this device';
+
+  @override
+  String get lqStarting => 'Opening your status…';
+
+  @override
+  String get lqExistingAccount => 'Continue with an existing account';
+
+  @override
+  String get lqDeviceStorageNotice =>
+      'Start free, without an account. Your progress stays on this device and is lost if you uninstall the app.';
+
+  @override
+  String get lqGuestName => 'Chronicler';
+
+  @override
+  String get lqProfileLoadFailed =>
+      'Your profile could not be loaded. Saved data has been preserved. Please try again.';
+
+  @override
+  String get lqRetry => 'Try again';
+
+  @override
+  String get lqBackToStart => 'Back to start';
+
+  @override
+  String get lqLocalProfile => 'Device profile';
+
+  @override
+  String get lqDeleteLocal => 'Delete device progress';
+
+  @override
+  String get lqDeleteLocalBody =>
+      'Delete quests, progress and personalization history on this device. This cannot be undone.';
+
+  @override
+  String get lqPurchasePending =>
+      'Payment is pending. Access will be verified when payment is approved.';
+
+  @override
+  String get lqPurchasePendingShort => 'Pending';
+
+  @override
+  String get lqPurchaseVerifying => 'Verifying your purchase…';
+
+  @override
+  String get lqPurchaseGranted => 'Purchase verified. Your content is ready.';
+
+  @override
+  String get lqPurchaseCancelled => 'Purchase cancelled.';
+
+  @override
+  String get lqPurchaseRetry =>
+      'Verification is delayed. Try restoring purchases with the same account.';
+
+  @override
+  String get lqPurchaseFailed =>
+      'The purchase could not be started. Please try again later.';
+
+  @override
+  String get lqPurchaseRestoring => 'Restoring purchases…';
+
+  @override
+  String get lqPurchaseRestoreFinished =>
+      'Store purchases checked. Make sure you are using the same app account used to purchase.';
+
+  @override
+  String get lqRestorePurchases => 'Restore purchases';
+
+  @override
+  String get lqStoryLibrary => 'The Crossing Library';
+
+  @override
+  String get lqStoryFreePrologue => 'FREE PROLOGUE';
+
+  @override
+  String get lqStoryBannerTitle => 'A signal from Exit Zero';
+
+  @override
+  String get lqStoryBannerBody => 'Today’s small actions open the next page.';
+
+  @override
+  String get lqStoryLibraryHeadline => 'One life.\nMany stories to unfold.';
+
+  @override
+  String get lqStoryLibraryHint =>
+      'Choose a book to keep on Today. Switching books preserves your progress and choices.';
+
+  @override
+  String get lqStoryProgress => 'records completed';
+
+  @override
+  String get lqStoryLoadFailed =>
+      'The story could not be loaded. Close this screen and try again.';
+
+  @override
+  String get lqStoryFiction =>
+      'A fictional story that progresses through your everyday quests.';
+
+  @override
+  String get lqStoryNoDeadline =>
+      'No deadlines or streak requirements. Complete quests to open the next record.';
+
+  @override
+  String get lqStoryActionCount => 'Quests completed so far:';
+
+  @override
+  String get lqStoryReadAgain => 'Read again';
+
+  @override
+  String get lqStoryReadNow => 'Ready to read';
+
+  @override
+  String get lqStoryUnlockAfter => 'More to complete:';
+
+  @override
+  String get lqStoryQuestUnit => 'quests';
+
+  @override
+  String get lqStoryReadPrevious => 'Complete the previous record first.';
+
+  @override
+  String get lqStoryRecord => 'RECORD';
+
+  @override
+  String get lqStoryChoose => 'How will you respond?';
+
+  @override
+  String get lqStoryNext => 'Read the next record';
+
+  @override
+  String get lqStoryChapterComplete =>
+      'This chapter is complete. Revisit it anytime and try a different choice.';
+
+  @override
+  String get lqStoryReturnLater =>
+      'Complete more everyday quests to open the next record. Your story so far stays with you.';
+
+  @override
+  String get lqStoryBackToChapter => 'View chapter records';
+
+  @override
+  String get lqStoryChooseAgain => 'Try a different choice';
+
+  @override
+  String get lqStorySaveFailed =>
+      'Your choice could not be saved. Please try again.';
+
+  @override
+  String get lqDeletionQueued =>
+      'Deletion requested. Server cleanup continues even if you close the app.';
+
+  @override
+  String get lqBackupTitle => 'Backup and restore';
+
+  @override
+  String get lqBackupHeadline => 'Your progress, on your next device.';
+
+  @override
+  String get lqBackupBody =>
+      'Protect your progress with a password and save it as a file. Backups are free, and you choose where to keep them.';
+
+  @override
+  String get lqBackupExport => 'Create backup file';
+
+  @override
+  String get lqBackupImport => 'Open backup file';
+
+  @override
+  String get lqBackupUndo => 'Return to progress before restore';
+
+  @override
+  String get lqBackupIncluded => 'What is included';
+
+  @override
+  String get lqBackupIncludesBody =>
+      'Includes quests, growth, cleared dungeons, story choices and personalization history. Active expeditions, sign-in details, purchase rights and AI model files are excluded. Notifications start off on the restored device.';
+
+  @override
+  String get lqBackupPasswordNotice =>
+      'The developer cannot unlock a backup if you forget its password. Your saved files remain after uninstalling the app; delete unneeded backups from wherever you stored them.';
+
+  @override
+  String get lqBackupSetPassword => 'Set a backup password';
+
+  @override
+  String get lqBackupEnterPassword => 'Enter backup password';
+
+  @override
+  String get lqBackupPasswordHint =>
+      'Use 12–128 characters. A long memorable phrase works well. Spaces and letter case are part of the password.';
+
+  @override
+  String get lqBackupPassword => 'Password';
+
+  @override
+  String get lqBackupRepeatPassword => 'Repeat password';
+
+  @override
+  String get lqBackupShowPassword => 'Show password';
+
+  @override
+  String get lqBackupHidePassword => 'Hide password';
+
+  @override
+  String get lqBackupPasswordMismatch => 'The passwords do not match.';
+
+  @override
+  String get lqBackupUnlock => 'Review backup';
+
+  @override
+  String get lqBackupReview => 'Restore this progress?';
+
+  @override
+  String get lqBackupReplaceBody =>
+      'This replaces progress on this device. The previous progress is kept locally so you can return to it. Sign-in and purchase entitlements stay with their account. Turn reminders on again if wanted.';
+
+  @override
+  String get lqBackupRestore => 'Restore progress';
+
+  @override
+  String get lqBackupWorking => 'Securing your progress…';
+
+  @override
+  String get lqBackupSaved => 'Encrypted backup file saved.';
+
+  @override
+  String get lqBackupSaveFailed =>
+      'Could not save the backup. Check available storage and your selected location.';
+
+  @override
+  String get lqBackupInvalid =>
+      'Could not open the backup. Check the file and password. Your progress has not changed.';
+
+  @override
+  String get lqBackupRestored =>
+      'Progress restored. You can enable reminders in Settings.';
+
+  @override
+  String get lqBackupRestoreInterrupted =>
+      'Restore could not finish. Reopen the app or retry to continue recovery.';
+
+  @override
+  String get lqDungeonIntro => 'Turn everyday progress into an adventure.';
+
+  @override
+  String get lqDungeonIntroBody =>
+      'Play cards and choose your path. Losing a battle keeps your everyday level and XP intact.';
+
+  @override
+  String get lqDungeonStart => 'Start exploring';
+
+  @override
+  String get lqDungeonResume => 'Continue your expedition';
+
+  @override
+  String get lqDungeonBonus => 'Bonuses from your day';
+
+  @override
+  String get lqDungeonBonusBody =>
+      'Completed quests and equipment support your next expedition. You can start with no bonuses.';
+
+  @override
+  String get lqDungeonPacks => 'Card packs';
+
+  @override
+  String get lqDungeonPathHint => 'Choose a glowing point below to begin.';
+
+  @override
+  String get lqDungeonNextHint => 'Choose a connected point to continue.';
+
+  @override
+  String get lqDungeonCurrent => 'Current';
+
+  @override
+  String get lqDungeonAvailable => 'Available';
+
+  @override
+  String get lqDungeonLocked => 'Locked';
+
+  @override
+  String get lqDungeonDone => 'Completed';
+
+  @override
+  String get lqDungeonEntering => 'Entering…';
+
+  @override
+  String get lqDungeonCombat => 'Battle';
+
+  @override
+  String get lqDungeonElite => 'Elite battle';
+
+  @override
+  String get lqDungeonEvent => 'Event';
+
+  @override
+  String get lqDungeonShop => 'Shop';
+
+  @override
+  String get lqDungeonRest => 'Rest';
+
+  @override
+  String get lqDungeonBoss => 'Boss';
+
+  @override
+  String get lqBattleGuideTitle => 'Your first battle';
+
+  @override
+  String get lqBattleGuideEnergy =>
+      'EP is your energy each turn. Each card spends the number shown at its top left.';
+
+  @override
+  String get lqBattleGuideCards =>
+      'With several enemies, choose a target before a card. Attacks deal damage; defense blocks incoming damage.';
+
+  @override
+  String get lqBattleGuideTurn =>
+      'Press End Turn when ready. After enemies act, your energy and hand refresh.';
+
+  @override
+  String get lqBattleBegin => 'Begin battle';
+
+  @override
+  String get lqBattleExit => 'Leave battle';
+
+  @override
+  String lqDungeonNode(String type, int step, int path, String state) {
+    return '$type, step $step, path $path, $state';
+  }
+
+  @override
+  String get lqDungeonCheckpointHint =>
+      'Saved when you enter or leave a room. After closing the app, an unfinished room restarts from its entrance.';
+
+  @override
+  String get lqDungeonSaveFailed =>
+      'Progress could not be saved. Check device storage and try again.';
+
+  @override
+  String get lqDungeonCollectResult => 'Collect expedition results';
+
+  @override
+  String get lqPurchaseAccount => 'Purchase account';
+
+  @override
+  String get lqPurchaseAccountOptional => 'Connect only when you need it';
+
+  @override
+  String get lqPurchaseAccountPrivacy =>
+      'Your Google account is used to verify and restore purchases. Quests, progress and AI personalization stay on this device. Signing in does not make a purchase.';
+
+  @override
+  String get lqPurchaseAccountRestoreHint =>
+      'To restore purchases on another device, use both the same Google Play account and the same app purchase account used to buy. Transfer progress separately with an encrypted backup.';
+
+  @override
+  String get lqPurchaseAccountConnected => 'Purchase account connected';
+
+  @override
+  String get lqPurchaseAccountConnect => 'Connect Google account';
+
+  @override
+  String get lqPurchaseAccountDisconnect => 'Disconnect on this device';
+
+  @override
+  String get lqPurchaseAccountDelete => 'Delete purchase account';
+
+  @override
+  String get lqPurchaseAccountDeleteBody =>
+      'This deletes purchase access, reports and any existing cloud profile for this account. Purchases cannot be restored after deletion. This does not issue a refund. Quests and progress on this device remain. Confirm your Google account again to request deletion.';
+
+  @override
+  String get lqPurchaseAccountFailed =>
+      'The action could not be completed. Check your connection and account, then try again.';
+
+  @override
+  String get lqPurchaseAccountDeleted =>
+      'Deletion requested. The server will continue removing account data. Progress on this device is kept.';
+
+  @override
+  String get lqPurchaseAccountCleanup =>
+      'Deletion was accepted. Tap Disconnect again to finish signing out on this device. Server deletion will continue.';
+
+  @override
+  String get lqReportCopyReceipt => 'Copy receipt';
+
+  @override
+  String get lqReportRetention =>
+      'Report content becomes eligible for automatic deletion 90 days after submission. Removal may take additional processing time. You can also delete it in Settings → AI report receipts.';
+
+  @override
+  String get lqReportReceipts => 'AI report receipts';
+
+  @override
+  String get lqReportReceiptHelp =>
+      'This device keeps up to 100 recent receipt IDs. Delete here while connected to the same reporting account. If your account changed or you cannot access the app, copy the receipt ID and request deletion at logian621@gmail.com.';
+
+  @override
+  String get lqReportReceiptsEmpty =>
+      'No receipt IDs are saved on this device.';
+
+  @override
+  String get lqReportDelete => 'Delete report';
+
+  @override
+  String get lqReportDeleteBody =>
+      'Delete this report from the server and remove its local receipt. Your daily quests and progress stay on this device.';
+
+  @override
+  String get lqReportDeleted => 'Report deleted.';
+
+  @override
+  String get lqReportDeleteIdentity => 'Delete anonymous report account';
+
+  @override
+  String get lqReportDeleteIdentityBody =>
+      'Request deletion of this device’s current anonymous report account and all reports sent by it. Your device progress remains. Sending another report later creates a new anonymous account.';
+
+  @override
+  String get lqReportIdentityDeleted =>
+      'Deletion accepted. Server processing continues even after you close the app.';
+
+  @override
+  String get lqWorldCurrent => 'YOUR CURRENT STORY';
+
+  @override
+  String get lqWorldChoose => 'Where will today take you?';
+
+  @override
+  String get lqWorldChooseHint =>
+      'City · Practice · Discovery. Three free stories.';
+
+  @override
+  String get lqWorldChange => 'Change book';
+
+  @override
+  String get lqWorldSelect => 'Begin with this book';
+
+  @override
+  String get lqWorldContinue => 'Continue this book';
+
+  @override
+  String get lqWorldSaving => 'Saving bookmark…';
+
+  @override
+  String get lqWorldFreeCollection => 'Three free stories · No deadlines';
+
+  @override
+  String get lqWorldCollectionPromise =>
+      'Core quests, AI and records are free. All three stories in this library require no purchase.';
+
+  @override
+  String lqActionsRecorded(int count) {
+    return '$count real-life quests completed';
+  }
+
+  @override
+  String lqStoryActionsRemaining(int count) {
+    return '$count quests to the next scene';
+  }
+
+  @override
+  String get lqDeletionUncertain =>
+      'The deletion request could not be confirmed. Sync for this account is stopped. Finish disconnecting this device, then sign in again to check.';
+
+  @override
+  String get lqDeletionCheckFailed =>
+      'This device’s account status could not be read. Sync has not started, to protect your records.';
+
+  @override
+  String get lqDeletionLocalFinished => 'This device has been disconnected.';
+
+  @override
+  String get lqDeletionLocalHint =>
+      'Only this account’s remaining device caches and sign-in will be cleared. Your separate device profile and other accounts stay intact.';
+
+  @override
+  String get lqDeletionFinishLocal => 'Finish disconnecting this device';
+
+  @override
+  String get lqDeletionLocalRetry =>
+      'Local cleanup did not finish. Please retry. Sync for this account remains stopped.';
+
+  @override
+  String get lqPackCollection => 'Complete story packs';
+
+  @override
+  String get lqPackContents =>
+      '12 scenes, two choice-based endings, a sea-glass theme and a paper-boat mark. One purchase, no expiry.';
+
+  @override
+  String get lqPackPreview => 'First two scenes free';
+
+  @override
+  String get lqPackLocked => 'This scene requires the story pack.';
+
+  @override
+  String get lqPackUnavailable =>
+      'Purchases are unavailable in this build. You can still read the free preview.';
+
+  @override
+  String lqPackBuy(String price) {
+    return 'Buy complete pack · $price';
+  }
+
+  @override
+  String get lqPackOwned => 'Owned story pack';
+
+  @override
+  String get lqPackThemeApply => 'Apply sea-glass theme';
+
+  @override
+  String get lqPackThemeRemove => 'Use default theme';
+
+  @override
+  String get lqPackThemeHint =>
+      'The theme and mark do not change XP, stats or quest recommendations.';
+
+  @override
+  String get lqPackMark => 'Tide Post Office · Paper-boat mark';
+
+  @override
+  String get lqPackMarkHint =>
+      'Finish the final scene to display this mark in Growth.';
+
+  @override
+  String get lqPackEndingHint =>
+      'Your majority approach across the first eleven choices determines the ending. You can revisit your choices.';
+
+  @override
+  String get lqPackPacing =>
+      'From scene three, each scene opens after two more real-life actions. The finale opens at 20 total. Purchasing does not skip these milestones.';
+
+  @override
+  String get lqPackPreviewEnd =>
+      'Your free preview ends here. Return to the chapter to see the pack contents and availability.';
+
+  @override
+  String get lqPackStoreUnavailable =>
+      'Reconnect to Google Play to check product availability.';
+
+  @override
+  String get lqDeviceQuestNotice =>
+      'Accepted quests and personalization stay on this device. Connecting a Google purchase account does not upload your progress.';
+
+  @override
+  String get lqStudyTitle => '14-day usability study';
+
+  @override
+  String get lqStudyIntro => 'Optional · stored only on this device';
+
+  @override
+  String get lqStudyConsent =>
+      'If you join, for 14 days we record daily app visits, quest completion counts, story preview completion and optional ratings. A random participation code is created. Names, goals, quest text and Google accounts are excluded. Nothing is sent automatically; the developer receives your report only if you choose to share the file. You can delete study records at any time without affecting the app. Each study day is 24 hours from enrollment.';
+
+  @override
+  String get lqStudyStart => 'I understand and choose to join';
+
+  @override
+  String get lqStudySummary => 'Recorded days / completions';
+
+  @override
+  String get lqStudyValue => 'Appeal after reading the free preview (1–5)';
+
+  @override
+  String get lqStudyPrice => 'Most you would consider paying for this pack';
+
+  @override
+  String get lqStudyPriceNote =>
+      'This is a pricing question, not a purchase or reservation. The pack is not on sale. You can change your answer.';
+
+  @override
+  String get lqStudyUndecided => 'Not sure yet';
+
+  @override
+  String get lqStudyNoPurchase => 'I would not buy it';
+
+  @override
+  String get lqStudyPreviewFirst =>
+      'Read and make your choices in both free Tide Post Office scenes to leave a rating.';
+
+  @override
+  String get lqStudySave => 'Save rating';
+
+  @override
+  String get lqStudyExport => 'Save report file';
+
+  @override
+  String get lqStudyExportNote =>
+      'The file includes the code below, completions by study day, preview status, ratings and record-quality flags. It does not verify real-world actions or purchases. After saving, share it yourself only if you wish.';
+
+  @override
+  String get lqStudyWithdraw => 'Leave and delete study records';
+
+  @override
+  String get lqStudyWithdrawNote =>
+      'Only the study records on this device will be deleted. Your quests and story progress stay. Files you already shared are not deleted.';
+
+  @override
+  String get lqStudySaved => 'Saved.';
+
+  @override
+  String get lqStudyError =>
+      'Could not read or save the record. Existing records were preserved. Retry or delete study records.';
+
+  @override
+  String get lqStudyFlagged =>
+      'A record change or storage problem was detected. This report will be excluded from retention analysis. You can keep using the app.';
+
+  @override
+  String get lqStudyWebPreview =>
+      'Web preview data is excluded from real-user validation.';
+
+  @override
+  String get lqFeedbackTitle => 'Feedback and help';
+
+  @override
+  String get lqFeedbackDescription =>
+      'Tell us what went wrong or what you would like. Your records are not attached automatically.';
+
+  @override
+  String get lqReportManualDescription =>
+      'This preview does not send reports inside the app. Review this suggestion, then optionally copy it and email it through the support page. Remove personal details before sending. Opening support does not transmit this text.';
+
+  @override
+  String get lqReportCopySuggestion => 'Copy suggestion';
+
+  @override
+  String get lqReportManualCopied => 'Suggestion copied. It has not been sent.';
 }

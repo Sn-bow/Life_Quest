@@ -1,5 +1,14 @@
 # Life Quest - 프로젝트 메모리
 
+> **현재 작업 (2026-09-21):** `codex/rebirth-2026-09`에서 Life Quest: 경계의 서가 무료 Android 공개 프리뷰 배포 완료. 아래 4월 이력의 완료를 현재 출시 상태로 해석하지 않는다.
+> **최신 사용자 결정:** 사전 테스터 모집을 전제로 멈추지 말고 무료 공개판을 먼저 배포해 반응을 본다. 이전 12명 자체 연구·독자 사전 검수를 직접 APK 배포의 필수 조건으로 되살리지 않는다. Google Play의 계정별 의무 테스트는 별개이며 생략할 수 없다. 사용량은 잔여20%를 하한으로 필요한 작업만 한다.
+> 기준 문서: `docs/rebirth/CONTINUE.md`, `PUBLIC_PREVIEW.md`, `CONCEPT_AND_REVENUE.md`. 이미지 아트는 image_gen 또는 라이선스 확인된 무료 자산. 직접 그린 SVG/HTML/Canvas 아트 금지.
+> Firebase460 계정에 `lifequest-crossing-2026` 생성, Android 등록/업로드 인증서 등록, Spark 무료·서울 Firestore·deny-all 규칙 배포. Auth/Functions/결제는 미배포. 앱 Cloud/Billing/Ads/Research 기본off.
+> Play 프로덕션 화면9/21 ‘아직 프로덕션에 액세스할 수 없습니다’ 확인. 내부 테스트 릴리스 초안만 저장. Chrome 확장 파일URL 권한 문제로 AAB 업로드 차단. APK 직접 공개를 Play 출시나 수익 발생으로 표현하지 않는다.
+> 무료3권·선택 AI·백업·카드 탐험. 조수 우체국은2장면 체험, 판매off. 가격·수익은 미검증. 공개판2.0.0+7, 태그 `v2.0.0-preview.1`, 앱 소스 `d69aafb`. Flutter414개 통과·analyze clean·APK/AAB 서명/정렬 검사 통과. 실제 파일/URL은 `PUBLIC_PREVIEW.md`와 `public-distribution.json` 확인.
+> Flutter 도구 명령은 직렬 실행한다. 실제 사용자·테스터·거래 기록을 만들지 않는다.
+
+
 ## 프로젝트 개요
 - **앱 이름**: Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱
 - **프레임워크**: Flutter (Dart) + Flame 엔진 (Soul Deck 전투)

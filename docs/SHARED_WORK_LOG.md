@@ -5,6 +5,67 @@
 
 ---
 
+## 2026-09-14 — Codex — 제품 AI 검증·프롤로그·서버 삭제
+
+- 실제 Dart 제품 프롬프트와 Gemma 연결을 8개 합성 조건으로 검증. 조용한 시간/기록 요약/ID 결속/엄격 파서 보완. 최종 8/8(중국어 1건 루트 괄호만 복구); 의미 품질과 실물 성능은 미완료.
+- R8 release에서 실제 JNI SIGABRT를 재현하고 SDK 멤버 보존 규칙으로 수정. 같은 16KB ARM64 에뮬레이터 2조건 통과, 원시 결과 `docs/rebirth/native-release-probe.json`.
+- 「0번 출구」 무료 4장면·4언어, 이전 선택 반영 대사, 완료 누적 해금, 선택 영속 저장, 화면낭독/320px·200% 글자 검사. 브라우저에서 2/4 진행 유지와 XP 불변 확인.
+- 서버 계정 삭제 요청/멱등 재시도/구매 원장 및 Auth 마지막 삭제, 규칙 차단, 완료 표식 TTL 준비. 실제 Firebase 배포는 하지 않음.
+- Flutter analyze 및 전체 214 테스트, Node22 서버 15 테스트, 실제 Firestore/Storage 규칙 에뮬레이터 8 테스트 통과.
+- 기본 main release AAB 215,022,354 bytes, ARM64/API35 표본 다운로드 127,933,103 bytes. 공개 업로드 인증서, 전체 ELF 및 split ZIP 16KB 정렬 통과. 실제 아티팩트 검사 스크립트와 JSON 기록 추가.
+- Cloud/수익화/광고 기본 비활성 유지. Firebase 복원 선택/실물 기기/12명 테스터 답변 대기. Pages 오류, 현재 구조와 맞지 않는 정책 문서, 선택적 구매 계정 연결이 다음 과제.
+
+---
+
+## 2026-09-14 — Codex — 기기 프로필·구매 권한 기반
+
+- 가입 없는 실제 프로필을 QA 데이터와 분리. 저장/복원/손상 보존/삭제/계정 전환 중 늦은 저장 검사. 시작 화면과 안정적인 루트 라우팅 구현.
+- 브라우저 412×892에서 새 시작 → 수락 → 완료 → 새로고침 시 XP 60/150 및 완료 유지 → 설정에서 시작 화면 복귀를 직접 확인. 이미지 `qa_artifacts/rebirth/after-welcome.png`, `after-growth.png`는 로컬 보관.
+- 전체 Flutter 196개 테스트 및 analyze 통과. 320px·200% 글자·4개 언어의 시작 화면 추가 검증.
+- Billing 8 클라이언트의 debug 검증 우회와 실패 영수증 완료 처리 제거. 서버 권한/토큰 결속/ack 순서/RTDN 환불/계정별 캐시/복원 상태 표시 구현. 서버 정책 테스트 10개 통과. 함수 SDK 갱신 및 npm audit 0건.
+- R8 9.1.43에서 release AAB 215.9 MB 빌드 성공, Kotlin 메타데이터 경고 해결. 이후 추가된 기기 프로필/결제 변경은 다음 AAB에 반영할 예정.
+- Cloud/결제/광고 기본 스위치 모두 꺼짐. 무료 코어는 기기에서 실행. Firebase 삭제 상태 및 사용자 복원 선택 답변 대기.
+- 계정 삭제의 부분 실패 처리, 구매 원장 보존 정책, 실제 Play/신고 전송/실물 기기 검증은 남음. 상세 `docs/rebirth/BILLING_AND_RELEASE.md`, 재개 `CONTINUE.md`.
+
+---
+
+## 2026-09-14 01:35 KST — Codex — Rebirth 기반/무료 온디바이스 AI
+
+### 조사
+- 사용자 요청: 기존 프로젝트의 전면 재기획/레퍼런스 기반 디자인/수익화/Google Play 배포. 무료 공개 온디바이스 모델 우선 비교, 잔량 약 20%에서 이어갈 상태 보관.
+- 기존 Flutter/Provider/Flame 구조와 207장 카드/기존 PNG·SFX, 실제 웹 미리보기, Play Console 초안, Firebase 운영 상태 확인.
+- LifeUp/Finch/Habitica/ARISE 공식 레퍼런스, Material 내비게이션, Gemma/Qwen/LiteRT-LM 공식 자료 및 최신 Play 정책. 상세 근거: `docs/rebirth/PRODUCT_BRIEF.md`, `UX_AUDIT.md`, `ON_DEVICE_AI_DECISION.md`.
+
+### 변경
+- 오늘/퀘스트/던전/성장 4탭, 상태창 테마, 체크인, 시간과 성장 분야에 맞는 하루 최대 3개 퀘스트.
+- 기본 추천 + 선택 설치 Gemma 4 E2B/LiteRT-LM 0.17.0 실제 Android 로컬 생성. HTTPS/커밋·SHA 고정/취소·이어받기·삭제/원자적 설치. Cloud LLM 및 API 키 없음.
+- 계정별 기기 내 프로필/90일 학습 기록, 날짜·재시작·계정전환·늦은 응답 처리. 하루 자동 생성 횟수 제한. 쉬었던 날 HP/XP/레벨 감소 제거.
+- AI 추천 문구 검증 및 추천/수락 후 인앱 신고. 신고 시 검토한 문구만 명시적 전송. Firestore 신고 규칙은 아직 배포 전.
+- Flutter 3.47.4/Dart 3.13.3, target API 36, Gradle 8.14.3/AGP 8.13.2/Kotlin 2.3.20, Billing 8 대응 패키지.
+- Phosphor 1.4.0의 Flutter final IconData 호환 패치를 MIT 원문과 함께 `third_party/`에 보관.
+- 기존 문서의 서명 비밀번호 제거. Play 최초 업로드 인증서 미등록을 확인한 뒤 새 업로드 키를 Git 밖의 `.local/share/lifequest/signing`에 생성. 비밀번호는 출력/커밋하지 않음.
+- 이 작업용 Flutter 전역 JDK 설정을 Temurin 21로 지정함(기존 Android Studio Java 25와 Gradle 호환 문제).
+
+### 검증 결과
+- 전체 Flutter 테스트 184개 통과, 좁은 320px/200% 글자 4언어 Today/Growth 검사 통과.
+- Android ARM64 debug APK 빌드 및 ZIP 16KB 정렬 통과.
+- 16KB Android API35 에뮬레이터에서 실제 모델 취소·이어받기·SHA 검증·한국어 생성 통과. 1회 생성 20,087ms. 실물 성능 검증은 아님.
+- release AAB 빌드 진행 중. Flutter 3.47는 release/dev 플러그인 등록이 달라 빌드 중 다른 pub/tooling 재생성 명령을 동시에 실행하면 안 됨.
+
+### 외부 상태/남은 위험
+- Play: Log_Ian/Life Quest 초안, 설치 0, 비공개 테스트 0/12명. 12명·14일 조건으로 즉시 프로덕션 공개 불가.
+- Firebase `life-quest-app-95eb9`는 Console에서 최근 삭제 상태. CLI의 예전 Android 앱 목록만 보존되어 있고 등록된 패키지는 `com.example.life_quest_final_v2`. 복원 또는 새 무료 프로젝트 선택을 사용자에게 요청함. 유료 결제 연결은 수행하지 않음.
+- 기존 결제 서비스의 debug 검증 우회/실패 영수증 완료 처리는 다음 수정 대상. 수익화 게이트는 꺼져 있음.
+- 실물 Android 기종 및 테스터 12명 확보 여부 질문 대기.
+- 모델의 의미적 안전성과 장기 개인화 품질, 저사양/발열/배터리/오프라인·프로세스 종료 검증, 스토어 문구·개인정보·상품/환불 검증은 완료 아님.
+
+### 다음 작업
+- release 서명 빌드, 기기 저장을 기본으로 하는 첫 실행/세션 구조, 결제 서버 검증·영구 권한·복원, 스토리 상품 구현, 실제 스토어 초안/내부 테스트 업로드 순으로 진행.
+- 세션 종료 때 `docs/rebirth/CONTINUE.md`에 실제 마지막 커밋/남은 작업/실행 상태 갱신.
+
+---
+
+
 ## 2026-05-17 KST - Codex - Today first tab pilot
 
 ### 착수 전 조사
@@ -3275,3 +3336,34 @@ claiming that the exact release artifact or physical-device gate is complete.
   least one physical Android device before production.
 - Authenticated account deletion and Firebase Crashlytics delivery remain
   separate open release gates.
+
+## 2026-09-14 · 무료 기기 백업과 던전 첫 탐험
+
+- Android FirebaseInitProvider 자동 초기화를 제거하고 Cloud 플래그의 명시적 초기화만 사용. Android 자동 클라우드/D2D 백업을 모든 대상 영역에서 제외.
+- 무료 암호화 파일 백업, 교체 미리보기, 이전 기록 되돌리기, 중단 복원 journal, 손상된 프로필에서 파일 복구 경로 추가. 실제 signed R8 Android + 독립 Python + CUA 브라우저 export/import/restart/undo 검증. `docs/rebirth/DEVICE_BACKUP.md` 참조.
+- 기존 게임 화면을 먼저 캡처·검토한 뒤 첫 탐험 CTA, 의미 없는 시즌 마감 제거, 재개, 지도 노드 접근성, 4언어 안내, 읽을 수 있는 보상 선택을 구현. 기존 배경/카드/몬스터 아트 재사용.
+- 전체 Flutter 테스트 240개 및 마지막 변경 후 analyze 통과. Android 파일 선택 UI/실기기 AI 성능/전체 게임 밸런스 검증은 남아 있다.
+- 개인정보 페이지는 orphan gh-pages branch로 복구해 공개 검증 완료. https://sn-bow.github.io/Life_Quest/#privacy 및 #delete-account. 정책 branch 9a3b460에 무료 백업 보관/삭제 안내 반영.
+- Firebase 프로젝트는 삭제 상태이며 복구/새 프로젝트 답변을 기다린다. 과금 연결/백엔드 배포/Play AAB 업로드/프로덕션 출시는 아직 실행하지 않았다.
+
+- 최종 main AAB 216,527,189 bytes / SHA256 957f5234da51c1869febb66d21ad068f345164f09f75805660d9387691e734ef. 표본 기기 다운로드 128,276,151 bytes, 서명/manifest/ELF 11개와 split ZIP 16KiB 검사 통과. AI/백업 QA entrypoint가 제품에 포함되지 않음 확인.
+- Play 초안의 앱/생산성 분류, 공개 지원 이메일·HTTPS URL, 영어/한국어 등록정보 문구 임시 저장 성공 확인. 스토어 그래픽은 미완성이므로 심사 제출 안 함.
+
+## 2026-09-17 · 생성 아트와 탐험 체크포인트
+
+- 사용자 사용량 하한을20%에서5%로 변경. 신규 이미지 아트는 내장 image_gen 사용, SVG/HTML/Canvas 그림 금지.
+- 게이트 아이콘·알파 foreground·도시 역 배경·Play 배너 생성. 앱/런처/스플래시/프롤로그 적용,512px아이콘과1024×500배너 내보내기. `docs/rebirth/artwork/README.md`.
+- 방 진입/완료 체크포인트, 같은 적/상점 복원, 최종 XP/골드/해금/수령ID 단일레코드, 실패 재시도, 활성 run 덮어쓰기 방지, 타워 클리어 시 진척. `DUNGEON_CHECKPOINTS.md`.
+- Flutter analyze 및258테스트 통과. 실제 web release UI에서 전투75HP→재시작입장80HP, 방 완료+12탐험골드/카드, 종료+15XP/+8골드, 결과재진입 후75XP 유지 확인. 실기기 증거 아님.
+- Chrome확장 파일액세스 제한으로 스토어 이미지 업로드는 실패. 사용자 설정 안내/답변 대기. 이번코드의 새AAB 빌드와 구매계정 분리 구현은 후속 작업.
+
+
+## 2026-09-17 · 구매 계정 분리와 신고 운영 경로
+
+- 기기 기록을 업로드하지 않는 선택적 Google 구매 계정, 최소 서버 계정, 오프라인 복원, 연결 해제/삭제 UX 구현. legacy cloud loader로의 잘못된 진입과 구매 전용 root 업로드 차단.
+- 신고는 App Check callable 접수 확인 후 성공. 접수번호, 중복 방지,20건24시간 쿼터,90일 TTL, 신고별 삭제와 현재 익명 신고 계정 전체 삭제 경로 구현. 현재 Admin Auth provider 검사로 오래된 익명 토큰의 영구 계정 삭제를 차단.
+- Android 결제·광고 권한 분리. 실제 Gradle merger7조건 통과. Cloud 없는 결제/광고와 ID 없는 광고 설정 거부.
+- Flutter analyze/283테스트, 서버26테스트, Firestore·Storage emulator9검사 통과. 실제 Firebase/Auth/Play/TTL 운영 검증은 아직이다.
+- Play 한국어·영어 최신 소개 초안 저장. 공개 정책 페이지 gh-pages a4ea4f4 배포/화면 확인. 스토어 이미지 권한, Firebase 복원 결정, 실기기 및 실제12명14일 테스트는 사용자 답변/외부 상태 대기.
+
+- 소스 e024614 최종 signed AAB 225,181,387 bytes / SHA256 19204e4d7e03d003b1678a203c81095c8ff6276a6c5ac21dfc910b6995d10257. 표본 기기 다운로드 132,105,680 bytes, 서명/manifest/ELF11개/split ZIP16KiB 검사 통과. 검사 분할 APK는 debug 서명이므로 배포 대상이 아니다.

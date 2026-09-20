@@ -262,7 +262,7 @@
 - CRITICAL 버그 5건: 소모 아이템 삭제, 장비 중복, Firestore 역직렬화 등
 - HIGH 버그 6건: Firebase 오프라인, 인증 라우트, Android 13+ 알림 등
 - 릴리스 빌드 설정 (applicationId: com.lifequest.app, compileSdk: 36)
-- 릴리스 키스토어 (`android/upload-keystore.jks`, alias: upload, pw: lifequest2024!)
+- 릴리스 키스토어 (`android/upload-keystore.jks`, alias: upload, password: [removed from documentation])
 - 테스트 확장: 67개 → (이후 73개)
 
 ---

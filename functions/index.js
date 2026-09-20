@@ -1,108 +1,108 @@
-/**
- * Life Quest - Firebase Cloud Functions
- * IAP (인앱 결제) 서버사이드 영수증 검증
- *
- * 배포 전 필수 설정:
- *   1. Google Play Console → 설정 → API 액세스 → 서비스 계정 생성
- *   2. 서비스 계정에 "주문 관리" 권한 부여
- *   3. JSON 키 다운로드 후 아래 명령어 실행:
- *      firebase functions:secrets:set GOOGLE_PLAY_SERVICE_ACCOUNT
- *      (JSON 파일 내용을 한 줄로 붙여넣기)
- *   4. firebase deploy --only functions
- */
+'use strict';
+const {onCall, HttpsError} = require('firebase-functions/v2/https');
+const {onMessagePublished} = require('firebase-functions/v2/pubsub');
+const {onDocumentCreated} = require('firebase-functions/v2/firestore');
+const {google} = require('googleapis');
+const {initializeApp, getApp} = require('firebase-admin/app');
+const {getFirestore, FieldValue} = require('firebase-admin/firestore');
+const {getAuth} = require('firebase-admin/auth');
+const {getStorage} = require('firebase-admin/storage');
+const {AccountDeletionError, requestDeletion, completeDeletion, requestAnonymousReportDeletion} = require('./account_deletion');
+const {PurchasePolicyError, verifyAndGrant, reconcileNotification} = require('./purchase_policy');
+const {PurchaseAccountError, ensurePurchaseAccount} = require('./purchase_account');
+const {AiReportError, submitAiReport} = require('./ai_reports');
+initializeApp();
+// Application Default Credentials: grant the runtime service account access in
+// Play Console. Never download or embed a service-account private JSON key.
+const auth = new google.auth.GoogleAuth({scopes: ['https://www.googleapis.com/auth/androidpublisher']});
+const publisher = google.androidpublisher({version: 'v3', auth});
+const dependencies = {publisher, db: getFirestore(), timestamp: () => FieldValue.serverTimestamp()};
 
-const { onCall, HttpsError } = require('firebase-functions/v2/https');
-const { defineSecret } = require('firebase-functions/params');
-const { google } = require('googleapis');
-const admin = require('firebase-admin');
-
-admin.initializeApp();
-
-// Google Play 서비스 계정 JSON을 Firebase Secret으로 관리
-const googlePlayServiceAccount = defineSecret('GOOGLE_PLAY_SERVICE_ACCOUNT');
-
-/**
- * Google Play 인앱 결제 영수증 서버사이드 검증
- *
- * Flutter에서 호출 예시:
- *   final result = await FirebaseFunctions.instance
- *     .httpsCallable('verifyPurchase')
- *     .call({
- *       'purchaseToken': purchaseDetails.verificationData.serverVerificationData,
- *       'productId': purchaseDetails.productID,
- *       'packageName': 'com.lifequest.app',
- *     });
- */
-exports.verifyPurchase = onCall(
-  { secrets: [googlePlayServiceAccount] },
-  async (request) => {
-    // 인증 확인
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', '로그인이 필요합니다.');
-    }
-
-    const { purchaseToken, productId, packageName } = request.data;
-
-    if (!purchaseToken || !productId || !packageName) {
-      throw new HttpsError(
-        'invalid-argument',
-        'purchaseToken, productId, packageName은 필수값입니다.'
-      );
-    }
-
-    try {
-      // 서비스 계정 인증
-      const serviceAccountJson = googlePlayServiceAccount.value();
-      const credentials = JSON.parse(serviceAccountJson);
-
-      const auth = new google.auth.GoogleAuth({
-        credentials,
-        scopes: ['https://www.googleapis.com/auth/androidpublisher'],
-      });
-      const authClient = await auth.getClient();
-
-      const androidPublisher = google.androidpublisher({
-        version: 'v3',
-        auth: authClient,
-      });
-
-      // Google Play Developer API로 구매 검증
-      const response = await androidPublisher.purchases.products.get({
-        packageName,
-        productId,
-        token: purchaseToken,
-      });
-
-      const { purchaseState, orderId, purchaseTimeMillis, acknowledgementState } =
-        response.data;
-
-      // purchaseState: 0 = 구매됨, 1 = 취소됨, 2 = 보류 중
-      const isValid = purchaseState === 0;
-
-      console.log(
-        `[verifyPurchase] uid=${request.auth.uid} productId=${productId} ` +
-        `orderId=${orderId} isValid=${isValid}`
-      );
-
-      return {
-        isValid,
-        purchaseState,
-        orderId,
-        purchaseTimeMillis,
-        acknowledgementState,
-      };
-    } catch (error) {
-      console.error('[verifyPurchase] Error:', error.message);
-
-      if (error.code === 410) {
-        // 이미 소비된 구매 토큰
-        throw new HttpsError('already-exists', '이미 처리된 구매입니다.');
-      }
-      if (error.code === 400) {
-        throw new HttpsError('invalid-argument', '유효하지 않은 구매 토큰입니다.');
-      }
-
-      throw new HttpsError('internal', '구매 검증 중 오류가 발생했습니다.');
-    }
+exports.submitAiReport = onCall({enforceAppCheck: true, maxInstances: 2,
+  timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  try {
+    return await submitAiReport({uid: request.auth?.uid, data: request.data,
+      nowMillis: Date.now(), ...dependencies});
+  } catch (error) {
+    if (error instanceof AiReportError) throw new HttpsError(error.code, error.message);
+    // Reviewed output may contain personal information; never log it.
+    throw new HttpsError('unavailable', 'Report receipt could not be confirmed. Please try again.');
   }
-);
+});
+
+exports.ensurePurchaseAccount = onCall({enforceAppCheck: true, maxInstances: 2,
+  timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  try {
+    return await ensurePurchaseAccount({uid: request.auth?.uid,
+      provider: request.auth?.token?.firebase?.sign_in_provider, ...dependencies});
+  } catch (error) {
+    if (error instanceof PurchaseAccountError) throw new HttpsError(error.code, error.message);
+    throw new HttpsError('unavailable', 'The purchase account could not be prepared. Please try again.');
+  }
+});
+
+exports.verifyPurchase = onCall({enforceAppCheck: true, maxInstances: 3, timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  if (!request.auth) throw new HttpsError('unauthenticated', 'Sign in to verify purchases.');
+  try {
+    return await verifyAndGrant({uid: request.auth.uid, data: request.data, ...dependencies});
+  } catch (error) {
+    if (error instanceof PurchasePolicyError) throw new HttpsError(error.code, error.message);
+    // Raw Google errors may contain purchase tokens. Do not log them.
+    const status = Number(error.code ?? error.response?.status);
+    if ([400, 404, 410].includes(status)) throw new HttpsError('invalid-argument', 'Purchase could not be verified.');
+    throw new HttpsError('unavailable', 'Verification is temporarily unavailable. Please restore purchases later.');
+  }
+});
+
+// Configure Play Console RTDN to publish to this topic before enabling sales.
+exports.onPlayPurchaseNotification = onMessagePublished({topic: 'lifequest-play-billing-events',
+  retry: true, maxInstances: 2, timeoutSeconds: 30, memory: '256MiB'}, async event => {
+  const notification = event.data.message.json;
+  await reconcileNotification({notification, ...dependencies});
+});
+
+exports.requestAccountDeletion = onCall({enforceAppCheck: true, maxInstances: 2,
+  timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  try {
+    return await requestDeletion({uid: request.auth?.uid,
+      authTime: request.auth?.token?.auth_time, nowMillis: Date.now(), ...dependencies});
+  } catch (error) {
+    if (error instanceof AccountDeletionError) throw new HttpsError(error.code, error.message);
+    throw new HttpsError('unavailable', 'The request could not be saved. Please try again.');
+  }
+});
+
+exports.requestReportIdentityDeletion = onCall({enforceAppCheck: true, maxInstances: 2,
+  timeoutSeconds: 30, memory: '256MiB'}, async request => {
+  try {
+    return await requestAnonymousReportDeletion({uid: request.auth?.uid,
+      provider: request.auth?.token?.firebase?.sign_in_provider,
+      loadAuthUser: uid => getAuth().getUser(uid),
+      nowMillis: Date.now(), ...dependencies});
+  } catch (error) {
+    if (error instanceof AccountDeletionError) throw new HttpsError(error.code, error.message);
+    throw new HttpsError('unavailable', 'The deletion request could not be saved. Please try again.');
+  }
+});
+
+exports.onAccountDeletionRequested = onDocumentCreated({document: 'accountDeletions/{uid}',
+  retry: true, maxInstances: 2, timeoutSeconds: 540, memory: '256MiB'}, async event => {
+  try {
+    await completeDeletion({uid: event.params.uid, db: dependencies.db,
+      auth: getAuth(), timestamp: dependencies.timestamp, nowMillis: Date.now(),
+      deleteFiles: async uid => {
+        const bucketName = getApp().options.storageBucket;
+        if (!bucketName) return; // No default upload bucket was configured.
+        try {
+          await getStorage().bucket(bucketName).deleteFiles({prefix: `users/${uid}/`});
+        } catch (error) {
+          if (Number(error.code) !== 404) throw error;
+        }
+      },
+    });
+  } catch (_) {
+    // Sanitized failures still trigger automatic retries. Alert on failures and
+    // stale pending jobs before production; do not log account content.
+    throw new Error('Account deletion is incomplete and must be retried.');
+  }
+});

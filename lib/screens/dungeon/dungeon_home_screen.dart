@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'dungeon_result_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/state/dungeon_state.dart';
@@ -12,7 +13,6 @@ import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/relic_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/relic_data.dart';
-import 'package:life_quest_final_v2/utils/season_countdown.dart';
 
 class DungeonHomeScreen extends StatefulWidget {
   const DungeonHomeScreen({super.key});
@@ -26,427 +26,226 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l = AppLocalizations.of(context)!;
+    final character = context.watch<CharacterState>();
+    final dungeon = context.watch<DungeonState>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final charState = context.watch<CharacterState>();
-    if (!charState.isDataLoaded) {
+    if (!character.isDataLoaded) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-    final character = charState.character;
-    final hasCompletedZone5 = charState.hasCompletedZone5;
-    final todayModifier = charState.todayDailyModifier;
-    final todayCompletedQuestNames =
-        charState.todayCompletedQuests.map((quest) => quest.name).toList();
-
+    final names = [
+      l.zone1Name,
+      l.zone2Name,
+      l.zone3Name,
+      l.zone4Name,
+      l.zone5Name,
+    ];
+    final descriptions = [
+      l.zone1Description,
+      l.zone2Description,
+      l.zone3Description,
+      l.zone4Description,
+      l.zone5Description,
+    ];
+    const levels = [1, 5, 10, 20, 30];
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.style,
-                color: isDark ? const Color(0xFF00FFFF) : Colors.deepPurple,
-                size: 24),
-            const SizedBox(width: 8),
-            Text(
-              l10n.dungeonHomeTitle,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: isDark ? const Color(0xFF00FFFF) : Colors.deepPurple,
-              ),
-            ),
-          ],
-        ),
+        title: Text(l.dungeonHomeTitle),
         actions: [
-          // 카드 팩 버튼 (보유 팩 수 배지 표시)
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.card_giftcard,
-                  color: charState.cardPackCount > 0
-                      ? Colors.amber
-                      : (isDark ? Colors.white54 : Colors.black45),
-                ),
-                tooltip: '카드 팩 (${charState.cardPackCount}개)',
-                onPressed: charState.cardPackCount > 0
-                    ? () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const CardPackScreen(),
-                          ),
-                        );
-                      }
-                    : null,
-              ),
-              if (charState.cardPackCount > 0)
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '${charState.cardPackCount}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
+          IconButton(
+            tooltip: '${l.lqDungeonPacks} · ${character.cardPackCount}',
+            icon: const Icon(Icons.card_giftcard),
+            onPressed: character.cardPackCount > 0
+                ? () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const CardPackScreen()),
+                  )
+                : null,
           ),
           IconButton(
-            icon: Icon(
-              Icons.collections_bookmark,
-              color: isDark ? const Color(0xFF00FFFF) : Colors.deepPurple,
+            tooltip: l.dungeonHomeCardCollectionTooltip,
+            icon: const Icon(Icons.collections_bookmark),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const CardCollectionScreen()),
             ),
-            tooltip: l10n.dungeonHomeCardCollectionTooltip,
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const CardCollectionScreen(),
-                ),
-              );
-            },
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Season banner ──
-            _SeasonBanner(isDark: isDark),
-            const SizedBox(height: 16),
-
-            // ── Player info card ──
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: isDark
-                      ? [const Color(0xFF1D1E33), const Color(0xFF0A0E21)]
-                      : [Colors.deepPurple.shade50, Colors.white],
-                ),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: isDark
-                      ? const Color(0xFF00FFFF).withValues(alpha: 0.3)
-                      : Colors.deepPurple.shade200,
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '나의 던전 진행 Lv.${character.level}',
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? Colors.white : Colors.black87,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 640),
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/backgrounds/bg_zone1_meadow.png',
+                      ),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  child: DecoratedBox(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0x44090E1B), Color(0xFA090E1B)],
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 48),
+                          Text(
+                            l.lqDungeonIntro,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            l.lqDungeonIntroBody,
+                            style: const TextStyle(
+                              color: Color(0xFFD9E2F2),
+                              fontSize: 14,
+                              height: 1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: FilledButton.icon(
+                              icon: Icon(
+                                dungeon.hasRun
+                                    ? Icons.play_arrow
+                                    : Icons.explore,
+                              ),
+                              label: Text(
+                                dungeon.hasResult
+                                    ? l.lqDungeonCollectResult
+                                    : dungeon.hasRun
+                                    ? l.lqDungeonResume
+                                    : l.lqDungeonStart,
+                              ),
+                              onPressed: () => dungeon.hasRun
+                                  ? Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => dungeon.hasResult
+                                            ? DungeonResultScreen(
+                                                isVictory:
+                                                    dungeon.runPhase ==
+                                                    RunPhase.completed,
+                                              )
+                                            : const DungeonMapScreen(),
+                                      ),
+                                    )
+                                  : _startBattle(context, 1),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l.lqDungeonCheckpointHint,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              if (dungeon.saveFailed)
+                Text(
+                  l.lqDungeonSaveFailed,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              const SizedBox(height: 16),
+              ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                title: Text(l.lqDungeonBonus),
+                childrenPadding: const EdgeInsets.only(bottom: 16),
+                children: [
+                  Text(
+                    l.lqDungeonBonusBody,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 12),
                   Wrap(
-                    spacing: 8,
+                    spacing: 12,
                     runSpacing: 8,
                     children: [
-                      _statChip('공격 보정 ${character.strength.toInt()}',
-                          Colors.red, isDark),
-                      _statChip('전술 보정 ${character.wisdom.toInt()}',
-                          Colors.purple, isDark),
-                      _statChip('생존 보정 ${character.health.toInt()}',
-                          Colors.blue, isDark),
-                      _statChip('보상 보정 ${character.charisma.toInt()}',
-                          Colors.amber, isDark),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  // 던전 시작 골드 미리보기
-                  Row(
-                    children: [
-                      Icon(Icons.monetization_on,
-                          size: 14,
-                          color: isDark
-                              ? Colors.amber.shade300
-                              : Colors.amber.shade700),
-                      const SizedBox(width: 4),
-                      Text(
-                        '시작 골드: ${50 + (character.gold * 0.15).clamp(0, 150).toInt()}  (계정 골드 15% 반입)',
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 11,
-                          color: isDark ? Colors.white54 : Colors.black54,
-                        ),
-                      ),
+                      Text('STR ${character.character.strength.toInt()}'),
+                      Text('INT ${character.character.wisdom.toInt()}'),
+                      Text('VIT ${character.character.health.toInt()}'),
+                      Text('CHA ${character.character.charisma.toInt()}'),
                     ],
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 24),
-
-            _TodayDungeonModifierCard(
-              isDark: isDark,
-              modifierLabels: todayModifier.labels(),
-              completedQuestNames: todayCompletedQuestNames,
-            ),
-            const SizedBox(height: 24),
-
-            // ── Ascension section (only if Zone 5 cleared) ──
-            if (hasCompletedZone5) ...[
-              _AscensionSection(
-                ascensionLevel: _ascensionLevel,
-                onChanged: (level) => setState(() => _ascensionLevel = level),
-                isDark: isDark,
-              ),
-              const SizedBox(height: 24),
-            ],
-
-            // ── Zone selection ──
-            Text(
-              l10n.dungeonHomeDungeonSelection,
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            _zoneCard(
-              context: context,
-              zone: 1,
-              name: l10n.zone1Name,
-              description: l10n.zone1Description,
-              icon: Icons.grass,
-              color: Colors.green,
-              isLocked: false,
-              requiredLevel: 1,
-              isDark: isDark,
-              isCompleted: charState.completedZones.contains(1),
-            ),
-            const SizedBox(height: 8),
-
-            _zoneCard(
-              context: context,
-              zone: 2,
-              name: l10n.zone2Name,
-              description: l10n.zone2Description,
-              icon: Icons.forest,
-              color: Colors.teal,
-              isLocked: character.level < 5,
-              requiredLevel: 5,
-              isDark: isDark,
-              isCompleted: charState.completedZones.contains(2),
-            ),
-            const SizedBox(height: 8),
-
-            _zoneCard(
-              context: context,
-              zone: 3,
-              name: l10n.zone3Name,
-              description: l10n.zone3Description,
-              icon: Icons.castle,
-              color: Colors.blueGrey,
-              isLocked: character.level < 10,
-              requiredLevel: 10,
-              isDark: isDark,
-              isCompleted: charState.completedZones.contains(3),
-            ),
-            const SizedBox(height: 8),
-
-            _zoneCard(
-              context: context,
-              zone: 4,
-              name: l10n.zone4Name,
-              description: l10n.zone4Description,
-              icon: Icons.whatshot,
-              color: Colors.deepOrange,
-              isLocked: character.level < 20,
-              requiredLevel: 20,
-              isDark: isDark,
-              isCompleted: charState.completedZones.contains(4),
-            ),
-            const SizedBox(height: 8),
-
-            _zoneCard(
-              context: context,
-              zone: 5,
-              name: l10n.zone5Name,
-              description: l10n.zone5Description,
-              icon: Icons.blur_on,
-              color: Colors.deepPurple,
-              isLocked: character.level < 30,
-              requiredLevel: 30,
-              isDark: isDark,
-              isCompleted: charState.completedZones.contains(5),
-            ),
-
-            // ── Infinite Tower (only if Zone 5 cleared) ──
-            if (hasCompletedZone5) ...[
-              const SizedBox(height: 16),
-              _InfiniteTowerButton(isDark: isDark),
-            ],
-
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _statChip(String label, Color color, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: isDark ? 0.2 : 0.1),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: color.withValues(alpha: 0.4)),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 11,
-          fontWeight: FontWeight.bold,
-          color: isDark ? color : color.withValues(alpha: 0.8),
-        ),
-      ),
-    );
-  }
-
-  Widget _zoneCard({
-    required BuildContext context,
-    required int zone,
-    required String name,
-    required String description,
-    required IconData icon,
-    required Color color,
-    required bool isLocked,
-    required int requiredLevel,
-    required bool isDark,
-    bool isCompleted = false,
-  }) {
-    final l10n = AppLocalizations.of(context)!;
-    return GestureDetector(
-      onTap: isLocked
-          ? () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.dungeonHomeRequiredLevel(requiredLevel),
-                      style: const TextStyle(fontFamily: 'monospace')),
-                  backgroundColor: Colors.red.shade700,
+              if (character.hasCompletedZone5) ...[
+                _AscensionSection(
+                  ascensionLevel: _ascensionLevel,
+                  onChanged: (value) => setState(() => _ascensionLevel = value),
+                  isDark: isDark,
                 ),
-              );
-            }
-          : () => _startBattle(context, zone),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: isLocked
-              ? (isDark ? Colors.grey.shade900 : Colors.grey.shade200)
-              : (isDark
-                  ? color.withValues(alpha: 0.15)
-                  : color.withValues(alpha: 0.08)),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isLocked
-                ? Colors.grey.withValues(alpha: 0.3)
-                : color.withValues(alpha: 0.5),
-            width: 1.5,
+                const SizedBox(height: 16),
+              ],
+              const SizedBox(height: 20),
+              Text(
+                l.dungeonHomeDungeonSelection,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 12),
+              for (var i = 0; i < 5; i++) ...[
+                Card(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(16),
+                    leading: Icon(
+                      character.character.level < levels[i]
+                          ? Icons.lock_outline
+                          : character.completedZones.contains(i + 1)
+                          ? Icons.check_circle_outline
+                          : Icons.explore_outlined,
+                    ),
+                    title: Text(
+                      '${i + 1}. ${names[i]}',
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        character.character.level < levels[i]
+                            ? l.dungeonHomeLockedHint(levels[i])
+                            : descriptions[i],
+                      ),
+                    ),
+                    // An active run is resumed first, so a zone tap never discards it.
+                    enabled:
+                        character.character.level >= levels[i] &&
+                        !dungeon.hasRun,
+                    onTap: () => _startBattle(context, i + 1),
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
+              if (character.hasCompletedZone5)
+                _InfiniteTowerButton(isDark: isDark),
+            ],
           ),
         ),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: isLocked
-                    ? Colors.grey.withValues(alpha: 0.2)
-                    : color.withValues(alpha: isDark ? 0.3 : 0.15),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(
-                isLocked ? Icons.lock : icon,
-                color: isLocked ? Colors.grey : color,
-                size: 28,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Zone $zone: $name',
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: isLocked
-                              ? Colors.grey
-                              : (isDark ? Colors.white : Colors.black87),
-                        ),
-                      ),
-                      if (isLocked) ...[
-                        const SizedBox(width: 8),
-                        Text(
-                          'Lv.$requiredLevel',
-                          style: TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 11,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
-                      if (!isLocked && isCompleted) ...[
-                        const SizedBox(width: 8),
-                        const Icon(Icons.check_circle,
-                            size: 14, color: Colors.green),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    isLocked
-                        ? l10n.dungeonHomeLockedHint(requiredLevel)
-                        : description,
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 11,
-                      color: isLocked
-                          ? Colors.orange.shade400
-                          : (isDark ? Colors.white60 : Colors.black54),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (!isLocked)
-              Icon(
-                Icons.chevron_right,
-                color: isDark ? color : color.withValues(alpha: 0.7),
-              ),
-          ],
-        ),
       ),
     );
   }
 
-  void _startBattle(BuildContext context, int zone) {
+  Future<void> _startBattle(BuildContext context, int zone) async {
+    final dungeon = context.read<DungeonState>();
+    if (dungeon.hasRun) return;
     final charState = context.read<CharacterState>();
     final character = charState.character;
     final dailyModifier = charState.todayDailyModifier;
@@ -472,9 +271,9 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     final deck = charState.starterDeck.toList();
     if (character.equippedWeapon != null) {
       // L-2: 항상 첫 번째 카드가 아닌 랜덤 선택
-      final attackCards = CardDatabase.getCardsByCategory(CardCategory.attack)
-          .where((c) => c.rarity == CardRarity.common && !c.isUpgraded)
-          .toList();
+      final attackCards = CardDatabase.getCardsByCategory(
+        CardCategory.attack,
+      ).where((c) => c.rarity == CardRarity.common && !c.isUpgraded).toList();
       if (attackCards.isNotEmpty) {
         attackCards.shuffle(math.Random());
         deck.add(attackCards.first);
@@ -511,276 +310,21 @@ class _DungeonHomeScreenState extends State<DungeonHomeScreen> {
     }
 
     context.read<DungeonState>().startRun(
-          zone: zone,
-          startingDeck: deck,
-          playerMaxHp: playerMaxHp,
-          ascension: _ascensionLevel,
-          starterRelic: starterRelic,
-          startingGold: startingGold,
-          dailyModifier: dailyModifier,
-        );
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const DungeonMapScreen(),
-      ),
+      zone: zone,
+      startingDeck: deck,
+      playerMaxHp: playerMaxHp,
+      ascension: _ascensionLevel,
+      starterRelic: starterRelic,
+      startingGold: startingGold,
+      dailyModifier: dailyModifier,
     );
+
+    if (!await dungeon.flushCheckpoint() || !context.mounted) return;
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const DungeonMapScreen()));
   }
 }
-
-// ─────────────────────────────────────────────
-// Season Banner
-// ─────────────────────────────────────────────
-
-class _SeasonBanner extends StatelessWidget {
-  final bool isDark;
-
-  const _SeasonBanner({required this.isDark});
-
-  String _buildCountdown(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final countdown = calculateSeasonCountdown(
-      now: DateTime.now(),
-      endDate: kSoulDeckSeasonOneEndDate,
-    );
-    if (countdown.isEnded) return l10n.seasonEnded;
-    if (countdown.isDday) return 'D-Day';
-    return l10n.seasonCountdown(countdown.daysRemaining!);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFE65100), Color(0xFF6A1B9A)],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              const Text('🔥', style: TextStyle(fontSize: 20)),
-              const SizedBox(width: 8),
-              Text(
-                l10n.seasonName,
-                style: const TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              _buildCountdown(context),
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TodayDungeonModifierCard extends StatelessWidget {
-  final bool isDark;
-  final List<String> modifierLabels;
-  final List<String> completedQuestNames;
-
-  const _TodayDungeonModifierCard({
-    required this.isDark,
-    required this.modifierLabels,
-    required this.completedQuestNames,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
-    final hasModifier = modifierLabels.isNotEmpty;
-    final sourceText = _sourceText();
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF12182A) : Colors.deepPurple.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: accent.withValues(alpha: 0.28)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.auto_awesome, size: 18, color: accent),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  '오늘 현실 행동 보정',
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: hasModifier
-                      ? accent.withValues(alpha: 0.16)
-                      : Colors.grey.withValues(alpha: 0.16),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: Text(
-                  hasModifier ? '적용 예정' : '대기',
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                    color: hasModifier ? accent : Colors.grey,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            hasModifier
-                ? '오늘 완료한 현실 퀘스트가 이번 던전 런 시작 시 고정 보정으로 적용됩니다.'
-                : '오늘 완료한 퀘스트가 아직 없어 던전 보정이 없습니다. 현실 행동을 하나 완료하면 이 카드에 효과가 표시됩니다.',
-            style: TextStyle(
-              fontFamily: 'monospace',
-              fontSize: 11,
-              height: 1.45,
-              color: isDark ? Colors.white60 : Colors.black54,
-            ),
-          ),
-          if (sourceText != null) ...[
-            const SizedBox(height: 10),
-            _InfoLine(
-              icon: Icons.check_circle_outline,
-              label: '출처',
-              value: sourceText,
-              color: Colors.green,
-              isDark: isDark,
-            ),
-          ],
-          if (hasModifier) ...[
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: modifierLabels
-                  .map(
-                    (label) => Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 9, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: accent.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: accent.withValues(alpha: 0.28),
-                        ),
-                      ),
-                      child: Text(
-                        label,
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: accent,
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  String? _sourceText() {
-    if (completedQuestNames.isEmpty) return null;
-    final visible = completedQuestNames.take(3).join(', ');
-    final hiddenCount = completedQuestNames.length - 3;
-    if (hiddenCount <= 0) return visible;
-    return '$visible 외 $hiddenCount개';
-  }
-}
-
-class _InfoLine extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color color;
-  final bool isDark;
-
-  const _InfoLine({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.color,
-    required this.isDark,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 14, color: color),
-        const SizedBox(width: 6),
-        Text(
-          '$label: ',
-          style: TextStyle(
-            fontFamily: 'monospace',
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white70 : Colors.black87,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: TextStyle(
-              fontFamily: 'monospace',
-              fontSize: 11,
-              color: isDark ? Colors.white60 : Colors.black54,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// Ascension Section
-// ─────────────────────────────────────────────
 
 class _AscensionSection extends StatelessWidget {
   final int ascensionLevel;
@@ -794,17 +338,17 @@ class _AscensionSection extends StatelessWidget {
   });
 
   List<String> _modifiers(AppLocalizations l10n) => [
-        l10n.ascensionLevel1Modifier,
-        l10n.ascensionLevel2Modifier,
-        l10n.ascensionLevel3Modifier,
-        l10n.ascensionLevel4Modifier,
-        l10n.ascensionLevel5Modifier,
-        l10n.ascensionLevel6Modifier,
-        l10n.ascensionLevel7Modifier,
-        l10n.ascensionLevel8Modifier,
-        l10n.ascensionLevel9Modifier,
-        l10n.ascensionLevel10Modifier,
-      ];
+    l10n.ascensionLevel1Modifier,
+    l10n.ascensionLevel2Modifier,
+    l10n.ascensionLevel3Modifier,
+    l10n.ascensionLevel4Modifier,
+    l10n.ascensionLevel5Modifier,
+    l10n.ascensionLevel6Modifier,
+    l10n.ascensionLevel7Modifier,
+    l10n.ascensionLevel8Modifier,
+    l10n.ascensionLevel9Modifier,
+    l10n.ascensionLevel10Modifier,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -847,8 +391,10 @@ class _AscensionSection extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: ascensionLevel > 0
                       ? Colors.deepPurple.withValues(alpha: 0.3)
@@ -924,8 +470,11 @@ class _AscensionSection extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Row(
                   children: [
-                    Icon(Icons.warning_amber_rounded,
-                        size: 13, color: Colors.orange.shade400),
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      size: 13,
+                      color: Colors.orange.shade400,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       modifiers[i],
@@ -975,9 +524,7 @@ class _InfiniteTowerButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const InfiniteTowerScreen(),
-          ),
+          MaterialPageRoute(builder: (context) => const InfiniteTowerScreen()),
         );
       },
       child: Container(
@@ -1008,8 +555,11 @@ class _InfiniteTowerButton extends StatelessWidget {
                 color: Colors.amber.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child:
-                  const Icon(Icons.trending_up, color: Colors.amber, size: 28),
+              child: const Icon(
+                Icons.trending_up,
+                color: Colors.amber,
+                size: 28,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(

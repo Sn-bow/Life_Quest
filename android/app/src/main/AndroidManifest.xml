@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     
     <!-- 추가된 부분: 알림 권한 -->
@@ -8,11 +9,22 @@
     <!-- 여기까지 -->
 
     <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:label="Life Quest"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:roundIcon="@mipmap/launcher_icon"
         android:networkSecurityConfig="@xml/network_security_config">
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+        <!-- main.dart explicitly initializes Firebase only in Cloud-enabled
+             builds. Do not initialize the native SDK before that choice. -->
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="${applicationId}.firebaseinitprovider"
+            tools:node="remove" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,8 +46,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- Empty by default because monetization is disabled for the release candidate. -->
-        <!-- Supply -PADMOB_ANDROID_APP_ID only for a monetization-enabled Android build. -->
+        <!-- Removed unless LIFEQUEST_ADS_ENABLED is explicitly true. -->
+        <!-- Advertising builds also require -PADMOB_ANDROID_APP_ID. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${admobAppId}" />

@@ -1,0 +1,91 @@
+{
+  "scope": "Private opt-in usability-study APK, main entry point; not public release or physical-device certification",
+  "sourceCommit": "e05f117182b212227fe963ed263aba322d175bf3",
+  "apk": "qa_artifacts/rebirth/LifeQuest-2.0.0-6-research-arm64.apk",
+  "bytes": 160585298,
+  "sha256": "a70b9face4cdb022daa73ee177a4076009fdf2d05045e723ff55d081f9a6d190",
+  "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
+  "versionCode": 6,
+  "versionName": "2.0.0",
+  "checks": [
+    {
+      "check": "APK signature and expected public upload certificate",
+      "pass": true
+    },
+    {
+      "check": "APK ZIP 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "Expected package and version",
+      "pass": true
+    },
+    {
+      "check": "Target API at least 36",
+      "pass": true
+    },
+    {
+      "check": "debuggable is not true",
+      "pass": true
+    },
+    {
+      "check": "testOnly is not true",
+      "pass": true
+    },
+    {
+      "check": "usesCleartextTraffic is not true",
+      "pass": true
+    },
+    {
+      "check": "allowBackup is not true",
+      "pass": true
+    },
+    {
+      "check": "No Billing or Ads permissions in default build",
+      "pass": true
+    },
+    {
+      "check": "Firebase initialization is explicit",
+      "pass": true
+    },
+    {
+      "check": "Review APK targets ARM64",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/libapp.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "No native QA entry point",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/libdatastore_shared_counter.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/libflutter.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "lib/arm64-v8a/liblitertlm_jni.so ELF 16 KiB alignment",
+      "pass": true
+    },
+    {
+      "check": "Paid story and new generated artwork bundled",
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "physicalDeviceTested": false,
+  "declaredBuildConfiguration": {
+    "researchEnabled": true,
+    "cloudEnabled": false,
+    "billingEnabled": false,
+    "adsEnabled": false,
+    "splitPerAbi": true,
+    "forceVersionCodeIgnoringAbi": true
+  },
+  "nativeFilePickerTested": false
+}

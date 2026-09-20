@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
@@ -28,6 +30,78 @@ enum RunPhase {
 /// Manages state for a single dungeon run, including the map, deck,
 /// relics, gold, HP, and node progression.
 class DungeonState extends ChangeNotifier {
+  String? _runId;
+  int? _towerFloor;
+  Map<String, dynamic>? _checkpointData;
+  Future<void> Function(Map<String, dynamic>?)? _saveCheckpoint;
+  Future<void> _pendingSave = Future.value();
+  int _binding = 0, _saveRevision = 0;
+  bool _saveFailed = false;
+  String? get runId => _runId;
+  int? get towerFloor => _towerFloor;
+  bool get saveFailed => _saveFailed;
+  bool get hasRun => _runPhase != RunPhase.notStarted;
+  bool get hasResult =>
+      _runPhase == RunPhase.completed || _runPhase == RunPhase.failed;
+
+  /// Checkpoints are room boundaries, never a half-applied combat/shop reward.
+  /// A killed process resumes the same room with its original resources.
+  void bindCheckpoint({
+    required Map<String, dynamic>? saved,
+    required Future<void> Function(Map<String, dynamic>?) save,
+  }) {
+    _binding++;
+    _saveCheckpoint = null;
+    _clearRun();
+    _saveFailed = false;
+    _pendingSave = Future.value();
+    if (saved != null) fromJson(saved, notify: false);
+    _checkpointData = saved == null ? null : _clone(saved);
+    _saveCheckpoint = save;
+  }
+
+  void unbindCheckpoint() {
+    _binding++;
+    _saveCheckpoint = null;
+  }
+
+  static Map<String, dynamic> _clone(Map<String, dynamic> value) =>
+      jsonDecode(jsonEncode(value)) as Map<String, dynamic>;
+
+  void _checkpoint() {
+    _checkpointData = hasRun ? _clone(toJson()) : null;
+    _writeCheckpoint();
+  }
+
+  void _writeCheckpoint() {
+    final save = _saveCheckpoint;
+    if (save == null) return;
+    final binding = _binding;
+    final revision = ++_saveRevision;
+    // The profile writer captures the snapshot synchronously, then serializes
+    // disk writes. This also prevents unrelated profile saves from losing it.
+    _pendingSave = Future.sync(() => save(_checkpointData)).then(
+      (_) {
+        if (binding == _binding && revision == _saveRevision && _saveFailed) {
+          _saveFailed = false;
+          notifyListeners();
+        }
+      },
+      onError: (Object error, StackTrace stack) {
+        if (binding == _binding && revision == _saveRevision) {
+          _saveFailed = true;
+          notifyListeners();
+        }
+      },
+    );
+  }
+
+  Future<bool> flushCheckpoint() async {
+    if (_saveFailed) _writeCheckpoint();
+    await _pendingSave;
+    return !_saveFailed;
+  }
+
   // ---- Run phase ----
   RunPhase _runPhase = RunPhase.notStarted;
 
@@ -97,7 +171,7 @@ class DungeonState extends ChangeNotifier {
   // ===========================================================================
 
   /// Start a new dungeon run. Generates a map and initializes player state.
-  void startRun({
+  bool startRun({
     required int zone,
     required List<CardData> startingDeck,
     required int playerMaxHp,
@@ -105,8 +179,14 @@ class DungeonState extends ChangeNotifier {
     RelicData? starterRelic,
     int startingGold = 50,
     double towerStatMult = 1.0,
+    int? towerFloor,
     DailyModifier dailyModifier = const DailyModifier(),
   }) {
+    if (hasRun) return false;
+    _runId =
+        '${DateTime.now().microsecondsSinceEpoch}-'
+        '${Random.secure().nextInt(0x100000000).toRadixString(16)}';
+    _towerFloor = towerFloor;
     _currentZone = zone;
     _ascensionLevel = ascension;
     _towerStatMult = towerStatMult;
@@ -150,20 +230,25 @@ class DungeonState extends ChangeNotifier {
     _monstersKilled = 0;
 
     _runPhase = RunPhase.exploring;
+    _checkpoint();
     notifyListeners();
+    return true;
   }
 
   /// Select a node to visit. The node must be accessible and not completed.
-  void selectNode(int nodeId) {
-    if (_currentMap == null) return;
-    if (_runPhase != RunPhase.exploring) return;
+  bool selectNode(int nodeId) {
+    if (_currentMap == null || !isRunActive) return false;
+    if (_runPhase != RunPhase.exploring) {
+      // Re-enter an unfinished visit without rerolling its shop/event state.
+      return _currentMap!.currentNodeId == nodeId;
+    }
 
     final nodes = _currentMap!.nodes;
     final nodeIndex = nodes.indexWhere((n) => n.id == nodeId);
-    if (nodeIndex < 0) return;
+    if (nodeIndex < 0) return false;
 
     final node = nodes[nodeIndex];
-    if (!node.isAccessible || node.isCompleted) return;
+    if (!node.isAccessible || node.isCompleted) return false;
 
     // Set current node
     _currentMap = _currentMap!.copyWith(currentNodeId: nodeId);
@@ -192,19 +277,22 @@ class DungeonState extends ChangeNotifier {
         break;
     }
 
+    _checkpoint();
     notifyListeners();
+    return true;
   }
 
   /// Build a list of [EnemyBattleData] appropriate for the given [node].
   List<EnemyBattleData> getEnemiesForNode(DungeonNode node) {
-    final rng = Random();
+    final rng = Random((_currentMap?.seed ?? 0) + node.id * 7919);
     final monsters = MonsterDatabase.getMonstersByZone(_currentZone);
     if (monsters.isEmpty) return [];
 
     // Ascension HP/ATK multipliers
     // Lv1: +10% HP, Lv2: +10% ATK, Lv8: boss +25% HP, Lv10: +20% HP all
     // _towerStatMult adds extra scaling per Infinite Tower floor
-    final hpMult = (1.0 +
+    final hpMult =
+        (1.0 +
             (_ascensionLevel >= 1 ? 0.1 : 0.0) +
             (_ascensionLevel >= 10 ? 0.2 : 0.0)) *
         _towerStatMult;
@@ -284,16 +372,20 @@ class DungeonState extends ChangeNotifier {
   void _generateShopInventory() {
     // 3 random cards from uncommon+ pool
     final allCards = CardDatabase.allCards
-        .where((c) =>
-            c.rarity != CardRarity.common && c.rarity != CardRarity.legendary)
+        .where(
+          (c) =>
+              c.rarity != CardRarity.common && c.rarity != CardRarity.legendary,
+        )
         .toList();
     allCards.shuffle();
     _shopCards = allCards.take(3).toList();
 
     // Also sometimes include a rare/legendary
     final rarePool = CardDatabase.allCards
-        .where((c) =>
-            c.rarity == CardRarity.rare || c.rarity == CardRarity.legendary)
+        .where(
+          (c) =>
+              c.rarity == CardRarity.rare || c.rarity == CardRarity.legendary,
+        )
         .toList();
     if (rarePool.isNotEmpty) {
       rarePool.shuffle();
@@ -306,6 +398,7 @@ class DungeonState extends ChangeNotifier {
 
   /// Mark the current node as completed and unlock connected nodes.
   void completeCurrentNode() {
+    if (!isRunActive) return;
     if (_currentMap == null) return;
     final currentNodeId = _currentMap!.currentNodeId;
     if (currentNodeId == null) return;
@@ -315,6 +408,7 @@ class DungeonState extends ChangeNotifier {
     if (nodeIndex < 0) return;
 
     final completedNode = nodes[nodeIndex];
+    if (completedNode.isCompleted) return;
 
     // Mark current node as completed
     nodes[nodeIndex] = completedNode.copyWith(
@@ -322,14 +416,16 @@ class DungeonState extends ChangeNotifier {
       isAccessible: false,
     );
 
-    // Make connected nodes in the next row accessible
-    for (final connectedId in completedNode.connectedNodeIds) {
-      final connectedIndex = nodes.indexWhere((n) => n.id == connectedId);
-      if (connectedIndex >= 0 && !nodes[connectedIndex].isCompleted) {
-        nodes[connectedIndex] = nodes[connectedIndex].copyWith(
-          isAccessible: true,
-        );
-      }
+    // A branch is a choice: only this node's successors remain available.
+    // Leaving old siblings open lets a run revisit alternate paths for rewards.
+    for (var i = 0; i < nodes.length; i++) {
+      final node = nodes[i];
+      nodes[i] = node.copyWith(
+        isAccessible:
+            !node.isCompleted &&
+            node.row == completedNode.row + 1 &&
+            completedNode.connectedNodeIds.contains(node.id),
+      );
     }
 
     // Reconstruct DungeonMap without currentNodeId (copyWith can't set null)
@@ -354,6 +450,7 @@ class DungeonState extends ChangeNotifier {
     }
 
     _runPhase = RunPhase.exploring;
+    _checkpoint();
     notifyListeners();
   }
 
@@ -507,12 +604,22 @@ class DungeonState extends ChangeNotifier {
 
   /// End the current run with a victory or defeat result.
   void endRun({required bool victory}) {
+    if (!isRunActive) return;
     _runPhase = victory ? RunPhase.completed : RunPhase.failed;
+    _checkpoint();
     notifyListeners();
   }
 
   /// Fully reset state for a new run.
   void resetRun() {
+    _clearRun();
+    _checkpoint();
+    notifyListeners();
+  }
+
+  void _clearRun() {
+    _runId = null;
+    _towerFloor = null;
     _runPhase = RunPhase.notStarted;
     _currentMap = null;
     _currentZone = 1;
@@ -530,7 +637,6 @@ class DungeonState extends ChangeNotifier {
     _currentEvent = null;
     _shopCards = [];
     _shopRelics = [];
-    notifyListeners();
   }
 
   // ===========================================================================
@@ -540,6 +646,10 @@ class DungeonState extends ChangeNotifier {
   /// Serialize the entire dungeon run state to JSON.
   Map<String, dynamic> toJson() {
     return {
+      'version': 1,
+      'runId': _runId,
+      if (_towerFloor != null) 'towerFloor': _towerFloor,
+      'towerStatMult': _towerStatMult,
       'runPhase': _runPhase.name,
       if (_currentMap != null) 'currentMap': _currentMap!.toJson(),
       'currentZone': _currentZone,
@@ -553,11 +663,23 @@ class DungeonState extends ChangeNotifier {
       'dailyModifier': _dailyModifier.toJson(),
       'nodesCompleted': _nodesCompleted,
       'monstersKilled': _monstersKilled,
+      if (_currentEvent != null) 'currentEvent': _currentEvent!.toJson(),
+      'shopCards': _shopCards.map((c) => c.toJson()).toList(),
+      'shopRelics': _shopRelics.map((r) => r.toJson()).toList(),
     };
   }
 
   /// Restore dungeon run state from JSON.
-  void fromJson(Map<String, dynamic> json) {
+  void fromJson(Map<String, dynamic> json, {bool notify = true}) {
+    if (json['version'] != 1 ||
+        json['runId'] is! String ||
+        (json['runId'] as String).isEmpty ||
+        !RunPhase.values.any((p) => p.name == json['runPhase'])) {
+      throw const FormatException('Invalid expedition checkpoint.');
+    }
+    _runId = json['runId'] as String;
+    _towerFloor = json['towerFloor'] as int?;
+    _towerStatMult = (json['towerStatMult'] as num? ?? 1).toDouble();
     _runPhase = RunPhase.values.firstWhere(
       (e) => e.name == json['runPhase'],
       orElse: () => RunPhase.notStarted,
@@ -574,12 +696,14 @@ class DungeonState extends ChangeNotifier {
     _currentZone = json['currentZone'] as int? ?? 1;
     _ascensionLevel = json['ascensionLevel'] as int? ?? 0;
 
-    _currentDeck = (json['currentDeck'] as List<dynamic>?)
+    _currentDeck =
+        (json['currentDeck'] as List<dynamic>?)
             ?.map((e) => CardData.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [];
 
-    _currentRelics = (json['currentRelics'] as List<dynamic>?)
+    _currentRelics =
+        (json['currentRelics'] as List<dynamic>?)
             ?.map((e) => RelicData.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [];
@@ -593,7 +717,41 @@ class DungeonState extends ChangeNotifier {
     );
     _nodesCompleted = json['nodesCompleted'] as int? ?? 0;
     _monstersKilled = json['monstersKilled'] as int? ?? 0;
+    _currentEvent = json['currentEvent'] == null
+        ? null
+        : DungeonEvent.fromJson(json['currentEvent'] as Map<String, dynamic>);
+    _shopCards = (json['shopCards'] as List? ?? [])
+        .map((e) => CardData.fromJson(e as Map<String, dynamic>))
+        .toList();
+    _shopRelics = (json['shopRelics'] as List? ?? [])
+        .map((e) => RelicData.fromJson(e as Map<String, dynamic>))
+        .toList();
+    if (!hasRun ||
+        _currentMap == null ||
+        _currentZone < 1 ||
+        _currentZone > 5 ||
+        _playerMaxHp < 1 ||
+        _playerHp < 0 ||
+        _playerHp > _playerMaxHp ||
+        _dungeonGold < 0 ||
+        _nodesCompleted < 0 ||
+        _monstersKilled < 0 ||
+        !_towerStatMult.isFinite ||
+        _towerStatMult < 1 ||
+        (_towerFloor != null && _towerFloor! < 1) ||
+        (_runPhase != RunPhase.exploring &&
+            !hasResult &&
+            currentNode == null) ||
+        (_runPhase == RunPhase.inEvent && _currentEvent == null)) {
+      throw const FormatException('Invalid expedition state.');
+    }
 
-    notifyListeners();
+    if (notify) notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    unbindCheckpoint();
+    super.dispose();
   }
 }

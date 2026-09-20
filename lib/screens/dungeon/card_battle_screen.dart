@@ -8,6 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
+import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/data/card_body_assets.dart';
+import 'package:life_quest_final_v2/widgets/dungeon_modal.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
 import 'package:life_quest_final_v2/models/status_effect.dart';
@@ -250,90 +253,130 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                     return Stack(
                       children: [
                         // ---- UI column ----
-                        SafeArea(
-                          child: Column(
-                            children: [
-                              _TopBar(combat: combat, isDark: isDark),
-                              _RelicSlotBar(isDark: isDark),
-                              const SizedBox(height: 4),
-                              Expanded(
-                                flex: 3,
-                                child: _EnemyArea(
-                                  combat: combat,
-                                  isDark: isDark,
-                                  enemyFlashing: _enemyFlashing,
+                        ExcludeFocus(
+                          excluding:
+                              _showBattleTutorial ||
+                              combat.phase == CombatPhase.victory ||
+                              combat.phase == CombatPhase.defeat,
+                          child: ExcludeSemantics(
+                            excluding:
+                                _showBattleTutorial ||
+                                combat.phase == CombatPhase.victory ||
+                                combat.phase == CombatPhase.defeat,
+                            child: AbsorbPointer(
+                              absorbing:
+                                  _showBattleTutorial ||
+                                  combat.phase == CombatPhase.victory ||
+                                  combat.phase == CombatPhase.defeat,
+                              child: SafeArea(
+                                child: Column(
+                                  children: [
+                                    _TopBar(
+                                      combat: combat,
+                                      isDark: isDark,
+                                      onHelp: () => setState(
+                                        () => _showBattleTutorial = true,
+                                      ),
+                                    ),
+                                    _RelicSlotBar(isDark: isDark),
+                                    const SizedBox(height: 4),
+                                    Expanded(
+                                      flex: 3,
+                                      child: _EnemyArea(
+                                        combat: combat,
+                                        isDark: isDark,
+                                        enemyFlashing: _enemyFlashing,
+                                      ),
+                                    ),
+                                    _PlayerInfoBar(
+                                      combat: combat,
+                                      isDark: isDark,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    SizedBox(
+                                      height: 160,
+                                      child: _CardHand(
+                                        combat: combat,
+                                        isDark: isDark,
+                                        game: _game,
+                                        onCardPlayed: (cardIndex) {
+                                          final card = combat.hand[cardIndex];
+                                          final enemyIdx =
+                                              combat.selectedEnemyIndex;
+
+                                          // 카드 효과 먼저 적용 (핵심 로직)
+                                          combat.playCard(
+                                            cardIndex,
+                                            targetEnemyIndex: enemyIdx,
+                                          );
+
+                                          // ① 사운드 (Flame과 독립, 항상 실행)
+                                          try {
+                                            switch (card.category) {
+                                              case CardCategory.attack:
+                                                SoundService()
+                                                    .playCardPlayAttack();
+                                              case CardCategory.magic:
+                                                SoundService()
+                                                    .playCardPlayMagic();
+                                              case CardCategory.defense:
+                                                SoundService()
+                                                    .playCardPlayDefense();
+                                              case CardCategory.tactical:
+                                                SoundService()
+                                                    .playCardPlayTactical();
+                                            }
+                                          } catch (_) {}
+
+                                          // ② 햅틱 (독립)
+                                          try {
+                                            if (card.category ==
+                                                    CardCategory.attack ||
+                                                card.category ==
+                                                    CardCategory.magic) {
+                                              HapticFeedback.mediumImpact();
+                                            } else {
+                                              HapticFeedback.lightImpact();
+                                            }
+                                          } catch (_) {}
+
+                                          // ③ Flame 파티클 + 적 플래시 (독립)
+                                          try {
+                                            if (card.category ==
+                                                    CardCategory.attack ||
+                                                card.category ==
+                                                    CardCategory.magic) {
+                                              _triggerEnemyFlash(enemyIdx);
+                                              _game.playHitParticle();
+                                            }
+                                            if (card.effects.any(
+                                              (e) =>
+                                                  e.effectType ==
+                                                  CardEffectType.block,
+                                            )) {
+                                              if (card.category !=
+                                                  CardCategory.defense) {
+                                                SoundService().playBlock();
+                                              }
+                                              _game.playBlockParticle();
+                                            }
+                                            if (card.effects.any(
+                                              (e) =>
+                                                  e.effectType ==
+                                                  CardEffectType.heal,
+                                            )) {
+                                              SoundService().playHeal();
+                                              _game.playHealParticle();
+                                            }
+                                          } catch (_) {}
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                  ],
                                 ),
                               ),
-                              _PlayerInfoBar(combat: combat, isDark: isDark),
-                              const SizedBox(height: 4),
-                              SizedBox(
-                                height: 160,
-                                child: _CardHand(
-                                  combat: combat,
-                                  isDark: isDark,
-                                  game: _game,
-                                  onCardPlayed: (cardIndex) {
-                                    final card = combat.hand[cardIndex];
-                                    final enemyIdx = combat.selectedEnemyIndex;
-
-                                    // 카드 효과 먼저 적용 (핵심 로직)
-                                    combat.playCard(cardIndex,
-                                        targetEnemyIndex: enemyIdx);
-
-                                    // ① 사운드 (Flame과 독립, 항상 실행)
-                                    try {
-                                      switch (card.category) {
-                                        case CardCategory.attack:
-                                          SoundService().playCardPlayAttack();
-                                        case CardCategory.magic:
-                                          SoundService().playCardPlayMagic();
-                                        case CardCategory.defense:
-                                          SoundService().playCardPlayDefense();
-                                        case CardCategory.tactical:
-                                          SoundService().playCardPlayTactical();
-                                      }
-                                    } catch (_) {}
-
-                                    // ② 햅틱 (독립)
-                                    try {
-                                      if (card.category ==
-                                              CardCategory.attack ||
-                                          card.category == CardCategory.magic) {
-                                        HapticFeedback.mediumImpact();
-                                      } else {
-                                        HapticFeedback.lightImpact();
-                                      }
-                                    } catch (_) {}
-
-                                    // ③ Flame 파티클 + 적 플래시 (독립)
-                                    try {
-                                      if (card.category ==
-                                              CardCategory.attack ||
-                                          card.category == CardCategory.magic) {
-                                        _triggerEnemyFlash(enemyIdx);
-                                        _game.playHitParticle();
-                                      }
-                                      if (card.effects.any((e) =>
-                                          e.effectType ==
-                                          CardEffectType.block)) {
-                                        if (card.category !=
-                                            CardCategory.defense) {
-                                          SoundService().playBlock();
-                                        }
-                                        _game.playBlockParticle();
-                                      }
-                                      if (card.effects.any((e) =>
-                                          e.effectType ==
-                                          CardEffectType.heal)) {
-                                        SoundService().playHeal();
-                                        _game.playHealParticle();
-                                      }
-                                    } catch (_) {}
-                                  },
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                            ],
+                            ),
                           ),
                         ),
 
@@ -346,12 +389,14 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                 return IgnorePointer(
                                   child: Container(
                                     color: Colors.black.withValues(
-                                        alpha: 0.4 * _turnOverlayOpacity.value),
+                                      alpha: 0.4 * _turnOverlayOpacity.value,
+                                    ),
                                     child: Center(
                                       child: Opacity(
                                         opacity: _turnOverlayOpacity.value,
                                         child: Transform.scale(
-                                          scale: 0.8 +
+                                          scale:
+                                              0.8 +
                                               0.2 * _turnOverlayOpacity.value,
                                           child: Text(
                                             _turnOverlayText,
@@ -361,14 +406,17 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                                               fontWeight: FontWeight.bold,
                                               shadows: [
                                                 Shadow(
-                                                  color: _turnOverlayText ==
+                                                  color:
+                                                      _turnOverlayText ==
                                                           AppLocalizations.of(
-                                                                  context)!
-                                                              .cardBattleEnemyTurn
+                                                            context,
+                                                          )!.cardBattleEnemyTurn
                                                       ? Colors.red.withValues(
-                                                          alpha: 0.8)
+                                                          alpha: 0.8,
+                                                        )
                                                       : Colors.blue.withValues(
-                                                          alpha: 0.8),
+                                                          alpha: 0.8,
+                                                        ),
                                                   blurRadius: 20,
                                                 ),
                                               ],
@@ -393,8 +441,9 @@ class _CardBattleScreenState extends State<CardBattleScreen>
                               // 최종 HP를 dungeon_map_screen으로 전달
                               final finalHp = combat.playerHp;
                               combat.resetCombat();
-                              Navigator.of(context)
-                                  .pop({'won': true, 'hp': finalHp});
+                              Navigator.of(
+                                context,
+                              ).pop({'won': true, 'hp': finalHp});
                             },
                           ),
                         if (combat.phase == CombatPhase.defeat)
@@ -460,166 +509,44 @@ class _CardBattleScreenState extends State<CardBattleScreen>
 }
 
 class _SoulDeckBattleTutorialOverlay extends StatelessWidget {
-  final Future<void> Function() onDismiss;
-
+  final VoidCallback onDismiss;
   const _SoulDeckBattleTutorialOverlay({required this.onDismiss});
-
   @override
   Widget build(BuildContext context) {
-    final isKorean = Localizations.localeOf(context).languageCode == 'ko';
-    final copy = _SoulDeckBattleTutorialCopy.forLocale(isKorean: isKorean);
-
-    return Positioned.fill(
-      child: Material(
-        color: Colors.black.withValues(alpha: 0.66),
-        child: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF161B22),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFFFD166), width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.35),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.auto_awesome,
-                          color: Color(0xFFFFD166),
-                          size: 22,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            copy.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-                    for (final item in copy.items) ...[
-                      _SoulDeckBattleTutorialLine(text: item),
-                      const SizedBox(height: 10),
-                    ],
-                    const SizedBox(height: 4),
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                        onPressed: onDismiss,
-                        style: FilledButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFD166),
-                          foregroundColor: const Color(0xFF1E293B),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          copy.button,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    final l = AppLocalizations.of(context)!;
+    return DungeonModal(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l.lqBattleGuideTitle,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 20),
+          for (final text in [
+            l.lqBattleGuideEnergy,
+            l.lqBattleGuideCards,
+            l.lqBattleGuideTurn,
+          ]) ...[
+            Text(
+              text,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(height: 1.5),
+            ),
+            const SizedBox(height: 16),
+          ],
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              autofocus: true,
+              onPressed: onDismiss,
+              child: Text(l.lqBattleBegin),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SoulDeckBattleTutorialLine extends StatelessWidget {
-  final String text;
-
-  const _SoulDeckBattleTutorialLine({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 7,
-          height: 7,
-          margin: const EdgeInsets.only(top: 7, right: 9),
-          decoration: const BoxDecoration(
-            color: Color(0xFFFFD166),
-            shape: BoxShape.circle,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              height: 1.4,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SoulDeckBattleTutorialCopy {
-  final String title;
-  final List<String> items;
-  final String button;
-
-  const _SoulDeckBattleTutorialCopy({
-    required this.title,
-    required this.items,
-    required this.button,
-  });
-
-  factory _SoulDeckBattleTutorialCopy.forLocale({required bool isKorean}) {
-    if (isKorean) {
-      return const _SoulDeckBattleTutorialCopy(
-        title: 'Soul Deck 첫 전투 가이드',
-        items: [
-          'EP는 이번 턴에 쓸 수 있는 에너지입니다. 카드 비용만큼 EP가 줄어듭니다.',
-          '공격/마법 카드는 적에게 피해를 주고, 방어 카드는 적 턴 피해를 막는 Block을 줍니다.',
-          '대상을 고르고 카드를 사용한 뒤, 더 할 행동이 없으면 End Turn을 누르세요.',
         ],
-        button: '알겠어요',
-      );
-    }
-
-    return const _SoulDeckBattleTutorialCopy(
-      title: 'Soul Deck first battle',
-      items: [
-        'EP is your energy for this turn. Playing a card spends EP equal to its cost.',
-        'Attack and Magic cards damage enemies. Defense cards add Block for the enemy turn.',
-        'Pick a target, play cards, then press End Turn when you are done.',
-      ],
-      button: 'Got it',
+      ),
     );
   }
 }
@@ -647,10 +574,8 @@ class _RelicSlotBar extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: relics.length,
         separatorBuilder: (_, __) => const SizedBox(width: 6),
-        itemBuilder: (context, i) => RelicIconWithTooltip(
-          relic: relics[i],
-          size: 36,
-        ),
+        itemBuilder: (context, i) =>
+            RelicIconWithTooltip(relic: relics[i], size: 36),
       ),
     );
   }
@@ -663,76 +588,71 @@ class _RelicSlotBar extends StatelessWidget {
 class _TopBar extends StatelessWidget {
   final CardCombatState combat;
   final bool isDark;
-
-  const _TopBar({required this.combat, required this.isDark});
-
+  final VoidCallback onHelp;
+  const _TopBar({
+    required this.combat,
+    required this.isDark,
+    required this.onHelp,
+  });
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: (isDark ? Colors.black : Colors.white).withValues(alpha: 0.6),
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
-      ),
-      child: Row(
-        children: [
-          // Back button
-          IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: isDark ? Colors.white : Colors.black87),
-            onPressed: () => _showExitDialog(context),
-            iconSize: 20,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-          const SizedBox(width: 12),
-
-          // Energy orb
-          _EnergyDisplay(
-            current: combat.currentEnergy,
-            max: combat.maxEnergy,
-          ),
-          const SizedBox(width: 10),
-
-          // Playable cards count
-          _PlayableCardsBadge(
-            playableCount:
-                combat.hand.where((c) => c.cost <= combat.currentEnergy).length,
-            totalInHand: combat.hand.length,
-            currentEnergy: combat.currentEnergy,
-            isDark: isDark,
-          ),
-
-          const Spacer(),
-
-          // Turn count
-          Text(
-            l10n.cardBattleTurnCount(combat.turnCount + 1),
-            style: TextStyle(
-              color: isDark ? Colors.white70 : Colors.black87,
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
+    final l = AppLocalizations.of(context)!;
+    return Material(
+      color: (isDark ? Colors.black : Colors.white).withValues(alpha: 0.65),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  tooltip: l.lqBattleExit,
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => _showExitDialog(context),
+                ),
+                _EnergyDisplay(
+                  current: combat.currentEnergy,
+                  max: combat.maxEnergy,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(l.cardBattleTurnCount(combat.turnCount + 1)),
+                ),
+                IconButton(
+                  tooltip: l.lqBattleGuideTitle,
+                  icon: const Icon(Icons.help_outline),
+                  onPressed: onHelp,
+                ),
+              ],
             ),
-          ),
-          const SizedBox(width: 10),
-
-          // Draw pile
-          _PileCount(
-            icon: Icons.layers,
-            count: combat.drawPile.length,
-            isDark: isDark,
-            label: l10n.cardBattleDrawPile,
-          ),
-          const SizedBox(width: 8),
-          // Discard pile
-          _PileCount(
-            icon: Icons.delete_outline,
-            count: combat.discardPile.length,
-            isDark: isDark,
-            label: l10n.cardBattleDiscardPile,
-          ),
-        ],
+            const SizedBox(height: 4),
+            Wrap(
+              spacing: 16,
+              runSpacing: 6,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                PlayableCardsBadge(
+                  playableCount: combat.playableCardCount,
+                  currentEnergy: combat.currentEnergy,
+                  isDark: isDark,
+                ),
+                _PileCount(
+                  icon: Icons.layers,
+                  count: combat.drawPile.length,
+                  isDark: isDark,
+                  label: l.cardBattleDrawPile,
+                ),
+                _PileCount(
+                  icon: Icons.delete_outline,
+                  count: combat.discardPile.length,
+                  isDark: isDark,
+                  label: l.cardBattleDiscardPile,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -763,8 +683,10 @@ class _TopBar extends StatelessWidget {
                 } catch (_) {}
               });
             },
-            child: Text(l10n.cardBattleAbandonButton,
-                style: const TextStyle(color: Colors.red)),
+            child: Text(
+              l10n.cardBattleAbandonButton,
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -827,7 +749,7 @@ class _EnergyDisplay extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       height: 1.0,
                       shadows: const [
-                        Shadow(color: Colors.black, blurRadius: 4)
+                        Shadow(color: Colors.black, blurRadius: 4),
                       ],
                     ),
                   ),
@@ -840,7 +762,7 @@ class _EnergyDisplay extends StatelessWidget {
                       fontSize: 9,
                       height: 1.0,
                       shadows: const [
-                        Shadow(color: Colors.black, blurRadius: 2)
+                        Shadow(color: Colors.black, blurRadius: 2),
                       ],
                     ),
                   ),
@@ -868,15 +790,14 @@ class _EnergyDisplay extends StatelessWidget {
 // Playable cards badge — shows how many cards in hand can be played now
 // ============================================================================
 
-class _PlayableCardsBadge extends StatelessWidget {
+class PlayableCardsBadge extends StatelessWidget {
   final int playableCount;
-  final int totalInHand;
   final int currentEnergy;
   final bool isDark;
 
-  const _PlayableCardsBadge({
+  const PlayableCardsBadge({
+    super.key,
     required this.playableCount,
-    required this.totalInHand,
     required this.currentEnergy,
     required this.isDark,
   });
@@ -884,7 +805,7 @@ class _PlayableCardsBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final canPlay = playableCount > 0;
-    final noEnergy = currentEnergy == 0;
+    final noEnergy = currentEnergy == 0 && !canPlay;
     final l10n = AppLocalizations.of(context)!;
 
     return AnimatedContainer(
@@ -894,22 +815,23 @@ class _PlayableCardsBadge extends StatelessWidget {
         color: noEnergy
             ? Colors.red.shade900.withValues(alpha: 0.85)
             : canPlay
-                ? Colors.green.shade800.withValues(alpha: 0.85)
-                : Colors.orange.shade900.withValues(alpha: 0.85),
+            ? Colors.green.shade800.withValues(alpha: 0.85)
+            : Colors.orange.shade900.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: noEnergy
               ? Colors.red.shade400.withValues(alpha: 0.7)
               : canPlay
-                  ? Colors.greenAccent.withValues(alpha: 0.6)
-                  : Colors.orange.shade400.withValues(alpha: 0.6),
+              ? Colors.greenAccent.withValues(alpha: 0.6)
+              : Colors.orange.shade400.withValues(alpha: 0.6),
           width: 1,
         ),
         boxShadow: canPlay && !noEnergy
             ? [
                 BoxShadow(
-                    color: Colors.greenAccent.withValues(alpha: 0.3),
-                    blurRadius: 6)
+                  color: Colors.greenAccent.withValues(alpha: 0.3),
+                  blurRadius: 6,
+                ),
               ]
             : null,
       ),
@@ -922,8 +844,8 @@ class _PlayableCardsBadge extends StatelessWidget {
             color: noEnergy
                 ? Colors.red.shade300
                 : canPlay
-                    ? Colors.greenAccent
-                    : Colors.orange.shade300,
+                ? Colors.greenAccent
+                : Colors.orange.shade300,
           ),
           const SizedBox(width: 4),
           // 핵심: EP가 얼마고 카드가 몇 장 나오는지 명확하게 표시
@@ -935,8 +857,8 @@ class _PlayableCardsBadge extends StatelessWidget {
               color: noEnergy
                   ? Colors.red.shade200
                   : canPlay
-                      ? Colors.white
-                      : Colors.orange.shade200,
+                  ? Colors.white
+                  : Colors.orange.shade200,
               fontSize: 11,
               fontWeight: FontWeight.bold,
             ),
@@ -1092,7 +1014,9 @@ class _EnemyCard extends StatelessWidget {
                     colorFilter: isFlashing
                         ? const ColorFilter.mode(Colors.red, BlendMode.srcATop)
                         : const ColorFilter.mode(
-                            Colors.transparent, BlendMode.multiply),
+                            Colors.transparent,
+                            BlendMode.multiply,
+                          ),
                     child: Image.asset(
                       enemy.monster.spritePath,
                       width: 160,
@@ -1200,10 +1124,7 @@ class _BlockIndicator extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       curve: Curves.elasticOut,
       builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: child,
-        );
+        return Transform.scale(scale: value, child: child);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -1376,10 +1297,7 @@ class _PlayerInfoBar extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 4),
-                _PlayerHpBar(
-                  current: combat.playerHp,
-                  max: combat.playerMaxHp,
-                ),
+                _PlayerHpBar(current: combat.playerHp, max: combat.playerMaxHp),
               ],
             ),
           ),
@@ -1426,8 +1344,10 @@ class _EndTurnButton extends StatelessWidget {
                 height: 44,
                 fit: BoxFit.fitHeight,
                 errorBuilder: (_, __, ___) => Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     gradient: enabled
@@ -1502,11 +1422,9 @@ class _CardHand extends StatelessWidget {
           key: ValueKey('${hand[index].id}_$index'),
           card: hand[index],
           index: index,
-          canPlay: combat.phase == CombatPhase.playerTurn &&
-              hand[index].cost <= combat.currentEnergy,
+          canPlay: combat.canPlayCard(index),
           onTap: () {
-            if (combat.phase == CombatPhase.playerTurn &&
-                hand[index].cost <= combat.currentEnergy) {
+            if (combat.canPlayCard(index)) {
               onCardPlayed(index);
             }
           },
@@ -1555,13 +1473,10 @@ class _AnimatedHandCardState extends State<_AnimatedHandCard>
       vsync: this,
       duration: Duration(milliseconds: 200 + widget.index * 50),
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 1.5),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _drawController,
-      curve: Curves.easeOutBack,
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0.0, 1.5), end: Offset.zero).animate(
+          CurvedAnimation(parent: _drawController, curve: Curves.easeOutBack),
+        );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _drawController,
@@ -1669,10 +1584,7 @@ class _PlayableCardState extends State<_PlayableCard>
       builder: (context, child) {
         return Transform.translate(
           offset: Offset(0, _playMoveUp.value),
-          child: Opacity(
-            opacity: _playFade.value,
-            child: child,
-          ),
+          child: Opacity(opacity: _playFade.value, child: child),
         );
       },
       child: SoulDeckCardView(
@@ -1732,10 +1644,7 @@ class _PlayerHpBar extends StatelessWidget {
                 curve: Curves.easeOut,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      barColor.withValues(alpha: 0.85),
-                      barColor,
-                    ],
+                    colors: [barColor.withValues(alpha: 0.85), barColor],
                   ),
                 ),
               ),
@@ -1798,8 +1707,8 @@ class _HpBar extends StatelessWidget {
             color: ratio > 0.5
                 ? color
                 : ratio > 0.25
-                    ? Colors.orange
-                    : Colors.red,
+                ? Colors.orange
+                : Colors.red,
             borderRadius: BorderRadius.circular(height / 2),
           ),
         ),
@@ -1976,17 +1885,19 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
         }
       }
       final rarityPool = CardDatabase.allCards
-          .where((c) =>
-              c.rarity == rarity &&
-              !c.id.startsWith('base_') &&
-              !c.id.startsWith('curse_') &&
-              !c.isUpgraded)
+          .where(
+            (c) =>
+                c.rarity == rarity &&
+                !c.id.startsWith('base_') &&
+                !c.id.startsWith('curse_') &&
+                !c.isUpgraded,
+          )
           .toList();
       if (rarityPool.isEmpty) {
         // fallback to common
-        final fallback = CardDatabase.getCardsByRarity(CardRarity.common)
-            .where((c) => !c.id.startsWith('base_') && !c.isUpgraded)
-            .toList();
+        final fallback = CardDatabase.getCardsByRarity(
+          CardRarity.common,
+        ).where((c) => !c.id.startsWith('base_') && !c.isUpgraded).toList();
         return fallback.isNotEmpty
             ? fallback[rng.nextInt(fallback.length)]
             : CardDatabase.allCards.first;
@@ -1996,8 +1907,9 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
         modifier: dailyModifier,
         availableCategories: rarityPool.map((card) => card.category),
       );
-      final categoryPool =
-          rarityPool.where((card) => card.category == category).toList();
+      final categoryPool = rarityPool
+          .where((card) => card.category == category)
+          .toList();
       final pool = categoryPool.isNotEmpty ? categoryPool : rarityPool;
       return pool[rng.nextInt(pool.length)];
     }
@@ -2044,121 +1956,104 @@ class _VictoryRewardOverlayState extends State<_VictoryRewardOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = widget.isDark;
-
-    return Container(
-      color: Colors.black.withValues(alpha: 0.7),
-      child: Center(
-        child: TweenAnimationBuilder<double>(
-          tween: Tween(begin: 0.0, end: 1.0),
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.elasticOut,
-          builder: (context, value, child) {
-            return Transform.scale(
-              scale: value,
-              child: Opacity(
-                opacity: value.clamp(0.0, 1.0),
-                child: child,
-              ),
-            );
-          },
-          child: Container(
-            width: 350,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E1E2E) : Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.amber, width: 2),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.amber.withValues(alpha: 0.3),
-                  blurRadius: 20,
-                  spreadRadius: 4,
-                ),
-              ],
+    final l = AppLocalizations.of(context)!;
+    return DungeonModal(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Icon(Icons.emoji_events, color: Colors.amber, size: 36),
+          const SizedBox(height: 12),
+          Text(
+            l.cardBattleVictory,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l.cardBattleGoldReward(widget.gold),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          Text(
+            l.cardBattleSelectCard,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 12),
+          for (final card in _cardChoices) ...[
+            CardRewardChoice(
+              card: card,
+              onSelected: _cardSelected ? null : () => _selectCard(card),
             ),
+            const SizedBox(height: 8),
+          ],
+          TextButton(
+            onPressed: _cardSelected ? null : _skipCardReward,
+            child: Text(l.cardBattleSkipButton),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Readable reward choice; selection retains the existing one-card grant path.
+class CardRewardChoice extends StatelessWidget {
+  final CardData card;
+  final VoidCallback? onSelected;
+  const CardRewardChoice({
+    super.key,
+    required this.card,
+    required this.onSelected,
+  });
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    final title = CardLocalization.localizedName(card, l);
+    final description = CardLocalization.localizedDescription(card, l);
+    final art = CardBodyAssets.resolvedBodyPath(card);
+    return OutlinedButton(
+      onPressed: onSelected,
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.all(12),
+        alignment: Alignment.centerLeft,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (art != null) ...[
+            ExcludeSemantics(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.asset(
+                  art,
+                  width: 48,
+                  height: 68,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+          ],
+          Expanded(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.emoji_events, size: 48, color: Colors.amber),
-                const SizedBox(height: 12),
                 Text(
-                  l10n.cardBattleVictory,
-                  style: TextStyle(
-                    color: isDark ? Colors.white : Colors.black87,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  '$title · ${card.cost} EP',
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
-                const SizedBox(height: 8),
-
-                // Gold reward
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.monetization_on,
-                        color: Colors.amber, size: 18),
-                    const SizedBox(width: 4),
-                    Text(
-                      l10n.cardBattleGoldReward(widget.gold),
-                      style: TextStyle(
-                        color: isDark ? Colors.white70 : Colors.black54,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-
-                // Card selection header
+                const SizedBox(height: 6),
                 Text(
-                  l10n.cardBattleSelectCard,
-                  style: TextStyle(
-                    color: isDark ? Colors.white60 : Colors.black54,
-                    fontSize: 13,
-                    fontFamily: 'monospace',
-                  ),
-                ),
-                const SizedBox(height: 12),
-
-                // Card choices
-                if (_cardChoices.isNotEmpty)
-                  SizedBox(
-                    height: 152,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: _cardChoices.map((card) {
-                        return SoulDeckCardView(
-                          card: card,
-                          size: SoulDeckCardSize.reward,
-                          enabled: !_cardSelected,
-                          onTap: () => _selectCard(card),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-
-                const SizedBox(height: 12),
-
-                // Skip button
-                TextButton(
-                  onPressed: _cardSelected ? null : _skipCardReward,
-                  child: Text(
-                    l10n.cardBattleSkipButton,
-                    style: TextStyle(
-                      color: _cardSelected
-                          ? Colors.grey
-                          : (isDark ? Colors.white38 : Colors.black38),
-                      fontSize: 13,
-                    ),
-                  ),
+                  description,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(height: 1.4),
                 ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -2194,10 +2089,7 @@ class _ResultOverlay extends StatelessWidget {
           builder: (context, value, child) {
             return Transform.scale(
               scale: value,
-              child: Opacity(
-                opacity: value.clamp(0.0, 1.0),
-                child: child,
-              ),
+              child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
             );
           },
           child: Container(
@@ -2212,8 +2104,9 @@ class _ResultOverlay extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: (isVictory ? Colors.amber : Colors.red)
-                      .withValues(alpha: 0.3),
+                  color: (isVictory ? Colors.amber : Colors.red).withValues(
+                    alpha: 0.3,
+                  ),
                   blurRadius: 20,
                   spreadRadius: 4,
                 ),
@@ -2243,8 +2136,11 @@ class _ResultOverlay extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.monetization_on,
-                          color: Colors.amber, size: 20),
+                      const Icon(
+                        Icons.monetization_on,
+                        color: Colors.amber,
+                        size: 20,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         l10n.cardBattleGoldReward(gold),
@@ -2274,7 +2170,9 @@ class _ResultOverlay extends StatelessWidget {
                     child: Text(
                       l10n.dungeonRestContinueButton,
                       style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

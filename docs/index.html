@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Life Quest - Privacy Policy and Account Deletion</title>
+  <meta name="description" content="Life Quest: 경계의 서가. 현실의 작은 행동으로 이야기를 여는 무료 Android 앱. 공개 APK 다운로드와 이용 안내.">
+  <meta name="referrer" content="no-referrer">
+  <title>Life Quest: 경계의 서가 · Android 공개판</title>
+  <meta property="og:title" content="Life Quest: 경계의 서가">
+  <meta property="og:description" content="오늘의 작은 행동이 다음 장을 엽니다. 무료 Android 공개판.">
+  <meta property="og:image" content="https://sn-bow.github.io/Life_Quest/site/journal_worlds.jpg">
+  <link rel="icon" href="site/app-icon.png">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -82,108 +88,197 @@
     footer { color: #667085; font-size: 0.85rem; padding: 28px; text-align: center; }
     @media (max-width: 640px) {
       section { padding: 20px; }
-      table { display: block; overflow-x: auto; white-space: nowrap; }
+      table { display: block; overflow-x: auto; }
+    }
+    :focus-visible { outline: 3px solid #087d91; outline-offset: 4px; }
+    section { scroll-margin-top: 16px; }
+    .version { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; }
+    .en { color: #424f67; }
+    details { margin-top: 22px; }
+    summary { cursor: pointer; font-weight: 700; padding: 12px 0; }
+    td, p, li { overflow-wrap: anywhere; }
+    body { background: #f6f3ec; color: #283534; }
+    header { background: #132c2c; padding: 0; }
+    .masthead { max-width: 1200px; margin: auto; padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; font-weight: 750; letter-spacing: .12em; font-size: .88rem; }
+    .brand img { width: 38px; height: 38px; border-radius: 9px; }
+    .masthead > a:last-child { color: #e9dbbb; font-size: .86rem; text-underline-offset: 5px; }
+    .hero { max-width: 1200px; margin: auto; display: grid; grid-template-columns: .9fr 1.1fr; gap: 38px; padding: 42px 28px 60px; align-items: center; }
+    .eyebrow { color: #dfc490; font-size: .75rem; font-weight: 650; letter-spacing: .13em; }
+    .hero h1 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); line-height: 1.3; font-weight: 700; margin: 19px 0; word-break: keep-all; }
+    .hero p { color: #dce4dd; font-size: 1rem; line-height: 1.85; opacity: 1; }
+    .hero .subtle { font-size: .8rem; color: #b7c9c1; margin-top: 16px; }
+    .hero > img { width: 100%; height: auto; aspect-ratio: 1.12; object-fit: cover; border-radius: 4px 48px 4px 4px; }
+    .button.primary { background: #e8c78d; color: #203432; border-radius: 5px; margin-top: 14px; padding: 15px 22px; }
+    nav { background: #f6f3ec; border-color: #dadccf; justify-content: center; gap: 28px; }
+    nav a { color: #34534c; font-size: .83rem; }
+    main { max-width: 1120px; padding-top: 44px; }
+    .product { border: 0; background: transparent; padding: 22px 10px 32px; }
+    .product h2 { border: 0; font-size: 1.8rem; color: #203f38; letter-spacing: -.02em; margin-bottom: 8px; }
+    .product > p { color: #57685e; max-width: 650px; }
+    .worlds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 28px; }
+    .worlds article img { width: 100%; aspect-ratio: 1.45; object-fit: cover; border-radius: 4px; }
+    .worlds h3 { margin: 13px 0 6px; font-size: 1.1rem; color: #27443d; }
+    .worlds p { color: #5e6b60; font-size: .9rem; }
+    .worlds .genre { font-size: .72rem; letter-spacing: .08em; color: #527466; margin-top: 13px; }
+    .rhythm { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; border-top: 1px solid #d6d9cc; padding-top: 25px; }
+    .rhythm .eyebrow { color: #527466; }
+    .rhythm h3 { margin-top: 6px; }
+    #download { background: #e8ece1; border-color: #d4dcc9; padding: 32px; }
+    #download h2 { color: #203f38; border: 0; font-size: 1.65rem; }
+    #download .button { background: #254d42; }
+    .fine { font-size: .83rem; color: #506358; }
+    .release-links { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; margin: 12px 0 18px; }
+    #contact { border-color: #d2dccf; }
+    .legal-intro { margin: 42px 0 24px; color: #617262; }
+    #privacy, #delete-account, #terms { border-color: #e0e3da; }
+    @media (max-width: 720px) {
+      .hero { grid-template-columns: 1fr; padding: 22px 24px 32px; gap: 24px; }
+      .hero > img { aspect-ratio: 1.55; border-radius: 4px 30px 4px 4px; }
+      .hero h1 { font-size: 2.25rem; }
+      .masthead { padding: 18px 24px; }
+      .worlds { grid-template-columns: 1fr; gap: 20px; }
+      .worlds article { display: grid; grid-template-columns: 115px 1fr; gap: 15px; align-items: start; }
+      .worlds article img { height: 135px; aspect-ratio: auto; }
+      .worlds .genre { margin-top: 0; }
+      .worlds h3 { margin-top: 4px; }
+      .rhythm { grid-template-columns: 1fr; gap: 10px; }
+      #download { padding: 24px 20px; }
+      nav { gap: 10px 22px; padding: 0 18px; }
+      main { padding-top: 24px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Life Quest</h1>
-    <p>일상의 목표와 퀘스트를 RPG 방식으로 관리하는 Android 앱입니다. This page provides the privacy policy, terms, and account deletion instructions for the default Android release of Life Quest.</p>
+    <div class="masthead"><a class="brand" href="#"><img src="site/app-icon.png" alt="" width="38" height="38">LIFE QUEST</a><a href="#contact">의견 보내기</a></div>
+    <div class="hero">
+      <div>
+        <span class="eyebrow">경계의 서가 · ANDROID 공개 프리뷰</span>
+        <h1>오늘의 작은 행동이,<br>다음 장을 엽니다.</h1>
+        <p>책상 한 구역 정리하기, 한 문장 읽기.<br>현실에서 끝낸 작은 퀘스트가 나의 상태창에 쌓이고,<br>서가 속 세 세계의 이야기를 이어갑니다.</p>
+        <a class="button primary" href="#download">무료로 시작하기</a>
+        <p class="subtle">가입 없이 · 광고 없이 · AI 호출 요금 없이</p>
+      </div>
+      <img src="site/journal_worlds.jpg" width="1280" height="853" alt="펼친 책 위로 도시의 역, 무림의 산, 별을 보는 천문대가 이어진 경계의 서가 일러스트" fetchpriority="high">
+    </div>
   </header>
-
-  <nav>
-    <a href="#privacy">개인정보처리방침</a>
-    <a href="#terms">이용약관</a>
-    <a href="#delete-account">계정 삭제</a>
-    <a href="#contact">Contact</a>
+  <nav aria-label="페이지 바로가기">
+    <a href="#worlds">세 개의 이야기</a><a href="#download">다운로드</a><a href="#contact">의견·도움말</a><a href="#privacy">개인정보</a>
   </nav>
-
   <main>
+    <section id="worlds" class="product">
+      <h2>오늘은, 어떤 세계를 펼칠까요?</h2>
+      <p>도시의 미스터리, 무림의 수련, 잃어버린 기록의 탐사.<br>세 단편은 모두 무료입니다. 책을 바꿔도 나의 성장과 선택은 남아요.</p>
+      <div class="worlds">
+        <article><img src="site/exit_zero_gateway.jpg" alt="빛이 새어 나오는 늦은 밤의 지하철역" loading="lazy" width="480" height="330"><div><p class="genre">도시 미스터리 · 4장면</p><h3>0번 출구</h3><p>늘 지나치던 역에 없던 출구가 나타났습니다.</p></div></article>
+        <article><img src="site/courtyard.jpg" alt="고요한 산과 정자가 있는 수련 마당" loading="lazy" width="480" height="330"><div><p class="genre">무림 수련 · 4장면</p><h3>바람을 듣는 마당</h3><p>서두르지 않는 수련이 오늘의 한 걸음이 됩니다.</p></div></article>
+        <article><img src="site/atlas.jpg" alt="별을 관측하는 환상적인 천문대" loading="lazy" width="480" height="330"><div><p class="genre">기록 탐사 · 4장면</p><h3>잃어버린 별의 지도</h3><p>작은 기록을 모아 지도에 없던 길을 찾습니다.</p></div></article>
+      </div>
+    </section>
+    <section class="product rhythm" aria-label="사용 방법">
+      <article><p class="eyebrow">01 · 나의 속도로</p><h3>할 수 있는 만큼만 고르기</h3><p>오늘 쓸 시간과 에너지를 알려주세요. 추천을 고르거나 직접 퀘스트를 만들 수 있어요.</p></article>
+      <article><p class="eyebrow">02 · 쌓이는 성장</p><h3>끝낸 행동이 상태창으로</h3><p>완료하면 XP와 기록이 쌓여요. 쉬는 날에도 이미 얻은 레벨과 XP는 사라지지 않아요.</p></article>
+      <article><p class="eyebrow">03 · 이어지는 세계</p><h3>이야기도, 카드 탐험도</h3><p>현실 퀘스트로 다음 장면을 열고 선택을 남기세요. 카드 탐험은 원할 때 즐기면 돼요.</p></article>
+    </section>
+    <section id="download">
+      <h2>나의 첫 장을 시작해 보세요.</h2>
+      <p><strong>Android 공개 프리뷰 2.0.0 · 무료</strong><br>Google Play 등록 전 직접 설치하는 APK입니다. Android 8.0 이상 · ARM64 기기를 지원합니다.</p>
+      <div class="release-links"><a class="button" href="https://github.com/Sn-bow/Life_Quest/releases/download/v2.0.0-preview.1/LifeQuest-2.0.0-preview.1-arm64.apk">Android APK 다운로드</a><a href="https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1">버전 정보·파일 확인</a></div>
+      <p class="fine">자동 업데이트는 없습니다. 새 버전은 이 페이지에서 확인하세요. 기존 기록이 있으면 업데이트 전에 앱 설정에서 암호화 백업을 보관하세요.</p>
+      <details><summary>설치와 AI 사용 전에 확인하기</summary>
+        <ul><li>APK를 내려받아 열면 Android의 설치 안내가 표시됩니다. Play 스토어 설치본과 달리 기기의 앱 설치 허용이 필요할 수 있습니다. Play Protect 등 보안 보호를 끌 필요는 없습니다.</li>
+        <li>AI 없이도 퀘스트·성장·무료 이야기·카드 탐험을 사용할 수 있습니다.</li>
+        <li>선택형 Gemma 4 E2B 모델은 약 2.59GB를 추가로 다운로드합니다. 설치 전 약 3GB 이상 여유 공간을 준비하세요. 앱에서 RAM·지원 여부를 확인하며, 기기별 속도와 발열은 다를 수 있습니다.</li>
+        <li>공개 프리뷰는 기기별 문제를 발견하며 개선하는 버전입니다. 실제 휴대전화 전반의 동작·접근성을 검증했다고 보증하지 않습니다. 개인정보가 담긴 백업 파일이나 비밀번호를 피드백에 첨부하지 마세요.</li>
+        <li>광고·구매·클라우드 동기화·자동 이용 분석은 제공하지 않습니다. 「조수 우체국」은 두 장면의 무료 체험만 제공하며 본편은 아직 판매하지 않습니다.</li>
+        <li>Google Play 버전으로 옮길 때 서명 차이로 재설치가 필요할 수 있습니다. 삭제 전에 반드시 암호화 백업을 보관하세요.</li></ul>
+        <p lang="en">Free Android ARM64 preview, Android 8+. Direct APK distribution, not a Google Play release. No account, ads, purchases or automatic usage analytics. Optional on-device AI requires a separate 2.59GB model. Keep an encrypted backup before updating or moving to a differently signed Play build.</p>
+      </details>
+    </section>
+    <section id="contact">
+      <h2>다음 장을 함께 만들어 주세요.</h2>
+      <p>어디에서 막혔는지, 다시 켜고 싶었던 순간이 있었는지 알려주세요.<br>기종·Android 버전·발생한 화면을 적어주시면 문제를 찾는 데 도움이 됩니다.</p>
+      <div class="release-links"><a class="button" href="mailto:logian621@gmail.com?subject=Life%20Quest%20Feedback">이메일로 의견 보내기</a><a href="https://github.com/Sn-bow/Life_Quest/issues/new/choose">GitHub에 문제 남기기</a></div>
+      <p class="fine">개발자 Log_Ian · <a href="mailto:logian621@gmail.com">logian621@gmail.com</a><br>이메일은 직접 보내야 접수됩니다. GitHub 이슈는 공개되므로 개인 목표·계정·백업 원본은 적지 마세요. 앱의 이용 기록은 자동으로 첨부되거나 전송되지 않습니다.</p>
+      <p class="fine" lang="en">Feedback, AI suggestion concerns and deletion requests: email us. GitHub issues are public. Do not include passwords, personal goals or backup files.</p>
+    </section>
+    <p class="legal-intro">이용 안내 · <a href="#privacy">개인정보</a> / <a href="#delete-account">데이터 삭제</a> / <a href="#terms">이용약관</a></p>
     <section id="privacy">
       <h2>개인정보처리방침 / Privacy Policy</h2>
-      <p><strong>최종 업데이트:</strong> 2026-06-04</p>
-      <p>Life Quest는 기본 Android 릴리스 빌드 기준으로 계정, 앱 진행 데이터, 선택적 프로필 사진, 앱 진단 정보를 처리합니다. Web QA Preview는 테스트용 미리보기이며 Google Play 등록정보의 개인정보 처리 근거로 사용하지 않습니다.</p>
-      <p>Life Quest processes account data, app progress, optional profile photos, and diagnostics for the default Android release build. The Web QA Preview is excluded from the production Play listing scope.</p>
+      <p><strong>최종 업데이트:</strong> 2026-09-21 · <strong>운영자:</strong> Log_Ian</p>
+      <div class="notice"><strong>현재 2.0 기기 모드:</strong> 가입 없이 사용합니다. 목표·퀘스트·진행 기록은 기기에 저장합니다. 광고, 결제, 클라우드 계정·동기화·신고 전송은 현재 공개 프리뷰에서 제공하지 않습니다. AI는 선택 설치하며, 설치하지 않아도 기본 퀘스트를 사용할 수 있습니다.</div>
 
-      <h3>1. 수집 또는 처리하는 정보</h3>
-      <table>
-        <tr><th>정보 유형</th><th>목적</th><th>필수 여부</th></tr>
-        <tr><td>이메일 주소, Firebase UID</td><td>회원가입, 로그인, 계정 관리, 데이터 동기화</td><td>필수</td></tr>
-        <tr><td>Google 계정 이름, 이메일, 프로필 사진</td><td>사용자가 Google 로그인을 선택한 경우 계정 로그인과 프로필 표시</td><td>선택</td></tr>
-        <tr><td>퀘스트, 진행도, 업적, 인벤토리, 던전 진행, 설정</td><td>앱 진행 상황 저장, 동기화, 복원</td><td>필수</td></tr>
-        <tr><td>선택적 프로필 이미지</td><td>사용자가 직접 선택한 경우 Firebase Storage에 저장</td><td>선택</td></tr>
-        <tr><td>Crash logs, diagnostics, app integrity signals</td><td>오류 분석, 보안, 서비스 안정성 개선</td><td>필수</td></tr>
-        <tr><td>로컬 설정, 홈 위젯 값, 알림 예약 정보</td><td>기기 내 앱 기능 제공</td><td>기능 사용 시 필요</td></tr>
-      </table>
+      <h3>1. 기기에 저장하는 정보</h3>
+      <p>표시 이름, 시간·에너지·성장 분야·직접 입력한 목표, 퀘스트와 완료·피드백 이력, 레벨·능력치·인벤토리·던전·이야기 선택, 언어·소리·알림 설정을 앱의 기기 저장 공간에 보관합니다. 개인화 추천에는 최근 최대 90일 범위의 피드백 이력을 사용합니다. 홈 위젯을 사용하면 표시할 진행 정보가 위젯 저장 공간에도 남습니다.</p>
+      <p>이 정보는 앱 기능과 개인화 추천에 사용합니다. 기본 기기 모드에서 개발자에게 전송하지 않으며, 사용자 기록으로 모델 가중치를 학습시키지 않습니다. 자동 클라우드 백업은 제공하지 않습니다. 설정에서 무료 암호화 백업 파일을 직접 만들고 다른 기기로 복원할 수 있습니다. 백업이 없으면 앱 데이터 삭제·앱 제거·기기 분실 시 진행을 잃을 수 있습니다.</p>
 
-      <p>현재 기본 Android 릴리스는 Health Connect, Google Fit, 위치, 연락처, 캘린더, SMS, 마이크, 파일 문서, 광고 식별자, 구매 내역을 수집하지 않습니다. 앱의 "Health" 스탯은 게임 카테고리이며 의료, 웰니스, 피트니스 데이터가 아닙니다.</p>
+      <p><strong>직접 만드는 백업:</strong> 퀘스트·성장·완료한 던전·이야기 선택·개인화 이력을 사용자가 정한 비밀번호로 암호화합니다. 로그인 정보·구매 권한·진행 중 탐험·AI 모델은 제외합니다. 비밀번호는 개발자에게 보내거나 저장하지 않으며 잊으면 복구할 수 없습니다. 저장 위치로 클라우드 파일 서비스를 고르면 그 서비스에는 암호화된 파일이 전달됩니다. 파일 복원 전 확인을 받고, 직전 기록 한 벌과 중단 복원을 위한 임시 기록을 기기의 앱 전용 공간에 보관합니다. 이 기록들은 기기 프로필 삭제 시 함께 지워집니다. 직접 저장한 백업 파일은 앱 삭제 후에도 남으므로 저장 위치에서 직접 삭제해야 합니다.</p>
+      <h3>2. 온디바이스 AI와 모델 다운로드</h3>
+      <p>선택한 Gemma 4 E2B 공개 모델은 지원되는 Android 기기에서 실행합니다. 모델 설치에는 약 2.59GB 다운로드와 저장 공간이 필요합니다. 모델 사용료와 클라우드 AI 호출료는 없지만 통신사 데이터 요금은 발생할 수 있습니다. 설치 후 퀘스트 생성은 인터넷 없이 기기에서 처리합니다.</p>
+      <p>사용자가 설치를 선택하면 공개 모델 파일을 Hugging Face 및 파일 전달 서버에서 내려받습니다. 이 서버에는 IP 주소와 파일 요청 같은 통신 정보가 전달됩니다. 목표·완료 기록·AI 입력 문구는 모델 다운로드 서버에 보내지 않습니다. 다운로드 서버의 정보 처리는 <a href="https://huggingface.co/privacy">Hugging Face 개인정보처리방침</a>을 참고해 주세요.</p>
+      <p>모델은 기기의 앱 전용 저장 공간에 보관하며, 설치 화면에서 다운로드를 취소하거나 재개하고 모델을 삭제할 수 있습니다. 프로필 삭제와 모델 파일 삭제는 별도이며, 앱을 제거하면 앱 전용 모델도 제거됩니다.</p>
 
-      <h3>2. 광고와 결제</h3>
-      <p>기본 Android 릴리스 빌드에서는 AdMob 광고와 Google Play Billing 초기화가 비활성화되어 있습니다. In the default Android release, AdMob ads and Google Play Billing are disabled. 광고 또는 인앱 결제를 활성화한 별도 빌드를 배포하는 경우, 광고 식별자, 광고 상호작용, 구매 내역, 영수증 또는 권한 정보 처리를 배포 전에 재검토하고 이 정책과 Google Play Data safety 답변을 갱신합니다.</p>
+      <h3>3. 권한과 자동 수집</h3>
+      <p>인터넷 권한은 선택한 모델 다운로드와 사용자가 연 외부 페이지 등에 필요합니다. 알림은 사용자가 켠 경우에만 기기에서 예약합니다. Health Connect, Google Fit, 위치, 연락처, 캘린더, SMS, 마이크, 카메라의 사용자 데이터를 읽지 않습니다. 게임의 ‘건강’ 능력치는 게임 분류이며 실제 건강 측정값이 아닙니다.</p>
+      <p>현재 2.0 기본 Android 릴리스 구성에서는 AdMob, Google Play Billing, Firebase Analytics 및 Crashlytics 수집이 비활성화되어 있습니다. 자동 광고 식별자·분석·오류 보고 전송을 하지 않습니다. 이 공개 웹페이지도 분석 스크립트·추적 쿠키·외부 글꼴을 사용하지 않습니다. 호스팅 제공자 GitHub는 페이지 제공을 위한 접속 정보를 처리할 수 있습니다. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub 개인정보처리방침</a></p>
 
-      <h3>3. 사용하는 서비스</h3>
+      <p><strong>직접 보내는 의견과 AI 문구:</strong> 설정의 의견 보내기는 문의 페이지를 엽니다. AI 추천 신고에서 복사를 선택하면 화면의 추천 제목·행동·이유와 모델·언어만 클립보드에 복사됩니다. 문의 페이지를 열거나 문구를 복사하는 것만으로 개발자에게 전송되지 않습니다. 사용자가 직접 이메일이나 공개 GitHub 이슈를 작성하는 경우 해당 서비스에 주소·내용이 전달됩니다. 문의 처리 외의 목적으로 사용하지 않습니다. 원하지 않는 개인정보는 보내기 전에 지워주세요.</p>
+      <h3>4. 계정·신고·결제 기능이 제공되는 버전</h3>
+      <p>이 기능들은 현재 2.0 공개 프리뷰에서는 제공하지 않습니다. 활성화하는 버전에서는 선택 전에 처리 범위를 안내하고 본 방침과 Google Play 데이터 보안 정보를 갱신합니다.</p>
       <ul>
-        <li>Firebase Authentication: 회원가입, 로그인, 계정 관리</li>
-        <li>Cloud Firestore: 앱 진행 데이터 저장과 동기화</li>
-        <li>Firebase Storage: 선택적 프로필 이미지 저장</li>
-        <li>Firebase Crashlytics: crash logs and diagnostics</li>
-        <li>Firebase App Check: app integrity and abuse prevention</li>
-        <li>Google Sign-In: user-initiated Google account login</li>
+        <li><strong>선택적 구매 계정:</strong> Google 계정을 직접 연결하면 Firebase Authentication이 이메일·사용자 ID·Google 기본 프로필을 인증에 사용합니다. 새 구매 전용 계정의 앱 데이터베이스에는 계정 종류와 생성 시각, 별도의 구매 권한을 보관합니다. 연결은 기기 퀘스트·성장·AI 개인화 이력의 동기화 동의가 아니며 이를 자동 업로드하지 않습니다. 기존 클라우드 계정으로 연결한 경우 기존 서버 기록을 덮어쓰거나 기기로 복사하지 않습니다.</li>
+        <li><strong>기존 클라우드 계정:</strong> 과거 버전에서 동기화한 진행 데이터와 선택적 프로필 사진은 해당 계정의 복원·삭제 대상으로 취급합니다.</li>
+        <li><strong>AI 문구 신고:</strong> 전송 직전에 사용자가 확인한 퀘스트 제목·안내·이유와 모델·언어 정보, 접수 시각 및 신고를 연결할 계정 식별자를 개발자에게 전달합니다. 기기 모드에서는 이메일 없는 임시 식별자를 사용할 수 있습니다. 전체 목표와 전체 이력은 자동으로 첨부하지 않습니다. 다만 선택한 문구 자체에 개인정보가 포함될 수 있으므로 전송 전에 확인해야 합니다.</li>
+        <li><strong>구매:</strong> 상품 ID, Google Play 구매 토큰 및 검증 결과, 계정과 연결된 이용 권한을 구매 확인·복원·환불 반영에 사용합니다. 결제 수단 정보는 Google Play에서 처리하며 개발자가 카드 번호를 받지 않습니다.</li>
+        <li><strong>보안:</strong> Firebase App Check 등 Google 서비스가 앱 무결성 신호와 연결 정보를 처리할 수 있습니다. <a href="https://firebase.google.com/support/privacy">Firebase Privacy and Security</a></li>
       </ul>
-      <p>Firebase 보안 및 개인정보 처리에 대한 자세한 내용은 <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy and Security</a>를 참고하십시오.</p>
+      <p>계정 기능을 이용한 기존 버전의 사용자도 아래 삭제·문의 경로를 이용할 수 있습니다. 개인정보를 판매하거나 광고 타기팅을 위해 사용자 목표·퀘스트 기록을 제공하지 않습니다.</p>
 
-      <h3>4. 정보 공유</h3>
-      <p>Life Quest는 개인정보를 판매하지 않습니다. Firebase 및 Google 서비스는 앱 기능, 계정 관리, 보안, crash diagnostics를 위해 개발자를 대신해 데이터를 처리할 수 있습니다. 법적 의무가 있거나 사용자가 직접 특정 기능을 사용하는 경우 필요한 범위에서 정보가 처리될 수 있습니다.</p>
+      <h3>5. 보관과 삭제</h3>
+      <p>기기 데이터는 앱 설정의 기기 기록 삭제, Android의 앱 데이터 삭제 또는 앱 제거로 지울 수 있습니다. 개발자는 기기에만 저장된 기록을 원격으로 조회하거나 지울 수 없습니다.</p>
+      <p>신고 기능이 제공되는 버전에서는 신고 본문과 사용량 제한 기록을 접수 후 90일이 지나면 자동 삭제 대상으로 지정합니다. 실제 제거에는 처리 지연이 있을 수 있습니다. 설정 → AI 신고 내역에서 같은 신고 계정의 개별 신고를 삭제하거나, 현재 익명 신고 계정 전체 삭제를 요청할 수 있습니다. 앱에는 최근 100개의 접수 참조(신고 계정 ID/신고 ID)와 시각만 보관하며, 진행 백업에 넣지 않습니다. 이 참조는 해당 신고 삭제 또는 Android 앱 데이터 삭제로 제거됩니다. 계정이 바뀌거나 앱에 접근할 수 없다면 접수 참조를 제시해 지원 이메일로 삭제를 요청할 수 있습니다. 익명 인증 ID는 익명 계정 전체 삭제 전까지 남을 수 있습니다. 계정 기능이 제공된 버전의 계정·클라우드 진행·이미지·신고·앱의 구매 연결 기록은 계정 삭제 시 함께 삭제합니다. 삭제 처리 중에는 접근을 차단하고 실패한 서버 작업은 재시도합니다. 완료 후 내용 없는 삭제 처리 표식은 7일이 지나면 자동 삭제 대상으로 지정하며, 실제 제거까지 서비스의 처리 지연이 있을 수 있습니다. Google이 별도로 보관하는 결제·보안 기록은 해당 서비스 방침에 따릅니다. 계정 삭제가 구매 취소나 환불을 뜻하지는 않습니다.</p>
+      <p>이메일 문의로 보내는 주소·내용은 본인 확인과 요청 처리에만 사용합니다. 문의 종료 후 불필요한 내용은 삭제하며, 법적 보관 의무가 있는 경우 적용 근거와 기간을 안내합니다. 비밀번호, 인증번호 또는 카드 정보를 보내지 마세요.</p>
 
-      <h3>5. 보관 및 삭제</h3>
-      <p>계정 및 앱 진행 데이터와 선택적 프로필 이미지는 계정 삭제 요청 처리 시까지 보관됩니다. Crash 및 진단 데이터는 Firebase/Google 서비스 정책과 콘솔 설정에 따라 보관됩니다. 로컬 설정과 알림 정보는 사용자가 앱 데이터를 삭제하거나 설정을 변경하거나 로그아웃 또는 계정 삭제를 할 때까지 기기에 남을 수 있습니다.</p>
+      <h3>6. 이용자 권리와 변경 안내</h3>
+      <p>정보 열람·정정·삭제는 아래 문의 주소로 요청할 수 있습니다. 계정 관련 요청은 필요한 범위에서 본인 확인 후 처리합니다. Life Quest는 만 14세 미만 아동을 대상으로 하지 않으며 해당 아동의 정보를 의도적으로 수집하지 않습니다. 처리 방식이 바뀌면 이 페이지와 필요한 앱 안내를 갱신합니다.</p>
 
-      <h3>6. 아동 개인정보</h3>
-      <p>Life Quest는 만 14세 미만 아동을 대상으로 하지 않으며, 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다.</p>
+      <details lang="en" class="en">
+        <summary>Read the privacy policy in English</summary>
+        <p lang="en">In this public preview, feedback is sent only when you personally send an email or post a GitHub issue. Copying an AI suggestion copies its title, action, reason, model and language to your clipboard; opening support sends none of that text. GitHub issues are public. Remove personal details before sharing. Email content is used to handle your request and unnecessary content is deleted after it is resolved.</p>
+        <p><strong>Last updated: September 17, 2026. Developer: Log_Ian.</strong> Life Quest 2.0 is in development and testing; it has not been publicly released on Google Play. This policy describes the default Android release configuration and identifies optional services that are not yet enabled.</p>
+        <p><strong>On your device.</strong> You can start without an account. Your display name, goals, time and energy preferences, quests, completion and feedback history, RPG progress, story choices and settings are stored on your device. Personalization uses feedback from a rolling window of up to 90 days. Widget values and notification schedules may also be stored locally. These records are not automatically sent to the developer or used to train model weights. Automatic cloud backup is not provided. You can create a free password-encrypted backup in Settings and restore it on another device. Without a backup, clearing app data, uninstalling, or losing the device can lose progress.</p>
+        <p><strong>Manual backups.</strong> A file contains quests, growth, cleared dungeons, story choices and personalization history encrypted with your chosen password. Sign-in details, purchase rights, active expeditions and model files are excluded. We do not receive or store your password and cannot recover a forgotten one. If you choose a cloud file provider as the save destination, it receives the encrypted file. Restore asks for confirmation; a previous snapshot and an interrupted-restore journal remain in app-private storage and are cleared with local-profile deletion. Exported files remain after deleting the app and must be deleted at their save location.</p>
+        <p><strong>Optional AI.</strong> Gemma 4 E2B runs locally on supported Android devices. Installing it downloads approximately 2.59GB from Hugging Face and its file-delivery providers. They receive network information such as your IP address and the requested file, but we do not send your goals, history, or model prompts to them. Model use has no license or cloud-inference fee; your carrier may charge for data. Generation works offline after installation. You can cancel, resume or delete the model. Deleting a profile does not delete the separately stored model; uninstalling removes app-private files.</p>
+        <p><strong>Permissions and collection.</strong> Notifications are optional and scheduled locally. We do not read Health Connect, Google Fit, location, contacts, calendar, SMS, microphone or camera data. A Health game stat is not a health measurement. AdMob, Google Play Billing, Firebase Analytics and Crashlytics collection are disabled in the current default configuration. This website uses no tracking cookies, analytics scripts or external fonts; GitHub may process access information to deliver it.</p>
+        <p><strong>Optional services in other or future versions.</strong> If you explicitly connect a Google purchase account, Firebase Authentication uses its ID, email and basic Google profile to authenticate. A new purchase-only account stores its purpose and creation time in the app database, plus separate purchase entitlements. Connecting is not consent to upload device quests, progress or AI personalization. Existing cloud records are not overwritten or copied to your device. Legacy cloud progress or photos remain subject to account restoration and deletion. AI reporting sends only the reviewed quest title, instruction and reason, model/language, timestamp and an account identifier; device users may use an anonymous identifier. A selected quote can itself contain personal information, so review it before sending. Full goals and history are not automatically attached. Purchases use product IDs, Play tokens, verification results and account-linked entitlements; Google handles payment details. App Check can process integrity signals. We will update this policy and Play Data safety disclosures before enabling these services.</p>
+        <p><strong>Retention and deletion.</strong> You control local deletion in Settings or Android app storage settings. We cannot retrieve or remotely delete records stored only on your device. In reporting-enabled versions, report content and quota records become eligible for TTL deletion after 90 days; removal can take additional processing time. Settings → AI report receipts lets the same reporting account delete individual reports or request deletion of the current anonymous report account. The device keeps up to 100 receipt references (reporting account ID/report ID) and times, excluded from progress backups. A reference is removed with its report or Android app-data deletion. If the original account or app is inaccessible, provide the reference to support to request deletion. Anonymous Auth IDs may remain until the anonymous account is deleted. For accounts provided by an applicable version, account deletion removes cloud progress, photos, reports and the app's purchase links, with retryable server processing and access blocked during deletion. A content-free completion marker becomes eligible for automatic deletion after seven days; service processing can take additional time. Google may separately retain payment or security records under its policies. Deletion does not refund purchases. Email request information is used for verification and support, then unnecessary content is deleted after closure; any legally required exception will be explained.</p>
+        <p><strong>Your rights.</strong> Contact logian621@gmail.com to request access, correction or deletion. We may verify account ownership. We do not sell personal data or provide your goals and quest history for ad targeting. The app is not directed to children under 14. We will update this page and relevant in-app notices when data handling changes.</p>
+      </details>
+    </section>
+
+    <section id="delete-account">
+      <h2>데이터·계정 삭제 / Data and account deletion</h2>
+      <h3>기기 프로필만 사용하고 있다면</h3>
+      <ol><li>Life Quest에서 <strong>성장 → 설정 → 기기 기록 삭제</strong>를 선택합니다.</li><li>삭제할 범위를 확인하고 진행합니다. 해당 기기의 진행 기록을 복구할 수 없습니다.</li><li>AI 모델도 지우려면 AI 설치 화면의 모델 삭제를 사용하거나 Android에서 앱 데이터를 삭제합니다.</li></ol>
+      <h3>클라우드 계정을 사용한 버전이라면</h3>
+      <p>앱의 <strong>설정 → 계정 삭제</strong>에서 본인 확인 후 요청할 수 있습니다. 선택적 구매 계정을 제공하는 버전에서는 <strong>설정 → 구매 계정 → 구매 계정 삭제</strong>를 사용합니다. 구매 계정 삭제는 기기의 성장 기록을 지우지 않습니다. 구매 권한과 해당 계정의 기존 클라우드 프로필·신고는 함께 삭제되며 삭제 후 구매를 복원할 수 없습니다. 단순 연결 해제는 서버 계정 삭제나 환불이 아닙니다. 서버가 삭제 요청을 접수한 뒤에는 앱을 닫아도 처리를 계속합니다. 앱이 없거나 로그인이 어려우면 아래 이메일로 바로 요청할 수 있습니다.</p>
+      <div class="notice"><strong>이메일로 요청:</strong> 가입에 사용한 이메일 주소와 삭제를 원하는 계정 또는 신고에 관한 정보를 알려 주세요. 계정의 비밀번호나 인증번호는 필요하지 않습니다. 기기 전용 기록은 서버에 없으므로 기기에서 삭제해야 합니다.</div>
+      <a class="button" href="mailto:logian621@gmail.com?subject=%5BLife%20Quest%5D%20Account%20Deletion%20Request">삭제 요청 이메일 작성</a>
+      <p>접수 후 필요한 본인 확인과 처리 범위를 안내하고, 요청을 불필요하게 지연하지 않고 처리합니다. 처리 중 문제가 있으면 같은 주소로 문의할 수 있습니다.</p>
+      <p lang="en" class="en">Device-only users: Growth → Settings → Delete device progress. For a cloud account from an applicable version, use Settings → Delete account or email <a href="mailto:logian621@gmail.com">logian621@gmail.com</a> with the subject “[Life Quest] Account Deletion Request.” In versions with purchase accounts, use Settings → Purchase account → Delete purchase account. Device progress stays on the device; purchase access, existing cloud progress and reports for that account are deleted. Purchases cannot be restored afterward. Disconnecting alone does not delete the server account or issue a refund. You do not need to reinstall the app. Include the account email or enough information to identify your report, but never send passwords or verification codes. We will explain any necessary ownership verification and process the request without unnecessary delay. Local-only records must be deleted on your device.</p>
     </section>
 
     <section id="terms">
       <h2>이용약관 / Terms of Service</h2>
-      <p><strong>최종 업데이트:</strong> 2026-06-04</p>
-      <p>Life Quest는 일상 목표, 습관, 퀘스트를 게임식 진행 구조로 관리하도록 돕는 도구입니다. 앱은 의료, 건강, 재정, 법률 조언을 제공하지 않습니다.</p>
-      <ul>
-        <li>사용자는 본인의 계정 정보를 안전하게 관리해야 합니다.</li>
-        <li>서비스 취약점 악용, 데이터 조작, 무단 접근, 법령 위반 행위를 금지합니다.</li>
-        <li>현재 기본 Android 릴리스에서는 광고와 인앱 결제가 비활성화되어 있습니다.</li>
-        <li>향후 유료 기능이 제공되는 경우 가격, 혜택, 취소 방법을 앱 또는 스토어 등록정보에 명확히 고지합니다.</li>
-      </ul>
+      <p><strong>최종 업데이트:</strong> 2026-09-21</p>
+      <p>Life Quest는 일상 실천을 돕는 게임형 도구입니다. 퀘스트는 선택 사항이며, 쉬거나 건너뛰었다는 이유로 이미 얻은 레벨이나 경험치를 깎지 않습니다. AI 문구는 부정확하거나 상황에 맞지 않을 수 있습니다. 사용자는 추천을 수락·건너뛰기·교체할 수 있으며, 위험하거나 본인 상황에 맞지 않는 행동을 수행할 필요가 없습니다.</p>
+      <p>앱은 의료·운동 처방·재정·법률 조언을 제공하지 않습니다. 안전한 장소와 본인의 상황을 고려해 활동을 선택하세요. 자동 생성 문구나 이야기 속 효과가 현실의 성과를 보증하지 않습니다.</p>
+      <ul><li>현재 공개 프리뷰는 무료이며 광고와 인앱 결제를 제공하지 않습니다.</li><li>유료 콘텐츠가 제공되면 구매 전에 실제 가격과 제공 범위·복원 방법을 안내합니다. 판매가 개시되기 전에는 구매할 수 없습니다.</li><li>사용자 기록은 사용자가 관리하며, 기기 전용 데이터는 앱 삭제 등으로 잃을 수 있습니다.</li><li>무단 접근, 타인 권리 침해와 서비스 악용을 금지합니다. 이 안내는 법령이 보장하는 소비자 권리를 제한하지 않습니다.</li></ul>
+      <p lang="en" class="en">Life Quest is an optional, game-based daily activity tool. Skipping or resting does not remove earned levels or XP. AI suggestions can be inaccurate or unsuitable; choose safe activities and skip or replace any suggestion. The app does not provide medical, exercise-prescription, financial or legal advice or guarantee real-world outcomes. The current public preview is free, with ads and purchases disabled. Any future paid content will show its price, scope and restoration method before purchase. You manage your local records. Unauthorized access, abuse and infringement are prohibited. Your statutory consumer rights remain unaffected.</p>
     </section>
 
-    <section id="delete-account">
-      <h2>계정 및 데이터 삭제 / Account Deletion</h2>
-      <div class="notice">
-        <strong>중요:</strong> 계정 삭제 후 Firebase 계정, Firestore에 저장된 주요 앱 진행 데이터, 선택적 프로필 이미지는 복구할 수 없습니다.
-      </div>
-
-      <h3>앱 내 삭제 방법</h3>
-      <ol>
-        <li>Life Quest 앱을 엽니다.</li>
-        <li>설정 화면으로 이동합니다.</li>
-        <li>계정 삭제 또는 회원 탈퇴 기능을 선택합니다.</li>
-        <li>확인 절차를 완료합니다.</li>
-      </ol>
-
-      <h3>이메일 요청</h3>
-      <p>앱 내 삭제가 어렵거나 추가 확인이 필요한 경우 <a href="mailto:logian621@gmail.com">logian621@gmail.com</a>으로 요청할 수 있습니다. 제목은 <code>[Life Quest] Account Deletion Request</code>로 작성하고, 가능한 경우 가입 이메일 주소를 포함해 주세요.</p>
-      <a class="button" href="mailto:logian621@gmail.com?subject=[Life Quest] Account Deletion Request">계정 삭제 요청 이메일 보내기</a>
-    </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
-      <p><strong>Developer:</strong> Log_Ian</p>
-      <p><strong>Email:</strong> <a href="mailto:logian621@gmail.com">logian621@gmail.com</a></p>
-      <p>개인정보, 계정 삭제, 앱 관련 문의는 위 이메일로 연락해 주세요.</p>
-    </section>
   </main>
-
-  <footer>
-    <p>Copyright 2026 Log_Ian. All rights reserved. Life Quest.</p>
-  </footer>
+  <footer>© 2026 Log_Ian · Life Quest. Gemma는 Google의 공개 모델입니다. 본 앱은 Google 또는 특정 웹툰의 공식 제휴 제품이 아닙니다.</footer>
 </body>
 </html>

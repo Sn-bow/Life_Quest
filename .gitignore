@@ -77,3 +77,9 @@ android/key.properties
 *.hprof
 functions/node_modules/
 .firebase/
+
+# Rebuild analysis and local visual QA
+graphify-out/
+
+# Kotlin compiler session cache
+android/.kotlin/

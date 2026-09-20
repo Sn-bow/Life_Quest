@@ -1,0 +1,30 @@
+[
+  {
+    "case": "default",
+    "pass": true
+  },
+  {
+    "case": "billing-without-ads",
+    "pass": true
+  },
+  {
+    "case": "ads-without-billing",
+    "pass": true
+  },
+  {
+    "case": "both",
+    "pass": true
+  },
+  {
+    "case": "reject-billing-without-cloud",
+    "pass": true
+  },
+  {
+    "case": "reject-ads-without-id",
+    "pass": true
+  },
+  {
+    "case": "default-with-unused-ad-id",
+    "pass": true
+  }
+]

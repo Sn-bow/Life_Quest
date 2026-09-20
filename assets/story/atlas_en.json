@@ -1,0 +1,93 @@
+{
+  "id": "atlas",
+  "title": "Atlas of the Missing Star",
+  "subtitle": "Archive discovery · Complete short story",
+  "description": "A star has lost its name in an old observatory. Observe, repair and share to recover the people and paths a map forgot.",
+  "artwork": "assets/images/backgrounds/atlas.jpg",
+  "scenes": [
+    {
+      "id": "blank",
+      "title": "A star missing from the map",
+      "quests": 0,
+      "narration": "One star is blank on a map in the Crossing Library. You tilt the paper, and a small brass ring rolls out. Through it, an old observatory comes into view.\n\nIo, a map mender, waits beside the window.\n\n“The star did not disappear. This map lost its name.”\n\nThrough the telescope, light still shines in the empty place. Your status window offers a blank observation log instead of coordinates.\n\n“Your observations continue through everyday actions.”\n\nIo needs someone willing to look again, not someone who already has every answer.",
+      "choices": [
+        {
+          "id": "observe",
+          "label": "Look at the empty place again",
+          "response": "A second point of light appears beside the first. The place you thought belonged to one star was never alone."
+        },
+        {
+          "id": "compare",
+          "label": "Find an older map in a drawer",
+          "response": "A little bridge occupies the same position on an old chart. A bridge on a star map? Io has never seen that mark before."
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "title": "Joining a single line",
+      "quests": 1,
+      "narration": "After one real-life action, a thin line appears on the map. It reaches an old footbridge below the observatory.\n\nYou and Io walk down. Several people have cut short marks into the rail, at different heights. They mark the places where people once watched the stars.\n\n“But the cover says this map had one author.” Io reads the name aloud.\n\nYou study the overlapping marks. Perhaps the star is not the only one whose name went missing.",
+      "choices": [
+        {
+          "id": "trace",
+          "label": "Copy each mark onto a page",
+          "response": "Lines of different heights gather on the paper. The map makers’ different viewpoints begin to emerge."
+        },
+        {
+          "id": "repair",
+          "label": "Read the faded direction sign",
+          "response": "Under an arrow, you find the words “a place to look together.” Io marks that place at the center of the map."
+        }
+      ],
+      "echoes": {
+        "atlas/blank:observe": "The two lights you saw through the telescope align with observation points at either end of the bridge.",
+        "atlas/blank:compare": "The small bridge on the old chart is the footbridge beneath your feet."
+      }
+    },
+    {
+      "id": "names",
+      "title": "A drawer full of light",
+      "quests": 3,
+      "narration": "After three actions, a locked drawer opens. Inside are observations in different handwriting, rather than a finished map.\n\nA child’s low viewpoint. The hour a night worker crossed the bridge. The angle from the window of someone who could rarely leave home. All watched the same star from different places.\n\nIo studies the single name on the cover.\n\n“We lost the way when we folded everyone’s records into one name.”\n\nSmall lights gather beside the blank star. You must decide what to put back first.",
+      "choices": [
+        {
+          "id": "credit",
+          "label": "Mark each observer’s place",
+          "response": "Small marks appear around the map’s edge. Shared directions make a better route than one brightest star."
+        },
+        {
+          "id": "share",
+          "label": "Leave room for someone to add more",
+          "response": "You do not fill every blank. There is space for the next person’s view from their own window."
+        }
+      ],
+      "echoes": {
+        "atlas/bridge:trace": "The marks you copied from the bridge help you place each note at the correct viewing point.",
+        "atlas/bridge:repair": "The old phrase about looking together becomes your first guide to the scattered records."
+      }
+    },
+    {
+      "id": "opening",
+      "title": "A map left open",
+      "quests": 6,
+      "narration": "With six real-life actions recorded, the observatory roof opens. Lights on the map align with the real sky.\n\nUnder its title, Io writes: “The sky we have seen so far.”\n\n“Why not call it finished?” you ask.\n\n“Tomorrow, someone will look from somewhere else.”\n\nYour status window also shows what you have done so far. You do not need to fill every future day. The actions you completed already have their places.\n\nThe door opens, and another chronicler climbs the stairs.",
+      "choices": [
+        {
+          "id": "take",
+          "label": "Carry a copy home",
+          "response": "The copy still has many blank spaces. You choose to see them as room for future records. Atlas of the Missing Star is complete."
+        },
+        {
+          "id": "guide",
+          "label": "Offer the telescope to the newcomer",
+          "response": "They choose a star you had not noticed. A new point appears on the map. Atlas of the Missing Star is complete."
+        }
+      ],
+      "echoes": {
+        "atlas/names:credit": "The visitor sees the marks around the edge and asks whether they can add their own viewing place.",
+        "atlas/names:share": "In the space you left, the visitor draws a tiny window."
+      }
+    }
+  ]
+}

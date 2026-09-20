@@ -31,7 +31,9 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
   /// Each floor adds 5% extra HP/ATK scaling.
   double _towerMultForFloor(int floor) => 1.0 + ((floor - 1) * 0.05);
 
-  void _startTowerRun(BuildContext context) {
+  Future<void> _startTowerRun(BuildContext context) async {
+    final dungeon = context.read<DungeonState>();
+    if (dungeon.hasRun) return;
     final charState = context.read<CharacterState>();
     final character = charState.character;
     final playerMaxHp = 80 + (character.health * 2).toInt();
@@ -39,20 +41,18 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
     final mult = _towerMultForFloor(_targetFloor);
 
     context.read<DungeonState>().startRun(
-          zone: zone,
-          startingDeck: charState.starterDeck,
-          playerMaxHp: playerMaxHp,
-          towerStatMult: mult,
-        );
-
-    // Record attempted floor immediately so the result screen can compare.
-    charState.updateInfiniteTowerFloor(_targetFloor);
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const DungeonMapScreen(),
-      ),
+      zone: zone,
+      startingDeck: charState.starterDeck,
+      playerMaxHp: playerMaxHp,
+      towerStatMult: mult,
+      towerFloor: _targetFloor,
     );
+
+    if (!await dungeon.flushCheckpoint() || !context.mounted) return;
+
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const DungeonMapScreen()));
   }
 
   @override
@@ -69,8 +69,11 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(Icons.trending_up,
-                color: isDark ? Colors.amber : Colors.deepOrange, size: 24),
+            Icon(
+              Icons.trending_up,
+              color: isDark ? Colors.amber : Colors.deepOrange,
+              size: 24,
+            ),
             const SizedBox(width: 8),
             Text(
               l10n.infiniteTowerTitle,
@@ -93,7 +96,10 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
 
             // Floor selector
             _SectionTitle(
-                title: l10n.infiniteTowerSelectFloor, icon: Icons.layers, isDark: isDark),
+              title: l10n.infiniteTowerSelectFloor,
+              icon: Icons.layers,
+              isDark: isDark,
+            ),
             const SizedBox(height: 12),
             _FloorSelector(
               targetFloor: _targetFloor,
@@ -107,7 +113,10 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
 
             // Current floor info card
             _SectionTitle(
-                title: l10n.infiniteTowerFloorInfo, icon: Icons.info_outline, isDark: isDark),
+              title: l10n.infiniteTowerFloorInfo,
+              icon: Icons.info_outline,
+              isDark: isDark,
+            ),
             const SizedBox(height: 12),
             _FloorInfoCard(
               floor: _targetFloor,
@@ -122,7 +131,9 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () => _startTowerRun(context),
+                onPressed: context.watch<DungeonState>().hasRun
+                    ? null
+                    : () => _startTowerRun(context),
                 icon: const Icon(Icons.arrow_upward),
                 label: Text(
                   l10n.infiniteTowerChallengeFloor(_targetFloor),
@@ -133,8 +144,9 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      isDark ? Colors.amber.shade700 : Colors.deepOrange,
+                  backgroundColor: isDark
+                      ? Colors.amber.shade700
+                      : Colors.deepOrange,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -149,7 +161,10 @@ class _InfiniteTowerScreenState extends State<InfiniteTowerScreen> {
 
             // Floor progression guide
             _SectionTitle(
-                title: l10n.infiniteTowerFloorComposition, icon: Icons.map_outlined, isDark: isDark),
+              title: l10n.infiniteTowerFloorComposition,
+              icon: Icons.map_outlined,
+              isDark: isDark,
+            ),
             const SizedBox(height: 8),
             _FloorGuide(isDark: isDark),
           ],
@@ -198,9 +213,15 @@ class _BestFloorBanner extends StatelessWidget {
               shape: BoxShape.circle,
               color: Colors.amber.withValues(alpha: 0.2),
               border: Border.all(
-                  color: Colors.amber.withValues(alpha: 0.5), width: 2),
+                color: Colors.amber.withValues(alpha: 0.5),
+                width: 2,
+              ),
             ),
-            child: const Icon(Icons.emoji_events, color: Colors.amber, size: 28),
+            child: const Icon(
+              Icons.emoji_events,
+              color: Colors.amber,
+              size: 28,
+            ),
           ),
           const SizedBox(width: 16),
           Column(
@@ -236,16 +257,21 @@ class _SectionTitle extends StatelessWidget {
   final IconData icon;
   final bool isDark;
 
-  const _SectionTitle(
-      {required this.title, required this.icon, required this.isDark});
+  const _SectionTitle({
+    required this.title,
+    required this.icon,
+    required this.isDark,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon,
-            size: 18,
-            color: isDark ? Colors.amber : Colors.deepOrange.shade700),
+        Icon(
+          icon,
+          size: 18,
+          color: isDark ? Colors.amber : Colors.deepOrange.shade700,
+        ),
         const SizedBox(width: 6),
         Text(
           title,
@@ -348,12 +374,18 @@ class _FloorInfoCard extends StatelessWidget {
   String _getZoneName(BuildContext context, int z) {
     final l10n = AppLocalizations.of(context)!;
     switch (z % 5) {
-      case 1: return l10n.zone1Name;
-      case 2: return l10n.zone2Name;
-      case 3: return l10n.zone3Name;
-      case 4: return l10n.zone4Name;
-      case 0: return l10n.zone5Name;
-      default: return l10n.zone1Name;
+      case 1:
+        return l10n.zone1Name;
+      case 2:
+        return l10n.zone2Name;
+      case 3:
+        return l10n.zone3Name;
+      case 4:
+        return l10n.zone4Name;
+      case 0:
+        return l10n.zone5Name;
+      default:
+        return l10n.zone1Name;
     }
   }
 
@@ -406,7 +438,12 @@ class _FloorInfoCard extends StatelessWidget {
   }
 
   Widget _infoRow(
-      IconData icon, String label, String value, Color color, bool isDark) {
+    IconData icon,
+    String label,
+    String value,
+    Color color,
+    bool isDark,
+  ) {
     return Row(
       children: [
         Icon(icon, size: 18, color: color),
@@ -442,12 +479,18 @@ class _FloorGuide extends StatelessWidget {
   String _getZoneName(BuildContext context, int zone) {
     final l10n = AppLocalizations.of(context)!;
     switch (zone % 5) {
-      case 1: return l10n.zone1Name;
-      case 2: return l10n.zone2Name;
-      case 3: return l10n.zone3Name;
-      case 4: return l10n.zone4Name;
-      case 0: return l10n.zone5Name;
-      default: return l10n.zone1Name;
+      case 1:
+        return l10n.zone1Name;
+      case 2:
+        return l10n.zone2Name;
+      case 3:
+        return l10n.zone3Name;
+      case 4:
+        return l10n.zone4Name;
+      case 0:
+        return l10n.zone5Name;
+      default:
+        return l10n.zone1Name;
     }
   }
 
@@ -455,12 +498,36 @@ class _FloorGuide extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final entries = [
-      (l10n.infiniteTowerFloor1To5, 'Zone 1: ${_getZoneName(context, 1)}', Colors.green),
-      (l10n.infiniteTowerFloor6To10, 'Zone 2: ${_getZoneName(context, 2)}', Colors.teal),
-      (l10n.infiniteTowerFloor11To15, 'Zone 3: ${_getZoneName(context, 3)}', Colors.blueGrey),
-      (l10n.infiniteTowerFloor16To20, 'Zone 4: ${_getZoneName(context, 4)}', Colors.deepOrange),
-      (l10n.infiniteTowerFloor21To25, 'Zone 5: ${_getZoneName(context, 5)}', Colors.deepPurple),
-      (l10n.infiniteTowerFloor26Plus, l10n.infiniteTowerRepeatZones, Colors.amber),
+      (
+        l10n.infiniteTowerFloor1To5,
+        'Zone 1: ${_getZoneName(context, 1)}',
+        Colors.green,
+      ),
+      (
+        l10n.infiniteTowerFloor6To10,
+        'Zone 2: ${_getZoneName(context, 2)}',
+        Colors.teal,
+      ),
+      (
+        l10n.infiniteTowerFloor11To15,
+        'Zone 3: ${_getZoneName(context, 3)}',
+        Colors.blueGrey,
+      ),
+      (
+        l10n.infiniteTowerFloor16To20,
+        'Zone 4: ${_getZoneName(context, 4)}',
+        Colors.deepOrange,
+      ),
+      (
+        l10n.infiniteTowerFloor21To25,
+        'Zone 5: ${_getZoneName(context, 5)}',
+        Colors.deepPurple,
+      ),
+      (
+        l10n.infiniteTowerFloor26Plus,
+        l10n.infiniteTowerRepeatZones,
+        Colors.amber,
+      ),
     ];
 
     return Container(
@@ -485,8 +552,10 @@ class _FloorGuide extends StatelessWidget {
                 Container(
                   width: 6,
                   height: 6,
-                  decoration:
-                      BoxDecoration(color: e.$3, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    color: e.$3,
+                    shape: BoxShape.circle,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 SizedBox(

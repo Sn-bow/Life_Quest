@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "249227775121",
-    "project_id": "life-quest-app-95eb9",
-    "storage_bucket": "life-quest-app-95eb9.firebasestorage.app"
+    "project_number": "61563760091",
+    "project_id": "lifequest-crossing-2026",
+    "storage_bucket": "lifequest-crossing-2026.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:249227775121:android:4401425d2261adde894330",
+        "mobilesdk_app_id": "1:61563760091:android:4f449ea668e5a19120cbfe",
         "android_client_info": {
           "package_name": "com.lifequest.app"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "249227775121-v6m98b4dja0b7pnu75cfudam6trbidst.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.lifequest.app",
-            "certificate_hash": "27cf18b7c1d3f8fde13fcafe0208d5b3c48d14c0"
-          }
-        },
-        {
-          "client_id": "249227775121-7hv9rv7ahbms0nnmn1t6taoang6kfdok.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAKznuvD71ZSllvU1DrgcJ1R8Z3b8aGK4A"
+          "current_key": "AIzaSyBAeM1nqaiJywxOgzj8JPTcmHtr9wZItZs"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "249227775121-7hv9rv7ahbms0nnmn1t6taoang6kfdok.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

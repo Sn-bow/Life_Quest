@@ -1,5 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import '../features/billing/purchase_account_screen.dart';
+import '../features/billing/purchase_status_banner.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:life_quest_final_v2/models/cosmetic.dart';
 import 'package:life_quest_final_v2/services/purchase_service.dart';
@@ -18,31 +19,21 @@ class CosmeticShopScreen extends StatefulWidget {
 
 class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
   final PurchaseService _purchaseService = PurchaseService();
-  StreamSubscription<String>? _unlockSub;
-  // 구매 중인 상품 ID 추적 (null이면 구매 중 없음)
-  String? _purchasingIapId;
-
+  String? get _purchasingIapId =>
+      _purchaseService.busy ? _purchaseService.activeProduct : null;
   @override
   void initState() {
     super.initState();
-    // 구매 완료 시 CharacterState에 해금 아이템 추가
-    _unlockSub = _purchaseService.unlockStream.listen((cosmeticId) {
-      if (!mounted) return;
-      final charState = context.read<CharacterState>();
-      charState.unlockCosmetic(cosmeticId);
-      setState(() => _purchasingIapId = null);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.cosmeticUnlocked),
-          backgroundColor: Colors.green,
-        ),
-      );
-    });
+    _purchaseService.addListener(_onPurchaseChanged);
+  }
+
+  void _onPurchaseChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
-    _unlockSub?.cancel();
+    _purchaseService.removeListener(_onPurchaseChanged);
     super.dispose();
   }
 
@@ -52,63 +43,74 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.cosmeticShopTitle),
-      ),
-      body: Consumer<CharacterState>(builder: (context, characterState, child) {
-        if (!characterState.isDataLoaded) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        final character = characterState.character;
+      appBar: AppBar(title: Text(l10n.cosmeticShopTitle)),
+      body: Consumer<CharacterState>(
+        builder: (context, characterState, child) {
+          if (!characterState.isDataLoaded) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final character = characterState.character;
 
-        final categories = {
-          CosmeticCategory.theme: l10n.cosmeticCategoryTheme,
-          CosmeticCategory.titleEffect: l10n.cosmeticCategoryTitleEffect,
-          CosmeticCategory.combatEffect: l10n.cosmeticCategoryCombatEffect,
-        };
+          final categories = {
+            CosmeticCategory.theme: l10n.cosmeticCategoryTheme,
+            CosmeticCategory.titleEffect: l10n.cosmeticCategoryTitleEffect,
+            CosmeticCategory.combatEffect: l10n.cosmeticCategoryCombatEffect,
+          };
 
-        // IAP 이용 불가 시 안내 배너
-        if (!_purchaseService.isAvailable) {
+          // IAP 이용 불가 시 안내 배너
+          if (!_purchaseService.isAvailable) {
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                if (characterState.isLocalGuest) const PurchaseAccountTile(),
+                if (!kLifeQuestQaPreview) ...[
+                  TranslucentCard(
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.auto_awesome,
+                        color: Colors.amber,
+                      ),
+                      title: Text(l10n.cosmeticComingSoonTitle),
+                      subtitle: Text(l10n.cosmeticComingSoonDesc),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                const PurchaseStatusBanner(),
+                ...categories.entries.map(
+                  (entry) => _buildCategorySection(
+                    context,
+                    entry.key,
+                    entry.value,
+                    character,
+                    characterState,
+                    theme,
+                    l10n,
+                  ),
+                ),
+              ],
+            );
+          }
+
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              if (!kLifeQuestQaPreview) ...[
-                TranslucentCard(
-                  child: ListTile(
-                    leading:
-                        const Icon(Icons.auto_awesome, color: Colors.amber),
-                    title: Text(l10n.cosmeticComingSoonTitle),
-                    subtitle: Text(l10n.cosmeticComingSoonDesc),
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
-              ...categories.entries.map((entry) => _buildCategorySection(
+              const PurchaseStatusBanner(),
+              ...categories.entries.map(
+                (entry) => _buildCategorySection(
                   context,
                   entry.key,
                   entry.value,
                   character,
                   characterState,
                   theme,
-                  l10n)),
+                  l10n,
+                ),
+              ),
             ],
           );
-        }
-
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            ...categories.entries.map((entry) => _buildCategorySection(
-                context,
-                entry.key,
-                entry.value,
-                character,
-                characterState,
-                theme,
-                l10n)),
-          ],
-        );
-      }),
+        },
+      ),
     );
   }
 
@@ -121,8 +123,9 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
     ThemeData theme,
     AppLocalizations l10n,
   ) {
-    final items =
-        CosmeticDatabase.items.where((e) => e.category == category).toList();
+    final items = CosmeticDatabase.items
+        .where((e) => e.category == category)
+        .toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,8 +140,9 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
             ),
           ),
         ),
-        ...items.map((item) =>
-            _buildCosmeticCard(context, item, character, state, l10n)),
+        ...items.map(
+          (item) => _buildCosmeticCard(context, item, character, state, l10n),
+        ),
         const SizedBox(height: 16),
       ],
     );
@@ -152,7 +156,7 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
     AppLocalizations l10n,
   ) {
     final theme = Theme.of(context);
-    final bool isUnlocked = character.unlockedCosmetics.contains(item.id);
+    final bool isUnlocked = state.ownsCosmetic(item.id);
 
     bool isEquipped = false;
     switch (item.category) {
@@ -179,14 +183,23 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
             ),
             child: Icon(item.icon, color: item.color),
           ),
-          title: Text(item.name,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(
+            item.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(item.description, style: const TextStyle(fontSize: 12)),
           ),
           trailing: _buildActionBtn(
-              context, item, isUnlocked, isEquipped, state, theme, l10n),
+            context,
+            item,
+            isUnlocked,
+            isEquipped,
+            state,
+            theme,
+            l10n,
+          ),
         ),
       ),
     );
@@ -233,13 +246,20 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
         );
       }
 
+      if (_purchaseService.phase == PurchasePhase.pending &&
+          _purchaseService.activeProduct == item.iapId) {
+        return Text(l10n.lqPurchasePendingShort);
+      }
       return ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: theme.colorScheme.primary,
           foregroundColor: theme.colorScheme.onPrimary,
         ),
         // 다른 아이템 구매 중이거나 상품 미등록이면 비활성화
-        onPressed: (product == null || _purchasingIapId != null)
+        onPressed:
+            (product == null ||
+                !_purchaseService.isAvailable ||
+                _purchaseService.busy)
             ? null
             : () => _handlePurchase(product),
         child: Text(
@@ -250,20 +270,6 @@ class _CosmeticShopScreenState extends State<CosmeticShopScreen> {
     }
   }
 
-  Future<void> _handlePurchase(ProductDetails product) async {
-    if (_purchasingIapId != null) return; // 이중 호출 방어
-    setState(() => _purchasingIapId = product.id);
-    try {
-      await _purchaseService.buyProduct(product);
-      // 성공 시 unlockStream에서 _purchasingIapId = null 처리
-    } catch (e) {
-      if (!mounted) return;
-      setState(() => _purchasingIapId = null);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-                '${AppLocalizations.of(context)!.cosmeticPurchaseError}: $e')),
-      );
-    }
-  }
+  Future<void> _handlePurchase(ProductDetails product) =>
+      _purchaseService.buyProduct(product);
 }

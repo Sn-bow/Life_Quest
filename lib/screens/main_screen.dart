@@ -1,14 +1,17 @@
 import 'dart:async';
+import '../features/research/beta_study.dart';
+import '../features/research/beta_study_screen.dart' show studySnapshot;
+import '../features/billing/purchase_account_state.dart';
+import '../state/dungeon_state.dart';
+import '../services/purchase_service.dart';
+import '../config/qa_preview_config.dart';
+import 'package:life_quest_final_v2/screens/growth_hub_screen.dart';
+import 'package:life_quest_final_v2/features/director/quest_director_state.dart';
+import 'package:life_quest_final_v2/features/director/quest_director_engine.dart';
 import 'package:confetti/confetti.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/screens/quests_screen.dart';
-import 'package:life_quest_final_v2/screens/achievement_screen.dart';
 import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
-import 'package:life_quest_final_v2/screens/inventory_screen.dart';
-import 'package:life_quest_final_v2/screens/shop_screen.dart';
-import 'package:life_quest_final_v2/screens/skill_screen.dart';
 import 'package:life_quest_final_v2/screens/today_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -24,54 +27,144 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
+  late CharacterState _character;
+  late QuestDirectorState _director;
+  late DungeonState _dungeon;
   late ConfettiController _confettiController;
   Timer? _timeSensitiveRefreshTimer;
-  StreamSubscription<User?>? _authSubscription;
+  bool _isForeground = true;
+  PurchaseAccountState? _purchaseAccount;
+
+  void _captureStudy() {
+    if (kLifeQuestResearchEnabled &&
+        mounted &&
+        _isForeground &&
+        _character.isLocalGuest &&
+        _character.isDataLoaded) {
+      unawaited(BetaStudy.instance.observeQuietly(studySnapshot(_character)));
+    }
+  }
+
+  void _bindPurchaseIdentity() {
+    if (!mounted) return;
+    unawaited(
+      PurchaseService().bindUser(
+        kLifeQuestQaPreview
+            ? null
+            : _character.isLocalGuest
+            ? _purchaseAccount?.uid
+            : _character.personalizationScope,
+      ),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _confettiController =
-        ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
 
-    context.read<CharacterState>().onLevelUp = () {
-      _confettiController.play();
+    _character = context.read<CharacterState>();
+    _character.addListener(_captureStudy);
+    _purchaseAccount = context.read<PurchaseAccountState?>();
+    _purchaseAccount?.addListener(_bindPurchaseIdentity);
+    _director = context.read<QuestDirectorState>();
+    _dungeon = context.read<DungeonState>();
+    _dungeon.bindCheckpoint(
+      saved: _character.dungeonCheckpoint,
+      save: _character.saveDungeonCheckpoint,
+    );
+    _character.onLevelUp = () {
+      if (mounted && !MediaQuery.disableAnimationsOf(context)) {
+        _confettiController.play();
+      }
     };
+    _character.onQuestCompleted = (quest) =>
+        unawaited(_director.record(quest, QuestFeedback.completed));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      _captureStudy();
+      final purchases = PurchaseService();
+      purchases.onEntitlementsChanged = _character.setPurchasedEntitlements;
+      await _purchaseAccount?.initialize();
+      if (!mounted) return;
+      await purchases.bindUser(
+        kLifeQuestQaPreview
+            ? null
+            : _character.isLocalGuest
+            ? _purchaseAccount?.uid
+            : _character.personalizationScope,
+      );
+      if (!mounted) return;
+      await _director.bind(_character.personalizationScope);
+      if (!mounted) return;
+      await _director.reconcile(_character.dailyQuests);
+      if (mounted && _isForeground) {
+        unawaited(
+          _director.personalizeIfNeeded(
+            Localizations.localeOf(context).languageCode,
+          ),
+        );
+      }
+    });
 
     _timeSensitiveRefreshTimer = Timer.periodic(
       const Duration(minutes: 1),
-      (_) => unawaited(
-        context.read<CharacterState>().refreshTimeSensitiveState(),
-      ),
+      (_) => unawaited(_refresh()),
     );
-
-    if (!kLifeQuestQaPreview) {
-      // 인증 상태 감시: 토큰 만료 또는 외부 로그아웃 시 자동으로 루트로 이동
-      _authSubscription =
-          FirebaseAuth.instance.authStateChanges().listen((user) {
-        if (user == null && mounted) {
-          context.read<CharacterState>().resetState();
-          Navigator.of(context).popUntil((route) => route.isFirst);
-        }
-      });
-    }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    _isForeground = state == AppLifecycleState.resumed;
     if (state == AppLifecycleState.resumed) {
-      unawaited(context.read<CharacterState>().refreshTimeSensitiveState());
+      unawaited(_refresh());
+    } else if (state == AppLifecycleState.paused) {
+      unawaited(_director.cancelModelOperation());
+      unawaited(_dungeon.flushCheckpoint());
+      unawaited(_character.forceSave());
+    }
+  }
+
+  Future<void> _refresh() async {
+    if (!mounted || !_isForeground) return;
+    _captureStudy();
+    try {
+      await _character.refreshTimeSensitiveState();
+      if (!mounted) return;
+      await _director.refreshDay();
+      await _director.reconcile(_character.dailyQuests);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.lqStorageError)),
+        );
+      }
+    }
+    if (mounted && _isForeground) {
+      unawaited(
+        _director.personalizeIfNeeded(
+          Localizations.localeOf(context).languageCode,
+        ),
+      );
     }
   }
 
   @override
   void dispose() {
+    _character.removeListener(_captureStudy);
+    _purchaseAccount?.removeListener(_bindPurchaseIdentity);
+    _dungeon.unbindCheckpoint();
     WidgetsBinding.instance.removeObserver(this);
     _timeSensitiveRefreshTimer?.cancel();
-    _authSubscription?.cancel();
     _confettiController.dispose();
-    context.read<CharacterState>().onLevelUp = null;
+    PurchaseService().onEntitlementsChanged = null;
+    unawaited(PurchaseService().bindUser(null));
+    _character.onLevelUp = null;
+    _character.onQuestCompleted = null;
+    unawaited(_director.endSession(notify: false));
     super.dispose();
   }
 
@@ -89,10 +182,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       ),
       const QuestsScreen(),
       const DungeonHomeScreen(),
-      const InventoryScreen(),
-      const ShopScreen(),
-      const AchievementScreen(),
-      const SkillScreen(),
+      const GrowthHubScreen(),
     ];
   }
 
@@ -112,42 +202,36 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       children: [
         Scaffold(
           body: Center(
-            child: _widgetOptions().elementAt(_selectedIndex),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 680),
+              child: _widgetOptions().elementAt(_selectedIndex),
+            ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: <BottomNavigationBarItem>[
-              const BottomNavigationBarItem(
-                icon: Icon(PhosphorIcons.house),
-                label: '오늘',
+          bottomNavigationBar: NavigationBar(
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: _onItemTapped,
+            destinations: [
+              NavigationDestination(
+                icon: const Icon(PhosphorIcons.house),
+                selectedIcon: const Icon(PhosphorIcons.houseFill),
+                label: l10n.lqToday,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(PhosphorIcons.sword),
+              NavigationDestination(
+                icon: const Icon(PhosphorIcons.checkSquare),
+                selectedIcon: const Icon(PhosphorIcons.checkSquareFill),
                 label: l10n.tabQuests,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(PhosphorIcons.gameController),
-                label: l10n.tabHunt,
+              NavigationDestination(
+                icon: const Icon(PhosphorIcons.sword),
+                selectedIcon: const Icon(PhosphorIcons.swordFill),
+                label: l10n.lqDungeon,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(PhosphorIcons.backpack),
-                label: l10n.tabInventory,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(PhosphorIcons.storefront),
-                label: l10n.tabShop,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(PhosphorIcons.trophy),
-                label: l10n.tabAchievement,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(PhosphorIcons.sparkle),
-                label: l10n.tabSkill,
+              NavigationDestination(
+                icon: const Icon(PhosphorIcons.chartBar),
+                selectedIcon: const Icon(PhosphorIcons.chartBarFill),
+                label: l10n.lqGrowth,
               ),
             ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            type: BottomNavigationBarType.fixed,
           ),
         ),
         ConfettiWidget(
@@ -162,7 +246,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             Colors.lightBlue,
             Colors.pinkAccent,
             Colors.orangeAccent,
-            Colors.purpleAccent
+            Colors.purpleAccent,
           ],
         ),
       ],

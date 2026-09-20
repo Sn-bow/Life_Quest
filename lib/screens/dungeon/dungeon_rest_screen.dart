@@ -19,7 +19,7 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
   String _choiceResult = '';
   bool _showCardSelection = false;
   CardData?
-      _upgradedCard; // stores the original card before upgrade for l10n display
+  _upgradedCard; // stores the original card before upgrade for l10n display
 
   @override
   Widget build(BuildContext context) {
@@ -28,210 +28,220 @@ class _DungeonRestScreenState extends State<DungeonRestScreen> {
     final accent = isDark ? const Color(0xFF00FFFF) : Colors.deepPurple;
     final dungeonState = context.watch<DungeonState>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.local_fire_department, color: accent, size: 22),
-            const SizedBox(width: 8),
-            Text(
-              l10n.dungeonRestTitle,
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontWeight: FontWeight.bold,
-                color: accent,
-              ),
-            ),
-          ],
-        ),
-        automaticallyImplyLeading: false,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Atmospheric description
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? const Color(0xFF1D1E33)
-                    : Colors.deepPurple.shade50,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: accent.withValues(alpha: 0.2),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Icon(Icons.local_fire_department, color: accent, size: 22),
+              const SizedBox(width: 8),
+              Text(
+                l10n.dungeonRestTitle,
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontWeight: FontWeight.bold,
+                  color: accent,
                 ),
               ),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.nights_stay,
-                    size: 48,
-                    color: isDark
-                        ? Colors.amber.shade300
-                        : Colors.deepPurple.shade300,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    l10n.dungeonRestDescription,
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 14,
-                      height: 1.6,
-                      color: isDark ? Colors.white70 : Colors.black87,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // HP display
-            _HpDisplay(dungeonState: dungeonState, isDark: isDark),
-
-            const SizedBox(height: 24),
-
-            if (_showCardSelection) ...[
-              // Card upgrade selection
-              _CardSelectionGrid(
-                deck: dungeonState.currentDeck,
-                isDark: isDark,
-                accent: accent,
-                onCardSelected: (index, card) {
-                  dungeonState.upgradeCard(index);
-                  setState(() {
-                    _showCardSelection = false;
-                    _choiceMade = true;
-                    _upgradedCard = card; // original card before upgrade
-                  });
-                },
-                onCancel: () {
-                  setState(() {
-                    _showCardSelection = false;
-                  });
-                },
-              ),
-            ] else if (!_choiceMade) ...[
-              // Choice buttons
-              _RestChoiceButton(
-                icon: Icons.hotel,
-                title: l10n.dungeonRestRestTitle,
-                description: l10n.dungeonRestRestDescription,
-                color: Colors.green,
-                isDark: isDark,
-                onTap: () {
-                  // relic_b03: 부활의 성배 — 휴식 노드 HP 완전 회복
-                  final hasGrail = dungeonState.currentRelics
-                      .any((r) => r.id == 'relic_b03');
-                  final int healAmount;
-                  if (hasGrail) {
-                    healAmount =
-                        dungeonState.playerMaxHp - dungeonState.playerHp;
-                    dungeonState.healPlayer(healAmount);
-                  } else {
-                    final healPercent = CoreLoopRules.restHealPercentFor(
-                      dungeonState.dailyModifier,
-                    );
-                    healAmount =
-                        (dungeonState.playerMaxHp * healPercent).round();
-                    dungeonState.healPlayerPercent(healPercent);
-                  }
-                  setState(() {
-                    _choiceMade = true;
-                    _choiceResult = l10n.dungeonRestHealResult(healAmount);
-                  });
-                },
-              ),
-              const SizedBox(height: 12),
-              _RestChoiceButton(
-                icon: Icons.fitness_center,
-                title: l10n.dungeonRestTrainTitle,
-                description: l10n.dungeonRestTrainDescription,
-                color: Colors.orange,
-                isDark: isDark,
-                onTap: () {
-                  if (dungeonState.currentDeck.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(l10n.dungeonRestNoCardsToUpgrade,
-                            style: const TextStyle(fontFamily: 'monospace')),
-                      ),
-                    );
-                    return;
-                  }
-                  setState(() {
-                    _showCardSelection = true;
-                  });
-                },
-              ),
-            ] else ...[
-              // Result display
+            ],
+          ),
+          automaticallyImplyLeading: false,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Atmospheric description
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? Colors.green.withValues(alpha: 0.15)
-                      : Colors.green.shade50,
+                      ? const Color(0xFF1D1E33)
+                      : Colors.deepPurple.shade50,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.green.withValues(alpha: 0.4),
-                  ),
+                  border: Border.all(color: accent.withValues(alpha: 0.2)),
                 ),
-                child: Row(
+                child: Column(
                   children: [
-                    const Icon(Icons.check_circle,
-                        color: Colors.green, size: 24),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        _upgradedCard != null
-                            ? l10n.dungeonRestCardUpgradeResult(
-                                CardLocalization.localizedName(
-                                    _upgradedCard!, l10n))
-                            : _choiceResult,
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.black87,
-                        ),
+                    Icon(
+                      Icons.nights_stay,
+                      size: 48,
+                      color: isDark
+                          ? Colors.amber.shade300
+                          : Colors.deepPurple.shade300,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      l10n.dungeonRestDescription,
+                      style: TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 14,
+                        height: 1.6,
+                        color: isDark ? Colors.white70 : Colors.black87,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
-            ],
 
-            const Spacer(),
+              const SizedBox(height: 16),
 
-            // Continue button
-            if (_choiceMade)
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: accent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              // HP display
+              _HpDisplay(dungeonState: dungeonState, isDark: isDark),
+
+              const SizedBox(height: 24),
+
+              if (_showCardSelection) ...[
+                // Card upgrade selection
+                _CardSelectionGrid(
+                  deck: dungeonState.currentDeck,
+                  isDark: isDark,
+                  accent: accent,
+                  onCardSelected: (index, card) {
+                    dungeonState.upgradeCard(index);
+                    setState(() {
+                      _showCardSelection = false;
+                      _choiceMade = true;
+                      _upgradedCard = card; // original card before upgrade
+                    });
+                  },
+                  onCancel: () {
+                    setState(() {
+                      _showCardSelection = false;
+                    });
+                  },
+                ),
+              ] else if (!_choiceMade) ...[
+                // Choice buttons
+                _RestChoiceButton(
+                  icon: Icons.hotel,
+                  title: l10n.dungeonRestRestTitle,
+                  description: l10n.dungeonRestRestDescription,
+                  color: Colors.green,
+                  isDark: isDark,
+                  onTap: () {
+                    // relic_b03: 부활의 성배 — 휴식 노드 HP 완전 회복
+                    final hasGrail = dungeonState.currentRelics.any(
+                      (r) => r.id == 'relic_b03',
+                    );
+                    final int healAmount;
+                    if (hasGrail) {
+                      healAmount =
+                          dungeonState.playerMaxHp - dungeonState.playerHp;
+                      dungeonState.healPlayer(healAmount);
+                    } else {
+                      final healPercent = CoreLoopRules.restHealPercentFor(
+                        dungeonState.dailyModifier,
+                      );
+                      healAmount = (dungeonState.playerMaxHp * healPercent)
+                          .round();
+                      dungeonState.healPlayerPercent(healPercent);
+                    }
+                    setState(() {
+                      _choiceMade = true;
+                      _choiceResult = l10n.dungeonRestHealResult(healAmount);
+                    });
+                  },
+                ),
+                const SizedBox(height: 12),
+                _RestChoiceButton(
+                  icon: Icons.fitness_center,
+                  title: l10n.dungeonRestTrainTitle,
+                  description: l10n.dungeonRestTrainDescription,
+                  color: Colors.orange,
+                  isDark: isDark,
+                  onTap: () {
+                    if (dungeonState.currentDeck.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            l10n.dungeonRestNoCardsToUpgrade,
+                            style: const TextStyle(fontFamily: 'monospace'),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+                    setState(() {
+                      _showCardSelection = true;
+                    });
+                  },
+                ),
+              ] else ...[
+                // Result display
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.green.withValues(alpha: 0.15)
+                        : Colors.green.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.green.withValues(alpha: 0.4),
                     ),
                   ),
-                  child: Text(
-                    l10n.dungeonRestContinueButton,
-                    style: const TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 24,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          _upgradedCard != null
+                              ? l10n.dungeonRestCardUpgradeResult(
+                                  CardLocalization.localizedName(
+                                    _upgradedCard!,
+                                    l10n,
+                                  ),
+                                )
+                              : _choiceResult,
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? Colors.white : Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+
+              const Spacer(),
+
+              // Continue button
+              if (_choiceMade)
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: accent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      l10n.dungeonRestContinueButton,
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -284,14 +294,15 @@ class _HpDisplay extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: ratio,
                     minHeight: 8,
-                    backgroundColor:
-                        isDark ? Colors.grey.shade800 : Colors.grey.shade300,
+                    backgroundColor: isDark
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade300,
                     valueColor: AlwaysStoppedAnimation(
                       ratio > 0.5
                           ? Colors.green
                           : ratio > 0.25
-                              ? Colors.orange
-                              : Colors.red,
+                          ? Colors.orange
+                          : Colors.red,
                     ),
                   ),
                 ),
@@ -336,10 +347,7 @@ class _RestChoiceButton extends StatelessWidget {
               ? color.withValues(alpha: 0.12)
               : color.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: color.withValues(alpha: 0.4),
-            width: 2,
-          ),
+          border: Border.all(color: color.withValues(alpha: 0.4), width: 2),
         ),
         child: Row(
           children: [

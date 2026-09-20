@@ -1,0 +1,274 @@
+{
+  "scope": "Local default-mode artifact only; NOT ready-to-publish certification",
+  "bundle": "build/app/outputs/bundle/release/app-release.aab",
+  "bytes": 221661496,
+  "sha256": "6d1b9ff4d4388330a2d523c3a78955017bc00e8c668edc7b6bbbb065ccddd1ca",
+  "versionName": "2.0.0",
+  "versionCode": "7",
+  "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
+  "libraries": [
+    {
+      "path": "base/lib/arm64-v8a/libapp.so",
+      "loadAlignments": [
+        65536,
+        65536,
+        65536
+      ]
+    },
+    {
+      "path": "base/lib/arm64-v8a/libdatastore_shared_counter.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "path": "base/lib/arm64-v8a/libflutter.so",
+      "loadAlignments": [
+        65536,
+        65536,
+        65536
+      ]
+    },
+    {
+      "path": "base/lib/arm64-v8a/liblitertlm_jni.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libapp.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libdatastore_shared_counter.so",
+      "loadAlignments": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libflutter.so",
+      "loadAlignments": [
+        65536,
+        65536,
+        65536
+      ]
+    },
+    {
+      "path": "base/lib/x86_64/libapp.so",
+      "loadAlignments": [
+        65536,
+        65536,
+        65536
+      ]
+    },
+    {
+      "path": "base/lib/x86_64/libdatastore_shared_counter.so",
+      "loadAlignments": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "path": "base/lib/x86_64/libflutter.so",
+      "loadAlignments": [
+        65536,
+        65536,
+        65536
+      ]
+    },
+    {
+      "path": "base/lib/x86_64/liblitertlm_jni.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ]
+    }
+  ],
+  "sampleDeviceDownloadBytes": {
+    "MIN": 130435164,
+    "MAX": 130435164
+  },
+  "checks": [
+    {
+      "check": "Package com.lifequest.app",
+      "pass": true
+    },
+    {
+      "check": "Target API at least 36",
+      "pass": true
+    },
+    {
+      "check": "Release debuggable is not true",
+      "pass": true
+    },
+    {
+      "check": "Release testOnly is not true",
+      "pass": true
+    },
+    {
+      "check": "Release usesCleartextTraffic is not true",
+      "pass": true
+    },
+    {
+      "check": "Automatic cloud backup disabled",
+      "pass": true
+    },
+    {
+      "check": "Android 12+ extraction policy included",
+      "pass": true
+    },
+    {
+      "check": "Firebase waits for explicit application initialization",
+      "pass": true
+    },
+    {
+      "check": "Default artifact excludes billing and advertising permissions",
+      "pass": true
+    },
+    {
+      "check": "No Mobile Ads components",
+      "pass": true
+    },
+    {
+      "check": "firebase_crashlytics_collection_enabled disabled",
+      "pass": true
+    },
+    {
+      "check": "firebase_analytics_collection_enabled disabled",
+      "pass": true
+    },
+    {
+      "check": "JAR signature verifies",
+      "pass": true
+    },
+    {
+      "check": "Expected public upload certificate",
+      "pass": true
+    },
+    {
+      "check": "base/lib/arm64-v8a/libapp.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/arm64-v8a/libapp.so excludes native QA entry point",
+      "pass": true
+    },
+    {
+      "check": "base/lib/arm64-v8a/libdatastore_shared_counter.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/arm64-v8a/libflutter.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/arm64-v8a/liblitertlm_jni.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/armeabi-v7a/libapp.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/armeabi-v7a/libapp.so excludes native QA entry point",
+      "pass": true
+    },
+    {
+      "check": "base/lib/armeabi-v7a/libdatastore_shared_counter.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/armeabi-v7a/libflutter.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/x86_64/libapp.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/x86_64/libapp.so excludes native QA entry point",
+      "pass": true
+    },
+    {
+      "check": "base/lib/x86_64/libdatastore_shared_counter.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/x86_64/libflutter.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "base/lib/x86_64/liblitertlm_jni.so ELF LOAD alignment >= 16 KB",
+      "pass": true
+    },
+    {
+      "check": "On-device ARM64 JNI included",
+      "pass": true
+    },
+    {
+      "check": "Model downloaded separately",
+      "pass": true
+    },
+    {
+      "check": "Sample device download within 200 MB project budget",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/libapp.so ZIP 16 KB alignment",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/libapp.so matches AAB",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/libdatastore_shared_counter.so ZIP 16 KB alignment",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/libdatastore_shared_counter.so matches AAB",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/libflutter.so ZIP 16 KB alignment",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/libflutter.so matches AAB",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/liblitertlm_jni.so ZIP 16 KB alignment",
+      "pass": true
+    },
+    {
+      "check": "splits/base-arm64_v8a.apk/lib/arm64-v8a/liblitertlm_jni.so matches AAB",
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "remaining": [
+    "Physical Android device validation",
+    "Working AI reporting backend",
+    "Real Play purchase/refund/restore before selling",
+    "Final Play content declarations and Data safety review",
+    "Closed testing eligibility and Play review"
+  ],
+  "sourceCommit": "d69aafbaef9b761198af29ac07c76dae5ddb0f24",
+  "declaredBuildFlags": {
+    "cloud": false,
+    "billing": false,
+    "ads": false,
+    "research": false
+  }
+}

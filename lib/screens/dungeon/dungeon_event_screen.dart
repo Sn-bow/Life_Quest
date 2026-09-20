@@ -45,8 +45,8 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
       });
       return Scaffold(
         appBar: AppBar(
-            title:
-                Text(l10n.dungeonEventTitle, style: TextStyle(color: accent))),
+          title: Text(l10n.dungeonEventTitle, style: TextStyle(color: accent)),
+        ),
         body: Center(child: Text(l10n.dungeonEventNoData)),
       );
     }
@@ -56,222 +56,229 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
       characterState.unlockedTitles,
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.auto_stories, color: accent, size: 22),
-            const SizedBox(width: 8),
-            Text(
-              l10n.dungeonEventTitle,
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontWeight: FontWeight.bold,
-                color: accent,
-              ),
-            ),
-          ],
-        ),
-        automaticallyImplyLeading: false,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Event title
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? const Color(0xFF1D1E33)
-                    : Colors.deepPurple.shade50,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: accent.withValues(alpha: 0.3),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    event.name,
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? Colors.white : Colors.black87,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    event.description,
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 14,
-                      height: 1.6,
-                      color: isDark ? Colors.white70 : Colors.black54,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
-            // Choices or outcome
-            if (!_choiceMade) ...[
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Icon(Icons.auto_stories, color: accent, size: 22),
+              const SizedBox(width: 8),
               Text(
-                l10n.dungeonEventChooseAction,
+                l10n.dungeonEventTitle,
                 style: TextStyle(
                   fontFamily: 'monospace',
-                  fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white60 : Colors.black45,
+                  color: accent,
                 ),
               ),
-              const SizedBox(height: 12),
-              ...eventChoices.asMap().entries.map((entry) {
-                final index = entry.key;
-                final choice = entry.value;
-                // Determine if player can afford the gold cost
-                final goldCost = choice.outcomes
-                    .where((o) => o.goldChange < 0)
-                    .fold<int>(
-                        0,
-                        (max, o) =>
-                            (-o.goldChange) > max ? (-o.goldChange) : max);
-                final canAfford =
-                    goldCost == 0 || dungeonState.dungeonGold >= goldCost;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: _ChoiceButton(
-                    choice: choice,
-                    index: index,
-                    isDark: isDark,
-                    accent: accent,
-                    canAfford: canAfford,
-                    onTap: canAfford
-                        ? () => _makeChoice(choice, dungeonState)
-                        : null,
-                  ),
-                );
-              }),
-            ] else ...[
-              // Outcome display
-              _OutcomeCard(
-                outcome: _selectedOutcome!,
-                isDark: isDark,
-                accent: accent,
+            ],
+          ),
+          automaticallyImplyLeading: false,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Event title
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? const Color(0xFF1D1E33)
+                      : Colors.deepPurple.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: accent.withValues(alpha: 0.3)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      event.name,
+                      style: TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      event.description,
+                      style: TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 14,
+                        height: 1.6,
+                        color: isDark ? Colors.white70 : Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
-              // Card reward pick UI (shown if outcome has cardReward)
-              if (_cardPickRequired && !_cardPicked) ...[
-                const SizedBox(height: 16),
+              const SizedBox(height: 24),
+
+              // Choices or outcome
+              if (!_choiceMade) ...[
                 Text(
-                  l10n.dungeonEventCardRewardTitle,
+                  l10n.dungeonEventChooseAction,
                   style: TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white60 : Colors.black54,
+                    color: isDark ? Colors.white60 : Colors.black45,
                   ),
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: _cardRewardChoices.map((card) {
-                    return GestureDetector(
-                      onTap: () {
-                        final dungeonState = context.read<DungeonState>();
-                        dungeonState.addCardToDeck(card);
-                        setState(() => _cardPicked = true);
-                      },
-                      child: Container(
-                        width: 90,
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? accent.withValues(alpha: 0.1)
-                              : accent.withValues(alpha: 0.05),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: accent.withValues(alpha: 0.4),
-                            width: 1.5,
+                const SizedBox(height: 12),
+                ...eventChoices.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final choice = entry.value;
+                  // Determine if player can afford the gold cost
+                  final goldCost = choice.outcomes
+                      .where((o) => o.goldChange < 0)
+                      .fold<int>(
+                        0,
+                        (max, o) =>
+                            (-o.goldChange) > max ? (-o.goldChange) : max,
+                      );
+                  final canAfford =
+                      goldCost == 0 || dungeonState.dungeonGold >= goldCost;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _ChoiceButton(
+                      choice: choice,
+                      index: index,
+                      isDark: isDark,
+                      accent: accent,
+                      canAfford: canAfford,
+                      onTap: canAfford
+                          ? () => _makeChoice(choice, dungeonState)
+                          : null,
+                    ),
+                  );
+                }),
+              ] else ...[
+                // Outcome display
+                _OutcomeCard(
+                  outcome: _selectedOutcome!,
+                  isDark: isDark,
+                  accent: accent,
+                ),
+
+                // Card reward pick UI (shown if outcome has cardReward)
+                if (_cardPickRequired && !_cardPicked) ...[
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.dungeonEventCardRewardTitle,
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white60 : Colors.black54,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _cardRewardChoices.map((card) {
+                      return GestureDetector(
+                        onTap: () {
+                          final dungeonState = context.read<DungeonState>();
+                          dungeonState.addCardToDeck(card);
+                          setState(() => _cardPicked = true);
+                        },
+                        child: Container(
+                          width: 90,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? accent.withValues(alpha: 0.1)
+                                : accent.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: accent.withValues(alpha: 0.4),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${card.cost}',
+                                style: TextStyle(
+                                  color: Colors.amber.shade400,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                CardLocalization.localizedName(card, l10n),
+                                style: TextStyle(
+                                  fontFamily: 'monospace',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: isDark ? Colors.white : Colors.black87,
+                                ),
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                CardLocalization.localizedDescription(
+                                  card,
+                                  l10n,
+                                ),
+                                style: TextStyle(
+                                  fontFamily: 'monospace',
+                                  fontSize: 9,
+                                  color: isDark
+                                      ? Colors.white54
+                                      : Colors.black45,
+                                ),
+                                textAlign: TextAlign.center,
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '${card.cost}',
-                              style: TextStyle(
-                                color: Colors.amber.shade400,
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              CardLocalization.localizedName(card, l10n),
-                              style: TextStyle(
-                                fontFamily: 'monospace',
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: isDark ? Colors.white : Colors.black87,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              CardLocalization.localizedDescription(card, l10n),
-                              style: TextStyle(
-                                fontFamily: 'monospace',
-                                fontSize: 9,
-                                color: isDark ? Colors.white54 : Colors.black45,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 4,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
+                      );
+                    }).toList(),
+                  ),
+                ],
               ],
-            ],
 
-            const Spacer(),
+              const Spacer(),
 
-            // Continue button (only after choice, and after card pick if required)
-            if (_choiceMade && (!_cardPickRequired || _cardPicked))
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: accent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              // Continue button (only after choice, and after card pick if required)
+              if (_choiceMade && (!_cardPickRequired || _cardPicked))
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: accent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    l10n.dungeonEventContinueButton,
-                    style: const TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    child: Text(
+                      l10n.dungeonEventContinueButton,
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -304,19 +311,22 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
       if (outcome.hpPercentChange > 0) {
         dungeonState.healPlayerPercent(outcome.hpPercentChange);
       } else {
-        final dmg =
-            (dungeonState.playerMaxHp * (-outcome.hpPercentChange)).round();
+        final dmg = (dungeonState.playerMaxHp * (-outcome.hpPercentChange))
+            .round();
         dungeonState.damagePlayer(dmg);
       }
+    }
+
+    if (dungeonState.hasResult) {
+      Navigator.of(context).pop(false);
+      return;
     }
 
     // ── Relic reward: add a random relic the player doesn't already own ──
     if (outcome.relicReward) {
       final all = RelicDatabase.allRelics.toList()..shuffle(rng);
       final available = all
-          .where(
-            (r) => !dungeonState.currentRelics.any((cr) => cr.id == r.id),
-          )
+          .where((r) => !dungeonState.currentRelics.any((cr) => cr.id == r.id))
           .toList();
       if (available.isNotEmpty) {
         dungeonState.addRelic(available.first);
@@ -356,13 +366,16 @@ class _DungeonEventScreenState extends State<DungeonEventScreen> {
     List<CardData> cardChoices = [];
     bool needsCardPick = false;
     if (outcome.cardReward) {
-      final pool = CardDatabase.allCards
-          .where((c) =>
-              c.rarity != CardRarity.common &&
-              !c.id.startsWith('curse_') &&
-              !c.isUpgraded)
-          .toList()
-        ..shuffle(rng);
+      final pool =
+          CardDatabase.allCards
+              .where(
+                (c) =>
+                    c.rarity != CardRarity.common &&
+                    !c.id.startsWith('curse_') &&
+                    !c.isUpgraded,
+              )
+              .toList()
+            ..shuffle(rng);
       cardChoices = pool.take(3).toList();
       needsCardPick = cardChoices.isNotEmpty;
     }
@@ -404,9 +417,9 @@ class _ChoiceButton extends StatelessWidget {
     final hasGoldCost = choice.outcomes.any((o) => o.goldChange < 0);
     final goldCost = hasGoldCost
         ? choice.outcomes
-            .where((o) => o.goldChange < 0)
-            .map((o) => -o.goldChange)
-            .first
+              .where((o) => o.goldChange < 0)
+              .map((o) => -o.goldChange)
+              .first
         : 0;
 
     return Opacity(
@@ -418,8 +431,8 @@ class _ChoiceButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: canAfford
                 ? (isDark
-                    ? accent.withValues(alpha: 0.1)
-                    : accent.withValues(alpha: 0.05))
+                      ? accent.withValues(alpha: 0.1)
+                      : accent.withValues(alpha: 0.05))
                 : Colors.grey.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
@@ -463,8 +476,10 @@ class _ChoiceButton extends StatelessWidget {
               ),
               if (hasGoldCost)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.amber.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(6),
@@ -472,8 +487,11 @@ class _ChoiceButton extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.monetization_on,
-                          size: 14, color: Colors.amber),
+                      const Icon(
+                        Icons.monetization_on,
+                        size: 14,
+                        color: Colors.amber,
+                      ),
                       const SizedBox(width: 3),
                       Text(
                         '$goldCost',
@@ -516,12 +534,11 @@ class _OutcomeCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color:
-            isDark ? Colors.amber.withValues(alpha: 0.1) : Colors.amber.shade50,
+        color: isDark
+            ? Colors.amber.withValues(alpha: 0.1)
+            : Colors.amber.shade50,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.amber.withValues(alpha: 0.4),
-        ),
+        border: Border.all(color: Colors.amber.withValues(alpha: 0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -579,20 +596,35 @@ class _OutcomeCard extends StatelessWidget {
                   outcome.hpPercentChange > 0 ? Colors.green : Colors.red,
                 ),
               if (outcome.cardReward)
-                _effectChip(Icons.style, l10n.dungeonEventEffectCardReward,
-                    Colors.blue),
+                _effectChip(
+                  Icons.style,
+                  l10n.dungeonEventEffectCardReward,
+                  Colors.blue,
+                ),
               if (outcome.relicReward)
-                _effectChip(Icons.diamond, l10n.dungeonEventEffectRelicReward,
-                    Colors.purple),
+                _effectChip(
+                  Icons.diamond,
+                  l10n.dungeonEventEffectRelicReward,
+                  Colors.purple,
+                ),
               if (outcome.cardRemove)
-                _effectChip(Icons.delete_outline,
-                    l10n.dungeonEventEffectCardRemove, Colors.orange),
+                _effectChip(
+                  Icons.delete_outline,
+                  l10n.dungeonEventEffectCardRemove,
+                  Colors.orange,
+                ),
               if (outcome.cardUpgrade)
-                _effectChip(Icons.upgrade, l10n.dungeonEventEffectCardUpgrade,
-                    Colors.teal),
+                _effectChip(
+                  Icons.upgrade,
+                  l10n.dungeonEventEffectCardUpgrade,
+                  Colors.teal,
+                ),
               if (outcome.curseAdded)
-                _effectChip(Icons.warning, l10n.dungeonEventEffectCurseAdded,
-                    Colors.red),
+                _effectChip(
+                  Icons.warning,
+                  l10n.dungeonEventEffectCurseAdded,
+                  Colors.red,
+                ),
             ],
           ),
         ],

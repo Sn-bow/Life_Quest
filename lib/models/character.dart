@@ -2,6 +2,9 @@ import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/models/custom_reward.dart';
 
 class Character {
+  int totalQuestCompletions;
+  Map<String, String> storyChoices;
+  String? activeStoryChapterId;
   String name;
   String? photoUrl;
   int level;
@@ -63,6 +66,9 @@ class Character {
 
   Character({
     required this.name,
+    this.totalQuestCompletions = 0,
+    Map<String, String>? storyChoices,
+    this.activeStoryChapterId,
     this.photoUrl,
     required this.level,
     required this.title,
@@ -104,19 +110,28 @@ class Character {
     this.infiniteTowerFloor = 1,
     this.cardPoints = 0,
     this.cardPackCount = 0,
-  }) : completedZones = completedZones ?? {},
-        inventory = inventory ?? [],
-        unlockedCosmetics = unlockedCosmetics ?? [],
-        customRewards = customRewards ?? [],
-        unlockedCardIds = unlockedCardIds ?? [],
-        starterDeckCardIds = starterDeckCardIds ?? [],
-        levelGrowthWeights = levelGrowthWeights ?? {},
-        lastLevelAutoGrowth = lastLevelAutoGrowth ?? {};
+  }) : storyChoices = storyChoices ?? {},
+       completedZones = completedZones ?? {},
+       inventory = inventory ?? [],
+       unlockedCosmetics = unlockedCosmetics ?? [],
+       customRewards = customRewards ?? [],
+       unlockedCardIds = unlockedCardIds ?? [],
+       starterDeckCardIds = starterDeckCardIds ?? [],
+       levelGrowthWeights = levelGrowthWeights ?? {},
+       lastLevelAutoGrowth = lastLevelAutoGrowth ?? {};
 
   factory Character.fromJson(Map<String, dynamic> json) {
     final level = json['level'] ?? 1;
     return Character(
       name: json['name'] ?? '모험가',
+      totalQuestCompletions: (json['totalQuestCompletions'] as int? ?? 0).clamp(
+        0,
+        1000000000,
+      ),
+      storyChoices: (json['storyChoices'] as Map? ?? {}).map(
+        (key, value) => MapEntry(key.toString(), value.toString()),
+      ),
+      activeStoryChapterId: json['activeStoryChapterId'] as String?,
       photoUrl: json['photoUrl'],
       level: level,
       title: json['title'] ?? '새싹 모험가',
@@ -130,21 +145,25 @@ class Character {
       skillPoints: json['skillPoints'] ?? 0,
       actionPoints: json['actionPoints'] ?? 10,
       maxActionPoints: json['maxActionPoints'] ?? 10,
-      inventory: (json['inventory'] as List<dynamic>?)
+      inventory:
+          (json['inventory'] as List<dynamic>?)
               ?.map((e) => EquipmentItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       equippedWeapon: json['equippedWeapon'] is Map
           ? EquipmentItem.fromJson(
-              Map<String, dynamic>.from(json['equippedWeapon'] as Map))
+              Map<String, dynamic>.from(json['equippedWeapon'] as Map),
+            )
           : null,
       equippedArmor: json['equippedArmor'] is Map
           ? EquipmentItem.fromJson(
-              Map<String, dynamic>.from(json['equippedArmor'] as Map))
+              Map<String, dynamic>.from(json['equippedArmor'] as Map),
+            )
           : null,
       equippedAccessory: json['equippedAccessory'] is Map
           ? EquipmentItem.fromJson(
-              Map<String, dynamic>.from(json['equippedAccessory'] as Map))
+              Map<String, dynamic>.from(json['equippedAccessory'] as Map),
+            )
           : null,
       characterHp: json['characterHp'] ?? 100,
       characterMaxHp: json['characterMaxHp'] ?? 100,
@@ -156,11 +175,13 @@ class Character {
           ? DateTime.tryParse(json['lastHpRegenAt'])
           : null,
       gold: json['gold'] ?? 0,
-      unlockedCosmetics: (json['unlockedCosmetics'] as List<dynamic>?)
+      unlockedCosmetics:
+          (json['unlockedCosmetics'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],
-      customRewards: (json['customRewards'] as List<dynamic>?)
+      customRewards:
+          (json['customRewards'] as List<dynamic>?)
               ?.map((e) => CustomReward.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -169,25 +190,26 @@ class Character {
       equippedCombatEffect: json['equippedCombatEffect'],
       highestDungeonFloor: json['highestDungeonFloor'] ?? 1,
       currentDungeonChapter: json['currentDungeonChapter'] ?? 1,
-      unlockedCardIds: (json['unlockedCardIds'] as List<dynamic>?)
+      unlockedCardIds:
+          (json['unlockedCardIds'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],
-      starterDeckCardIds: (json['starterDeckCardIds'] as List<dynamic>?)
+      starterDeckCardIds:
+          (json['starterDeckCardIds'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],
-      levelGrowthWeights: (json['levelGrowthWeights'] as Map<dynamic, dynamic>?)
-              ?.map((key, value) => MapEntry(
-                    key.toString(),
-                    (value as num).toDouble(),
-                  )) ??
+      levelGrowthWeights:
+          (json['levelGrowthWeights'] as Map<dynamic, dynamic>?)?.map(
+            (key, value) => MapEntry(key.toString(), (value as num).toDouble()),
+          ) ??
           {},
       lastLevelAutoGrowth:
           (json['lastLevelAutoGrowth'] as Map<dynamic, dynamic>?)?.map(
-                (key, value) => MapEntry(key.toString(), value as int),
-              ) ??
-              {},
+            (key, value) => MapEntry(key.toString(), value as int),
+          ) ??
+          {},
       expandedReportUnlockedOn: json['expandedReportUnlockedOn'] as String?,
       monthlyRaidClears: json['monthlyRaidClears'] ?? 0,
       yearlyRaidClears: json['yearlyRaidClears'] ?? 0,
@@ -203,6 +225,9 @@ class Character {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'totalQuestCompletions': totalQuestCompletions,
+      'storyChoices': storyChoices,
+      'activeStoryChapterId': activeStoryChapterId,
       'photoUrl': photoUrl,
       'level': level,
       'title': title,
@@ -247,5 +272,3 @@ class Character {
     };
   }
 }
-
-

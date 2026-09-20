@@ -16,6 +16,38 @@ void main() {
       );
     });
 
+    test('finishing a branch closes siblings and opens only its next row', () {
+      final first = dungeonState.accessibleNodes.first;
+      final siblings = dungeonState.accessibleNodes
+          .where((n) => n.id != first.id)
+          .map((n) => n.id)
+          .toSet();
+      expect(siblings, isNotEmpty);
+      dungeonState.selectNode(first.id);
+      dungeonState.completeCurrentNode();
+      final open = dungeonState.accessibleNodes;
+      expect(open.map((n) => n.id).toSet(), first.connectedNodeIds.toSet());
+      expect(open.every((n) => n.row == first.row + 1), isTrue);
+      expect(open.any((n) => siblings.contains(n.id)), isFalse);
+      // A repeated completion or stale sibling tap must not advance the run.
+      dungeonState.completeCurrentNode();
+      dungeonState.selectNode(siblings.first);
+      expect(dungeonState.currentNode, isNull);
+      expect(dungeonState.nodesCompleted, 1);
+    });
+
+    test('an unfinished visit cannot jump to a different branch', () {
+      final choices = dungeonState.accessibleNodes;
+      final first = choices.first;
+      final sibling = choices.last;
+      expect(dungeonState.selectNode(first.id), isTrue);
+      expect(dungeonState.selectNode(sibling.id), isFalse);
+      expect(dungeonState.currentNode?.id, first.id);
+      expect(dungeonState.selectNode(first.id), isTrue);
+      dungeonState.endRun(victory: false);
+      expect(dungeonState.selectNode(first.id), isFalse);
+    });
+
     test('failed run without progress grants no rewards', () {
       dungeonState.endRun(victory: false);
 
@@ -83,6 +115,7 @@ void main() {
       expect(state.playerMaxHp, 85);
       expect(state.dailyModifier.combatHpBonus, 5);
 
+      state.resetRun();
       state.startRun(
         zone: 1,
         startingDeck: const <CardData>[],

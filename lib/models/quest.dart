@@ -18,6 +18,12 @@ class Quest {
   QuestDifficulty difficulty;
   bool isCompleted;
   DateTime? completedDate;
+  final String? directorTemplateId;
+  final String? scheduledDay;
+  final int? estimatedMinutes;
+  final String? instruction;
+  final String? directorReason;
+  final String? generatedLocale;
 
   Quest({
     required this.id,
@@ -28,6 +34,12 @@ class Quest {
     this.difficulty = QuestDifficulty.normal,
     this.isCompleted = false,
     this.completedDate,
+    this.directorTemplateId,
+    this.scheduledDay,
+    this.estimatedMinutes,
+    this.instruction,
+    this.directorReason,
+    this.generatedLocale,
   });
 
   /// Auto-calculate XP based on difficulty and quest type
@@ -70,6 +82,21 @@ class Quest {
           ? QuestDifficulty.values[difficultyIndex]
           : QuestDifficulty.normal,
       isCompleted: json['isCompleted'] ?? false,
+      directorTemplateId: json['directorTemplateId'] is String
+          ? json['directorTemplateId']
+          : null,
+      scheduledDay:
+          json['scheduledDay'] is String ? json['scheduledDay'] : null,
+      estimatedMinutes: json['estimatedMinutes'] is num
+          ? (json['estimatedMinutes'] as num).toInt().clamp(1, 60)
+          : null,
+      instruction: json['instruction'] is String ? json['instruction'] : null,
+      directorReason:
+          json['directorReason'] is String ? json['directorReason'] : null,
+      generatedLocale:
+          ['ko', 'en', 'ja', 'zh'].contains(json['generatedLocale'])
+              ? json['generatedLocale']
+              : null,
       completedDate: json['completedDate'] != null
           ? DateTime.tryParse(json['completedDate'])
           : null,
@@ -86,6 +113,12 @@ class Quest {
       'difficulty': difficulty.index,
       'isCompleted': isCompleted,
       'completedDate': completedDate?.toIso8601String(),
+      if (directorTemplateId != null) 'directorTemplateId': directorTemplateId,
+      if (scheduledDay != null) 'scheduledDay': scheduledDay,
+      if (estimatedMinutes != null) 'estimatedMinutes': estimatedMinutes,
+      if (instruction != null) 'instruction': instruction,
+      if (directorReason != null) 'directorReason': directorReason,
+      if (generatedLocale != null) 'generatedLocale': generatedLocale,
     };
   }
 }

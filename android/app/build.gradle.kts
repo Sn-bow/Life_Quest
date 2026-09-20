@@ -1,5 +1,6 @@
 import java.util.Properties
 import java.io.FileInputStream
+import java.util.Base64
 
 plugins {
     id("com.android.application")
@@ -21,16 +22,34 @@ val admobAndroidAppId = providers
     .gradleProperty("ADMOB_ANDROID_APP_ID")
     .orElse("")
     .get()
-val androidManifestPath = if (admobAndroidAppId.isBlank()) {
-    "src/nonMonetization/AndroidManifest.xml"
-} else {
-    "src/monetization/AndroidManifest.xml"
+// Flutter passes dart-defines as comma-separated Base64 strings. Native
+// permissions must follow the SAME switches as Dart; an AdMob ID must never
+// silently enable billing or advertising initialization.
+val lifeQuestDefines = providers.gradleProperty("dart-defines").orElse("").get()
+    .split(',').filter { it.isNotEmpty() }.mapNotNull { value ->
+        val decoded = runCatching { String(Base64.getDecoder().decode(value), Charsets.UTF_8) }.getOrNull()
+        decoded?.split('=', limit = 2)?.takeIf { it.size == 2 }?.let { it[0] to it[1] }
+    }.toMap()
+val lifeQuestBilling = lifeQuestDefines["LIFEQUEST_MONETIZATION_ENABLED"] == "true"
+val lifeQuestAds = lifeQuestDefines["LIFEQUEST_ADS_ENABLED"] == "true"
+val lifeQuestCloud = lifeQuestDefines["LIFEQUEST_CLOUD_ENABLED"] == "true"
+if ((lifeQuestBilling || lifeQuestAds) && !lifeQuestCloud) {
+    throw GradleException("Billing and ads require LIFEQUEST_CLOUD_ENABLED=true and a verified backend.")
+}
+if (lifeQuestAds && !Regex("ca-app-pub-[0-9]{16}~[0-9]{10}").matches(admobAndroidAppId)) {
+    throw GradleException("Ads require a valid ADMOB_ANDROID_APP_ID Gradle property.")
+}
+val androidManifestPath = when {
+    lifeQuestBilling && lifeQuestAds -> "src/monetization/AndroidManifest.xml"
+    lifeQuestBilling -> "src/billingOnly/AndroidManifest.xml"
+    lifeQuestAds -> "src/adsOnly/AndroidManifest.xml"
+    else -> "src/nonMonetization/AndroidManifest.xml"
 }
 
 android {
     namespace = "com.lifequest.app"
     compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "29.0.14206865"
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -38,14 +57,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
 
     defaultConfig {
         applicationId = "com.lifequest.app"
-        minSdk = flutter.minSdkVersion
-        targetSdk = 35
+        minSdk = 26
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         manifestPlaceholders["admobAppId"] = admobAndroidAppId
@@ -79,9 +95,10 @@ android {
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
             } else {
-                throw GradleException(
-                    "Missing android/key.properties for release signing"
-                )
+                if (gradle.startParameter.taskNames.any { it.contains("Release", ignoreCase = true) }) {
+                    throw GradleException("Missing android/key.properties for release signing")
+                }
+                null
             }
             isMinifyEnabled = true
             isShrinkResources = true
@@ -93,6 +110,12 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
+}
+
 flutter {
     source = "../.."
 }
@@ -100,5 +123,6 @@ flutter {
 // --- 추가된 부분: 디슈가링 라이브러리 의존성 추가 ---
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("com.google.ai.edge.litertlm:litertlm-android:0.17.0")
 }
 // --- 여기까지 ---

@@ -1,0 +1,32 @@
+{
+  "verifiedOn": "2026-09-21",
+  "scope": "Direct Android public preview; not Google Play publication or evidence of revenue",
+  "release": {
+    "url": "https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1",
+    "tag": "v2.0.0-preview.1",
+    "sourceCommit": "d69aafbaef9b761198af29ac07c76dae5ddb0f24",
+    "publishedAt": "2026-09-20T15:53:24Z",
+    "isDraft": false,
+    "isPrerelease": true
+  },
+  "publicApkDownload": {
+    "url": "https://github.com/Sn-bow/Life_Quest/releases/download/v2.0.0-preview.1/LifeQuest-2.0.0-preview.1-arm64.apk",
+    "bytes": 160519338,
+    "sha256": "587da3cee0a5d55a62e3158a404f36a6ea55045193ab505d98ce9e708c172a88",
+    "matchesInspectedApk": true,
+    "selfVerificationDownload": true
+  },
+  "landingPage": {
+    "url": "https://sn-bow.github.io/Life_Quest/",
+    "branch": "gh-pages",
+    "commit": "aee4c152800203b2e2cee213f59e2e908b051fe4",
+    "pagesBuildStatus": "built",
+    "pagesBuildCompletedAt": "2026-09-20T15:53:56Z",
+    "browserRendered": true,
+    "apkHrefMatches": true
+  },
+  "playProductionPublished": false,
+  "paidProductsEnabled": false,
+  "organicUserDemandMeasured": false,
+  "automaticUsageAnalyticsEnabled": false
+}

@@ -1,0 +1,93 @@
+{
+  "id": "courtyard",
+  "title": "The Listening Courtyard",
+  "subtitle": "Martial practice · Complete short story",
+  "description": "A mountain school offers a broom before a sword. Small acts of practice reveal why its wind chime fell silent and its mountain path was lost.",
+  "artwork": "assets/images/backgrounds/courtyard.jpg",
+  "scenes": [
+    {
+      "id": "arrival",
+      "title": "A silent wind chime",
+      "quests": 0,
+      "narration": "You open a slim book in the Crossing Library. The scent of rain-soaked earth rises from its pages. When you look up, you are in a mountain courtyard.\n\nA bamboo wind chime moves under the eaves without a sound. Dam, the groundskeeper, hands you a broom instead of a sword.\n\n“First, we make room,” he says. “Outranking someone else is not the next lesson, either.”\n\nYour status window has an empty practice log. There is no required stance or deadline. One small action in your everyday life will leave the first line.",
+      "choices": [
+        {
+          "id": "listen",
+          "label": "Look closely at the silent chime",
+          "response": "Its little wooden striker is missing. Dam nods. “You noticed the silence before trying to fill it.”"
+        },
+        {
+          "id": "sweep",
+          "label": "Clear a small space with the broom",
+          "response": "A half-buried stone path appears beneath the leaves. Dam rests his broom beside yours. Practice has already begun."
+        }
+      ]
+    },
+    {
+      "id": "path",
+      "title": "One stone in place",
+      "quests": 1,
+      "narration": "One real-life action leaves a line in your journal. Back at the school, a single paving stone has emerged from the leaves.\n\nDam points downhill. Rain washed out the path days ago. No one from the village has reached the courtyard since. The chime lost its striker that same night.\n\n“Some paths cannot be repaired with a sword.”\n\nYou settle one crooked stone. The whole road is not fixed, but someone can now cross this puddle with dry feet.",
+      "choices": [
+        {
+          "id": "mark",
+          "label": "Mark the safe foothold",
+          "response": "Dam plants a short twig beside the stone. The next traveler will be able to find the same safe place."
+        },
+        {
+          "id": "ask",
+          "label": "Ask about the people who used this path",
+          "response": "“Someone used to bring tea leaves every day.” Dam opens an empty tin. You suspect he misses the footsteps more than the tea."
+        }
+      ],
+      "echoes": {
+        "courtyard/arrival:listen": "The empty space inside the chime reminds you that a small wooden piece may be waiting somewhere along this path.",
+        "courtyard/arrival:sweep": "From the patch you swept first, the newly uncovered path is easy to see."
+      }
+    },
+    {
+      "id": "rhythm",
+      "title": "An afternoon without the sword",
+      "quests": 3,
+      "narration": "Three everyday actions have filled your journal. This time, Dam is slowly lowering his practice sword.\n\n“Stopping well is practice too. Keep swinging, and you may miss what has changed.”\n\nYou sit for a moment. Drops of water fall at steady intervals nearby. Following the sound, you find a small piece of wood caught across a blocked drain. The missing striker.\n\nDam smiles. “There is our sound. Where shall we lend a hand now?”",
+      "choices": [
+        {
+          "id": "water",
+          "label": "Open a small channel for the water",
+          "response": "Water drains between the stones. The path begins to dry. You do not have to move a mountain to change its direction."
+        },
+        {
+          "id": "bell",
+          "label": "Hang the striker inside the chime",
+          "response": "A low note carries downhill. Someone waves from below. The road is not whole yet, but you can find each other again."
+        }
+      ],
+      "echoes": {
+        "courtyard/path:mark": "Your twig markers help Dam avoid the slippery stones as he joins you.",
+        "courtyard/path:ask": "Dam says the tea-leaf visitor always liked the sound of this water."
+      }
+    },
+    {
+      "id": "return",
+      "title": "A path someone can return to",
+      "quests": 6,
+      "narration": "On the day of your sixth action, a villager appears at the end of the path with a parcel of tea leaves.\n\nThe road is uneven. Stones of different sizes mark the repairs you and Dam made, one place at a time.\n\n“Is this the result of our practice?” you ask.\n\nDam brews the fresh leaves. “Someone can return. Today, that is enough.”\n\nYour status window shows six lines instead of a new rank. They will remain when you return to everyday life.",
+      "choices": [
+        {
+          "id": "carry",
+          "label": "Take your journal to the next path",
+          "response": "You turn to the next blank page. Wherever you go, there will be room to set one stone in place. The Listening Courtyard is complete."
+        },
+        {
+          "id": "welcome",
+          "label": "Set out a cup for the next visitor",
+          "response": "One more cup waits in the courtyard. Dam promises to keep that place open. The Listening Courtyard is complete."
+        }
+      ],
+      "echoes": {
+        "courtyard/rhythm:water": "The villager’s shoes are dry. Your small channel is still carrying water away.",
+        "courtyard/rhythm:bell": "“I heard the chime,” the villager says, looking up at the eaves."
+      }
+    }
+  ]
+}

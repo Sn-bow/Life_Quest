@@ -827,7 +827,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Soul Deck 던전에 입장하면\n카드 전투로 몬스터와 싸웁니다.\n퀘스트로 쌓은 힘이 실력이 됩니다.';
+      '원할 때 카드 탐험을 즐기세요.\n일상의 성장이 탐험에 힘을 보탭니다.\n전투에서 져도 현실의 XP는 줄지 않아요.';
 
   @override
   String get onboardingPage3Title => '모험을 시작하세요';
@@ -873,7 +873,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsWithdrawBody =>
-      '정말로 탈퇴하시겠습니까?\n모든 데이터가 영구적으로 삭제되며, 이 작업은 되돌릴 수 없습니다.';
+      '계정, 클라우드 기록, 신고 내용과 구매 연결을 삭제합니다. 삭제 요청이 접수되면 로그아웃되며, 앱을 닫아도 처리가 계속됩니다. 이 계정의 구매 복원도 사용할 수 없게 됩니다. 삭제는 취소할 수 없으며 결제 환불을 뜻하지 않습니다.';
 
   @override
   String get settingsWithdrawConfirm => '탈퇴 확인';
@@ -1267,7 +1267,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get statusReportTooltip => '상세 리포트 보기';
 
   @override
-  String get dungeonHomeTitle => '소울 덱';
+  String get dungeonHomeTitle => '카드 탐험';
 
   @override
   String get dungeonHomeCardCollectionTooltip => '카드 컬렉션';
@@ -1552,13 +1552,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dungeonResultVictoryTitle => '던전 클리어!';
 
   @override
-  String get dungeonResultDefeatTitle => '모험 실패...';
+  String get dungeonResultDefeatTitle => '탐험 종료';
 
   @override
   String get dungeonResultVictoryMessage => '축하합니다! 모든 적을 물리치고 던전을 정복했습니다.';
 
   @override
-  String get dungeonResultDefeatMessage => '아쉽게도 이번 모험은 실패했습니다. 다시 도전해보세요.';
+  String get dungeonResultDefeatMessage => '완료한 방의 성장은 남습니다. 준비되면 다시 탐험하세요.';
 
   @override
   String get dungeonResultStatsTitle => '모험 기록';
@@ -1567,7 +1567,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dungeonResultStatsZone => '지역';
 
   @override
-  String get dungeonResultStatsNodesCompleted => '노드 완료';
+  String get dungeonResultStatsNodesCompleted => '완료한 방';
 
   @override
   String get dungeonResultStatsMonsterKilled => '몬스터 처치';
@@ -1609,7 +1609,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cardBattleAbandonDialog => '전투 포기';
 
   @override
-  String get cardBattleAbandonConfirmation => '전투를 포기하시겠습니까? 진행 사항이 사라집니다.';
+  String get cardBattleAbandonConfirmation =>
+      '이번 탐험을 마칠까요? 완료한 방의 보상은 받고, 일상의 레벨과 경험치는 유지됩니다.';
 
   @override
   String get cardBattleAbandonButton => '포기';
@@ -3781,4 +3782,859 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsReauthWrongPassword => '비밀번호가 올바르지 않습니다.';
+
+  @override
+  String get lqToday => '오늘';
+
+  @override
+  String get lqGrowth => '성장';
+
+  @override
+  String get lqDungeon => '던전';
+
+  @override
+  String get lqHeadline => '오늘을, 한 장 더.';
+
+  @override
+  String get lqSubtitle => '현실의 작은 행동이 다음 이야기를 엽니다.';
+
+  @override
+  String get lqSystem => '개인 퀘스트 시스템';
+
+  @override
+  String get lqDailyMissions => '오늘의 추천';
+
+  @override
+  String get lqActiveQuests => '진행 중인 퀘스트';
+
+  @override
+  String get lqAllQuests => '전체 보기';
+
+  @override
+  String get lqCheckIn => '오늘 상태 맞추기';
+
+  @override
+  String get lqCheckInHint => '지금의 여유에 맞춰 시작해요.';
+
+  @override
+  String get lqEnergy => '오늘의 에너지';
+
+  @override
+  String get lqEnergyLow => '가볍게';
+
+  @override
+  String get lqEnergyMedium => '보통';
+
+  @override
+  String get lqEnergyHigh => '충분해요';
+
+  @override
+  String get lqTimeBudget => '오늘 나에게 쓸 시간';
+
+  @override
+  String get lqMinutes => '분';
+
+  @override
+  String get lqFocus => '키우고 싶은 영역';
+
+  @override
+  String get lqVitality => '활력';
+
+  @override
+  String get lqLearning => '배움';
+
+  @override
+  String get lqOrder => '정돈';
+
+  @override
+  String get lqConnection => '관계';
+
+  @override
+  String get lqGoal => '요즘 이루고 싶은 일 (선택)';
+
+  @override
+  String get lqGoalHint => '예: 퇴근 후 영어 공부를 다시 시작하기';
+
+  @override
+  String get lqGoalPrivacy => '이 메모와 추천 학습 기록은 이 기기에 저장됩니다.';
+
+  @override
+  String get lqApply => '오늘의 퀘스트 맞추기';
+
+  @override
+  String get lqAccept => '수락';
+
+  @override
+  String get lqDone => '완료했어요';
+
+  @override
+  String get lqCompleted => '완료';
+
+  @override
+  String get lqTooHard => '오늘은 어려워요';
+
+  @override
+  String get lqSkip => '다른 걸 할래요';
+
+  @override
+  String get lqWhy => '이 퀘스트를 추천한 이유';
+
+  @override
+  String get lqDefaultReason => '관심 분야와 오늘 가능한 시간에 맞췄어요.';
+
+  @override
+  String get lqRecoveryReason => '부담을 줄여 다시 시작하기 쉬운 분량이에요.';
+
+  @override
+  String get lqAllSet => '오늘의 분량을 정했어요.';
+
+  @override
+  String get lqAllSetBody => '수락한 퀘스트부터 천천히 해봐요. 내일 또 맞춰드릴게요.';
+
+  @override
+  String get lqDirector => '나만의 퀘스트 AI';
+
+  @override
+  String get lqBasicMode => '기본 추천';
+
+  @override
+  String get lqLocalAi => '기기 내 AI';
+
+  @override
+  String get lqGenerate => 'AI로 맞춤 생성';
+
+  @override
+  String get lqGenerating => '나에게 맞게 생각하는 중…';
+
+  @override
+  String get lqModelName => 'Gemma 4 E2B · 무료 공개 모델';
+
+  @override
+  String get lqModelIntro =>
+      '설치 후에는 인터넷 없이 이 기기에서 퀘스트를 생성합니다. AI 이용료와 구독료는 없습니다.';
+
+  @override
+  String get lqModelDownloadInfo =>
+      '모델 2.59GB · Wi-Fi 권장 · 여유 공간 3GB 이상\n다운로드 중 앱을 열어두세요. 중단 후 이어받을 수 있습니다. 통신사 데이터 요금이 발생할 수 있습니다.';
+
+  @override
+  String get lqDownload => '무료 모델 다운로드';
+
+  @override
+  String get lqCancel => '중단';
+
+  @override
+  String get lqRemoveModel => '모델 파일 삭제';
+
+  @override
+  String get lqModelUnavailable =>
+      '이 환경에서는 기본 추천을 사용합니다. AI는 충분한 메모리가 있는 Android 기기에서 이용할 수 있습니다.';
+
+  @override
+  String get lqModelRejected => '이번 생성은 검증을 통과하지 못했어요. 기존 추천을 유지합니다.';
+
+  @override
+  String get lqModelError => '완료하지 못했어요. 연결과 저장 공간을 확인한 후 다시 시도해주세요.';
+
+  @override
+  String get lqLearningHistory => '추천 학습 기록';
+
+  @override
+  String get lqLearningHistoryBody =>
+      '완료·보류·어려움과 최근 반복을 참고해 다음 퀘스트의 내용과 분량을 조정합니다. 최근 90일 기록만 기기에 보관합니다.';
+
+  @override
+  String get lqClearLearning => '학습 기록 초기화';
+
+  @override
+  String get lqResetConfirm => '추천 학습 기록을 초기화할까요? 레벨과 완료한 퀘스트는 유지됩니다.';
+
+  @override
+  String get lqStorageError => '저장이 완료되지 않았어요. 앱을 닫기 전에 저장 공간을 확인해주세요.';
+
+  @override
+  String get lqEarnedToday => '오늘 퀘스트 XP';
+
+  @override
+  String get lqStatusWindow => '나의 상태창';
+
+  @override
+  String get lqGrowthHint => '쌓아온 성장은 쉬는 날에도 사라지지 않아요.';
+
+  @override
+  String get lqOpenGate => '성장을 시험할 시간';
+
+  @override
+  String get lqGateHint => '현실에서 쌓은 힘으로 짧은 카드 전투에 도전하세요.';
+
+  @override
+  String get lqEnterDungeon => '던전으로';
+
+  @override
+  String get lqOptional => '선택형 모험';
+
+  @override
+  String get lqSaved => '저장했어요';
+
+  @override
+  String get lqReportSuggestion => '부적절한 추천 신고';
+
+  @override
+  String get lqReportBody =>
+      '이 추천의 제목·행동·이유와 현재 계정 식별자를 개발자에게 보냅니다. 목표 메모와 학습 기록은 첨부하지 않습니다.';
+
+  @override
+  String get lqSendReport => '신고 보내기';
+
+  @override
+  String get lqReportSent => '신고를 보냈어요. 이 추천은 숨겼습니다.';
+
+  @override
+  String get lqReportPreview => 'QA 신고를 기기에 기록했어요. 개발자에게 전송하지 않았습니다.';
+
+  @override
+  String get lqReportFailed => '신고 작업의 결과를 확인하지 못했어요. 연결을 확인하고 다시 시도해 주세요.';
+
+  @override
+  String get lqCloudQuestNotice =>
+      '수락한 퀘스트는 기존 계정 저장 기능을 통해 Firebase에 저장됩니다. AI 생성 자체는 이 기기에서만 실행됩니다.';
+
+  @override
+  String get lqOpenSourceLicenses => '오픈소스 라이선스';
+
+  @override
+  String get lqWelcomeTitle => '나의 하루가,\n이야기가 된다.';
+
+  @override
+  String get lqWelcomeBody =>
+      '도시의 미스터리, 산속의 수련, 별을 찾는 탐사.\n오늘의 작은 행동으로 원하는 세계를 이어가세요.';
+
+  @override
+  String get lqFirstContract => '당신과의 첫 번째 약속';
+
+  @override
+  String get lqWelcomeStepOne => '오늘의 나에게 맞추기';
+
+  @override
+  String get lqWelcomeStepOneBody => '쓸 수 있는 시간과 에너지부터 정해요.';
+
+  @override
+  String get lqWelcomeStepTwo => '작은 퀘스트로 성장하기';
+
+  @override
+  String get lqWelcomeStepTwoBody => '현실에서 해낸 일로 경험치를 쌓아요.';
+
+  @override
+  String get lqWelcomeStepThree => '세 세계에서 이어지는 성장';
+
+  @override
+  String get lqWelcomeStepThreeBody => '이야기를 고르고, 현실의 행동으로 다음 장면을 열어요.';
+
+  @override
+  String get lqStartOnDevice => '기기에서 시작하기';
+
+  @override
+  String get lqStarting => '상태창 여는 중…';
+
+  @override
+  String get lqExistingAccount => '기존 계정으로 계속';
+
+  @override
+  String get lqDeviceStorageNotice =>
+      '가입 없이 무료로 시작합니다. 기록은 이 기기에만 저장되며, 앱을 삭제하면 사라집니다.';
+
+  @override
+  String get lqGuestName => '기록자';
+
+  @override
+  String get lqProfileLoadFailed =>
+      '기록을 불러오지 못했습니다. 저장된 데이터는 그대로 보관되어 있습니다. 다시 시도해 주세요.';
+
+  @override
+  String get lqRetry => '다시 시도';
+
+  @override
+  String get lqBackToStart => '시작 화면으로';
+
+  @override
+  String get lqLocalProfile => '기기 전용 프로필';
+
+  @override
+  String get lqDeleteLocal => '기기 기록 삭제';
+
+  @override
+  String get lqDeleteLocalBody => '이 기기의 퀘스트, 성장, 개인화 이력을 삭제합니다. 되돌릴 수 없습니다.';
+
+  @override
+  String get lqPurchasePending => '결제 승인 대기 중입니다. 승인이 끝나면 자동으로 이용 권한을 확인합니다.';
+
+  @override
+  String get lqPurchasePendingShort => '승인 대기';
+
+  @override
+  String get lqPurchaseVerifying => '구매 내역을 확인하고 있습니다…';
+
+  @override
+  String get lqPurchaseGranted => '구매가 확인되었습니다. 콘텐츠를 이용할 수 있습니다.';
+
+  @override
+  String get lqPurchaseCancelled => '결제가 취소되었습니다.';
+
+  @override
+  String get lqPurchaseRetry => '구매 확인이 지연되고 있습니다. 같은 계정에서 구매 복원을 다시 눌러주세요.';
+
+  @override
+  String get lqPurchaseFailed => '결제를 시작하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+
+  @override
+  String get lqPurchaseRestoring => '구매 내역을 복원하고 있습니다…';
+
+  @override
+  String get lqPurchaseRestoreFinished =>
+      '스토어의 구매 내역을 확인했습니다. 구매할 때 사용한 앱 계정인지 확인해 주세요.';
+
+  @override
+  String get lqRestorePurchases => '구매 복원';
+
+  @override
+  String get lqStoryLibrary => '경계의 서가';
+
+  @override
+  String get lqStoryFreePrologue => '무료 프롤로그';
+
+  @override
+  String get lqStoryBannerTitle => '0번 출구에서 온 신호';
+
+  @override
+  String get lqStoryBannerBody => '오늘의 작은 행동이 다음 이야기를 엽니다.';
+
+  @override
+  String get lqStoryLibraryHeadline => '같은 하루,\n다른 세계의 이야기.';
+
+  @override
+  String get lqStoryLibraryHint =>
+      '마음이 가는 책을 골라 오늘에 두세요. 책을 바꿔도 성장과 선택은 그대로 남습니다.';
+
+  @override
+  String get lqStoryProgress => '완성한 기록';
+
+  @override
+  String get lqStoryLoadFailed => '이야기를 불러오지 못했습니다. 화면을 나갔다가 다시 열어주세요.';
+
+  @override
+  String get lqStoryFiction => '일상 퀘스트로 진행하는 가상의 이야기입니다.';
+
+  @override
+  String get lqStoryNoDeadline => '기한도, 연속 접속 조건도 없습니다. 퀘스트를 완료하면 다음 기록이 열려요.';
+
+  @override
+  String get lqStoryActionCount => '지금까지 완료한 퀘스트';
+
+  @override
+  String get lqStoryReadAgain => '다시 읽기';
+
+  @override
+  String get lqStoryReadNow => '지금 읽을 수 있어요';
+
+  @override
+  String get lqStoryUnlockAfter => '추가 완료 필요:';
+
+  @override
+  String get lqStoryQuestUnit => '개 퀘스트';
+
+  @override
+  String get lqStoryReadPrevious => '이전 기록을 먼저 완성해 주세요.';
+
+  @override
+  String get lqStoryRecord => '기록';
+
+  @override
+  String get lqStoryChoose => '어떻게 응답할까요?';
+
+  @override
+  String get lqStoryNext => '다음 기록 읽기';
+
+  @override
+  String get lqStoryChapterComplete =>
+      '이 장의 기록을 모두 완성했어요. 언제든 다른 선택으로 다시 읽을 수 있습니다.';
+
+  @override
+  String get lqStoryReturnLater =>
+      '다음 기록은 일상 퀘스트를 더 완료하면 열립니다. 지금까지의 이야기는 그대로 남아요.';
+
+  @override
+  String get lqStoryBackToChapter => '이 장의 기록 보기';
+
+  @override
+  String get lqStoryChooseAgain => '다른 선택으로 읽기';
+
+  @override
+  String get lqStorySaveFailed => '선택을 저장하지 못했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get lqDeletionQueued => '삭제 요청을 접수했습니다. 앱을 닫아도 서버에서 처리를 계속합니다.';
+
+  @override
+  String get lqBackupTitle => '백업과 복원';
+
+  @override
+  String get lqBackupHeadline => '다음 기기에서도, 나의 기록.';
+
+  @override
+  String get lqBackupBody =>
+      '내가 정한 비밀번호로 기록을 암호화해 파일로 보관합니다. 백업은 무료이며, 저장할 위치는 직접 고릅니다.';
+
+  @override
+  String get lqBackupExport => '백업 파일 만들기';
+
+  @override
+  String get lqBackupImport => '백업 파일 불러오기';
+
+  @override
+  String get lqBackupUndo => '복원 직전 기록으로 되돌리기';
+
+  @override
+  String get lqBackupIncluded => '파일에 담기는 기록';
+
+  @override
+  String get lqBackupIncludesBody =>
+      '퀘스트·성장·완료한 던전·이야기 선택·개인화 이력을 담습니다. 진행 중인 탐험, 로그인 정보, 구매 권한, AI 모델 파일은 담지 않습니다. 복원한 기기의 알림은 꺼진 상태로 시작합니다.';
+
+  @override
+  String get lqBackupPasswordNotice =>
+      '비밀번호를 잊으면 개발자도 백업을 열 수 없습니다. 앱을 지워도 내가 보관한 백업 파일은 남으므로, 필요 없어진 파일은 저장한 곳에서 직접 삭제해 주세요.';
+
+  @override
+  String get lqBackupSetPassword => '백업 비밀번호 만들기';
+
+  @override
+  String get lqBackupEnterPassword => '백업 비밀번호 입력';
+
+  @override
+  String get lqBackupPasswordHint =>
+      '12~128자를 사용하세요. 기억하기 쉬운 긴 문장을 권장합니다. 공백과 대소문자도 비밀번호에 포함됩니다.';
+
+  @override
+  String get lqBackupPassword => '비밀번호';
+
+  @override
+  String get lqBackupRepeatPassword => '비밀번호 한 번 더';
+
+  @override
+  String get lqBackupShowPassword => '비밀번호 표시';
+
+  @override
+  String get lqBackupHidePassword => '비밀번호 숨기기';
+
+  @override
+  String get lqBackupPasswordMismatch => '두 비밀번호가 다릅니다.';
+
+  @override
+  String get lqBackupUnlock => '백업 내용 확인';
+
+  @override
+  String get lqBackupReview => '이 기록을 복원할까요?';
+
+  @override
+  String get lqBackupReplaceBody =>
+      '현재 기기의 기록을 이 백업으로 바꿉니다. 바꾸기 직전 기록은 기기에 보관해 한 번 되돌릴 수 있습니다. 로그인과 구매 권한은 바뀌지 않습니다. 알림은 다시 켜야 합니다.';
+
+  @override
+  String get lqBackupRestore => '기록 복원';
+
+  @override
+  String get lqBackupWorking => '기록을 안전하게 처리하고 있어요…';
+
+  @override
+  String get lqBackupSaved => '암호화된 백업 파일을 저장했습니다.';
+
+  @override
+  String get lqBackupSaveFailed => '백업을 저장하지 못했습니다. 저장 공간과 선택한 위치를 확인해 주세요.';
+
+  @override
+  String get lqBackupInvalid =>
+      '백업을 열지 못했습니다. 파일과 비밀번호를 확인해 주세요. 기록은 바뀌지 않았습니다.';
+
+  @override
+  String get lqBackupRestored => '기록을 복원했습니다. 알림은 설정에서 다시 켤 수 있어요.';
+
+  @override
+  String get lqBackupRestoreInterrupted =>
+      '복원 처리를 마무리하지 못했습니다. 다시 열거나 재시도하면 이어서 처리합니다.';
+
+  @override
+  String get lqDungeonIntro => '일상에서 얻은 힘으로, 첫 탐험.';
+
+  @override
+  String get lqDungeonIntroBody =>
+      '카드를 고르고 길을 선택하세요. 전투에서 져도 일상의 레벨과 경험치는 그대로입니다.';
+
+  @override
+  String get lqDungeonStart => '첫 탐험 시작';
+
+  @override
+  String get lqDungeonResume => '진행 중인 탐험 계속';
+
+  @override
+  String get lqDungeonBonus => '일상에서 가져오는 보너스';
+
+  @override
+  String get lqDungeonBonusBody =>
+      '완료한 퀘스트와 장비가 다음 탐험의 시작 능력에 반영됩니다. 보너스 없이도 바로 시작할 수 있어요.';
+
+  @override
+  String get lqDungeonPacks => '카드 팩';
+
+  @override
+  String get lqDungeonPathHint => '아래에서 빛나는 지점을 골라 시작하세요.';
+
+  @override
+  String get lqDungeonNextHint => '연결된 다음 지점을 골라 계속하세요.';
+
+  @override
+  String get lqDungeonCurrent => '현재';
+
+  @override
+  String get lqDungeonAvailable => '선택 가능';
+
+  @override
+  String get lqDungeonLocked => '잠김';
+
+  @override
+  String get lqDungeonDone => '완료';
+
+  @override
+  String get lqDungeonEntering => '진입 중…';
+
+  @override
+  String get lqDungeonCombat => '전투';
+
+  @override
+  String get lqDungeonElite => '정예 전투';
+
+  @override
+  String get lqDungeonEvent => '이벤트';
+
+  @override
+  String get lqDungeonShop => '상점';
+
+  @override
+  String get lqDungeonRest => '휴식';
+
+  @override
+  String get lqDungeonBoss => '보스';
+
+  @override
+  String get lqBattleGuideTitle => '첫 전투 안내';
+
+  @override
+  String get lqBattleGuideEnergy => 'EP는 매 턴 사용할 에너지입니다. 카드 왼쪽 위 숫자만큼 소모합니다.';
+
+  @override
+  String get lqBattleGuideCards =>
+      '적이 여럿이면 대상을 고른 뒤 카드를 누르세요. 공격은 피해를 주고, 방어는 다음 적의 공격을 막아 줍니다.';
+
+  @override
+  String get lqBattleGuideTurn =>
+      '행동을 마치면 ‘턴 종료’를 누르세요. 적이 행동한 뒤 에너지와 손패가 새로 채워집니다.';
+
+  @override
+  String get lqBattleBegin => '전투 시작';
+
+  @override
+  String get lqBattleExit => '전투 나가기';
+
+  @override
+  String lqDungeonNode(String type, int step, int path, String state) {
+    return '$type, $step단계 $path번 경로, $state';
+  }
+
+  @override
+  String get lqDungeonCheckpointHint =>
+      '탐험은 방에 들어갈 때와 나올 때 저장됩니다. 앱을 종료하면 진행 중이던 방의 처음부터 이어집니다.';
+
+  @override
+  String get lqDungeonSaveFailed => '진행을 저장하지 못했습니다. 저장 공간을 확인한 뒤 다시 시도하세요.';
+
+  @override
+  String get lqDungeonCollectResult => '탐험 결과 받기';
+
+  @override
+  String get lqPurchaseAccount => '구매 계정';
+
+  @override
+  String get lqPurchaseAccountOptional => '필요할 때만 계정 연결';
+
+  @override
+  String get lqPurchaseAccountPrivacy =>
+      'Google 계정은 구매 확인과 복원에 사용합니다. 퀘스트, 성장 기록, AI 개인화 이력은 계속 이 기기에 저장됩니다. 로그인만으로 결제되지 않습니다.';
+
+  @override
+  String get lqPurchaseAccountRestoreHint =>
+      '다른 기기에서 구매를 복원하려면 구매할 때 사용한 Google Play 계정과 앱의 구매 계정을 모두 동일하게 사용하세요. 성장 기록은 암호화 백업으로 따로 옮길 수 있습니다.';
+
+  @override
+  String get lqPurchaseAccountConnected => '구매 계정 연결됨';
+
+  @override
+  String get lqPurchaseAccountConnect => 'Google 계정 연결';
+
+  @override
+  String get lqPurchaseAccountDisconnect => '이 기기에서 연결 해제';
+
+  @override
+  String get lqPurchaseAccountDelete => '구매 계정 삭제';
+
+  @override
+  String get lqPurchaseAccountDeleteBody =>
+      '이 계정의 구매 권한, 신고, 기존 클라우드 프로필이 삭제됩니다. 삭제 후 구매를 복원할 수 없으며 결제가 환불되지는 않습니다. 이 기기의 퀘스트와 성장 기록은 남습니다. Google 계정을 다시 확인한 후 삭제를 요청합니다.';
+
+  @override
+  String get lqPurchaseAccountFailed =>
+      '작업을 마치지 못했습니다. 연결 상태와 계정을 확인한 후 다시 시도해 주세요.';
+
+  @override
+  String get lqPurchaseAccountDeleted =>
+      '삭제 요청이 접수되었습니다. 서버에서 계정 정리를 계속합니다. 이 기기의 성장 기록은 유지됩니다.';
+
+  @override
+  String get lqPurchaseAccountCleanup =>
+      '삭제 요청은 접수되었습니다. 이 기기의 로그아웃을 마치려면 연결 해제를 다시 눌러 주세요. 서버의 삭제 작업은 계속됩니다.';
+
+  @override
+  String get lqReportCopyReceipt => '접수번호 복사';
+
+  @override
+  String get lqReportRetention =>
+      '신고 내용은 접수 후 90일이 지나면 자동 삭제 대상이 됩니다. 실제 제거까지 처리 지연이 있을 수 있습니다. 설정의 AI 신고 내역에서 삭제할 수도 있습니다.';
+
+  @override
+  String get lqReportReceipts => 'AI 신고 내역';
+
+  @override
+  String get lqReportReceiptHelp =>
+      '이 기기에 최근 접수번호 100개까지 보관합니다. 같은 신고 계정으로 연결되어 있으면 여기서 삭제할 수 있습니다. 계정이 달라졌거나 앱에 접근할 수 없으면 접수번호를 복사해 logian621@gmail.com으로 삭제를 요청하세요.';
+
+  @override
+  String get lqReportReceiptsEmpty => '이 기기에 보관된 접수번호가 없습니다.';
+
+  @override
+  String get lqReportDelete => '신고 삭제';
+
+  @override
+  String get lqReportDeleteBody =>
+      '이 신고의 서버 내용과 기기에 저장한 접수번호를 삭제합니다. 일상의 퀘스트와 성장 기록은 유지됩니다.';
+
+  @override
+  String get lqReportDeleted => '신고가 삭제되었습니다.';
+
+  @override
+  String get lqReportDeleteIdentity => '익명 신고 계정 삭제';
+
+  @override
+  String get lqReportDeleteIdentityBody =>
+      '현재 기기의 익명 신고 계정과 그 계정으로 보낸 신고를 모두 삭제 요청합니다. 일상의 기기 기록은 남습니다. 이후 새 신고를 보내면 새로운 익명 계정이 만들어집니다.';
+
+  @override
+  String get lqReportIdentityDeleted => '삭제 요청이 접수되었습니다. 앱을 닫아도 서버에서 계속 처리합니다.';
+
+  @override
+  String get lqWorldCurrent => '오늘의 이야기';
+
+  @override
+  String get lqWorldChoose => '어떤 세계로 이어갈까요?';
+
+  @override
+  String get lqWorldChooseHint => '도시 · 수련 · 탐사, 세 무료 단편';
+
+  @override
+  String get lqWorldChange => '다른 책 고르기';
+
+  @override
+  String get lqWorldSelect => '이 책으로 시작하기';
+
+  @override
+  String get lqWorldContinue => '오늘의 책 이어 읽기';
+
+  @override
+  String get lqWorldSaving => '책갈피 저장 중…';
+
+  @override
+  String get lqWorldFreeCollection => '세 단편 모두 무료 · 기한 없음';
+
+  @override
+  String get lqWorldCollectionPromise =>
+      '기본 퀘스트·AI·기록은 무료입니다. 이 서가의 세 단편에는 결제가 필요하지 않습니다.';
+
+  @override
+  String lqActionsRecorded(int count) {
+    return '현실에서 완료한 퀘스트 $count개';
+  }
+
+  @override
+  String lqStoryActionsRemaining(int count) {
+    return '다음 장면까지 퀘스트 $count개';
+  }
+
+  @override
+  String get lqDeletionUncertain =>
+      '삭제 요청의 접수 여부를 확인하지 못했습니다. 이 계정의 동기화를 중지했습니다. 기기 연결을 정리한 뒤 다시 로그인해 확인해 주세요.';
+
+  @override
+  String get lqDeletionCheckFailed =>
+      '이 기기의 계정 상태를 읽지 못했습니다. 기록을 보호하기 위해 동기화를 시작하지 않았습니다.';
+
+  @override
+  String get lqDeletionLocalFinished => '기기 연결 해제가 끝났습니다.';
+
+  @override
+  String get lqDeletionLocalHint =>
+      '남은 기기 캐시와 로그인 연결만 정리합니다. 별도의 기기 전용 프로필과 다른 계정의 기록은 유지합니다.';
+
+  @override
+  String get lqDeletionFinishLocal => '기기 연결 해제 마치기';
+
+  @override
+  String get lqDeletionLocalRetry =>
+      '기기 정리가 끝나지 않았습니다. 다시 시도해 주세요. 이 계정의 동기화는 계속 중지됩니다.';
+
+  @override
+  String get lqPackCollection => '완결 이야기 팩';
+
+  @override
+  String get lqPackContents =>
+      '12장면 · 선택에 반응하는 두 결말 · 바다빛 테마 · 종이배 표식. 한 번 구매하며 이용 기한은 없습니다.';
+
+  @override
+  String get lqPackPreview => '처음 두 장면 무료 체험';
+
+  @override
+  String get lqPackLocked => '이 장면은 이야기 팩 구매 후 열립니다.';
+
+  @override
+  String get lqPackUnavailable => '현재 이 빌드에서는 판매하지 않습니다. 무료 체험은 계속 읽을 수 있습니다.';
+
+  @override
+  String lqPackBuy(String price) {
+    return '$price에 전체 팩 구매';
+  }
+
+  @override
+  String get lqPackOwned => '구매한 이야기 팩';
+
+  @override
+  String get lqPackThemeApply => '바다빛 테마 적용';
+
+  @override
+  String get lqPackThemeRemove => '기본 테마로 돌아가기';
+
+  @override
+  String get lqPackThemeHint => '테마와 표식은 XP·능력치·퀘스트 추천을 바꾸지 않습니다.';
+
+  @override
+  String get lqPackMark => '조수 우체국 · 종이배 표식';
+
+  @override
+  String get lqPackMarkHint => '마지막 장면을 기록하면 표식이 성장 화면에 남습니다.';
+
+  @override
+  String get lqPackEndingHint =>
+      '앞선 열한 선택에서 더 자주 고른 방식이 결말을 정합니다. 다시 읽으며 선택을 바꿀 수 있습니다.';
+
+  @override
+  String get lqPackPacing =>
+      '세 번째 장면부터 현실 행동 2개마다 이어져, 총 20개를 마치면 마지막 장면이 열립니다. 구매로 행동 조건이 사라지지는 않습니다.';
+
+  @override
+  String get lqPackPreviewEnd =>
+      '무료 체험은 여기까지입니다. 서가에서 팩 구성과 판매 여부를 확인할 수 있습니다.';
+
+  @override
+  String get lqPackStoreUnavailable => 'Play 스토어에 연결해 상품 정보를 다시 확인해 주세요.';
+
+  @override
+  String get lqDeviceQuestNotice =>
+      '수락한 퀘스트와 개인화 기록은 이 기기에 저장됩니다. Google 구매 계정을 연결해도 진행 기록은 업로드하지 않습니다.';
+
+  @override
+  String get lqStudyTitle => '14일 사용성 테스트';
+
+  @override
+  String get lqStudyIntro => '선택 참여 · 이 기기에만 기록';
+
+  @override
+  String get lqStudyConsent =>
+      '참여하면 14일 동안 앱을 연 날짜 구간, 퀘스트 완료 수, 이야기 체험 완료 여부와 선택한 평가를 기록합니다. 무작위 참여 코드가 만들어집니다. 이름·목표·퀘스트 내용·Google 계정은 기록하지 않습니다. 자동 전송은 없으며, 결과 파일은 직접 공유할 때만 개발자에게 전달됩니다. 언제든 참여 기록을 삭제할 수 있고 앱 사용에는 영향이 없습니다. 한 날짜 구간은 참여 시점부터 24시간입니다.';
+
+  @override
+  String get lqStudyStart => '내용을 이해했고 참여합니다';
+
+  @override
+  String get lqStudySummary => '기록된 날짜 구간 / 완료 수';
+
+  @override
+  String get lqStudyValue => '무료 체험을 읽은 뒤 느낀 매력 (1~5)';
+
+  @override
+  String get lqStudyPrice => '이 팩에 지불할 의향이 있는 최대 금액';
+
+  @override
+  String get lqStudyPriceNote =>
+      '가격 조사이며 구매나 예약이 아닙니다. 현재 판매하지 않습니다. 응답은 바꿀 수 있습니다.';
+
+  @override
+  String get lqStudyUndecided => '아직 모르겠어요';
+
+  @override
+  String get lqStudyNoPurchase => '구매하지 않을 것 같아요';
+
+  @override
+  String get lqStudyPreviewFirst => '「조수 우체국」 무료 2장면을 읽고 선택을 마치면 평가할 수 있어요.';
+
+  @override
+  String get lqStudySave => '평가 저장';
+
+  @override
+  String get lqStudyExport => '결과 파일 저장';
+
+  @override
+  String get lqStudyExportNote =>
+      '아래 참여 코드와 날짜 구간별 완료 수, 체험 여부, 평가, 기록 이상 여부가 파일에 포함됩니다. 실제 행동이나 결제를 검증한 자료가 아닙니다. 파일 저장 후 원하는 경우에만 직접 전달해 주세요.';
+
+  @override
+  String get lqStudyWithdraw => '참여 중단 및 테스트 기록 삭제';
+
+  @override
+  String get lqStudyWithdrawNote =>
+      '이 기기의 테스트 기록만 삭제합니다. 퀘스트와 이야기 진행은 그대로 유지됩니다. 이미 직접 공유한 파일은 삭제되지 않습니다.';
+
+  @override
+  String get lqStudySaved => '저장했습니다.';
+
+  @override
+  String get lqStudyError =>
+      '기록을 읽거나 저장하지 못했습니다. 기존 기록을 보존했습니다. 다시 시도하거나 참여 기록을 삭제할 수 있습니다.';
+
+  @override
+  String get lqStudyFlagged =>
+      '기록 변경이나 저장 문제가 감지되어 유지율 분석에서 제외됩니다. 앱은 계속 사용할 수 있어요.';
+
+  @override
+  String get lqStudyWebPreview => '웹 미리보기 데이터는 실제 사용자 검증에서 제외됩니다.';
+
+  @override
+  String get lqFeedbackTitle => '의견·문제 보내기';
+
+  @override
+  String get lqFeedbackDescription => '불편한 점이나 바라는 기능을 알려주세요. 기록은 자동 첨부되지 않아요.';
+
+  @override
+  String get lqReportManualDescription =>
+      '이 공개판은 앱 안에서 신고를 전송하지 않습니다. 아래 추천을 확인하고, 필요하면 복사한 뒤 문의 페이지의 이메일로 보내주세요. 개인적인 내용은 지운 뒤 보내세요. 문의 페이지를 여는 것만으로 내용이 전송되지는 않습니다.';
+
+  @override
+  String get lqReportCopySuggestion => '추천 문구 복사';
+
+  @override
+  String get lqReportManualCopied => '추천 문구를 복사했어요. 아직 전송되지는 않았어요.';
 }

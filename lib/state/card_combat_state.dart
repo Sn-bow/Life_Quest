@@ -296,17 +296,19 @@ class CardCombatState extends ChangeNotifier {
   }
 
   /// Play a card from hand by index.
+  bool canPlayCard(int index) =>
+      _phase == CombatPhase.playerTurn &&
+      index >= 0 && index < _hand.length &&
+      _hand[index].cost >= 0 && _hand[index].cost <= _currentEnergy;
+
+  int get playableCardCount => Iterable<int>.generate(_hand.length)
+      .where(canPlayCard).length;
+
+  /// Play a card only when the same rule used by the hand UI permits it.
   void playCard(int cardIndex, {int targetEnemyIndex = 0}) {
-    if (_phase != CombatPhase.playerTurn) {
-      return;
-    }
-    if (cardIndex < 0 || cardIndex >= _hand.length) return;
+    if (!canPlayCard(cardIndex)) return;
 
     final card = _hand[cardIndex];
-
-    // 저주 카드(cost < 0)는 사용 불가
-    if (card.cost < 0) return;
-    if (card.cost > _currentEnergy) return;
 
     final originalCost = card.cost;
 

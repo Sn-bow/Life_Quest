@@ -1,0 +1,93 @@
+{
+  "id": "prologue",
+  "title": "Exit Zero",
+  "subtitle": "Prologue · The forest below the city",
+  "description": "An unfamiliar exit appears at your usual station. Meet Yeon, an archivist collecting the traces of forgotten days. Small actions can set a silent city moving again.",
+  "artwork": "assets/images/backgrounds/exit_zero_gateway.jpg",
+  "scenes": [
+    {
+      "id": "signal",
+      "title": "An unread signal",
+      "quests": 0,
+      "narration": "The last train had gone. A sentence appeared on the station board, one you had never seen before.\n\n“Exit Zero — storage for things not yet begun.”\n\nBlue light spread beneath the sign. Beyond the glass was a forest. There could not be a forest inside this station.\n\nAn unfamiliar status window appeared on your phone. An empty line waited beneath a question.\n\n“Will you leave one line of your day?”",
+      "choices": [
+        {
+          "id": "answer",
+          "label": "Answer the window",
+          "response": "A thin stroke appeared where your finger touched. The door stayed closed. A smaller sentence appeared below the sign: “Records arrive after actions.”"
+        },
+        {
+          "id": "observe",
+          "label": "Look around first",
+          "response": "Exit Zero was missing from the station map. Yet footprints led toward it. There was no need to rush. The window was still waiting for your answer."
+        }
+      ]
+    },
+    {
+      "id": "door",
+      "title": "A key to the rusted door",
+      "quests": 1,
+      "narration": "One small thing you had done in real life appeared in the window. Rust fell from the door handle.\n\nInside, someone was trying to shift an enormous desk. Scraps of paper filled every pocket of their grey coat.\n\n“Call me Yeon. I sort the records here.”\n\nYeon glanced at your hand and placed a small key on the desk.\n\n“People think they need a grand achievement to enter. But this door responds to things begun. Like the thing you just did.”",
+      "choices": [
+        {
+          "id": "ask",
+          "label": "Ask where you are",
+          "response": "“Where the city keeps the days it forgot.” Yeon pointed into the forest. Little labels hung from the branches: promises to try again someday."
+        },
+        {
+          "id": "help",
+          "label": "Help move the desk",
+          "response": "Together, you shifted the desk into place. An old map appeared among the fallen papers. Yeon handed you one corner of it in thanks."
+        }
+      ],
+      "echoes": {
+        "prologue/signal:answer": "Yeon recognized your status window. “You answered the signal first.”",
+        "prologue/signal:observe": "Yeon folded a station map. “You took a good look around. There is no rush here.”"
+      }
+    },
+    {
+      "id": "lantern",
+      "title": "A place with a light",
+      "quests": 3,
+      "narration": "The forest path was shorter than you expected. It ended at a waiting room with a broken glass roof. Each seat held an unlit lantern.\n\nYeon opened a small notebook. The things you had done in real life were recorded as short lines.\n\n“Three lines can light one lantern.”\n\nAs the flame caught, a hidden door became visible in the wall. Its nameplate read: “A room for those returning.”\n\n“What would you like to leave here?”",
+      "choices": [
+        {
+          "id": "light",
+          "label": "Place the lantern by the window",
+          "response": "Someone outside stopped when they saw the light. You moved the lantern a little closer to the glass, so it could guide people from farther away."
+        },
+        {
+          "id": "seat",
+          "label": "Place a chair beside the door",
+          "response": "Yeon laid a folded blanket on the chair. Now there was a place for someone who had managed nothing today, too. You decided to leave the door open."
+        }
+      ],
+      "echoes": {
+        "prologue/door:ask": "Yeon touched a tag on a branch: another trace of the forgotten days you had asked about.",
+        "prologue/door:help": "The map found beneath the desk you moved together pointed to the waiting room."
+      }
+    },
+    {
+      "id": "return",
+      "title": "The clock moves again",
+      "quests": 6,
+      "narration": "The waiting-room clock moved one mark. Six small actions. That was enough to set one of the city’s stopped clocks moving again.\n\nYeon tore the notebook’s first page free and handed it to you. The date at the bottom was blank.\n\n“Write it when you next come back. Tomorrow, or a little later.”\n\nBeyond the door was your ordinary station. Exit Zero was gone, but a tiny lantern remained on your phone.\n\nNow you knew: even on a day that stands still, there is a door you can return to.",
+      "choices": [
+        {
+          "id": "keep",
+          "label": "Keep today’s record",
+          "response": "You folded the page and put it in your pocket. The prologue, Exit Zero, was complete. Until the next story begins, today’s progress stays with you."
+        },
+        {
+          "id": "leave",
+          "label": "Leave a note for the next visitor",
+          "response": "You wrote one sentence: “It’s all right to arrive late.” The prologue, Exit Zero, was complete. Your words would wait for the next visitor."
+        }
+      ],
+      "echoes": {
+        "prologue/lantern:light": "The lantern still glowed at the window. Two strangers were following its light.",
+        "prologue/lantern:seat": "A new visitor was resting on the chair by the door. Yeon set a glass of water beside them."
+      }
+    }
+  ]
+}
