@@ -1,10 +1,10 @@
 {
   "scope": "Local default-mode artifact only; NOT ready-to-publish certification",
   "bundle": "build/app/outputs/bundle/release/app-release.aab",
-  "bytes": 221659038,
-  "sha256": "10e98578510204a5e827be28ab8701469b593830366c351d7c386045b019524f",
+  "bytes": 221661496,
+  "sha256": "6d1b9ff4d4388330a2d523c3a78955017bc00e8c668edc7b6bbbb065ccddd1ca",
   "versionName": "2.0.0",
-  "versionCode": "6",
+  "versionCode": "7",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
   "libraries": [
     {
@@ -95,8 +95,8 @@
     }
   ],
   "sampleDeviceDownloadBytes": {
-    "MIN": 130433973,
-    "MAX": 130433973
+    "MIN": 130435164,
+    "MAX": 130435164
   },
   "checks": [
     {
@@ -258,18 +258,17 @@
   ],
   "pass": true,
   "remaining": [
-    "Real-user repeat-use and full-story value evidence before public sale",
     "Physical Android device validation",
     "Working AI reporting backend",
     "Real Play purchase/refund/restore before selling",
     "Final Play content declarations and Data safety review",
     "Closed testing eligibility and Play review"
   ],
-  "sourceCommit": "e05f117182b212227fe963ed263aba322d175bf3",
-  "declaredBuildConfiguration": {
-    "researchEnabled": false,
-    "cloudEnabled": false,
-    "billingEnabled": false,
-    "adsEnabled": false
+  "sourceCommit": "d69aafbaef9b761198af29ac07c76dae5ddb0f24",
+  "declaredBuildFlags": {
+    "cloud": false,
+    "billing": false,
+    "ads": false,
+    "research": false
   }
 }

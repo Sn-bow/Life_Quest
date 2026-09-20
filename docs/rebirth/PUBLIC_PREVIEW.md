@@ -38,4 +38,14 @@ firebase deploy --only firestore:rules --config firebase.bootstrap.json \
 
 유료팩의가격/수요/번역가치는미검증이다. Play접근요건과실제영수증검증·환불·복원·신고운영을끝내기전결제를켜지않는다. APK공개를Play출시·수익성입증·매출발생으로보고하지않는다.
 
-배포의 실제 URL·파일 SHA·소스 커밋은 배포 후 이 문서와 `public-preview-apk.json`에 기록한다.
+## 실제 공개 파일
+
+- [Android 공개 프리뷰](https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1): 2026-09-21 00:53 KST 게시. GitHub `draft=false`, `prerelease=true`.
+- 파일: `LifeQuest-2.0.0-preview.1-arm64.apk`, **160,519,338 bytes**, versionCode **7**.
+- SHA256: `587da3cee0a5d55a62e3158a404f36a6ea55045193ab505d98ce9e708c172a88`.
+- 앱 소스: `d69aafbaef9b761198af29ac07c76dae5ddb0f24`. [실제 APK 검사](public-preview-apk.json).
+- 공개 업로드 인증서 SHA256: `15:37:D6:F3:9E:E3:EE:D1:53:E1:34:12:8B:BE:66:11:32:18:38:47:CA:3A:A7:F4:B5:11:27:6B:FD:35:2B:B3`.
+- [다운로드 페이지](https://sn-bow.github.io/Life_Quest/)는 `gh-pages`의 `aee4c15`에서 실제 배포 완료했다. GitHub Pages `built`와 공개 브라우저 렌더링·APK 링크를 확인했다. 웹 화면 캡처·검토는 [PUBLIC_PREVIEW_UX.md](PUBLIC_PREVIEW_UX.md).
+- 공개 URL에서 APK 전체를 내려받아 위 해시와 일치함을 확인했다. 이 다운로드는 자체 검증이며 사용자 반응으로 계산하지 않는다. [배포 증거](public-distribution.json).
+- 같은 소스의 Play 제출 준비용 AAB도 versionCode7, 221,661,496bytes, SHA256 `6d1b9ff4d4388330a2d523c3a78955017bc00e8c668edc7b6bbbb065ccddd1ca`로 생성·검사했다. [AAB 검사](artifact-inspection.json). Console 업로드는 미완료다.
+- 처음 `--no-pub` 빌드는 개발 플러그인의 생성 등록 파일 불일치로 실패했다. 의존성/플러그인 정보를 갱신하는 일반 release 빌드로 다시 만들었고 최종 APK 검사를 통과했다. 실패 산출물을 게시하지 않았다.

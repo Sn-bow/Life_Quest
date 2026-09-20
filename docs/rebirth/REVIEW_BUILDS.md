@@ -1,8 +1,23 @@
 # 검토 파일 재현과 배포 구분
 
-앱 코드를 커밋한 다음 그 커밋에서 빌드한다. 최종 APK/AAB는 같은 소스지만 연구 기능 플래그가 다르다. 빌드·서명 검사는 공개 판매 승인이 아니다. [수익화 검증](REVENUE_VALIDATION.md)과 [출시 조건](RELEASE_GATES.md)을 먼저 따른다.
+앱 코드를 커밋한 다음 그 커밋에서 빌드한다. 최신 v7 공개 APK/AAB는 같은 소스와 기본off 플래그를 사용한다. 아래 v6 연구용 파일은 과거 내부 산출물이다. 빌드·서명 검사는 공개 판매 승인이 아니다. [수익화 검증](REVENUE_VALIDATION.md)과 [출시 조건](RELEASE_GATES.md)을 먼저 따른다.
 
-## 내부 연구용 ARM64 APK
+## 현재 공개 ARM64 APK · 2.0.0+7
+
+소스 `d69aafbaef9b761198af29ac07c76dae5ddb0f24`. Cloud/Billing/Ads/Research 기본false.
+
+```sh
+flutter build apk --release --split-per-abi \
+  --target-platform android-arm64 \
+  -Pforce-version-code-ignoring-abi=true
+```
+
+실제 versionCode7을 검사했고 `LifeQuest-2.0.0-preview.1-arm64.apk`로 [공개했다](https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1). [APK 검사](public-preview-apk.json), [외부 다운로드 검증](public-distribution.json). 검사 명령의 `--version-code 7`, `--source-commit` 및 APK 경로를 이 파일과 맞춘다.
+
+같은 소스의 기본 AAB도 빌드·서명·16KiB 검사를 통과했다. versionCode7, 221,661,496bytes, 표본 ARM64/API35 다운로드130,435,164bytes. [AAB 검사](artifact-inspection.json). Play Console에는 아직 업로드되지 않았다.
+
+## 과거 내부 연구용 ARM64 APK · v6
+
 
 ```sh
 flutter build apk --release --split-per-abi \
