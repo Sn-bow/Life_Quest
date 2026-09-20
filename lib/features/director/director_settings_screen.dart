@@ -1,4 +1,7 @@
 import 'dart:async';
+import '../../state/character_state.dart';
+import '../../config/cloud_config.dart';
+import '../../config/qa_preview_config.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -168,7 +171,9 @@ class DirectorSettingsScreen extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(s.lqModelIntro),
                             const SizedBox(height: 12),
-                            Text(s.lqCloudQuestNotice,
+                            Text(context.watch<CharacterState>().isLocalGuest ||
+                                    !kLifeQuestCloudEnabled || kLifeQuestQaPreview
+                                    ? s.lqDeviceQuestNotice : s.lqCloudQuestNotice,
                                 style: theme.textTheme.bodySmall),
                             const SizedBox(height: 16),
                             QuestTag(

@@ -1,4 +1,6 @@
 import 'dart:async';
+import '../features/research/beta_study.dart';
+import '../features/research/beta_study_screen.dart' show studySnapshot;
 import '../features/billing/purchase_account_state.dart';
 import '../state/dungeon_state.dart';
 import '../services/purchase_service.dart';
@@ -33,6 +35,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   bool _isForeground = true;
   PurchaseAccountState? _purchaseAccount;
 
+  void _captureStudy() {
+    if (kLifeQuestResearchEnabled &&
+        mounted &&
+        _isForeground &&
+        _character.isLocalGuest &&
+        _character.isDataLoaded) {
+      unawaited(BetaStudy.instance.observeQuietly(studySnapshot(_character)));
+    }
+  }
+
   void _bindPurchaseIdentity() {
     if (!mounted) return;
     unawaited(
@@ -55,6 +67,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     );
 
     _character = context.read<CharacterState>();
+    _character.addListener(_captureStudy);
     _purchaseAccount = context.read<PurchaseAccountState?>();
     _purchaseAccount?.addListener(_bindPurchaseIdentity);
     _director = context.read<QuestDirectorState>();
@@ -72,6 +85,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         unawaited(_director.record(quest, QuestFeedback.completed));
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
+      _captureStudy();
       final purchases = PurchaseService();
       purchases.onEntitlementsChanged = _character.setPurchasedEntitlements;
       await _purchaseAccount?.initialize();
@@ -116,6 +130,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   Future<void> _refresh() async {
     if (!mounted || !_isForeground) return;
+    _captureStudy();
     try {
       await _character.refreshTimeSensitiveState();
       if (!mounted) return;
@@ -139,6 +154,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    _character.removeListener(_captureStudy);
     _purchaseAccount?.removeListener(_bindPurchaseIdentity);
     _dungeon.unbindCheckpoint();
     WidgetsBinding.instance.removeObserver(this);

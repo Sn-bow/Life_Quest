@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/features/session/session_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
+import 'package:life_quest_final_v2/features/research/beta_study.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -66,6 +67,7 @@ void main() {
       await state.initializeForLocalGuest(name: '각성자');
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('lifequest.director.v1.device', 'device history');
+      await prefs.setString(BetaStudy.key, 'study record from a previous beta');
       await prefs.setString(
         'lifequest.director.v1.another-account',
         'other history',
@@ -79,6 +81,7 @@ void main() {
       await state.deleteLocalProfile();
       expect(prefs.containsKey(CharacterState.localProfileStorageKey), false);
       expect(prefs.containsKey('lifequest.director.v1.device'), false);
+      expect(prefs.containsKey(BetaStudy.key), false);
       expect(
         prefs.getString('lifequest.director.v1.another-account'),
         'other history',

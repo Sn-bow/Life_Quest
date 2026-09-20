@@ -1,0 +1,69 @@
+{
+  "method": "All 4096 paths, one ending based on first 11 choices; Unicode characters including whitespace; no titles or UI labels.",
+  "locales": {
+    "ko": {
+      "source": "assets/story/tide_ko.json",
+      "sha256": "3864bb1d3a34322ed6f8af392c4ca4adc2515c44083ab3dafec124ef90736b21",
+      "scenes": 12,
+      "choicePaths": 4096,
+      "pathCharactersWithoutEchoes": [
+        7528,
+        7653
+      ],
+      "pathCharactersWithEchoes": [
+        7896,
+        8046
+      ],
+      "readingMinutes": null,
+      "humanReviewed": false
+    },
+    "en": {
+      "source": "assets/story/tide_en.json",
+      "sha256": "120efdbb807fa09f6f1d2349957af8551559ef084370a86baa872e990499f9b8",
+      "scenes": 12,
+      "choicePaths": 4096,
+      "pathCharactersWithoutEchoes": [
+        13503,
+        13705
+      ],
+      "pathCharactersWithEchoes": [
+        14214,
+        14462
+      ],
+      "readingMinutes": null,
+      "humanReviewed": false
+    },
+    "ja": {
+      "source": "assets/story/tide_ja.json",
+      "sha256": "737599a0489d557d6d6b2bc7865eca7eee901a5ac2ffc9c44bf7b89904f11ed3",
+      "scenes": 12,
+      "choicePaths": 4096,
+      "pathCharactersWithoutEchoes": [
+        5328,
+        5435
+      ],
+      "pathCharactersWithEchoes": [
+        5591,
+        5696
+      ],
+      "readingMinutes": null,
+      "humanReviewed": false
+    },
+    "zh": {
+      "source": "assets/story/tide_zh.json",
+      "sha256": "a11d96dd56a174e7581b2d23fad952d59e87bd72ebbfb661fa31ab00698416c0",
+      "scenes": 12,
+      "choicePaths": 4096,
+      "pathCharactersWithoutEchoes": [
+        4078,
+        4176
+      ],
+      "pathCharactersWithEchoes": [
+        4291,
+        4365
+      ],
+      "readingMinutes": null,
+      "humanReviewed": false
+    }
+  }
+}

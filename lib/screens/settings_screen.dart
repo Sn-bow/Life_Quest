@@ -1,4 +1,6 @@
 import '../features/backup/backup_screen.dart';
+import '../features/research/beta_study.dart';
+import '../features/research/beta_study_screen.dart';
 import '../features/billing/purchase_account_screen.dart';
 import '../features/director/ai_report_receipts_screen.dart';
 import '../config/cloud_config.dart';
@@ -664,6 +666,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
           if (characterState.isLocalGuest) ...[
             const PurchaseAccountTile(),
+            if (kLifeQuestResearchEnabled)
+              TranslucentCard(
+                child: ListTile(
+                  leading: const Icon(Icons.fact_check_outlined),
+                  title: Text(l10n.lqStudyTitle),
+                  subtitle: Text(l10n.lqStudyIntro),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const BetaStudyScreen(),
+                    ),
+                  ),
+                ),
+              ),
             TranslucentCard(
               child: ListTile(
                 leading: const Icon(Icons.lock_outline),

@@ -26,3 +26,7 @@ Flutter 팩 전용13검사:4언어 완결 구조/체험/진행 조건,320px·200
 가격은 후보이며 코드에 하드코딩하지 않는다. Play 상품 생성·Firebase/신고 서버·실물 Android·실제 구매/보류/취소/복원/환불·스토어 심사 전까지 판매 off다. 바이너리 검사 문서의 sourceCommit을 확인한다. v4는 이 팩 구현 전 빌드다.
 
 상품 조회 실패 복구 검사: `flutter test --dart-define=LIFEQUEST_CLOUD_ENABLED=true --dart-define=LIFEQUEST_MONETIZATION_ENABLED=true test/services/purchase_catalog_test.dart`. 별도의 테스트에서만 fake Play 경계를 사용하며 제품에 소유권 우회 플래그를 넣지 않았다. 기본 플래그 전체 검사에서는 이 검사는 의도적으로 skip, 별도 실행1개 통과다.
+
+## 9월20일 수익성 재검토
+
+6,900원을 확정 가격으로 취급하지 않는다. 한 경로 한국어 7,896–8,046자(선택 반응·해당 이전 선택 반응·결말 포함)로 측정했으며 독서 시간/재미/지불 의사는 여전히 미검증이다. [검증 계획](REVENUE_VALIDATION.md), [실제 화면 재검토](REVENUE_UX_REVIEW.md), [원고 측정 근거](content-scope.json)를 따른다. 연구용 보고서는 실제 결제가 아니다.

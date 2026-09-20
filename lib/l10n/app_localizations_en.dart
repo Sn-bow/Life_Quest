@@ -4677,4 +4677,76 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lqPackStoreUnavailable =>
       'Reconnect to Google Play to check product availability.';
+
+  @override
+  String get lqDeviceQuestNotice =>
+      'Accepted quests and personalization stay on this device. Connecting a Google purchase account does not upload your progress.';
+
+  @override
+  String get lqStudyTitle => '14-day usability study';
+
+  @override
+  String get lqStudyIntro => 'Optional · stored only on this device';
+
+  @override
+  String get lqStudyConsent =>
+      'If you join, for 14 days we record daily app visits, quest completion counts, story preview completion and optional ratings. A random participation code is created. Names, goals, quest text and Google accounts are excluded. Nothing is sent automatically; the developer receives your report only if you choose to share the file. You can delete study records at any time without affecting the app. Each study day is 24 hours from enrollment.';
+
+  @override
+  String get lqStudyStart => 'I understand and choose to join';
+
+  @override
+  String get lqStudySummary => 'Recorded days / completions';
+
+  @override
+  String get lqStudyValue => 'Appeal after reading the free preview (1–5)';
+
+  @override
+  String get lqStudyPrice => 'Most you would consider paying for this pack';
+
+  @override
+  String get lqStudyPriceNote =>
+      'This is a pricing question, not a purchase or reservation. The pack is not on sale. You can change your answer.';
+
+  @override
+  String get lqStudyUndecided => 'Not sure yet';
+
+  @override
+  String get lqStudyNoPurchase => 'I would not buy it';
+
+  @override
+  String get lqStudyPreviewFirst =>
+      'Read and make your choices in both free Tide Post Office scenes to leave a rating.';
+
+  @override
+  String get lqStudySave => 'Save rating';
+
+  @override
+  String get lqStudyExport => 'Save report file';
+
+  @override
+  String get lqStudyExportNote =>
+      'The file includes the code below, completions by study day, preview status, ratings and record-quality flags. It does not verify real-world actions or purchases. After saving, share it yourself only if you wish.';
+
+  @override
+  String get lqStudyWithdraw => 'Leave and delete study records';
+
+  @override
+  String get lqStudyWithdrawNote =>
+      'Only the study records on this device will be deleted. Your quests and story progress stay. Files you already shared are not deleted.';
+
+  @override
+  String get lqStudySaved => 'Saved.';
+
+  @override
+  String get lqStudyError =>
+      'Could not read or save the record. Existing records were preserved. Retry or delete study records.';
+
+  @override
+  String get lqStudyFlagged =>
+      'A record change or storage problem was detected. This report will be excluded from retention analysis. You can keep using the app.';
+
+  @override
+  String get lqStudyWebPreview =>
+      'Web preview data is excluded from real-user validation.';
 }

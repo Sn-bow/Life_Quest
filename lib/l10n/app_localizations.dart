@@ -8783,6 +8783,132 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'Play 스토어에 연결해 상품 정보를 다시 확인해 주세요.'**
   String get lqPackStoreUnavailable;
+
+  /// No description provided for @lqDeviceQuestNotice.
+  ///
+  /// In ko, this message translates to:
+  /// **'수락한 퀘스트와 개인화 기록은 이 기기에 저장됩니다. Google 구매 계정을 연결해도 진행 기록은 업로드하지 않습니다.'**
+  String get lqDeviceQuestNotice;
+
+  /// No description provided for @lqStudyTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'14일 사용성 테스트'**
+  String get lqStudyTitle;
+
+  /// No description provided for @lqStudyIntro.
+  ///
+  /// In ko, this message translates to:
+  /// **'선택 참여 · 이 기기에만 기록'**
+  String get lqStudyIntro;
+
+  /// No description provided for @lqStudyConsent.
+  ///
+  /// In ko, this message translates to:
+  /// **'참여하면 14일 동안 앱을 연 날짜 구간, 퀘스트 완료 수, 이야기 체험 완료 여부와 선택한 평가를 기록합니다. 무작위 참여 코드가 만들어집니다. 이름·목표·퀘스트 내용·Google 계정은 기록하지 않습니다. 자동 전송은 없으며, 결과 파일은 직접 공유할 때만 개발자에게 전달됩니다. 언제든 참여 기록을 삭제할 수 있고 앱 사용에는 영향이 없습니다. 한 날짜 구간은 참여 시점부터 24시간입니다.'**
+  String get lqStudyConsent;
+
+  /// No description provided for @lqStudyStart.
+  ///
+  /// In ko, this message translates to:
+  /// **'내용을 이해했고 참여합니다'**
+  String get lqStudyStart;
+
+  /// No description provided for @lqStudySummary.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록된 날짜 구간 / 완료 수'**
+  String get lqStudySummary;
+
+  /// No description provided for @lqStudyValue.
+  ///
+  /// In ko, this message translates to:
+  /// **'무료 체험을 읽은 뒤 느낀 매력 (1~5)'**
+  String get lqStudyValue;
+
+  /// No description provided for @lqStudyPrice.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 팩에 지불할 의향이 있는 최대 금액'**
+  String get lqStudyPrice;
+
+  /// No description provided for @lqStudyPriceNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'가격 조사이며 구매나 예약이 아닙니다. 현재 판매하지 않습니다. 응답은 바꿀 수 있습니다.'**
+  String get lqStudyPriceNote;
+
+  /// No description provided for @lqStudyUndecided.
+  ///
+  /// In ko, this message translates to:
+  /// **'아직 모르겠어요'**
+  String get lqStudyUndecided;
+
+  /// No description provided for @lqStudyNoPurchase.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매하지 않을 것 같아요'**
+  String get lqStudyNoPurchase;
+
+  /// No description provided for @lqStudyPreviewFirst.
+  ///
+  /// In ko, this message translates to:
+  /// **'「조수 우체국」 무료 2장면을 읽고 선택을 마치면 평가할 수 있어요.'**
+  String get lqStudyPreviewFirst;
+
+  /// No description provided for @lqStudySave.
+  ///
+  /// In ko, this message translates to:
+  /// **'평가 저장'**
+  String get lqStudySave;
+
+  /// No description provided for @lqStudyExport.
+  ///
+  /// In ko, this message translates to:
+  /// **'결과 파일 저장'**
+  String get lqStudyExport;
+
+  /// No description provided for @lqStudyExportNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'아래 참여 코드와 날짜 구간별 완료 수, 체험 여부, 평가, 기록 이상 여부가 파일에 포함됩니다. 실제 행동이나 결제를 검증한 자료가 아닙니다. 파일 저장 후 원하는 경우에만 직접 전달해 주세요.'**
+  String get lqStudyExportNote;
+
+  /// No description provided for @lqStudyWithdraw.
+  ///
+  /// In ko, this message translates to:
+  /// **'참여 중단 및 테스트 기록 삭제'**
+  String get lqStudyWithdraw;
+
+  /// No description provided for @lqStudyWithdrawNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 기기의 테스트 기록만 삭제합니다. 퀘스트와 이야기 진행은 그대로 유지됩니다. 이미 직접 공유한 파일은 삭제되지 않습니다.'**
+  String get lqStudyWithdrawNote;
+
+  /// No description provided for @lqStudySaved.
+  ///
+  /// In ko, this message translates to:
+  /// **'저장했습니다.'**
+  String get lqStudySaved;
+
+  /// No description provided for @lqStudyError.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록을 읽거나 저장하지 못했습니다. 기존 기록을 보존했습니다. 다시 시도하거나 참여 기록을 삭제할 수 있습니다.'**
+  String get lqStudyError;
+
+  /// No description provided for @lqStudyFlagged.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록 변경이나 저장 문제가 감지되어 유지율 분석에서 제외됩니다. 앱은 계속 사용할 수 있어요.'**
+  String get lqStudyFlagged;
+
+  /// No description provided for @lqStudyWebPreview.
+  ///
+  /// In ko, this message translates to:
+  /// **'웹 미리보기 데이터는 실제 사용자 검증에서 제외됩니다.'**
+  String get lqStudyWebPreview;
 }
 
 class _AppLocalizationsDelegate

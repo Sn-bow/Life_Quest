@@ -4497,4 +4497,69 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lqPackStoreUnavailable => '请连接Google Play以查看商品信息。';
+
+  @override
+  String get lqDeviceQuestNotice => '已接受的任务和个性化记录保存在本设备。连接Google购买账号也不会上传进度。';
+
+  @override
+  String get lqStudyTitle => '14天使用体验测试';
+
+  @override
+  String get lqStudyIntro => '自愿参与 · 仅保存在本设备';
+
+  @override
+  String get lqStudyConsent =>
+      '参与后，14天内记录每日访问、任务完成数量、故事体验完成情况及自选评价，并生成随机参与码。不包含姓名、目标、任务内容或Google账号。不会自动发送；只有您主动分享文件，开发者才会收到。可随时删除测试记录，不影响应用使用。每天按参与时刻起的24小时计算。';
+
+  @override
+  String get lqStudyStart => '我已了解并自愿参与';
+
+  @override
+  String get lqStudySummary => '记录天数 / 完成数量';
+
+  @override
+  String get lqStudyValue => '读完免费体验后的吸引力（1–5）';
+
+  @override
+  String get lqStudyPrice => '愿意为此故事包支付的最高金额';
+
+  @override
+  String get lqStudyPriceNote => '这是价格调查，并非购买或预订。目前尚未销售，可以修改答案。';
+
+  @override
+  String get lqStudyUndecided => '还不确定';
+
+  @override
+  String get lqStudyNoPurchase => '我不会购买';
+
+  @override
+  String get lqStudyPreviewFirst => '读完《潮汐邮局》的两个免费场景并完成选择后即可评价。';
+
+  @override
+  String get lqStudySave => '保存评价';
+
+  @override
+  String get lqStudyExport => '保存结果文件';
+
+  @override
+  String get lqStudyExportNote =>
+      '文件包含下方参与码、每日完成数量、体验状态、评价及记录异常标记，不证明现实行为或实际购买。保存后仅在自愿时自行分享。';
+
+  @override
+  String get lqStudyWithdraw => '退出并删除测试记录';
+
+  @override
+  String get lqStudyWithdrawNote => '只删除本设备的测试记录，任务与故事进度保留。已分享的文件不会被删除。';
+
+  @override
+  String get lqStudySaved => '已保存。';
+
+  @override
+  String get lqStudyError => '无法读取或保存记录，已有记录已保留。可重试或删除测试记录。';
+
+  @override
+  String get lqStudyFlagged => '检测到记录变化或存储问题，此报告将不计入留存分析。不影响继续使用应用。';
+
+  @override
+  String get lqStudyWebPreview => '网页预览数据不计入真实用户验证。';
 }

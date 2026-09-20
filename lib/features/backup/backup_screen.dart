@@ -9,6 +9,7 @@ import '../session/session_state.dart';
 import 'backup_files.dart';
 import 'device_backup.dart';
 import 'device_backup_store.dart';
+import '../research/beta_study.dart';
 
 class BackupScreen extends StatefulWidget {
   final BackupFiles? files;
@@ -143,6 +144,7 @@ class _BackupScreenState extends State<BackupScreen> {
     final director = context.read<QuestDirectorState>();
     var committed = false;
     try {
+      await BetaStudy.instance.invalidateQuietly('profile_restored');
       await character.suspendLocalPersistence();
       await director.endSession();
       final prefs = await SharedPreferences.getInstance();

@@ -1,4 +1,5 @@
 import '../features/session/profile_write_queue.dart';
+import '../features/research/beta_study.dart';
 import '../features/billing/purchase_verifier.dart';
 import '../features/session/account_deletion_journal.dart';
 import '../features/backup/device_backup_store.dart';
@@ -263,6 +264,7 @@ class CharacterState extends ChangeNotifier {
 
   Future<void> deleteLocalProfile() async {
     if (!_isLocalGuest) throw StateError('No device profile is active.');
+    await BetaStudy.instance.withdraw();
     _saveTimer?.cancel();
     _hpRegenTimer?.cancel();
     await _localWrites.catchError((Object _) {});
