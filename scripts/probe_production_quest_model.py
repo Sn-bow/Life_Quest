@@ -13,6 +13,8 @@ import litert_lm
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('--count-only', action='store_true')
+parser.add_argument('--input', type=Path, default=root / 'qa_artifacts/rebirth/production-model-inputs.json')
+parser.add_argument('--output', type=Path, default=root / 'qa_artifacts/rebirth/production-model-probe.json')
 args = parser.parse_args()
 litert_lm.set_min_log_severity(litert_lm.LogSeverity.ERROR)
 engine = litert_lm.Engine(
@@ -20,7 +22,7 @@ engine = litert_lm.Engine(
     backend=litert_lm.Backend.CPU(thread_count=4), max_num_tokens=2048)
 rows = []
 try:
-    for fixture in json.loads((root / 'qa_artifacts/rebirth/production-model-inputs.json').read_text()):
+    for fixture in json.loads(args.input.read_text()):
         tokens = len(engine.tokenize(fixture['system'])) + len(engine.tokenize(fixture['prompt']))
         row = {'id': fixture['id'], 'input_tokens': tokens, 'output': '', 'error': None}
         started = time.monotonic()
@@ -40,7 +42,8 @@ try:
         rows.append(row)
         print(row['id'], tokens, 'input tokens;', row['seconds'], 'seconds;', row['error'] or 'ok', flush=True)
         if not args.count_only:
-            (root / 'qa_artifacts/rebirth/production-model-probe.json').write_text(json.dumps({
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(json.dumps({
                 'runtime': 'Mac CPU 4 threads; not a phone benchmark',
                 'prompt_source': 'shipping Dart QuestGeneration', 'context_tokens': 2048,
                 'max_output_tokens': 550, 'cases': rows,

@@ -1959,5 +1959,10 @@
   "lqStudySaved": "保存しました。",
   "lqStudyError": "記録を読み取り・保存できませんでした。既存の記録は保持しました。再試行または参加記録の削除ができます。",
   "lqStudyFlagged": "記録変更または保存の問題により継続率分析から除外されます。アプリは引き続き使えます。",
-  "lqStudyWebPreview": "Webプレビューのデータは実際の利用者検証から除外されます。"
+  "lqStudyWebPreview": "Webプレビューのデータは実際の利用者検証から除外されます。",
+  "lqFeedbackTitle": "ご意見・お問い合わせ",
+  "lqFeedbackDescription": "困ったことや欲しい機能を教えてください。記録は自動添付されません。",
+  "lqReportManualDescription": "この公開版ではアプリ内から報告を送信しません。下の提案を確認し、必要ならコピーしてお問い合わせ先へメールしてください。個人情報は送信前に削除してください。ページを開くだけでは内容は送られません。",
+  "lqReportCopySuggestion": "提案をコピー",
+  "lqReportManualCopied": "提案をコピーしました。まだ送信されていません。"
 }

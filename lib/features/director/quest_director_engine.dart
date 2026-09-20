@@ -367,10 +367,10 @@ class QuestDirectorEngine {
       '用{m}分钟回顾今天学到的内容',
     ]),
     QuestTemplate('language', GrowthFocus.learning, StatType.wisdom, 2, 10, [
-      '배우는 언어로 {m}분 소리 내 읽기',
-      'Read aloud in a language you study for {m} minutes',
-      '学習中の言語で{m}分音読する',
-      '用正在学习的语言朗读{m}分钟',
+      '배우는 분야의 단어를 {m}분 소리 내 읽기',
+      'Read terms from a topic you study aloud for {m} minutes',
+      '学習中の分野の言葉を{m}分音読する',
+      '朗读正在学习的领域的词语{m}分钟',
     ]),
     QuestTemplate('desk', GrowthFocus.order, StatType.strength, 1, 10, [
       '책상 한 구역을 {m}분 정리하기',

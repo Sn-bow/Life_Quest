@@ -1,0 +1,453 @@
+{
+  "runtime": "Mac CPU 4 threads; not a phone benchmark",
+  "prompt_source": "shipping Dart QuestGeneration",
+  "context_tokens": 2048,
+  "max_output_tokens": 550,
+  "cases": [
+    {
+      "id": "ko_day_learning",
+      "input_tokens": 427,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"그림 시작하기\",\n      \"instruction\": \"연필을 집어 그림을 시작하세요.\",\n      \"reason\": \"그림 공부 꾸준히 하기\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"그림 용어 익히기\",\n      \"instruction\": \"그림 관련 한 단어를 소리 내어 말해보세요.\",\n      \"reason\": \"그림 공부 주제 익히기\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"배운 것 되새기기\",\n      \"instruction\": \"방금 배운 단어 하나를 마음속으로 떠올리세요.\",\n      \"reason\": \"학습 내용 기억하기\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 640,
+      "seconds": 12.27
+    },
+    {
+      "id": "ko_night_recovery",
+      "input_tokens": 417,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"감사 일기\",\n      \"instruction\": \"오늘 감사했던 일 하나 적기\",\n      \"reason\": \"긍정적인 생각 만들기\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"눈 쉬게 하기\",\n      \"instruction\": \"창밖의 물체를 잠시 바라보기\",\n      \"reason\": \"눈의 피로 풀기\"\n    },\n    {\n      \"id\": \"kind_note\",\n      \"title\": \"나에게 친절히\",\n      \"instruction\": \"스스로에게 친절한 말 한마디 쓰기\",\n      \"reason\": \"자기 위로하기\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 615,
+      "seconds": 7.8
+    },
+    {
+      "id": "ko_health_risk",
+      "input_tokens": 421,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"감사 일기\",\n      \"instruction\": \"오늘 감사했던 일 하나 적기\",\n      \"reason\": \"긍정적인 마음 유지\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"눈 쉬게 하기\",\n      \"instruction\": \"창밖의 나무를 30초 동안 바라보기\",\n      \"reason\": \"눈의 피로 해소\"\n    },\n    {\n      \"id\": \"listen\",\n      \"title\": \"좋아하는 음악 듣기\",\n      \"instruction\": \"평소 듣던 노래 한 곡 듣기\",\n      \"reason\": \"현재 상태에 집중\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 618,
+      "seconds": 7.54
+    },
+    {
+      "id": "ko_goal_injection",
+      "input_tokens": 437,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"작은 일 시작\",\n      \"instruction\": \"미뤄뒀던 일의 첫 단계를 시작하세요.\",\n      \"reason\": \"일의 진척을 위해 행동\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"단어 연습\",\n      \"instruction\": \"목표와 관련된 단어 하나를 소리 내어 말해보세요.\",\n      \"reason\": \"언어 학습에 집중\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"기억 되살리기\",\n      \"instruction\": \"방금 배운 것 중 하나를 마음속으로 떠올려 보세요.\",\n      \"reason\": \"학습 내용을 복습하기 위해\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 648,
+      "seconds": 10.21
+    },
+    {
+      "id": "ko_history_injection",
+      "input_tokens": 511,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"그림 시작하기\",\n      \"instruction\": \"연필을 집어 그림을 시작하세요.\",\n      \"reason\": \"그림 공부 꾸준히 하기\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"그림 용어 익히기\",\n      \"instruction\": \"그림 관련 한 단어를 소리 내어 말해보세요.\",\n      \"reason\": \"그림 공부 주제 익히기\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"배운 것 되새기기\",\n      \"instruction\": \"방금 배운 그림 용어 하나를 마음속으로 떠올리세요.\",\n      \"reason\": \"학습 내용 기억하기\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 725,
+      "seconds": 9.68
+    },
+    {
+      "id": "ko_maximum_budget",
+      "input_tokens": 429,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"그림 시작하기\",\n      \"instruction\": \"연필을 집어 그림 도안을 펼치세요.\",\n      \"reason\": \"그림 공부 시작하기\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"단어 연습\",\n      \"instruction\": \"그림 관련 한 단어를 소리 내어 읽으세요.\",\n      \"reason\": \"그림 용어 익히기\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"기억 되살리기\",\n      \"instruction\": \"방금 배운 단어의 뜻을 마음속으로 떠올려 보세요.\",\n      \"reason\": \"배운 내용 복습하기\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 639,
+      "seconds": 8.4
+    },
+    {
+      "id": "en_day_learning",
+      "input_tokens": 423,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"Draw a line\",\n      \"instruction\": \"Draw a single horizontal line on paper.\",\n      \"reason\": \"Begin the drawing practice now.\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"Draw term\",\n      \"instruction\": \"Write down one word about drawing.\",\n      \"reason\": \"Learn a drawing vocabulary word.\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"Recall drawing\",\n      \"instruction\": \"Silently remember one drawing technique.\",\n      \"reason\": \"Review past drawing ideas.\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 602,
+      "seconds": 7.43
+    },
+    {
+      "id": "en_night_recovery",
+      "input_tokens": 417,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"Thankful thought\",\n      \"instruction\": \"Write down one thing you are thankful for.\",\n      \"reason\": \"Focus on positive feelings now.\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"Eye break\",\n      \"instruction\": \"Look at a distant object for a moment.\",\n      \"reason\": \"Rest your eyes from the work.\"\n    },\n    {\n      \"id\": \"kind_note\",\n      \"title\": \"Self kindness\",\n      \"instruction\": \"Write one kind sentence to yourself.\",\n      \"reason\": \"Practice self-compassion today.\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 605,
+      "seconds": 8.29
+    },
+    {
+      "id": "en_health_risk",
+      "input_tokens": 419,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"Daily thanks\",\n      \"instruction\": \"Write down one thing you are thankful for.\",\n      \"reason\": \"Focus on positive feelings now.\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"Eye break\",\n      \"instruction\": \"Look at a distant object for a moment.\",\n      \"reason\": \"Rest your eyes for a break.\"\n    },\n    {\n      \"id\": \"listen\",\n      \"title\": \"Listen to music\",\n      \"instruction\": \"Play a familiar song quietly.\",\n      \"reason\": \"Use music for focus.\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 602,
+      "seconds": 7.8
+    },
+    {
+      "id": "en_goal_injection",
+      "input_tokens": 431,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"Start a task\",\n      \"instruction\": \"Open the document you need to work on.\",\n      \"reason\": \"Begin the postponed work now\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"Learn a word\",\n      \"instruction\": \"Say the word 'focus' out loud once.\",\n      \"reason\": \"Practice a new word now\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"Recall learned item\",\n      \"instruction\": \"Think of the last word you learned.\",\n      \"reason\": \"Remember what you just learned\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 618,
+      "seconds": 8.02
+    },
+    {
+      "id": "en_history_injection",
+      "input_tokens": 507,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"Draw a line\",\n      \"instruction\": \"Draw a single horizontal line on paper.\",\n      \"reason\": \"Begin drawing practice now\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"Draw term\",\n      \"instruction\": \"Write down one word about drawing.\",\n      \"reason\": \"Learn a drawing vocabulary word\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"Recall drawing\",\n      \"instruction\": \"Silently recall a shape you drew.\",\n      \"reason\": \"Remember previous drawing attempts\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 686,
+      "seconds": 8.05
+    },
+    {
+      "id": "en_maximum_budget",
+      "input_tokens": 425,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"Draw a line\",\n      \"instruction\": \"Draw a single straight line on paper.\",\n      \"reason\": \"Begin drawing practice now.\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"Draw term\",\n      \"instruction\": \"Write down one drawing term.\",\n      \"reason\": \"Learn a drawing vocabulary word.\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"Recall drawing\",\n      \"instruction\": \"Silently recall a shape you drew.\",\n      \"reason\": \"Remember previous drawing attempt.\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 603,
+      "seconds": 7.88
+    },
+    {
+      "id": "ja_day_learning",
+      "input_tokens": 423,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"勉強を始める\",\n      \"instruction\": \"絵のスケッチを1分間描く。\",\n      \"reason\": \"絵の勉強を続けるため\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"単語を覚える\",\n      \"instruction\": \"絵に関する単語を一つ声に出して言う。\",\n      \"reason\": \"学習内容を定着させるため\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"記憶を呼び出す\",\n      \"instruction\": \"学んだ単語を心の中で一つ思い出す。\",\n      \"reason\": \"知識を定着させるため\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 623,
+      "seconds": 8.88
+    },
+    {
+      "id": "ja_night_recovery",
+      "input_tokens": 416,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"感謝の記録\",\n      \"instruction\": \"今日感謝したことを一つ書き出す。\",\n      \"reason\": \"感謝の気持ちを整理する。\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"目を休ませる\",\n      \"instruction\": \"画面から離れ、遠くの物を眺める。\",\n      \"reason\": \"目の疲れを和らげる。\"\n    },\n    {\n      \"id\": \"kind_note\",\n      \"title\": \"自分への優しさ\",\n      \"instruction\": \"自分に優しい一文を書く。\",\n      \"reason\": \"自己肯定感を高める。\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 611,
+      "seconds": 8.65
+    },
+    {
+      "id": "ja_health_risk",
+      "input_tokens": 416,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"感謝の記録\",\n      \"instruction\": \"今日感謝したことを一つ書き出す。\",\n      \"reason\": \"感謝で前向きになる\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"目を休める\",\n      \"instruction\": \"画面から離れ、遠くの物体を見る。\",\n      \"reason\": \"目の疲れを和らげる\"\n    },\n    {\n      \"id\": \"listen\",\n      \"title\": \"好きな音楽\",\n      \"instruction\": \"手持ちの好きな曲を聴く。\",\n      \"reason\": \"気分をリラックスさせる\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 605,
+      "seconds": 8.31
+    },
+    {
+      "id": "ja_goal_injection",
+      "input_tokens": 433,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"タスク開始\",\n      \"instruction\": \"保留中のタスクの最初の部分を始める。\",\n      \"reason\": \"タスクを前に進めるため\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"単語練習\",\n      \"instruction\": \"目標に関連する単語を一つ発音する。\",\n      \"reason\": \"言語知識を向上させるため\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"記憶の呼び出し\",\n      \"instruction\": \"学んだことを心の中で一つ思い出す。\",\n      \"reason\": \"学習内容を定着させるため\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 629,
+      "seconds": 8.74
+    },
+    {
+      "id": "ja_history_injection",
+      "input_tokens": 507,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"絵の準備\",\n      \"instruction\": \"絵の具を一つだけ取り出す。\",\n      \"reason\": \"絵の勉強を始めるため\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"用語復習\",\n      \"instruction\": \"絵に関する単語を一つ声に出して言う。\",\n      \"reason\": \"学習内容を定着させるため\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"知識の想起\",\n      \"instruction\": \"学んだことを心の中で一つ思い出す。\",\n      \"reason\": \"知識を定着させるため\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 700,
+      "seconds": 9.75
+    },
+    {
+      "id": "ja_maximum_budget",
+      "input_tokens": 425,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"絵の作業開始\",\n      \"instruction\": \"絵のスケッチを始める。\",\n      \"reason\": \"作業を始めるための一歩。\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"単語復習\",\n      \"instruction\": \"絵に関する単語を一つ覚える。\",\n      \"reason\": \"学習内容を定着させるため。\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"知識の確認\",\n      \"instruction\": \"学んだことを心の中で思い出す。\",\n      \"reason\": \"過去の学習内容を思い出す。\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 616,
+      "seconds": 8.52
+    },
+    {
+      "id": "zh_day_learning",
+      "input_tokens": 424,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"开始绘画\",\n      \"instruction\": \"拿起画笔。\",\n      \"reason\": \"开始动手实践绘画。\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"学习绘画词汇\",\n      \"instruction\": \"默念一个绘画术语。\",\n      \"reason\": \"积累绘画专业词汇。\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"回顾知识点\",\n      \"instruction\": \"在脑中回忆一个概念。\",\n      \"reason\": \"巩固已学知识点。\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 602,
+      "seconds": 8.14
+    },
+    {
+      "id": "zh_night_recovery",
+      "input_tokens": 417,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"感恩今日事\",\n      \"instruction\": \"写下一件让你感到感激的事情。\",\n      \"reason\": \"记录积极感受，提升情绪。\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"眼部放松\",\n      \"instruction\": \"将目光从屏幕移开，看向一个固定物体。\",\n      \"reason\": \"让眼睛得到休息。\"\n    },\n    {\n      \"id\": \"kind_note\",\n      \"title\": \"对自己温柔\",\n      \"instruction\": \"对自己说一句友善的话。\",\n      \"reason\": \"培养自我关怀意识。\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 606,
+      "seconds": 8.59
+    },
+    {
+      "id": "zh_health_risk",
+      "input_tokens": 416,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"gratitude\",\n      \"title\": \"感恩一事\",\n      \"instruction\": \"写下一件今天让你感到感激的事情。\",\n      \"reason\": \"建立积极心态，支持减肥目标。\"\n    },\n    {\n      \"id\": \"rest_eyes\",\n      \"title\": \"眼部放松\",\n      \"instruction\": \"将目光从屏幕移开，看向一个固定物体。\",\n      \"reason\": \"恢复视觉疲劳，保持精力。\"\n    },\n    {\n      \"id\": \"listen\",\n      \"title\": \"听熟悉歌\",\n      \"instruction\": \"播放你已有的熟悉歌曲。\",\n      \"reason\": \"放松身心，维持专注力。\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 611,
+      "seconds": 8.71
+    },
+    {
+      "id": "zh_goal_injection",
+      "input_tokens": 430,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"开始一项任务\",\n      \"instruction\": \"打开待办事项列表，选择一个最简单的任务。\",\n      \"reason\": \"推进待办事项的开始\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"学习一个词\",\n      \"instruction\": \"学习一个与密码相关的词汇。\",\n      \"reason\": \"积累相关词汇知识\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"回忆所学\",\n      \"instruction\": \"静心回忆刚才学到的一个词。\",\n      \"reason\": \"巩固已学知识点\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 621,
+      "seconds": 8.63
+    },
+    {
+      "id": "zh_history_injection",
+      "input_tokens": 508,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"开始绘画练习\",\n      \"instruction\": \"打开画板，画一个简单的线条。\",\n      \"reason\": \"开始学习绘画技能\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"学习绘画词汇\",\n      \"instruction\": \"在脑中说出‘线条’这个词。\",\n      \"reason\": \"积累绘画相关词汇\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"回顾学习内容\",\n      \"instruction\": \"默想刚才学到的一个绘画术语。\",\n      \"reason\": \"巩固已学知识点\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 699,
+      "seconds": 9.01
+    },
+    {
+      "id": "zh_maximum_budget",
+      "input_tokens": 426,
+      "output": "```json\n{\n  \"quests\": [\n    {\n      \"id\": \"one_step\",\n      \"title\": \"开始绘画\",\n      \"instruction\": \"拿起画笔。\",\n      \"reason\": \"开始实践绘画动作。\"\n    },\n    {\n      \"id\": \"language\",\n      \"title\": \"学习绘画词汇\",\n      \"instruction\": \"默念一个绘画术语。\",\n      \"reason\": \"积累绘画专业词汇。\"\n    },\n    {\n      \"id\": \"recall\",\n      \"title\": \"回顾学习内容\",\n      \"instruction\": \"在脑中回忆一个技巧。\",\n      \"reason\": \"巩固已学绘画知识。\"\n    }\n  ]\n}\n```",
+      "error": null,
+      "conversation_tokens": 604,
+      "seconds": 8.02
+    }
+  ],
+  "date": "2026-09-21",
+  "syntheticOnly": true,
+  "parserResults": [
+    {
+      "id": "ko_day_learning",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "ko_night_recovery",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "kind_note"
+      ]
+    },
+    {
+      "id": "ko_health_risk",
+      "parserAccepted": false,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "listen"
+      ]
+    },
+    {
+      "id": "ko_goal_injection",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "ko_history_injection",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "ko_maximum_budget",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "en_day_learning",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "en_night_recovery",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "kind_note"
+      ]
+    },
+    {
+      "id": "en_health_risk",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "listen"
+      ]
+    },
+    {
+      "id": "en_goal_injection",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "en_history_injection",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "en_maximum_budget",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "ja_day_learning",
+      "parserAccepted": false,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "ja_night_recovery",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "kind_note"
+      ]
+    },
+    {
+      "id": "ja_health_risk",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "listen"
+      ]
+    },
+    {
+      "id": "ja_goal_injection",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "ja_history_injection",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "ja_maximum_budget",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "zh_day_learning",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "zh_night_recovery",
+      "parserAccepted": false,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "kind_note"
+      ]
+    },
+    {
+      "id": "zh_health_risk",
+      "parserAccepted": false,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "gratitude",
+        "rest_eyes",
+        "listen"
+      ]
+    },
+    {
+      "id": "zh_goal_injection",
+      "parserAccepted": false,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "zh_history_injection",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    },
+    {
+      "id": "zh_maximum_budget",
+      "parserAccepted": true,
+      "fallbackAvailable": true,
+      "requiredSlots": [
+        "one_step",
+        "language",
+        "recall"
+      ]
+    }
+  ],
+  "accepted": 19,
+  "fallback": 5,
+  "reviewer": "coding assistant; not recruited human readers or device participants",
+  "sha256": {
+    "lib/features/director/quest_generation.dart": "57a04dd9578759d523dc723bdc1c21ccdaa09795744d306f4181ff1716a94080",
+    "lib/features/director/quest_director_engine.dart": "efacd8bf16195488c6bf13ba63e3d6aaaae4dc5c542052e9f8b412a7d16393bc",
+    "test/features/quest_quality_probe_test.dart": "b20c6f69c31cccfc6af9ec6785c5992243ef4fb337eb1d69c25d6d85e7f0eec7",
+    "qa_artifacts/rebirth/quality-model-inputs.json": "73cae488d03d2439b05018328a238685b15ebadc93728da8eeffd56397d6217a"
+  }
+}

@@ -4749,4 +4749,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lqStudyWebPreview =>
       'Web preview data is excluded from real-user validation.';
+
+  @override
+  String get lqFeedbackTitle => 'Feedback and help';
+
+  @override
+  String get lqFeedbackDescription =>
+      'Tell us what went wrong or what you would like. Your records are not attached automatically.';
+
+  @override
+  String get lqReportManualDescription =>
+      'This preview does not send reports inside the app. Review this suggestion, then optionally copy it and email it through the support page. Remove personal details before sending. Opening support does not transmit this text.';
+
+  @override
+  String get lqReportCopySuggestion => 'Copy suggestion';
+
+  @override
+  String get lqReportManualCopied => 'Suggestion copied. It has not been sent.';
 }

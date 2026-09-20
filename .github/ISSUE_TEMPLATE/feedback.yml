@@ -1,0 +1,14 @@
+name: 사용 의견 / Feedback
+description: 좋았던 점이나 바라는 기능 / What worked or what you want next
+title: "[의견] "
+body:
+  - type: markdown
+    attributes:
+      value: "이 의견은 공개됩니다. 개인적인 기록은 포함하지 마세요. 비공개 문의는 logian621@gmail.com 으로 보내주세요. / Feedback here is public."
+  - type: textarea
+    id: feedback
+    attributes:
+      label: 어떤 경험이었나요? / How was your experience?
+      description: 다시 사용하고 싶었던 점, 불편했던 점, 더 필요한 것을 자유롭게 적어주세요.
+    validations:
+      required: true

@@ -4621,4 +4621,20 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lqStudyWebPreview => '웹 미리보기 데이터는 실제 사용자 검증에서 제외됩니다.';
+
+  @override
+  String get lqFeedbackTitle => '의견·문제 보내기';
+
+  @override
+  String get lqFeedbackDescription => '불편한 점이나 바라는 기능을 알려주세요. 기록은 자동 첨부되지 않아요.';
+
+  @override
+  String get lqReportManualDescription =>
+      '이 공개판은 앱 안에서 신고를 전송하지 않습니다. 아래 추천을 확인하고, 필요하면 복사한 뒤 문의 페이지의 이메일로 보내주세요. 개인적인 내용은 지운 뒤 보내세요. 문의 페이지를 여는 것만으로 내용이 전송되지는 않습니다.';
+
+  @override
+  String get lqReportCopySuggestion => '추천 문구 복사';
+
+  @override
+  String get lqReportManualCopied => '추천 문구를 복사했어요. 아직 전송되지는 않았어요.';
 }

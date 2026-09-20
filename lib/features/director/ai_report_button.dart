@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../config/cloud_config.dart';
 import '../../l10n/app_localizations.dart';
 import 'ai_report_service.dart';
 
@@ -19,6 +21,13 @@ class AiReportButton extends StatelessWidget {
       icon: const Icon(PhosphorIcons.flag, size: 16),
       label: Text(s.lqReportSuggestion),
       onPressed: () async {
+        if (!kLifeQuestCloudEnabled) {
+          await showDialog<void>(
+            context: context,
+            builder: (_) => OfflineAiReportDialog(content: content),
+          );
+          return;
+        }
         final response = await showDialog<AiReportResponse>(
           context: context,
           builder: (_) => _ReportDialog(content: content),
@@ -48,6 +57,64 @@ class AiReportButton extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Public APK feedback: the user reviews and copies only this suggestion.
+/// Opening support never sends its text or claims a server receipt.
+class OfflineAiReportDialog extends StatelessWidget {
+  final AiReportContent content;
+  const OfflineAiReportDialog({super.key, required this.content});
+  @override
+  Widget build(BuildContext context) {
+    final s = AppLocalizations.of(context)!;
+    return AlertDialog(
+      title: Text(s.lqReportSuggestion),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(s.lqReportManualDescription),
+            const SizedBox(height: 16),
+            SelectableText(
+              '${content.title}\n${content.instruction}\n${content.reason}',
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(s.close),
+        ),
+        TextButton(
+          onPressed: () async {
+            await Clipboard.setData(
+              ClipboardData(
+                text:
+                    'Life Quest · Gemma 4 E2B · ${content.locale}\n${content.title}\n${content.instruction}\n${content.reason}',
+              ),
+            );
+            if (context.mounted) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(s.lqReportManualCopied)));
+            }
+          },
+          child: Text(s.lqReportCopySuggestion),
+        ),
+        TextButton(
+          onPressed: () async {
+            await launchUrl(
+              Uri.parse('https://sn-bow.github.io/Life_Quest/#contact'),
+              mode: LaunchMode.externalApplication,
+            );
+          },
+          child: Text(s.lqFeedbackTitle),
+        ),
+      ],
     );
   }
 }

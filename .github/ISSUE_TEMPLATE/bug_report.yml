@@ -1,0 +1,24 @@
+name: 오류 제보 / Bug report
+description: 앱에서 막힌 부분을 알려주세요 / Tell us what went wrong
+title: "[문제] "
+body:
+  - type: markdown
+    attributes:
+      value: "이 이슈는 공개됩니다. 개인 목표·비밀번호·백업 파일은 올리지 마세요. 비공개 문의는 logian621@gmail.com 으로 보내주세요. / This issue is public. Do not attach private records or backups."
+  - type: input
+    id: version
+    attributes:
+      label: 앱 버전 / App version
+      placeholder: 2.0.0 공개 프리뷰
+  - type: input
+    id: device
+    attributes:
+      label: 기종과 Android 버전 / Device and Android version
+      description: 알고 있는 범위만 적어주세요. / Share only what you know.
+  - type: textarea
+    id: problem
+    attributes:
+      label: 어떤 문제가 있었나요? / What happened?
+      description: 어떤 화면에서 어떤 동작을 했는지, 기대한 동작과 실제 동작을 알려주세요.
+    validations:
+      required: true

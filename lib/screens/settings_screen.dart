@@ -703,6 +703,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
           TranslucentCard(
             child: Column(
               children: [
+                ListTile(
+                  leading: const Icon(Icons.feedback_outlined),
+                  title: Text(l10n.lqFeedbackTitle),
+                  subtitle: Text(l10n.lqFeedbackDescription),
+                  trailing: const Icon(Icons.open_in_new, size: 18),
+                  onTap: () async {
+                    final opened = await launchUrl(
+                      Uri.parse('https://sn-bow.github.io/Life_Quest/#contact'),
+                      mode: LaunchMode.externalApplication,
+                    );
+                    if (!opened && context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('logian621@gmail.com')),
+                      );
+                    }
+                  },
+                ),
                 if (kLifeQuestCloudEnabled)
                   ListTile(
                     leading: const Icon(Icons.flag_outlined),

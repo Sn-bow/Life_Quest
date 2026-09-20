@@ -4597,4 +4597,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lqStudyWebPreview => 'Webプレビューのデータは実際の利用者検証から除外されます。';
+
+  @override
+  String get lqFeedbackTitle => 'ご意見・お問い合わせ';
+
+  @override
+  String get lqFeedbackDescription => '困ったことや欲しい機能を教えてください。記録は自動添付されません。';
+
+  @override
+  String get lqReportManualDescription =>
+      'この公開版ではアプリ内から報告を送信しません。下の提案を確認し、必要ならコピーしてお問い合わせ先へメールしてください。個人情報は送信前に削除してください。ページを開くだけでは内容は送られません。';
+
+  @override
+  String get lqReportCopySuggestion => '提案をコピー';
+
+  @override
+  String get lqReportManualCopied => '提案をコピーしました。まだ送信されていません。';
 }

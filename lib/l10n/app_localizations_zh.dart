@@ -4562,4 +4562,20 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get lqStudyWebPreview => '网页预览数据不计入真实用户验证。';
+
+  @override
+  String get lqFeedbackTitle => '反馈与帮助';
+
+  @override
+  String get lqFeedbackDescription => '告诉我们遇到的问题或期待的功能。不会自动附加你的记录。';
+
+  @override
+  String get lqReportManualDescription =>
+      '此预览版不会在应用内发送举报。请检查下面的建议，需要时复制并通过支持页面的邮箱发送。发送前请删除个人信息。打开支持页面不会传送这些内容。';
+
+  @override
+  String get lqReportCopySuggestion => '复制建议';
+
+  @override
+  String get lqReportManualCopied => '建议已复制，尚未发送。';
 }

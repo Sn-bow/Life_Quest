@@ -1959,5 +1959,10 @@
   "lqStudySaved": "Saved.",
   "lqStudyError": "Could not read or save the record. Existing records were preserved. Retry or delete study records.",
   "lqStudyFlagged": "A record change or storage problem was detected. This report will be excluded from retention analysis. You can keep using the app.",
-  "lqStudyWebPreview": "Web preview data is excluded from real-user validation."
+  "lqStudyWebPreview": "Web preview data is excluded from real-user validation.",
+  "lqFeedbackTitle": "Feedback and help",
+  "lqFeedbackDescription": "Tell us what went wrong or what you would like. Your records are not attached automatically.",
+  "lqReportManualDescription": "This preview does not send reports inside the app. Review this suggestion, then optionally copy it and email it through the support page. Remove personal details before sending. Opening support does not transmit this text.",
+  "lqReportCopySuggestion": "Copy suggestion",
+  "lqReportManualCopied": "Suggestion copied. It has not been sent."
 }
