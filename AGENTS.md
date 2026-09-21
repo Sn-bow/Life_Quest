@@ -1,6 +1,6 @@
 # Life Quest - 프로젝트 메모리
 
-> **홍보 우선순위 후속:** 국내보다 해외 우선. 첫2주 대만 번체 중심, 프로필 영어/번체, 첫 글TW-01. 한국어 선행 홍보는 필요 없음. 기존6개국 배포 설정은 유지. 사용자명seok.makes는 후보일 뿐 예약/가용 확인하지 않았다. 자발적 바이럴과 계약된 광고 노출/작업 이행을 구분한다.
+> **최신 타깃 수정 (2026-09-21):** 일반 RPG 사용자가 아니라 상태창·퀘스트·레벨업이 등장하는 현대 판타지 웹툰/웹소설 독자가 핵심. 대만 고정 우선안 폐기. 실행 추천은 일본어 장르 독자 소개(JA-01) + 영어권 비교(EN-01), 프랑스 후속 후보. 국가별 수익성 확정 아님. `docs/rebirth/marketing/TARGET_MARKETS.md` 근거/한계 우선. 첫 메시지 “내 일상에도 상태창이 생긴다면?”. 기존6개국 유지, 계정/게시/광고 없음.
 
 > **최신 출시 전략 (2026-09-21):** Google Play 중심 글로벌 배포 + KO/EN/JA/대만 번체 현지화 + Threads 시장별 유입. `docs/rebirth/PLAY_GLOBAL_LAUNCH.md`, `marketing/THREADS_STARTER_KIT.md` 우선. 사용자가 계정을 직접 만들며 이름/소개/자연스러운 게시물 원고를 요청했다. Uptodown/Galaxy 등 추가 입점은 후순위로 변경. 6개국 설정 유지. 이번 재확인 Alpha3/4·비활성, 릴리스 검토700F193F. 파일URL 권한 상태 질문 대기. SNS 계정/게시/DM/광고비 지출 없음.
 
@@ -18,7 +18,7 @@
 
 
 ## 프로젝트 개요
-- **앱 이름**: Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱
+- **앱 이름**: Life Quest - 현대 판타지 독자를 위한 현실 상태창·퀘스트 앱
 - **프레임워크**: Flutter (Dart) + Flame 엔진 (Soul Deck 전투)
 - **백엔드**: Firebase (Auth, Firestore, Storage, App Check, Crashlytics)
 - **상태 관리**: Provider
