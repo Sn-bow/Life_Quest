@@ -1,5 +1,7 @@
 # Life Quest - 프로젝트 메모리
 
+> **최신 출시 전략 (2026-09-21):** Google Play 중심 글로벌 배포 + KO/EN/JA/대만 번체 현지화 + Threads 시장별 유입. `docs/rebirth/PLAY_GLOBAL_LAUNCH.md`, `marketing/THREADS_STARTER_KIT.md` 우선. 사용자가 계정을 직접 만들며 이름/소개/자연스러운 게시물 원고를 요청했다. Uptodown/Galaxy 등 추가 입점은 후순위로 변경. 6개국 설정 유지. 이번 재확인 Alpha3/4·비활성, 릴리스 검토700F193F. 파일URL 권한 상태 질문 대기. SNS 계정/게시/DM/광고비 지출 없음.
+
 > **해외 배포 후속 (2026-09-21):** 사용자 요청으로 Alpha 대상 국가를 한국·대만·일본·미국·캐나다·프랑스 6개로 저장하고 재진입 확인했다. 테스트 활성화/정식 출시 아님. `docs/rebirth/INTERNATIONAL_DISTRIBUTION.md`에 대체 스토어 공식 조건과 우선순위 기록. Uptodown/Galaxy Store 후보, 대만 ONE store는 생활 앱 결제 제한 확인 필요. 타 스토어 제출/가입/과금 없음. 프랑스어·번체 중국어 미지원.
 
 > **최신 요청/체크포인트:** 사용자가 비공개 테스트 선등록을 요청했으며, 실제12명 이상 모집/비용은 직접 진행할 예정이다. `docs/rebirth/CLOSED_TEST.md` 우선 확인. Alpha 국가/전용 목록/릴리스1 초안을 저장했으나 파일 업로드 권한 확인과 Play Console 오류 때문에 AAB 업로드·심사·배포 미완료다. 참여 링크/14일 시작을 완료로 보고하지 않는다.
