@@ -106,16 +106,16 @@ class DailyModifier {
   }
 
   Map<String, dynamic> toJson() => {
-        'combatHpBonus': combatHpBonus,
-        'attackDamageBonus': attackDamageBonus,
-        'firstTurnDrawBonus': firstTurnDrawBonus,
-        'startingGoldBonus': startingGoldBonus,
-        'defenseCardWeightBonus': defenseCardWeightBonus,
-        'magicCardWeightBonus': magicCardWeightBonus,
-        'eventOptionBonusChance': eventOptionBonusChance,
-        'shopDiscountRate': shopDiscountRate,
-        'restHealPercentBonus': restHealPercentBonus,
-      };
+    'combatHpBonus': combatHpBonus,
+    'attackDamageBonus': attackDamageBonus,
+    'firstTurnDrawBonus': firstTurnDrawBonus,
+    'startingGoldBonus': startingGoldBonus,
+    'defenseCardWeightBonus': defenseCardWeightBonus,
+    'magicCardWeightBonus': magicCardWeightBonus,
+    'eventOptionBonusChance': eventOptionBonusChance,
+    'shopDiscountRate': shopDiscountRate,
+    'restHealPercentBonus': restHealPercentBonus,
+  };
 
   bool get hasAnyBonus =>
       combatHpBonus > 0 ||
@@ -140,8 +140,7 @@ class DailyModifier {
         '마법 카드 흐름 +${(magicCardWeightBonus * 100).round()}%',
       if (eventOptionBonusChance > 0)
         '이벤트 선택지 +${(eventOptionBonusChance * 100).round()}%',
-      if (shopDiscountRate > 0)
-        '상점 할인 -${(shopDiscountRate * 100).round()}%',
+      if (shopDiscountRate > 0) '상점 할인 -${(shopDiscountRate * 100).round()}%',
       if (restHealPercentBonus > 0)
         '휴식 회복 +${(restHealPercentBonus * 100).round()}%',
     ];
@@ -182,8 +181,8 @@ class TitleProgressSnapshot {
 class CoreLoopRules {
   static GrowthDelta growthForQuest(Quest quest) {
     final amount = _statAmountFor(quest.difficulty) * _typeScaleFor(quest.type);
-    final xp = quest.xp;
-    final gold = math.max(1, (quest.xp * 0.5).round());
+    final xp = (quest.awardedXp ?? quest.xp).round();
+    final gold = quest.awardedGold ?? math.max(1, (quest.xp * 0.5).round());
 
     switch (quest.category) {
       case StatType.strength:
@@ -260,7 +259,8 @@ class CoreLoopRules {
     if (choice.outcomes.isEmpty) {
       return const EventOutcome(description: '');
     }
-    final shouldUseBonus = modifier.eventOptionBonusChance > 0 &&
+    final shouldUseBonus =
+        modifier.eventOptionBonusChance > 0 &&
         rng.nextDouble() < modifier.eventOptionBonusChance;
     if (!shouldUseBonus) {
       return choice.outcomes[rng.nextInt(choice.outcomes.length)];
@@ -415,8 +415,7 @@ class CoreLoopRules {
       TitleConditionType.questsCompleted ||
       TitleConditionType.monthlyRaidClears ||
       TitleConditionType.yearlyRaidClears ||
-      TitleConditionType.allStats =>
-        null,
+      TitleConditionType.allStats => null,
     };
   }
 

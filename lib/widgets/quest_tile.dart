@@ -1,3 +1,4 @@
+import '../features/system/system_widgets.dart' show xpText;
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
@@ -105,7 +106,7 @@ class QuestTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '+${quest.xp} XP',
+                          '+${xpText(quest.awardedXp ?? quest.lockedXp ?? quest.xp)} XP',
                           style: TextStyle(
                             color: theme.colorScheme.primary,
                             fontWeight: FontWeight.bold,
@@ -122,35 +123,47 @@ class QuestTile extends StatelessWidget {
                                 fontSize: 11,
                               ),
                             ),
-                            Icon(Icons.monetization_on,
-                                size: 12, color: Colors.amber.shade400),
+                            Icon(
+                              Icons.monetization_on,
+                              size: 12,
+                              color: Colors.amber.shade400,
+                            ),
                           ],
                         ),
                       ],
                     ),
                     if (!quest.isCompleted && onEdited != null)
                       IconButton(
-                        icon: Icon(Icons.edit,
-                            size: 20,
-                            color: theme.colorScheme.primary
-                                .withValues(alpha: 0.7)),
+                        icon: Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.7,
+                          ),
+                        ),
                         onPressed: onEdited,
                         tooltip: l10n.questTileEditTooltip,
                         visualDensity: VisualDensity.compact,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints.tightFor(
-                            width: 32, height: 32),
+                          width: 32,
+                          height: 32,
+                        ),
                       ),
                     IconButton(
-                      icon: Icon(Icons.delete,
-                          size: 20,
-                          color: Colors.redAccent.withValues(alpha: 0.7)),
+                      icon: Icon(
+                        Icons.delete,
+                        size: 20,
+                        color: Colors.redAccent.withValues(alpha: 0.7),
+                      ),
                       onPressed: onDeleted,
                       tooltip: l10n.questTileDeleteTooltip,
                       visualDensity: VisualDensity.compact,
                       padding: EdgeInsets.zero,
-                      constraints:
-                          const BoxConstraints.tightFor(width: 32, height: 32),
+                      constraints: const BoxConstraints.tightFor(
+                        width: 32,
+                        height: 32,
+                      ),
                     ),
                   ],
                 ),

@@ -1,3 +1,4 @@
+import '../features/system/system_copy.dart';
 import 'dart:async';
 import '../features/research/beta_study.dart';
 import '../features/research/beta_study_screen.dart' show studySnapshot;
@@ -77,7 +78,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       save: _character.saveDungeonCheckpoint,
     );
     _character.onLevelUp = () {
-      if (mounted && !MediaQuery.disableAnimationsOf(context)) {
+      if (mounted &&
+          !_character.isApplyingSystemAction &&
+          !MediaQuery.disableAnimationsOf(context)) {
         _confettiController.play();
       }
     };
@@ -214,7 +217,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.house),
                 selectedIcon: const Icon(PhosphorIcons.houseFill),
-                label: l10n.lqToday,
+                label: SystemCopy(context).get('status'),
               ),
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.checkSquare),
@@ -224,12 +227,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.sword),
                 selectedIcon: const Icon(PhosphorIcons.swordFill),
-                label: l10n.lqDungeon,
+                label: SystemCopy(context).get('explore'),
               ),
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.chartBar),
                 selectedIcon: const Icon(PhosphorIcons.chartBarFill),
-                label: l10n.lqGrowth,
+                label: SystemCopy(context).get('journal'),
               ),
             ],
           ),

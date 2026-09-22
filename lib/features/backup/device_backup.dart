@@ -1,3 +1,4 @@
+import '../system/system_journal.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -103,6 +104,9 @@ class DeviceSnapshot {
       }
       final profile = <String, dynamic>{
         'character': character.toJson(),
+        'systemJournal': SystemJournal.fromJson(
+          source['systemJournal'],
+        ).toJson(),
         for (final type in [
           'dailyQuests',
           'weeklyQuests',
@@ -203,7 +207,15 @@ class DeviceSnapshot {
         .toList();
     if (quests.map((e) => e.id).toSet().length != quests.length ||
         quests.any(
-          (q) => q.id.isEmpty || q.name.isEmpty || q.xp < 0 || q.xp > 100000,
+          (q) =>
+              q.id.isEmpty ||
+              q.name.isEmpty ||
+              q.xp < 0 ||
+              q.xp > 100000 ||
+              [q.lockedXp, q.awardedXp].whereType<double>().any(
+                (v) => !v.isFinite || v < 0 || v > 10000000,
+              ) ||
+              (q.awardedGold != null && q.awardedGold! < 0),
         )) {
       throw const InvalidBackup();
     }

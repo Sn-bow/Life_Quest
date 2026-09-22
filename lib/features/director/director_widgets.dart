@@ -1,3 +1,4 @@
+import '../system/system_widgets.dart' show xpText;
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../l10n/app_localizations.dart';
@@ -115,7 +116,7 @@ class ProgressStatusSummary extends StatelessWidget {
                     style: t.textTheme.bodySmall,
                   ),
                   Text(
-                    '${l.lqEarnedToday} +${state.todayGrowthDelta.xp}',
+                    '${l.lqEarnedToday} +${xpText(state.recordedXpToday)}',
                     style: t.textTheme.bodySmall,
                   ),
                 ],

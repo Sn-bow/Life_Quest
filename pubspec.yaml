@@ -91,6 +91,7 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
+    - assets/fonts/NotoSerifKR-OFL.txt
     - assets/story/
     - assets/licenses/
     - assets/images/
@@ -119,3 +120,7 @@ flutter:
     - family: NotoSansKR
       fonts:
         - asset: assets/fonts/NotoSansKR-Regular.ttf
+
+    - family: NotoSerifKR
+      fonts:
+        - asset: assets/fonts/NotoSerifKR-Variable.ttf

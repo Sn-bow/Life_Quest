@@ -134,7 +134,9 @@ void main() {
       final result = state.completeQuest(quest);
 
       expect(result, isNotNull);
-      expect(result!.totalXpAwarded, closeTo(20, 0.001));
+      expect(result!.totalXpAwarded, closeTo(70, 0.001));
+      expect(state.lastGrowthReceipt!.questXp, 20);
+      expect(state.lastGrowthReceipt!.bonusXp, 50);
       expect(state.character.level, 1);
       expect(state.character.xp, closeTo(70, 0.001));
       expect(state.character.maxXp, 150);
