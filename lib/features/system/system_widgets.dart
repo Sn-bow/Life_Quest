@@ -287,11 +287,12 @@ class _SystemOfferCardState extends State<SystemOfferCard> {
       try {
         await propose();
       } catch (_) {
-        if (mounted)
+        if (mounted) {
           setState(() {
             _error = SystemCopy(context).get('error');
             _retry = propose;
           });
+        }
       }
     });
   }
