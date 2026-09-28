@@ -16,7 +16,7 @@
 
 - Android `com.lifequest.app`, `2.0.0+2013`: `build/review/life-quest-2.0.0-2013-paid-candidate.aab`. SHA-256 `2b95f237fdde7e9518fe23c0f0042ec6c49cdb8ca8d10c7bca34c4f437851c6`, 242,281,731bytes, 빌드 소스 커밋 `4076e83`. 상태창 중심 일회 구매, Cloud/Billing on, Ads/QA preview off. 선택 AI 모델은 AAB에 넣지 않고 별도 선택 다운로드한다. 신규 카드 탐험은 캐릭터 XP를 주지 않는다.
 - [실제 +2013 AAB 검사](../paid-candidate-2013-inspection.json): 패키지·versionCode2013·target API36·공개 업로드 인증서·결제 권한·광고 ID 및 Mobile Ads 부재·Firebase 자동 초기화 제거·Crashlytics/Analytics 수집 off·네이티브 ELF와 표본 split ZIP 16KB 정렬 54개를 통과했다. ARM64/API35/16KB 표본 다운로드는 149,180,090bytes. 검사용 split은 업로드 파일이 아니다.
-- +2013 현재 소스 기준 `flutter analyze --no-pub` clean, 전체 Flutter **508 통과/1 의도적 skip**, Cloud/Billing on **41 통과**, Node 서버 정책 **42 통과**, Python 릴리스 권한 검사 **2 통과**. 모두 로컬 검증이며 Android 에뮬레이터 UI 확인과 별개로 물리 기기 또는 Play 구매를 대신하지 않는다.
+- +2013 현재 소스 기준 `flutter analyze --no-pub` clean, 전체 Flutter **510 통과/1 의도적 skip**, Cloud/Billing on 선택 테스트 **47 통과**, Node 서버 정책 **49 통과**, Firestore/Storage 에뮬레이터 규칙 **11 통과**, Python 릴리스 권한 검사 **2 통과**. 모두 로컬 검증이며 Android 에뮬레이터 UI 확인과 별개로 물리 기기 또는 Play 구매를 대신하지 않는다.
 
 ## 이전 2.0.0+12 로컬 검증 기록
 

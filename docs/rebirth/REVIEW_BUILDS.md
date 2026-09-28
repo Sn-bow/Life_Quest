@@ -14,6 +14,8 @@ flutter build appbundle --release \
   --dart-define=LIFEQUEST_QA_PREVIEW=false
 ```
 
+`--no-pub`를 붙인 첫 재빌드는 로컬의 무시된 `GeneratedPluginRegistrant.java`가 개발용 `flutter_native_splash`·`integration_test`를 가리켜 Java 컴파일에 실패했다. 표준 명령처럼 의존성 갱신을 포함해 다시 빌드하면 성공했다. 생성 파일을 수동 수정하거나 실패한 중간 AAB를 배포하지 않는다.
+
 ### 이전 +12 검사 기록
 
 `build/review/life-quest-2.0.0-12-paid-candidate.aab`는 이전 signed 후보이며 SHA-256 `4d1eb1f7a987fa5858cbd081ad5f1802db060b01a71a7ac5fe208300f5b3de88`이다. [당시 실제 검사 결과](paid-candidate-12-inspection.json)는 결제 권한, 광고 ID 부재, 서명, API36, 16KB 정렬과 표본 ARM64 다운로드 149,169,238bytes를 확인한다. 이 결과를 +2013의 검사 통과로 간주하지 않는다. 당시 파일도 **Play 게시/결제 작동/유료 수요의 검증은 아니다.**
