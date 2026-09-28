@@ -15,11 +15,30 @@
 
 네 본문은 상태창을 첫 경험으로, 현실 행동의 퀘스트와 기록 기반 성장을 주 사용 이유로 설명한다. 새 카드·전투 콘텐츠 개발은 보류한 제품 결정에 맞춰 **기존 던전/짧은 이야기만 보조 기능**으로 한 섹션에서 소개한다. `Status Window Plus`의 구매 이유는 추가 외관 3종·실제 기록에 근거한 30/90일 요약·PNG/TXT/CSV 저장으로 한정했다. 지역 가격이나 구매 가능 상태를 단정하지 않는다.
 
+## 저장한 이미지 자산
+
+2026-09-28에 기본 스토어 등록정보의 네 언어 각각에 **실제 Android QA 앱 화면 2장**을 휴대전화 스크린샷으로 업로드·저장했다. 각 언어를 다시 선택했을 때 `스크린샷 2/8`과 `변경사항이 저장되었습니다`가 보였고, 콘솔 축소 미리보기에서도 해당 언어 UI를 확인했다.
+
+| 콘솔 언어 | 상태창 | 기본 추천 퀘스트 | 확인한 수량 |
+| --- | --- | --- | --- |
+| en-US | [`android-2013-status-en-final-fresh0.jpg`](../design/status-system/qa/android-2013-status-en-final-fresh0.jpg) | [`android-2013-quests-en-final-fresh0.jpg`](../design/status-system/qa/android-2013-quests-en-final-fresh0.jpg) | 2/8 |
+| ja-JP | [`android-2013-status-ja-final-fresh0.jpg`](../design/status-system/qa/android-2013-status-ja-final-fresh0.jpg) | [`android-2013-quests-ja-final-fresh0.jpg`](../design/status-system/qa/android-2013-quests-ja-final-fresh0.jpg) | 2/8 |
+| ko-KR | [`android-2013-status-ko-final-fresh0.jpg`](../design/status-system/qa/android-2013-status-ko-final-fresh0.jpg) | [`android-2013-quests-ko-final-fresh0.jpg`](../design/status-system/qa/android-2013-quests-ko-final-fresh0.jpg) | 2/8 |
+| zh-TW | [`android-2013-status-zh-tw-final-fresh0.jpg`](../design/status-system/qa/android-2013-status-zh-tw-final-fresh0.jpg) | [`android-2013-quests-zh-tw-final-fresh0.jpg`](../design/status-system/qa/android-2013-quests-zh-tw-final-fresh0.jpg) | 2/8 |
+
+이미지의 앱 버전·촬영 방식·`0 / 150 XP` 출처는 [촬영 기록](../design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)에 있다. 저장 전 비기본 언어에서 기본 영어 이미지 2장이 상속 표시됐지만, 해당 언어에 첫 현지 이미지를 추가하자 그 언어의 목록이 `1/8`로 바뀌었다. 두 번째를 추가해 `2/8`로 저장했고, 영어 목록을 다시 열어 영어 이미지 두 장이 유지되는 것을 확인했다. 따라서 각 언어 목록에는 영어 이미지가 섞여 있지 않다.
+
+기본 `en-US` 목록의 필수 앱 아이콘에는 생성 래스터 [`app-icon-512.png`](app-icon-512.png)(512×512 PNG, 340KB), 그래픽 이미지에는 [`feature-graphic-1024x500.png`](feature-graphic-1024x500.png)(1024×500 PNG, 665KB)를 올려 저장했다. 저장 뒤 콘솔에서 각각 `아이콘 1/1`, `이미지 1/1`을 확인했고, 다른 언어의 목록에도 기본 그래픽이 표시됐다. 자산 업로드 화면에서 AI 생성 여부를 묻는 별도 신고 문항은 나타나지 않았다. 이 두 그래픽은 생성 이미지이므로 제출 과정에서 해당 문항이 나오면 AI 생성/편집으로 사실대로 답해야 한다. 8장 스크린샷은 실제 앱을 촬영한 것이며 합성한 홍보 목업이 아니다.
+
+파일 업로드에는 Chrome의 광범위한 `Allow access to file URLs` 확장 프로그램 권한을 사용하지 않았다. Chrome에서 열린 **macOS 기본 파일 선택창**에 위 공개용 자산의 정확한 로컬 경로만 지정했다. 확장 프로그램·브라우저 권한 설정은 변경하지 않았다.
+
 ## 현재 입력 불가/미완료
 
-- 기본 등록정보의 필수 앱 아이콘, 피처 그래픽, 휴대전화 스크린샷 2장 이상은 **콘솔에 업로드되지 않았다**. 로컬 파일은 준비되어 있으나 Chrome의 ChatGPT 확장 프로그램에서 `Allow access to file URLs`가 비활성화되어 파일 선택이 차단됐다. 권한을 변경하거나 다른 경로로 우회하지 않았다. 기본 언어 `en-US`에 일본어 UI 최종 스크린샷을 그대로 올리지도 않았다. 언어에 맞는 실제 앱 캡처가 필요하다.
-- `스토어 설정` 본문은 Console의 `예기치 않은 오류`(처음 `499E1289`, 새로고침 후 `6B6A227F`)로 로드되지 않아 카테고리·연락처 등의 현재값을 확인하거나 변경하지 못했다.
-- `앱 콘텐츠`는 기존 방문 기록의 정확한 Console 주소 `/app-content/overview`로 열고 새로고침했지만 `예기치 않은 오류`(`78BB5634`, 이후 `6AE26B70`)가 반복되어 광고·앱 접근·개인정보처리방침·삭제 URL·데이터 보안·콘텐츠 등급 선언을 수정하지 못했다. 과거 완료 표시를 이번 유료 후보의 완료 근거로 삼으면 안 된다.
+- 기본 등록정보 상단의 `일부 언어에 오류가 있습니다` 경고가 자산 저장 뒤에도 보였다. 현재 보이는 각 언어의 세 텍스트 필드, 아이콘·그래픽, 휴대전화 스크린샷 수량은 채워졌지만, 이 경고의 정확한 원인은 UI에서 확인되지 않았다. 이미지 저장 성공을 등록정보 전체 검증 완료로 간주하지 않는다.
+- `스토어 설정` 본문은 Console의 `예기치 않은 오류`(처음 `499E1289`, 새로고침 후 `6B6A227F`, 이후 `7ED8A07D`)로 로드되지 않아 카테고리·연락처 등의 현재값을 확인하거나 변경하지 못했다.
+- `앱 콘텐츠`는 기존 방문 기록의 정확한 Console 주소 `/app-content/overview`로 열고 새로고침했지만 `예기치 않은 오류`(`78BB5634`, 이후 `6AE26B70`, 이후 `79DE51B8`)가 반복되어 광고·앱 접근·개인정보처리방침·삭제 URL·데이터 보안·콘텐츠 등급 선언을 수정하지 못했다. 과거 완료 표시를 이번 유료 후보의 완료 근거로 삼으면 안 된다.
 - 후보 AAB의 로컬 검사([`paid-candidate-2013-inspection.json`](../paid-candidate-2013-inspection.json))는 Play 업로드·결제 작동·데이터 보안 선언을 대신하지 않는다. 스토어 정보 저장만으로 비공개 테스트가 시작되거나 테스터 링크가 생성되지 않는다.
 
-콘솔에서 이미지 접근과 앱 콘텐츠 로드가 정상화된 뒤, **언어별 실제 최종 Android 화면**, 현재 AAB·백엔드 동작에 맞는 선언, 상품 설정/라이선스 검증을 따로 마쳐야 한다. 사용자의 다음 `배포해` 지시 전에는 AAB나 트랙을 게시하지 않는다.
+현재 signed AAB는 `build/review/life-quest-2.0.0-2013-paid-candidate.aab`, SHA-256 `2b95f237fdde7e9518fe23c0f0042ec6c49cdb8ca8d10c7bca34c4f437851c6c`, 소스 `4076e83`이다. 업로드한 스크린샷은 앞선 소스 `e6dd1ea`로 만든 같은 버전명의 signed QA APK에서 촬영했다. 이후 변경은 탐험 XP에 관한 것이며, 이미지가 현재 AAB의 표시와 동일한지 별도 QA에서 재확인 중이다. 이 AAB는 Console에 업로드하지 않았다.
+
+앱 콘텐츠 로드가 정상화된 뒤 현재 AAB·백엔드 동작에 맞는 선언, 상품 설정/라이선스 검증을 따로 마쳐야 한다. 사용자의 다음 `배포해` 지시 전에는 AAB나 트랙을 게시하지 않는다.
