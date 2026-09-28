@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/config/monetization_config.dart';
+import 'package:life_quest_final_v2/data/title_localization.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
@@ -210,7 +211,10 @@ class _ReportScreenState extends State<ReportScreen> {
                   child: _buildSummaryCard(
                     context,
                     title: l10n.reportSummaryTitle,
-                    value: characterState.character.title,
+                    value: TitleLocalization.localizedStoredName(
+                      character.title,
+                      l10n,
+                    ),
                     icon: PhosphorIcons.medal,
                     color: Colors.blue.shade400,
                   ),

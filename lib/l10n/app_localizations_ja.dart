@@ -228,6 +228,182 @@ class AppLocalizationsJa extends AppLocalizations {
   String get statusStatCharm => '魅力';
 
   @override
+  String get todayAdventureHeading => '今日のステータス';
+
+  @override
+  String todayAdventureCompletedCount(int count) {
+    return '$count件完了';
+  }
+
+  @override
+  String get todayAdventureDescription =>
+      '現実で完了した行動が成長や報酬、次のおすすめにつながります。ダンジョンでは、その成長を確かめられます。';
+
+  @override
+  String todayAdventureGoldGain(int amount) {
+    return 'ゴールド +$amount';
+  }
+
+  @override
+  String get todayAdventureGrowthWaiting => '成長待ち';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$statが成長';
+  }
+
+  @override
+  String get todayAdventureStatStrength => '実行力';
+
+  @override
+  String get todayAdventureStatWisdom => '知恵';
+
+  @override
+  String get todayAdventureStatHealth => '健康';
+
+  @override
+  String get todayAdventureStatCharisma => '魅力';
+
+  @override
+  String get todayAdventureEffectsHeading => '今日の行動効果';
+
+  @override
+  String get todayAdventureNoEffects =>
+      '今日はまだ行動効果がありません。クエストを1つ完了すると、成長とボーナスが得られます。';
+
+  @override
+  String get todayAdventureRecommendationHeading => '次のおすすめ行動';
+
+  @override
+  String get todayAdventureAllDoneTitle => '今日予定した行動をすべて完了しました';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      '今日の行動は成長とボーナスに変わりました。ダンジョンで試すか、現実のご褒美で締めくくりましょう。';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return '称号「$title」の獲得に直結します。完了すると解放条件に近づきます。';
+  }
+
+  @override
+  String get todayAdventureStrengthReason =>
+      '実行力の記録がまだありません。完了すると攻撃ボーナスと健康の成長につながります。';
+
+  @override
+  String get todayAdventureWisdomReason =>
+      '学習・分析の記録がまだありません。完了すると初ターンのドローと魔法カードの出現率が向上します。';
+
+  @override
+  String get todayAdventureHealthReason =>
+      '回復・生活リズムの記録がまだありません。完了するとHPと防御カードの出現率が向上します。';
+
+  @override
+  String get todayAdventureCharismaReason =>
+      '交流・表現の記録がまだありません。完了するとイベントの選択肢と開始時のゴールドが増えます。';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return '次の称号: $title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return 'ダンジョンHP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return '攻撃ダメージ +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return '初ターンのカード +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return '開始時のゴールド +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return '防御カードの出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return '魔法カードの出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return 'イベント選択肢 +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return 'ショップ割引 -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return '休息時の回復 +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => '倒れた冒険者を助ける選択肢を解放';
+
+  @override
+  String get titleUnlockT2 => '危険な橋で安全な迂回路を選べるようになる';
+
+  @override
+  String get titleUnlockT3 => '鍛冶屋で力を生かした強化を選べるようになる';
+
+  @override
+  String get titleUnlockT4 => '古代図書館で知恵を生かした解読を選べるようになる';
+
+  @override
+  String get titleUnlockT5 => '神秘の泉で安全に回復する選択肢を解放';
+
+  @override
+  String get titleUnlockT6 => '怪しい商人との交渉で魅力を生かせるようになる';
+
+  @override
+  String get titleUnlockT7 => 'カード整理イベントで精密な整理を選べるようになる';
+
+  @override
+  String get titleUnlockT8 => '呪われた祭壇で均衡を保つ浄化を選べるようになる';
+
+  @override
+  String get titleUnlockT13 => '鍛冶屋で熟練の強化を選べるようになる';
+
+  @override
+  String get titleUnlockT14 => '古代図書館で高度な解読を選べるようになる';
+
+  @override
+  String get titleUnlockT15 => '神秘の泉で安定した回復を選べるようになる';
+
+  @override
+  String get titleUnlockT16 => '怪しい商人との交渉を選べるようになる';
+
+  @override
+  String get titleUnlockT19 => '呪われた祭壇で完全な浄化を選べるようになる';
+
+  @override
+  String get titleUnlockT20 => '眠る冒険者イベントで野営地を作る選択肢を解放';
+
+  @override
+  String get titleUnlockT21 => '沼の精霊との契約を選べるようになる';
+
+  @override
+  String get titleUnlockT24 => '悪魔の賭けで勝負の流れを読む選択肢を解放';
+
+  @override
+  String get titleUnlockT26 => '危険な橋で構造を補強する選択肢を解放';
+
+  @override
   String get statusTitleChangeTitle => '称号変更';
 
   @override

@@ -516,6 +516,288 @@ abstract class AppLocalizations {
   /// **'매력'**
   String get statusStatCharm;
 
+  /// No description provided for @todayAdventureHeading.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘의 상태'**
+  String get todayAdventureHeading;
+
+  /// No description provided for @todayAdventureCompletedCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}개 완료'**
+  String todayAdventureCompletedCount(int count);
+
+  /// No description provided for @todayAdventureDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'현실에서 완료한 행동이 성장, 보상, 다음 추천 행동으로 바뀝니다. 던전은 그 성장을 확인하는 선택형 루프입니다.'**
+  String get todayAdventureDescription;
+
+  /// No description provided for @todayAdventureGoldGain.
+  ///
+  /// In ko, this message translates to:
+  /// **'골드 +{amount}'**
+  String todayAdventureGoldGain(int amount);
+
+  /// No description provided for @todayAdventureGrowthWaiting.
+  ///
+  /// In ko, this message translates to:
+  /// **'성장 대기'**
+  String get todayAdventureGrowthWaiting;
+
+  /// No description provided for @todayAdventureStatGrowth.
+  ///
+  /// In ko, this message translates to:
+  /// **'{stat} 성장'**
+  String todayAdventureStatGrowth(String stat);
+
+  /// No description provided for @todayAdventureStatStrength.
+  ///
+  /// In ko, this message translates to:
+  /// **'실행력'**
+  String get todayAdventureStatStrength;
+
+  /// No description provided for @todayAdventureStatWisdom.
+  ///
+  /// In ko, this message translates to:
+  /// **'지혜'**
+  String get todayAdventureStatWisdom;
+
+  /// No description provided for @todayAdventureStatHealth.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강'**
+  String get todayAdventureStatHealth;
+
+  /// No description provided for @todayAdventureStatCharisma.
+  ///
+  /// In ko, this message translates to:
+  /// **'매력'**
+  String get todayAdventureStatCharisma;
+
+  /// No description provided for @todayAdventureEffectsHeading.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 행동 효과'**
+  String get todayAdventureEffectsHeading;
+
+  /// No description provided for @todayAdventureNoEffects.
+  ///
+  /// In ko, this message translates to:
+  /// **'아직 오늘 기록된 행동 효과가 없습니다. 퀘스트를 하나 완료하면 성장과 보정이 열립니다.'**
+  String get todayAdventureNoEffects;
+
+  /// No description provided for @todayAdventureRecommendationHeading.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 추천 행동'**
+  String get todayAdventureRecommendationHeading;
+
+  /// No description provided for @todayAdventureAllDoneTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 계획한 행동을 모두 완료했습니다'**
+  String get todayAdventureAllDoneTitle;
+
+  /// No description provided for @todayAdventureAllDoneReason.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 기록한 행동이 성장과 보정으로 전환됐습니다. 원하면 던전에서 체감하거나 현실 보상으로 마무리하세요.'**
+  String get todayAdventureAllDoneReason;
+
+  /// No description provided for @todayAdventureTitleProgressReason.
+  ///
+  /// In ko, this message translates to:
+  /// **'{title} 칭호 진행에 직접 연결됩니다. 완료하면 다음 해금 조건에 더 가까워집니다.'**
+  String todayAdventureTitleProgressReason(String title);
+
+  /// No description provided for @todayAdventureStrengthReason.
+  ///
+  /// In ko, this message translates to:
+  /// **'실행력 기록이 비어 있습니다. 완료하면 공격 보정과 건강 성장에 가까워집니다.'**
+  String get todayAdventureStrengthReason;
+
+  /// No description provided for @todayAdventureWisdomReason.
+  ///
+  /// In ko, this message translates to:
+  /// **'학습/분석 기록이 비어 있습니다. 완료하면 첫 턴 드로우와 마법 카드 흐름이 열립니다.'**
+  String get todayAdventureWisdomReason;
+
+  /// No description provided for @todayAdventureHealthReason.
+  ///
+  /// In ko, this message translates to:
+  /// **'회복/생활 리듬 기록이 비어 있습니다. 완료하면 HP와 방어 카드 흐름이 좋아집니다.'**
+  String get todayAdventureHealthReason;
+
+  /// No description provided for @todayAdventureCharismaReason.
+  ///
+  /// In ko, this message translates to:
+  /// **'관계/표현 기록이 비어 있습니다. 완료하면 이벤트 선택지와 시작 골드 보정이 좋아집니다.'**
+  String get todayAdventureCharismaReason;
+
+  /// No description provided for @todayAdventureNextTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 칭호: {title}'**
+  String todayAdventureNextTitle(String title);
+
+  /// No description provided for @todayAdventureDungeonHp.
+  ///
+  /// In ko, this message translates to:
+  /// **'던전 HP +{amount}'**
+  String todayAdventureDungeonHp(int amount);
+
+  /// No description provided for @todayAdventureAttackDamage.
+  ///
+  /// In ko, this message translates to:
+  /// **'공격 피해 +{amount}'**
+  String todayAdventureAttackDamage(int amount);
+
+  /// No description provided for @todayAdventureFirstTurnDraw.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 턴 카드 +{amount}'**
+  String todayAdventureFirstTurnDraw(int amount);
+
+  /// No description provided for @todayAdventureStartingGold.
+  ///
+  /// In ko, this message translates to:
+  /// **'시작 골드 +{amount}'**
+  String todayAdventureStartingGold(int amount);
+
+  /// No description provided for @todayAdventureDefenseFlow.
+  ///
+  /// In ko, this message translates to:
+  /// **'방어 카드 흐름 +{percent}%'**
+  String todayAdventureDefenseFlow(int percent);
+
+  /// No description provided for @todayAdventureMagicFlow.
+  ///
+  /// In ko, this message translates to:
+  /// **'마법 카드 흐름 +{percent}%'**
+  String todayAdventureMagicFlow(int percent);
+
+  /// No description provided for @todayAdventureEventChoice.
+  ///
+  /// In ko, this message translates to:
+  /// **'이벤트 선택지 +{percent}%'**
+  String todayAdventureEventChoice(int percent);
+
+  /// No description provided for @todayAdventureShopDiscount.
+  ///
+  /// In ko, this message translates to:
+  /// **'상점 할인 -{percent}%'**
+  String todayAdventureShopDiscount(int percent);
+
+  /// No description provided for @todayAdventureRestHealing.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴식 회복 +{percent}%'**
+  String todayAdventureRestHealing(int percent);
+
+  /// No description provided for @titleUnlockT1.
+  ///
+  /// In ko, this message translates to:
+  /// **'쓰러진 모험가 이벤트에 동행 구조 선택지 해금'**
+  String get titleUnlockT1;
+
+  /// No description provided for @titleUnlockT2.
+  ///
+  /// In ko, this message translates to:
+  /// **'위험한 다리 이벤트에 안전 우회 선택지 해금'**
+  String get titleUnlockT2;
+
+  /// No description provided for @titleUnlockT3.
+  ///
+  /// In ko, this message translates to:
+  /// **'대장장이 이벤트에서 힘 기반 강화 선택지 해금'**
+  String get titleUnlockT3;
+
+  /// No description provided for @titleUnlockT4.
+  ///
+  /// In ko, this message translates to:
+  /// **'고대 도서관 이벤트에서 지혜 기반 해석 선택지 해금'**
+  String get titleUnlockT4;
+
+  /// No description provided for @titleUnlockT5.
+  ///
+  /// In ko, this message translates to:
+  /// **'신비한 샘 이벤트에서 안전한 회복 선택지 해금'**
+  String get titleUnlockT5;
+
+  /// No description provided for @titleUnlockT6.
+  ///
+  /// In ko, this message translates to:
+  /// **'수상한 상인 이벤트에서 매력 기반 협상 선택지 해금'**
+  String get titleUnlockT6;
+
+  /// No description provided for @titleUnlockT7.
+  ///
+  /// In ko, this message translates to:
+  /// **'카드 정리 이벤트에 정밀 정리 선택지 해금'**
+  String get titleUnlockT7;
+
+  /// No description provided for @titleUnlockT8.
+  ///
+  /// In ko, this message translates to:
+  /// **'저주받은 제단 이벤트에 균형 정화 선택지 해금'**
+  String get titleUnlockT8;
+
+  /// No description provided for @titleUnlockT13.
+  ///
+  /// In ko, this message translates to:
+  /// **'대장장이 이벤트에 숙련 강화 선택지 해금'**
+  String get titleUnlockT13;
+
+  /// No description provided for @titleUnlockT14.
+  ///
+  /// In ko, this message translates to:
+  /// **'고대 도서관 이벤트에 고급 해석 선택지 해금'**
+  String get titleUnlockT14;
+
+  /// No description provided for @titleUnlockT15.
+  ///
+  /// In ko, this message translates to:
+  /// **'신비한 샘 이벤트에 안정 회복 선택지 해금'**
+  String get titleUnlockT15;
+
+  /// No description provided for @titleUnlockT16.
+  ///
+  /// In ko, this message translates to:
+  /// **'수상한 상인 이벤트에 협상 선택지 해금'**
+  String get titleUnlockT16;
+
+  /// No description provided for @titleUnlockT19.
+  ///
+  /// In ko, this message translates to:
+  /// **'저주받은 제단 이벤트에 완전 정화 선택지 해금'**
+  String get titleUnlockT19;
+
+  /// No description provided for @titleUnlockT20.
+  ///
+  /// In ko, this message translates to:
+  /// **'잠자는 모험가 이벤트에서 야영지 선택지 해금'**
+  String get titleUnlockT20;
+
+  /// No description provided for @titleUnlockT21.
+  ///
+  /// In ko, this message translates to:
+  /// **'늪의 정령 이벤트에 계약 선택지 해금'**
+  String get titleUnlockT21;
+
+  /// No description provided for @titleUnlockT24.
+  ///
+  /// In ko, this message translates to:
+  /// **'악마의 도박 이벤트에 판 읽기 선택지 해금'**
+  String get titleUnlockT24;
+
+  /// No description provided for @titleUnlockT26.
+  ///
+  /// In ko, this message translates to:
+  /// **'위험한 다리 이벤트에 구조물 보강 선택지 해금'**
+  String get titleUnlockT26;
+
   /// No description provided for @statusTitleChangeTitle.
   ///
   /// In ko, this message translates to:

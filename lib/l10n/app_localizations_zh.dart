@@ -226,6 +226,177 @@ class AppLocalizationsZh extends AppLocalizations {
   String get statusStatCharm => '魅力';
 
   @override
+  String get todayAdventureHeading => '今日狀態';
+
+  @override
+  String todayAdventureCompletedCount(int count) {
+    return '已完成 $count 項';
+  }
+
+  @override
+  String get todayAdventureDescription =>
+      '現實中完成的行動會帶來成長、獎勵與下一步建議。地下城則是體驗這些成長的選擇性玩法。';
+
+  @override
+  String todayAdventureGoldGain(int amount) {
+    return '金幣 +$amount';
+  }
+
+  @override
+  String get todayAdventureGrowthWaiting => '等待成長';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$stat成長';
+  }
+
+  @override
+  String get todayAdventureStatStrength => '執行力';
+
+  @override
+  String get todayAdventureStatWisdom => '智慧';
+
+  @override
+  String get todayAdventureStatHealth => '健康';
+
+  @override
+  String get todayAdventureStatCharisma => '魅力';
+
+  @override
+  String get todayAdventureEffectsHeading => '今日的行動效果';
+
+  @override
+  String get todayAdventureNoEffects => '今天尚未記錄行動效果。完成一項任務即可獲得成長與加成。';
+
+  @override
+  String get todayAdventureRecommendationHeading => '下一步建議行動';
+
+  @override
+  String get todayAdventureAllDoneTitle => '今天計畫的行動已全部完成';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      '今天的行動已轉化為成長與加成。你可以到地下城體驗，也可以用現實獎勵為今天收尾。';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return '這會直接推進「$title」稱號的進度。完成後就更接近解鎖條件。';
+  }
+
+  @override
+  String get todayAdventureStrengthReason => '執行力尚無紀錄。完成後將更接近攻擊加成與健康成長。';
+
+  @override
+  String get todayAdventureWisdomReason => '學習與分析尚無紀錄。完成後可提升首回合抽牌與魔法卡出現率。';
+
+  @override
+  String get todayAdventureHealthReason => '恢復與生活節奏尚無紀錄。完成後可提升 HP 與防禦卡出現率。';
+
+  @override
+  String get todayAdventureCharismaReason => '人際與表達尚無紀錄。完成後可增加事件選項與起始金幣。';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return '下一個稱號：$title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return '地下城 HP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return '攻擊傷害 +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return '首回合卡牌 +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return '起始金幣 +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return '防禦卡出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return '魔法卡出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return '事件選項 +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return '商店折扣 -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return '休息恢復 +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => '解鎖救助倒下冒險者的選項';
+
+  @override
+  String get titleUnlockT2 => '解鎖危險橋樑的安全繞道選項';
+
+  @override
+  String get titleUnlockT3 => '解鎖鐵匠事件中的力量強化選項';
+
+  @override
+  String get titleUnlockT4 => '解鎖古代圖書館中的智慧解讀選項';
+
+  @override
+  String get titleUnlockT5 => '解鎖神祕泉水中的安全恢復選項';
+
+  @override
+  String get titleUnlockT6 => '解鎖與可疑商人交涉的魅力選項';
+
+  @override
+  String get titleUnlockT7 => '解鎖卡牌整理事件中的精細整理選項';
+
+  @override
+  String get titleUnlockT8 => '解鎖詛咒祭壇中的平衡淨化選項';
+
+  @override
+  String get titleUnlockT13 => '解鎖鐵匠事件中的熟練強化選項';
+
+  @override
+  String get titleUnlockT14 => '解鎖古代圖書館中的進階解讀選項';
+
+  @override
+  String get titleUnlockT15 => '解鎖神祕泉水中的穩定恢復選項';
+
+  @override
+  String get titleUnlockT16 => '解鎖與可疑商人的交涉選項';
+
+  @override
+  String get titleUnlockT19 => '解鎖詛咒祭壇中的完全淨化選項';
+
+  @override
+  String get titleUnlockT20 => '解鎖沉睡冒險者事件中的營地選項';
+
+  @override
+  String get titleUnlockT21 => '解鎖與沼澤精靈締約的選項';
+
+  @override
+  String get titleUnlockT24 => '解鎖惡魔賭局中的判讀局勢選項';
+
+  @override
+  String get titleUnlockT26 => '解鎖危險橋樑的結構加固選項';
+
+  @override
   String get statusTitleChangeTitle => '更換稱號';
 
   @override

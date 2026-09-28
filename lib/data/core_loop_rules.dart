@@ -151,12 +151,23 @@ class RecommendedAction {
   final Quest? quest;
   final String title;
   final String reason;
+  final RecommendedActionReason reasonKind;
 
   const RecommendedAction({
     required this.quest,
     required this.title,
     required this.reason,
+    required this.reasonKind,
   });
+}
+
+enum RecommendedActionReason {
+  completed,
+  titleProgress,
+  strength,
+  wisdom,
+  health,
+  charisma,
 }
 
 class TitleProgressSnapshot {
@@ -329,6 +340,7 @@ class CoreLoopRules {
         quest: null,
         title: '오늘 계획한 행동을 모두 완료했습니다',
         reason: '오늘 기록한 행동이 성장과 보정으로 전환됐습니다. 원하면 던전에서 체감하거나 현실 보상으로 마무리하세요.',
+        reasonKind: RecommendedActionReason.completed,
       );
     }
 
@@ -339,6 +351,7 @@ class CoreLoopRules {
         title: titleTarget.name,
         reason:
             '${nextTitleProgress.title.name} 칭호 진행에 직접 연결됩니다. 완료하면 다음 해금 조건에 더 가까워집니다.',
+        reasonKind: RecommendedActionReason.titleProgress,
       );
     }
 
@@ -350,6 +363,12 @@ class CoreLoopRules {
       quest: target,
       title: target.name,
       reason: _recommendReasonFor(target.category),
+      reasonKind: switch (target.category) {
+        StatType.strength => RecommendedActionReason.strength,
+        StatType.wisdom => RecommendedActionReason.wisdom,
+        StatType.health => RecommendedActionReason.health,
+        StatType.charisma => RecommendedActionReason.charisma,
+      },
     );
   }
 

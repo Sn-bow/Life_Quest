@@ -64,9 +64,6 @@ class HunterStatusWindow extends StatelessWidget {
     final profile = state.character;
     final copy = SystemCopy(context);
     final l = AppLocalizations.of(context)!;
-    final equippedTitle = state.unlockedTitles
-        .where((title) => title.name == profile.title)
-        .firstOrNull;
     final media = MediaQuery.of(context);
     // Keep the complete status frame in view on short, normally-scaled phones.
     // Large text and tablets keep the spacious, scrollable layout.
@@ -196,9 +193,7 @@ class HunterStatusWindow extends StatelessWidget {
             SizedBox(height: compact ? 6 : 13),
             _field(
               _label(context, ['칭호', 'Title', '称号', '稱號']),
-              equippedTitle == null
-                  ? profile.title
-                  : TitleLocalization.localizedName(equippedTitle.id, l),
+              TitleLocalization.localizedStoredName(profile.title, l),
               compact: compact,
             ),
             SizedBox(height: compact ? 8 : 17),

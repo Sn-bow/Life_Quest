@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/data/guest_name_localization.dart';
+import 'package:life_quest_final_v2/data/title_localization.dart';
 import 'package:life_quest_final_v2/screens/report_screen.dart';
 import 'package:life_quest_final_v2/screens/settings_screen.dart';
 import 'package:life_quest_final_v2/screens/timer_screen.dart';
@@ -78,11 +79,12 @@ class _StatusScreenState extends State<StatusScreen> {
     BuildContext context,
     CharacterState characterState,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.statusTitleChangeTitle),
+          title: Text(l10n.statusTitleChangeTitle),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView.builder(
@@ -91,8 +93,20 @@ class _StatusScreenState extends State<StatusScreen> {
               itemBuilder: (BuildContext context, int index) {
                 final title = characterState.unlockedTitles[index];
                 return ListTile(
-                  title: Text(title.name),
-                  subtitle: Text(title.description),
+                  title: Text(
+                    TitleLocalization.localizedName(
+                      title.id,
+                      l10n,
+                      fallback: title.name,
+                    ),
+                  ),
+                  subtitle: Text(
+                    TitleLocalization.localizedDescription(
+                      title.id,
+                      l10n,
+                      fallback: title.description,
+                    ),
+                  ),
                   onTap: () {
                     characterState.changeTitle(title);
                     Navigator.of(dialogContext).pop();
@@ -103,7 +117,7 @@ class _StatusScreenState extends State<StatusScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(AppLocalizations.of(context)!.close),
+              child: Text(l10n.close),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
@@ -238,7 +252,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Lv. ${character.level} | ${character.title}',
+                                          'Lv. ${character.level} | ${TitleLocalization.localizedStoredName(character.title, l10n)}',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: titleStyle,

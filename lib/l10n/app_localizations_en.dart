@@ -233,6 +233,195 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusStatCharm => 'Charm';
 
   @override
+  String get todayAdventureHeading => 'Today\'s status';
+
+  @override
+  String todayAdventureCompletedCount(int count) {
+    return '$count completed';
+  }
+
+  @override
+  String get todayAdventureDescription =>
+      'Actions you complete in real life become growth, rewards, and recommendations. The dungeon is an optional way to see that growth in action.';
+
+  @override
+  String todayAdventureGoldGain(int amount) {
+    return 'Gold +$amount';
+  }
+
+  @override
+  String get todayAdventureGrowthWaiting => 'Growth pending';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$stat growth';
+  }
+
+  @override
+  String get todayAdventureStatStrength => 'Action';
+
+  @override
+  String get todayAdventureStatWisdom => 'Wisdom';
+
+  @override
+  String get todayAdventureStatHealth => 'Health';
+
+  @override
+  String get todayAdventureStatCharisma => 'Charm';
+
+  @override
+  String get todayAdventureEffectsHeading => 'Today\'s action effects';
+
+  @override
+  String get todayAdventureNoEffects =>
+      'No action effects recorded today. Complete a quest to gain growth and bonuses.';
+
+  @override
+  String get todayAdventureRecommendationHeading => 'Recommended next action';
+
+  @override
+  String get todayAdventureAllDoneTitle =>
+      'You\'ve completed today\'s planned actions';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      'Your actions today have become growth and bonuses. Try them in the dungeon or wrap up with a real-life reward.';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return 'This directly advances the $title title. Complete it to get closer to unlocking it.';
+  }
+
+  @override
+  String get todayAdventureStrengthReason =>
+      'Your action record is empty. Complete this to move toward an attack bonus and health growth.';
+
+  @override
+  String get todayAdventureWisdomReason =>
+      'Your learning record is empty. Complete this to improve your first-turn draw and magic card flow.';
+
+  @override
+  String get todayAdventureHealthReason =>
+      'Your recovery record is empty. Complete this to improve HP and defense card flow.';
+
+  @override
+  String get todayAdventureCharismaReason =>
+      'Your connection record is empty. Complete this to improve event options and starting gold.';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return 'Next title: $title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return 'Dungeon HP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return 'Attack damage +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return 'First-turn cards +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return 'Starting gold +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return 'Defense card flow +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return 'Magic card flow +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return 'Event options +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return 'Shop discount -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return 'Rest healing +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => 'Unlocks a rescue choice for a fallen adventurer';
+
+  @override
+  String get titleUnlockT2 => 'Unlocks a safe detour at the dangerous bridge';
+
+  @override
+  String get titleUnlockT3 =>
+      'Unlocks a strength-based upgrade at the blacksmith';
+
+  @override
+  String get titleUnlockT4 =>
+      'Unlocks a wisdom-based interpretation at the ancient library';
+
+  @override
+  String get titleUnlockT5 =>
+      'Unlocks a safe recovery choice at the mysterious spring';
+
+  @override
+  String get titleUnlockT6 =>
+      'Unlocks a charm-based bargain with the suspicious merchant';
+
+  @override
+  String get titleUnlockT7 =>
+      'Unlocks precise sorting in the card-sorting event';
+
+  @override
+  String get titleUnlockT8 =>
+      'Unlocks balanced purification at the cursed altar';
+
+  @override
+  String get titleUnlockT13 => 'Unlocks expert upgrades at the blacksmith';
+
+  @override
+  String get titleUnlockT14 =>
+      'Unlocks advanced interpretation at the ancient library';
+
+  @override
+  String get titleUnlockT15 =>
+      'Unlocks stable recovery at the mysterious spring';
+
+  @override
+  String get titleUnlockT16 =>
+      'Unlocks a negotiation choice with the suspicious merchant';
+
+  @override
+  String get titleUnlockT19 => 'Unlocks full purification at the cursed altar';
+
+  @override
+  String get titleUnlockT20 =>
+      'Unlocks a campsite choice for the sleeping adventurer';
+
+  @override
+  String get titleUnlockT21 => 'Unlocks a pact choice with the swamp spirit';
+
+  @override
+  String get titleUnlockT24 =>
+      'Unlocks an odds-reading choice in the devil\'s gamble';
+
+  @override
+  String get titleUnlockT26 =>
+      'Unlocks structural support at the dangerous bridge';
+
+  @override
   String get statusTitleChangeTitle => 'Change Title';
 
   @override

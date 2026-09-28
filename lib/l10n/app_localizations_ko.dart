@@ -228,6 +228,182 @@ class AppLocalizationsKo extends AppLocalizations {
   String get statusStatCharm => '매력';
 
   @override
+  String get todayAdventureHeading => '오늘의 상태';
+
+  @override
+  String todayAdventureCompletedCount(int count) {
+    return '$count개 완료';
+  }
+
+  @override
+  String get todayAdventureDescription =>
+      '현실에서 완료한 행동이 성장, 보상, 다음 추천 행동으로 바뀝니다. 던전은 그 성장을 확인하는 선택형 루프입니다.';
+
+  @override
+  String todayAdventureGoldGain(int amount) {
+    return '골드 +$amount';
+  }
+
+  @override
+  String get todayAdventureGrowthWaiting => '성장 대기';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$stat 성장';
+  }
+
+  @override
+  String get todayAdventureStatStrength => '실행력';
+
+  @override
+  String get todayAdventureStatWisdom => '지혜';
+
+  @override
+  String get todayAdventureStatHealth => '건강';
+
+  @override
+  String get todayAdventureStatCharisma => '매력';
+
+  @override
+  String get todayAdventureEffectsHeading => '오늘 행동 효과';
+
+  @override
+  String get todayAdventureNoEffects =>
+      '아직 오늘 기록된 행동 효과가 없습니다. 퀘스트를 하나 완료하면 성장과 보정이 열립니다.';
+
+  @override
+  String get todayAdventureRecommendationHeading => '다음 추천 행동';
+
+  @override
+  String get todayAdventureAllDoneTitle => '오늘 계획한 행동을 모두 완료했습니다';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      '오늘 기록한 행동이 성장과 보정으로 전환됐습니다. 원하면 던전에서 체감하거나 현실 보상으로 마무리하세요.';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return '$title 칭호 진행에 직접 연결됩니다. 완료하면 다음 해금 조건에 더 가까워집니다.';
+  }
+
+  @override
+  String get todayAdventureStrengthReason =>
+      '실행력 기록이 비어 있습니다. 완료하면 공격 보정과 건강 성장에 가까워집니다.';
+
+  @override
+  String get todayAdventureWisdomReason =>
+      '학습/분석 기록이 비어 있습니다. 완료하면 첫 턴 드로우와 마법 카드 흐름이 열립니다.';
+
+  @override
+  String get todayAdventureHealthReason =>
+      '회복/생활 리듬 기록이 비어 있습니다. 완료하면 HP와 방어 카드 흐름이 좋아집니다.';
+
+  @override
+  String get todayAdventureCharismaReason =>
+      '관계/표현 기록이 비어 있습니다. 완료하면 이벤트 선택지와 시작 골드 보정이 좋아집니다.';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return '다음 칭호: $title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return '던전 HP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return '공격 피해 +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return '첫 턴 카드 +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return '시작 골드 +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return '방어 카드 흐름 +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return '마법 카드 흐름 +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return '이벤트 선택지 +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return '상점 할인 -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return '휴식 회복 +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => '쓰러진 모험가 이벤트에 동행 구조 선택지 해금';
+
+  @override
+  String get titleUnlockT2 => '위험한 다리 이벤트에 안전 우회 선택지 해금';
+
+  @override
+  String get titleUnlockT3 => '대장장이 이벤트에서 힘 기반 강화 선택지 해금';
+
+  @override
+  String get titleUnlockT4 => '고대 도서관 이벤트에서 지혜 기반 해석 선택지 해금';
+
+  @override
+  String get titleUnlockT5 => '신비한 샘 이벤트에서 안전한 회복 선택지 해금';
+
+  @override
+  String get titleUnlockT6 => '수상한 상인 이벤트에서 매력 기반 협상 선택지 해금';
+
+  @override
+  String get titleUnlockT7 => '카드 정리 이벤트에 정밀 정리 선택지 해금';
+
+  @override
+  String get titleUnlockT8 => '저주받은 제단 이벤트에 균형 정화 선택지 해금';
+
+  @override
+  String get titleUnlockT13 => '대장장이 이벤트에 숙련 강화 선택지 해금';
+
+  @override
+  String get titleUnlockT14 => '고대 도서관 이벤트에 고급 해석 선택지 해금';
+
+  @override
+  String get titleUnlockT15 => '신비한 샘 이벤트에 안정 회복 선택지 해금';
+
+  @override
+  String get titleUnlockT16 => '수상한 상인 이벤트에 협상 선택지 해금';
+
+  @override
+  String get titleUnlockT19 => '저주받은 제단 이벤트에 완전 정화 선택지 해금';
+
+  @override
+  String get titleUnlockT20 => '잠자는 모험가 이벤트에서 야영지 선택지 해금';
+
+  @override
+  String get titleUnlockT21 => '늪의 정령 이벤트에 계약 선택지 해금';
+
+  @override
+  String get titleUnlockT24 => '악마의 도박 이벤트에 판 읽기 선택지 해금';
+
+  @override
+  String get titleUnlockT26 => '위험한 다리 이벤트에 구조물 보강 선택지 해금';
+
+  @override
   String get statusTitleChangeTitle => '칭호 변경';
 
   @override
