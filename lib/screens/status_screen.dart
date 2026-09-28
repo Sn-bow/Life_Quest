@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
+import 'package:life_quest_final_v2/data/guest_name_localization.dart';
 import 'package:life_quest_final_v2/screens/report_screen.dart';
 import 'package:life_quest_final_v2/screens/settings_screen.dart';
 import 'package:life_quest_final_v2/screens/timer_screen.dart';
@@ -188,7 +189,10 @@ class _StatusScreenState extends State<StatusScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              character.name,
+                              GuestNameLocalization.displayName(
+                                character,
+                                l10n,
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.titleMedium?.copyWith(

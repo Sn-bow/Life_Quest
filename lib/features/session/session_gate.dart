@@ -95,6 +95,7 @@ class _ProfileLoaderState extends State<_ProfileLoader> {
       await character.initializeForLocalGuest(
         name: AppLocalizations.of(context)!.lqGuestName,
         languageCode: Localizations.localeOf(context).languageCode,
+        usesDefaultGuestName: true,
       );
     } else {
       await character.loadDataForUser(widget.user!);

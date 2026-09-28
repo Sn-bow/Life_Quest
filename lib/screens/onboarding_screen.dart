@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/features/session/welcome_screen.dart';
+import 'package:life_quest_final_v2/data/guest_name_localization.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/main_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -82,7 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 const SizedBox(height: 24),
                 HunterWelcomeStatusPreview(
-                  name: profile.name,
+                  name: GuestNameLocalization.displayName(profile, l),
                   level: profile.level,
                   xp: profile.xp,
                   maxXp: profile.maxXp,

@@ -29,6 +29,7 @@ import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/data/achievement_database.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/title_database.dart';
+import 'package:life_quest_final_v2/data/guest_name_localization.dart';
 import 'package:life_quest_final_v2/data/skill_database.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
@@ -231,6 +232,7 @@ class CharacterState extends ChangeNotifier {
   Future<void> initializeForLocalGuest({
     required String name,
     String languageCode = 'ko',
+    bool usesDefaultGuestName = false,
   }) async {
     resetState();
     _isLocalGuest = true;
@@ -249,6 +251,7 @@ class CharacterState extends ChangeNotifier {
       );
       if (!restored) {
         _initializeLocalPreviewCharacter(name: name);
+        _character!.usesDefaultGuestName = usesDefaultGuestName;
         _dailyQuests = [];
         _weeklyQuests = [];
         _monthlyQuests = [];
@@ -1161,6 +1164,7 @@ class CharacterState extends ChangeNotifier {
       await user.updateDisplayName(newName);
     }
     _character!.name = newName;
+    _character!.usesDefaultGuestName = false;
     await _saveData();
     notifyListeners();
   }
@@ -2349,9 +2353,19 @@ class CharacterState extends ChangeNotifier {
         throw const FormatException('Invalid local profile.');
       }
 
-      _character = Character.fromJson(
-        Map<String, dynamic>.from(decoded['character'] as Map),
+      final savedCharacter = Map<String, dynamic>.from(
+        decoded['character'] as Map,
       );
+      _character = Character.fromJson(savedCharacter);
+      // Older device profiles had no marker. Migrate only the four exact
+      // built-in placeholders; cloud names and other user names stay literal.
+      // An old custom name identical to a built-in placeholder cannot be
+      // distinguished from the placeholder because its origin was not saved.
+      if (_isLocalGuest &&
+          !savedCharacter.containsKey('usesDefaultGuestName') &&
+          GuestNameLocalization.legacyDefaults.contains(_character!.name)) {
+        _character!.usesDefaultGuestName = true;
+      }
       _restoreExpedition(decoded);
       systemJournal = SystemJournal.fromJson(decoded['systemJournal']);
       _dailyQuests = (decoded['dailyQuests'] as List<dynamic>? ?? [])

@@ -30,7 +30,8 @@ void main() {
           addTearDown(tester.view.resetViewPadding);
           final character = CharacterState()..initializeForTesting();
           character.character
-            ..name = 'HYEONSEOK / Long hunter name'
+            ..name = 'Chronicler'
+            ..usesDefaultGuestName = true
             ..xp = 70
             ..statPoints = 3;
           final director = QuestDirectorState(model: LayoutModel());
@@ -83,6 +84,10 @@ void main() {
           final points = find.byKey(const ValueKey('hunter-stat-points'));
           final navTop = tester.getTopLeft(find.byType(NavigationBar)).dy;
           expect(find.byKey(const ValueKey('hunter-name')), findsOneWidget);
+          expect(
+            tester.widget<Text>(find.byKey(const ValueKey('hunter-name'))).data,
+            AppLocalizations.of(tester.element(frame))!.lqGuestName,
+          );
           expect(find.byKey(const ValueKey('hunter-level')), findsOneWidget);
           expect(
             tester.widget<Text>(find.byKey(const ValueKey('hunter-xp'))).data,

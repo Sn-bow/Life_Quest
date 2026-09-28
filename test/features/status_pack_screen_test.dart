@@ -50,6 +50,7 @@ Widget _app({
   VoidCallback? onBuy,
   StatusPackSaveFile? saveFile,
   double textScale = 1,
+  bool withAppBar = false,
 }) => MaterialApp(
   locale: locale,
   supportedLocales: const [
@@ -71,6 +72,7 @@ Widget _app({
     child: child!,
   ),
   home: Scaffold(
+    appBar: withAppBar ? AppBar(title: const Text('PLUS')) : null,
     body: StatusPackBody(
       now: _now,
       receipts: receipts ?? [_receipt()],
@@ -305,6 +307,54 @@ void main() {
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets(
+    'Japanese phone shows the Play offer before looks and can scroll to reports',
+    (tester) async {
+      tester.view.physicalSize = const Size(1080, 1920);
+      tester.view.devicePixelRatio = 2.625; // 411 x 731 logical pixels.
+      tester.view.padding = const FakeViewPadding(top: 52, bottom: 24);
+      tester.view.viewPadding = const FakeViewPadding(top: 52, bottom: 24);
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPadding);
+      addTearDown(tester.view.resetViewPadding);
+
+      var purchases = 0;
+      await tester.pumpWidget(
+        _app(
+          locale: const Locale('ja'),
+          product: _product(),
+          onBuy: () => purchases++,
+          withAppBar: true,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final offer = find.byKey(const ValueKey('status-pack-purchase-panel'));
+      final buy = find.byKey(const ValueKey('buy-status-plus'));
+      final appearance = find.text('ステータス画面の外観');
+      expect(offer, findsOneWidget);
+      expect(buy, findsOneWidget);
+      expect(tester.getBottomLeft(buy).dy, lessThan(731 - 24));
+      expect(
+        tester.getTopLeft(offer).dy,
+        lessThan(tester.getTopLeft(appearance).dy),
+      );
+      await tester.tap(buy);
+      expect(purchases, 1);
+
+      final report = find.byKey(const ValueKey('locked-growth-preview'));
+      expect(tester.getTopLeft(report).dy, greaterThan(731));
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(0, -650),
+      );
+      await tester.pumpAndSettle();
+      expect(tester.getTopLeft(report).dy, lessThan(731 - 24));
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets('Tablet widths and 30/90-day free/paid states do not overflow', (
     tester,

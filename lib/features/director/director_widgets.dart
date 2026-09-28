@@ -2,6 +2,7 @@ import '../system/system_widgets.dart' show xpText;
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../l10n/app_localizations.dart';
+import '../../data/guest_name_localization.dart';
 import '../../state/character_state.dart';
 import 'quest_director_engine.dart';
 
@@ -103,7 +104,10 @@ class ProgressStatusSummary extends StatelessWidget {
                       fontFeatures: const [FontFeature.tabularFigures()],
                     ),
                   ),
-                  Text(character.name, style: t.textTheme.titleMedium),
+                  Text(
+                    GuestNameLocalization.displayName(character, l),
+                    style: t.textTheme.titleMedium,
+                  ),
                 ],
               ),
               const SizedBox(height: 10),

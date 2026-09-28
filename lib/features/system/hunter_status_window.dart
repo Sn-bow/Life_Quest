@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../data/title_localization.dart';
+import '../../data/guest_name_localization.dart';
 import '../../l10n/app_localizations.dart';
 import '../../screens/settings_screen.dart';
 import '../../screens/status_screen.dart';
@@ -152,7 +153,7 @@ class HunterStatusWindow extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      profile.name,
+                      GuestNameLocalization.displayName(profile, l),
                       key: const ValueKey('hunter-name'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -182,7 +183,7 @@ class HunterStatusWindow extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    profile.name,
+                    GuestNameLocalization.displayName(profile, l),
                     key: const ValueKey('hunter-name'),
                     style: const TextStyle(
                       color: _ink,

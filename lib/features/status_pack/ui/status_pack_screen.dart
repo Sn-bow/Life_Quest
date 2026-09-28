@@ -273,6 +273,76 @@ class _StatusPackBodyState extends State<StatusPackBody> {
                 ),
               ),
               const SizedBox(height: 22),
+              if (widget.owned)
+                _Panel(
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.verified_outlined,
+                        color: Color(0xFF9BDABD),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text(copy.t('owned'), style: _bodyStyle)),
+                    ],
+                  ),
+                )
+              else
+                _Panel(
+                  key: const ValueKey('status-pack-purchase-panel'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(copy.t('purchaseTitle'), style: _titleStyle),
+                      const SizedBox(height: 8),
+                      Text(copy.t('purchaseContents'), style: _bodyStyle),
+                      const SizedBox(height: 6),
+                      Text(copy.t('noBoost'), style: _smallStyle),
+                      const SizedBox(height: 16),
+                      if (widget.showAccountLink) const PurchaseAccountTile(),
+                      if (!widget.monetizationEnabled)
+                        Text(copy.t('storeDisabled'), style: _smallStyle)
+                      else if (widget.product == null) ...[
+                        Text(copy.t('storeUnavailable'), style: _smallStyle),
+                        TextButton.icon(
+                          onPressed: widget.checkingStore || widget.purchaseBusy
+                              ? null
+                              : widget.onRefreshCatalog,
+                          icon: const Icon(Icons.refresh),
+                          label: Text(copy.t('retry')),
+                        ),
+                      ] else ...[
+                        if (!widget.canPurchase)
+                          Text(copy.t('accountRequired'), style: _smallStyle),
+                        FilledButton(
+                          key: const ValueKey('buy-status-plus'),
+                          onPressed: purchaseReady ? widget.onBuy : null,
+                          child: Text(copy.buyFor(widget.product!.price)),
+                        ),
+                      ],
+                      if (widget.checkingStore || widget.purchaseBusy)
+                        const LinearProgressIndicator(),
+                      if (phaseMessage != null) ...[
+                        const SizedBox(height: 10),
+                        Text(phaseMessage, style: _smallStyle),
+                      ],
+                    ],
+                  ),
+                ),
+              if (widget.monetizationEnabled) ...[
+                const SizedBox(height: 10),
+                TextButton.icon(
+                  key: const ValueKey('restore-status-plus'),
+                  onPressed:
+                      widget.canPurchase &&
+                          !widget.purchaseBusy &&
+                          !widget.checkingStore
+                      ? widget.onRestore
+                      : null,
+                  icon: const Icon(Icons.restore),
+                  label: Text(copy.t('restore')),
+                ),
+              ],
+              const SizedBox(height: 22),
               _sectionTitle(copy.t('appearance')),
               const SizedBox(height: 8),
               Text(copy.t('appearanceHint'), style: _smallStyle),
@@ -400,75 +470,6 @@ class _StatusPackBodyState extends State<StatusPackBody> {
                   ],
                 ),
                 if (_saving) const LinearProgressIndicator(),
-              ],
-              const SizedBox(height: 28),
-              if (widget.owned)
-                _Panel(
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.verified_outlined,
-                        color: Color(0xFF9BDABD),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text(copy.t('owned'), style: _bodyStyle)),
-                    ],
-                  ),
-                )
-              else
-                _Panel(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(copy.t('purchaseTitle'), style: _titleStyle),
-                      const SizedBox(height: 8),
-                      Text(copy.t('purchaseContents'), style: _bodyStyle),
-                      const SizedBox(height: 6),
-                      Text(copy.t('noBoost'), style: _smallStyle),
-                      const SizedBox(height: 16),
-                      if (widget.showAccountLink) const PurchaseAccountTile(),
-                      if (!widget.monetizationEnabled)
-                        Text(copy.t('storeDisabled'), style: _smallStyle)
-                      else if (widget.product == null) ...[
-                        Text(copy.t('storeUnavailable'), style: _smallStyle),
-                        TextButton.icon(
-                          onPressed: widget.checkingStore || widget.purchaseBusy
-                              ? null
-                              : widget.onRefreshCatalog,
-                          icon: const Icon(Icons.refresh),
-                          label: Text(copy.t('retry')),
-                        ),
-                      ] else ...[
-                        if (!widget.canPurchase)
-                          Text(copy.t('accountRequired'), style: _smallStyle),
-                        FilledButton(
-                          key: const ValueKey('buy-status-plus'),
-                          onPressed: purchaseReady ? widget.onBuy : null,
-                          child: Text(copy.buyFor(widget.product!.price)),
-                        ),
-                      ],
-                      if (widget.checkingStore || widget.purchaseBusy)
-                        const LinearProgressIndicator(),
-                      if (phaseMessage != null) ...[
-                        const SizedBox(height: 10),
-                        Text(phaseMessage, style: _smallStyle),
-                      ],
-                    ],
-                  ),
-                ),
-              if (widget.monetizationEnabled) ...[
-                const SizedBox(height: 10),
-                TextButton.icon(
-                  key: const ValueKey('restore-status-plus'),
-                  onPressed:
-                      widget.canPurchase &&
-                          !widget.purchaseBusy &&
-                          !widget.checkingStore
-                      ? widget.onRestore
-                      : null,
-                  icon: const Icon(Icons.restore),
-                  label: Text(copy.t('restore')),
-                ),
               ],
             ],
           ),
