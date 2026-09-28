@@ -2,9 +2,9 @@
 
 ## 유료 비공개 테스트 대상 · 2.0.0+2013
 
-`pubspec.yaml`의 versionCode2013에서 아래 네 플래그로 signed AAB를 만들었다. 최종 로컬 사본은 `build/review/life-quest-2.0.0-2013-paid-candidate.aab`(242,279,230bytes), SHA-256 `be65f4e7751d4f82c0e7b845da09eb20415f5a76bf1a472d048a16e2d58864ab`; 소스 커밋 `e6dd1ea`이다. [실제 +2013 검사](paid-candidate-2013-inspection.json)는 versionCode2013, 결제 권한, 광고 ID·Mobile Ads 부재, 공개 업로드 인증서, API36, 네이티브 ELF/표본 split ZIP 16KB 정렬, 표본 ARM64/API35/16KB 다운로드 149,179,287bytes를 확인한다. 표본 split은 검사 전용이며 업로드 파일이 아니다. **Android API35/420dpi 에뮬레이터 UI는 확인했지만 물리 기기·Play 게시·결제 작동·유료 수요는 검증되지 않았다.** 출시 범위와 순서는 [유료 후보 판단](market/PAID_RELEASE_CANDIDATE_20260928.md)을 따른다.
+`pubspec.yaml`의 versionCode2013에서 아래 네 플래그로 signed AAB를 만들었다. 최종 로컬 사본은 `build/review/life-quest-2.0.0-2013-paid-candidate.aab`(242,281,731bytes), SHA-256 `2b95f237fdde7e9518fe23c0f0042ec6c49cdb8ca8d10c7bca34c4f437851c6`; 빌드 소스 커밋 `4076e83`이다. 새 카드 탐험의 XP를 상태창 레벨에서 분리한 뒤 다시 빌드했다. [실제 +2013 검사](paid-candidate-2013-inspection.json)는 versionCode2013, 결제 권한, 광고 ID·Mobile Ads 부재, 공개 업로드 인증서, API36, 네이티브 ELF/표본 split ZIP 16KB 정렬, 표본 ARM64/API35/16KB 다운로드 149,180,090bytes를 확인한다. 표본 split은 디버그 서명으로 검사 전용이며 업로드 파일이 아니다. **이 최신 바이너리의 게임 결과 화면·물리 기기·Play 게시·결제 작동·유료 수요는 아직 검증되지 않았다.** 출시 범위와 순서는 [유료 후보 판단](market/PAID_RELEASE_CANDIDATE_20260928.md)을 따른다.
 
-Android UI 확인용 universal signed APK는 `build/review/life-quest-2.0.0-2013-paid-review.apk`, SHA-256 `beabedbc176642d83fa8e8b80baeeec8429420a3a608bf9e27e8229fffa1ec90`이다. `aapt`에서 versionCode2013/min SDK26/target SDK36, `apksigner`에서 업로드 인증서와 APK v2 서명, `zipalign -c -P 16 4`에서 16KB 정렬을 확인했다. **이 APK는 Play 제출용 AAB가 아니다.** 새 3탭 구성의 Android 재검증은 [시각 QA 기록](design/status-system/FINAL_VISUAL_QA_20260928.md)을 따른다. 물리 기기 검증은 남아 있다.
+Android UI 확인용 universal signed APK는 `build/review/life-quest-2.0.0-2013-paid-review.apk`, SHA-256 `dee00c5916d0b20c09ca0708110b61217bebddd519c8172eb34053a2153c758e`이다. `aapt`에서 versionCode2013/min SDK26/target SDK36·Billing 권한·광고 ID 부재, `apksigner`에서 업로드 인증서와 서명, `zipalign -c -P 16 4`에서 16KB 정렬을 확인했다. 이 APK를 API35 에뮬레이터에 `adb install -r`로 설치했다. **이 APK는 Play 제출용 AAB가 아니다.** 이전 바이너리의 4개 언어 [실화면](design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)은 현재 초기 상태창 UI와 같은 코드를 보여주지만, 새 탐험 결과의 Android UI는 별도로 재확인한다. 물리 기기 검증은 남아 있다.
 
 ```sh
 flutter build appbundle --release \
