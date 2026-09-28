@@ -17,6 +17,7 @@
 - Android `com.lifequest.app`, `2.0.0+2013`: `build/review/life-quest-2.0.0-2013-paid-candidate.aab`. SHA-256 `8a7ec152f17fcbd80f83c4341b10f42d1dba24a46f390441f681e85266d9ccec`, **156,055,514 bytes**, 빌드 소스 커밋 `d7ebb72`. 상태창 중심 일회 구매, Cloud/Billing on, Ads/QA preview off. 선택 AI 모델은 AAB에 넣지 않고 별도 선택 다운로드한다. 게임 진입/신규 보상은 숨기고 이전 저장 데이터는 보존한다.
 - [실제 +2013 AAB 검사](../paid-candidate-2013-inspection.json): 패키지·versionCode2013·target API36·공개 업로드 인증서·결제 권한·광고 ID 및 Mobile Ads 부재·Firebase 자동 초기화 제거·Crashlytics/Analytics 수집 off·네이티브 ELF와 표본 split ZIP 16KB 정렬 **54/54 통과**. ARM64/API35/16KB 표본 다운로드는 **65,334,692 bytes**. 검사용 split은 업로드 파일이 아니다.
 - +2013 현재 소스 기준 `flutter analyze` clean, 전체 Flutter **518 통과/1 의도적 skip**, Cloud/Billing on 관련 테스트 **38 통과**, 영어·일본어 320/800dp 세로·800dp 가로의 200% 글꼴 배율에서 성장 보고서 Plus 진입 테스트 **6 통과**. 앞선 서버 정책 **49 통과**, Firestore/Storage 에뮬레이터 규칙 **11 통과**, Python 릴리스 권한 검사 **2 통과**도 모두 로컬 검증이다. Android UI 확인과 별개로 물리 기기 또는 Play 구매를 대신하지 않는다.
+- [최신 서명 APK 일본어 화면 QA](../design/status-system/qa/FINAL_PAID_FLOW_ANDROID_QA_20260928.md)에서 성장 기록 → 상세 보고서의 Plus 안내 → Plus 제안 화면까지 직접 이동했다. 관찰한 성장 화면에는 탐험·전투·상점 진입이 없었다. Play 상품 부재로 가격 조회와 실제 구매는 검증하지 못했다.
 
 ## 이전 2.0.0+12 로컬 검증 기록
 
@@ -33,4 +34,4 @@
 4. Play가 요구하는 비공개 테스트 참여 링크를 받은 뒤 실제 테스터를 모집한다. 생산 접근 제한이 남아 있다면 실제 12명 이상 연속 14일 opt-in 후 신청·심사를 진행한다. 직접 APK 설치, 이메일 목록 등록, 합성 테스트는 참여로 계산하지 않는다.
 5. 이전 소스 `e6dd1ea`의 [4개 언어별 실제 화면](../design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)은 신규 `0 / 150 XP` 사용자로 촬영한 1080×1920 RGB JPEG 8장과 원본 PNG다. [이전 `bb33b4b` APK의 Android QA](../design/status-system/qa/PAID_SCOPE_QUEST_SCREENSHOT_QA_20260928.md)에서 퀘스트 4장은 모두 Gold 없이 `+10 XP`를 표시하고 기존 스토어 이미지와 시각적으로 동일함을 확인했다. `d7ebb72`는 성장 보고서 배치만 수정했으므로 퀘스트 이미지의 교체 근거는 없지만 최신 APK의 직접 촬영으로 간주하지 않는다. [태블릿 세로 QA](../design/status-system/qa/PAID_SCOPE_TABLET_QA_20260928.md)도 수정 전 APK의 기본 배율 결과다. 국가별 등록정보의 최종 선정과 태블릿 자산은 제출 때 확인하며, 생성 일러스트를 앱 스크린샷으로 제시하지 않는다.
 
-**판정:** 최신 +2013 코드·서명 산출물의 로컬 검사와 이전 APK 간 스토어 퀘스트 화면의 시각 비교를 통과했다. `d7ebb72`의 성장 보고서 반응형 수정은 코드 테스트 6개로 확인했으며 최신 APK의 해당 화면 현장 QA는 남아 있다. Play/Firebase 결제 운영 설정, 물리 Android 기기와 구매·환불, 플랫폼 심사는 미완료다. 유료 판매 가능성이나 이익은 실증되지 않았다. 다음 명시적 **“배포해”** 요청 전에는 AAB 업로드·백엔드 배포·상품 활성화·트랙 게시를 하지 않는다.
+**판정:** 최신 +2013 코드·서명 산출물의 로컬 검사와 이전 APK 간 스토어 퀘스트 화면의 시각 비교를 통과했다. `d7ebb72`의 성장 보고서 반응형 수정은 코드 테스트 6개와 최신 APK 일본어 실제 화면으로 확인했다. Play/Firebase 결제 운영 설정, 물리 Android 기기와 구매·환불, 플랫폼 심사는 미완료다. 유료 판매 가능성이나 이익은 실증되지 않았다. 다음 명시적 **“배포해”** 요청 전에는 AAB 업로드·백엔드 배포·상품 활성화·트랙 게시를 하지 않는다.
