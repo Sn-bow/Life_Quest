@@ -1,6 +1,7 @@
 import java.util.Properties
 import java.io.FileInputStream
 import java.util.Base64
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 
 plugins {
     id("com.android.application")
@@ -92,6 +93,11 @@ android {
 
     buildTypes {
         release {
+            // Crashlytics collection is disabled in the release manifest.
+            // Do not upload its unused R8 mapping file on every local build.
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+            }
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
             } else {
