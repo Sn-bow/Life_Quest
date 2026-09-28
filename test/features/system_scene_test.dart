@@ -13,6 +13,68 @@ import 'director_layout_test.dart' show LayoutModel;
 
 void main() {
   SoundService.muteForTesting();
+  testWidgets(
+    'reward return stays above Android navigation on a Japanese phone',
+    (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      tester.view.physicalSize = const Size(1080, 1920);
+      tester.view.devicePixelRatio = 2.625; // 411 x 731 logical pixels.
+      tester.view.padding = const FakeViewPadding(top: 52, bottom: 24);
+      tester.view.viewPadding = const FakeViewPadding(top: 52, bottom: 24);
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPadding);
+      addTearDown(tester.view.resetViewPadding);
+      final receipt = GrowthReceipt(
+        id: 'reward-phone',
+        questId: 'rest',
+        title: '無理せず5分体をほぐす',
+        day: '2026-09-28',
+        source: 'quest',
+        at: DateTime(2026, 9, 28),
+        category: 2,
+        baseXp: 10,
+        gold: 5,
+        levelBefore: 1,
+        levelAfter: 1,
+        xp: 60,
+        bonusXp: 50,
+        xpBefore: 0,
+        xpAfter: 60,
+        maxXpAfter: 150,
+        statChanges: const [0, 0, 0, 0],
+      );
+      await tester.pumpWidget(
+        MaterialApp(
+          locale: const Locale('ja'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          theme: QuestTheme.build(Brightness.dark),
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => Center(
+                child: FilledButton(
+                  onPressed: () => showSystemReward(context, receipt),
+                  child: const Text('Open reward'),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open reward'));
+      await tester.pumpAndSettle();
+      final returnButton = find.byKey(const ValueKey('system-reward-return'));
+      expect(returnButton, findsOneWidget);
+      expect(tester.getBottomLeft(returnButton).dy, lessThan(731 - 24));
+      expect(find.text('+60 XP'), findsOneWidget);
+      await tester.tap(returnButton);
+      await tester.pumpAndSettle();
+      expect(find.byType(SystemRewardScene), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
   for (final locale in ['ko', 'en', 'ja', 'zh']) {
     testWidgets(
       'accept, complete and dismiss at 320px/200%, reduced motion $locale',

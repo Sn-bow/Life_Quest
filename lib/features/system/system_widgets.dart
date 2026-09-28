@@ -683,112 +683,126 @@ class SystemRewardScene extends StatelessWidget {
           ),
           child: HunterSystemFrame(
             padding: EdgeInsets.zero,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(26),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'SYSTEM / ${levelUp ? 'LEVEL UP' : 'COMPLETE'}',
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(26, 26, 26, 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'SYSTEM / ${levelUp ? 'LEVEL UP' : 'COMPLETE'}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  letterSpacing: 2,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              tooltip: copy.get('close'),
+                              icon: const Icon(PhosphorIcons.x),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Icon(
+                          levelUp
+                              ? PhosphorIcons.sparkle
+                              : PhosphorIcons.checkCircle,
+                          size: 52,
+                          color: theme.colorScheme.primary,
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          copy.get(levelUp ? 'levelUp' : 'success'),
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            fontFamily: 'NotoSansKR',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(r.title, textAlign: TextAlign.center),
+                        const SizedBox(height: 28),
+                        Text(
+                          '+${xpText(r.xp)} XP',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 12,
-                            letterSpacing: 2,
+                            fontFamily: 'NotoSansKR',
+                            fontSize: 40,
+                            fontWeight: FontWeight.w600,
                             color: theme.colorScheme.primary,
                           ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        tooltip: copy.get('close'),
-                        icon: const Icon(PhosphorIcons.x),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Icon(
-                    levelUp ? PhosphorIcons.sparkle : PhosphorIcons.checkCircle,
-                    size: 52,
-                    color: theme.colorScheme.primary,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    copy.get(levelUp ? 'levelUp' : 'success'),
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontFamily: 'NotoSansKR',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(r.title, textAlign: TextAlign.center),
-                  const SizedBox(height: 28),
-                  Text(
-                    '+${xpText(r.xp)} XP',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'NotoSansKR',
-                      fontSize: 40,
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                  if (r.bonusXp > 0) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      '${copy.get('questReward')} +${xpText(r.questXp)} XP\n${copy.get('achievementReward')} +${xpText(r.bonusXp)} XP',
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                  const SizedBox(height: 24),
-                  const Divider(),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Lv.${r.levelBefore}  →  Lv.${r.levelAfter}',
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 12),
-                  LinearProgressIndicator(
-                    value: (r.xpAfter / r.maxXpAfter).clamp(0.0, 1.0),
-                    minHeight: 6,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '${xpText(r.xpAfter)} / ${xpText(r.maxXpAfter)} XP',
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    '${statLabels(context)[r.category]} · ${copy.get('contribution')}',
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                  for (var i = 0; i < 4; i++)
-                    if (r.statChanges[i] > 0)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text(
-                          '${statLabels(context)[i]} +${xpText(r.statChanges[i])}',
+                        if (r.bonusXp > 0) ...[
+                          const SizedBox(height: 12),
+                          Text(
+                            '${copy.get('questReward')} +${xpText(r.questXp)} XP\n${copy.get('achievementReward')} +${xpText(r.bonusXp)} XP',
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                        const SizedBox(height: 24),
+                        const Divider(),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Lv.${r.levelBefore}  →  Lv.${r.levelAfter}',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 12),
+                        LinearProgressIndicator(
+                          value: (r.xpAfter / r.maxXpAfter).clamp(0.0, 1.0),
+                          minHeight: 6,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          '${xpText(r.xpAfter)} / ${xpText(r.maxXpAfter)} XP',
                           textAlign: TextAlign.center,
                         ),
-                      ),
-                  const SizedBox(height: 24),
-                  Text(
-                    copy.get('saved'),
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodySmall,
+                        const SizedBox(height: 20),
+                        Text(
+                          '${statLabels(context)[r.category]} · ${copy.get('contribution')}',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                        for (var i = 0; i < 4; i++)
+                          if (r.statChanges[i] > 0)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(
+                                '${statLabels(context)[i]} +${xpText(r.statChanges[i])}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                        const SizedBox(height: 24),
+                        Text(
+                          copy.get('saved'),
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  FilledButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(copy.get('return')),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(26, 8, 26, 34),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      key: const ValueKey('system-reward-return'),
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(copy.get('return')),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

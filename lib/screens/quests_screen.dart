@@ -423,8 +423,8 @@ class QuestsScreen extends StatelessWidget {
                 [
                   l10n.questsCompleteConfirm(quest.name),
                   l10n.questsBaseRewardLabel,
-                  '- ${quest.xp} XP',
-                  '- ${(quest.xp * 0.5).round()} ${l10n.questsGoldUnit}',
+                  '+${quest.xp} XP',
+                  '+${(quest.xp * 0.5).round()} ${l10n.questsGoldUnit}',
                   if (quest.type == QuestType.monthly ||
                       quest.type == QuestType.yearly)
                     _raidRewardPreview(quest, l10n),
