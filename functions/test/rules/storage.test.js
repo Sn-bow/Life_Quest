@@ -37,3 +37,13 @@ test('deletion tombstone blocks old tokens from uploading files again', async ()
   await assertFails(getBytes(file('alice')));
   await assertFails(deleteObject(file('alice'))); // Admin cleanup owns this stage.
 });
+test('server-owned purchase-only accounts cannot create or overwrite profile photos', async () => {
+  const upload = () => uploadBytes(file('alice'), image(), {contentType: 'image/png'});
+  await assertSucceeds(upload()); // Signup may upload before its user document exists.
+  await env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), 'users/alice'),
+    {accountKind: 'purchaseOnly'}));
+  await assertFails(upload());
+  await env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), 'users/alice'),
+    {character: {level: 1, gold: 0}}));
+  await assertSucceeds(upload()); // A normal cloud profile retains the option.
+});
