@@ -1,5 +1,7 @@
 # 최종 상태창 시각 QA와 Play 스크린샷 준비 · 2026-09-28
 
+> **후속 촬영 완료(2026-09-28):** 아래의 신규 사용자 캡처 실패 기록은 당시의 경과다. 같은 최종 QA APK와 분리된 Android 사용자에서 0 XP 상태창 및 기본 추천 퀘스트를 일본어·영어·한국어·번체 중국어로 새로 촬영했다. 원본·Play 규격 JPEG·출처·한계는 [4개 언어 스크린샷 기록](qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)을 따른다. 아래 이전 촬영의 85 XP 자료는 내부 QA 이력으로 남긴다.
+
 ## 최종 현지화 빌드 현장 QA — 2.0.0+2013, 소스 `e6dd1ea`
 
 - 출시 플래그의 signed 검토용 APK SHA-256 `beabedbc176642d83fa8e8b80baeeec8429420a3a608bf9e27e8229fffa1ec90`을 기존 API 35, 420dpi, 1080×1920 AVD에 데이터 삭제 없는 업그레이드로 설치했다. Android Studio Running Devices에서 CUA로 조작했고 IDE의 `Take Screenshot`으로 직접 촬영했다. 기존 소유자(user 0)의 QA 기록은 85/150 XP로 보존됐다.
