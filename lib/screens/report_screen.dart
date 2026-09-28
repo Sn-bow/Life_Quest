@@ -538,21 +538,22 @@ class _ReportScreenState extends State<ReportScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              Wrap(
-                spacing: 16,
-                runSpacing: 8,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: StatType.values.map((category) {
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 16,
-                        height: 16,
-                        color: _getCategoryColor(category),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(_getCategoryName(category, l10n)),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 16,
+                          height: 16,
+                          color: _getCategoryColor(category),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(child: Text(_getCategoryName(category, l10n))),
+                      ],
+                    ),
                   );
                 }).toList(),
               ),
@@ -631,7 +632,8 @@ class _ReportScreenState extends State<ReportScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(_getCategoryName(stat, l10n)),
+                          Expanded(child: Text(_getCategoryName(stat, l10n))),
+                          const SizedBox(width: 8),
                           Text('${percent.toStringAsFixed(0)}%'),
                         ],
                       ),
@@ -730,10 +732,10 @@ class _ReportScreenState extends State<ReportScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(l10n.reportCalendarTitle, style: theme.textTheme.titleLarge),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(l10n.reportCalendarTitle, style: theme.textTheme.titleLarge),
-              const Spacer(),
               IconButton(
                 onPressed: () {
                   setState(() {
@@ -743,9 +745,12 @@ class _ReportScreenState extends State<ReportScreen> {
                 },
                 icon: const Icon(Icons.chevron_left_rounded),
               ),
-              Text(
-                '${_focusedMonth.year}.${_focusedMonth.month.toString().padLeft(2, '0')}',
-                style: theme.textTheme.titleMedium,
+              Flexible(
+                child: Text(
+                  '${_focusedMonth.year}.${_focusedMonth.month.toString().padLeft(2, '0')}',
+                  style: theme.textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
               ),
               IconButton(
                 onPressed: () {
@@ -936,7 +941,8 @@ class _ReportScreenState extends State<ReportScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label),
+            Expanded(child: Text(label)),
+            const SizedBox(width: 8),
             Text('${percent.toStringAsFixed(0)}%'),
           ],
         ),
@@ -1178,12 +1184,16 @@ class _ReportScreenState extends State<ReportScreen> {
             children: [
               Icon(icon, color: color, size: 24),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
