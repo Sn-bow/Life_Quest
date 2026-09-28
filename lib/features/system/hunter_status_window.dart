@@ -71,7 +71,7 @@ class HunterStatusWindow extends StatelessWidget {
     // Large text and tablets keep the spacious, scrollable layout.
     final compact =
         media.size.width <= 430 &&
-        media.size.height <= 720 &&
+        media.size.height <= 820 &&
         media.textScaler.scale(16) <= 19;
     return HunterSystemFrame(
       key: const ValueKey('hunter-status-window'),

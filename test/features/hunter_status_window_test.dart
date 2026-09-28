@@ -13,95 +13,103 @@ import 'director_layout_test.dart' show LayoutModel;
 
 void main() {
   SoundService.muteForTesting();
-  for (final locale in ['ko', 'en', 'ja', 'zh']) {
-    testWidgets(
-      'complete status frame is visible above navigation at 360x640 $locale',
-      (tester) async {
-        SharedPreferences.setMockInitialValues({});
-        tester.view.physicalSize = const Size(360, 640);
-        tester.view.devicePixelRatio = 1;
-        tester.view.padding = const FakeViewPadding(top: 24, bottom: 24);
-        tester.view.viewPadding = const FakeViewPadding(top: 24, bottom: 24);
-        addTearDown(tester.view.resetPhysicalSize);
-        addTearDown(tester.view.resetDevicePixelRatio);
-        addTearDown(tester.view.resetPadding);
-        addTearDown(tester.view.resetViewPadding);
-        final character = CharacterState()..initializeForTesting();
-        character.character
-          ..name = 'HYEONSEOK / Long hunter name'
-          ..xp = 70
-          ..statPoints = 3;
-        final director = QuestDirectorState(model: LayoutModel());
-        await director.bind('compact-hunter-window-test');
-        await tester.pumpWidget(
-          MultiProvider(
-            providers: [
-              ChangeNotifierProvider.value(value: character),
-              ChangeNotifierProvider.value(value: director),
-            ],
-            child: MaterialApp(
-              theme: QuestTheme.build(Brightness.light),
-              locale: Locale(locale),
-              supportedLocales: AppLocalizations.supportedLocales,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              builder: (context, child) => MediaQuery(
-                data: MediaQuery.of(context).copyWith(disableAnimations: true),
-                child: child!,
-              ),
-              home: Scaffold(
-                body: TodayScreen(onOpenQuests: () {}, onOpenDungeon: () {}),
-                bottomNavigationBar: NavigationBar(
-                  destinations: const [
-                    NavigationDestination(
-                      icon: Icon(Icons.home),
-                      label: 'Status',
-                    ),
-                    NavigationDestination(
-                      icon: Icon(Icons.check),
-                      label: 'Quests',
-                    ),
-                    NavigationDestination(
-                      icon: Icon(Icons.explore),
-                      label: 'Explore',
-                    ),
-                    NavigationDestination(
-                      icon: Icon(Icons.bar_chart),
-                      label: 'Journal',
-                    ),
-                  ],
+  for (final size in [const Size(360, 640), const Size(411, 731)]) {
+    for (final locale in ['ko', 'en', 'ja', 'zh']) {
+      testWidgets(
+        'complete status frame is visible above navigation at ${size.width}x${size.height} $locale',
+        (tester) async {
+          SharedPreferences.setMockInitialValues({});
+          tester.view.physicalSize = size;
+          tester.view.devicePixelRatio = 1;
+          final topInset = size.width > 400 ? 52.0 : 24.0;
+          tester.view.padding = FakeViewPadding(top: topInset, bottom: 24);
+          tester.view.viewPadding = FakeViewPadding(top: topInset, bottom: 24);
+          addTearDown(tester.view.resetPhysicalSize);
+          addTearDown(tester.view.resetDevicePixelRatio);
+          addTearDown(tester.view.resetPadding);
+          addTearDown(tester.view.resetViewPadding);
+          final character = CharacterState()..initializeForTesting();
+          character.character
+            ..name = 'HYEONSEOK / Long hunter name'
+            ..xp = 70
+            ..statPoints = 3;
+          final director = QuestDirectorState(model: LayoutModel());
+          await director.bind('compact-hunter-window-test');
+          await tester.pumpWidget(
+            MultiProvider(
+              providers: [
+                ChangeNotifierProvider.value(value: character),
+                ChangeNotifierProvider.value(value: director),
+              ],
+              child: MaterialApp(
+                theme: QuestTheme.build(Brightness.light),
+                locale: Locale(locale),
+                supportedLocales: AppLocalizations.supportedLocales,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                builder: (context, child) => MediaQuery(
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(disableAnimations: true),
+                  child: child!,
+                ),
+                home: Scaffold(
+                  body: TodayScreen(onOpenQuests: () {}, onOpenDungeon: () {}),
+                  bottomNavigationBar: NavigationBar(
+                    destinations: const [
+                      NavigationDestination(
+                        icon: Icon(Icons.home),
+                        label: 'Status',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.check),
+                        label: 'Quests',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.explore),
+                        label: 'Explore',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.bar_chart),
+                        label: 'Journal',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-        await tester.pumpAndSettle();
-        final frame = find.byKey(const ValueKey('hunter-status-window'));
-        final points = find.byKey(const ValueKey('hunter-stat-points'));
-        final navTop = tester.getTopLeft(find.byType(NavigationBar)).dy;
-        expect(find.byKey(const ValueKey('hunter-name')), findsOneWidget);
-        expect(find.byKey(const ValueKey('hunter-level')), findsOneWidget);
-        expect(
-          tester.widget<Text>(find.byKey(const ValueKey('hunter-xp'))).data,
-          startsWith('70 / '),
-        );
-        for (var i = 0; i < 4; i++) {
-          final stat = find.byKey(ValueKey('status-stat-$i'));
-          expect(stat, findsOneWidget);
-          expect(tester.getBottomLeft(stat).dy, lessThan(navTop));
-        }
-        expect(
-          find.descendant(of: points, matching: find.text('3')),
-          findsOneWidget,
-        );
-        expect(tester.getBottomLeft(points).dy, lessThan(navTop));
-        expect(tester.getBottomLeft(frame).dy, lessThanOrEqualTo(navTop - 4));
-        expect(find.byKey(const ValueKey('status-plus-open')), findsOneWidget);
-        expect(tester.takeException(), isNull);
-        await tester.pumpWidget(const SizedBox());
-        director.dispose();
-        character.dispose();
-      },
-    );
+          );
+          await tester.pumpAndSettle();
+          final frame = find.byKey(const ValueKey('hunter-status-window'));
+          final points = find.byKey(const ValueKey('hunter-stat-points'));
+          final navTop = tester.getTopLeft(find.byType(NavigationBar)).dy;
+          expect(find.byKey(const ValueKey('hunter-name')), findsOneWidget);
+          expect(find.byKey(const ValueKey('hunter-level')), findsOneWidget);
+          expect(
+            tester.widget<Text>(find.byKey(const ValueKey('hunter-xp'))).data,
+            startsWith('70 / '),
+          );
+          for (var i = 0; i < 4; i++) {
+            final stat = find.byKey(ValueKey('status-stat-$i'));
+            expect(stat, findsOneWidget);
+            expect(tester.getBottomLeft(stat).dy, lessThan(navTop));
+          }
+          expect(
+            find.descendant(of: points, matching: find.text('3')),
+            findsOneWidget,
+          );
+          expect(tester.getBottomLeft(points).dy, lessThan(navTop));
+          expect(tester.getBottomLeft(frame).dy, lessThanOrEqualTo(navTop - 4));
+          expect(
+            find.byKey(const ValueKey('status-plus-open')),
+            findsOneWidget,
+          );
+          expect(tester.takeException(), isNull);
+          await tester.pumpWidget(const SizedBox());
+          director.dispose();
+          character.dispose();
+        },
+      );
+    }
   }
   for (final size in [
     const Size(320, 900),
