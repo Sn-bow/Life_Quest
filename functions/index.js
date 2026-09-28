@@ -3,6 +3,7 @@ const {onCall, HttpsError} = require('firebase-functions/v2/https');
 const {onMessagePublished} = require('firebase-functions/v2/pubsub');
 const {onDocumentCreated} = require('firebase-functions/v2/firestore');
 const {onTaskDispatched} = require('firebase-functions/v2/tasks');
+const {onSchedule} = require('firebase-functions/v2/scheduler');
 const {google} = require('googleapis');
 const {initializeApp, getApp} = require('firebase-admin/app');
 const {getFirestore, FieldValue} = require('firebase-admin/firestore');
@@ -14,6 +15,7 @@ const {PurchasePolicyError, verifyAndGrant, retryPurchaseAcknowledgement,
   reconcileNotification, readPlayNotification} = require('./purchase_policy');
 const {PurchaseAccountError, ensurePurchaseAccount, requirePurchaseAccount} = require('./purchase_account');
 const {AiReportError, submitAiReport} = require('./ai_reports');
+const {reconcileVoidedPurchases} = require('./voided_purchases');
 initializeApp();
 // Application Default Credentials: grant the runtime service account access in
 // Play Console. Never download or embed a service-account private JSON key.
@@ -87,6 +89,18 @@ exports.onPlayPurchaseNotification = onMessagePublished({topic: 'lifequest-play-
   } catch (_) {
     // Google API failures can include raw purchase tokens in request URLs.
     throw new Error('Play purchase notification could not be reconciled.');
+  }
+});
+
+// RTDN is the immediate path; this overlapping scan repairs missed full
+// one-time refunds without retaining plaintext purchase tokens in Firestore.
+exports.reconcilePlayVoidedPurchases = onSchedule({schedule: '0 3 * * *',
+  timeZone: 'Etc/UTC', retryCount: 3, maxInstances: 1,
+  timeoutSeconds: 300, memory: '256MiB'}, async () => {
+  try {
+    await reconcileVoidedPurchases({publisher, nowMillis: Date.now(), ...dependencies});
+  } catch (_) {
+    throw new Error('Voided purchase reconciliation failed.');
   }
 });
 

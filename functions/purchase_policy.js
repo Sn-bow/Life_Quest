@@ -152,6 +152,7 @@ async function reconcileNotification({notification, publisher, db, timestamp,
     await db.runTransaction(async tx => {
       const currentToken = await tx.get(tokenRef);
       const owner = currentToken.data();
+      if (owner?.state === 'revoked') return;
       if (cancelled && owner?.productId && owner.productId !== event.sku) return;
       if (owner?.uid && owner.productId) {
         const grantRef = db.collection('users').doc(owner.uid)
