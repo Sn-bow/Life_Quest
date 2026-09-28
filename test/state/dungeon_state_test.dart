@@ -58,26 +58,43 @@ void main() {
       expect(rewards['isVictory'], false);
     });
 
-    test('failed run only rewards earned combat progress', () {
+    test('new failed run only pays earned gold', () {
       dungeonState.incrementMonstersKilled();
       dungeonState.endRun(victory: false);
 
       final rewards = dungeonState.calculateRunRewards();
 
-      expect(rewards['xp'], 10);
+      expect(rewards['xp'], 0);
       expect(rewards['gold'], 8);
       expect(rewards['isVictory'], false);
     });
 
-    test('victory keeps zone completion bonus rewards', () {
+    test('new victory keeps gold but cannot raise the real-world level', () {
       dungeonState.endRun(victory: true);
 
       final rewards = dungeonState.calculateRunRewards();
 
-      expect(rewards['xp'], 175);
+      expect(rewards['xp'], 0);
       expect(rewards['gold'], 45);
       expect(rewards['isVictory'], true);
     });
+
+    test(
+      'pre-update checkpoint keeps the promised XP exactly for that run',
+      () {
+        final legacy = dungeonState.toJson()..remove('awardsCharacterXp');
+        dungeonState.fromJson(legacy);
+        dungeonState.endRun(victory: true);
+        expect(dungeonState.calculateRunRewards()['xp'], 175);
+        expect(dungeonState.toJson()['awardsCharacterXp'], true);
+
+        dungeonState.resetRun();
+        dungeonState.startRun(zone: 1, startingDeck: [], playerMaxHp: 80);
+        dungeonState.endRun(victory: true);
+        expect(dungeonState.calculateRunRewards()['xp'], 0);
+        expect(dungeonState.toJson()['awardsCharacterXp'], false);
+      },
+    );
 
     test('daily modifier applies starting HP and gold to the run snapshot', () {
       final modified = DungeonState()

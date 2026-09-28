@@ -142,40 +142,71 @@ void main() {
     );
   }
 
-  test(
-    'terminal reward and receipt persist once, including level-up achievements',
-    () async {
-      var character = await profile();
-      var dungeon = bind(character);
-      start(dungeon);
-      dungeon.incrementMonstersKilled(30);
-      dungeon.endRun(victory: true);
-      await dungeon.flushCheckpoint();
-      // Simulate death of the process before opening the result screen.
-      dungeon.dispose();
-      character = await restart(character);
-      dungeon = bind(character);
-      expect(dungeon.hasResult, true);
-      store.profiles.clear();
-      await character.settleDungeonRun(dungeon);
-      expect(store.profiles.length, 1, reason: 'No intermediate level-up save');
-      expect(store.profiles.single['settledDungeonRunId'], dungeon.runId);
-      expect(store.profiles.single['character']['completedZones'], contains(1));
-      final awarded = progress(character);
-      await character.settleDungeonRun(dungeon);
-      expect(progress(character), awarded);
-      dungeon.dispose();
-      character = await restart(character);
-      dungeon = bind(character);
-      await character.settleDungeonRun(dungeon);
-      expect(progress(character), awarded);
-      character.dispose();
-      dungeon.dispose();
-    },
-  );
+  test('new run pays once without inflating status XP or level', () async {
+    var character = await profile();
+    var dungeon = bind(character);
+    start(dungeon);
+    dungeon.incrementMonstersKilled(30);
+    dungeon.endRun(victory: true);
+    await dungeon.flushCheckpoint();
+    // Simulate death of the process before opening the result screen.
+    dungeon.dispose();
+    character = await restart(character);
+    dungeon = bind(character);
+    expect(dungeon.hasResult, true);
+    expect(dungeon.calculateRunRewards()['xp'], 0);
+    store.profiles.clear();
+    final xpBefore = character.character.xp;
+    final levelBefore = character.character.level;
+    final goldBefore = character.character.gold;
+    await character.settleDungeonRun(dungeon);
+    expect(store.profiles.length, 1, reason: 'No intermediate level-up save');
+    expect(store.profiles.single['settledDungeonRunId'], dungeon.runId);
+    expect(store.profiles.single['character']['completedZones'], contains(1));
+    expect(character.character.xp, xpBefore);
+    expect(character.character.level, levelBefore);
+    expect(character.character.gold, greaterThan(goldBefore));
+    final awarded = progress(character);
+    await character.settleDungeonRun(dungeon);
+    expect(progress(character), awarded);
+    dungeon.dispose();
+    character = await restart(character);
+    dungeon = bind(character);
+    await character.settleDungeonRun(dungeon);
+    expect(progress(character), awarded);
+    character.dispose();
+    dungeon.dispose();
+  });
+
+  test('old saved run retains its XP promise once across restart', () async {
+    var character = await profile();
+    var dungeon = bind(character);
+    start(dungeon);
+    dungeon.incrementMonstersKilled(30);
+    dungeon.endRun(victory: true);
+    final legacy = dungeon.toJson()..remove('awardsCharacterXp');
+    await character.saveDungeonCheckpoint(legacy);
+    dungeon.dispose();
+    character = await restart(character);
+    dungeon = bind(character);
+    expect(dungeon.calculateRunRewards()['xp'], greaterThan(0));
+    final levelBefore = character.character.level;
+    await character.settleDungeonRun(dungeon);
+    expect(character.character.level, greaterThan(levelBefore));
+    final awarded = progress(character);
+    await character.settleDungeonRun(dungeon);
+    expect(progress(character), awarded);
+    dungeon.dispose();
+    character = await restart(character);
+    dungeon = bind(character);
+    await character.settleDungeonRun(dungeon);
+    expect(progress(character), awarded);
+    character.dispose();
+    dungeon.dispose();
+  });
 
   test(
-    'failed settlement retries without double XP or partial disk receipt',
+    'failed settlement retries without double reward or partial disk receipt',
     () async {
       final character = await profile();
       final dungeon = bind(character);

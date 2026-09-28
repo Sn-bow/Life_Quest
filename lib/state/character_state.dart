@@ -118,8 +118,10 @@ class CharacterState extends ChangeNotifier {
     await _performSaveData();
   }
 
-  /// XP, zone unlock, tower progress and the receipt share ONE profile write.
-  /// If storage fails, retry writes the same in-memory result without adding XP.
+  /// Legacy XP (if promised), gold, expedition unlocks and the receipt share
+  /// ONE profile write. New expeditions never award character XP.
+  /// If storage fails, retry writes the same in-memory result without paying
+  /// the reward a second time.
   /// If the process dies, disk contains either the pending or settled result.
   Future<void> settleDungeonRun(DungeonState dungeon) async {
     if (_character == null ||
