@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
 const tideProductId = 'story_tide_postoffice_01';
-const saleProductIds = {tideProductId};
+const statusWindowPlusProductId = 'status_window_plus_01';
+// Tide is retained for existing owners and Play restore, but is not offered
+// for sale in the status-window release.
+const saleProductIds = {statusWindowPlusProductId};
 const bundledCosmeticProducts = {'theme_tide_postoffice': tideProductId};
 
 const playPackageName = 'com.lifequest.app';
@@ -15,6 +18,7 @@ const playEntitlements = <String, String>{
   'cosmetic_combat_lightning': 'combat_effect_lightning',
   'story_neon_archive_01': 'story_neon_archive_01',
   tideProductId: tideProductId,
+  statusWindowPlusProductId: statusWindowPlusProductId,
 };
 String playAccountId(String uid) => sha256.convert(utf8.encode(uid)).toString();
 

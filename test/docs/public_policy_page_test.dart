@@ -26,15 +26,18 @@ void main() {
       expect(runbook, contains('Complete the privacy policy URL field'));
     });
 
-    test('states the default Android data-safety scope clearly', () {
+    test('separates the public APK from the unreleased paid candidate', () {
       final publicPage = File('docs/index.html').readAsStringSync();
 
-      expect(publicPage, contains('default Android release'));
+      expect(publicPage, contains('2.0.0-preview.1'));
+      expect(publicPage, contains('2.0.0+2013'));
       expect(publicPage, contains('AdMob'));
       expect(publicPage, contains('Google Play Billing'));
       expect(publicPage, contains('disabled'));
       expect(publicPage, contains('Health Connect'));
       expect(publicPage, contains('account deletion'));
+      expect(publicPage, contains('id="privacy-ja"'));
+      expect(publicPage, contains('id="delete-account-ja"'));
       expect(publicPage, contains('logian621@gmail.com'));
     });
 

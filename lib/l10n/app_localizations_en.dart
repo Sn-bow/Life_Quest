@@ -4499,6 +4499,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqPurchaseAccountConnect => 'Connect Google account';
 
   @override
+  String get lqPurchaseCloudLinkIntro =>
+      'Connect a Google account to this profile before purchasing. Your quests and progress stay with the same profile. Connecting does not charge you.';
+
+  @override
+  String get lqPurchaseCloudLinkFailed =>
+      'This Google account could not be linked. It may already belong to another Life Quest account. Try a different Google account. Your current email profile is unchanged.';
+
+  @override
+  String get lqPurchaseCloudLinked =>
+      'Google is connected to this profile. Buy and restore purchases with this profile.';
+
+  @override
   String get lqPurchaseAccountDisconnect => 'Disconnect on this device';
 
   @override

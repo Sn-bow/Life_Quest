@@ -12,6 +12,7 @@ import '../../state/character_state.dart';
 import '../director/quest_director_state.dart';
 import 'system_copy.dart';
 import 'system_journal.dart';
+import 'hunter_system_frame.dart';
 
 const systemJade = Color(0xFF9EDCD0);
 String xpText(num value) => value == value.roundToDouble()
@@ -42,7 +43,11 @@ class SystemEntrance extends StatelessWidget {
     curve: Curves.easeOutCubic,
     builder: (c, v, child) => Opacity(
       opacity: v,
-      child: Transform.translate(offset: Offset(0, (1 - v) * 12), child: child),
+      child: Transform.scale(
+        scale: .96 + .04 * v,
+        alignment: Alignment.topCenter,
+        child: child,
+      ),
     ),
     child: child,
   );
@@ -256,7 +261,8 @@ class SystemStatusHeader extends StatelessWidget {
 }
 
 class SystemOfferCard extends StatefulWidget {
-  const SystemOfferCard({super.key});
+  final bool compact;
+  const SystemOfferCard({super.key, this.compact = false});
   @override
   State<SystemOfferCard> createState() => _SystemOfferCardState();
 }
@@ -328,6 +334,50 @@ class _SystemOfferCardState extends State<SystemOfferCard> {
         ? systemJade
         : const Color(0xFF23685D);
     final latest = state.systemJournal.offers.lastOrNull;
+    if (widget.compact) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextButton.icon(
+            onPressed: () => showModalBottomSheet<void>(
+              context: context,
+              isScrollControlled: true,
+              useSafeArea: true,
+              builder: (_) => const SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 28),
+                child: SystemOfferCard(),
+              ),
+            ),
+            icon: Icon(
+              PhosphorIcons.lightning,
+              size: 17,
+              color: offer == null
+                  ? const Color(0xFF93B5C7)
+                  : const Color(0xFF7FDEFF),
+            ),
+            label: Text(
+              copy.get(
+                offer == null
+                    ? 'waiting'
+                    : offer.status == SystemOfferStatus.accepted
+                    ? 'accepted'
+                    : 'arrival',
+              ),
+            ),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFFB9D7E6),
+            ),
+          ),
+          if (_error != null) ...[
+            Text(_error!, style: TextStyle(color: theme.colorScheme.error)),
+            TextButton(
+              onPressed: _busy || _retry == null ? null : () => _run(_retry!),
+              child: Text(copy.get('retry')),
+            ),
+          ],
+        ],
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -620,7 +670,9 @@ class SystemRewardScene extends StatelessWidget {
   const SystemRewardScene({super.key, required this.receipt});
   @override
   Widget build(BuildContext context) {
-    final copy = SystemCopy(context), theme = Theme.of(context), r = receipt;
+    final copy = SystemCopy(context),
+        theme = HunterSystemFrame.themeFor(context),
+        r = receipt;
     final levelUp = r.levelAfter > r.levelBefore;
     return SafeArea(
       child: Center(
@@ -629,9 +681,8 @@ class SystemRewardScene extends StatelessWidget {
             maxWidth: 460,
             maxHeight: MediaQuery.sizeOf(context).height * .92,
           ),
-          child: Material(
-            color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
+          child: HunterSystemFrame(
+            padding: EdgeInsets.zero,
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(26),
               child: Column(
@@ -668,7 +719,7 @@ class SystemRewardScene extends StatelessWidget {
                     copy.get(levelUp ? 'levelUp' : 'success'),
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headlineMedium?.copyWith(
-                      fontFamily: 'NotoSerifKR',
+                      fontFamily: 'NotoSansKR',
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -679,7 +730,7 @@ class SystemRewardScene extends StatelessWidget {
                     '+${xpText(r.xp)} XP',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'NotoSerifKR',
+                      fontFamily: 'NotoSansKR',
                       fontSize: 40,
                       fontWeight: FontWeight.w600,
                       color: theme.colorScheme.primary,

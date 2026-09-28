@@ -309,9 +309,9 @@ class CharacterState extends ChangeNotifier {
         ['動画・映画を観る', 'YouTubeやNetflixを1時間見る'],
       ],
       'zh': [
-        ['吃好吃的零食', '享用一份喜欢的零食'],
-        ['玩30分钟游戏', '无愧疚地玩30分钟'],
-        ['看想看的视频/电影', '看YouTube或Netflix一小时'],
+        ['吃點喜歡的點心', '享用一份喜歡的點心'],
+        ['玩 30 分鐘遊戲', '沒有罪惡感地玩 30 分鐘'],
+        ['看想看的影片或電影', '看一小時 YouTube 或 Netflix'],
       ],
       'ko': [
         ['맛있는 간식 먹기', '좋아하는 간식 1개 먹기'],
@@ -510,7 +510,7 @@ class CharacterState extends ChangeNotifier {
     final message = switch (_locale?.languageCode) {
       'en' => 'Saving did not finish. Keep the app open and try again.',
       'ja' => '保存が完了しませんでした。アプリを閉じずに再試行してください。',
-      'zh' => '保存未完成。请保持应用开启并重试。',
+      'zh' => '儲存尚未完成。請保持 App 開啟並重試。',
       _ => '저장이 끝나지 않았습니다. 앱을 닫지 말고 다시 시도해 주세요.',
     };
     scaffoldMessengerKey.currentState?.showSnackBar(
@@ -555,7 +555,7 @@ class CharacterState extends ChangeNotifier {
       case 'ja':
         return 'ソウルデッククリア！';
       case 'zh':
-        return '灵魂牌组通关！';
+        return '靈魂牌組通關！';
       default: // ko
         return 'Soul Deck 클리어!';
     }
@@ -569,7 +569,7 @@ class CharacterState extends ChangeNotifier {
       case 'ja':
         return 'カード獲得: $cardName！';
       case 'zh':
-        return '获得卡片: $cardName！';
+        return '獲得卡牌：$cardName！';
       default: // ko
         return '카드 획득: $cardName!';
     }
@@ -583,7 +583,7 @@ class CharacterState extends ChangeNotifier {
       case 'ja':
         return '🎉 実績達成: $name（報酬: $reward）';
       case 'zh':
-        return '🎉 成就达成: $name（奖励: $reward）';
+        return '🎉 達成成就：$name（獎勵：$reward）';
       default: // ko
         return '🎉 업적 달성: $name (보상: $reward)';
     }
@@ -596,7 +596,7 @@ class CharacterState extends ChangeNotifier {
       return 'アカウント削除中にエラーが発生しました。もう一度ログインしてからお試しください。';
     }
     if (languageCode == 'zh') {
-      return '删除账号时发生错误。请重新登录后再试。';
+      return '刪除帳號時發生錯誤。請重新登入後再試。';
     }
     if (languageCode != 'en') {
       return '계정 삭제 중 오류가 발생했습니다. 다시 로그인한 뒤 시도해 주세요.';
@@ -607,7 +607,7 @@ class CharacterState extends ChangeNotifier {
       case 'ja':
         return 'アカウント削除中にエラーが発生しました。再ログイン後、もう一度お試しください。';
       case 'zh':
-        return '注销账户时发生错误，请重新登录后再试。';
+        return '刪除帳號時發生錯誤，請重新登入後再試。';
       default: // ko
         return '회원 탈퇴 중 오류가 발생했습니다. 다시 로그인 후 시도해주세요.';
     }

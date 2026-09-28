@@ -104,6 +104,7 @@ void main() {
                       !kIsWeb &&
                       defaultTargetPlatform == TargetPlatform.android,
                   isPurchaseOnly: () => session.purchaseOnlyAuth,
+                  isLocalProfile: () => context.read<CharacterState>().isLocalGuest,
                   markPurchaseOnly: session.markPurchaseOnlyAuth,
                   createGateway: FirebasePurchaseAccountGateway.new,
                 );

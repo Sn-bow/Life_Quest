@@ -59,6 +59,15 @@ test('purchase-token ledger is inaccessible even to authenticated clients', asyn
   await assertFails(getDoc(doc(owner(), path)));
   await assertFails(deleteDoc(doc(owner(), path)));
 });
+test('Play account-hash lookup is server-only and cannot be read or forged', async () => {
+  const path = 'purchaseAccountIds/synthetic-account-hash';
+  await assertFails(setDoc(doc(owner(), path), {uid: 'alice'}));
+  await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), path), {uid: 'alice'}));
+  await assertFails(getDoc(doc(owner(), path)));
+  await assertFails(getDoc(doc(other(), path)));
+  await assertFails(updateDoc(doc(owner(), path), {uid: 'bob'}));
+  await assertFails(deleteDoc(doc(owner(), path)));
+});
 
 test('purchase-only accounts reject profile uploads and client purpose changes', async () => {
   const a = owner(), path = 'users/alice';

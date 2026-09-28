@@ -4361,6 +4361,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqPurchaseAccountConnect => 'Google アカウントを連携';
 
   @override
+  String get lqPurchaseCloudLinkIntro =>
+      '購入するには、今のプロフィールに Google アカウントを連携してください。クエストと成長記録は同じプロフィールに残ります。連携だけでは課金されません。';
+
+  @override
+  String get lqPurchaseCloudLinkFailed =>
+      'この Google アカウントは連携できませんでした。別の Life Quest アカウントで使用中の可能性があります。別の Google アカウントでお試しください。現在のメールアドレスのプロフィールはそのまま残ります。';
+
+  @override
+  String get lqPurchaseCloudLinked =>
+      'Google アカウントを今のプロフィールに連携しました。購入と復元はこのプロフィールで行えます。';
+
+  @override
   String get lqPurchaseAccountDisconnect => 'この端末で連携を解除';
 
   @override

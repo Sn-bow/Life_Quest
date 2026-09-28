@@ -38,6 +38,7 @@ class AccountDeletionJournal {
     for (final cache in [
       'lifequest.director.v1.$uid',
       'lifequest.purchases.v1.$uid',
+      'lifequest.purchases.serverVerifiedAt.v1.$uid',
     ]) {
       if (!await prefs.remove(cache)) {
         throw StateError('Account cache could not be cleared.');

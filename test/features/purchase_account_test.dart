@@ -12,6 +12,8 @@ import 'package:life_quest_final_v2/theme/quest_theme.dart';
 class FakeGateway implements PurchaseAccountGateway {
   @override
   PurchaseIdentity? current;
+  @override
+  PurchaseIdentity? currentSession;
   PurchaseIdentity? selection = const PurchaseIdentity(
     'alice',
     email: 'tester@example.test',
@@ -19,12 +21,14 @@ class FakeGateway implements PurchaseAccountGateway {
   final auth = StreamController<PurchaseIdentity?>.broadcast(sync: true);
   final calls = <String>[];
   Future<bool> Function()? ensure;
+  Future<PurchaseIdentity?> Function()? link;
   Future<void> Function()? beforeSignIn;
   bool signOutFails = false, deletionAccepted = true;
   @override
   Stream<PurchaseIdentity?> get changes => auth.stream;
   void switchTo(PurchaseIdentity? next) {
     current = next;
+    currentSession = next;
     auth.add(next);
   }
 
@@ -34,6 +38,15 @@ class FakeGateway implements PurchaseAccountGateway {
     await beforeSignIn?.call();
     if (selection != null) switchTo(selection);
     return selection;
+  }
+
+  @override
+  Future<PurchaseIdentity?> linkCurrentWithGoogle() async {
+    calls.add('link');
+    if (link != null) return link!();
+    final selected = selection;
+    if (selected != null) switchTo(selected);
+    return selected;
   }
 
   @override
@@ -62,10 +75,12 @@ void main() {
   late FakeGateway gateway;
   PurchaseAccountState make({
     bool enabled = true,
+    bool localProfile = true,
     Future<void> Function()? mark,
   }) => PurchaseAccountState(
     enabled: enabled,
     isPurchaseOnly: () => session.purchaseOnlyAuth,
+    isLocalProfile: () => localProfile,
     markPurchaseOnly: mark ?? session.markPurchaseOnlyAuth,
     createGateway: () => gateway,
   );
@@ -255,6 +270,78 @@ void main() {
       account.dispose();
     },
   );
+
+  test('existing Google cloud profile prepares purchases without changing its purpose', () async {
+    gateway.switchTo(const PurchaseIdentity('alice', email: 'alice@example.test'));
+    final account = make(localProfile: false);
+    await account.initialize();
+    expect(account.uid, 'alice');
+    await account.connect();
+    expect(gateway.calls, ['ensure']);
+    expect(gateway.currentSession?.uid, 'alice');
+    expect(session.purchaseOnlyAuth, false);
+    account.dispose();
+  });
+
+  test('email cloud profile links Google to the same UID and retains profile routing', () async {
+    gateway.currentSession = const PurchaseIdentity('alice', email: 'alice@example.test');
+    gateway.selection = const PurchaseIdentity('alice', email: 'alice@example.test');
+    final account = make(localProfile: false);
+    await account.initialize();
+    expect(account.uid, isNull);
+    await account.connect();
+    expect(gateway.calls, ['link', 'ensure']);
+    expect(account.uid, 'alice');
+    expect(gateway.currentSession?.uid, 'alice');
+    expect(session.purchaseOnlyAuth, false);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString(PurchaseAccountState.readyUidKey), isNull);
+    expect(prefs.getString('lifequest.local.state.v1'), 'private progress');
+    account.dispose();
+  });
+
+  test('failed Google link leaves the email cloud account and local purpose unchanged', () async {
+    gateway.currentSession = const PurchaseIdentity('alice', email: 'alice@example.test');
+    gateway.link = () async => throw StateError('credential-already-in-use');
+    final account = make(localProfile: false);
+    await account.connect();
+    expect(account.uid, isNull);
+    expect(account.status, PurchaseAccountStatus.failed);
+    expect(gateway.currentSession?.uid, 'alice');
+    expect(session.purchaseOnlyAuth, false);
+    expect(gateway.calls, ['link']);
+    account.dispose();
+  });
+
+  test('cloud account switch during confirmation cannot grant the old profile', () async {
+    gateway.currentSession = const PurchaseIdentity('alice');
+    gateway.selection = const PurchaseIdentity('alice');
+    final waiting = Completer<bool>();
+    gateway.ensure = () => waiting.future;
+    final account = make(localProfile: false);
+    final connecting = account.connect();
+    while (!gateway.calls.contains('ensure')) {
+      await Future<void>.delayed(Duration.zero);
+    }
+    gateway.switchTo(const PurchaseIdentity('bob'));
+    waiting.complete(true);
+    await connecting;
+    expect(account.uid, isNull);
+    expect(account.status, PurchaseAccountStatus.failed);
+    expect(session.purchaseOnlyAuth, false);
+    account.dispose();
+  });
+
+  test('purchase account controls cannot sign out or delete an existing cloud profile', () async {
+    gateway.switchTo(const PurchaseIdentity('alice'));
+    final account = make(localProfile: false);
+    await account.initialize();
+    await account.disconnect();
+    await account.deleteAccount();
+    expect(gateway.calls, isEmpty);
+    expect(gateway.currentSession?.uid, 'alice');
+    account.dispose();
+  });
 
   for (final code in ['ko', 'en', 'ja', 'zh']) {
     testWidgets(

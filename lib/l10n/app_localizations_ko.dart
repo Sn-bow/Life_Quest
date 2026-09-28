@@ -4380,6 +4380,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqPurchaseAccountConnect => 'Google 계정 연결';
 
   @override
+  String get lqPurchaseCloudLinkIntro =>
+      '구매하려면 현재 프로필에 Google 계정을 연결하세요. 기존 퀘스트와 성장 기록은 같은 프로필에 그대로 남고, 연결만으로 결제되지는 않습니다.';
+
+  @override
+  String get lqPurchaseCloudLinkFailed =>
+      '이 Google 계정을 연결하지 못했습니다. 다른 Life Quest 계정에 이미 연결되어 있을 수 있습니다. 다른 Google 계정으로 다시 시도하세요. 현재 이메일 프로필은 그대로 유지됩니다.';
+
+  @override
+  String get lqPurchaseCloudLinked =>
+      'Google 계정이 현재 프로필에 연결되었습니다. 구매와 복원은 이 프로필에서 진행됩니다.';
+
+  @override
   String get lqPurchaseAccountDisconnect => '이 기기에서 연결 해제';
 
   @override

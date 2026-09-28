@@ -1,5 +1,21 @@
 # 검토 파일 재현과 배포 구분
 
+## 유료 비공개 테스트 대상 · 2.0.0+2013
+
+`pubspec.yaml`의 versionCode2013에서 아래 네 플래그로 signed AAB를 만든다. **최종 AAB 경로·SHA-256·검사 결과는 빌드 후 기록한다.** 지금까지 Play에는 업로드하지 않았다. 출시 범위와 순서는 [유료 후보 판단](market/PAID_RELEASE_CANDIDATE_20260928.md)을 따른다.
+
+```sh
+flutter build appbundle --release \
+  --dart-define=LIFEQUEST_CLOUD_ENABLED=true \
+  --dart-define=LIFEQUEST_MONETIZATION_ENABLED=true \
+  --dart-define=LIFEQUEST_ADS_ENABLED=false \
+  --dart-define=LIFEQUEST_QA_PREVIEW=false
+```
+
+### 이전 +12 검사 기록
+
+`build/review/life-quest-2.0.0-12-paid-candidate.aab`는 이전 signed 후보이며 SHA-256 `4d1eb1f7a987fa5858cbd081ad5f1802db060b01a71a7ac5fe208300f5b3de88`이다. [당시 실제 검사 결과](paid-candidate-12-inspection.json)는 결제 권한, 광고 ID 부재, 서명, API36, 16KB 정렬과 표본 ARM64 다운로드 149,169,238bytes를 확인한다. 이 결과를 +2013의 검사 통과로 간주하지 않는다. 당시 파일도 **Play 게시/결제 작동/유료 수요의 검증은 아니다.**
+
 앱 코드를 커밋한 다음 그 커밋에서 빌드한다. 최신 v7 공개 APK/AAB는 같은 소스와 기본off 플래그를 사용한다. 아래 v6 연구용 파일은 과거 내부 산출물이다. 빌드·서명 검사는 공개 판매 승인이 아니다. [수익화 검증](REVENUE_VALIDATION.md)과 [출시 조건](RELEASE_GATES.md)을 먼저 따른다.
 
 ## 현재 공개 ARM64 APK · 2.0.0+7

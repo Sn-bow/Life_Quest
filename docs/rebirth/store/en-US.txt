@@ -1,33 +1,29 @@
-Life Quest: Your Story
+Life Quest: My Status Window
 
-Your day opens three worlds. Personal quests, story choices and on-device AI.
+Open your status window. Turn small daily actions into quests and earn XP.
 
-Turn small everyday actions into quests that help you grow.
+What if opening an app felt like checking your own status window?
 
-Life Quest is a habit and goal app with a fantasy status window. Choose an action you can do today, finish it, and see your experience and progress build over time.
+Life Quest brings the personal status screen of modern fantasy stories into everyday life. Pick something you can do today—study for ten minutes, clear your desk, take a short break—and record it when you finish. The XP and in-app stats you earn appear on your status window.
 
-THREE ACTIONS FOR TODAY
-Set your available time, energy and interests. Recommendations adapt using completion, skipped quests and difficulty feedback. A suggestion becomes your quest only when you accept it. You can also create and edit your own quests.
+YOUR STATUS COMES FIRST
+The first screen shows your level, XP and stats. Finish a quest, see its reward, and return to a status window updated from your saved progress. A day off does not take away the everyday XP or levels you have earned.
 
-PROGRESS THAT STAYS WITH YOU
-View your level, XP, stats and history in your status window. Taking a day off does not subtract your everyday level or XP.
+QUESTS YOU CHOOSE
+Get suggestions based on your available time, energy, interests and feedback on earlier quests. A suggestion becomes your quest only when you accept it. You can make and edit your own quests, too. Sometimes an unexpected quest appears inside the app when the conditions fit. Accept or decline it; declining does not reduce your existing XP or level. These surprise quests are not push notifications.
 
-CHOOSE YOUR PATH THROUGH A CARD DUNGEON
-Play attack and defense cards, then choose the next branch. Completed everyday quests and equipment support your expedition. Losing a battle does not reduce your everyday level or XP.
+OPTIONAL, FREE ON-DEVICE AI
+On compatible Android devices, you can choose to download the publicly available Gemma 4 E2B model. After installation, quest generation runs on your device, with no AI-call fee. The built-in suggestions and your own quests work without the model. The download is about 2.59GB; at least 3GB of free storage is recommended. Speed varies by device, and mobile data charges may apply. Review, edit or skip AI suggestions before accepting them.
 
-A STORY THAT OPENS WITH YOUR ACTIONS
-Choose from three free short stories: the city mystery Exit Zero, the martial-arts practice story The Listening Courtyard, or the discovery story Atlas of the Missing Star. Everyday quests unlock new scenes and your choices shape later dialogue. Switch books without losing your choices or everyday progress.
+MORE TO EXPLORE
+There is also a card-based dungeon with branching paths and three free short stories shaped by your choices. Finishing everyday quests opens the next scenes.
 
-OPTIONAL AI, RUNNING ON YOUR DEVICE
-Install the public Gemma 4 E2B model on a supported Android device. After installation, generation runs locally: your goals and personalization history are not sent to a cloud AI service. There is no model-use or AI-call fee. Without the model, you can still use built-in recommendations and your own quests.
-
-Model installation requires an approximately 2.59GB download and free storage space. Your mobile carrier may charge for data. Generation speed varies by device. Review suggestions before accepting them; you can edit or skip a quest.
+STATUS WINDOW PLUS — OPTIONAL ONE-TIME PURCHASE
+Unlock three original status looks and reports based on your recorded quest completions over the last 30 or 90 days. Review recorded XP, active days and streaks, then save the report as a PNG image, text file or CSV. Periods without enough recorded history are marked as incomplete. These reports reflect in-app records, not measured real-world ability. The pack adds no XP or stat boosts. The core status window, quests, existing history and encrypted backups remain free.
 
 START WITHOUT AN ACCOUNT
-The default mode stores your progress and personalization history on your device. Free encrypted backups let you save a file and restore it on another device. Keep the password safe: a forgotten backup password cannot be recovered.
+Core use needs no account; progress is stored on your device. A free encrypted backup file lets you save and restore your records. Active dungeon expeditions are not included in backups. A purchase-only account connection is needed if you choose to buy or restore a purchase. Keep your backup password safe: it cannot be recovered if forgotten.
 
-Active dungeon expeditions are not included in backups. Expeditions are saved on the device when you enter or leave a room. After closing the app, an unfinished room restarts from its entrance.
-
-Languages: Korean, English, Japanese and Chinese.
+Languages: English, Korean, Japanese and Traditional Chinese
 Support: logian621@gmail.com
-Privacy and deletion: https://sn-bow.github.io/Life_Quest/
+Privacy and data deletion: https://sn-bow.github.io/Life_Quest/

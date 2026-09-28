@@ -12,13 +12,16 @@ class PurchaseAccountTile extends StatelessWidget {
     final account = context.watch<PurchaseAccountState?>();
     if (account == null || !account.enabled) return const SizedBox.shrink();
     final l = AppLocalizations.of(context)!;
+    final localProfile = account.isLocalProfile();
     return Card(
       child: ListTile(
         leading: const Icon(Icons.shopping_bag_outlined),
         title: Text(l.lqPurchaseAccount),
         subtitle: Text(
           account.uid == null
-              ? l.lqPurchaseAccountOptional
+              ? localProfile
+                  ? l.lqPurchaseAccountOptional
+                  : l.lqPurchaseCloudLinkIntro
               : l.lqPurchaseAccountConnected,
         ),
         trailing: const Icon(Icons.chevron_right),
@@ -65,6 +68,7 @@ class PurchaseAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final account = context.watch<PurchaseAccountState>();
+    final localProfile = account.isLocalProfile();
     final deleted =
         account.status == PurchaseAccountStatus.deleted ||
         account.status == PurchaseAccountStatus.cleanupNeeded;
@@ -82,13 +86,15 @@ class PurchaseAccountScreen extends StatelessWidget {
                 const Icon(Icons.lock_outline, size: 40),
                 const SizedBox(height: 20),
                 Text(
-                  l.lqPurchaseAccountOptional,
+                  localProfile ? l.lqPurchaseAccountOptional : l.lqPurchaseAccount,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 12),
-                Text(l.lqPurchaseAccountPrivacy),
+                Text(localProfile
+                    ? l.lqPurchaseAccountPrivacy
+                    : l.lqPurchaseCloudLinkIntro),
                 const SizedBox(height: 12),
-                Text(l.lqPurchaseAccountRestoreHint),
+                if (localProfile) Text(l.lqPurchaseAccountRestoreHint),
                 TextButton(
                   onPressed: () => launchUrl(
                     Uri.parse('https://sn-bow.github.io/Life_Quest/#privacy'),
@@ -112,7 +118,9 @@ class PurchaseAccountScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
-                      l.lqPurchaseAccountFailed,
+                      localProfile
+                          ? l.lqPurchaseAccountFailed
+                          : l.lqPurchaseCloudLinkFailed,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
                       ),
@@ -136,19 +144,22 @@ class PurchaseAccountScreen extends StatelessWidget {
                   ),
                 if (account.uid != null) ...[
                   Text(
-                    l.lqPurchaseAccountConnected,
+                    localProfile
+                        ? l.lqPurchaseAccountConnected
+                        : l.lqPurchaseCloudLinked,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 16),
                   const PurchaseStatusBanner(),
                 ],
-                if (account.signedInIdentity != null ||
-                    account.status == PurchaseAccountStatus.cleanupNeeded)
+                if (localProfile &&
+                    (account.signedInIdentity != null ||
+                        account.status == PurchaseAccountStatus.cleanupNeeded))
                   OutlinedButton(
                     onPressed: account.busy ? null : account.disconnect,
                     child: Text(l.lqPurchaseAccountDisconnect),
                   ),
-                if (account.signedInIdentity != null && !deleted)
+                if (localProfile && account.signedInIdentity != null && !deleted)
                   TextButton(
                     onPressed: account.busy
                         ? null

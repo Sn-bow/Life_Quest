@@ -20,12 +20,15 @@ class XpBar extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          spacing: 8,
+          runSpacing: 4,
           children: [
             const Text('XP', style: TextStyle(fontWeight: FontWeight.bold)),
             Text(
-                '${currentXp.toStringAsFixed(0)} / ${maxXp.toStringAsFixed(0)}'),
+              '${currentXp.toStringAsFixed(0)} / ${maxXp.toStringAsFixed(0)}',
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -36,7 +39,9 @@ class XpBar extends StatelessWidget {
                 Container(
                   height: 12,
                   decoration: BoxDecoration(
-                    color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
+                    color: isDarkMode
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),

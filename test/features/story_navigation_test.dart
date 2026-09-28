@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:life_quest_final_v2/features/billing/purchase_verifier.dart';
 import 'package:life_quest_final_v2/features/story/story_chapter.dart';
 import 'package:life_quest_final_v2/features/story/story_screens.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
@@ -49,7 +50,7 @@ void main() {
   SoundService.muteForTesting();
   setUp(() => SharedPreferences.setMockInitialValues({}));
   for (final locale in ['ko', 'en', 'ja', 'zh']) {
-    testWidgets('free stories and the pack preview can be selected at 320px / 200% in $locale', (
+    testWidgets('free stories remain selectable at 320px / 200% in $locale', (
       tester,
     ) async {
       tester.view.physicalSize = const Size(320, 900);
@@ -65,7 +66,7 @@ void main() {
         host(state, const StoryLibraryScreen(), locale: locale, scale: 2),
       );
       await tester.pumpAndSettle();
-      for (final book in books) {
+      for (final book in books.where((b) => b.productId == null)) {
         final card = find.ancestor(
           of: find.text(book.title),
           matching: find.byType(Card),
@@ -85,6 +86,73 @@ void main() {
       state.dispose();
     });
   }
+
+  testWidgets(
+    'retired Tide is private to owners and returns after restoration',
+    (tester) async {
+      final tide = (await tester.runAsync(
+        () => StoryRepository.load('en'),
+      ))!.singleWhere((book) => book.id == 'tide');
+      final state = CharacterState();
+      await state.initializeForLocalGuest(name: 'Reader');
+      expect(tide.visibleTo(owned: false), false);
+      expect(tide.visibleTo(owned: true), true);
+      expect(
+        (await tester.runAsync(() => StoryRepository.load('en')))!
+            .where((book) => book.productId == null)
+            .every((book) => book.visibleTo(owned: false)),
+        true,
+      );
+
+      await tester.pumpWidget(host(state, const StoryLibraryScreen()));
+      await tester.pumpAndSettle();
+      final l = AppLocalizations.of(
+        tester.element(find.byType(StoryLibraryScreen)),
+      )!;
+      await tester.scrollUntilVisible(
+        find.text(l.lqWorldCollectionPromise),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text(tide.title), findsNothing);
+
+      state.setPurchasedEntitlements({tideProductId});
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text(tide.title),
+        -300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text(tide.title), findsOneWidget);
+      state.setPurchasedEntitlements({});
+      await tester.pumpAndSettle();
+      expect(find.text(tide.title), findsNothing);
+      await tester.pumpWidget(const SizedBox());
+      state.dispose();
+    },
+  );
+
+  testWidgets('retired active story is hidden until ownership is restored', (
+    tester,
+  ) async {
+    final tide = (await tester.runAsync(
+      () => StoryRepository.load('en'),
+    ))!.singleWhere((book) => book.id == 'tide');
+    final state = CharacterState();
+    await state.initializeForLocalGuest(name: 'Reader');
+    expect(await state.selectStoryChapter(tide.id), true);
+    await tester.pumpWidget(host(state, const Scaffold(body: StoryBanner())));
+    await tester.pumpAndSettle();
+    expect(find.text(tide.title), findsNothing);
+    state.setPurchasedEntitlements({tideProductId});
+    await tester.pumpAndSettle();
+    expect(find.text(tide.title), findsOneWidget);
+    state.setPurchasedEntitlements({});
+    await tester.pumpAndSettle();
+    expect(find.text(tide.title), findsNothing);
+    await tester.pumpWidget(const SizedBox());
+    state.dispose();
+  });
 
   testWidgets(
     'direct reader continues and returns to its chapter, preserving earlier choices',

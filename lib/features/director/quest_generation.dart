@@ -9,7 +9,7 @@ class QuestGeneration {
       '''Personalize small habit actions. ALL text fields must be in ${switch (locale) {
         'en' => 'English',
         'ja' => 'Japanese',
-        'zh' => 'Simplified Chinese',
+        'zh' => 'Traditional Chinese as used in Taiwan',
         _ => 'Korean',
       }}.
 Return only JSON: {"quests":[{"id":"slot id","title":"...","instruction":"...","reason":"..."}]}

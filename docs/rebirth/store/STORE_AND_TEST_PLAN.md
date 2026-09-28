@@ -1,4 +1,6 @@
-# Play 초안과 첫 테스트 계획
+# Play 스토어 준비 기록과 첫 테스트 계획
+
+**현재 상태(2026-09-28):** 아래 9월 17–21일의 책·이야기 중심 계획은 당시 기록이다. 현재 출시 후보는 상태창을 첫 화면으로 두고, 무료 기본 기능과 1회 구매 `Status Window Plus`(추가 상태창 외관·실측 성장 요약·저장)를 구분한다. 현재 스토어 정본은 `ko-KR.txt`, `en-US.txt`, `ja-JP.txt`, `zh-TW.txt`와 [새 시각 자료](STATUS_WINDOW_VISUALS_20260928.md)다. 새 피처 그래픽/아이콘은 `feature-graphic-1024x500.png`/`app-icon-512.png`에 반영했다. 390×844 QA 이미지는 Play 스크린샷 규격에 맞지 않으므로 Android 릴리스 화면에서 휴대폰 캡처를 새로 해야 한다. 유료 결제의 실제 Play 라이선스 테스트와 비공개 테스트 등록은 아직 이루어지지 않았다.
 
 **2026-09-21:** 사전 모집 없이 먼저 반응을 보려는 사용자 결정에 따라 [무료 Android APK](https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1)를 공개했다. Google Play 정식 출시·유료 판매는 미완료다. 아래 체크리스트를 직접 APK 공개 전 인원 모집 조건으로 해석하지 않는다.
 

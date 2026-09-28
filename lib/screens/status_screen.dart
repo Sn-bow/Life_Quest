@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/report_screen.dart';
 import 'package:life_quest_final_v2/screens/settings_screen.dart';
@@ -74,7 +74,9 @@ class _StatusScreenState extends State<StatusScreen> {
   }
 
   void _showTitleSelectionDialog(
-      BuildContext context, CharacterState characterState) {
+    BuildContext context,
+    CharacterState characterState,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -136,7 +138,8 @@ class _StatusScreenState extends State<StatusScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TimerScreen()),
+                      builder: (context) => const TimerScreen(),
+                    ),
                   );
                 },
                 tooltip: l10n.statusTimerTooltip,
@@ -147,7 +150,8 @@ class _StatusScreenState extends State<StatusScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SettingsScreen()),
+                      builder: (context) => const SettingsScreen(),
+                    ),
                   );
                 },
                 tooltip: l10n.statusSettingsTooltip,
@@ -164,7 +168,9 @@ class _StatusScreenState extends State<StatusScreen> {
                     children: [
                       CircleAvatar(
                         radius: 48,
-                        backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.15),
+                        backgroundColor: theme.colorScheme.primary.withValues(
+                          alpha: 0.15,
+                        ),
                         backgroundImage: character.photoUrl != null
                             ? NetworkImage(character.photoUrl!)
                             : null,
@@ -194,15 +200,16 @@ class _StatusScreenState extends State<StatusScreen> {
                               builder: (context) {
                                 TextStyle titleStyle =
                                     theme.textTheme.titleMedium ??
-                                        const TextStyle();
+                                    const TextStyle();
                                 if (character.equippedTitleEffect ==
                                     'title_effect_fire') {
                                   titleStyle = titleStyle.copyWith(
                                     color: Colors.deepOrange,
                                     shadows: [
                                       const Shadow(
-                                          color: Colors.redAccent,
-                                          blurRadius: 8)
+                                        color: Colors.redAccent,
+                                        blurRadius: 8,
+                                      ),
                                     ],
                                   );
                                 } else if (character.equippedTitleEffect ==
@@ -211,14 +218,18 @@ class _StatusScreenState extends State<StatusScreen> {
                                     color: Colors.yellowAccent,
                                     shadows: [
                                       const Shadow(
-                                          color: Colors.amber, blurRadius: 8)
+                                        color: Colors.amber,
+                                        blurRadius: 8,
+                                      ),
                                     ],
                                   );
                                 }
 
                                 return InkWell(
                                   onTap: () => _showTitleSelectionDialog(
-                                      context, characterState),
+                                    context,
+                                    characterState,
+                                  ),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -230,8 +241,11 @@ class _StatusScreenState extends State<StatusScreen> {
                                         ),
                                       ),
                                       const SizedBox(width: 4),
-                                      const Icon(PhosphorIcons.caretDown,
-                                          size: 16, color: Colors.grey),
+                                      const Icon(
+                                        PhosphorIcons.caretDown,
+                                        size: 16,
+                                        color: Colors.grey,
+                                      ),
                                     ],
                                   ),
                                 );
@@ -241,13 +255,16 @@ class _StatusScreenState extends State<StatusScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: Icon(PhosphorIcons.chartBar,
-                            color: theme.colorScheme.primary),
+                        icon: Icon(
+                          PhosphorIcons.chartBar,
+                          color: theme.colorScheme.primary,
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ReportScreen()),
+                              builder: (context) => const ReportScreen(),
+                            ),
                           );
                         },
                         tooltip: l10n.statusReportTooltip,
@@ -269,23 +286,31 @@ class _StatusScreenState extends State<StatusScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Icon(Icons.favorite,
-                              color: Colors.red.shade400, size: 18),
-                          const SizedBox(width: 8),
-                          Text(l10n.statusHpLabel,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red.shade400)),
-                          const Spacer(),
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.red.shade400,
+                            size: 18,
+                          ),
+                          Text(
+                            l10n.statusHpLabel,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red.shade400,
+                            ),
+                          ),
                           Text(
                             '${character.characterHp} / ${character.characterMaxHp}',
                             style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.red.shade400,
-                                fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              color: Colors.red.shade400,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -318,7 +343,10 @@ class _StatusScreenState extends State<StatusScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      Row(
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Icon(
                             character.streak > 0
@@ -329,7 +357,6 @@ class _StatusScreenState extends State<StatusScreen> {
                                 : Colors.blue.shade200,
                             size: 20,
                           ),
-                          const SizedBox(width: 8),
                           Text(
                             l10n.statusStreakLabel(character.streak),
                             style: TextStyle(
@@ -338,22 +365,26 @@ class _StatusScreenState extends State<StatusScreen> {
                               color: character.streak > 0
                                   ? Colors.orange.shade400
                                   : (theme.brightness == Brightness.dark
-                                      ? Colors.white38
-                                      : Colors.grey),
+                                        ? Colors.white38
+                                        : Colors.grey),
                             ),
                           ),
                           if (character.streak > 0) ...[
-                            const Spacer(),
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
-                                color: Colors.orange.shade400
-                                    .withValues(alpha: 0.2),
+                                color: Colors.orange.shade400.withValues(
+                                  alpha: 0.2,
+                                ),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                l10n.statusStreakBonus((character.streak * 10).clamp(0, 50)),
+                                l10n.statusStreakBonus(
+                                  (character.streak * 10).clamp(0, 50),
+                                ),
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -394,87 +425,69 @@ class _StatusScreenState extends State<StatusScreen> {
                 const SizedBox(height: 12),
                 // Gold & AP resource card
                 TranslucentCard(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Icon(Icons.monetization_on,
-                                color: Colors.amber.shade400, size: 20),
-                            const SizedBox(width: 8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(l10n.statusGoldLabel,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color:
-                                            theme.brightness == Brightness.dark
-                                                ? Colors.white54
-                                                : Colors.black45)),
-                                Text(
-                                  '${character.gold}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.amber.shade400,
-                                  ),
-                                ),
-                              ],
+                  child: LayoutBuilder(
+                    builder: (context, box) {
+                      final stacked =
+                          box.maxWidth < 420 ||
+                          MediaQuery.textScalerOf(context).scale(14) > 21;
+                      final width = stacked
+                          ? box.maxWidth
+                          : (box.maxWidth - 25) / 2;
+                      return Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: width,
+                            child: _resourceMetric(
+                              icon: Icons.monetization_on,
+                              label: l10n.statusGoldLabel,
+                              value: '${character.gold}',
+                              color: Colors.amber.shade400,
+                              theme: theme,
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 1,
-                        height: 36,
-                        color: theme.brightness == Brightness.dark
-                            ? Colors.white12
-                            : Colors.grey.shade300,
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.bolt,
-                                color: theme.colorScheme.primary, size: 20),
-                            const SizedBox(width: 8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(l10n.statusApLabel,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color:
-                                            theme.brightness == Brightness.dark
-                                                ? Colors.white54
-                                                : Colors.black45)),
-                                Text(
+                          ),
+                          Container(
+                            width: stacked ? box.maxWidth : 1,
+                            height: stacked ? 1 : 36,
+                            color: theme.brightness == Brightness.dark
+                                ? Colors.white12
+                                : Colors.grey.shade300,
+                          ),
+                          SizedBox(
+                            width: width,
+                            child: _resourceMetric(
+                              icon: Icons.bolt,
+                              label: l10n.statusApLabel,
+                              value:
                                   '${character.actionPoints} / ${character.maxActionPoints}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: theme.colorScheme.primary,
-                                  ),
-                                ),
-                              ],
+                              color: theme.colorScheme.primary,
+                              theme: theme,
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 TranslucentCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Text(l10n.statusBaseStatTitle, style: theme.textTheme.titleLarge),
+                          Text(
+                            l10n.statusBaseStatTitle,
+                            style: theme.textTheme.titleLarge,
+                          ),
                           if (availableSP > 0)
-                            Row(
+                            Wrap(
+                              spacing: 4,
+                              runSpacing: 4,
                               children: [
                                 Text(
                                   'SP: $remainingSP / $availableSP',
@@ -485,7 +498,6 @@ class _StatusScreenState extends State<StatusScreen> {
                                   ),
                                 ),
                                 if (_hasPending) ...[
-                                  const SizedBox(width: 4),
                                   Text(
                                     '(-$_totalPending)',
                                     style: TextStyle(
@@ -504,22 +516,25 @@ class _StatusScreenState extends State<StatusScreen> {
                       // acceleration rather than basic information access.
                       Center(
                         child: TextButton.icon(
-                          icon: Icon(Icons.analytics,
-                              color: theme.colorScheme.primary),
-                          label: Text(l10n.statusDetailStatButton,
-                              style: TextStyle(
-                                color: theme.colorScheme.primary,
-                              )),
+                          icon: Icon(
+                            Icons.analytics,
+                            color: theme.colorScheme.primary,
+                          ),
+                          label: Text(
+                            l10n.statusDetailStatButton,
+                            style: TextStyle(color: theme.colorScheme.primary),
+                          ),
                           onPressed: () async {
                             if (context.mounted) {
                               final char = character;
-                              final attack =
-                                  CombatState.effectiveAttack(char).round();
-                              final defense =
-                                  CombatState.effectiveDefense(char).round();
-                              final crit =
-                                  (CombatState.critChance(char) * 100)
-                                      .toStringAsFixed(1);
+                              final attack = CombatState.effectiveAttack(
+                                char,
+                              ).round();
+                              final defense = CombatState.effectiveDefense(
+                                char,
+                              ).round();
+                              final crit = (CombatState.critChance(char) * 100)
+                                  .toStringAsFixed(1);
                               final dodge =
                                   (CombatState.dodgeChance(char) * 100)
                                       .toStringAsFixed(1);
@@ -529,47 +544,76 @@ class _StatusScreenState extends State<StatusScreen> {
                                 builder: (ctx) {
                                   final dialogL10n = AppLocalizations.of(ctx)!;
                                   return AlertDialog(
-                                    title: Text(dialogL10n.statusDetailStatTitle),
+                                    title: Text(
+                                      dialogL10n.statusDetailStatTitle,
+                                    ),
+                                    scrollable: true,
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ListTile(
                                           leading: const Icon(
-                                              Icons.sports_martial_arts,
-                                              color: Colors.red),
-                                          title: Text(dialogL10n.statusAttackLabel),
-                                          trailing: Text('$attack',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16)),
-                                        ),
-                                        ListTile(
-                                          leading: const Icon(Icons.shield,
-                                              color: Colors.blue),
-                                          title: Text(dialogL10n.statusDefenseLabel),
-                                          trailing: Text('$defense',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16)),
-                                        ),
-                                        ListTile(
-                                          leading: const Icon(Icons.flash_on,
-                                              color: Colors.orange),
-                                          title: Text(dialogL10n.statusCritLabel),
-                                          trailing: Text('$crit%',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16)),
+                                            Icons.sports_martial_arts,
+                                            color: Colors.red,
+                                          ),
+                                          title: Text(
+                                            dialogL10n.statusAttackLabel,
+                                          ),
+                                          trailing: Text(
+                                            '$attack',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                         ),
                                         ListTile(
                                           leading: const Icon(
-                                              Icons.directions_run,
-                                              color: Colors.green),
-                                          title: Text(dialogL10n.statusDodgeLabel),
-                                          trailing: Text('$dodge%',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16)),
+                                            Icons.shield,
+                                            color: Colors.blue,
+                                          ),
+                                          title: Text(
+                                            dialogL10n.statusDefenseLabel,
+                                          ),
+                                          trailing: Text(
+                                            '$defense',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          leading: const Icon(
+                                            Icons.flash_on,
+                                            color: Colors.orange,
+                                          ),
+                                          title: Text(
+                                            dialogL10n.statusCritLabel,
+                                          ),
+                                          trailing: Text(
+                                            '$crit%',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          leading: const Icon(
+                                            Icons.directions_run,
+                                            color: Colors.green,
+                                          ),
+                                          title: Text(
+                                            dialogL10n.statusDodgeLabel,
+                                          ),
+                                          trailing: Text(
+                                            '$dodge%',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -592,8 +636,10 @@ class _StatusScreenState extends State<StatusScreen> {
                         stat: StatType.strength,
                         label: l10n.statusStatStrength,
                         baseValue: character.strength,
-                        icon: Icon(PhosphorIcons.barbell,
-                            color: Colors.red.shade400),
+                        icon: Icon(
+                          PhosphorIcons.barbell,
+                          color: Colors.red.shade400,
+                        ),
                         color: Colors.red.shade400,
                         canUpgrade: canUpgrade,
                         availableSP: availableSP,
@@ -604,8 +650,10 @@ class _StatusScreenState extends State<StatusScreen> {
                         stat: StatType.wisdom,
                         label: l10n.statusStatWisdom,
                         baseValue: character.wisdom,
-                        icon: Icon(PhosphorIcons.brain,
-                            color: Colors.blue.shade400),
+                        icon: Icon(
+                          PhosphorIcons.brain,
+                          color: Colors.blue.shade400,
+                        ),
                         color: Colors.blue.shade400,
                         canUpgrade: canUpgrade,
                         availableSP: availableSP,
@@ -616,8 +664,10 @@ class _StatusScreenState extends State<StatusScreen> {
                         stat: StatType.health,
                         label: l10n.statusStatHealth,
                         baseValue: character.health,
-                        icon: Icon(PhosphorIcons.heart,
-                            color: Colors.green.shade400),
+                        icon: Icon(
+                          PhosphorIcons.heart,
+                          color: Colors.green.shade400,
+                        ),
                         color: Colors.green.shade400,
                         canUpgrade: canUpgrade,
                         availableSP: availableSP,
@@ -628,8 +678,10 @@ class _StatusScreenState extends State<StatusScreen> {
                         stat: StatType.charisma,
                         label: l10n.statusStatCharm,
                         baseValue: character.charisma,
-                        icon: Icon(PhosphorIcons.sparkle,
-                            color: Colors.purple.shade400),
+                        icon: Icon(
+                          PhosphorIcons.sparkle,
+                          color: Colors.purple.shade400,
+                        ),
                         color: Colors.purple.shade400,
                         canUpgrade: canUpgrade,
                         availableSP: availableSP,
@@ -647,10 +699,12 @@ class _StatusScreenState extends State<StatusScreen> {
                                 label: Text(l10n.cancel),
                                 style: OutlinedButton.styleFrom(
                                   foregroundColor: Colors.redAccent,
-                                  side:
-                                      const BorderSide(color: Colors.redAccent),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
+                                  side: const BorderSide(
+                                    color: Colors.redAccent,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                 ),
                               ),
                             ),
@@ -665,10 +719,11 @@ class _StatusScreenState extends State<StatusScreen> {
                                   backgroundColor: theme.colorScheme.primary,
                                   foregroundColor:
                                       theme.brightness == Brightness.dark
-                                          ? Colors.black
-                                          : Colors.white,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
+                                      ? Colors.black
+                                      : Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                 ),
                               ),
                             ),
@@ -685,6 +740,41 @@ class _StatusScreenState extends State<StatusScreen> {
       },
     );
   }
+
+  Widget _resourceMetric({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+    required ThemeData theme,
+  }) => Row(
+    children: [
+      Icon(icon, color: color, size: 20),
+      const SizedBox(width: 8),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
 
   Widget _buildStatRow({
     required StatType stat,
@@ -703,57 +793,110 @@ class _StatusScreenState extends State<StatusScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            icon,
-            const SizedBox(width: 8),
-            Text(label, style: const TextStyle(fontSize: 16)),
-            const Spacer(),
-            Text(
-              displayValue.toStringAsFixed(0),
-              style: const TextStyle(fontSize: 16),
-            ),
-            if (pending > 0)
-              Text(
-                ' (+$pending)',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green.shade400,
+        LayoutBuilder(
+          builder: (context, box) {
+            final labelWidget = Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                icon,
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(label, style: const TextStyle(fontSize: 16)),
                 ),
-              ),
-            const SizedBox(width: 8),
-            // Minus button
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: pending > 0
-                  ? IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-                      iconSize: 24,
-                      icon: const Icon(PhosphorIcons.minusCircle,
-                          color: Colors.redAccent),
-                      onPressed: () => _decrement(stat),
-                    )
-                  : null,
-            ),
-            // Plus button
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: canUpgrade
-                  ? IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-                      iconSize: 24,
-                      icon: Icon(PhosphorIcons.plusCircle,
-                          color: theme.colorScheme.primary),
-                      onPressed: () => _increment(stat, availableSP),
-                    )
-                  : null,
-            ),
-          ],
+              ],
+            );
+            final valueWidget = Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: [
+                Text(
+                  displayValue.toStringAsFixed(0),
+                  style: const TextStyle(fontSize: 16),
+                ),
+                if (pending > 0)
+                  Text(
+                    '(+$pending)',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green.shade400,
+                    ),
+                  ),
+              ],
+            );
+            final controls = Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Minus button
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: pending > 0
+                      ? IconButton(
+                          key: ValueKey('status-stat-remove-${stat.name}'),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 48,
+                            minHeight: 48,
+                          ),
+                          iconSize: 24,
+                          icon: const Icon(
+                            PhosphorIcons.minusCircle,
+                            color: Colors.redAccent,
+                          ),
+                          onPressed: () => _decrement(stat),
+                        )
+                      : null,
+                ),
+                // Plus button
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: canUpgrade
+                      ? IconButton(
+                          key: ValueKey('status-stat-add-${stat.name}'),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 48,
+                            minHeight: 48,
+                          ),
+                          iconSize: 24,
+                          icon: Icon(
+                            PhosphorIcons.plusCircle,
+                            color: theme.colorScheme.primary,
+                          ),
+                          onPressed: () => _increment(stat, availableSP),
+                        )
+                      : null,
+                ),
+              ],
+            );
+            if (box.maxWidth < 420 ||
+                MediaQuery.textScalerOf(context).scale(16) > 24) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  labelWidget,
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(child: valueWidget),
+                      const SizedBox(width: 8),
+                      controls,
+                    ],
+                  ),
+                ],
+              );
+            }
+            return Row(
+              children: [
+                Expanded(child: labelWidget),
+                valueWidget,
+                const SizedBox(width: 8),
+                controls,
+              ],
+            );
+          },
         ),
         const SizedBox(height: 8),
         ClipRRect(
@@ -762,8 +905,9 @@ class _StatusScreenState extends State<StatusScreen> {
             // M-4 fix: 스탯이 100 초과 시 오버플로우 방지
             value: (displayValue / 100.0).clamp(0.0, 1.0),
             minHeight: 10,
-            backgroundColor:
-                isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
+            backgroundColor: isDarkMode
+                ? Colors.grey.shade800
+                : Colors.grey.shade300,
             valueColor: AlwaysStoppedAnimation<Color>(color),
           ),
         ),
@@ -773,25 +917,27 @@ class _StatusScreenState extends State<StatusScreen> {
 
   void _showApplyConfirmDialog(CharacterState characterState) {
     final l10n = AppLocalizations.of(context)!;
-    final allocSummary =
-        _pendingAlloc.entries.where((e) => e.value > 0).map((e) {
-      String name;
-      switch (e.key) {
-        case StatType.strength:
-          name = l10n.statusStatStrength;
-          break;
-        case StatType.wisdom:
-          name = l10n.statusStatWisdom;
-          break;
-        case StatType.health:
-          name = l10n.statusStatHealth;
-          break;
-        case StatType.charisma:
-          name = l10n.statusStatCharm;
-          break;
-      }
-      return '$name +${e.value}';
-    }).join(', ');
+    final allocSummary = _pendingAlloc.entries
+        .where((e) => e.value > 0)
+        .map((e) {
+          String name;
+          switch (e.key) {
+            case StatType.strength:
+              name = l10n.statusStatStrength;
+              break;
+            case StatType.wisdom:
+              name = l10n.statusStatWisdom;
+              break;
+            case StatType.health:
+              name = l10n.statusStatHealth;
+              break;
+            case StatType.charisma:
+              name = l10n.statusStatCharm;
+              break;
+          }
+          return '$name +${e.value}';
+        })
+        .join(', ');
 
     showDialog(
       context: context,
@@ -818,4 +964,3 @@ class _StatusScreenState extends State<StatusScreen> {
     );
   }
 }
-
