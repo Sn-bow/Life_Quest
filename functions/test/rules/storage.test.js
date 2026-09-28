@@ -7,10 +7,13 @@ const {doc, setDoc} = require('firebase/firestore');
 let env;
 before(async () => {
   if (!process.env.FIRESTORE_EMULATOR_HOST?.startsWith('127.0.0.1:') ||
-      !process.env.FIREBASE_STORAGE_EMULATOR_HOST?.startsWith('127.0.0.1:')) {
-    throw Error('Local Firestore and Storage emulators required.');
+      !process.env.FIREBASE_STORAGE_EMULATOR_HOST?.startsWith('127.0.0.1:') ||
+      !process.env.GCLOUD_PROJECT) {
+    throw Error('Local Firestore and Storage emulators with GCLOUD_PROJECT required.');
   }
-  env = await initializeTestEnvironment({projectId: 'demo-lifequest-rules',
+  // Cross-service firestore.exists() must read the same emulator project in
+  // which the fixture tombstone was written.
+  env = await initializeTestEnvironment({projectId: process.env.GCLOUD_PROJECT,
     firestore: {host: '127.0.0.1', port: 8080, rules: readFileSync('../firestore.rules', 'utf8')},
     storage: {host: '127.0.0.1', port: 9199, rules: readFileSync('../storage.rules', 'utf8')},
   });

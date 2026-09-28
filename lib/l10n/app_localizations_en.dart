@@ -833,31 +833,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
-  String get onboardingPage1Title => 'Daily Life as Quests';
+  String get onboardingPage1Title => 'Your status window is open';
 
   @override
   String get onboardingPage1Body =>
-      'Register your tasks as quests.\nEarn XP and gold each time you complete one\nand grow your stats and skills.';
+      'The name, level, XP and four stats below are your current profile, not sample progress.';
 
   @override
-  String get onboardingPage2Title => 'Explore the Dungeon';
+  String get onboardingPage2Title => 'Quests and optional AI';
 
   @override
   String get onboardingPage2Body =>
-      'Try a card expedition whenever you like.\nDaily progress supports your adventure.\nLosing a battle never takes your everyday XP.';
+      'Record small actions as quests. On supported devices, you can separately install an AI model.';
 
   @override
-  String get onboardingPage3Title => 'Start Your Adventure';
+  String get onboardingPage3Title => 'Stories when you want them';
 
   @override
   String get onboardingPage3Body =>
-      'Complete quests, clear dungeons,\nand collect achievements and titles.\nYour everyday life becomes an RPG.';
+      'Exploration and stories are optional. Start with your own status window.';
 
   @override
   String get onboardingNext => 'Next';
 
   @override
-  String get onboardingStart => 'Start';
+  String get onboardingStart => 'Open my status';
 
   @override
   String get onboardingSkip => 'Skip';
@@ -4107,37 +4107,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqOpenSourceLicenses => 'Open-source licenses';
 
   @override
-  String get lqWelcomeTitle => 'Your day.\nYour unfolding story.';
+  String get lqWelcomeTitle => 'Open your own\nstatus window.';
 
   @override
   String get lqWelcomeBody =>
-      'A city mystery, a mountain courtyard, a map of stars.\nCarry your everyday progress into a world you choose.';
+      'See your name, level, XP and four stats first. Record what you actually do as quests, then watch your XP and growth history build.';
 
   @override
-  String get lqFirstContract => 'YOUR FIRST CONTRACT';
+  String get lqWelcomePreviewNote =>
+      'An example of your starting status. Opening a device profile takes you straight to this screen; you can change your name in Settings.';
 
   @override
-  String get lqWelcomeStepOne => 'Start where you are';
+  String get lqFirstContract => 'STATUS WINDOW READY';
 
   @override
-  String get lqWelcomeStepOneBody => 'Choose your time, energy and focus.';
+  String get lqWelcomeStepOne => 'Quests come next';
 
   @override
-  String get lqWelcomeStepTwo => 'Grow through small quests';
+  String get lqWelcomeStepOneBody => 'Record small actions to earn XP.';
+
+  @override
+  String get lqWelcomeStepTwo => 'AI is optional';
 
   @override
   String get lqWelcomeStepTwoBody =>
-      'Earn experience for what you do in real life.';
+      'On supported devices, install a separate model for on-device quest suggestions.';
 
   @override
-  String get lqWelcomeStepThree => 'Grow across three worlds';
+  String get lqWelcomeStepThree => 'Stories are optional';
 
   @override
   String get lqWelcomeStepThreeBody =>
-      'Choose a story. Real-life actions unlock the next scene.';
+      'Open the explorations and stories only when you want to.';
 
   @override
-  String get lqStartOnDevice => 'Start on this device';
+  String get lqStartOnDevice => 'Open my status';
 
   @override
   String get lqStarting => 'Opening your status…';

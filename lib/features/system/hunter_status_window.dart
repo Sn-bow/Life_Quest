@@ -42,6 +42,17 @@ class HunterStatusWindow extends StatelessWidget {
     context,
   ).push(MaterialPageRoute<void>(builder: (_) => const StatusScreen()));
 
+  void _openPlus(BuildContext context) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute<void>(builder: (_) => const StatusPackScreen()));
+
+  String _plusLabel(BuildContext context) => _label(context, [
+    '상태창 외관 · 성장 분석',
+    'Status looks & growth insights',
+    'ステータス外観・成長分析',
+    '狀態視窗外觀・成長分析',
+  ]);
+
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: StatusSkinStore.instance,
@@ -55,9 +66,18 @@ class HunterStatusWindow extends StatelessWidget {
     final equippedTitle = state.unlockedTitles
         .where((title) => title.name == profile.title)
         .firstOrNull;
+    final media = MediaQuery.of(context);
+    // Keep the complete status frame in view on short, normally-scaled phones.
+    // Large text and tablets keep the spacious, scrollable layout.
+    final compact =
+        media.size.width <= 430 &&
+        media.size.height <= 720 &&
+        media.textScaler.scale(16) <= 19;
     return HunterSystemFrame(
       key: const ValueKey('hunter-status-window'),
-      padding: const EdgeInsets.fromLTRB(36, 36, 36, 44),
+      padding: compact
+          ? const EdgeInsets.fromLTRB(28, 24, 28, 25)
+          : const EdgeInsets.fromLTRB(36, 36, 36, 44),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -68,12 +88,35 @@ class HunterStatusWindow extends StatelessWidget {
                   copy.get('status'),
                   style: TextStyle(
                     color: _accent,
-                    fontSize: 18,
+                    fontSize: compact ? 17 : 18,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 2,
                   ),
                 ),
               ),
+              if (compact)
+                Semantics(
+                  label: _plusLabel(context),
+                  child: TextButton.icon(
+                    key: const ValueKey('status-plus-open'),
+                    onPressed: () => _openPlus(context),
+                    style: TextButton.styleFrom(
+                      foregroundColor: _accent,
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      minimumSize: const Size(70, 40),
+                    ),
+                    icon: Icon(
+                      PurchaseService().ownsStatusWindowPlus
+                          ? PhosphorIcons.sparkle
+                          : PhosphorIcons.lockSimple,
+                      size: 14,
+                    ),
+                    label: const Text(
+                      'PLUS',
+                      style: TextStyle(fontSize: 10, letterSpacing: 1),
+                    ),
+                  ),
+                ),
               IconButton(
                 tooltip: l.statusSettingsTooltip,
                 onPressed: () => Navigator.of(context).push(
@@ -82,74 +125,111 @@ class HunterStatusWindow extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(PhosphorIcons.gear, color: _muted, size: 20),
+                constraints: compact
+                    ? const BoxConstraints.tightFor(width: 40, height: 40)
+                    : null,
+                padding: compact ? EdgeInsets.zero : null,
               ),
             ],
           ),
-          const Divider(height: 12),
-          _menu(context, copy),
-          const SizedBox(height: 20),
+          Divider(height: compact ? 8 : 12),
+          _menu(context, copy, compact: compact),
+          SizedBox(height: compact ? 8 : 20),
           if (section == HunterWindowSection.status) ...[
-            Wrap(
-              spacing: 20,
-              runSpacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Text(
-                  'Lv. ${profile.level}',
-                  key: const ValueKey('hunter-level'),
-                  style: TextStyle(
-                    color: _accent,
-                    fontSize: 36,
-                    fontWeight: FontWeight.w500,
-                    fontFeatures: const [FontFeature.tabularFigures()],
+            if (compact)
+              Row(
+                children: [
+                  Text(
+                    'Lv. ${profile.level}',
+                    key: const ValueKey('hunter-level'),
+                    style: TextStyle(
+                      color: _accent,
+                      fontSize: 29,
+                      fontWeight: FontWeight.w500,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
                   ),
-                ),
-                Text(
-                  profile.name,
-                  key: const ValueKey('hunter-name'),
-                  style: const TextStyle(
-                    color: _ink,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      profile.name,
+                      key: const ValueKey('hunter-name'),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _ink,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 13),
+                ],
+              )
+            else
+              Wrap(
+                spacing: 20,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    'Lv. ${profile.level}',
+                    key: const ValueKey('hunter-level'),
+                    style: TextStyle(
+                      color: _accent,
+                      fontSize: 36,
+                      fontWeight: FontWeight.w500,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                  Text(
+                    profile.name,
+                    key: const ValueKey('hunter-name'),
+                    style: const TextStyle(
+                      color: _ink,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            SizedBox(height: compact ? 6 : 13),
             _field(
               _label(context, ['칭호', 'Title', '称号', '稱號']),
               equippedTitle == null
                   ? profile.title
                   : TitleLocalization.localizedName(equippedTitle.id, l),
+              compact: compact,
             ),
-            const SizedBox(height: 17),
+            SizedBox(height: compact ? 8 : 17),
             Text(
               '${xpText(profile.xp)} / ${xpText(profile.maxXp)} XP',
               key: const ValueKey('hunter-xp'),
-              style: const TextStyle(
+              style: TextStyle(
                 color: _ink,
-                fontSize: 15,
-                fontFeatures: [FontFeature.tabularFigures()],
+                fontSize: compact ? 14 : 15,
+                fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),
-            const SizedBox(height: 9),
+            SizedBox(height: compact ? 5 : 9),
             LinearProgressIndicator(
               value: profile.maxXp <= 0
                   ? 0
                   : (profile.xp / profile.maxXp).clamp(0.0, 1.0),
-              minHeight: 4,
+              minHeight: compact ? 3 : 4,
               color: _accent,
               backgroundColor: const Color(0xFF193448),
               semanticsLabel: 'XP',
             ),
-            const SizedBox(height: 19),
-            for (var i = 0; i < 4; i++) _stat(context, i),
-            const SizedBox(height: 12),
+            SizedBox(height: compact ? 8 : 19),
+            for (var i = 0; i < 4; i++) _stat(context, i, compact: compact),
+            SizedBox(height: compact ? 4 : 12),
             InkWell(
               key: const ValueKey('hunter-stat-points'),
               onTap: () => _details(context),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Container(
+                constraints: BoxConstraints(minHeight: compact ? 40 : 0),
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.symmetric(vertical: compact ? 6 : 12),
                 child: _field(
                   _label(context, [
                     '미배분 포인트',
@@ -159,42 +239,34 @@ class HunterStatusWindow extends StatelessWidget {
                   ]),
                   profile.statPoints.toString(),
                   color: profile.statPoints > 0 ? _accent : _ink,
+                  compact: compact,
                 ),
               ),
             ),
-            const Divider(height: 16),
-            Text(
-              '${copy.get('today')}  +${xpText(state.recordedXpToday)} XP',
-              style: const TextStyle(color: _muted, fontSize: 12),
-            ),
-            const SizedBox(height: 14),
-            OutlinedButton.icon(
-              key: const ValueKey('status-plus-open'),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => const StatusPackScreen(),
+            if (!compact) ...[
+              const Divider(height: 16),
+              Text(
+                '${copy.get('today')}  +${xpText(state.recordedXpToday)} XP',
+                style: const TextStyle(color: _muted, fontSize: 12),
+              ),
+              const SizedBox(height: 14),
+              OutlinedButton.icon(
+                key: const ValueKey('status-plus-open'),
+                onPressed: () => _openPlus(context),
+                icon: Icon(
+                  PurchaseService().ownsStatusWindowPlus
+                      ? PhosphorIcons.sparkle
+                      : PhosphorIcons.lockSimple,
+                  size: 16,
+                ),
+                label: Text(_plusLabel(context)),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: _accent,
+                  side: BorderSide(color: _accent.withValues(alpha: .35)),
+                  minimumSize: const Size.fromHeight(48),
                 ),
               ),
-              icon: Icon(
-                PurchaseService().ownsStatusWindowPlus
-                    ? PhosphorIcons.sparkle
-                    : PhosphorIcons.lockSimple,
-                size: 16,
-              ),
-              label: Text(
-                _label(context, [
-                  '상태창 외관 · 성장 분석',
-                  'Status looks & growth insights',
-                  'ステータス外観・成長分析',
-                  '狀態視窗外觀・成長分析',
-                ]),
-              ),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: _accent,
-                side: BorderSide(color: _accent.withValues(alpha: .35)),
-                minimumSize: const Size.fromHeight(48),
-              ),
-            ),
+            ],
           ] else if (child != null)
             child!,
         ],
@@ -202,52 +274,72 @@ class HunterStatusWindow extends StatelessWidget {
     );
   }
 
-  Widget _menu(BuildContext context, SystemCopy copy) {
+  Widget _menu(BuildContext context, SystemCopy copy, {bool compact = false}) {
     final labels = [
       copy.get('status'),
       _label(context, ['퀘스트', 'Quests', 'クエスト', '任務']),
       copy.get('journal'),
     ];
-    return Wrap(
-      spacing: 4,
-      runSpacing: 4,
-      children: List.generate(HunterWindowSection.values.length, (i) {
-        final item = HunterWindowSection.values[i];
-        final selected = item == section;
-        return Semantics(
-          selected: selected,
-          child: TextButton(
-            key: ValueKey('${item.name}-tab'),
-            style: TextButton.styleFrom(
-              foregroundColor: selected ? _accent : _muted,
-              backgroundColor: selected
-                  ? const Color(0xFF102B3B)
-                  : Colors.transparent,
-              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 12),
-              shape: const RoundedRectangleBorder(),
+    final tabs = List.generate(HunterWindowSection.values.length, (i) {
+      final item = HunterWindowSection.values[i];
+      final selected = item == section;
+      return Semantics(
+        selected: selected,
+        child: TextButton(
+          key: ValueKey('${item.name}-tab'),
+          style: TextButton.styleFrom(
+            foregroundColor: selected ? _accent : _muted,
+            backgroundColor: selected
+                ? const Color(0xFF102B3B)
+                : Colors.transparent,
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? 9 : 11,
+              vertical: compact ? 6 : 12,
             ),
-            onPressed: () => onSectionChanged(item),
-            child: Text(labels[i], style: const TextStyle(fontSize: 13)),
+            shape: const RoundedRectangleBorder(),
           ),
-        );
-      }),
-    );
+          onPressed: () => onSectionChanged(item),
+          child: Text(labels[i], style: TextStyle(fontSize: compact ? 12 : 13)),
+        ),
+      );
+    });
+    return compact
+        ? Row(children: [for (final tab in tabs) Expanded(child: tab)])
+        : Wrap(spacing: 4, runSpacing: 4, children: tabs);
   }
 
-  Widget _field(String label, String value, {Color color = _ink}) => Row(
+  Widget _field(
+    String label,
+    String value, {
+    Color color = _ink,
+    bool compact = false,
+  }) => Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Expanded(
-        child: Text(label, style: const TextStyle(color: _muted, fontSize: 13)),
-      ),
+      if (compact)
+        Text(
+          label,
+          maxLines: 1,
+          style: const TextStyle(color: _muted, fontSize: 12),
+        )
+      else
+        Expanded(
+          child: Text(
+            label,
+            style: const TextStyle(color: _muted, fontSize: 13),
+          ),
+        ),
       const SizedBox(width: 14),
       Flexible(
+        fit: compact ? FlexFit.tight : FlexFit.loose,
         child: Text(
           value,
+          maxLines: compact ? 1 : null,
+          overflow: compact ? TextOverflow.ellipsis : null,
           textAlign: TextAlign.end,
           style: TextStyle(
             color: color,
-            fontSize: 14,
+            fontSize: compact ? 13 : 14,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -255,7 +347,7 @@ class HunterStatusWindow extends StatelessWidget {
     ],
   );
 
-  Widget _stat(BuildContext context, int i) {
+  Widget _stat(BuildContext context, int i, {bool compact = false}) {
     final c = state.character;
     final values = [c.strength, c.wisdom, c.health, c.charisma];
     final labels = statLabels(context);
@@ -263,8 +355,8 @@ class HunterStatusWindow extends StatelessWidget {
       key: ValueKey('status-stat-$i'),
       onTap: () => _inspectStat(context, i, labels[i], values[i]),
       child: Container(
-        constraints: const BoxConstraints(minHeight: 48),
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        constraints: BoxConstraints(minHeight: compact ? 40 : 48),
+        padding: EdgeInsets.symmetric(vertical: compact ? 8 : 12),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(color: _accent.withValues(alpha: .17)),
@@ -275,7 +367,7 @@ class HunterStatusWindow extends StatelessWidget {
             Expanded(
               child: Text(
                 labels[i],
-                style: const TextStyle(color: _ink, fontSize: 16),
+                style: TextStyle(color: _ink, fontSize: compact ? 14 : 16),
               ),
             ),
             const SizedBox(width: 16),
@@ -283,13 +375,17 @@ class HunterStatusWindow extends StatelessWidget {
               xpText(values[i]),
               style: TextStyle(
                 color: _accent,
-                fontSize: 21,
+                fontSize: compact ? 18 : 21,
                 fontWeight: FontWeight.w600,
                 fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),
-            const SizedBox(width: 10),
-            const Icon(PhosphorIcons.caretRight, size: 12, color: _muted),
+            SizedBox(width: compact ? 6 : 10),
+            Icon(
+              PhosphorIcons.caretRight,
+              size: compact ? 10 : 12,
+              color: _muted,
+            ),
           ],
         ),
       ),

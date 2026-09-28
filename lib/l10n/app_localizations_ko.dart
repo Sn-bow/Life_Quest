@@ -816,31 +816,29 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
-  String get onboardingPage1Title => '일상을 퀘스트로';
+  String get onboardingPage1Title => '나의 상태창이 열렸습니다';
 
   @override
-  String get onboardingPage1Body =>
-      '할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n나의 퀘스트 성장이 쌓입니다.';
+  String get onboardingPage1Body => '아래 이름·레벨·XP·네 가지 능력치는 현재 프로필의 실제 기록입니다.';
 
   @override
-  String get onboardingPage2Title => '던전을 탐험하라';
+  String get onboardingPage2Title => '퀘스트와 선택 AI';
 
   @override
   String get onboardingPage2Body =>
-      '원할 때 카드 탐험을 즐기세요.\n일상의 성장이 탐험에 힘을 보탭니다.\n전투에서 져도 현실의 XP는 줄지 않아요.';
+      '작은 행동을 퀘스트로 기록하세요. 지원 기기에서는 AI 모델을 따로 설치할 수도 있습니다.';
 
   @override
-  String get onboardingPage3Title => '모험을 시작하세요';
+  String get onboardingPage3Title => '원할 때만 이야기로';
 
   @override
-  String get onboardingPage3Body =>
-      '퀘스트를 완료하고, 던전을 클리어하고\n업적과 칭호를 수집하세요.\n당신의 일상이 RPG가 됩니다.';
+  String get onboardingPage3Body => '탐험과 이야기는 선택 사항입니다. 먼저 내 상태창에서 시작하세요.';
 
   @override
   String get onboardingNext => '다음';
 
   @override
-  String get onboardingStart => '시작하기';
+  String get onboardingStart => '내 상태창 보기';
 
   @override
   String get onboardingSkip => '건너뛰기';
@@ -4003,35 +4001,39 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqOpenSourceLicenses => '오픈소스 라이선스';
 
   @override
-  String get lqWelcomeTitle => '나의 하루가,\n이야기가 된다.';
+  String get lqWelcomeTitle => '앱을 열면,\n내 상태창이 열린다.';
 
   @override
   String get lqWelcomeBody =>
-      '도시의 미스터리, 산속의 수련, 별을 찾는 탐사.\n오늘의 작은 행동으로 원하는 세계를 이어가세요.';
+      '이름과 레벨, XP, 네 가지 능력치를 먼저 확인하세요. 오늘 해낸 일을 퀘스트로 기록하면 XP와 성장 기록이 쌓입니다.';
 
   @override
-  String get lqFirstContract => '당신과의 첫 번째 약속';
+  String get lqWelcomePreviewNote =>
+      '처음 상태창의 예시입니다. 시작하면 기기 프로필이 열리고, 이름은 설정에서 바꿀 수 있어요.';
 
   @override
-  String get lqWelcomeStepOne => '오늘의 나에게 맞추기';
+  String get lqFirstContract => '상태창 접속';
 
   @override
-  String get lqWelcomeStepOneBody => '쓸 수 있는 시간과 에너지부터 정해요.';
+  String get lqWelcomeStepOne => '퀘스트는 그다음';
 
   @override
-  String get lqWelcomeStepTwo => '작은 퀘스트로 성장하기';
+  String get lqWelcomeStepOneBody => '작은 행동을 완료하고 XP를 쌓으세요.';
 
   @override
-  String get lqWelcomeStepTwoBody => '현실에서 해낸 일로 경험치를 쌓아요.';
+  String get lqWelcomeStepTwo => 'AI는 선택';
 
   @override
-  String get lqWelcomeStepThree => '세 세계에서 이어지는 성장';
+  String get lqWelcomeStepTwoBody => '지원 기기에서 모델을 따로 설치하면 기기 안에서 퀘스트를 제안합니다.';
 
   @override
-  String get lqWelcomeStepThreeBody => '이야기를 고르고, 현실의 행동으로 다음 장면을 열어요.';
+  String get lqWelcomeStepThree => '이야기도 선택';
 
   @override
-  String get lqStartOnDevice => '기기에서 시작하기';
+  String get lqWelcomeStepThreeBody => '탐험과 이야기는 원할 때만 열어보세요.';
+
+  @override
+  String get lqStartOnDevice => '내 상태창 열기';
 
   @override
   String get lqStarting => '상태창 여는 중…';

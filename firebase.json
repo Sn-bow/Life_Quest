@@ -88,5 +88,15 @@
         }
       }
     }
+  },
+  "auth": {
+    "providers": {
+      "anonymous": true,
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Life Quest",
+        "supportEmail": "hyeonseok460@gmail.com"
+      }
+    }
   }
 }

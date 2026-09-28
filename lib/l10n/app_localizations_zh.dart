@@ -809,28 +809,28 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsLanguageChinese => '繁體中文（台灣）';
 
   @override
-  String get onboardingPage1Title => '將日常變成任務';
+  String get onboardingPage1Title => '你的狀態視窗已開啟';
 
   @override
-  String get onboardingPage1Body => '將待辦事項註冊為任務吧。\n每次完成都能獲得經驗和金幣，\n不斷提升自己的實力。';
+  String get onboardingPage1Body => '下方的名字、等級、XP 和四項能力值是目前個人檔案的實際紀錄，並非示意進度。';
 
   @override
-  String get onboardingPage2Title => '探索地下城';
+  String get onboardingPage2Title => '任務與選用 AI';
 
   @override
-  String get onboardingPage2Body => '隨時開啟一次卡牌探索。\n日常成長為冒險增添力量。\n戰鬥失敗不會扣除日常XP。';
+  String get onboardingPage2Body => '把小行動記為任務。支援的裝置可另外安裝 AI 模型。';
 
   @override
-  String get onboardingPage3Title => '開始你的冒險';
+  String get onboardingPage3Title => '故事隨你選擇';
 
   @override
-  String get onboardingPage3Body => '完成任務，通關地下城，\n收整合就與稱號。\n你的日常將變成一場RPG。';
+  String get onboardingPage3Body => '探索與故事都是選用內容。先從自己的狀態視窗開始吧。';
 
   @override
   String get onboardingNext => '下一步';
 
   @override
-  String get onboardingStart => '開始';
+  String get onboardingStart => '開啟我的狀態視窗';
 
   @override
   String get onboardingSkip => '跳過';
@@ -3975,34 +3975,39 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqOpenSourceLicenses => '開源許可';
 
   @override
-  String get lqWelcomeTitle => '我的一天，\n成為故事。';
+  String get lqWelcomeTitle => '開啟 App，\n看見自己的狀態視窗。';
 
   @override
-  String get lqWelcomeBody => '城市謎案、山中修習、尋星之旅。\n用今天的小小行動，續寫你選擇的世界。';
+  String get lqWelcomeBody =>
+      '先看見自己的名字、等級、XP 與四項能力值。把每天完成的事記為任務，XP 與成長紀錄就會慢慢累積。';
 
   @override
-  String get lqFirstContract => '與你的第一個約定';
+  String get lqWelcomePreviewNote =>
+      '這是初始狀態視窗的示意。建立此裝置的個人檔案後會直接進入此畫面，名字可在設定中更改。';
 
   @override
-  String get lqWelcomeStepOne => '從今天的狀態出發';
+  String get lqFirstContract => '狀態視窗已就緒';
 
   @override
-  String get lqWelcomeStepOneBody => '先選好可用的時間、精力和方向。';
+  String get lqWelcomeStepOne => '接著才是任務';
 
   @override
-  String get lqWelcomeStepTwo => '用小任務積累成長';
+  String get lqWelcomeStepOneBody => '完成小行動，累積 XP。';
 
   @override
-  String get lqWelcomeStepTwoBody => '在現實中完成行動，收穫經驗。';
+  String get lqWelcomeStepTwo => 'AI 可自由選用';
 
   @override
-  String get lqWelcomeStepThree => '在三個世界中成長';
+  String get lqWelcomeStepTwoBody => '支援的裝置可另外安裝模型，在裝置內取得任務建議。';
 
   @override
-  String get lqWelcomeStepThreeBody => '選擇故事，用現實行動開啟下一幕。';
+  String get lqWelcomeStepThree => '故事也由你選擇';
 
   @override
-  String get lqStartOnDevice => '在此裝置上開始';
+  String get lqWelcomeStepThreeBody => '想探索或閱讀故事時再打開就好。';
+
+  @override
+  String get lqStartOnDevice => '開啟我的狀態視窗';
 
   @override
   String get lqStarting => '正在開啟狀態視窗…';

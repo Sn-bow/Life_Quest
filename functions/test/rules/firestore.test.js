@@ -5,8 +5,10 @@ const {initializeTestEnvironment, assertFails, assertSucceeds} = require('@fireb
 const {doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp} = require('firebase/firestore');
 let env;
 before(async () => {
-  if (!process.env.FIRESTORE_EMULATOR_HOST?.startsWith('127.0.0.1:')) throw Error('Local emulator required.');
-  env = await initializeTestEnvironment({projectId: 'demo-lifequest-rules', firestore: {
+  if (!process.env.FIRESTORE_EMULATOR_HOST?.startsWith('127.0.0.1:') || !process.env.GCLOUD_PROJECT) {
+    throw Error('Local emulator with GCLOUD_PROJECT required.');
+  }
+  env = await initializeTestEnvironment({projectId: process.env.GCLOUD_PROJECT, firestore: {
     host: '127.0.0.1', port: 8080, rules: readFileSync('../firestore.rules', 'utf8'),
   }});
 });

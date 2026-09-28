@@ -1593,37 +1593,37 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPage1Title.
   ///
   /// In ko, this message translates to:
-  /// **'일상을 퀘스트로'**
+  /// **'나의 상태창이 열렸습니다'**
   String get onboardingPage1Title;
 
   /// No description provided for @onboardingPage1Body.
   ///
   /// In ko, this message translates to:
-  /// **'할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n나의 퀘스트 성장이 쌓입니다.'**
+  /// **'아래 이름·레벨·XP·네 가지 능력치는 현재 프로필의 실제 기록입니다.'**
   String get onboardingPage1Body;
 
   /// No description provided for @onboardingPage2Title.
   ///
   /// In ko, this message translates to:
-  /// **'던전을 탐험하라'**
+  /// **'퀘스트와 선택 AI'**
   String get onboardingPage2Title;
 
   /// No description provided for @onboardingPage2Body.
   ///
   /// In ko, this message translates to:
-  /// **'원할 때 카드 탐험을 즐기세요.\n일상의 성장이 탐험에 힘을 보탭니다.\n전투에서 져도 현실의 XP는 줄지 않아요.'**
+  /// **'작은 행동을 퀘스트로 기록하세요. 지원 기기에서는 AI 모델을 따로 설치할 수도 있습니다.'**
   String get onboardingPage2Body;
 
   /// No description provided for @onboardingPage3Title.
   ///
   /// In ko, this message translates to:
-  /// **'모험을 시작하세요'**
+  /// **'원할 때만 이야기로'**
   String get onboardingPage3Title;
 
   /// No description provided for @onboardingPage3Body.
   ///
   /// In ko, this message translates to:
-  /// **'퀘스트를 완료하고, 던전을 클리어하고\n업적과 칭호를 수집하세요.\n당신의 일상이 RPG가 됩니다.'**
+  /// **'탐험과 이야기는 선택 사항입니다. 먼저 내 상태창에서 시작하세요.'**
   String get onboardingPage3Body;
 
   /// No description provided for @onboardingNext.
@@ -1635,7 +1635,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingStart.
   ///
   /// In ko, this message translates to:
-  /// **'시작하기'**
+  /// **'내 상태창 보기'**
   String get onboardingStart;
 
   /// No description provided for @onboardingSkip.
@@ -7779,61 +7779,67 @@ abstract class AppLocalizations {
   /// No description provided for @lqWelcomeTitle.
   ///
   /// In ko, this message translates to:
-  /// **'나의 하루가,\n이야기가 된다.'**
+  /// **'앱을 열면,\n내 상태창이 열린다.'**
   String get lqWelcomeTitle;
 
   /// No description provided for @lqWelcomeBody.
   ///
   /// In ko, this message translates to:
-  /// **'도시의 미스터리, 산속의 수련, 별을 찾는 탐사.\n오늘의 작은 행동으로 원하는 세계를 이어가세요.'**
+  /// **'이름과 레벨, XP, 네 가지 능력치를 먼저 확인하세요. 오늘 해낸 일을 퀘스트로 기록하면 XP와 성장 기록이 쌓입니다.'**
   String get lqWelcomeBody;
+
+  /// No description provided for @lqWelcomePreviewNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'처음 상태창의 예시입니다. 시작하면 기기 프로필이 열리고, 이름은 설정에서 바꿀 수 있어요.'**
+  String get lqWelcomePreviewNote;
 
   /// No description provided for @lqFirstContract.
   ///
   /// In ko, this message translates to:
-  /// **'당신과의 첫 번째 약속'**
+  /// **'상태창 접속'**
   String get lqFirstContract;
 
   /// No description provided for @lqWelcomeStepOne.
   ///
   /// In ko, this message translates to:
-  /// **'오늘의 나에게 맞추기'**
+  /// **'퀘스트는 그다음'**
   String get lqWelcomeStepOne;
 
   /// No description provided for @lqWelcomeStepOneBody.
   ///
   /// In ko, this message translates to:
-  /// **'쓸 수 있는 시간과 에너지부터 정해요.'**
+  /// **'작은 행동을 완료하고 XP를 쌓으세요.'**
   String get lqWelcomeStepOneBody;
 
   /// No description provided for @lqWelcomeStepTwo.
   ///
   /// In ko, this message translates to:
-  /// **'작은 퀘스트로 성장하기'**
+  /// **'AI는 선택'**
   String get lqWelcomeStepTwo;
 
   /// No description provided for @lqWelcomeStepTwoBody.
   ///
   /// In ko, this message translates to:
-  /// **'현실에서 해낸 일로 경험치를 쌓아요.'**
+  /// **'지원 기기에서 모델을 따로 설치하면 기기 안에서 퀘스트를 제안합니다.'**
   String get lqWelcomeStepTwoBody;
 
   /// No description provided for @lqWelcomeStepThree.
   ///
   /// In ko, this message translates to:
-  /// **'세 세계에서 이어지는 성장'**
+  /// **'이야기도 선택'**
   String get lqWelcomeStepThree;
 
   /// No description provided for @lqWelcomeStepThreeBody.
   ///
   /// In ko, this message translates to:
-  /// **'이야기를 고르고, 현실의 행동으로 다음 장면을 열어요.'**
+  /// **'탐험과 이야기는 원할 때만 열어보세요.'**
   String get lqWelcomeStepThreeBody;
 
   /// No description provided for @lqStartOnDevice.
   ///
   /// In ko, this message translates to:
-  /// **'기기에서 시작하기'**
+  /// **'내 상태창 열기'**
   String get lqStartOnDevice;
 
   /// No description provided for @lqStarting.

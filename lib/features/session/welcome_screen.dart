@@ -34,14 +34,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final t = Theme.of(context);
-    final c = t.colorScheme;
     return Scaffold(
+      backgroundColor: const Color(0xFF06131E),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 500),
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(28, 24, 28, 24),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
               children: [
                 Row(
                   children: [
@@ -56,6 +56,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       child: Text(
                         'LIFE QUEST',
                         style: t.textTheme.titleSmall?.copyWith(
+                          color: const Color(0xFFEAF9FF),
                           letterSpacing: 2.2,
                         ),
                       ),
@@ -63,21 +64,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
-                  child: Image.asset(
-                    'assets/images/backgrounds/journal_worlds.jpg',
-                    height: 180,
-                    fit: BoxFit.cover,
-                    alignment: const Alignment(.55, 0),
-                    excludeFromSemantics: true,
-                  ),
-                ),
-                const SizedBox(height: 28),
                 Text(
-                  'CHAPTER 00',
+                  l.lqFirstContract,
                   style: t.textTheme.labelMedium?.copyWith(
-                    color: c.primary,
+                    color: const Color(0xFF72D9F7),
                     letterSpacing: 2,
                   ),
                 ),
@@ -85,6 +75,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Text(
                   l.lqWelcomeTitle,
                   style: t.textTheme.headlineLarge?.copyWith(
+                    color: const Color(0xFFEAF9FF),
                     fontWeight: FontWeight.w800,
                     height: 1.3,
                     letterSpacing: -1.2,
@@ -94,40 +85,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Text(
                   l.lqWelcomeBody,
                   style: t.textTheme.bodyLarge?.copyWith(
-                    color: c.onSurfaceVariant,
+                    color: const Color(0xFFB2CCDA),
                     height: 1.6,
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 24),
+                HunterWelcomeStatusPreview(name: l.lqGuestName),
+                const SizedBox(height: 12),
+                Text(
+                  l.lqWelcomePreviewNote,
+                  style: t.textTheme.bodySmall?.copyWith(
+                    color: const Color(0xFF93B5C7),
+                  ),
+                ),
+                const SizedBox(height: 24),
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: c.surface,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: c.outline),
+                    color: const Color(0xFF102B3B),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: const Color(0xFF32546A)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.auto_awesome_outlined,
-                            color: c.primary,
-                            size: 18,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              l.lqFirstContract,
-                              style: t.textTheme.labelLarge?.copyWith(
-                                color: c.primary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
                       _Step(
                         number: '01',
                         title: l.lqWelcomeStepOne,
@@ -151,6 +132,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 const SizedBox(height: 24),
                 FilledButton(
                   onPressed: _starting ? null : _start,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF72D9F7),
+                    foregroundColor: const Color(0xFF06131E),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7),
                     child: Text(_starting ? l.lqStarting : l.lqStartOnDevice),
@@ -159,12 +144,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 if (widget.onLogin != null)
                   TextButton(
                     onPressed: widget.onLogin,
-                    child: Text(l.lqExistingAccount),
+                    child: Text(
+                      l.lqExistingAccount,
+                      style: const TextStyle(color: Color(0xFF91DFF5)),
+                    ),
                   ),
                 const SizedBox(height: 14),
                 Text(
                   l.lqDeviceStorageNotice,
-                  style: t.textTheme.bodySmall,
+                  style: t.textTheme.bodySmall?.copyWith(
+                    color: const Color(0xFFB2CCDA),
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 TextButton(
@@ -172,13 +162,134 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Uri.parse('https://sn-bow.github.io/Life_Quest/#privacy'),
                     mode: LaunchMode.externalApplication,
                   ),
-                  child: Text(l.settingsPrivacyPolicy),
+                  child: Text(
+                    l.settingsPrivacyPolicy,
+                    style: const TextStyle(color: Color(0xFF91DFF5)),
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The preview uses the same original generated raster frame as the live
+/// hunter window. All values are native Flutter text and can scale/accessibly
+/// reflow; only the frame art is a bitmap.
+class HunterWelcomeStatusPreview extends StatelessWidget {
+  final String name;
+  final int level;
+  final double xp;
+  final double maxXp;
+  final List<double> stats;
+
+  const HunterWelcomeStatusPreview({
+    super.key,
+    required this.name,
+    this.level = 1,
+    this.xp = 0,
+    this.maxXp = 150,
+    this.stats = const [0, 0, 0, 0],
+  });
+
+  static const _ink = Color(0xFFEAF9FF);
+  static const _accent = Color(0xFF72D9F7);
+
+  String _number(num value) => value == value.roundToDouble()
+      ? value.toInt().toString()
+      : value.toStringAsFixed(1);
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    final t = Theme.of(context);
+    final labels = [
+      l.statusStatStrength,
+      l.statusStatWisdom,
+      l.statusStatHealth,
+      l.statusStatCharm,
+    ];
+    return Stack(
+      key: const ValueKey('welcome-status-preview'),
+      children: [
+        Positioned.fill(
+          child: ExcludeSemantics(
+            child: Image.asset(
+              'assets/images/ui/hunter_status_frame_v1.png',
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(30, 27, 30, 34),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                l.lqStatusWindow,
+                style: t.textTheme.titleMedium?.copyWith(
+                  color: _accent,
+                  letterSpacing: 1,
+                ),
+              ),
+              const Divider(color: Color(0xFF32546A), height: 22),
+              Wrap(
+                spacing: 12,
+                runSpacing: 3,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    'Lv. $level',
+                    style: t.textTheme.headlineSmall?.copyWith(color: _accent),
+                  ),
+                  Text(
+                    name,
+                    style: t.textTheme.titleLarge?.copyWith(color: _ink),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              Text(
+                '${_number(xp)} / ${_number(maxXp)} XP',
+                style: t.textTheme.bodyMedium?.copyWith(color: _ink),
+              ),
+              const SizedBox(height: 6),
+              LinearProgressIndicator(
+                value: maxXp <= 0 ? 0 : (xp / maxXp).clamp(0.0, 1.0),
+                minHeight: 4,
+                color: _accent,
+                backgroundColor: const Color(0xFF193448),
+                semanticsLabel: 'XP',
+              ),
+              const SizedBox(height: 14),
+              for (var i = 0; i < labels.length; i++)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          labels[i],
+                          style: t.textTheme.bodyMedium?.copyWith(color: _ink),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _number(stats[i]),
+                        style: t.textTheme.titleMedium?.copyWith(
+                          color: _accent,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -195,7 +306,7 @@ class _Step extends StatelessWidget {
         Text(
           number,
           style: t.textTheme.labelMedium?.copyWith(
-            color: t.colorScheme.primary,
+            color: const Color(0xFF72D9F7),
           ),
         ),
         const SizedBox(width: 14),
@@ -203,9 +314,19 @@ class _Step extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: t.textTheme.titleSmall),
+              Text(
+                title,
+                style: t.textTheme.titleSmall?.copyWith(
+                  color: const Color(0xFFEAF9FF),
+                ),
+              ),
               const SizedBox(height: 5),
-              Text(body, style: t.textTheme.bodySmall),
+              Text(
+                body,
+                style: t.textTheme.bodySmall?.copyWith(
+                  color: const Color(0xFFB2CCDA),
+                ),
+              ),
             ],
           ),
         ),
