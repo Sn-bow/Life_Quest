@@ -4,7 +4,7 @@
 
 `pubspec.yaml`의 versionCode2013에서 아래 네 플래그로 signed AAB를 만들었다. 현재 로컬 사본은 `build/review/life-quest-2.0.0-2013-paid-candidate.aab`(**156,043,538 bytes**), SHA-256 `2b1b57e3f7ec81095e6668837262046328724080257c9c2d13dcd4a7e6909c24`; 빌드 소스 커밋 `bb33b4b`이다. 상태창·퀘스트·성장 기록·Plus에 출시 동선을 맞추고 탐험 진입과 신규 게임 보상을 숨긴 뒤 다시 빌드했다. 기존 저장 데이터는 보존한다. [실제 +2013 검사](paid-candidate-2013-inspection.json)는 versionCode2013, 결제 권한, 광고 ID·Mobile Ads 부재, 공개 업로드 인증서, API36, 네이티브 ELF/표본 split ZIP 16KB 정렬, 표본 ARM64/API35/16KB 다운로드 **65,331,385 bytes**를 확인한다. **54/54 검사는 로컬 아티팩트 검사**이며 UI 동선이나 실제 판매를 인증하지 않는다. 표본 split은 디버그 서명으로 검사 전용이며 업로드 파일이 아니다. 물리 기기·Play 게시·결제 작동·유료 수요는 아직 검증되지 않았다. 출시 범위와 순서는 [유료 후보 판단](market/PAID_RELEASE_CANDIDATE_20260928.md)을 따른다.
 
-Android UI 확인용 universal signed APK는 `build/review/life-quest-2.0.0-2013-paid-review.apk`(**163,188,472 bytes**), SHA-256 `fcd2b191b673683be34059c2e4e0c3db39d4f6bf95323140deceee56af367bf6`이다. **이 APK는 Play 제출용 AAB가 아니다.** 이전 바이너리의 4개 언어 [실화면](design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)은 현 후보보다 앞선 촬영이다. 퀘스트 4장의 `+Gold` 표시가 지금은 오래되었으므로 최신 APK에서 재촬영 중이다. 최신 APK의 UI·물리 기기 검증 결과는 별도로 기록한다.
+Android UI 확인용 universal signed APK는 `build/review/life-quest-2.0.0-2013-paid-review.apk`(**163,188,472 bytes**), SHA-256 `fcd2b191b673683be34059c2e4e0c3db39d4f6bf95323140deceee56af367bf6`이다. **이 APK는 Play 제출용 AAB가 아니다.** 기존 4개 언어 [스토어 실화면](design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)은 앞선 APK에서 촬영했지만, [현 후보 Android QA](design/status-system/qa/PAID_SCOPE_QUEST_SCREENSHOT_QA_20260928.md)에서 퀘스트 4장 모두 Gold 없이 `+10 XP`만 표시하고 새 APK 화면과 시각적으로 동일함을 확인했다. 해당 스토어 이미지의 교체 근거는 없다. 물리 기기 검증은 남아 있다.
 
 ```sh
 flutter build appbundle --release \
