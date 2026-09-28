@@ -95,27 +95,10 @@ flutter:
     - assets/story/
     - assets/licenses/
     - assets/images/
-    - assets/images/monsters/
-    - assets/images/backgrounds/
-    - assets/images/cards/
+    - assets/images/backgrounds/journal_worlds.jpg
     - assets/images/ui/
-    - assets/images/player/
-    - assets/images/game/
-    - assets/images/game/player/
-    - assets/images/game/monsters/
-    - assets/images/game/backgrounds/
-    - assets/images/game/effects/
-    - assets/images/game/cards/frames/
-    - assets/images/game/cards/icons/
-    - assets/images/game/cards/art/
-    - assets/images/game/cards/full_body/
-    - assets/images/game/relics/
-    - assets/images/game/ui/
-    - assets/images/game/map/
     - assets/sounds/
-    - assets/sounds/game/
     - assets/sounds/sfx/
-    - assets/sounds/bgm/
   fonts:
     - family: NotoSansKR
       fonts:
