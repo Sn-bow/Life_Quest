@@ -2,8 +2,8 @@
   "scope": "Local artifact only; NOT ready-to-publish certification",
   "profile": "paid",
   "bundle": "build/review/life-quest-2.0.0-2013-paid-candidate.aab",
-  "bytes": 242281731,
-  "sha256": "2b95f237fdde7e9518fe23c0f0042ec6c49cdb8ca8d10c7bca34c4f437851c6c",
+  "bytes": 156043538,
+  "sha256": "2b1b57e3f7ec81095e6668837262046328724080257c9c2d13dcd4a7e6909c24",
   "versionName": "2.0.0",
   "versionCode": "2013",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
@@ -96,8 +96,8 @@
     }
   ],
   "sampleDeviceDownloadBytes": {
-    "MIN": 149180090,
-    "MAX": 149180090
+    "MIN": 65331385,
+    "MAX": 65331385
   },
   "checks": [
     {

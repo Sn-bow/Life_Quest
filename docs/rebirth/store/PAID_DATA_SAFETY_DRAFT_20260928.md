@@ -1,6 +1,6 @@
 # Life Quest 2.0.0+2013 유료 후보 — Google Play 데이터 보안 입력 초안
 
-작성 2026-09-28. **제출본 아님.** 대상은 `com.lifequest.app`의 signed AAB `2.0.0+2013`, `build/review/life-quest-2.0.0-2013-paid-candidate.aab`(SHA-256 `2b95f237fdde7e9518fe23c0f0042ec6c49cdb8ca8d10c7bca34c4f437851c6`), 빌드 소스 커밋 `4076e83`이다. 빌드 플래그는 `LIFEQUEST_CLOUD_ENABLED=true`, `LIFEQUEST_MONETIZATION_ENABLED=true`, `LIFEQUEST_ADS_ENABLED=false`, QA preview off. [실제 +2013 검사](../paid-candidate-2013-inspection.json)는 서명·manifest에서 Billing 권한 포함, Mobile Ads 컴포넌트/광고 권한 없음, Firebase 자동 초기화 제거, Crashlytics/Analytics 수집 메타데이터 `false`, cleartext 금지를 확인했다. **실제 네트워크 전송 및 운영 백엔드는 미검증**이다. [이전 +12 검사](../paid-candidate-12-inspection.json)는 이력으로 남긴다. 오래된 [2026-05 무료 빌드 초안](../../lifequest-play-console-data-safety-draft-20260520.md)은 새 유료 빌드에 사용할 수 없다.
+작성 2026-09-28. **제출본 아님.** 대상은 `com.lifequest.app`의 signed AAB `2.0.0+2013`, `build/review/life-quest-2.0.0-2013-paid-candidate.aab`(SHA-256 `2b1b57e3f7ec81095e6668837262046328724080257c9c2d13dcd4a7e6909c24`, **156,043,538 bytes**), 빌드 소스 커밋 `bb33b4b`이다. 출시 UI는 상태창·현실 퀘스트·성장 기록·선택형 Plus이며 게임 진입/신규 보상은 숨기고 이전 저장 데이터는 보존한다. 빌드 플래그는 `LIFEQUEST_CLOUD_ENABLED=true`, `LIFEQUEST_MONETIZATION_ENABLED=true`, `LIFEQUEST_ADS_ENABLED=false`, QA preview off. [실제 +2013 검사](../paid-candidate-2013-inspection.json)는 서명·manifest에서 Billing 권한 포함, Mobile Ads 컴포넌트/광고 권한 없음, Firebase 자동 초기화 제거, Crashlytics/Analytics 수집 메타데이터 `false`, cleartext 금지를 확인했다. **실제 네트워크 전송 및 운영 백엔드는 미검증**이다. [이전 +12 검사](../paid-candidate-12-inspection.json)는 이력으로 남긴다. 오래된 [2026-05 무료 빌드 초안](../../lifequest-play-console-data-safety-draft-20260520.md)은 새 유료 빌드에 사용할 수 없다.
 
 Play의 [데이터 보안 양식 안내](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en)에 따르면 기기 밖으로 전송되는 앱·SDK 데이터, 가명 식별자, 사용자 선택 기능도 검토해야 한다. 각 패키지의 활성 Play 버전 전체를 반영해야 하며 비공개 테스트도 양식 대상이다. 아래의 `선택`은 **사용자가 계정/구매/신고/동기화를 거절해도 기기 기본 기능을 사용할 수 있다는 현재 제품 흐름**을 뜻한다. 사용자가 선택 기능을 켠 뒤 그 기능에 필요한 데이터가 필수라는 뜻과 혼동하지 않는다.
 
@@ -33,7 +33,7 @@ Play의 [데이터 보안 양식 안내](https://support.google.com/googleplay/a
 | 금융 정보 → **구매 내역** | 예 | 선택 | 앱 기능, 계정 관리, 사기 방지·보안 | Play 구매 상품·토큰/해시·권한/환불 상태. **사용자 결제 정보**(카드/계좌)는 선택하지 않는다. |
 | 사진 및 동영상 → **사진** | 예 | 선택 | 앱 기능, 개인 맞춤 | 사용자가 클라우드 프로필에서 이미지를 고르면 Storage 업로드. 상태창 PNG를 로컬 파일로 저장하는 기능은 서버 수집이 아니다. |
 | 앱 활동 → **기타 사용자 제작 콘텐츠** | 예 | 선택 | 앱 기능, 개인 맞춤 | 클라우드 퀘스트/목표/보상 제목·메모, 선택적으로 전송한 AI 신고 텍스트. |
-| 앱 활동 → **기타 활동** | 예 | 선택 | 앱 기능, 개인 맞춤 | 클라우드 퀘스트 완료·성장/게임 진행·선택 이벤트. |
+| 앱 활동 → **기타 활동** | 예 | 선택 | 앱 기능, 개인 맞춤 | 클라우드 퀘스트 완료·성장 기록·선택 이벤트. 기존 사용자의 게임 진행 데이터가 동기화되어 남아 있을 수 있으나 현 출시 UI에서는 새 탐험을 시작할 수 없다. |
 | 앱 활동 → **앱 상호작용** | 예, 보수적 | 선택 | 앱 기능, 개인 맞춤 | 클라우드에 저장되는 퀘스트 완료·선택 내역 범위. 일반 화면 클릭 분석이나 Firebase Analytics 수집을 주장하는 것은 아니다. 실제 저장 필드 확인 후 `기타 활동`만으로 충분하면 한 유형으로 줄일 수 있다. |
 | 건강 및 피트니스 → **운동 정보** | 예, 보수적 | 선택 | 앱 기능, 개인 맞춤 | 사용자가 클라우드 계정에서 운동 퀘스트를 완료하면 운동 활동/완료 기록이 저장된다. [Play 정의](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en)는 센서 수집에 한정되지 않는다. 기존 무료 초안의 `센서 없음 ⇒ 운동 정보 없음` 추론은 이 빌드에 맞지 않는다. |
 | 기기 또는 기타 ID → **기기 또는 기타 ID** | 예 | 필수로 입력하는 보수적 초안 | 앱 기능, 사기 방지·보안 | Firebase 설치 ID, App Check/Play Integrity 토큰·기기 증명 및 구매 계정 연결. Firebase는 앱 시작에 초기화된다. 기기 모드에서 실제 네트워크 요청의 범위는 실기기 확인 필요. |

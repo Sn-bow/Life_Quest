@@ -2,11 +2,11 @@
 
 테스터 모집·크몽 업체 문의·게시 후 opt-in 안내의 현재 실행 문구는 [2026-09-28 모집 실행안](CLOSED_TEST_RECRUITMENT_KIT_20260928.md)을 사용한다. 아래 과거 Chrome 업로드 장애와 +7 초안 기록은 이력이며 현재 `+2013` 후보의 완료 증거가 아니다.
 
-> **2026-09-28 재개 기준:** 아래는 9/21의 초안 상태 기록이다. 9/28 Play Console에서 Alpha 트랙은 존재하지만 버전이 없음을 재확인했다. 다음 업로드 대상으로 준비하는 signed AAB는 **2.0.0+2013** `build/review/life-quest-2.0.0-2013-paid-candidate.aab`, SHA256 `2b95f237fdde7e9518fe23c0f0042ec6c49cdb8ca8d10c7bca34c4f437851c6`; [로컬 검사](paid-candidate-2013-inspection.json)에서 versionCode2013·서명·manifest·16KB 정렬 54개를 통과했다. 상태창 중심 일회 구매·Cloud/Billing on·Ads off이며 신규 카드 탐험 XP는 상태창 레벨에 합산하지 않는다. 이전 `2.0.0+12` AAB는 이력 산출물이다. [출시 후보 검증](market/PAID_RELEASE_CANDIDATE_20260928.md), [계정 감사](market/PREDEPLOY_ACCOUNT_AUDIT_20260928.md), [4언어 스토어 문구](store/ja-JP.txt), [상태창 그래픽](store/STATUS_WINDOW_VISUALS_20260928.md), [4언어 Android 실화면](design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)을 사용한다. 마지막 화면 자료는 XP 변경 전 signed APK에서 찍었으며 동일한 초기 UI를 보여주고, 새 탐험 결과 화면은 별도 재검증 대상이다. 판매자 프로필/Blaze/Play SKU/API/RTDN 및 실제 라이선스 구매·복원·환불 검증 없이 유료 판매를 시작하지 않는다. 본 문서의 기존 참여 링크 없음/12명 실제 opt-in 원칙은 유지한다. 사용자의 다음 배포 지시 전에는 AAB 업로드와 트랙 게시를 하지 않는다.
+> **2026-09-28 재개 기준:** 아래는 9/21의 `+7` 초안 상태 기록이다. 9/28 Play Console에서 Alpha 트랙은 존재하지만 버전이 없음을 재확인했다. 다음 업로드 대상으로 준비한 signed AAB는 **2.0.0+2013** `build/review/life-quest-2.0.0-2013-paid-candidate.aab`, SHA-256 `2b1b57e3f7ec81095e6668837262046328724080257c9c2d13dcd4a7e6909c24`, **156,043,538 bytes**, 소스 `bb33b4b`다. [로컬 검사](paid-candidate-2013-inspection.json)는 versionCode2013·서명·manifest·16KB 정렬 **54/54 통과**, ARM64/API35/16KB 표본 다운로드 **65,331,385 bytes**를 기록한다. 현 후보는 상태창·현실 퀘스트·성장 기록·선택형 Plus 중심이며 Cloud/Billing on·Ads off다. 게임 진입과 신규 게임 보상은 숨기고 이전 저장 데이터는 보존한다. [출시 후보 검증](market/PAID_RELEASE_CANDIDATE_20260928.md), [계정 감사](market/PREDEPLOY_ACCOUNT_AUDIT_20260928.md), [4언어 스토어 문구](store/ja-JP.txt), [상태창 그래픽](store/STATUS_WINDOW_VISUALS_20260928.md)을 사용한다. 이전 [4언어 Android 실화면](design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)의 퀘스트 4장에는 지금 제거한 `+Gold`가 있어 재촬영·교체 중이다. 판매자 프로필/Blaze/Play SKU/API/RTDN 및 실제 라이선스 구매·복원·환불 검증 없이 유료 판매를 시작하지 않는다. 본 문서의 기존 참여 링크 없음/12명 실제 opt-in 원칙은 유지한다. 사용자의 다음 **“배포해”** 지시 전에는 AAB 업로드와 트랙 게시를 하지 않는다.
 
-**현재 상태: Alpha 트랙 설정과 릴리스 초안 저장. AAB 업로드·심사 제출·테스터 배포는 미완료.** 등록 완료나 14일 참여 기간 시작으로 보고하지 않는다.
+**현재 상태: Alpha 트랙 설정과 이전 `+7` 릴리스 초안 저장. `+2013` AAB 업로드·심사 제출·테스터 배포는 미완료.** 등록 완료나 14일 참여 기간 시작으로 보고하지 않는다.
 
-최신 사용자 요청은 비공개 테스트를 먼저 등록하는 것이다. 실제12명 이상의 모집·크몽 등의 비용 지출은 사용자가 직접 진행하겠다고 했다. 대신 결제하거나 모집 메시지를 보내지 않았다.
+아래는 9/21 비공개 테스트 선등록 당시의 기록이다. 실제12명 이상의 모집·크몽 등의 비용 지출은 사용자가 직접 진행하겠다고 했다. 대신 결제하거나 모집 메시지를 보내지 않았다.
 
 ## 실제 저장된 설정
 
