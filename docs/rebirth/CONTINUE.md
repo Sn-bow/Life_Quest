@@ -13,23 +13,23 @@
 ## 앱과 로컬 검증
 
 - 저장소 /Users/jeonghyeonseok/Documents/ChatGPT/Life_Quest, 브랜치 codex/rebirth-2026-09, [draft PR #2](https://github.com/Sn-bow/Life_Quest/pull/2). Flutter/Dart/Android 빌드·테스트는 같은 checkout에서 직렬 실행한다.
-- Android `com.lifequest.app`, `2.0.0+2013`; signed AAB `build/review/life-quest-2.0.0-2013-paid-candidate.aab`, SHA-256 `2b1b57e3f7ec81095e6668837262046328724080257c9c2d13dcd4a7e6909c24`, **156,043,538 bytes**. **Android 바이너리 소스 커밋 `bb33b4b`**. Cloud/Billing on, Ads/QA preview off. 선택 AI 모델은 AAB에서 별도 설치한다. 이 파일은 Play에 업로드하지 않았다.
-- [실제 AAB 검사](paid-candidate-2013-inspection.json): 패키지·versionCode2013·target API36·서명·결제 권한·광고 ID/Ads 부재·Firebase 설정·16KB ELF/ZIP 등 **54/54 로컬 검사 통과**. ARM64/API35/16KB 표본 다운로드 **65,331,385 bytes**. 검사용 split APK는 debug 서명이며 배포용이 아니다.
-- signed QA APK `build/review/life-quest-2.0.0-2013-paid-review.apk`, SHA-256 `fcd2b191b673683be34059c2e4e0c3db39d4f6bf95323140deceee56af367bf6`, **163,188,472 bytes**. 이 APK로 네 언어 퀘스트 화면을 실제 Android 에뮬레이터에서 재촬영했다. 이 APK는 Play 제출용 AAB가 아니다.
-- 소스 기준 `flutter analyze` clean, 전체 Flutter **512 통과/1 의도적 skip**, Cloud/Billing on 관련 테스트 **38 통과**. 문서 테스트는 최신 실행에서 **20 통과**했다. 앞선 범위에서 실행한 서버 정책 **49 통과**, Firestore/Storage emulator **11 통과**, Python 릴리스 권한 **2 통과**는 운영 배포 검증이 아니다. 실제 Play 결제·환불, 물리 기기 성능/온디바이스 모델, 장기 사용/유료 수요를 증명하지 않는다.
-- [Console에 저장된 네 언어 캡처](design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)는 이전 APK(소스 `e6dd1ea`)에서 촬영했다. [현 후보 Android QA](design/status-system/qa/PAID_SCOPE_QUEST_SCREENSHOT_QA_20260928.md)에서 퀘스트 4장 모두 `+10 XP`만 표시하고 Gold가 없으며 새 APK 화면과 카드 영역 RGB 평균차가 0.013–0.017/255임을 확인했다. 따라서 이미지 교체 근거는 없다. [이전 APK의 프로필 보존 QA](design/status-system/qa/POST_XP_APK_QA_20260928.md)는 현 바이너리의 데이터 보존 검증으로 간주하지 않는다.
+- Android `com.lifequest.app`, `2.0.0+2013`; signed AAB `build/review/life-quest-2.0.0-2013-paid-candidate.aab`, SHA-256 `8a7ec152f17fcbd80f83c4341b10f42d1dba24a46f390441f681e85266d9ccec`, **156,055,514 bytes**. **Android 바이너리 소스 커밋 `d7ebb72`**. Cloud/Billing on, Ads/QA preview off. 선택 AI 모델은 AAB에서 별도 설치한다. 이 파일은 Play에 업로드하지 않았다.
+- [실제 AAB 검사](paid-candidate-2013-inspection.json): 패키지·versionCode2013·target API36·서명·결제 권한·광고 ID/Ads 부재·Firebase 설정·16KB ELF/ZIP 등 **54/54 로컬 검사 통과**. ARM64/API35/16KB 표본 다운로드 **65,334,692 bytes**. 검사용 split APK는 debug 서명이며 배포용이 아니다.
+- signed QA APK `build/review/life-quest-2.0.0-2013-paid-review.apk`, SHA-256 `1919450e34f21fe324d9d8b832524e7a62f202e64d22ab70019873145a34735c`, **163,188,472 bytes**. 서명·16KB 정렬을 확인하고 에뮬레이터 설치·실행에 성공했다. 이 최신 APK로 네 언어 화면을 재촬영하지는 않았다. 이 APK는 Play 제출용 AAB가 아니다.
+- 소스 기준 `flutter analyze` clean, 전체 Flutter **518 통과/1 의도적 skip**, Cloud/Billing on 관련 테스트 **38 통과**. 영어·일본어 320/800dp 세로·800dp 가로의 200% 글꼴 배율에서 성장 보고서 Plus 진입 반응형 테스트 **6 통과**. 문서 테스트는 최신 실행에서 **20 통과**했다. 앞선 범위에서 실행한 서버 정책 **49 통과**, Firestore/Storage emulator **11 통과**, Python 릴리스 권한 **2 통과**는 운영 배포 검증이 아니다. 실제 Play 결제·환불, 물리 기기 성능/온디바이스 모델, 장기 사용/유료 수요를 증명하지 않는다.
+- [Console에 저장된 네 언어 캡처](design/status-system/qa/LOCALIZED_STORE_SCREENSHOTS_20260928.md)는 이전 APK(소스 `e6dd1ea`)에서 촬영했다. [네 언어 퀘스트 QA](design/status-system/qa/PAID_SCOPE_QUEST_SCREENSHOT_QA_20260928.md)는 그 뒤의 `bb33b4b` APK에서 퀘스트 4장 모두 `+10 XP`만 표시하고 Gold가 없으며 기존 화면과 카드 영역 RGB 평균차가 0.013–0.017/255임을 확인했다. `d7ebb72`는 성장 보고서 배치만 수정했으므로 이 캡처는 변경되지 않은 퀘스트 화면의 근거로 유지하되, 최신 APK 해시의 직접 촬영으로 표시하지 않는다. [태블릿 세로 QA](design/status-system/qa/PAID_SCOPE_TABLET_QA_20260928.md)도 `bb33b4b` APK의 기본 배율 화면이며 최신 반응형 수정의 실기기 검증은 아니다.
 
 ## 외부 상태
 
 - [무료 GitHub APK](https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1)와 [안내 사이트](https://sn-bow.github.io/Life_Quest/)는 공개됐다. **무료 이전 버전이며 Play 출시·유료 후보 설치·매출이 아니다.** 다운로드에 자체 검증이 섞여 있으므로 수요로 세지 않는다.
-- Google Play는 사용자 지정 계정 hyeonseok460의 Log_Ian, 앱 ID 4972166589004992203, 패키지 com.lifequest.app이다. 상태는 임시, 설치 사용자 0. 네 언어 스토어 문구와 각 언어의 이전 APK 실화면 스크린샷 2장, 기본 아이콘/피처 그래픽을 Console 초안에 저장했다. 이전 퀘스트 화면은 현 후보와 시각 동일함을 확인해 교체할 필요가 없다. 생성 이미지 라벨은 아이콘/피처 그래픽에만 지정하고 실제 Android 캡처 8장은 제외했다. 등록정보는 **검토를 위해 전송 준비 완료**로 표시됐지만 심사 전송·AAB/트랙/상품/판매자 프로필 등록은 하지 않았다. 옵트인 링크도 없다. [Play 초안 기록](store/PLAY_CONSOLE_DRAFT_STATUS_20260928.md)에 Console 오류도 기록한다.
+- Google Play는 사용자 지정 계정 hyeonseok460의 Log_Ian, 앱 ID 4972166589004992203, 패키지 com.lifequest.app이다. 상태는 임시, 설치 사용자 0. 네 언어 스토어 문구와 각 언어의 이전 APK 실화면 스크린샷 2장, 기본 아이콘/피처 그래픽을 Console 초안에 저장했다. 퀘스트 이미지는 `bb33b4b` APK와 시각 동일하고 `d7ebb72`는 성장 보고서 배치만 수정했으므로 교체 근거가 없다. 생성 이미지 라벨은 아이콘/피처 그래픽에만 지정하고 실제 Android 캡처 8장은 제외했다. 등록정보는 **검토를 위해 전송 준비 완료**로 표시됐지만 심사 전송·AAB/트랙/상품/판매자 프로필 등록은 하지 않았다. 옵트인 링크도 없다. [Play 초안 기록](store/PLAY_CONSOLE_DRAFT_STATUS_20260928.md)에 Console 오류도 기록한다.
 - 신규 개인 Google Play 계정의 프로덕션 접근은 [공식 12명·14일 비공개 테스트 요건](https://support.google.com/googleplay/android-developer/answer/14151465?hl=en)을 따른다. 가짜 참여로 대체하지 않는다. 테스트 링크가 생기면 [모집안](CLOSED_TEST_RECRUITMENT_KIT_20260928.md)을 사용할 수 있다.
 - Firebase 프로젝트 lifequest-crossing-2026은 hyeonseok460 계정 아래 있다. Spark, Firestore 서울과 인증 구성 일부는 준비됐지만 **Blaze/Storage/App Check/Functions/운영 규칙/RTDN/실구매 검증은 미완료**다. 비용 청구 프로필과 약관을 임의 선택하지 않는다. [계정 감사](market/PREDEPLOY_ACCOUNT_AUDIT_20260928.md), [데이터 보안 초안](store/PAID_DATA_SAFETY_DRAFT_20260928.md), [비공개 테스트 절차](CLOSED_TEST.md)를 참조한다.
 - 공개 개인정보 안내는 무료판과 미배포 유료 후보를 구분한다. 후보가 첫 실행 시 Firebase/App Check·Play 상품 조회로 연결 정보/무결성 신호를 처리할 수 있음을 [사이트 QA](market/PRELAUNCH_SITE_QA_20260928.md)에 따라 공개 페이지에 반영했다. **기기 퀘스트/AI 입력은 초기화만으로 자동 업로드되지 않는다.**
 
 ## 다음 작업
 
-1. 최신 signed QA APK에서 네 언어 퀘스트 화면을 확인했다. 성장 기록·Plus 동선과 게임 진입/보상 숨김의 Android 현장 검증은 별도로 마무리한다.
+1. 최신 signed QA APK는 에뮬레이터 설치·실행까지 확인했다. 성장 기록·Plus 반응형 동선과 게임 진입/보상 숨김의 최신 APK 현장 검증은 별도로 마무리한다.
 2. 반복되는 Play 스토어 설정·앱 콘텐츠 오류를 해결하거나 Console 장애로 기록한다. 실제 접근 화면에 맞춰 IARC·앱 분류·광고·데이터 보안 선언을 재검토한다.
 3. 유료 테스트 전 판매자·상품·Firebase Blaze/운영 인프라 선택과 실제 구매→복원→취소/환불 검증이 필요하다. 테스터 참여와 실결제 수요는 앱 코드나 경쟁사 설치 수치로 대체할 수 없다.
 4. 다음 명시적 배포 지시가 있을 때 최종 스토어 자산·AAB·운영 상태를 재확인하고 비공개 트랙 절차를 진행한다.
