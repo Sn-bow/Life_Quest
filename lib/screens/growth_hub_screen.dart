@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../features/director/director_settings_screen.dart';
 import '../l10n/app_localizations.dart';
 import '../state/character_state.dart';
+import 'dungeon/dungeon_home_screen.dart';
 import 'achievement_screen.dart';
 import 'inventory_screen.dart';
 import 'report_screen.dart';
@@ -64,6 +65,11 @@ class GrowthHubScreen extends StatelessWidget {
         icon: PhosphorIcons.storefront,
         label: s.tabShop,
         page: const ShopScreen(),
+      ),
+      (
+        icon: PhosphorIcons.sword,
+        label: s.lqEnterDungeon,
+        page: const DungeonHomeScreen(),
       ),
     ];
     return Scaffold(

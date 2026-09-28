@@ -181,10 +181,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     return <Widget>[
       TodayScreen(
         onOpenQuests: () => _onItemTapped(1),
-        onOpenDungeon: () => _onItemTapped(2),
+        onOpenDungeon: () => unawaited(
+          Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (_) => const DungeonHomeScreen()),
+          ),
+        ),
       ),
       const QuestsScreen(),
-      const DungeonHomeScreen(),
       const GrowthHubScreen(),
     ];
   }
@@ -223,11 +226,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 icon: const Icon(PhosphorIcons.checkSquare),
                 selectedIcon: const Icon(PhosphorIcons.checkSquareFill),
                 label: l10n.tabQuests,
-              ),
-              NavigationDestination(
-                icon: const Icon(PhosphorIcons.sword),
-                selectedIcon: const Icon(PhosphorIcons.swordFill),
-                label: SystemCopy(context).get('explore'),
               ),
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.chartBar),
