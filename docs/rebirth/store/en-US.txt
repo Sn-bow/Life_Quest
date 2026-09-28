@@ -15,14 +15,14 @@ Get suggestions based on your available time, energy, interests and feedback on 
 OPTIONAL, FREE ON-DEVICE AI
 On compatible Android devices, you can choose to download the publicly available Gemma 4 E2B model. After installation, quest generation runs on your device, with no AI-call fee. The built-in suggestions and your own quests work without the model. The download is about 2.59GB; at least 3GB of free storage is recommended. Speed varies by device, and mobile data charges may apply. Review, edit or skip AI suggestions before accepting them.
 
-MORE TO EXPLORE
-There is also a card-based dungeon with branching paths and three free short stories shaped by your choices. Finishing everyday quests opens the next scenes.
+THREE SHORT STORIES
+Read three free short stories alongside your quests. Your choices change parts of the dialogue, and finishing everyday quests opens the next scenes.
 
 STATUS WINDOW PLUS — OPTIONAL ONE-TIME PURCHASE
 Unlock three original status looks and reports based on your recorded quest completions over the last 30 or 90 days. Review recorded XP, active days and streaks, then save the report as a PNG image, text file or CSV. Periods without enough recorded history are marked as incomplete. These reports reflect in-app records, not measured real-world ability. The pack adds no XP or stat boosts. The core status window, quests, existing history and encrypted backups remain free.
 
 START WITHOUT AN ACCOUNT
-Core use needs no account; progress is stored on your device. A free encrypted backup file lets you save and restore your records. Active dungeon expeditions are not included in backups. A purchase-only account connection is needed if you choose to buy or restore a purchase. Keep your backup password safe: it cannot be recovered if forgotten.
+Core use needs no account; progress is stored on your device. A free encrypted backup file lets you save and restore your records and story choices. A purchase-only account connection is needed if you choose to buy or restore a purchase. Keep your backup password safe: it cannot be recovered if forgotten.
 
 Languages: English, Korean, Japanese and Traditional Chinese
 Support: logian621@gmail.com
