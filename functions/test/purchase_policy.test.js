@@ -1,7 +1,8 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const {verifyAndGrant, retryPurchaseAcknowledgement, reconcileNotification, hash, PACKAGE_NAME, validateRequest} = require('../purchase_policy');
+const {verifyAndGrant, retryPurchaseAcknowledgement, reconcileNotification, hash,
+  PACKAGE_NAME, validateRequest, readPlayNotification} = require('../purchase_policy');
 const {requirePurchaseAccount} = require('../purchase_account');
 function fixture(receipt = {}) {
   const rows = new Map([['users/alice', {deletionPending: false}], ['users/bob', {deletionPending: false}]]); let acknowledgements = 0; let failAck = false; let transactionFails = false;
@@ -31,6 +32,17 @@ function fixture(receipt = {}) {
 test('reject unknown products and packages before any publisher access', () => {
   assert.throws(() => validateRequest({packageName: 'other.app', productId: 'cosmetic_theme_neon', purchaseToken: 'synthetic-purchase-token'}));
   assert.throws(() => validateRequest({packageName: PACKAGE_NAME, productId: '__proto__', purchaseToken: 'synthetic-purchase-token'}));
+});
+test('malformed RTDN payloads are discarded without exposing parse errors', () => {
+  const rawToken = 'synthetic-purchase-token';
+  const broken = {data: {message: {get json() {throw Error(rawToken);}}}};
+  assert.equal(readPlayNotification(broken), null);
+  assert.equal(readPlayNotification({data: {message: {json: [rawToken]}}}), null);
+  assert.equal(readPlayNotification({data: {message: {json: rawToken}}}), null);
+  assert.equal(readPlayNotification({data: {message: {json: {
+    packageName: PACKAGE_NAME,
+    oneTimeProductNotification: {purchaseToken: rawToken},
+  }}}}).oneTimeProductNotification.purchaseToken, rawToken);
 });
 test('pending, cancelled, consumed and mismatched-account receipts never grant', async () => {
   for (const purchaseState of [1, 2, undefined]) {
@@ -214,6 +226,34 @@ test('a refund before token claim leaves a tombstone and blocks stale purchase e
   assert.equal(f.rows.has('users/alice/entitlements/status_window_plus_01'), false);
   assert.equal(f.acknowledgements, 0);
   assert.equal(f.jobs.length, 0);
+});
+
+test('a canceled pending RTDN cannot become a grant through a stale Purchased lookup', async () => {
+  const f = fixture();
+  const token = f.input.data.purchaseToken;
+  f.rows.set(`purchaseAccountIds/${hash('alice')}`, {uid: 'alice'});
+  await reconcileNotification({...f.input, notification: {packageName: PACKAGE_NAME,
+    oneTimeProductNotification: {purchaseToken: token,
+      sku: 'status_window_plus_01', notificationType: 2}}});
+  assert.equal(f.rows.get(`purchaseTokens/${hash(token)}`).state, 'revoked');
+  await reconcileNotification({...f.input, notification: {packageName: PACKAGE_NAME,
+    oneTimeProductNotification: {purchaseToken: token,
+      sku: 'status_window_plus_01', notificationType: 1}}});
+  assert.deepEqual(await verifyAndGrant({...f.input, data: {...f.input.data,
+    productId: 'status_window_plus_01'}}), {isValid: false});
+  assert.equal(f.rows.has('users/alice/entitlements/status_window_plus_01'), false);
+  assert.equal(f.acknowledgements, 0);
+});
+
+test('a cancellation for a different SKU cannot revoke an existing token', async () => {
+  const f = fixture();
+  f.input.data.productId = 'status_window_plus_01';
+  await verifyAndGrant(f.input);
+  await reconcileNotification({...f.input, notification: {packageName: PACKAGE_NAME,
+    oneTimeProductNotification: {purchaseToken: f.input.data.purchaseToken,
+      sku: 'story_tide_postoffice_01', notificationType: 2}}});
+  assert.equal(f.rows.get('users/alice/entitlements/status_window_plus_01').active, true);
+  assert.equal(f.rows.get(`purchaseTokens/${hash(f.input.data.purchaseToken)}`).state, 'purchased');
 });
 
 test('refund racing after Play get but before grant wins transactionally', async () => {

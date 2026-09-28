@@ -16,6 +16,17 @@ const hash = value => createHash('sha256').update(value).digest('hex');
 class PurchasePolicyError extends Error {
   constructor(code, message) { super(message); this.code = code; }
 }
+function readPlayNotification(event) {
+  try {
+    const notification = event?.data?.message?.json;
+    return notification && typeof notification === 'object' &&
+      !Array.isArray(notification) ? notification : null;
+  } catch (_) {
+    // A malformed Pub/Sub body can make the Firebase JSON getter throw.
+    // It is not a Play event and must not leak its body into function logs.
+    return null;
+  }
+}
 function validateRequest(data) {
   if (!data || typeof data !== 'object' || data.packageName !== PACKAGE_NAME ||
       !Object.hasOwn(PRODUCTS, data.productId) || typeof data.purchaseToken !== 'string' ||
@@ -129,14 +140,19 @@ async function reconcileNotification({notification, publisher, db, timestamp,
   if (!event || typeof event.purchaseToken !== 'string') return;
   const key = hash(event.purchaseToken);
   const tokenRef = db.collection('purchaseTokens').doc(key);
-  if (voided) {
-    // A refund can arrive before the app's verification request or purchase
-    // RTDN. Record a token-hash tombstone atomically, without needing a UID.
+  const cancelled = !voided && event.notificationType === 2 &&
+    Object.hasOwn(PRODUCTS, event.sku);
+  if (!voided && event.notificationType === 2 && !cancelled) return;
+  if (voided || cancelled) {
+    // A full refund or canceled pending transaction can arrive before the
+    // app's verification request or purchase RTDN. Record a token-hash
+    // tombstone atomically, without needing a UID.
     // If a grant raced with this event, revoke that exact token in the same
     // transaction. A later Play lookup cannot clear the tombstone.
     await db.runTransaction(async tx => {
       const currentToken = await tx.get(tokenRef);
       const owner = currentToken.data();
+      if (cancelled && owner?.productId && owner.productId !== event.sku) return;
       if (owner?.uid && owner.productId) {
         const grantRef = db.collection('users').doc(owner.uid)
           .collection('entitlements').doc(owner.productId);
@@ -199,4 +215,5 @@ async function reconcileNotification({notification, publisher, db, timestamp,
   });
 }
 module.exports = {PACKAGE_NAME, PRODUCTS, PurchasePolicyError, hash, validateRequest,
+  readPlayNotification,
   verifyAndGrant, retryPurchaseAcknowledgement, reconcileNotification};

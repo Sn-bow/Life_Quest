@@ -10,7 +10,8 @@ const {getAuth} = require('firebase-admin/auth');
 const {getStorage} = require('firebase-admin/storage');
 const {getFunctions} = require('firebase-admin/functions');
 const {AccountDeletionError, requestDeletion, completeDeletion, requestAnonymousReportDeletion} = require('./account_deletion');
-const {PurchasePolicyError, verifyAndGrant, retryPurchaseAcknowledgement, reconcileNotification} = require('./purchase_policy');
+const {PurchasePolicyError, verifyAndGrant, retryPurchaseAcknowledgement,
+  reconcileNotification, readPlayNotification} = require('./purchase_policy');
 const {PurchaseAccountError, ensurePurchaseAccount, requirePurchaseAccount} = require('./purchase_account');
 const {AiReportError, submitAiReport} = require('./ai_reports');
 initializeApp();
@@ -78,7 +79,8 @@ exports.acknowledgePlayPurchase = onTaskDispatched({invoker: 'private',
 // Configure Play Console RTDN to publish to this topic before enabling sales.
 exports.onPlayPurchaseNotification = onMessagePublished({topic: 'lifequest-play-billing-events',
   retry: true, maxInstances: 2, timeoutSeconds: 30, memory: '256MiB'}, async event => {
-  const notification = event.data.message.json;
+  const notification = readPlayNotification(event);
+  if (!notification) return;
   try {
     await reconcileNotification({notification, ...dependencies,
       enqueueAcknowledgement: enqueuePlayAcknowledgement});
