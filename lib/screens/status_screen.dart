@@ -441,54 +441,6 @@ class _StatusScreenState extends State<StatusScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                // Gold & AP resource card
-                TranslucentCard(
-                  child: LayoutBuilder(
-                    builder: (context, box) {
-                      final stacked =
-                          box.maxWidth < 420 ||
-                          MediaQuery.textScalerOf(context).scale(14) > 21;
-                      final width = stacked
-                          ? box.maxWidth
-                          : (box.maxWidth - 25) / 2;
-                      return Wrap(
-                        spacing: 12,
-                        runSpacing: 12,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: width,
-                            child: _resourceMetric(
-                              icon: Icons.monetization_on,
-                              label: l10n.statusGoldLabel,
-                              value: '${character.gold}',
-                              color: Colors.amber.shade400,
-                              theme: theme,
-                            ),
-                          ),
-                          Container(
-                            width: stacked ? box.maxWidth : 1,
-                            height: stacked ? 1 : 36,
-                            color: theme.brightness == Brightness.dark
-                                ? Colors.white12
-                                : Colors.grey.shade300,
-                          ),
-                          SizedBox(
-                            width: width,
-                            child: _resourceMetric(
-                              icon: Icons.bolt,
-                              label: l10n.statusApLabel,
-                              value:
-                                  '${character.actionPoints} / ${character.maxActionPoints}',
-                              color: theme.colorScheme.primary,
-                              theme: theme,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
                 TranslucentCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -758,41 +710,6 @@ class _StatusScreenState extends State<StatusScreen> {
       },
     );
   }
-
-  Widget _resourceMetric({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-    required ThemeData theme,
-  }) => Row(
-    children: [
-      Icon(icon, color: color, size: 20),
-      const SizedBox(width: 8),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
 
   Widget _buildStatRow({
     required StatType stat,
