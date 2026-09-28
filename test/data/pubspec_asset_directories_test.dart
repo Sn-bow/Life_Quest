@@ -29,7 +29,15 @@ void main() {
       ]) {
         expect(pubspec, contains('- $path'));
       }
-      expect(pubspec, contains('- assets/images/backgrounds/journal_worlds.jpg'));
+      for (final image in [
+        'atlas.jpg',
+        'courtyard.jpg',
+        'exit_zero_gateway.jpg',
+        'journal_worlds.jpg',
+        'tide_postoffice.jpg',
+      ]) {
+        expect(pubspec, contains('- assets/images/backgrounds/$image'));
+      }
       for (final path in [
         'assets/images/monsters/',
         'assets/images/cards/',

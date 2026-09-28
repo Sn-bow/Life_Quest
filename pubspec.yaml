@@ -95,7 +95,11 @@ flutter:
     - assets/story/
     - assets/licenses/
     - assets/images/
+    - assets/images/backgrounds/atlas.jpg
+    - assets/images/backgrounds/courtyard.jpg
+    - assets/images/backgrounds/exit_zero_gateway.jpg
     - assets/images/backgrounds/journal_worlds.jpg
+    - assets/images/backgrounds/tide_postoffice.jpg
     - assets/images/ui/
     - assets/sounds/
     - assets/sounds/sfx/
