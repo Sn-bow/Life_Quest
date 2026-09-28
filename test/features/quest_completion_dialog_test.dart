@@ -12,35 +12,47 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   SoundService.muteForTesting();
 
-  testWidgets('Japanese completion confirmation shows gains with plus signs', (
-    tester,
-  ) async {
-    SharedPreferences.setMockInitialValues({});
-    final state = CharacterState();
-    await state.initializeForLocalGuest(name: 'Tester');
-    state.addQuest('5分休む', 10, QuestType.daily, StatType.health);
-    await tester.pumpWidget(
-      ChangeNotifierProvider.value(
-        value: state,
-        child: const MaterialApp(
-          locale: Locale('ja'),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: QuestsScreen(),
-        ),
-      ),
+  for (final language in ['ko', 'en', 'ja', 'zh']) {
+    testWidgets(
+      'quest surfaces show XP without hidden game currency in $language',
+      (tester) async {
+        SharedPreferences.setMockInitialValues({});
+        final state = CharacterState();
+        await state.initializeForLocalGuest(name: 'Tester');
+        state.addQuest('One real action', 10, QuestType.daily, StatType.health);
+        await tester.pumpWidget(
+          ChangeNotifierProvider.value(
+            value: state,
+            child: MaterialApp(
+              locale: Locale(language),
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              home: const QuestsScreen(),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        final l10n = AppLocalizations.of(
+          tester.element(find.byType(QuestsScreen)),
+        )!;
+        expect(find.byIcon(Icons.monetization_on), findsNothing);
+
+        await tester.tap(find.byType(FloatingActionButton));
+        await tester.pumpAndSettle();
+        expect(find.textContaining(l10n.questsGoldUnit), findsNothing);
+        await tester.tap(find.text(l10n.cancel));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byType(Checkbox).first);
+        await tester.pumpAndSettle();
+        final dialog = tester.widget<AlertDialog>(find.byType(AlertDialog));
+        final message = (dialog.content! as Text).data!;
+        expect(message, contains('+10 XP'));
+        expect(message, isNot(contains(l10n.questsGoldUnit)));
+        expect(message, isNot(contains('AP +')));
+        await tester.pumpWidget(const SizedBox());
+        state.dispose();
+      },
     );
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(Checkbox).first);
-    await tester.pumpAndSettle();
-    final dialog = tester.widget<AlertDialog>(find.byType(AlertDialog));
-    final message = (dialog.content! as Text).data!;
-    expect(message, contains('基本報酬'));
-    expect(message, contains('+10 XP'));
-    expect(message, contains('+5 ゴールド'));
-    expect(message, isNot(contains('- 10 XP')));
-    expect(message, isNot(contains('- 5 ゴールド')));
-    await tester.pumpWidget(const SizedBox());
-    state.dispose();
-  });
+  }
 }

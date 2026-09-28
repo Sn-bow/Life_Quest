@@ -53,7 +53,7 @@ void main() {
                 child: child!,
               ),
               home: scene == 'today'
-                  ? TodayScreen(onOpenQuests: () {}, onOpenDungeon: () {})
+                  ? TodayScreen(onOpenQuests: () {})
                   : const GrowthHubScreen(),
             ),
           ),

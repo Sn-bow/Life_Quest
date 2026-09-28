@@ -14,18 +14,6 @@ import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 class QuestsScreen extends StatelessWidget {
   const QuestsScreen({super.key});
 
-  String _raidRewardPreview(Quest quest, AppLocalizations l10n) {
-    switch (quest.type) {
-      case QuestType.monthly:
-        return l10n.questsRaidBonusMonthly;
-      case QuestType.yearly:
-        return l10n.questsRaidBonusYearly;
-      case QuestType.daily:
-      case QuestType.weekly:
-        return '';
-    }
-  }
-
   String _completionSummary(
     QuestCompletionResult? result,
     Quest quest,
@@ -37,21 +25,13 @@ class QuestsScreen extends StatelessWidget {
 
     final lines = <String>[
       if (result.wasRaid) l10n.questsRaidClear(result.raidClearCount),
-      l10n.questsRewardSummary(
-        result.totalXpAwarded.round(),
-        result.totalGoldAwarded,
-        result.actionPointsAwarded,
-      ),
+      l10n.achievementRewardXp(result.totalXpAwarded.round()),
       if (result.statPointsAwarded > 0)
         l10n.questsRewardStatPoints(result.statPointsAwarded),
       if (result.unlockedTitles.isNotEmpty)
         l10n.questsRewardUnlockedTitles(result.unlockedTitles.join(', ')),
       if (result.unlockedCosmetics.isNotEmpty)
         l10n.questsRewardUnlockedCosmetics(result.unlockedCosmetics.join(', ')),
-      // CP + 카드 팩 보상 표시
-      if (result.cardPointsAwarded > 0) '⭐ CP +${result.cardPointsAwarded}',
-      if (result.newPacksAwarded > 0)
-        '🎁 카드 팩 +${result.newPacksAwarded}개 획득! (던전 홈에서 열기)',
     ];
     return lines.join('\n');
   }
@@ -190,10 +170,6 @@ class QuestsScreen extends StatelessWidget {
         final quest = quests[index];
         return QuestTile(
           quest: quest,
-          rewardPreview:
-              quest.type == QuestType.monthly || quest.type == QuestType.yearly
-              ? _raidRewardPreview(quest, l10n)
-              : null,
           onChecked: () {
             _showCompleteConfirmationDialog(context, quest, state);
           },
@@ -296,7 +272,6 @@ class QuestsScreen extends StatelessWidget {
                 selectedDifficulty,
                 quest.type,
               );
-              final previewGold = (previewXp * 0.5).round();
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -353,11 +328,7 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      dialogL10n.questsRewardPreview(
-                        _questTypeName(quest.type, dialogL10n),
-                        previewXp,
-                        previewGold,
-                      ),
+                      dialogL10n.achievementRewardXp(previewXp),
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey.shade600,
@@ -424,10 +395,6 @@ class QuestsScreen extends StatelessWidget {
                   l10n.questsCompleteConfirm(quest.name),
                   l10n.questsBaseRewardLabel,
                   '+${quest.xp} XP',
-                  '+${(quest.xp * 0.5).round()} ${l10n.questsGoldUnit}',
-                  if (quest.type == QuestType.monthly ||
-                      quest.type == QuestType.yearly)
-                    _raidRewardPreview(quest, l10n),
                 ].join('\n'),
               ),
               actions: <Widget>[
@@ -550,7 +517,6 @@ class QuestsScreen extends StatelessWidget {
                 selectedDifficulty,
                 selectedType,
               );
-              final previewGold = (previewXp * 0.5).round();
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -628,11 +594,7 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      dialogL10n.questsRewardPreview(
-                        _questTypeName(selectedType, dialogL10n),
-                        previewXp,
-                        previewGold,
-                      ),
+                      dialogL10n.achievementRewardXp(previewXp),
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey.shade600,

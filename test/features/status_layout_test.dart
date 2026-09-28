@@ -55,7 +55,7 @@ void main() {
             tester.element(find.byType(StatusScreen)),
           )!;
           expect(tester.takeException(), isNull);
-          expect(find.text('123456'), findsOneWidget);
+          expect(find.text('123456'), findsNothing);
 
           final plus = find.byKey(const ValueKey('status-stat-add-strength'));
           await tester.ensureVisible(plus);

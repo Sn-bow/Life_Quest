@@ -5,7 +5,6 @@ import 'package:life_quest_final_v2/state/combat_state.dart';
 import 'package:life_quest_final_v2/models/character.dart';
 import 'package:life_quest_final_v2/models/item.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
-import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
 
 class InventoryScreen extends StatelessWidget {
   const InventoryScreen({super.key});
@@ -350,23 +349,6 @@ class InventoryScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 color: isDark ? Colors.white54 : Colors.black54,
-              ),
-            ),
-            const SizedBox(height: 16),
-            OutlinedButton.icon(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                    builder: (_) => const DungeonHomeScreen()),
-              ),
-              icon: const Icon(Icons.castle, size: 16),
-              label: Text(l10n.inventoryGoDungeon),
-              style: OutlinedButton.styleFrom(
-                foregroundColor:
-                    isDark ? Colors.deepPurple.shade200 : Colors.deepPurple,
-                side: BorderSide(
-                    color: isDark
-                        ? Colors.deepPurple.shade300
-                        : Colors.deepPurple.shade200),
               ),
             ),
           ],

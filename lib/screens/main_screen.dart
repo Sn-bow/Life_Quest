@@ -12,7 +12,6 @@ import 'package:life_quest_final_v2/features/director/quest_director_engine.dart
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/screens/quests_screen.dart';
-import 'package:life_quest_final_v2/screens/dungeon/dungeon_home_screen.dart';
 import 'package:life_quest_final_v2/screens/today_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -179,14 +178,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   List<Widget> _widgetOptions() {
     return <Widget>[
-      TodayScreen(
-        onOpenQuests: () => _onItemTapped(1),
-        onOpenDungeon: () => unawaited(
-          Navigator.of(context).push<void>(
-            MaterialPageRoute(builder: (_) => const DungeonHomeScreen()),
-          ),
-        ),
-      ),
+      TodayScreen(onOpenQuests: () => _onItemTapped(1)),
       const QuestsScreen(),
       const GrowthHubScreen(),
     ];

@@ -20,12 +20,7 @@ import 'timer_screen.dart';
 
 class TodayScreen extends StatefulWidget {
   final VoidCallback onOpenQuests;
-  final VoidCallback onOpenDungeon;
-  const TodayScreen({
-    super.key,
-    required this.onOpenQuests,
-    required this.onOpenDungeon,
-  });
+  const TodayScreen({super.key, required this.onOpenQuests});
 
   @override
   State<TodayScreen> createState() => _TodayScreenState();
@@ -289,12 +284,6 @@ class _TodayScreenState extends State<TodayScreen> {
         const SizedBox(height: 18),
         TextButton(onPressed: widget.onOpenQuests, child: Text(s.lqAllQuests)),
         const SizedBox(height: 8),
-        TextButton.icon(
-          onPressed: widget.onOpenDungeon,
-          icon: const Icon(PhosphorIcons.sword, size: 18),
-          label: Text(s.lqEnterDungeon),
-        ),
-        const SizedBox(height: 20),
         const StoryBanner(),
       ],
     );

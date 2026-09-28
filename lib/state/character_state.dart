@@ -46,8 +46,6 @@ class QuestCompletionResult {
   final int raidClearCount;
   final List<String> unlockedTitles;
   final List<String> unlockedCosmetics;
-  final int cardPointsAwarded;
-  final int newPacksAwarded;
 
   const QuestCompletionResult({
     required this.totalXpAwarded,
@@ -58,8 +56,6 @@ class QuestCompletionResult {
     required this.raidClearCount,
     this.unlockedTitles = const [],
     this.unlockedCosmetics = const [],
-    this.cardPointsAwarded = 0,
-    this.newPacksAwarded = 0,
   });
 }
 
@@ -402,7 +398,7 @@ class CharacterState extends ChangeNotifier {
       skillPoints: 0,
       gold: 0,
       cardPoints: 0,
-      cardPackCount: 1,
+      cardPackCount: 0,
       unlockedCardIds: [
         'base_strike',
         'base_defend',
@@ -566,20 +562,6 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
-  /// Y-2: 카드 획득 SnackBar 메시지 (BuildContext 없이 locale 기반 다국어)
-  String _localizedCardUnlock(String cardName) {
-    switch (_locale?.languageCode) {
-      case 'en':
-        return 'Card Unlocked: $cardName!';
-      case 'ja':
-        return 'カード獲得: $cardName！';
-      case 'zh':
-        return '獲得卡牌：$cardName！';
-      default: // ko
-        return '카드 획득: $cardName!';
-    }
-  }
-
   /// Y-2: 업적 달성 SnackBar 메시지 (BuildContext 없이 locale 기반 다국어)
   String _localizedAchievementUnlock(String name, String reward) {
     switch (_locale?.languageCode) {
@@ -660,9 +642,6 @@ class CharacterState extends ChangeNotifier {
 
   // Y-1: questCategoryDistribution 메모이제이션 캐시
   Map<StatType, double>? _cachedCategoryDistribution;
-  // Y-4: 매번 Random() 신규 생성 대신 단일 인스턴스 재사용
-  final math.Random _random = math.Random();
-
   // 퀘스트 중복 완료 방지: 광고 시청 중 비동기 갭에서의 재진입 차단
   final Set<String> _pendingQuestIds = {};
 
@@ -1482,39 +1461,6 @@ class CharacterState extends ChangeNotifier {
       _character!.totalQuestCompletions = questCompletionCount + 1;
       unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
-      final unlockedCardName = _tryUnlockRandomCard();
-      if (unlockedCardName != null && !_atomicProfileMutation) {
-        scaffoldMessengerKey.currentState?.showSnackBar(
-          SnackBar(
-            content: Text(
-              _localizedCardUnlock(unlockedCardName), // Y-2: locale 기반 다국어
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            backgroundColor: const Color(0xFF00FFFF),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 3),
-            margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
-          ),
-        );
-      }
-      // ── Card Points (CP) reward ───────────────────────────────────────────
-      final cpGained = _calcCardPoints(quest);
-      _character!.cardPoints += cpGained;
-
-      // Convert every 10 CP into 1 normal pack, every 30 into 1 premium pack
-      // (premium packs handled as normal packs for simplicity — UI can
-      //  differentiate later via cardPoints overflow indicator)
-      int newPacks = 0;
-      while (_character!.cardPoints >= 10) {
-        _character!.cardPoints -= 10;
-        _character!.cardPackCount += 1;
-        newPacks++;
-      }
-      // ─────────────────────────────────────────────────────────────────────
-
       final achievementXp = _achievementXpGranted - achievementXpBefore;
       quest.awardedXp = totalXp;
       quest.awardedGold = totalGoldReward;
@@ -1556,45 +1502,9 @@ class CharacterState extends ChangeNotifier {
         raidClearCount: raidClearCount,
         unlockedTitles: unlockedTitleNames.toSet().toList(),
         unlockedCosmetics: unlockedCosmeticNames.toSet().toList(),
-        cardPointsAwarded: cpGained,
-        newPacksAwarded: newPacks,
       );
     }
     return null;
-  }
-
-  /// CP 지급량 계산 (GAME_DESIGN § 2.3 기준)
-  static int _calcCardPoints(Quest quest) {
-    switch (quest.type) {
-      case QuestType.daily:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 1,
-          QuestDifficulty.normal => 2,
-          QuestDifficulty.hard => 3,
-          QuestDifficulty.veryHard => 3,
-        };
-      case QuestType.weekly:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 5,
-          QuestDifficulty.normal => 7,
-          QuestDifficulty.hard => 10,
-          QuestDifficulty.veryHard => 10,
-        };
-      case QuestType.monthly:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 20,
-          QuestDifficulty.normal => 25,
-          QuestDifficulty.hard => 30,
-          QuestDifficulty.veryHard => 30,
-        };
-      case QuestType.yearly:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 50,
-          QuestDifficulty.normal => 75,
-          QuestDifficulty.hard => 100,
-          QuestDifficulty.veryHard => 100,
-        };
-    }
   }
 
   void deleteQuest(Quest quest) {
@@ -1714,10 +1624,8 @@ class CharacterState extends ChangeNotifier {
       bonusGold = (quest.xp * 1.2 * xpMultiplier).round().clamp(20, 999999);
       bonusActionPoints = 4;
       bonusStatPoints = 2;
-      if (raidClearCount == 1) {
-        final unlocked = _unlockCosmeticForReward('combat_effect_lightning');
-        if (unlocked != null) unlockedCosmeticNames.add(unlocked);
-      }
+      // Combat effects stay in existing profiles, but are no longer granted
+      // while the combat game is outside the release scope.
       if (raidClearCount == 2) {
         final unlocked = _unlockCosmeticForReward('theme_royal_gold');
         if (unlocked != null) unlockedCosmeticNames.add(unlocked);
@@ -2271,34 +2179,6 @@ class CharacterState extends ChangeNotifier {
     _character!.starterDeckCardIds.clear();
     unawaited(_saveData());
     notifyListeners();
-  }
-
-  /// Rolls for a random card unlock on quest completion.
-  /// 30% Common, 10% Uncommon, 5% Rare. Returns the card name if a new card
-  /// was unlocked, or null if no card was awarded or all matching cards are
-  /// already owned.
-  String? _tryUnlockRandomCard() {
-    if (_character == null) return null;
-    // Y-4: 클래스 레벨 _random 재사용 (매번 신규 생성 방지)
-    final roll = _random.nextDouble();
-    CardRarity? rarity;
-    if (roll < 0.05) {
-      rarity = CardRarity.rare;
-    } else if (roll < 0.15) {
-      rarity = CardRarity.uncommon;
-    } else if (roll < 0.45) {
-      rarity = CardRarity.common;
-    }
-    if (rarity == null) return null;
-
-    final pool = CardDatabase.getCardsByRarity(
-      rarity,
-    ).where((c) => !_character!.unlockedCardIds.contains(c.id)).toList();
-    if (pool.isEmpty) return null;
-
-    final card = pool[_random.nextInt(pool.length)];
-    _character!.unlockedCardIds.add(card.id);
-    return card.name;
   }
 
   /// Called once for new players (or existing players with no unlocked cards)

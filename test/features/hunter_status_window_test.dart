@@ -54,7 +54,7 @@ void main() {
                   child: child!,
                 ),
                 home: Scaffold(
-                  body: TodayScreen(onOpenQuests: () {}, onOpenDungeon: () {}),
+                  body: TodayScreen(onOpenQuests: () {}),
                   bottomNavigationBar: NavigationBar(
                     destinations: const [
                       NavigationDestination(
@@ -155,7 +155,7 @@ void main() {
               home: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 680),
-                  child: TodayScreen(onOpenQuests: () {}, onOpenDungeon: () {}),
+                  child: TodayScreen(onOpenQuests: () {}),
                 ),
               ),
             ),

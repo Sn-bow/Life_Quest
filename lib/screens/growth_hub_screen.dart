@@ -8,13 +8,8 @@ import 'package:provider/provider.dart';
 import '../features/director/director_settings_screen.dart';
 import '../l10n/app_localizations.dart';
 import '../state/character_state.dart';
-import 'dungeon/dungeon_home_screen.dart';
-import 'achievement_screen.dart';
-import 'inventory_screen.dart';
 import 'report_screen.dart';
 import 'settings_screen.dart';
-import 'shop_screen.dart';
-import 'skill_screen.dart';
 import 'status_screen.dart';
 
 class GrowthHubScreen extends StatelessWidget {
@@ -45,31 +40,6 @@ class GrowthHubScreen extends StatelessWidget {
         icon: PhosphorIcons.trendUp,
         label: s.statusReportTooltip,
         page: const ReportScreen(),
-      ),
-      (
-        icon: PhosphorIcons.trophy,
-        label: s.tabAchievement,
-        page: const AchievementScreen(),
-      ),
-      (
-        icon: PhosphorIcons.backpack,
-        label: s.tabInventory,
-        page: const InventoryScreen(),
-      ),
-      (
-        icon: PhosphorIcons.sparkle,
-        label: s.tabSkill,
-        page: const SkillScreen(),
-      ),
-      (
-        icon: PhosphorIcons.storefront,
-        label: s.tabShop,
-        page: const ShopScreen(),
-      ),
-      (
-        icon: PhosphorIcons.sword,
-        label: s.lqEnterDungeon,
-        page: const DungeonHomeScreen(),
       ),
     ];
     return Scaffold(
