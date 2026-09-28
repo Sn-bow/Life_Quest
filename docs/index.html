@@ -29,12 +29,12 @@
     .brand img { width: 38px; height: 38px; border-radius: 9px; }
     .masthead > a:last-child { font-size: .87rem; }
     .hero { max-width: 1120px; margin: auto; padding: 42px 24px 54px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(245px, 390px); gap: clamp(24px, 5vw, 70px); align-items: start; }
-    .hero > div { padding-top: 56px; }
+    .hero > div { min-width: 0; padding-top: 56px; }
     .eyebrow { color: #88d7f2; font-size: .78rem; font-weight: 750; letter-spacing: .09em; }
     .hero h1 { font-size: clamp(2.1rem, 4vw, 3.5rem); line-height: 1.27; letter-spacing: -.04em; margin: 20px 0; word-break: keep-all; }
     .hero .lead { color: #c1d8e5; font-size: 1.08rem; line-height: 1.9; max-width: 580px; }
     .subtle, .fine, figcaption { color: #a4bdca; font-size: .84rem; }
-    .hero figure { margin: 0; text-align: center; }
+    .hero figure { min-width: 0; margin: 0; text-align: center; }
     .hero figure img { display: block; width: auto; max-width: 100%; max-height: 680px; height: auto; margin: auto; border: 1px solid #385a70; border-radius: 15px; }
     .hero figcaption { line-height: 1.5; margin-top: 10px; }
     .button { display: inline-block; background: #7cd9f5; color: #092432; padding: 12px 17px; border-radius: 7px; font-weight: 750; text-decoration: none; text-align: center; }
@@ -71,7 +71,7 @@
     footer { color: #9fb6c4; border-top: 1px solid #29475a; padding: 26px 18px; text-align: center; font-size: .83rem; }
     @media (max-width: 720px) {
       .masthead { padding: 16px 18px; }
-      .hero { grid-template-columns: 1fr; padding: 26px 20px 36px; }
+      .hero { grid-template-columns: minmax(0, 1fr); padding: 26px 20px 36px; }
       .hero > div { padding-top: 0; }
       .hero h1 { font-size: 2.3rem; }
       .hero figure img { max-height: 510px; width: auto; max-width: 100%; }
@@ -98,8 +98,8 @@
         <p class="subtle">새 상태창 버전은 아직 배포 전입니다. Google Play 비공개 테스트와 유료 판매도 시작되지 않았습니다.</p>
       </div>
       <figure>
-        <img src="site/status-window-development-preview.jpg" width="390" height="844" alt="개발 중인 실제 Life Quest 앱의 상태창 예시. 레벨 1, 70/150 XP와 네 가지 능력치가 표시된 내부 QA 화면" fetchpriority="high">
-        <figcaption>개발 중인 앱의 실제 QA 화면 · 70 XP는 예시 기록이며, 아래 공개 APK에는 이 화면이 없습니다.</figcaption>
+        <img src="site/status-window-development-preview.jpg" width="1080" height="1920" alt="Life Quest 2.0.0+2013 Android 앱의 실제 일본어 상태창. 이름, 레벨, XP, 네 가지 능력치와 퀘스트·기록 메뉴가 보이는 화면" fetchpriority="high">
+        <figcaption>배포 전 2.0.0+2013 Android 앱의 실제 일본어 화면 · 아래 공개 무료 APK에는 이 새 상태창이 없습니다.</figcaption>
       </figure>
     </div>
   </header>
