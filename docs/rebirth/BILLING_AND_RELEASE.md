@@ -1,5 +1,7 @@
 # 구매 권한과 출시 스위치
 
+> **2026-09-28 최신 기준:** 아래 9/17의 삭제된 프로젝트·기본 결제 off·스토리 상품 메모는 이력이다. 현재 Firebase 프로젝트는 `lifequest-crossing-2026`이며 2.0.0+2013 유료 후보는 Cloud/Billing on, Ads off로 서명·로컬 검사됐다. 실제 Play 상품, 판매자 계정, Blaze/Functions/App Check, 라이선스 구매·복원·환불은 아직 운영 검증 전이다. 현재 상품과 절차는 [유료 출시 후보](market/PAID_RELEASE_CANDIDATE_20260928.md) 및 [계정 감사](market/PREDEPLOY_ACCOUNT_AUDIT_20260928.md)를 우선한다.
+
 2026-09-17. 구현 기반 검증 기록이며 실제 상품 판매/배포 완료 기록이 아니다.
 
 ## 현재 동작
