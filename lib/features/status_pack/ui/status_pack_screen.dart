@@ -298,7 +298,8 @@ class _StatusPackBodyState extends State<StatusPackBody> {
                       const SizedBox(height: 6),
                       Text(copy.t('noBoost'), style: _smallStyle),
                       const SizedBox(height: 16),
-                      if (widget.showAccountLink) const PurchaseAccountTile(),
+                      if (widget.showAccountLink)
+                        const PurchaseAccountTile(returnAfterConnection: true),
                       if (!widget.monetizationEnabled)
                         Text(copy.t('storeDisabled'), style: _smallStyle)
                       else if (widget.product == null) ...[
@@ -663,7 +664,6 @@ class _GrowthReport extends StatelessWidget {
                         copy.t('longestStreak'),
                         '${insight.longestStreak}',
                       ),
-                      _Metric(copy.t('gold'), '${insight.totalGold}'),
                     ],
                   ),
                   const SizedBox(height: 18),
@@ -790,7 +790,6 @@ class _Metric extends StatelessWidget {
 String _formatXp(double value) =>
     value.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0+$'), '');
 
-@visibleForTesting
 class StatusPackCopy {
   const StatusPackCopy(this.localeCode);
   final String localeCode;
@@ -820,6 +819,8 @@ class StatusPackCopy {
       'lookSaveFailed': '외관을 저장하지 못했습니다.',
       'growth': '성장 기록',
       'growthHint': '저장된 퀘스트 완료 기록만 집계합니다.',
+      'reportEntryTitle': '30/90일 성장 기록도 남겨 보세요',
+      'reportEntryAction': '상태창 확장팩 보기',
       'recordedByCategory': '분류별 완료 기록',
       'categoryScope': '각 분류로 완료한 퀘스트와 받은 XP입니다. 실제 능력 향상을 측정한 값은 아닙니다.',
       'strength': '힘',
@@ -829,14 +830,14 @@ class StatusPackCopy {
       'thirtyDays': '최근 30일',
       'ninetyDays': '최근 90일',
       'lockedReport': '나의 성장 리포트',
-      'lockedExplain': '구매 후 실제 완료 기록을 기준으로 XP, 활동일, 연속 활동과 레벨 상승을 볼 수 있습니다.',
+      'lockedExplain':
+          '저장된 퀘스트 완료 기록으로 만든 30/90일 보고서를 보고 PNG·텍스트·CSV로 저장할 수 있습니다.',
       'noRecordYet': '아직 기록된 완료가 없습니다. 첫 퀘스트를 완료하면 기록이 시작됩니다.',
       'reportTag': 'RECORDED GROWTH',
       'recordedQuests': '기록된 퀘스트',
       'activeDays': '활동일',
       'levelGain': '레벨 상승',
       'longestStreak': '최장 연속 활동',
-      'gold': '골드',
       'recentDays': '최근 14일 · 밝음: 완료 / 어두움: 완료 없음 / 회색: 기록 이전',
       'partialWarning': '기록 시작 전 활동은 복원되지 않아 이 기간의 일부만 표시됩니다.',
       'privacyNote': '내보내기에 퀘스트 제목은 포함되지 않습니다.',
@@ -885,6 +886,8 @@ class StatusPackCopy {
       'lookSaveFailed': 'Could not save the look.',
       'growth': 'Growth record',
       'growthHint': 'Only saved quest completion records are counted.',
+      'reportEntryTitle': 'Keep a 30/90-day growth record',
+      'reportEntryAction': 'Explore Status Window Plus',
       'recordedByCategory': 'Recorded by category',
       'categoryScope':
           'Completed quests and XP earned in each category, not a measure of real-world ability.',
@@ -896,7 +899,7 @@ class StatusPackCopy {
       'ninetyDays': 'Last 90 days',
       'lockedReport': 'Your growth report',
       'lockedExplain':
-          'After purchase, see XP, active days, streaks and level gains from your real completion records.',
+          'View 30/90-day reports built from saved quest completions and export them as PNG, text or CSV.',
       'noRecordYet':
           'No completions recorded yet. Your first completed quest starts the record.',
       'reportTag': 'RECORDED GROWTH',
@@ -904,7 +907,6 @@ class StatusPackCopy {
       'activeDays': 'Active days',
       'levelGain': 'Level gain',
       'longestStreak': 'Longest streak',
-      'gold': 'Gold',
       'recentDays':
           'Last 14 days · bright: activity / dark: none / gray: unknown',
       'partialWarning':
@@ -957,6 +959,8 @@ class StatusPackCopy {
       'lookSaveFailed': '外観を保存できませんでした。',
       'growth': '成長の記録',
       'growthHint': '保存されたクエスト達成記録のみ集計します。',
+      'reportEntryTitle': '30日・90日の成長記録を残す',
+      'reportEntryAction': '拡張パックを見る',
       'recordedByCategory': '分類ごとの達成記録',
       'categoryScope': '各分類で達成したクエストと獲得 XP です。実際の能力向上を測るものではありません。',
       'strength': '筋力',
@@ -966,14 +970,13 @@ class StatusPackCopy {
       'thirtyDays': '過去30日',
       'ninetyDays': '過去90日',
       'lockedReport': '自分の成長レポート',
-      'lockedExplain': '購入後、実際の達成記録から XP、活動日、連続活動、レベル上昇を確認できます。',
+      'lockedExplain': '保存されたクエスト達成記録から過去30日・90日のレポートを作り、画像・テキスト・CSVで保存できます。',
       'noRecordYet': '達成記録はまだありません。最初のクエスト達成から記録が始まります。',
       'reportTag': 'RECORDED GROWTH',
       'recordedQuests': '記録されたクエスト',
       'activeDays': '活動日',
       'levelGain': 'レベル上昇',
       'longestStreak': '最長連続活動',
-      'gold': 'ゴールド',
       'recentDays': '直近14日 · 明: 達成 / 暗: 達成なし / 灰: 記録前',
       'partialWarning': '記録開始前の活動は復元できないため、この期間の一部のみ表示します。',
       'privacyNote': '書き出しにクエスト名は含まれません。',
@@ -1020,6 +1023,8 @@ class StatusPackCopy {
       'lookSaveFailed': '無法儲存外觀。',
       'growth': '成長紀錄',
       'growthHint': '僅統計已儲存的任務完成紀錄。',
+      'reportEntryTitle': '保存 30/90 天的成長紀錄',
+      'reportEntryAction': '查看狀態視窗擴充包',
       'recordedByCategory': '各類別完成紀錄',
       'categoryScope': '各類別完成的任務與取得的 XP，並非實際能力提升的測量結果。',
       'strength': '力量',
@@ -1029,14 +1034,13 @@ class StatusPackCopy {
       'thirtyDays': '近30天',
       'ninetyDays': '近90天',
       'lockedReport': '我的成長報告',
-      'lockedExplain': '購買後可依實際完成紀錄查看 XP、活躍天數、連續活動與升級次數。',
+      'lockedExplain': '可用已儲存的任務完成紀錄檢視 30/90 天報告，並匯出為圖片、文字或 CSV。',
       'noRecordYet': '尚無完成紀錄。完成第一個任務後就會開始記錄。',
       'reportTag': 'RECORDED GROWTH',
       'recordedQuests': '已記錄任務',
       'activeDays': '活躍天數',
       'levelGain': '升級次數',
       'longestStreak': '最長連續活動',
-      'gold': '金幣',
       'recentDays': '近14天 · 亮色：完成 / 暗色：未完成 / 灰色：尚無記錄',
       'partialWarning': '無法補回開始記錄前的活動，因此只顯示此期間的部分資料。',
       'privacyNote': '匯出內容不包含任務名稱。',

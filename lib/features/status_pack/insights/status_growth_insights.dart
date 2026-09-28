@@ -177,16 +177,16 @@ class StatusGrowthInsights {
     );
   }
 
-  /// Portable daily totals with no quest titles or other personal text.
+  /// Portable daily quest totals with no titles or other personal text.
+  /// Legacy gold remains in saved receipts but is not part of this product.
   /// An unknown day has empty totals, not misleading zeros.
   String toCsv() {
     final rows = <String>[
-      'date,recorded,recorded_quests,recorded_xp,recorded_gold',
+      'date,recorded,recorded_quests,recorded_xp',
       for (final row in byDay.values)
         '${row.day},${row.observed ? 1 : 0},'
             '${row.observed ? row.questCount : ''},'
-            '${row.observed ? _number(row.xp) : ''},'
-            '${row.observed ? row.gold : ''}',
+            '${row.observed ? _number(row.xp) : ''}',
     ];
     return '${rows.join('\r\n')}\r\n';
   }

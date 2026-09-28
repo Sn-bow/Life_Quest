@@ -189,7 +189,8 @@ void main() {
     expect(csvName, contains('30d'));
     expect(csvName, endsWith('.csv'));
     final csvText = String.fromCharCodes(saved[csvName]!);
-    expect(csvText, contains('2026-09-28,1,1,20,5'));
+    expect(csvText, contains('2026-09-28,1,1,20'));
+    expect(csvText, isNot(contains('recorded_gold')));
     expect(csvText, isNot(contains('Private quest title')));
 
     final ninety = find.byKey(const ValueKey('growth-days-90'));
@@ -206,6 +207,7 @@ void main() {
     final text = String.fromCharCodes(saved[txtName]!);
     expect(text, contains('records start'));
     expect(text, contains('Strength 1 / 20 XP'));
+    expect(text, isNot(contains('Gold')));
     expect(text, isNot(contains('Private quest title')));
     expect(tester.takeException(), isNull);
   });

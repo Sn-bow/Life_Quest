@@ -4,6 +4,7 @@ import 'package:life_quest_final_v2/data/title_localization.dart';
 import 'package:life_quest_final_v2/data/title_unlock_rules.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/report_screen.dart';
+import 'package:life_quest_final_v2/features/status_pack/ui/status_pack_screen.dart';
 import 'package:life_quest_final_v2/screens/status_screen.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -113,6 +114,13 @@ void main() {
     expect(find.text(l10n.titleNameT0), findsOneWidget);
     expect(find.text('새싹 모험가'), findsNothing);
     expect(state.character.title, '새싹 모험가');
+
+    final plus = find.byKey(const ValueKey('report-plus-open'));
+    await tester.ensureVisible(plus);
+    await tester.tap(plus);
+    await tester.pumpAndSettle();
+    expect(find.byType(StatusPackScreen), findsOneWidget);
+    expect(find.textContaining('30/90日の成長分析'), findsWidgets);
 
     await tester.pumpWidget(const SizedBox());
     state.dispose();

@@ -99,8 +99,9 @@ void main() {
     expect(result.byDay['2026-09-28']!.observed, isTrue);
     expect(result.byDay['2026-09-28']!.questCount, 0);
     expect(result.activeDays, 1);
-    expect(result.toCsv(), contains('2026-08-30,0,,,\r\n'));
-    expect(result.toCsv(), contains('2026-09-28,1,0,0,0\r\n'));
+    expect(result.toCsv(), contains('2026-08-30,0,,\r\n'));
+    expect(result.toCsv(), contains('2026-09-28,1,0,0\r\n'));
+    expect(result.toCsv(), isNot(contains('recorded_gold')));
   });
 
   test(

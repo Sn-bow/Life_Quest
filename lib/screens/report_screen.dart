@@ -7,6 +7,7 @@ import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:life_quest_final_v2/features/status_pack/ui/status_pack_screen.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -120,6 +121,7 @@ class _ReportScreenState extends State<ReportScreen> {
     final dominantCategory = characterState.dominantGrowthCategory;
     final character = characterState.character;
     final theme = Theme.of(context);
+    final plusCopy = StatusPackCopy.forLocale(Localizations.localeOf(context));
     final isDarkMode = theme.brightness == Brightness.dark;
     final isExpandedUnlocked = kLifeQuestQaPreview ||
         !kLifeQuestAdsEnabled ||
@@ -317,6 +319,41 @@ class _ReportScreenState extends State<ReportScreen> {
                         gridData: const FlGridData(show: false),
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            TranslucentCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    plusCopy.t('reportEntryTitle'),
+                    style: theme.textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    plusCopy.t('purchaseContents'),
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  if (characterState.systemJournal.receipts.isEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      plusCopy.t('noRecordYet'),
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ],
+                  const SizedBox(height: 14),
+                  OutlinedButton.icon(
+                    key: const ValueKey('report-plus-open'),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const StatusPackScreen(),
+                      ),
+                    ),
+                    icon: const Icon(Icons.open_in_new),
+                    label: Text(plusCopy.t('reportEntryAction')),
                   ),
                 ],
               ),

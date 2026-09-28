@@ -6,7 +6,9 @@ import 'purchase_account_state.dart';
 import 'purchase_status_banner.dart';
 
 class PurchaseAccountTile extends StatelessWidget {
-  const PurchaseAccountTile({super.key});
+  const PurchaseAccountTile({super.key, this.returnAfterConnection = false});
+
+  final bool returnAfterConnection;
   @override
   Widget build(BuildContext context) {
     final account = context.watch<PurchaseAccountState?>();
@@ -20,14 +22,16 @@ class PurchaseAccountTile extends StatelessWidget {
         subtitle: Text(
           account.uid == null
               ? localProfile
-                  ? l.lqPurchaseAccountOptional
-                  : l.lqPurchaseCloudLinkIntro
+                    ? l.lqPurchaseAccountOptional
+                    : l.lqPurchaseCloudLinkIntro
               : l.lqPurchaseAccountConnected,
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute<void>(
-            builder: (_) => const PurchaseAccountScreen(),
+            builder: (_) => PurchaseAccountScreen(
+              returnAfterConnection: returnAfterConnection,
+            ),
           ),
         ),
       ),
@@ -36,7 +40,19 @@ class PurchaseAccountTile extends StatelessWidget {
 }
 
 class PurchaseAccountScreen extends StatelessWidget {
-  const PurchaseAccountScreen({super.key});
+  const PurchaseAccountScreen({super.key, this.returnAfterConnection = false});
+
+  final bool returnAfterConnection;
+
+  Future<void> _connect(
+    BuildContext context,
+    PurchaseAccountState account,
+  ) async {
+    await account.connect();
+    if (returnAfterConnection && context.mounted && account.uid != null) {
+      Navigator.of(context).pop();
+    }
+  }
 
   Future<void> _delete(
     BuildContext context,
@@ -86,13 +102,17 @@ class PurchaseAccountScreen extends StatelessWidget {
                 const Icon(Icons.lock_outline, size: 40),
                 const SizedBox(height: 20),
                 Text(
-                  localProfile ? l.lqPurchaseAccountOptional : l.lqPurchaseAccount,
+                  localProfile
+                      ? l.lqPurchaseAccountOptional
+                      : l.lqPurchaseAccount,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 12),
-                Text(localProfile
-                    ? l.lqPurchaseAccountPrivacy
-                    : l.lqPurchaseCloudLinkIntro),
+                Text(
+                  localProfile
+                      ? l.lqPurchaseAccountPrivacy
+                      : l.lqPurchaseCloudLinkIntro,
+                ),
                 const SizedBox(height: 12),
                 if (localProfile) Text(l.lqPurchaseAccountRestoreHint),
                 TextButton(
@@ -137,8 +157,9 @@ class PurchaseAccountScreen extends StatelessWidget {
                   ),
                 if (!deleted && account.uid == null)
                   FilledButton(
+                    key: const ValueKey('connect-purchase-account'),
                     onPressed: account.enabled && !account.busy
-                        ? account.connect
+                        ? () => _connect(context, account)
                         : null,
                     child: Text(l.lqPurchaseAccountConnect),
                   ),
@@ -159,7 +180,9 @@ class PurchaseAccountScreen extends StatelessWidget {
                     onPressed: account.busy ? null : account.disconnect,
                     child: Text(l.lqPurchaseAccountDisconnect),
                   ),
-                if (localProfile && account.signedInIdentity != null && !deleted)
+                if (localProfile &&
+                    account.signedInIdentity != null &&
+                    !deleted)
                   TextButton(
                     onPressed: account.busy
                         ? null

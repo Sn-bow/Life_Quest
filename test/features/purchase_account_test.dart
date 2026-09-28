@@ -343,6 +343,56 @@ void main() {
     account.dispose();
   });
 
+  testWidgets(
+    'Plus account connection returns to its purchase screen only when ready',
+    (tester) async {
+      final account = make();
+      await tester.pumpWidget(
+        ChangeNotifierProvider.value(
+          value: account,
+          child: const MaterialApp(
+            locale: Locale('en'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Scaffold(
+              body: Column(
+                children: [
+                  Text('Plus purchase screen'),
+                  PurchaseAccountTile(returnAfterConnection: true),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(PurchaseAccountTile));
+      await tester.pumpAndSettle();
+      expect(find.byType(PurchaseAccountScreen), findsOneWidget);
+
+      gateway.ensure = () async => false;
+      await tester.tap(find.byKey(const ValueKey('connect-purchase-account')));
+      await tester.pumpAndSettle();
+      expect(find.byType(PurchaseAccountScreen), findsOneWidget);
+      expect(account.uid, isNull);
+      expect(account.status, PurchaseAccountStatus.failed);
+
+      gateway.ensure = () async => true;
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('connect-purchase-account')),
+        180,
+      );
+      await tester.tap(find.byKey(const ValueKey('connect-purchase-account')));
+      await tester.pumpAndSettle();
+      expect(account.uid, 'alice');
+      expect(find.byType(PurchaseAccountScreen), findsNothing);
+      expect(find.text('Plus purchase screen'), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox());
+      account.dispose();
+    },
+  );
+
   for (final code in ['ko', 'en', 'ja', 'zh']) {
     testWidgets(
       'purchase identity and deletion are readable at 320px / 200%: $code',
