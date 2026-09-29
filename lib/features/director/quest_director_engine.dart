@@ -226,11 +226,123 @@ class DirectedQuest {
   }
 }
 
+class _GoalRule {
+  final GrowthFocus focus;
+  final String templateId;
+  final RegExp pattern;
+
+  _GoalRule(this.focus, this.templateId, String expression)
+    : pattern = RegExp(expression, caseSensitive: false);
+}
+
 /// A bounded, deterministic recommendation policy. All inputs remain on device.
 /// It adapts the task dose, mixes interests, and rotates recent tasks. It is not
 /// model fine-tuning and does not infer medical conditions from user behaviour.
 class QuestDirectorEngine {
   const QuestDirectorEngine();
+
+  // A deliberately small vocabulary, not a claim to understand arbitrary
+  // prose. Unrecognised, mixed, negated and risky goals use the user's chosen
+  // focuses instead. The private goal text is never copied into a quest title.
+  static final _unsafeGoal = RegExp(
+    r'자해|자살|굶|단식|체중|살\s*빼|치료|진단|약물|밤새|'
+    r'\b(?:suicid\w*|self.harm|starv\w*|fasting|weight.loss|lose.weight|'
+    r'diagnos\w*|medicat\w*|all.night)\b|'
+    r'自傷|自殺|断食|痩せ|治療|診断|徹夜|'
+    r'自殘|自殺|絕食|減肥|治療|診斷',
+    caseSensitive: false,
+  );
+  static final _negatedGoal = RegExp(
+    r'싫|하지\s*않|안\s+하|싶지\s*않|그만두|피하고|'
+    r'\b(?:don.t|do not|not|never|quit|avoid|hate|cannot|can.t)\b|'
+    r'嫌|やめ|しない|したくない|避け|不想|不要|不能|討厭|避免',
+    caseSensitive: false,
+  );
+  static final _goalRules = <_GoalRule>[
+    _GoalRule(
+      GrowthFocus.learning,
+      'language',
+      r'영어|일본어|중국어|외국어|어학|단어|'
+          r'\b(?:english|japanese|chinese|foreign language|vocabulary)\b|'
+          r'英語|日本語|中国語|外国語|語学|単語|英文|日文|外語|語言|單字|詞彙',
+    ),
+    _GoalRule(
+      GrowthFocus.learning,
+      'read',
+      r'독서|책.{0,3}읽|읽.{0,3}책|'
+          r'\b(?:read|reading)\b|読書|本を読|閱讀|看書',
+    ),
+    _GoalRule(
+      GrowthFocus.learning,
+      'focus',
+      r'공부|학습|시험|자격증|과제|집중|'
+          r'\b(?:study|studying|learn|learning|exam|homework|focus)\b|'
+          r'勉強|学習|試験|宿題|集中|學習|考試|功課|專注',
+    ),
+    _GoalRule(
+      GrowthFocus.vitality,
+      'walk',
+      r'걷기|걸어|산책|\b(?:walk|walking)\b|散歩|歩く|散步|走路',
+    ),
+    _GoalRule(
+      GrowthFocus.vitality,
+      'stretch',
+      r'스트레칭|몸\s*풀|운동|'
+          r'\b(?:stretch|stretching|exercise|workout|yoga)\b|'
+          r'ストレッチ|運動|体を動か|伸展|運動|瑜伽',
+    ),
+    _GoalRule(
+      GrowthFocus.order,
+      'desk',
+      r'책상.{0,8}(정리|치우)|\bdesk\b.{0,20}\b(?:tidy|clean|organize)\b|'
+          r'\b(?:tidy|clean|organize)\b.{0,20}\bdesk\b|'
+          r'机.{0,8}(片づけ|片付け|整理)|デスク.{0,8}(片づけ|片付け|整理)|'
+          r'(?:書桌|桌面).{0,8}整理|整理.{0,8}(?:書桌|桌面)',
+    ),
+    _GoalRule(
+      GrowthFocus.order,
+      'tomorrow',
+      r'내일.{0,8}(계획|할\s*일)|'
+          r'\b(?:plan|prepare)\b.{0,20}\btomorrow\b|'
+          r'明日.{0,8}(予定|計画)|明天.{0,8}(計畫|安排)',
+    ),
+    _GoalRule(
+      GrowthFocus.connection,
+      'gratitude',
+      r'감사|고마|\b(?:gratitude|thankful)\b|感謝|ありがた',
+    ),
+    _GoalRule(
+      GrowthFocus.connection,
+      'listen',
+      r'음악|노래\s*듣|\b(?:music|listen to songs?)\b|音楽|音樂',
+    ),
+    _GoalRule(
+      GrowthFocus.connection,
+      'check_in',
+      r'기분.{0,5}(기록|정리)|감정.{0,5}(기록|정리)|'
+          r'\b(?:mood|feelings?)\b.{0,20}\b(?:journal|reflect|write)\b|'
+          r'気持ち.{0,8}(書|記録|整理)|心情.{0,8}(記錄|整理)',
+    ),
+  ];
+
+  static _GoalRule? _clearGoal(String goal) {
+    final text = String.fromCharCodes(goal.trim().runes.take(120));
+    if (text.isEmpty ||
+        _unsafeGoal.hasMatch(text) ||
+        _negatedGoal.hasMatch(text)) {
+      return null;
+    }
+    final matches = _goalRules
+        .where((rule) => rule.pattern.hasMatch(text))
+        .toList();
+    if (matches.isEmpty ||
+        matches.any((rule) => rule.focus != matches.first.focus)) {
+      return null;
+    }
+    // Rules are ordered from specific to broad. "Study English" is a
+    // language goal, while "read and walk" is not guessed at all.
+    return matches.first;
+  }
 
   List<DirectedQuest> plan({
     required HunterProfile profile,
@@ -258,6 +370,7 @@ class QuestDirectorEngine {
     );
     if (budget < slots) return [];
     final target = (budget ~/ slots).clamp(1, recovery ? 3 : 15);
+    final goal = _clearGoal(profile.goal);
     final seed = day.codeUnits.fold(17, (a, b) => (a * 31 + b) & 0x7fffffff);
     final candidates = catalog
         .where(
@@ -279,10 +392,17 @@ class QuestDirectorEngine {
       final repeated = signals
           .where((e) => now.difference(e.at).inDays < 3)
           .length;
+      final declinedRecently = signals.any(
+        (e) =>
+            now.difference(e.at).inDays < 3 &&
+            e.feedback != QuestFeedback.completed,
+      );
       final variation = math.Random(
         seed + catalog.indexOf(t) * 7919,
       ).nextDouble();
       return (profile.focuses.contains(t.focus) ? 5 : 0) +
+          (goal?.focus == t.focus ? 7 : 0) +
+          (goal?.templateId == t.id && !declinedRecently ? 8 : 0) +
           (successes + 1) / (successes + friction + 2) -
           repeated * 2.5 -
           friction * 0.4 +
@@ -295,7 +415,9 @@ class QuestDirectorEngine {
     var remaining = budget;
     while (candidates.isNotEmpty && result.length < slots) {
       final preferred = candidates
-          .where((t) => profile.focuses.contains(t.focus))
+          .where(
+            (t) => profile.focuses.contains(t.focus) || goal?.focus == t.focus,
+          )
           .toList();
       final pool = preferred.isNotEmpty ? preferred : candidates;
       final diverse = pool
