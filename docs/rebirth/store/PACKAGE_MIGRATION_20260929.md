@@ -8,7 +8,7 @@
 
 기존 Firebase 프로젝트에 `com.logian.lifequest` Android 앱을 추가하고 종전의 공개 SHA 인증서 지문을 복사했다. 9/29 Firebase Console에서 사용자가 Google API·Play Integrity API 약관 동의를 승인한 뒤 이 앱의 **App Check / Play Integrity 등록됨**을 확인했다. API에 App Check **적용(enforcement)** 을 켜거나 실제 Play 설치본의 토큰 발급을 확인한 것은 아니다. 현재 요금제는 Spark다.
 
-Cloud Billing 계정에는 이미 **월 ₩10,000 예산 알림**이 있으며 계정 전체 알림일 뿐 지출 제한이 아니다. `Budgets & caps`의 새 예산 양식에서 *Spend cap enforcement*와 *Cloud Run Functions*가 선택 가능함을 확인했다. 하지만 Life Quest Firebase 프로젝트는 아직 이 결제 계정에 연결되지 않아 프로젝트를 선택할 수 없었고, 어떤 지출 상한도 저장하지 않았다. [Google 문서](https://docs.cloud.google.com/billing/docs/how-to/budgets-spend-caps)에 따르면 이 미리보기 상한은 단일 프로젝트·서비스에 적용되고 집행 지연의 초과 비용과 다른 서비스 비용은 남는다. Blaze 전환도 하지 않았다.
+Cloud Billing 계정에는 이미 **월 ₩10,000 예산 알림**이 있으며 계정 전체 알림일 뿐 지출 제한이 아니다. 사용자가 비용 위험을 설명받고 기존 `My Billing Account`를 이용한 Blaze 전환과 Cloud Run Functions **월 ₩5,000 지출 상한**을 승인했다. Firebase Console은 `요금제 변경이 완료되었습니다`와 `Blaze`, 이어서 Functions 상한 `5,000` 및 `지출 한도가 생성되었습니다`를 표시했다. 이는 **Cloud Run Functions 서비스만의 상한**이며, 집행 지연 초과분이나 Firestore·Artifact Registry 등 다른 서비스 비용을 막지 않는다. [Google 문서](https://docs.cloud.google.com/billing/docs/how-to/budgets-spend-caps)의 미리보기 기능이다. 이 시점에 구매 검증 함수를 배포하거나 운영 구매를 확인하지 않았다.
 
 ## 이전과 출시 게이트
 
