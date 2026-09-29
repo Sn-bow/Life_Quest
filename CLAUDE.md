@@ -1,12 +1,14 @@
 # Life Quest - 프로젝트 메모리
 
+> **현재 기준 · 2026-09-29:** Android `applicationId`는 `com.logian.lifequest`다. 아래 2026-04 기록의 `com.lifequest.app` 빌드·Firebase 작업은 과거 패키지의 이력이며 현행 출시 지침이 아니다. 서로 다른 패키지이므로 기존 앱·로컬 저장 데이터는 새 앱으로 제자리 업데이트/자동 이전되지 않는다. 계정 데이터 연속성은 검증 전 미확인이다. 사용량 하한은 **잔여 5%**. 출시 후보와 계정 상태는 [패키지 이전 기록](docs/rebirth/store/PACKAGE_MIGRATION_20260929.md) 및 [재개 체크포인트](docs/rebirth/CONTINUE.md)를 확인한다.
+
 ## 프로젝트 개요
 - **앱 이름**: Life Quest - 일상을 RPG처럼 관리하는 라이프 게이미피케이션 앱
 - **프레임워크**: Flutter (Dart) + Flame 엔진 (Soul Deck 전투)
 - **백엔드**: Firebase (Auth, Firestore, Storage, App Check, Crashlytics)
 - **상태 관리**: Provider
 - **GitHub**: https://github.com/Sn-bow/Life_Quest.git (branch: main)
-- **applicationId**: `com.lifequest.app` (2026-04-01 변경, 이전: com.example.life_quest_final_v2)
+- **applicationId**: `com.logian.lifequest` (2026-09-29 변경; `com.lifequest.app`은 이전 패키지)
 - **플랫폼**: Android 전용 (Google Play Store, iOS 미지원)
 
 ---
@@ -137,7 +139,7 @@ cb38fa6  QA 3차 잔여 수정: 서버 시간 검증 + 인벤토리 무결성 + 
 
 ---
 
-## 남은 수동 작업 (코드 외)
+## 2026-04 당시 남은 수동 작업 (코드 외·이력)
 
 ### 🔴 배포 전 필수 (수동)
 1. **Firebase 콘솔** → Android 패키지명 `com.lifequest.app` 등록 + `google-services.json` 재다운로드

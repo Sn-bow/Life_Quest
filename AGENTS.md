@@ -1,8 +1,10 @@
 # Life Quest - 프로젝트 메모리
 
-> **현재 기준 · 2026-09-28:** 사용자는 수익화 우선으로 **배포 직전까지** 준비하고, 다음 명시적 **“배포해”** 요청 전에는 AAB 업로드·테스트 트랙 게시를 하지 않도록 했다. 사용량 하한은 **잔여 20%**다. [재개 체크포인트](docs/rebirth/CONTINUE.md), [유료 후보](docs/rebirth/market/PAID_RELEASE_CANDIDATE_20260928.md), [게임 범위 결정](docs/rebirth/market/GAME_SCOPE_DECISION_20260928.md)을 우선한다. Obsidian 요청이 없으면 개인 Vault를 읽지 않는다.
+> **현재 Android 패키지 · 2026-09-29:** `com.logian.lifequest` (변경 소스 `d7fe395`). `com.lifequest.app`은 충돌이 확인된 과거 Play 초안·공개 APK의 ID다. 이전 ID의 AAB/QA 해시는 새 패키지 출시 후보의 증거가 아니다. 패키지 변경으로 기존 앱을 제자리 업데이트할 수 없고 **기기 로컬 데이터는 새 앱으로 자동 이전되지 않는다**. 계정 데이터 연속성은 실제 로그인·동기화 검증 전 미확인이다. [패키지 이전 기록](docs/rebirth/store/PACKAGE_MIGRATION_20260929.md)을 따른다.
 
-> **현재 앱과 검증:** Android `com.lifequest.app` **2.0.0+2013**의 현재 빌드 소스는 `d7ebb72`다. 출시 UI는 상태창·현실 퀘스트·성장 기록·선택형 `status_window_plus_01` 일회 구매에 집중한다. 기존 탐험·전투·상점·몬스터 업적 진입과 신규 게임 보상은 숨겼고 **이전 저장 데이터는 보존**한다. 새 게임 콘텐츠는 보류한다. signed AAB `build/review/life-quest-2.0.0-2013-paid-candidate.aab`는 **156,055,514 bytes**, SHA-256 `8a7ec152f17fcbd80f83c4341b10f42d1dba24a46f390441f681e85266d9ccec`; [로컬 검사](docs/rebirth/paid-candidate-2013-inspection.json) **54/54 통과**, ARM64/API35/16KB 표본 다운로드 65,334,692 bytes다. signed QA APK는 163,188,472 bytes, SHA-256 `1919450e34f21fe324d9d8b832524e7a62f202e64d22ab70019873145a34735c`. `flutter analyze` clean, 전체 Flutter **518 통과/1 skip**, Cloud/Billing on 관련 **38 통과**, 영어·일본어 320/800dp 세로·800dp 가로 200% 글꼴 배율의 성장 보고서 Plus 진입 테스트 **6 통과**. 이전 47개 선택 테스트는 범위 변경 전 기록이다. 네 언어 스토어 문안과 이전 APK의 실제 화면 8장은 Console 초안에 저장했다. [이전 `bb33b4b` APK의 Android QA](docs/rebirth/design/status-system/qa/PAID_SCOPE_QUEST_SCREENSHOT_QA_20260928.md)에서 퀘스트 4장이 기존 스토어 이미지와 시각적으로 동일하며 Gold 표시가 없음을 확인했다. `d7ebb72`는 성장 보고서 배치만 바꿨으므로 이 자료는 퀘스트 화면의 근거로 유지하되 최신 APK에서 직접 촬영한 것으로 쓰지 않는다. [Console 상태](docs/rebirth/store/PLAY_CONSOLE_DRAFT_STATUS_20260928.md): AAB·트랙·판매자 계정·상품·심사 미제출. Firebase Blaze/운영 인프라와 실제 구매·복원·환불 검증도 미완료다. **로컬 빌드 검사는 판매 가능 판정이 아니다.**
+> **작업·사용량 기준 · 2026-09-29:** 사용자는 수익화 우선으로 **배포 직전까지** 준비하고, 다음 명시적 **“배포해”** 요청 전에는 AAB 업로드·테스트 트랙 게시를 하지 않도록 했다. 사용량 하한은 **잔여 5%**이며 작업 전 다시 조회한다. [재개 체크포인트](docs/rebirth/CONTINUE.md), [유료 후보](docs/rebirth/market/PAID_RELEASE_CANDIDATE_20260928.md), [게임 범위 결정](docs/rebirth/market/GAME_SCOPE_DECISION_20260928.md)을 참고하되, 이전 ID의 상태·해시를 새 앱 검증으로 읽지 않는다. Obsidian 요청이 없으면 개인 Vault를 읽지 않는다.
+
+> **직전 패키지 후보 검증 (2026-09-28, 현행 아님):** Android `com.lifequest.app` **2.0.0+2013**의 당시 빌드 소스는 `d7ebb72`다. 출시 UI는 상태창·현실 퀘스트·성장 기록·선택형 `status_window_plus_01` 일회 구매에 집중한다. 기존 탐험·전투·상점·몬스터 업적 진입과 신규 게임 보상은 숨겼고 **당시 같은 패키지의 이전 저장 데이터는 보존**한다(새 ID로의 이전을 뜻하지 않음). 새 게임 콘텐츠는 보류한다. signed AAB `build/review/life-quest-2.0.0-2013-paid-candidate.aab`는 **156,055,514 bytes**, SHA-256 `8a7ec152f17fcbd80f83c4341b10f42d1dba24a46f390441f681e85266d9ccec`; [로컬 검사](docs/rebirth/paid-candidate-2013-inspection.json) **54/54 통과**, ARM64/API35/16KB 표본 다운로드 65,334,692 bytes다. signed QA APK는 163,188,472 bytes, SHA-256 `1919450e34f21fe324d9d8b832524e7a62f202e64d22ab70019873145a34735c`. `flutter analyze` clean, 전체 Flutter **518 통과/1 skip**, Cloud/Billing on 관련 **38 통과**, 영어·일본어 320/800dp 세로·800dp 가로 200% 글꼴 배율의 성장 보고서 Plus 진입 테스트 **6 통과**. 이전 47개 선택 테스트는 범위 변경 전 기록이다. 네 언어 스토어 문안과 이전 APK의 실제 화면 8장은 Console 초안에 저장했다. [이전 `bb33b4b` APK의 Android QA](docs/rebirth/design/status-system/qa/PAID_SCOPE_QUEST_SCREENSHOT_QA_20260928.md)에서 퀘스트 4장이 기존 스토어 이미지와 시각적으로 동일하며 Gold 표시가 없음을 확인했다. `d7ebb72`는 성장 보고서 배치만 바꿨으므로 이 자료는 퀘스트 화면의 근거로 유지하되 최신 APK에서 직접 촬영한 것으로 쓰지 않는다. [Console 상태](docs/rebirth/store/PLAY_CONSOLE_DRAFT_STATUS_20260928.md): AAB·트랙·판매자 계정·상품·심사 미제출. Firebase Blaze/운영 인프라와 실제 구매·복원·환불 검증도 미완료다. **로컬 빌드 검사는 판매 가능 판정이 아니다.**
 
 ## 이전 세션 기록 (아래의 당시 “현재/최신” 표시는 이력)
 
@@ -40,7 +42,7 @@
 - **백엔드**: Firebase (Auth, Firestore, Storage, App Check, Crashlytics)
 - **상태 관리**: Provider
 - **GitHub**: https://github.com/Sn-bow/Life_Quest.git (branch: main)
-- **applicationId**: `com.lifequest.app` (2026-04-01 변경, 이전: com.example.life_quest_final_v2)
+- **applicationId**: `com.logian.lifequest` (2026-09-29 변경; `com.lifequest.app`은 2026-04-01~09-29 이력)
 - **플랫폼**: Android 전용 (Google Play Store, iOS 미지원)
 
 ---
