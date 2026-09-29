@@ -1,9 +1,35 @@
 {
   "scope": "Local artifact only; NOT ready-to-publish certification",
   "profile": "paid",
+  "sourceCommit": "99ebfc0",
+  "appCodeCommit": "d9f2cc5",
   "bundle": "build/review/life-quest-2.0.0-2013-paid-candidate.aab",
-  "bytes": 156055514,
-  "sha256": "8a7ec152f17fcbd80f83c4341b10f42d1dba24a46f390441f681e85266d9ccec",
+  "bytes": 156033898,
+  "sha256": "ae7efd7c8cb548f350a33e42ac96ec7536bfa59473a05ffe497d0324d5de66c6",
+  "reviewApk": {
+    "path": "build/review/life-quest-2.0.0-2013-paid-review.apk",
+    "bytes": 163188472,
+    "sha256": "ce7ecdd633a420c7bfc06956f72baf877f5425226c40ea7f1f019ab9ad8bdeb1",
+    "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
+    "package": "com.lifequest.app",
+    "versionName": "2.0.0",
+    "versionCode": 2013,
+    "targetSdkVersion": 36,
+    "nativeLibrariesChecked": 11,
+    "checks": {
+      "signature": true,
+      "zip16k": true,
+      "packageVersion": true,
+      "target36": true,
+      "billing": true,
+      "noAdId": true,
+      "noAdsComponents": true,
+      "nativeLib16k": true,
+      "noQaEntryPoint": true,
+      "arm64Jni": true
+    },
+    "pass": true
+  },
   "versionName": "2.0.0",
   "versionCode": "2013",
   "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
@@ -96,8 +122,8 @@
     }
   ],
   "sampleDeviceDownloadBytes": {
-    "MIN": 65334692,
-    "MAX": 65334692
+    "MIN": 65330594,
+    "MAX": 65330594
   },
   "checks": [
     {
