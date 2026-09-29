@@ -1,6 +1,6 @@
 # Life Quest 재개 체크포인트 · 2026-09-28
 
-이 문서는 현재 상태만 기록한다. 이전 판단과 해시는 Git 이력과 각 QA 문서에 있다. 다음 작업 전 git status, [유료 후보](market/PAID_RELEASE_CANDIDATE_20260928.md), [Play 초안](store/PLAY_CONSOLE_DRAFT_STATUS_20260928.md), [게임 범위](market/GAME_SCOPE_DECISION_20260928.md)를 확인한다. 사용량 하한은 사용자가 승인한 **잔여 20%**이며 매번 다시 조회한다. Obsidian 요청이 없으면 개인 Vault에 접근하지 않는다.
+이 문서는 현재 상태만 기록한다. 이전 판단과 해시는 Git 이력과 각 QA 문서에 있다. 다음 작업 전 git status, [유료 후보](market/PAID_RELEASE_CANDIDATE_20260928.md), [Play 초안](store/PLAY_CONSOLE_DRAFT_STATUS_20260928.md), [게임 범위](market/GAME_SCOPE_DECISION_20260928.md)를 확인한다. 사용량 하한은 2026-09-29 사용자가 새로 승인한 **잔여 5%**이며 매번 다시 조회한다. Obsidian 요청이 없으면 개인 Vault에 접근하지 않는다.
 
 ## 사용자 결정과 제품 범위
 
