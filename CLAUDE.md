@@ -36,7 +36,7 @@ cb38fa6  QA 3차 잔여 수정: 서버 시간 검증 + 인벤토리 무결성 + 
 - 소모 아이템 삭제 버그, 장비 중복, Firestore 역직렬화 등 CRITICAL 5건 수정
 - Firebase 오프라인, 인증 라우트, Android 13+ 알림 등 HIGH 6건 수정
 - Android 릴리스 빌드 완료 (applicationId: com.lifequest.app, compileSdk: 36)
-- 릴리스 키스토어 생성 (`android/upload-keystore.jks`, alias: upload, pw: lifequest2024!)
+- 릴리스 키스토어 생성 (`android/upload-keystore.jks`, alias: upload, password: [removed from documentation])
 - 테스트 67개 → 73개로 확장
 
 ### Soul Deck 시스템 (2026-04-06)
