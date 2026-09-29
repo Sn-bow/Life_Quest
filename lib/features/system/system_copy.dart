@@ -56,12 +56,7 @@ class SystemCopy {
       '成長記録に保存しました',
       '已儲存到成長記錄',
     ],
-    'contribution': [
-      '이번 행동이 성장에 기여했습니다',
-      'This action contributed to your growth',
-      'この行動が成長につながりました',
-      '此行動為成長做出了貢獻',
-    ],
+    'questFocus': ['퀘스트 분야', 'Quest focus', 'クエスト分野', '任務領域'],
     'next': ['다음 레벨까지', 'To the next level', '次のレベルまで', '距離下一等級'],
     'return': ['확인', 'Continue', '確認', '確認'],
     'close': ['닫기', 'Close', '閉じる', '關閉'],

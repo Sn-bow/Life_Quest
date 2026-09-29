@@ -94,6 +94,64 @@ void main() {
       );
     }
   }
+  testWidgets('first completed quest returns to the changed status window', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    tester.view.physicalSize = const Size(1080, 1920);
+    tester.view.devicePixelRatio = 2.625;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final character = CharacterState();
+    await character.initializeForLocalGuest(name: 'Seok');
+    final director = QuestDirectorState(model: LayoutModel());
+    await director.bind('device');
+    await director.configure(
+      const HunterProfile(
+        focuses: {GrowthFocus.learning},
+        minutes: 5,
+        goal: 'Read something interesting today',
+      ),
+    );
+    final title = director.suggestions.first.title('en');
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: character),
+          ChangeNotifierProvider.value(value: director),
+        ],
+        child: MaterialApp(
+          theme: QuestTheme.build(Brightness.dark),
+          locale: const Locale('en'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: TodayScreen(onOpenQuests: () {}),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('status-first-quest-action')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(title).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('I did it'));
+    await tester.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey('system-reward-xp-change')),
+      findsOneWidget,
+    );
+    await tester.tap(find.byKey(const ValueKey('system-reward-return')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('hunter-xp')), findsOneWidget);
+    expect(
+      tester.widget<Text>(find.byKey(const ValueKey('hunter-xp'))).data,
+      '60 / 150 XP',
+    );
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+    director.dispose();
+    character.dispose();
+  });
   for (final size in [const Size(360, 640), const Size(411, 731)]) {
     for (final locale in ['ko', 'en', 'ja', 'zh']) {
       testWidgets(

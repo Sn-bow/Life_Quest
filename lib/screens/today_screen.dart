@@ -577,11 +577,11 @@ class _TodayScreenState extends State<TodayScreen> {
               label: Text(s.lqDone),
               onPressed: quest.isCompleted
                   ? null
-                  : () {
+                  : () async {
                       Navigator.pop(sheet);
-                      unawaited(
-                        completeAndPresentQuest(context, quest, character),
-                      );
+                      await completeAndPresentQuest(context, quest, character);
+                      if (!mounted || !quest.isCompleted) return;
+                      setState(() => _section = HunterWindowSection.status);
                     },
             ),
             if (quest.directorTemplateId != null && !quest.isCompleted)

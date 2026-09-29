@@ -68,12 +68,84 @@ void main() {
       expect(returnButton, findsOneWidget);
       expect(tester.getBottomLeft(returnButton).dy, lessThan(731 - 24));
       expect(find.text('+60 XP'), findsOneWidget);
+      expect(find.text('クエスト分野 · 健康'), findsOneWidget);
+      final saved = find.text('成長記録に保存しました');
+      expect(saved, findsOneWidget);
+      expect(
+        tester.getBottomLeft(saved).dy,
+        lessThan(tester.getTopLeft(returnButton).dy),
+      );
       await tester.tap(returnButton);
       await tester.pumpAndSettle();
       expect(find.byType(SystemRewardScene), findsNothing);
       expect(tester.takeException(), isNull);
     },
   );
+
+  testWidgets('small phone keeps reward details reachable above Continue', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    tester.view.physicalSize = const Size(720, 1280);
+    tester.view.devicePixelRatio = 2;
+    tester.view.padding = const FakeViewPadding(top: 24, bottom: 24);
+    tester.view.viewPadding = const FakeViewPadding(top: 24, bottom: 24);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPadding);
+    addTearDown(tester.view.resetViewPadding);
+    final receipt = GrowthReceipt(
+      id: 'reward-small-phone',
+      questId: 'read',
+      title: 'Read about a curiosity for 5 minutes',
+      day: '2026-09-30',
+      source: 'quest',
+      at: DateTime(2026, 9, 30),
+      category: 1,
+      baseXp: 10,
+      gold: 5,
+      levelBefore: 1,
+      levelAfter: 1,
+      xp: 60,
+      bonusXp: 50,
+      xpBefore: 0,
+      xpAfter: 60,
+      maxXpAfter: 150,
+      statChanges: const [0, 0, 0, 0],
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('en'),
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        theme: QuestTheme.build(Brightness.dark),
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => Center(
+              child: FilledButton(
+                onPressed: () => showSystemReward(context, receipt),
+                child: const Text('Open reward'),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('Open reward'));
+    await tester.pumpAndSettle();
+    final returnButton = find.byKey(const ValueKey('system-reward-return'));
+    final saved = find.text('Saved in your journal');
+    expect(find.text('Quest focus · Wisdom'), findsOneWidget);
+    expect(saved, findsOneWidget);
+    await tester.ensureVisible(saved);
+    await tester.pumpAndSettle();
+    expect(
+      tester.getBottomLeft(saved).dy,
+      lessThan(tester.getTopLeft(returnButton).dy),
+    );
+    expect(tester.getBottomLeft(returnButton).dy, lessThan(640 - 24));
+    expect(tester.takeException(), isNull);
+  });
 
   for (final locale in ['ko', 'en', 'ja', 'zh']) {
     testWidgets(

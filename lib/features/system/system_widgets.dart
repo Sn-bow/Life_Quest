@@ -679,6 +679,13 @@ class SystemRewardScene extends StatelessWidget {
         theme = HunterSystemFrame.themeFor(context),
         r = receipt;
     final levelUp = r.levelAfter > r.levelBefore;
+    final compactHeight = MediaQuery.sizeOf(context).height <= 760;
+    final smallPhoneHeight = MediaQuery.sizeOf(context).height <= 680;
+    double verticalGap(double normal, double compact) => smallPhoneHeight
+        ? compact * .65
+        : compactHeight
+        ? compact
+        : normal;
     return SafeArea(
       child: Center(
         child: ConstrainedBox(
@@ -692,7 +699,12 @@ class SystemRewardScene extends StatelessWidget {
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(26, 26, 26, 8),
+                    padding: EdgeInsets.fromLTRB(
+                      26,
+                      verticalGap(26, 18),
+                      26,
+                      8,
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -716,15 +728,17 @@ class SystemRewardScene extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: verticalGap(20, 12)),
                         Icon(
                           levelUp
                               ? PhosphorIcons.sparkle
                               : PhosphorIcons.checkCircle,
-                          size: 52,
+                          size: smallPhoneHeight
+                              ? 40
+                              : (compactHeight ? 44 : 52),
                           color: theme.colorScheme.primary,
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: verticalGap(20, 12)),
                         Text(
                           copy.get(levelUp ? 'levelUp' : 'success'),
                           textAlign: TextAlign.center,
@@ -733,9 +747,9 @@ class SystemRewardScene extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: smallPhoneHeight ? 8 : 12),
                         Text(r.title, textAlign: TextAlign.center),
-                        const SizedBox(height: 28),
+                        SizedBox(height: verticalGap(28, 16)),
                         Text(
                           '+${xpText(r.xp)} XP',
                           textAlign: TextAlign.center,
@@ -747,26 +761,26 @@ class SystemRewardScene extends StatelessWidget {
                           ),
                         ),
                         if (r.bonusXp > 0) ...[
-                          const SizedBox(height: 12),
+                          SizedBox(height: smallPhoneHeight ? 8 : 12),
                           Text(
                             '${copy.get('questReward')} +${xpText(r.questXp)} XP\n${copy.get('achievementReward')} +${xpText(r.bonusXp)} XP',
                             textAlign: TextAlign.center,
                           ),
                         ],
-                        const SizedBox(height: 24),
+                        SizedBox(height: verticalGap(24, 14)),
                         const Divider(),
-                        const SizedBox(height: 20),
+                        SizedBox(height: verticalGap(20, 12)),
                         Text(
                           'Lv.${r.levelBefore}  →  Lv.${r.levelAfter}',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.titleLarge,
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: smallPhoneHeight ? 8 : 12),
                         LinearProgressIndicator(
                           value: (r.xpAfter / r.maxXpAfter).clamp(0.0, 1.0),
                           minHeight: 6,
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: smallPhoneHeight ? 6 : 10),
                         Text(
                           levelUp
                               ? '${xpText(r.xpAfter)} / ${xpText(r.maxXpAfter)} XP'
@@ -774,22 +788,24 @@ class SystemRewardScene extends StatelessWidget {
                           key: const ValueKey('system-reward-xp-change'),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: verticalGap(20, 12)),
                         Text(
-                          '${statLabels(context)[r.category]} · ${copy.get('contribution')}',
+                          '${copy.get('questFocus')} · ${statLabels(context)[r.category]}',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyMedium,
                         ),
                         for (var i = 0; i < 4; i++)
                           if (r.statChanges[i] > 0)
                             Padding(
-                              padding: const EdgeInsets.only(top: 8),
+                              padding: EdgeInsets.only(
+                                top: smallPhoneHeight ? 6 : 8,
+                              ),
                               child: Text(
                                 '${statLabels(context)[i]} +${xpText(r.statChanges[i])}',
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: verticalGap(24, 12)),
                         Text(
                           copy.get('saved'),
                           textAlign: TextAlign.center,
@@ -800,7 +816,12 @@ class SystemRewardScene extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(26, 8, 26, 34),
+                  padding: EdgeInsets.fromLTRB(
+                    26,
+                    8,
+                    26,
+                    smallPhoneHeight ? 20 : 34,
+                  ),
                   child: SizedBox(
                     width: double.infinity,
                     child: FilledButton(
