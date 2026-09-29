@@ -629,6 +629,8 @@
   "reportSummaryTitle": "現在の称号",
   "reportWeeklyActivityTitle": "1週間の活動記録",
   "reportWeeklyActivitySubtitle": "今週のルーティン維持の流れを確認できます。",
+  "reportWeeklyActivityEmpty": "今週完了したクエストはありません。",
+  "reportWeeklyActivityOpenQuests": "クエストを見る",
   "reportWeekDayMon": "月",
   "reportWeekDayTue": "火",
   "reportWeekDayWed": "水",

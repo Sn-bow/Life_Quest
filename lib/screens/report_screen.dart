@@ -9,6 +9,7 @@ import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/features/status_pack/ui/status_pack_screen.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
+import 'quests_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -239,7 +240,42 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
+                  if (weeklyTotal == 0)
+                    Container(
+                      key: const ValueKey('report-weekly-empty'),
+                      width: double.infinity,
+                      constraints: const BoxConstraints(minHeight: 96),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            l10n.reportWeeklyActivityEmpty,
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.72,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            key: const ValueKey('report-weekly-open-quests'),
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const QuestsScreen(),
+                              ),
+                            ),
+                            child: Text(l10n.reportWeeklyActivityOpenQuests),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (weeklyTotal > 0) SizedBox(
+                    key: const ValueKey('report-weekly-chart'),
                     height: 300,
                     child: BarChart(
                       BarChartData(

@@ -629,6 +629,8 @@
   "reportSummaryTitle": "현재 칭호",
   "reportWeeklyActivityTitle": "한주간의 활동 기록",
   "reportWeeklyActivitySubtitle": "이번 주 루틴 유지 흐름을 먼저 확인할 수 있습니다.",
+  "reportWeeklyActivityEmpty": "이번 주 완료한 퀘스트가 없어요.",
+  "reportWeeklyActivityOpenQuests": "퀘스트 열기",
   "reportWeekDayMon": "월",
   "reportWeekDayTue": "화",
   "reportWeekDayWed": "수",

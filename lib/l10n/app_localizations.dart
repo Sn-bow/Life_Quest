@@ -2334,6 +2334,18 @@ abstract class AppLocalizations {
   /// **'이번 주 루틴 유지 흐름을 먼저 확인할 수 있습니다.'**
   String get reportWeeklyActivitySubtitle;
 
+  /// No description provided for @reportWeeklyActivityEmpty.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 주 완료한 퀘스트가 없어요.'**
+  String get reportWeeklyActivityEmpty;
+
+  /// No description provided for @reportWeeklyActivityOpenQuests.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 열기'**
+  String get reportWeeklyActivityOpenQuests;
+
   /// No description provided for @reportWeekDayMon.
   ///
   /// In ko, this message translates to:

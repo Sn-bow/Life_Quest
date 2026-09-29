@@ -629,6 +629,8 @@
   "reportSummaryTitle": "Current Title",
   "reportWeeklyActivityTitle": "Weekly Activity",
   "reportWeeklyActivitySubtitle": "Check your routine flow for the week.",
+  "reportWeeklyActivityEmpty": "No quests completed this week.",
+  "reportWeeklyActivityOpenQuests": "Go to quests",
   "reportWeekDayMon": "Mon",
   "reportWeekDayTue": "Tue",
   "reportWeekDayWed": "Wed",

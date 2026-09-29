@@ -1274,6 +1274,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Check your routine flow for the week.';
 
   @override
+  String get reportWeeklyActivityEmpty => 'No quests completed this week.';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => 'Go to quests';
+
+  @override
   String get reportWeekDayMon => 'Mon';
 
   @override

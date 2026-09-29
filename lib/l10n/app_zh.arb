@@ -629,6 +629,8 @@
   "reportSummaryTitle": "目前稱號",
   "reportWeeklyActivityTitle": "本週活動記錄",
   "reportWeeklyActivitySubtitle": "檢視本週的日常維持情況。",
+  "reportWeeklyActivityEmpty": "本週尚未完成任務。",
+  "reportWeeklyActivityOpenQuests": "查看任務",
   "reportWeekDayMon": "一",
   "reportWeekDayTue": "二",
   "reportWeekDayWed": "三",

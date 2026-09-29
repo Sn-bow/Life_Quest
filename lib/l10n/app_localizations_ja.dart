@@ -1235,6 +1235,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reportWeeklyActivitySubtitle => '今週のルーティン維持の流れを確認できます。';
 
   @override
+  String get reportWeeklyActivityEmpty => '今週完了したクエストはありません。';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => 'クエストを見る';
+
+  @override
   String get reportWeekDayMon => '月';
 
   @override

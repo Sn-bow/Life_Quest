@@ -1238,6 +1238,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get reportWeeklyActivitySubtitle => '이번 주 루틴 유지 흐름을 먼저 확인할 수 있습니다.';
 
   @override
+  String get reportWeeklyActivityEmpty => '이번 주 완료한 퀘스트가 없어요.';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => '퀘스트 열기';
+
+  @override
   String get reportWeekDayMon => '월';
 
   @override

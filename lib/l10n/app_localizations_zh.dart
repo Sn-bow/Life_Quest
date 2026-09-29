@@ -1223,6 +1223,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reportWeeklyActivitySubtitle => '檢視本週的日常維持情況。';
 
   @override
+  String get reportWeeklyActivityEmpty => '本週尚未完成任務。';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => '查看任務';
+
+  @override
   String get reportWeekDayMon => '一';
 
   @override
