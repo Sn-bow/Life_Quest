@@ -335,6 +335,11 @@ class _SystemOfferCardState extends State<SystemOfferCard> {
         : const Color(0xFF23685D);
     final latest = state.systemJournal.offers.lastOrNull;
     if (widget.compact) {
+      // Keep the offer-generation hook mounted without occupying the first
+      // screen with a "waiting" link before there is an actual event.
+      if (offer == null && _error == null) {
+        return const SizedBox.shrink();
+      }
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -763,7 +768,10 @@ class SystemRewardScene extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          '${xpText(r.xpAfter)} / ${xpText(r.maxXpAfter)} XP',
+                          levelUp
+                              ? '${xpText(r.xpAfter)} / ${xpText(r.maxXpAfter)} XP'
+                              : '${xpText(r.xpBefore)} → ${xpText(r.xpAfter)} / ${xpText(r.maxXpAfter)} XP',
+                          key: const ValueKey('system-reward-xp-change'),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 20),

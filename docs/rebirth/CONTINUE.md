@@ -1,4 +1,6 @@
-# Life Quest 재개 체크포인트 · 2026-09-29
+# Life Quest 재개 체크포인트 · 2026-09-30
+
+> **9/30 사용자 최우선 결정:** 지금까지의 AAB·Play/Firebase 준비는 보존하되 출시 준비를 멈추고 앱의 반복 사용 가치·콘텐츠·UI/UX·유료 구매 이유를 먼저 다시 만든다. 아래 9/29 빌드와 Plus는 현행 기술 이력이지 제품 완성이나 수익성 판정이 아니다. [제품 재검토](PRODUCT_RESET_20260930.md)를 먼저 읽는다.
 
 이 문서는 **현재 Android 패키지 `com.logian.lifequest`**의 출시 전 상태다. 이전 `com.lifequest.app` 빌드·Play 초안은 [패키지 이전 기록](store/PACKAGE_MIGRATION_20260929.md)의 이력이며, 해시나 검증 결과를 새 패키지에 재사용하지 않는다. 작업 전 `git status`를 확인하고 사용량을 다시 조회한다. 사용자 승인 하한은 **잔여 5%**다. Obsidian 요청이 없으면 개인 Vault에 접근하지 않는다.
 
