@@ -8079,14 +8079,128 @@ abstract class AppLocalizations {
   /// No description provided for @lqWelcomeBody.
   ///
   /// In ko, this message translates to:
-  /// **'이름과 레벨, XP, 네 가지 능력치를 먼저 확인하세요. 오늘 해낸 일을 퀘스트로 기록하면 XP와 성장 기록이 쌓입니다.'**
+  /// **'내 상태창에 표시할 이름과 지금 키우고 싶은 영역을 정해 주세요. 오늘 바로 시작할 수 있는 작은 퀘스트를 보여드립니다.'**
   String get lqWelcomeBody;
 
   /// No description provided for @lqWelcomePreviewNote.
   ///
   /// In ko, this message translates to:
-  /// **'처음 상태창의 예시입니다. 시작하면 기기 프로필이 열리고, 이름은 설정에서 바꿀 수 있어요.'**
+  /// **'시작 상태의 미리보기입니다. 퀘스트를 실제로 완료하면 XP와 성장 기록이 쌓입니다.'**
   String get lqWelcomePreviewNote;
+
+  /// No description provided for @lqWelcomeName.
+  ///
+  /// In ko, this message translates to:
+  /// **'상태창에 표시할 이름'**
+  String get lqWelcomeName;
+
+  /// No description provided for @lqWelcomeNameHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'나만의 이름을 입력하세요'**
+  String get lqWelcomeNameHint;
+
+  /// No description provided for @lqWelcomeNamePlaceholder.
+  ///
+  /// In ko, this message translates to:
+  /// **'당신의 이름'**
+  String get lqWelcomeNamePlaceholder;
+
+  /// No description provided for @lqWelcomeFocus.
+  ///
+  /// In ko, this message translates to:
+  /// **'먼저 키울 성장 영역 하나'**
+  String get lqWelcomeFocus;
+
+  /// No description provided for @lqWelcomeGoal.
+  ///
+  /// In ko, this message translates to:
+  /// **'지금 이루고 싶은 구체적인 목표'**
+  String get lqWelcomeGoal;
+
+  /// No description provided for @lqWelcomeGoalHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'예: 퇴근 후 10분씩 책 읽기'**
+  String get lqWelcomeGoalHint;
+
+  /// No description provided for @lqWelcomeGoalQuickHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'분야를 고르면 시작하기 쉬운 목표가 자동으로 채워집니다. 직접 바꿔도 돼요.'**
+  String get lqWelcomeGoalQuickHint;
+
+  /// No description provided for @lqWelcomeExampleVitality.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 5분 가볍게 몸 풀기'**
+  String get lqWelcomeExampleVitality;
+
+  /// No description provided for @lqWelcomeExampleLearning.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 5분 궁금한 주제 읽기'**
+  String get lqWelcomeExampleLearning;
+
+  /// No description provided for @lqWelcomeExampleOrder.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 5분 책상 한 구역 정리하기'**
+  String get lqWelcomeExampleOrder;
+
+  /// No description provided for @lqWelcomeExampleConnection.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 한 사람에게 안부 전하기'**
+  String get lqWelcomeExampleConnection;
+
+  /// No description provided for @lqWelcomeMinutes.
+  ///
+  /// In ko, this message translates to:
+  /// **'하루에 쓸 수 있는 시간'**
+  String get lqWelcomeMinutes;
+
+  /// No description provided for @lqWelcomeSetupPrivacy.
+  ///
+  /// In ko, this message translates to:
+  /// **'목표 메모와 추천 기록은 이 기기에 저장됩니다. AI 모델 설치는 선택 사항이며, 퀘스트를 완료해야 XP가 쌓입니다.'**
+  String get lqWelcomeSetupPrivacy;
+
+  /// No description provided for @lqFirstQuest.
+  ///
+  /// In ko, this message translates to:
+  /// **'첫 번째 퀘스트'**
+  String get lqFirstQuest;
+
+  /// No description provided for @lqFirstQuestAccept.
+  ///
+  /// In ko, this message translates to:
+  /// **'퀘스트 수락하고 시작'**
+  String get lqFirstQuestAccept;
+
+  /// No description provided for @lqFirstQuestOpen.
+  ///
+  /// In ko, this message translates to:
+  /// **'진행 중인 퀘스트 보기'**
+  String get lqFirstQuestOpen;
+
+  /// No description provided for @lqFirstQuestNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'선택한 성장 영역과 시간에 맞춘 오늘의 추천입니다.'**
+  String get lqFirstQuestNote;
+
+  /// No description provided for @lqFirstQuestDefaultNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'기본 추천입니다. 목표를 설정하면 더 맞게 제안할 수 있어요.'**
+  String get lqFirstQuestDefaultNote;
+
+  /// No description provided for @lqFirstQuestUnavailable.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘의 퀘스트를 준비하고 있어요.'**
+  String get lqFirstQuestUnavailable;
 
   /// No description provided for @lqFirstContract.
   ///

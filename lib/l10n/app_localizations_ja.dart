@@ -4176,11 +4176,68 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lqWelcomeBody =>
-      '最初に名前・レベル・XP・4つの能力値を確認。日々の行動をクエストとして記録すると、XPと成長履歴が積み重なります。';
+      'ステータス画面に表示する名前と、まず伸ばしたい分野を決めましょう。今日から始められる小さなクエストを提案します。';
 
   @override
-  String get lqWelcomePreviewNote =>
-      '最初のステータス画面の例です。端末プロフィールを始めるとこの画面に進み、名前は設定から変更できます。';
+  String get lqWelcomePreviewNote => '開始時のステータスです。クエストを実際に完了すると、XPと成長記録が増えます。';
+
+  @override
+  String get lqWelcomeName => 'ステータス画面に表示する名前';
+
+  @override
+  String get lqWelcomeNameHint => 'あなたの名前を入力';
+
+  @override
+  String get lqWelcomeNamePlaceholder => 'あなたの名前';
+
+  @override
+  String get lqWelcomeFocus => 'まず伸ばしたい分野を一つ';
+
+  @override
+  String get lqWelcomeGoal => '今取り組みたい具体的な目標';
+
+  @override
+  String get lqWelcomeGoalHint => '例：仕事の後に10分読書する';
+
+  @override
+  String get lqWelcomeGoalQuickHint => '分野を選ぶと最初の目標が入ります。自由に書き換えられます。';
+
+  @override
+  String get lqWelcomeExampleVitality => '今日は5分、無理なく体をほぐす';
+
+  @override
+  String get lqWelcomeExampleLearning => '今日は5分、気になるテーマを読む';
+
+  @override
+  String get lqWelcomeExampleOrder => '今日は5分、机の一角を片づける';
+
+  @override
+  String get lqWelcomeExampleConnection => '今日は一人に近況を聞いてみる';
+
+  @override
+  String get lqWelcomeMinutes => '1日に使える時間';
+
+  @override
+  String get lqWelcomeSetupPrivacy =>
+      '目標メモと提案履歴はこの端末に保存されます。AIモデルの導入は任意です。XPはクエストを完了したときだけ増えます。';
+
+  @override
+  String get lqFirstQuest => '最初のクエスト';
+
+  @override
+  String get lqFirstQuestAccept => 'クエストを受けて始める';
+
+  @override
+  String get lqFirstQuestOpen => '進行中のクエストを見る';
+
+  @override
+  String get lqFirstQuestNote => '選んだ分野と時間に合わせた今日の提案です。';
+
+  @override
+  String get lqFirstQuestDefaultNote => '最初の提案です。目標を設定すると、より合ったクエストを提案できます。';
+
+  @override
+  String get lqFirstQuestUnavailable => '今日のクエストを準備しています…';
 
   @override
   String get lqFirstContract => 'ステータス画面に接続';

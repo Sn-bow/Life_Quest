@@ -4155,12 +4155,68 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqWelcomeTitle => '開啟 App，\n看見自己的狀態視窗。';
 
   @override
-  String get lqWelcomeBody =>
-      '先看見自己的名字、等級、XP 與四項能力值。把每天完成的事記為任務，XP 與成長紀錄就會慢慢累積。';
+  String get lqWelcomeBody => '選擇狀態視窗中的名字，以及最想成長的一個領域。接著看看今天就能開始的小任務。';
 
   @override
-  String get lqWelcomePreviewNote =>
-      '這是初始狀態視窗的示意。建立此裝置的個人檔案後會直接進入此畫面，名字可在設定中更改。';
+  String get lqWelcomePreviewNote => '這是初始狀態預覽。實際完成任務後，才會累積 XP 和成長紀錄。';
+
+  @override
+  String get lqWelcomeName => '狀態視窗顯示名稱';
+
+  @override
+  String get lqWelcomeNameHint => '輸入你的名字';
+
+  @override
+  String get lqWelcomeNamePlaceholder => '你的名字';
+
+  @override
+  String get lqWelcomeFocus => '先選一個成長領域';
+
+  @override
+  String get lqWelcomeGoal => '目前想達成的具體目標';
+
+  @override
+  String get lqWelcomeGoalHint => '例如：下班後閱讀 10 分鐘';
+
+  @override
+  String get lqWelcomeGoalQuickHint => '選擇領域後會自動填入起步目標，也可以自行修改。';
+
+  @override
+  String get lqWelcomeExampleVitality => '今天輕鬆活動身體 5 分鐘';
+
+  @override
+  String get lqWelcomeExampleLearning => '今天閱讀有興趣的主題 5 分鐘';
+
+  @override
+  String get lqWelcomeExampleOrder => '今天整理桌面一角 5 分鐘';
+
+  @override
+  String get lqWelcomeExampleConnection => '今天向一個人問候近況';
+
+  @override
+  String get lqWelcomeMinutes => '每天可用的時間';
+
+  @override
+  String get lqWelcomeSetupPrivacy =>
+      '目標筆記與推薦紀錄會保留在此裝置。AI 模型可自由選擇是否安裝；只有完成任務才會獲得 XP。';
+
+  @override
+  String get lqFirstQuest => '第一個任務';
+
+  @override
+  String get lqFirstQuestAccept => '接受並開始任務';
+
+  @override
+  String get lqFirstQuestOpen => '查看進行中的任務';
+
+  @override
+  String get lqFirstQuestNote => '這是根據所選領域與時間提出的今日建議。';
+
+  @override
+  String get lqFirstQuestDefaultNote => '這是起步建議。設定目標後，就能獲得更適合的任務。';
+
+  @override
+  String get lqFirstQuestUnavailable => '正在準備今天的任務…';
 
   @override
   String get lqFirstContract => '狀態視窗已就緒';

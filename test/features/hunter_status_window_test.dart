@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/features/director/quest_director_state.dart';
+import 'package:life_quest_final_v2/features/director/quest_director_engine.dart';
 import 'package:life_quest_final_v2/features/system/system_copy.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/today_screen.dart';
@@ -13,6 +14,86 @@ import 'director_layout_test.dart' show LayoutModel;
 
 void main() {
   SoundService.muteForTesting();
+  for (final size in [const Size(320, 900), const Size(800, 1280)]) {
+    for (final locale in ['ko', 'en', 'ja', 'zh']) {
+      testWidgets(
+        'first status shows the real recommendation and accepts it at ${size.width}px $locale',
+        (tester) async {
+          SharedPreferences.setMockInitialValues({});
+          tester.view.physicalSize = size;
+          tester.view.devicePixelRatio = 1;
+          addTearDown(tester.view.resetPhysicalSize);
+          addTearDown(tester.view.resetDevicePixelRatio);
+          final character = CharacterState();
+          await character.initializeForLocalGuest(name: 'Seok');
+          final director = QuestDirectorState(model: LayoutModel());
+          await director.bind('device');
+          await director.configure(
+            const HunterProfile(
+              focuses: {GrowthFocus.learning},
+              minutes: 15,
+              goal: 'Read after work for ten minutes',
+            ),
+          );
+          final first = director.suggestions.first;
+          await tester.pumpWidget(
+            MultiProvider(
+              providers: [
+                ChangeNotifierProvider.value(value: character),
+                ChangeNotifierProvider.value(value: director),
+              ],
+              child: MaterialApp(
+                theme: QuestTheme.build(Brightness.dark),
+                locale: Locale(locale),
+                supportedLocales: AppLocalizations.supportedLocales,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                builder: (context, child) => MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaler: const TextScaler.linear(2),
+                    disableAnimations: true,
+                  ),
+                  child: child!,
+                ),
+                home: TodayScreen(onOpenQuests: () {}),
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+          expect(
+            find.byKey(const ValueKey('status-first-quest')),
+            findsOneWidget,
+          );
+          expect(
+            tester
+                .widget<Text>(
+                  find.byKey(const ValueKey('status-first-quest-title')),
+                )
+                .data,
+            first.title(locale),
+          );
+          expect(find.byKey(const ValueKey('status-plus-open')), findsNothing);
+          final action = find.byKey(
+            const ValueKey('status-first-quest-action'),
+          );
+          await tester.ensureVisible(action);
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+          await tester.tap(action);
+          await tester.pumpAndSettle();
+          expect(
+            character.dailyQuests.where((q) => q.id == first.id).length,
+            1,
+          );
+          expect(director.acceptedToday, 1);
+          expect(find.byKey(const ValueKey('quests-tab')), findsOneWidget);
+          expect(tester.takeException(), isNull);
+          await tester.pumpWidget(const SizedBox());
+          director.dispose();
+          character.dispose();
+        },
+      );
+    }
+  }
   for (final size in [const Size(360, 640), const Size(411, 731)]) {
     for (final locale in ['ko', 'en', 'ja', 'zh']) {
       testWidgets(

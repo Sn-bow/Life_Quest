@@ -4187,11 +4187,70 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lqWelcomeBody =>
-      '이름과 레벨, XP, 네 가지 능력치를 먼저 확인하세요. 오늘 해낸 일을 퀘스트로 기록하면 XP와 성장 기록이 쌓입니다.';
+      '내 상태창에 표시할 이름과 지금 키우고 싶은 영역을 정해 주세요. 오늘 바로 시작할 수 있는 작은 퀘스트를 보여드립니다.';
 
   @override
   String get lqWelcomePreviewNote =>
-      '처음 상태창의 예시입니다. 시작하면 기기 프로필이 열리고, 이름은 설정에서 바꿀 수 있어요.';
+      '시작 상태의 미리보기입니다. 퀘스트를 실제로 완료하면 XP와 성장 기록이 쌓입니다.';
+
+  @override
+  String get lqWelcomeName => '상태창에 표시할 이름';
+
+  @override
+  String get lqWelcomeNameHint => '나만의 이름을 입력하세요';
+
+  @override
+  String get lqWelcomeNamePlaceholder => '당신의 이름';
+
+  @override
+  String get lqWelcomeFocus => '먼저 키울 성장 영역 하나';
+
+  @override
+  String get lqWelcomeGoal => '지금 이루고 싶은 구체적인 목표';
+
+  @override
+  String get lqWelcomeGoalHint => '예: 퇴근 후 10분씩 책 읽기';
+
+  @override
+  String get lqWelcomeGoalQuickHint =>
+      '분야를 고르면 시작하기 쉬운 목표가 자동으로 채워집니다. 직접 바꿔도 돼요.';
+
+  @override
+  String get lqWelcomeExampleVitality => '오늘 5분 가볍게 몸 풀기';
+
+  @override
+  String get lqWelcomeExampleLearning => '오늘 5분 궁금한 주제 읽기';
+
+  @override
+  String get lqWelcomeExampleOrder => '오늘 5분 책상 한 구역 정리하기';
+
+  @override
+  String get lqWelcomeExampleConnection => '오늘 한 사람에게 안부 전하기';
+
+  @override
+  String get lqWelcomeMinutes => '하루에 쓸 수 있는 시간';
+
+  @override
+  String get lqWelcomeSetupPrivacy =>
+      '목표 메모와 추천 기록은 이 기기에 저장됩니다. AI 모델 설치는 선택 사항이며, 퀘스트를 완료해야 XP가 쌓입니다.';
+
+  @override
+  String get lqFirstQuest => '첫 번째 퀘스트';
+
+  @override
+  String get lqFirstQuestAccept => '퀘스트 수락하고 시작';
+
+  @override
+  String get lqFirstQuestOpen => '진행 중인 퀘스트 보기';
+
+  @override
+  String get lqFirstQuestNote => '선택한 성장 영역과 시간에 맞춘 오늘의 추천입니다.';
+
+  @override
+  String get lqFirstQuestDefaultNote => '기본 추천입니다. 목표를 설정하면 더 맞게 제안할 수 있어요.';
+
+  @override
+  String get lqFirstQuestUnavailable => '오늘의 퀘스트를 준비하고 있어요.';
 
   @override
   String get lqFirstContract => '상태창 접속';

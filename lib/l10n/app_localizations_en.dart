@@ -4306,11 +4306,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lqWelcomeBody =>
-      'See your name, level, XP and four stats first. Record what you actually do as quests, then watch your XP and growth history build.';
+      'Choose a name for your status window and one area to grow. You\'ll see a small quest you can start today.';
 
   @override
   String get lqWelcomePreviewNote =>
-      'An example of your starting status. Opening a device profile takes you straight to this screen; you can change your name in Settings.';
+      'Your starting status preview. XP and growth history build when you actually complete quests.';
+
+  @override
+  String get lqWelcomeName => 'Name in your status window';
+
+  @override
+  String get lqWelcomeNameHint => 'Choose your name';
+
+  @override
+  String get lqWelcomeNamePlaceholder => 'Your name';
+
+  @override
+  String get lqWelcomeFocus => 'One area to grow first';
+
+  @override
+  String get lqWelcomeGoal => 'A specific goal you want to work on';
+
+  @override
+  String get lqWelcomeGoalHint => 'e.g. Read for 10 minutes after work';
+
+  @override
+  String get lqWelcomeGoalQuickHint =>
+      'Pick an area to fill in a starter goal. You can edit it.';
+
+  @override
+  String get lqWelcomeExampleVitality => 'Stretch gently for 5 minutes today';
+
+  @override
+  String get lqWelcomeExampleLearning =>
+      'Read about something curious for 5 minutes today';
+
+  @override
+  String get lqWelcomeExampleOrder =>
+      'Clear one area of my desk for 5 minutes today';
+
+  @override
+  String get lqWelcomeExampleConnection => 'Check in with one person today';
+
+  @override
+  String get lqWelcomeMinutes => 'Time you can give each day';
+
+  @override
+  String get lqWelcomeSetupPrivacy =>
+      'Your goal note and recommendation history stay on this device. The AI model is optional; XP is earned only when you complete a quest.';
+
+  @override
+  String get lqFirstQuest => 'Your first quest';
+
+  @override
+  String get lqFirstQuestAccept => 'Accept and start quest';
+
+  @override
+  String get lqFirstQuestOpen => 'View active quest';
+
+  @override
+  String get lqFirstQuestNote =>
+      'Today\'s suggestion uses your chosen growth area and time.';
+
+  @override
+  String get lqFirstQuestDefaultNote =>
+      'A starter suggestion. Set a goal for more relevant quests.';
+
+  @override
+  String get lqFirstQuestUnavailable => 'Preparing today\'s quest…';
 
   @override
   String get lqFirstContract => 'STATUS WINDOW READY';

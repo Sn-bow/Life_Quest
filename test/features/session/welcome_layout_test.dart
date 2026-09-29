@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:life_quest_final_v2/features/session/welcome_screen.dart';
+import 'package:life_quest_final_v2/features/director/quest_director_engine.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/onboarding_screen.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
@@ -33,7 +34,7 @@ void main() {
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
-      var starts = 0;
+      WelcomeSetup? started;
       await tester.pumpWidget(
         MaterialApp(
           theme: QuestTheme.build(Brightness.dark),
@@ -46,11 +47,7 @@ void main() {
             ).copyWith(textScaler: const TextScaler.linear(2)),
             child: child!,
           ),
-          home: WelcomeScreen(
-            onStart: () async {
-              starts++;
-            },
-          ),
+          home: WelcomeScreen(onStart: (setup) async => started = setup),
         ),
       );
       await tester.pumpAndSettle();
@@ -59,42 +56,86 @@ void main() {
       )!;
       expect(find.text(l.lqWelcomeTitle), findsOneWidget);
       expect(find.text('CHAPTER 00'), findsNothing);
+      final pageScroll = find.byType(Scrollable).first;
       await tester.scrollUntilVisible(
         find.byKey(const ValueKey('welcome-status-preview')),
         240,
+        scrollable: pageScroll,
       );
       await tester.pumpAndSettle();
       expect(
         find.byKey(const ValueKey('welcome-status-preview')),
         findsOneWidget,
       );
-      expect(find.text(l.lqGuestName), findsOneWidget);
+      expect(find.text(l.lqWelcomeNamePlaceholder), findsOneWidget);
       expect(find.text(l.statusStatStrength), findsOneWidget);
       expect(find.text(l.statusStatWisdom), findsOneWidget);
       expect(find.text(l.statusStatHealth), findsOneWidget);
       expect(find.text(l.statusStatCharm), findsOneWidget);
-      await tester.scrollUntilVisible(find.text(l.statusStatCharm), 300);
-      await tester.pumpAndSettle();
-      expect(tester.takeException(), isNull);
-      await tester.scrollUntilVisible(find.byType(FilledButton), 400);
-      await tester.pumpAndSettle();
-      await Scrollable.ensureVisible(
-        tester.element(find.byType(FilledButton)),
-        alignment: .5,
+      await tester.scrollUntilVisible(
+        find.text(l.statusStatCharm),
+        300,
+        scrollable: pageScroll,
       );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
-      expect(find.text(l.lqWelcomeStepThree), findsOneWidget);
-      expect(find.text(l.lqWelcomeStepThreeBody), findsOneWidget);
-      final stepThreeCopy =
-          '${l.lqWelcomeStepThree} ${l.lqWelcomeStepThreeBody}';
-      expect(stepThreeCopy, contains(growthTerms[lang]));
-      for (final term in retiredTerms[lang]!) {
-        expect(stepThreeCopy, isNot(contains(term)));
-      }
-      await tester.tap(find.byType(FilledButton));
+      final start = find.byKey(const ValueKey('welcome-start'));
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('welcome-name')),
+        -260,
+        scrollable: pageScroll,
+      );
+      await tester.enterText(
+        find.byKey(const ValueKey('welcome-name')),
+        'Seok',
+      );
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('welcome-focus-learning')),
+        260,
+        scrollable: pageScroll,
+      );
+      await tester.tap(find.byKey(const ValueKey('welcome-focus-learning')));
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('welcome-goal')),
+        260,
+        scrollable: pageScroll,
+      );
+      expect(
+        tester
+            .widget<TextField>(find.byKey(const ValueKey('welcome-goal')))
+            .controller!
+            .text,
+        isNotEmpty,
+      );
+      await tester.enterText(
+        find.byKey(const ValueKey('welcome-goal')),
+        'Read after work for ten minutes',
+      );
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('welcome-minutes-15')),
+        260,
+        scrollable: pageScroll,
+      );
+      expect(
+        tester
+            .widget<ChoiceChip>(find.byKey(const ValueKey('welcome-minutes-5')))
+            .selected,
+        isTrue,
+      );
+      await tester.tap(find.byKey(const ValueKey('welcome-minutes-15')));
+      await tester.scrollUntilVisible(start, 400, scrollable: pageScroll);
       await tester.pumpAndSettle();
-      expect(starts, 1);
+      await Scrollable.ensureVisible(tester.element(start), alignment: .5);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('Seok'), findsOneWidget);
+      expect(tester.widget<FilledButton>(start).onPressed, isNotNull);
+      await tester.tap(start);
+      await tester.pumpAndSettle();
+      expect(started?.name, 'Seok');
+      expect(started?.focus, GrowthFocus.learning);
+      expect(started?.goal, 'Read after work for ten minutes');
+      expect(started?.minutes, 15);
     });
   }
 
@@ -137,6 +178,28 @@ void main() {
     expect(find.text('A much longer player name'), findsOneWidget);
     expect(find.text('45 / 150 XP'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  test('pending welcome setup survives restart and validates values', () async {
+    SharedPreferences.setMockInitialValues({});
+    const setup = WelcomeSetup(
+      name: 'Seok',
+      focus: GrowthFocus.order,
+      goal: 'Clear my desk after work',
+      minutes: 15,
+    );
+    final restored = WelcomeSetup.fromJson(setup.toJson());
+    expect(restored?.name, 'Seok');
+    expect(restored?.focus, GrowthFocus.order);
+    expect(restored?.goal, setup.goal);
+    expect(restored?.minutes, 15);
+    await setup.savePending();
+    final afterRestart = await WelcomeSetup.loadPending();
+    expect(afterRestart?.toJson(), setup.toJson());
+    await WelcomeSetup.clearPending();
+    expect(await WelcomeSetup.loadPending(), isNull);
+    expect(WelcomeSetup.fromJson({...setup.toJson(), 'name': ''}), isNull);
+    expect(WelcomeSetup.fromJson({...setup.toJson(), 'focus': 'none'}), isNull);
   });
 
   for (final lang in ['ko', 'en', 'ja', 'zh']) {

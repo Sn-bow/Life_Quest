@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import '../../data/title_localization.dart';
 import '../../data/guest_name_localization.dart';
+import '../director/quest_director_engine.dart';
+import '../director/quest_director_state.dart';
 import '../../l10n/app_localizations.dart';
+import '../../models/quest.dart';
 import '../../screens/settings_screen.dart';
 import '../../screens/status_screen.dart';
 import '../../state/character_state.dart';
@@ -62,8 +67,27 @@ class HunterStatusWindow extends StatelessWidget {
 
   Widget _buildWindow(BuildContext context) {
     final profile = state.character;
+    final director = context.watch<QuestDirectorState>();
     final copy = SystemCopy(context);
     final l = AppLocalizations.of(context)!;
+    final hasFirstRecord =
+        state.questCompletionCount > 0 ||
+        state.systemJournal.receipts.isNotEmpty ||
+        profile.level > 1 ||
+        profile.xp > 0;
+    final firstAccepted = !hasFirstRecord
+        ? state.dailyQuests
+              .where(
+                (quest) =>
+                    quest.scheduledDay == localDay(DateTime.now()) &&
+                    !quest.isCompleted,
+              )
+              .firstOrNull
+        : null;
+    final firstSuggestion =
+        !hasFirstRecord && firstAccepted == null && director.ready
+        ? director.suggestions.firstOrNull
+        : null;
     final media = MediaQuery.of(context);
     // Keep the complete status frame in view on short, normally-scaled phones.
     // Large text and tablets keep the spacious, scrollable layout.
@@ -92,7 +116,7 @@ class HunterStatusWindow extends StatelessWidget {
                   ),
                 ),
               ),
-              if (compact)
+              if (compact && hasFirstRecord)
                 Semantics(
                   label: _plusLabel(context),
                   child: TextButton.icon(
@@ -216,6 +240,14 @@ class HunterStatusWindow extends StatelessWidget {
               backgroundColor: const Color(0xFF193448),
               semanticsLabel: 'XP',
             ),
+            if (firstAccepted != null || firstSuggestion != null) ...[
+              SizedBox(height: compact ? 12 : 20),
+              _firstQuest(
+                context,
+                accepted: firstAccepted,
+                suggested: firstSuggestion,
+              ),
+            ],
             SizedBox(height: compact ? 8 : 19),
             for (var i = 0; i < 4; i++) _stat(context, i, compact: compact),
             SizedBox(height: compact ? 4 : 12),
@@ -245,29 +277,142 @@ class HunterStatusWindow extends StatelessWidget {
                 '${copy.get('today')}  +${xpText(state.recordedXpToday)} XP',
                 style: const TextStyle(color: _muted, fontSize: 12),
               ),
-              const SizedBox(height: 14),
-              OutlinedButton.icon(
-                key: const ValueKey('status-plus-open'),
-                onPressed: () => _openPlus(context),
-                icon: Icon(
-                  PurchaseService().ownsStatusWindowPlus
-                      ? PhosphorIcons.sparkle
-                      : PhosphorIcons.lockSimple,
-                  size: 16,
+              if (hasFirstRecord) ...[
+                const SizedBox(height: 14),
+                OutlinedButton.icon(
+                  key: const ValueKey('status-plus-open'),
+                  onPressed: () => _openPlus(context),
+                  icon: Icon(
+                    PurchaseService().ownsStatusWindowPlus
+                        ? PhosphorIcons.sparkle
+                        : PhosphorIcons.lockSimple,
+                    size: 16,
+                  ),
+                  label: Text(_plusLabel(context)),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: _accent,
+                    side: BorderSide(color: _accent.withValues(alpha: .35)),
+                    minimumSize: const Size.fromHeight(48),
+                  ),
                 ),
-                label: Text(_plusLabel(context)),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: _accent,
-                  side: BorderSide(color: _accent.withValues(alpha: .35)),
-                  minimumSize: const Size.fromHeight(48),
-                ),
-              ),
+              ],
             ],
           ] else if (child != null)
             child!,
         ],
       ),
     );
+  }
+
+  Widget _firstQuest(
+    BuildContext context, {
+    Quest? accepted,
+    DirectedQuest? suggested,
+  }) {
+    final l = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+    final title = accepted?.name ?? suggested!.title(locale);
+    final minutes = accepted?.estimatedMinutes ?? suggested?.minutes ?? 0;
+    return Container(
+      key: const ValueKey('status-first-quest'),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: const Color(0xFF102B3B),
+        border: Border.all(color: _accent.withValues(alpha: .5)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l.lqFirstQuest,
+            style: TextStyle(
+              color: _accent,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1,
+            ),
+          ),
+          const SizedBox(height: 7),
+          Text(
+            title,
+            key: const ValueKey('status-first-quest-title'),
+            style: const TextStyle(
+              color: _ink,
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            '$minutes ${l.lqMinutes} · ${context.read<QuestDirectorState>().profile.configured ? l.lqFirstQuestNote : l.lqFirstQuestDefaultNote}',
+            style: const TextStyle(color: _muted, fontSize: 12),
+          ),
+          const SizedBox(height: 12),
+          FilledButton(
+            key: const ValueKey('status-first-quest-action'),
+            onPressed: accepted == null
+                ? () => _acceptFirstQuest(context, suggested!, locale)
+                : () => onSectionChanged(HunterWindowSection.quests),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(44),
+              backgroundColor: _accent,
+              foregroundColor: const Color(0xFF06131E),
+            ),
+            child: Text(
+              accepted == null ? l.lqFirstQuestAccept : l.lqFirstQuestOpen,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _acceptFirstQuest(
+    BuildContext context,
+    DirectedQuest suggestion,
+    String locale,
+  ) async {
+    final director = context.read<QuestDirectorState>();
+    if (!director.ready ||
+        !director.suggestions.any((q) => q.id == suggestion.id) ||
+        !suggestion.id.startsWith('director:${localDay(DateTime.now())}:')) {
+      return;
+    }
+    final title = suggestion.title(locale);
+    final quest = Quest(
+      id: suggestion.id,
+      name: title,
+      xp: suggestion.xp,
+      type: QuestType.daily,
+      category: suggestion.template.stat,
+      difficulty: suggestion.difficulty,
+      scheduledDay: localDay(DateTime.now()),
+      directorTemplateId: suggestion.template.id,
+      estimatedMinutes: suggestion.minutes,
+      instruction: suggestion.generatedFor(locale)
+          ? suggestion.instruction
+          : null,
+      directorReason: suggestion.generatedFor(locale)
+          ? suggestion.reason
+          : null,
+      generatedLocale: suggestion.generatedFor(locale) ? locale : null,
+    );
+    if (!state.acceptDailySuggestion(quest)) return;
+    // The quest is saved first. If the director preference write later fails,
+    // MainScreen.reconcile restores its accepted state from this quest.
+    if (!await state.forceSave()) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.lqStorageError)),
+        );
+      }
+      return;
+    }
+    await director.accept(suggestion);
+    if (!context.mounted) return;
+    HapticFeedback.selectionClick();
+    onSectionChanged(HunterWindowSection.quests);
   }
 
   Widget _menu(BuildContext context, SystemCopy copy, {bool compact = false}) {
