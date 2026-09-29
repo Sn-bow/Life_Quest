@@ -33,7 +33,7 @@ import 'package:provider/provider.dart';
 
 const _homeWidgetAppGroupId = String.fromEnvironment(
   'HOME_WIDGET_APP_GROUP_ID',
-  defaultValue: 'group.com.lifequest.app.widget',
+  defaultValue: 'group.com.logian.lifequest.widget',
 );
 
 void main() {

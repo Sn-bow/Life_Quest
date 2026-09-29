@@ -20,7 +20,7 @@ class ModelSnapshot {
 }
 
 class OnDeviceQuestModel {
-  static const channel = MethodChannel('com.lifequest.app/quest_director');
+  static const channel = MethodChannel('com.logian.lifequest/quest_director');
   Future<ModelSnapshot> status() async {
     if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
       return const ModelSnapshot(

@@ -1,4 +1,4 @@
-package com.lifequest.app
+package com.logian.lifequest
 
 import android.app.ActivityManager
 import android.content.Context
@@ -46,7 +46,7 @@ class QuestDirectorPlugin(context: Context, messenger: BinaryMessenger) : AutoCl
     // Conservative eligibility, not a claim of measured performance. Actual device QA is required.
     private val supported = Build.SUPPORTED_ABIS.contains("arm64-v8a") &&
         memory.totalMem >= 5500L * 1024 * 1024
-    private val channel = MethodChannel(messenger, "com.lifequest.app/quest_director")
+    private val channel = MethodChannel(messenger, "com.logian.lifequest/quest_director")
 
     init { channel.setMethodCallHandler(::handle) }
 

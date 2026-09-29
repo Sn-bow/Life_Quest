@@ -13,7 +13,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBAeM1nqaiJywxOgzj8JPTcmHtr9wZItZs',
-    appId: '1:61563760091:android:4f449ea668e5a19120cbfe',
+    appId: '1:61563760091:android:5cb1227f0ba3719020cbfe',
     messagingSenderId: '61563760091',
     projectId: 'lifequest-crossing-2026',
   );

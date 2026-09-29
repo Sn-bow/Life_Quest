@@ -1,6 +1,6 @@
 'use strict';
 const {createHash} = require('node:crypto');
-const PACKAGE_NAME = 'com.lifequest.app';
+const PACKAGE_NAME = 'com.logian.lifequest';
 const PRODUCTS = Object.freeze({
   remove_ads_4900: 'remove_ads',
   cosmetic_theme_neon: 'theme_neon_cyberpunk',

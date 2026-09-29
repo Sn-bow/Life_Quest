@@ -1,4 +1,4 @@
-package com.lifequest.app
+package com.logian.lifequest
 
 import android.appwidget.AppWidgetManager
 import android.content.Context

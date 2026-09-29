@@ -82,7 +82,7 @@ def main():
     manifest_text = command(bundletool + ['dump', 'manifest', '--bundle=' + str(args.bundle)])
     manifest = ET.fromstring(manifest_text)
     app = manifest.find('application')
-    check('Package com.lifequest.app', manifest.get('package') == 'com.lifequest.app')
+    check('Package com.logian.lifequest', manifest.get('package') == 'com.logian.lifequest')
     check('Target API at least 36', int(manifest.find('uses-sdk').get(ANDROID + 'targetSdkVersion', '0')) >= 36)
     for attr in ['debuggable', 'testOnly', 'usesCleartextTraffic']:
         check('Release ' + attr + ' is not true', app.get(ANDROID + attr) != 'true')

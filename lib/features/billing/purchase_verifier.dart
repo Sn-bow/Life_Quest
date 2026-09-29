@@ -8,7 +8,7 @@ const statusWindowPlusProductId = 'status_window_plus_01';
 const saleProductIds = {statusWindowPlusProductId};
 const bundledCosmeticProducts = {'theme_tide_postoffice': tideProductId};
 
-const playPackageName = 'com.lifequest.app';
+const playPackageName = 'com.logian.lifequest';
 const playEntitlements = <String, String>{
   'remove_ads_4900': 'remove_ads',
   'cosmetic_theme_neon': 'theme_neon_cyberpunk',

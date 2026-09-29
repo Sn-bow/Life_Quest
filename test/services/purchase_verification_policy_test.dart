@@ -85,7 +85,7 @@ void main() {
         currentUid: () => 'account-a',
         verify: (request) async {
           expect(request, {
-            'packageName': 'com.lifequest.app',
+            'packageName': 'com.logian.lifequest',
             'productId': product,
             'purchaseToken': token,
           });
