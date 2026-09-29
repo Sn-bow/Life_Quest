@@ -2790,11 +2790,16 @@ class CharacterState extends ChangeNotifier {
   }
 
   void _initializeNewData(User user) {
+    final displayName = user.displayName?.trim();
+    final hasDisplayName = displayName != null && displayName.isNotEmpty;
     _character = Character(
-      name: user.displayName ?? '모험가',
+      // Keep a canonical placeholder in storage. The existing display helper
+      // translates it using the active app locale in every supported language.
+      name: hasDisplayName ? displayName : '기록자',
+      usesDefaultGuestName: !hasDisplayName,
       photoUrl: user.photoURL,
       level: 1,
-      title: '새싹 모험가',
+      title: _allTitles.first.name,
       xp: 0,
       maxXp: xpRequiredForLevel(1),
       strength: 0,
@@ -2806,73 +2811,13 @@ class CharacterState extends ChangeNotifier {
       lastLoginDate: DateTime.now(),
       lastHpRegenAt: DateTime.now(),
     );
-    _dailyQuests = [
-      Quest(
-        id: 'd1',
-        name: '아침 7시 기상',
-        xp: 10,
-        type: QuestType.daily,
-        category: StatType.health,
-      ),
-      Quest(
-        id: 'd2',
-        name: '운동 30분',
-        xp: 20,
-        type: QuestType.daily,
-        category: StatType.strength,
-      ),
-      Quest(
-        id: 'd3',
-        name: '책 10페이지 읽기',
-        xp: 15,
-        type: QuestType.daily,
-        category: StatType.wisdom,
-      ),
-    ];
-    _weeklyQuests = [
-      Quest(
-        id: 'w1',
-        name: '주 3회 이상 운동하기',
-        xp: 100,
-        type: QuestType.weekly,
-        category: StatType.strength,
-      ),
-      Quest(
-        id: 'w2',
-        name: '새로운 기술/지식 학습하기',
-        xp: 120,
-        type: QuestType.weekly,
-        category: StatType.wisdom,
-      ),
-    ];
-    _monthlyQuests = [
-      Quest(
-        id: 'm1',
-        name: '이번 달 운동 12회 달성',
-        xp: 140,
-        type: QuestType.monthly,
-        category: StatType.health,
-        difficulty: QuestDifficulty.hard,
-      ),
-      Quest(
-        id: 'm2',
-        name: '사이드 프로젝트 핵심 기능 완성',
-        xp: 200,
-        type: QuestType.monthly,
-        category: StatType.wisdom,
-        difficulty: QuestDifficulty.veryHard,
-      ),
-    ];
-    _yearlyQuests = [
-      Quest(
-        id: 'y1',
-        name: '올해 대표 목표 하나 완수하기',
-        xp: 280,
-        type: QuestType.yearly,
-        category: StatType.charisma,
-        difficulty: QuestDifficulty.veryHard,
-      ),
-    ];
+    // A new person has not agreed to any schedule or long-term objective.
+    // Directed suggestions are offered separately and only added on acceptance.
+    _dailyQuests = [];
+    _weeklyQuests = [];
+    _monthlyQuests = [];
+    _yearlyQuests = [];
+    _invalidateQuestCache();
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
@@ -2883,6 +2828,11 @@ class CharacterState extends ChangeNotifier {
       );
       _initStarterCards();
     }
+  }
+
+  @visibleForTesting
+  void initializeNewCloudProfileForTesting(User user) {
+    _initializeNewData(user);
   }
 
   Future<void> unlockExpandedReportForToday() async {
