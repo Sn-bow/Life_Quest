@@ -12,6 +12,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   SoundService.muteForTesting();
+  const growthTerms = {
+    'ko': '성장 기록',
+    'en': 'Growth Record',
+    'ja': '成長記録',
+    'zh': '成長紀錄',
+  };
+  const retiredTerms = {
+    'ko': ['탐험', '이야기'],
+    'en': ['explor', 'stor'],
+    'ja': ['探索', '物語'],
+    'zh': ['探索', '故事'],
+  };
 
   for (final lang in ['ko', 'en', 'ja', 'zh']) {
     testWidgets('welcome actions remain usable at 320px and 200% text: $lang', (
@@ -72,6 +84,14 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
+      expect(find.text(l.lqWelcomeStepThree), findsOneWidget);
+      expect(find.text(l.lqWelcomeStepThreeBody), findsOneWidget);
+      final stepThreeCopy =
+          '${l.lqWelcomeStepThree} ${l.lqWelcomeStepThreeBody}';
+      expect(stepThreeCopy, contains(growthTerms[lang]));
+      for (final term in retiredTerms[lang]!) {
+        expect(stepThreeCopy, isNot(contains(term)));
+      }
       await tester.tap(find.byType(FilledButton));
       await tester.pumpAndSettle();
       expect(starts, 1);
@@ -157,6 +177,17 @@ void main() {
       await tester.scrollUntilVisible(find.byType(FilledButton), 400);
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
+      final l = AppLocalizations.of(
+        tester.element(find.byType(OnboardingScreen)),
+      )!;
+      expect(find.text(l.onboardingPage3Title), findsOneWidget);
+      expect(find.text(l.onboardingPage3Body), findsOneWidget);
+      final stepThreeCopy =
+          '${l.onboardingPage3Title} ${l.onboardingPage3Body}';
+      expect(stepThreeCopy, contains(growthTerms[lang]));
+      for (final term in retiredTerms[lang]!) {
+        expect(stepThreeCopy, isNot(contains(term)));
+      }
       await tester.pumpWidget(const SizedBox.shrink());
       state.dispose();
     });

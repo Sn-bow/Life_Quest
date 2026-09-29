@@ -1004,10 +1004,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onboardingPage2Body => '小さな行動をクエストとして記録。対応端末ではAIモデルを別途インストールできます。';
 
   @override
-  String get onboardingPage3Title => '物語は好きなときに';
+  String get onboardingPage3Title => '成長記録を見る';
 
   @override
-  String get onboardingPage3Body => '探索と物語は任意です。まずは自分のステータス画面から始めましょう。';
+  String get onboardingPage3Body => '完了したクエストと獲得したXPを成長記録で確認できます。';
 
   @override
   String get onboardingNext => '次へ';
@@ -4198,10 +4198,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqWelcomeStepTwoBody => '対応端末ならモデルを別途入れて、端末内でクエストを提案できます。';
 
   @override
-  String get lqWelcomeStepThree => '物語も任意';
+  String get lqWelcomeStepThree => '成長記録を見る';
 
   @override
-  String get lqWelcomeStepThreeBody => '探索や物語は、気が向いたときだけ開けます。';
+  String get lqWelcomeStepThreeBody => '完了したクエストと獲得したXPを成長記録で確認できます。';
 
   @override
   String get lqStartOnDevice => '自分のステータスを開く';

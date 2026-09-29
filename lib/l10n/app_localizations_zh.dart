@@ -992,10 +992,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPage2Body => '把小行動記為任務。支援的裝置可另外安裝 AI 模型。';
 
   @override
-  String get onboardingPage3Title => '故事隨你選擇';
+  String get onboardingPage3Title => '查看成長紀錄';
 
   @override
-  String get onboardingPage3Body => '探索與故事都是選用內容。先從自己的狀態視窗開始吧。';
+  String get onboardingPage3Body => '在成長紀錄查看已完成的任務與獲得的 XP。';
 
   @override
   String get onboardingNext => '下一步';
@@ -4178,10 +4178,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqWelcomeStepTwoBody => '支援的裝置可另外安裝模型，在裝置內取得任務建議。';
 
   @override
-  String get lqWelcomeStepThree => '故事也由你選擇';
+  String get lqWelcomeStepThree => '查看成長紀錄';
 
   @override
-  String get lqWelcomeStepThreeBody => '想探索或閱讀故事時再打開就好。';
+  String get lqWelcomeStepThreeBody => '在成長紀錄查看已完成的任務與獲得的 XP。';
 
   @override
   String get lqStartOnDevice => '開啟我的狀態視窗';

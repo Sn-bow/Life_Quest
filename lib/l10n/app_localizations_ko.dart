@@ -1005,10 +1005,10 @@ class AppLocalizationsKo extends AppLocalizations {
       '작은 행동을 퀘스트로 기록하세요. 지원 기기에서는 AI 모델을 따로 설치할 수도 있습니다.';
 
   @override
-  String get onboardingPage3Title => '원할 때만 이야기로';
+  String get onboardingPage3Title => '성장 기록 살펴보기';
 
   @override
-  String get onboardingPage3Body => '탐험과 이야기는 선택 사항입니다. 먼저 내 상태창에서 시작하세요.';
+  String get onboardingPage3Body => '완료한 퀘스트와 얻은 XP를 성장 기록에서 확인하세요.';
 
   @override
   String get onboardingNext => '다음';
@@ -4209,10 +4209,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqWelcomeStepTwoBody => '지원 기기에서 모델을 따로 설치하면 기기 안에서 퀘스트를 제안합니다.';
 
   @override
-  String get lqWelcomeStepThree => '이야기도 선택';
+  String get lqWelcomeStepThree => '성장 기록 살펴보기';
 
   @override
-  String get lqWelcomeStepThreeBody => '탐험과 이야기는 원할 때만 열어보세요.';
+  String get lqWelcomeStepThreeBody => '완료한 퀘스트와 얻은 XP를 성장 기록에서 확인하세요.';
 
   @override
   String get lqStartOnDevice => '내 상태창 열기';

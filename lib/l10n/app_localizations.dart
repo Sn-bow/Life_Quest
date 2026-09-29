@@ -1899,13 +1899,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPage3Title.
   ///
   /// In ko, this message translates to:
-  /// **'원할 때만 이야기로'**
+  /// **'성장 기록 살펴보기'**
   String get onboardingPage3Title;
 
   /// No description provided for @onboardingPage3Body.
   ///
   /// In ko, this message translates to:
-  /// **'탐험과 이야기는 선택 사항입니다. 먼저 내 상태창에서 시작하세요.'**
+  /// **'완료한 퀘스트와 얻은 XP를 성장 기록에서 확인하세요.'**
   String get onboardingPage3Body;
 
   /// No description provided for @onboardingNext.
@@ -8121,13 +8121,13 @@ abstract class AppLocalizations {
   /// No description provided for @lqWelcomeStepThree.
   ///
   /// In ko, this message translates to:
-  /// **'이야기도 선택'**
+  /// **'성장 기록 살펴보기'**
   String get lqWelcomeStepThree;
 
   /// No description provided for @lqWelcomeStepThreeBody.
   ///
   /// In ko, this message translates to:
-  /// **'탐험과 이야기는 원할 때만 열어보세요.'**
+  /// **'완료한 퀘스트와 얻은 XP를 성장 기록에서 확인하세요.'**
   String get lqWelcomeStepThreeBody;
 
   /// No description provided for @lqStartOnDevice.

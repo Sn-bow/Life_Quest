@@ -1036,11 +1036,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Record small actions as quests. On supported devices, you can separately install an AI model.';
 
   @override
-  String get onboardingPage3Title => 'Stories when you want them';
+  String get onboardingPage3Title => 'Review your growth';
 
   @override
   String get onboardingPage3Body =>
-      'Exploration and stories are optional. Start with your own status window.';
+      'See completed quests and earned XP in Growth Record.';
 
   @override
   String get onboardingNext => 'Next';
@@ -4329,11 +4329,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'On supported devices, install a separate model for on-device quest suggestions.';
 
   @override
-  String get lqWelcomeStepThree => 'Stories are optional';
+  String get lqWelcomeStepThree => 'Review your growth';
 
   @override
   String get lqWelcomeStepThreeBody =>
-      'Open the explorations and stories only when you want to.';
+      'See completed quests and earned XP in Growth Record.';
 
   @override
   String get lqStartOnDevice => 'Open my status';
