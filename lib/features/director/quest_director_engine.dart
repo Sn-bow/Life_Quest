@@ -141,7 +141,16 @@ class QuestTemplate {
       'zh' => 3,
       _ => 0,
     };
-    return titles[index].replaceAll('{m}', '$minutes');
+    final template = titles[index];
+    if (locale == 'en') {
+      return template
+          .replaceAll(
+            '{m} minutes',
+            '$minutes ${minutes == 1 ? 'minute' : 'minutes'}',
+          )
+          .replaceAll('{m}', '$minutes');
+    }
+    return template.replaceAll('{m}', '$minutes');
   }
 }
 
@@ -368,8 +377,14 @@ class QuestDirectorEngine {
       0,
       (recovery ? math.min(profile.minutes, 9) : profile.minutes) - usedMinutes,
     );
-    if (budget < slots) return [];
-    final target = (budget ~/ slots).clamp(1, recovery ? 3 : 15);
+    if (budget < 1) return [];
+    // A five-minute choice is one usable five-minute action, not three
+    // one-minute fragments. Recovery still caps each action at three minutes.
+    final slotCount = math.min(
+      slots,
+      math.max(1, budget ~/ (recovery ? 3 : 5)),
+    );
+    final target = (budget ~/ slotCount).clamp(1, recovery ? 3 : 15);
     final goal = _clearGoal(profile.goal);
     final seed = day.codeUnits.fold(17, (a, b) => (a * 31 + b) & 0x7fffffff);
     final candidates = catalog
@@ -413,7 +428,7 @@ class QuestDirectorEngine {
     final result = <DirectedQuest>[];
     final used = <GrowthFocus>{};
     var remaining = budget;
-    while (candidates.isNotEmpty && result.length < slots) {
+    while (candidates.isNotEmpty && result.length < slotCount) {
       final preferred = candidates
           .where(
             (t) => profile.focuses.contains(t.focus) || goal?.focus == t.focus,
