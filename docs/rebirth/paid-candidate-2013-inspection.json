@@ -1,17 +1,17 @@
 {
   "scope": "Local artifact only; NOT ready-to-publish certification",
   "profile": "paid",
-  "sourceCommit": "99ebfc0",
-  "appCodeCommit": "d9f2cc5",
+  "sourceCommit": "8a14501",
+  "appCodeCommit": "8a14501",
   "bundle": "build/review/life-quest-2.0.0-2013-paid-candidate.aab",
-  "bytes": 156033898,
-  "sha256": "ae7efd7c8cb548f350a33e42ac96ec7536bfa59473a05ffe497d0324d5de66c6",
+  "bytes": 156033758,
+  "sha256": "a50e22b8ea3d85d8d823dccf62ab792b18b533f48646141f25d0a2153a098b8c",
   "reviewApk": {
     "path": "build/review/life-quest-2.0.0-2013-paid-review.apk",
     "bytes": 163188472,
-    "sha256": "ce7ecdd633a420c7bfc06956f72baf877f5425226c40ea7f1f019ab9ad8bdeb1",
+    "sha256": "4db8d8028e0645d03d2ca89e03e7b5143e2a54a501d07cbc36068424ec8bbddf",
     "certificateSha256": "1537d6f39ee3eed153e134128bbe661132183847ca3aa7f4b511276bfd352bb3",
-    "package": "com.lifequest.app",
+    "package": "com.logian.lifequest",
     "versionName": "2.0.0",
     "versionCode": 2013,
     "targetSdkVersion": 36,
@@ -122,12 +122,12 @@
     }
   ],
   "sampleDeviceDownloadBytes": {
-    "MIN": 65330594,
-    "MAX": 65330594
+    "MIN": 65330545,
+    "MAX": 65330545
   },
   "checks": [
     {
-      "check": "Package com.lifequest.app",
+      "check": "Package com.logian.lifequest",
       "pass": true
     },
     {
