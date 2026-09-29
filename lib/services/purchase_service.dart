@@ -108,8 +108,11 @@ class PurchaseService extends ChangeNotifier {
     return user != null &&
         !user.isAnonymous &&
         user.uid == _uid &&
-        user.providerData.any((provider) => provider.providerId == 'google.com');
+        user.providerData.any(
+          (provider) => provider.providerId == 'google.com',
+        );
   }
+
   List<ProductDetails> get products => List.unmodifiable(_products);
   Set<String> get entitlements => _freshAt(_lastServerVerifiedAt)
       ? Set.unmodifiable(_entitlements)
@@ -168,6 +171,12 @@ class PurchaseService extends ChangeNotifier {
       _products = [];
       _available = await _store.isAvailable();
       if (!_available) return;
+      // An empty sale catalog pauses new purchases without turning off the
+      // purchase stream or restore path for already verified owners.
+      if (saleProductIds.isEmpty) {
+        _initialized = true;
+        return;
+      }
       final response = await _store.queryProductDetails(saleProductIds);
       if (response.error != null) return;
       final preferredIds = saleProductIds.toList();
@@ -275,7 +284,9 @@ class PurchaseService extends ChangeNotifier {
     if (signedIn == null ||
         signedIn.isAnonymous ||
         signedIn.uid != uid ||
-        !signedIn.providerData.any((provider) => provider.providerId == 'google.com')) {
+        !signedIn.providerData.any(
+          (provider) => provider.providerId == 'google.com',
+        )) {
       return false;
     }
     try {
@@ -299,6 +310,7 @@ class PurchaseService extends ChangeNotifier {
     if (!isAvailable ||
         busy ||
         checkingStore ||
+        !saleProductIds.contains(product.id) ||
         !_products.any((p) => p.id == product.id)) {
       return;
     }

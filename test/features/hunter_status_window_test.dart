@@ -245,7 +245,7 @@ void main() {
           expect(tester.getBottomLeft(frame).dy, lessThanOrEqualTo(navTop - 4));
           expect(
             find.byKey(const ValueKey('status-plus-open')),
-            findsOneWidget,
+            findsNothing,
           );
           expect(tester.takeException(), isNull);
           await tester.pumpWidget(const SizedBox());

@@ -56,7 +56,7 @@ class CatalogPlatform extends InAppPurchasePlatform {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   test(
-    'Play catalog outage, retry, unexpected SKU and concurrent refresh',
+    'paused sale catalog stays empty without disabling purchase recovery',
     () async {
       // This file is run separately with the real feature gates enabled. Only the
       // platform boundary is fake; no production purchase/ownership bypass exists.
@@ -71,6 +71,16 @@ void main() {
         expect(service.products, isEmpty);
         expect(service.checkingStore, false);
         platform.failAvailability = false;
+        if (!kStatusWindowPlusNewSalesEnabled) {
+          await service.refreshCatalog();
+          expect(saleProductIds, isEmpty);
+          expect(service.products, isEmpty);
+          expect(platform.queries, 0);
+          expect(service.checkingStore, false);
+          expect(service.entitlements, isEmpty);
+          expect(service.isAvailable, false); // No connected purchase account.
+          return;
+        }
         platform.queryError = true;
         await service.refreshCatalog();
         expect(

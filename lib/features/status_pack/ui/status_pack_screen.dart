@@ -34,42 +34,80 @@ class StatusPackScreen extends StatelessWidget {
     final state = context.watch<CharacterState>();
     final purchases = PurchaseService();
     final account = context.watch<PurchaseAccountState?>();
+    final copy = StatusPackCopy.forLocale(Localizations.localeOf(context));
     return ListenableBuilder(
       listenable: Listenable.merge([purchases, StatusSkinStore.instance]),
       builder: (context, _) {
         final product = purchases.products
             .where((item) => item.id == statusWindowPlusProductId)
             .firstOrNull;
+        final owned = purchases.ownsStatusWindowPlus;
         return Theme(
           data: HunterSystemFrame.themeFor(context),
           child: Scaffold(
             backgroundColor: const Color(0xFF07131B),
             appBar: AppBar(
-              title: Text(
-                StatusPackCopy.forLocale(
-                  Localizations.localeOf(context),
-                ).t('title'),
-              ),
+              title: Text(copy.t('title')),
               backgroundColor: const Color(0xFF07131B),
               foregroundColor: const Color(0xFFEAF9FF),
             ),
-            body: StatusPackBody(
-              receipts: state.systemJournal.receipts,
-              owned: purchases.ownsStatusWindowPlus,
-              product: product,
-              canPurchase: purchases.isAvailable,
-              monetizationEnabled: kLifeQuestMonetizationEnabled,
-              checkingStore: purchases.checkingStore,
-              purchaseBusy: purchases.busy,
-              phase: purchases.phase,
-              activeProduct: purchases.activeProduct,
-              showAccountLink: account?.enabled == true && account?.uid == null,
-              onBuy: product == null
-                  ? null
-                  : () => purchases.buyProduct(product),
-              onRestore: purchases.restorePurchases,
-              onRefreshCatalog: purchases.refreshCatalog,
-            ),
+            body: !owned && !kStatusWindowPlusNewSalesEnabled
+                ? Center(
+                    // The old pack remains restorable, but it is not a new
+                    // product offer until its value has been revalidated.
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(24),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 520),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(copy.t('salePaused'), style: _bodyStyle),
+                            if (account?.enabled == true &&
+                                account?.uid == null) ...[
+                              const SizedBox(height: 16),
+                              const PurchaseAccountTile(
+                                returnAfterConnection: true,
+                              ),
+                            ],
+                            const SizedBox(height: 16),
+                            TextButton.icon(
+                              key: const ValueKey('restore-status-plus'),
+                              onPressed:
+                                  purchases.isAvailable &&
+                                      !purchases.busy &&
+                                      !purchases.checkingStore
+                                  ? purchases.restorePurchases
+                                  : null,
+                              icon: const Icon(Icons.restore),
+                              label: Text(copy.t('restore')),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : StatusPackBody(
+                    receipts: state.systemJournal.receipts,
+                    owned: owned,
+                    product: product,
+                    canPurchase: purchases.isAvailable,
+                    monetizationEnabled:
+                        kLifeQuestMonetizationEnabled &&
+                        kStatusWindowPlusNewSalesEnabled,
+                    checkingStore: purchases.checkingStore,
+                    purchaseBusy: purchases.busy,
+                    phase: purchases.phase,
+                    activeProduct: purchases.activeProduct,
+                    showAccountLink:
+                        account?.enabled == true && account?.uid == null,
+                    onBuy: !kStatusWindowPlusNewSalesEnabled || product == null
+                        ? null
+                        : () => purchases.buyProduct(product),
+                    onRestore: purchases.restorePurchases,
+                    onRefreshCatalog: purchases.refreshCatalog,
+                  ),
           ),
         );
       },
@@ -856,6 +894,8 @@ class StatusPackCopy {
       'retry': '상품 다시 불러오기',
       'accountRequired': '구매와 복원을 위해 구매 계정을 연결하세요.',
       'restore': '구매 복원',
+      'salePaused':
+          '이 확장팩은 현재 새로 판매하지 않습니다. 이전에 구매했다면 구매 계정을 연결해 복원을 시도할 수 있습니다.',
       'pending': 'Google Play에서 구매가 처리 중입니다.',
       'verifying': '구매를 확인하고 있습니다.',
       'granted': '구매가 확인되었습니다.',
@@ -930,6 +970,8 @@ class StatusPackCopy {
       'retry': 'Reload product',
       'accountRequired': 'Connect a purchase account to buy or restore.',
       'restore': 'Restore purchase',
+      'salePaused':
+          'This pack is not currently sold to new customers. If you bought it before, connect your purchase account to try restoring it.',
       'pending': 'Google Play is processing the purchase.',
       'verifying': 'Verifying your purchase.',
       'granted': 'Purchase verified.',
@@ -995,6 +1037,7 @@ class StatusPackCopy {
       'retry': '商品を再読み込み',
       'accountRequired': '購入・復元には購入用アカウントを接続してください。',
       'restore': '購入を復元',
+      'salePaused': 'この拡張パックは現在、新規販売していません。以前に購入した場合は、購入用アカウントに接続して復元をお試しください。',
       'pending': 'Google Play で購入を処理中です。',
       'verifying': '購入を確認しています。',
       'granted': '購入を確認しました。',
@@ -1059,6 +1102,7 @@ class StatusPackCopy {
       'retry': '重新載入商品',
       'accountRequired': '請連結購買帳號以購買或還原。',
       'restore': '還原購買',
+      'salePaused': '此擴充包目前不開放新購買。若曾購買，請連結購買帳號並嘗試還原。',
       'pending': 'Google Play 正在處理購買。',
       'verifying': '正在驗證購買。',
       'granted': '購買已驗證。',

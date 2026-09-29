@@ -13,7 +13,7 @@ void main() {
     const Size(1280, 800),
   ]) {
     for (final language in ['en', 'ja']) {
-      testWidgets('free report Plus entry fits $size at 200% in $language', (
+      testWidgets('free report hides paused Plus offer at $size in $language', (
         tester,
       ) async {
         SharedPreferences.setMockInitialValues({});
@@ -43,9 +43,7 @@ void main() {
         );
         await tester.pumpAndSettle();
         final entry = find.byKey(const ValueKey('report-plus-open'));
-        await tester.ensureVisible(entry);
-        await tester.pumpAndSettle();
-        expect(entry, findsOneWidget);
+        expect(entry, findsNothing);
         expect(tester.takeException(), isNull);
         await tester.pumpWidget(const SizedBox());
         character.dispose();

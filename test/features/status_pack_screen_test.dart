@@ -7,6 +7,8 @@ import 'package:life_quest_final_v2/features/status_pack/status_skin_store.dart'
 import 'package:life_quest_final_v2/features/status_pack/ui/status_pack_screen.dart';
 import 'package:life_quest_final_v2/features/system/system_journal.dart';
 import 'package:life_quest_final_v2/services/purchase_service.dart';
+import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final _now = DateTime(2026, 9, 28, 18);
@@ -110,10 +112,47 @@ void main() {
         expect(copy.t('oneTime'), isNotEmpty);
         expect(copy.t('partialWarning'), isNotEmpty);
         expect(copy.t('noBoost'), isNotEmpty);
+        expect(copy.t('salePaused'), isNotEmpty);
         expect(copy.buyFor('¥700'), contains('¥700'));
       }
     },
   );
+
+  testWidgets('direct pack route has restoration but no new sale offer', (
+    tester,
+  ) async {
+    final character = CharacterState()..initializeForTesting();
+    tester.view.physicalSize = const Size(320, 720);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(
+        value: character,
+        child: const MaterialApp(
+          locale: Locale('ja'),
+          supportedLocales: [Locale('ja'), Locale('en')],
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          home: StatusPackScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text(const StatusPackCopy('ja').t('salePaused')), findsOneWidget);
+    expect(find.byKey(const ValueKey('buy-status-plus')), findsNothing);
+    expect(
+      find.byKey(const ValueKey('status-pack-purchase-panel')),
+      findsNothing,
+    );
+    expect(find.byKey(const ValueKey('restore-status-plus')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+    character.dispose();
+  });
 
   testWidgets(
     'Locked report shows no invented statistics and live Play price',

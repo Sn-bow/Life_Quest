@@ -61,7 +61,7 @@ class HunterStatusWindow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: StatusSkinStore.instance,
+    listenable: Listenable.merge([StatusSkinStore.instance, PurchaseService()]),
     builder: (context, _) => _buildWindow(context),
   );
 
@@ -70,6 +70,7 @@ class HunterStatusWindow extends StatelessWidget {
     final director = context.watch<QuestDirectorState>();
     final copy = SystemCopy(context);
     final l = AppLocalizations.of(context)!;
+    final ownsPlus = PurchaseService().ownsStatusWindowPlus;
     final hasFirstRecord =
         state.questCompletionCount > 0 ||
         state.systemJournal.receipts.isNotEmpty ||
@@ -116,7 +117,7 @@ class HunterStatusWindow extends StatelessWidget {
                   ),
                 ),
               ),
-              if (compact && hasFirstRecord)
+              if (compact && ownsPlus)
                 Semantics(
                   label: _plusLabel(context),
                   child: TextButton.icon(
@@ -127,12 +128,7 @@ class HunterStatusWindow extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       minimumSize: const Size(70, 40),
                     ),
-                    icon: Icon(
-                      PurchaseService().ownsStatusWindowPlus
-                          ? PhosphorIcons.sparkle
-                          : PhosphorIcons.lockSimple,
-                      size: 14,
-                    ),
+                    icon: const Icon(PhosphorIcons.sparkle, size: 14),
                     label: const Text(
                       'PLUS',
                       style: TextStyle(fontSize: 10, letterSpacing: 1),
@@ -277,17 +273,12 @@ class HunterStatusWindow extends StatelessWidget {
                 '${copy.get('today')}  +${xpText(state.recordedXpToday)} XP',
                 style: const TextStyle(color: _muted, fontSize: 12),
               ),
-              if (hasFirstRecord) ...[
+              if (ownsPlus) ...[
                 const SizedBox(height: 14),
                 OutlinedButton.icon(
                   key: const ValueKey('status-plus-open'),
                   onPressed: () => _openPlus(context),
-                  icon: Icon(
-                    PurchaseService().ownsStatusWindowPlus
-                        ? PhosphorIcons.sparkle
-                        : PhosphorIcons.lockSimple,
-                    size: 16,
-                  ),
+                  icon: const Icon(PhosphorIcons.sparkle, size: 16),
                   label: Text(_plusLabel(context)),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: _accent,

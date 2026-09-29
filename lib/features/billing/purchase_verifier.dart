@@ -3,9 +3,13 @@ import 'package:crypto/crypto.dart';
 
 const tideProductId = 'story_tide_postoffice_01';
 const statusWindowPlusProductId = 'status_window_plus_01';
-// Tide is retained for existing owners and Play restore, but is not offered
-// for sale in the status-window release.
-const saleProductIds = {statusWindowPlusProductId};
+// Temporary product gate: the Plus pack's purchase value has not been
+// validated. Keep SKU/entitlement mapping for verified owners, restore and
+// refunds, but offer no new SKU until the product itself is redesigned.
+const bool kStatusWindowPlusNewSalesEnabled = false;
+const saleProductIds = kStatusWindowPlusNewSalesEnabled
+    ? {statusWindowPlusProductId}
+    : <String>{};
 const bundledCosmeticProducts = {'theme_tide_postoffice': tideProductId};
 
 const playPackageName = 'com.logian.lifequest';

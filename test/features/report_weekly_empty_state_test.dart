@@ -41,7 +41,7 @@ void main() {
         expect(find.text(l10n.reportWeeklyActivityEmpty), findsOneWidget);
         expect(tester.getSize(empty).height, lessThanOrEqualTo(130));
         expect(find.byKey(const ValueKey('report-weekly-chart')), findsNothing);
-        expect(find.byKey(const ValueKey('report-plus-open')), findsOneWidget);
+        expect(find.byKey(const ValueKey('report-plus-open')), findsNothing);
         final openQuests = find.byKey(
           const ValueKey('report-weekly-open-quests'),
         );
