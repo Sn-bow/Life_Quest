@@ -12,15 +12,20 @@ class JourneySamples extends StatefulWidget {
   State<JourneySamples> createState() => _JourneySamplesState();
 }
 
-class _JourneySamplesState extends State<JourneySamples> {
+class _JourneySamplesState extends State<JourneySamples>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   JourneyKind _kind = JourneyKind.learning;
   Future<JourneyCatalog>? _catalog;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final copy = JourneyCopy(Localizations.localeOf(context).languageCode);
     return ExpansionTile(
       key: const ValueKey('journey-purchase-samples'),
+      maintainState: true,
       tilePadding: EdgeInsets.zero,
       childrenPadding: const EdgeInsets.only(bottom: 20),
       onExpansionChanged: (open) {
@@ -32,10 +37,10 @@ class _JourneySamplesState extends State<JourneySamples> {
       },
       title: Text(
         copy.choose([
-          'Read a real mission before buying',
-          '구매 전에 실제 미션 읽어보기',
-          '購入前に実際のミッションを読む',
-          '購買前先讀實際任務',
+          'Try a mission and its tools before buying',
+          '미션과 도구 먼저 체험하기',
+          '購入前にミッションと道具を試す',
+          '購買前先試任務與工具',
         ]),
       ),
       children: [

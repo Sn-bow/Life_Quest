@@ -71,6 +71,54 @@ void main() {
     );
   }
   testWidgets(
+    'purchase sample keeps its chosen route and checklist after scrolling away',
+    (tester) async {
+      final controller = ScrollController();
+      await tester.pumpWidget(
+        MaterialApp(
+          locale: const Locale('en'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: Scaffold(
+            body: ListView(
+              controller: controller,
+              children: const [
+                SizedBox(height: 600),
+                JourneySamples(),
+                SizedBox(height: 2400),
+              ],
+            ),
+          ),
+        ),
+      );
+      controller.jumpTo(600);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(ExpansionTile));
+      await tester.pump();
+      await tester.runAsync(() async {});
+      await tester.pumpAndSettle();
+      final chip = find.byKey(const ValueKey('journey-sample-order'));
+      await tester.tap(chip);
+      await tester.pumpAndSettle();
+      final checklist = find.widgetWithText(
+        CheckboxListTile,
+        'Put the book back',
+      );
+      await Scrollable.ensureVisible(tester.element(checklist), alignment: 0.5);
+      await tester.pumpAndSettle();
+      await tester.tap(checklist);
+      await tester.pumpAndSettle();
+      controller.jumpTo(controller.position.maxScrollExtent);
+      await tester.pumpAndSettle();
+      controller.jumpTo(600);
+      await tester.pumpAndSettle();
+      expect(tester.widget<ChoiceChip>(chip).selected, true);
+      expect(tester.widget<CheckboxListTile>(checklist).value, true);
+      await tester.pumpWidget(const SizedBox());
+      controller.dispose();
+    },
+  );
+  testWidgets(
     'accept small mission, note result, show real reward, advance once',
     (tester) async {
       SharedPreferences.setMockInitialValues({});
