@@ -100,8 +100,13 @@ class HunterStatusWindow extends StatelessWidget {
     return HunterSystemFrame(
       key: const ValueKey('hunter-status-window'),
       padding: compact
-          ? const EdgeInsets.fromLTRB(28, 22, 28, 21)
-          : const EdgeInsets.fromLTRB(36, 36, 36, 44),
+          ? EdgeInsets.fromLTRB(
+              40,
+              media.size.height <= 680 ? 26 : 30,
+              40,
+              media.size.height <= 680 ? 26 : 32,
+            )
+          : const EdgeInsets.fromLTRB(48, 44, 48, 52),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
