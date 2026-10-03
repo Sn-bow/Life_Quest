@@ -9,7 +9,9 @@
 - 전체586/CloudBilling63/루트28/analyze clean/배포파일40 통과. Android 업데이트·작은 행동 완료·재열람·강제종료 보존·가로태블릿200% 확인. [QA](qa/route-record-20261003/README.md), [빌드](product-2016-build.json), [검사](product-2016-inspection.json).
 - `build/review/life-quest-2.1.0-2016-complete.apk`와 `.aab`는 로컬 검증 후보. **2016 미업로드**, Play2015 내부초안 유지, 비공개 테스트 미게시.
 - Firebase MCP 인증NONE을 재확인. MCP 로그인은 Google400/로그인후OAuth오류로 실패했다. 사용자 로그인 확인 후 공식CLI로 복구를 시도했고, 지정 계정 확인을 통과해 Firebase/Cloud 관리권한 Allow의 사용자 승인 대기까지 진행했다. 인증 코드·토큰은 파일에 저장하지 않는다. 인증 없이 표시된 Billing No를 실제 과금 상태로 해석하지 않는다.
-- 실제 구매/복원/환불·운영서버와 Play서명 인증서 등록(기존 승인 대기)은 미완료. 이를 무료 기록 UI/테스트 통과로 대체하지 않는다.
+- **로그인 후 Console 읽기 확인:** hyeonseok460의 해당 프로젝트는 Blaze이며 Auth의 이메일/비밀번호·Google·익명이 이미 활성화돼 있다. 새 Android 앱에 Play 앱서명 SHA1/SHA256이 저장돼 있고 App Check / Play Integrity에도 업로드 SHA256과 Play SHA256 두 개가 이미 존재한다. 재등록하거나 보안 설정을 변경하지 않았다. 이전 ‘인증서 추가 대기’ 기록은 현재 상태가 아니다.
+- Functions 화면은 아직 시작 안내이며 운영 함수 목록이 없다. 실제 구매/복원/환불·운영서버는 미완료다. Firestore App Check는 적용되지 않음, Auth는 모니터링이며 Storage는 시작 전으로 표시됐다. callable 코드의 App Check 강제 설정은 유지한다. 이를 무료 기록 UI/테스트 통과로 대체하지 않는다.
+- 위 읽기 증거는 `build/review/firebase-auth-providers-2016.png`, `firebase-functions-before-deploy-2016.png`, `firebase-play-integrity-2016.png`, `firebase-android-sha-2016.png`. 관리 권한 승인 후 공식 CLI로 원격 규칙·인덱스·서비스를 확인하고 배포한다. 인증 연결을 확인하기 전에 콘솔 접근과 CLI 인증을 혼동하지 않는다.
 - [2016 테스터 안내](store/TESTER_STEPS_2016.md) 준비. 판매자CSV/실제참여링크 없음. 판매자 연락·결제·전달 없음.
 - 공개 사이트는 직전2015 설명 그대로이며 소스에서2016 표기만 준비했다. 이번 제품 수정 때문에 Console 업로드나 사이트 배포를 다시 선행하지 않았다.
 
