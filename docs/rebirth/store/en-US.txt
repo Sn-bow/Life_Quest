@@ -1,29 +1,31 @@
 Life Quest: My Status Window
 
-Open your status window. Turn small daily actions into quests and earn XP.
+Know your next step. Complete guided quests and grow your own status window.
 
-What if opening an app felt like checking your own status window?
+A status window for the things you actually do.
+Life Quest turns a personal goal into a next action. Start with a topic you want to learn, a space you want to put in order, a comfortable break, or a connection you want to care for. You do not need to design a whole reward system before you begin.
 
-Life Quest brings the personal status screen of modern fantasy stories into everyday life. Pick something you can do today—study for ten minutes, clear your desk, take a short break—and record it when you finish. The XP and in-app stats you earn appear on your status window.
+FOUR ROUTES, A CLEAR NEXT STEP
+Each route has 21 different missions across three chapters. Read the action, accept the mission, do it and leave an optional note. Your notes stay with the route so you can use what you discovered next time. The first 7 missions in every route are free: 28 guided missions in total.
 
-YOUR STATUS COMES FIRST
-The first screen shows your level, XP and stats. Finish a quest, see its reward, and return to a status window updated from your saved progress. A day off does not take away the everyday XP or levels you have earned.
+SMALL COUNTS TOO
+Busy day? Each mission has a small version with a concrete action. Use the optional focus timer, or work at your own pace. Time passing never marks a quest complete; you record what you did. Days off do not erase your route progress or subtract earned XP. The timer has no background alarm.
 
-QUESTS YOU CHOOSE
-Get suggestions based on your available time, energy, interests and feedback on earlier quests. A suggestion becomes your quest only when you accept it. You can make and edit your own quests, too. Sometimes an unexpected quest appears inside the app when the conditions fit. Accept or decline it; declining does not reduce your existing XP or level. These surprise quests are not push notifications.
+OPEN YOUR STATUS WINDOW
+See your saved level, XP, title and four in-app stats. Complete a quest to see the actual reward and updated progress. These game stats are not measurements of your health or real-world ability.
 
-OPTIONAL, FREE ON-DEVICE AI
-On compatible Android devices, you can choose to download the publicly available Gemma 4 E2B model. After installation, quest generation runs on your device, with no AI-call fee. The built-in suggestions and your own quests work without the model. The download is about 2.59GB; at least 3GB of free storage is recommended. Speed varies by device, and mobile data charges may apply. Review, edit or skip AI suggestions before accepting them.
+LIFE QUEST COMPLETE — OPTIONAL ONE-TIME PURCHASE
+Continue with missions 8–21 in all four routes: 56 additional missions, for 84 in total. Finish a route, keep its notes and start again with a new goal. Also includes three original status looks, 30/90-day reports from your completion history, and PNG, text and CSV report export. No subscription and no paid XP multiplier. Price is shown by Google Play before purchase.
 
-THREE SHORT STORIES
-Read three free short stories alongside your quests. Your choices change parts of the dialogue, and finishing everyday quests opens the next scenes.
+YOUR OWN QUESTS REMAIN FREE
+Create personal quests, get daily suggestions and choose whether to accept occasional surprise quests inside the app. Declining a suggestion costs no XP. Your existing history and password-encrypted backups remain free. Three short stories are an optional extra.
 
-STATUS WINDOW PLUS — OPTIONAL ONE-TIME PURCHASE
-Unlock three original status looks and reports based on your recorded quest completions over the last 30 or 90 days. Review recorded XP, active days and streaks, then save the report as a PNG image, text file or CSV. Periods without enough recorded history are marked as incomplete. These reports reflect in-app records, not measured real-world ability. The pack adds no XP or stat boosts. The core status window, quests, existing history and encrypted backups remain free.
+OPTIONAL ON-DEVICE AI
+Core routes work without a model or account. On compatible Android devices, the optional Gemma 4 E2B download is approximately 2.59GB. Generation then runs on your device without an AI-call fee. Device performance varies; mobile data charges can apply. Review, edit or skip suggestions.
 
-START WITHOUT AN ACCOUNT
-Core use needs no account; progress is stored on your device. A free encrypted backup file lets you save and restore your records and story choices. A purchase-only account connection is needed if you choose to buy or restore a purchase. Keep your backup password safe: it cannot be recovered if forgotten.
+RECORDS AND PURCHASES
+Start with a device profile without signing in. Back up your records before uninstalling; a forgotten backup password cannot be recovered. Buying or restoring requires a Google purchase account and internet. Verified paid access can be cached offline for up to 7 days before another online check. Connecting a purchase account does not upload your device-only goals or notes. An optional cloud profile is a separate choice.
 
 Languages: English, Korean, Japanese and Traditional Chinese
 Support: logian621@gmail.com
-Privacy and data deletion: https://sn-bow.github.io/Life_Quest/
+Privacy and deletion: https://sn-bow.github.io/Life_Quest/

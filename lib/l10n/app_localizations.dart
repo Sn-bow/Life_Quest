@@ -8133,25 +8133,25 @@ abstract class AppLocalizations {
   /// No description provided for @lqWelcomeExampleVitality.
   ///
   /// In ko, this message translates to:
-  /// **'오늘 5분 가볍게 몸 풀기'**
+  /// **'무리 없는 휴식을 일상에 만들기'**
   String get lqWelcomeExampleVitality;
 
   /// No description provided for @lqWelcomeExampleLearning.
   ///
   /// In ko, this message translates to:
-  /// **'오늘 5분 궁금한 주제 읽기'**
+  /// **'궁금한 주제를 이해하고 활용하기'**
   String get lqWelcomeExampleLearning;
 
   /// No description provided for @lqWelcomeExampleOrder.
   ///
   /// In ko, this message translates to:
-  /// **'오늘 5분 책상 한 구역 정리하기'**
+  /// **'책상을 쓰기 편한 공간으로 만들기'**
   String get lqWelcomeExampleOrder;
 
   /// No description provided for @lqWelcomeExampleConnection.
   ///
   /// In ko, this message translates to:
-  /// **'오늘 한 사람에게 안부 전하기'**
+  /// **'편안한 속도로 관계 이어가기'**
   String get lqWelcomeExampleConnection;
 
   /// No description provided for @lqWelcomeMinutes.

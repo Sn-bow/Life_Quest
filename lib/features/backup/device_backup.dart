@@ -1,4 +1,5 @@
 import '../system/system_journal.dart';
+import '../journeys/journey_progress.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -103,6 +104,7 @@ class DeviceSnapshot {
         throw const InvalidBackup();
       }
       final profile = <String, dynamic>{
+        'journeys': JourneyBook.fromJson(source['journeys']).toJson(),
         'character': character.toJson(),
         'systemJournal': SystemJournal.fromJson(
           source['systemJournal'],

@@ -1,3 +1,4 @@
+import '../journeys/journey_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -99,7 +100,7 @@ class HunterStatusWindow extends StatelessWidget {
     return HunterSystemFrame(
       key: const ValueKey('hunter-status-window'),
       padding: compact
-          ? const EdgeInsets.fromLTRB(28, 24, 28, 25)
+          ? const EdgeInsets.fromLTRB(28, 22, 28, 21)
           : const EdgeInsets.fromLTRB(36, 36, 36, 44),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -236,7 +237,10 @@ class HunterStatusWindow extends StatelessWidget {
               backgroundColor: const Color(0xFF193448),
               semanticsLabel: 'XP',
             ),
-            if (firstAccepted != null || firstSuggestion != null) ...[
+            if (state.journeys.active != null) ...[
+              SizedBox(height: compact ? 12 : 20),
+              JourneyStatusCard(compact: compact),
+            ] else if (firstAccepted != null || firstSuggestion != null) ...[
               SizedBox(height: compact ? 12 : 20),
               _firstQuest(
                 context,
@@ -245,7 +249,17 @@ class HunterStatusWindow extends StatelessWidget {
               ),
             ],
             SizedBox(height: compact ? 8 : 19),
-            for (var i = 0; i < 4; i++) _stat(context, i, compact: compact),
+            if (compact)
+              for (var row = 0; row < 2; row++)
+                Row(
+                  children: [
+                    Expanded(child: _stat(context, row * 2, compact: true)),
+                    const SizedBox(width: 16),
+                    Expanded(child: _stat(context, row * 2 + 1, compact: true)),
+                  ],
+                )
+            else
+              for (var i = 0; i < 4; i++) _stat(context, i),
             SizedBox(height: compact ? 4 : 12),
             InkWell(
               key: const ValueKey('hunter-stat-points'),
@@ -267,6 +281,12 @@ class HunterStatusWindow extends StatelessWidget {
                 ),
               ),
             ),
+            if (state.journeys.active == null &&
+                firstAccepted == null &&
+                firstSuggestion == null) ...[
+              const SizedBox(height: 10),
+              JourneyStatusCard(compact: compact),
+            ],
             if (!compact) ...[
               const Divider(height: 16),
               Text(

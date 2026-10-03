@@ -11,12 +11,13 @@ import 'package:life_quest_final_v2/features/director/quest_director_state.dart'
 import 'package:life_quest_final_v2/features/director/quest_director_engine.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:life_quest_final_v2/screens/quests_screen.dart';
+import '../features/journeys/journey_screen.dart';
+import '../features/journeys/journey_catalog.dart';
+import '../l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/screens/today_screen.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -179,14 +180,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   List<Widget> _widgetOptions() {
     return <Widget>[
       TodayScreen(onOpenQuests: () => _onItemTapped(1)),
-      const QuestsScreen(),
+      const JourneyLibraryScreen(),
       const GrowthHubScreen(),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final journeyCopy = JourneyCopy(
+      Localizations.localeOf(context).languageCode,
+    );
     // 데이터 로딩 중일 때 로딩 화면 표시
     if (context.watch<CharacterState>().isLoading) {
       return const Scaffold(
@@ -206,23 +209,34 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             ),
           ),
           bottomNavigationBar: NavigationBar(
+            backgroundColor: const Color(0xFF07131B),
+            indicatorColor: const Color(0xFF183B4C),
             selectedIndex: _selectedIndex,
             onDestinationSelected: _onItemTapped,
             destinations: [
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.house),
-                selectedIcon: const Icon(PhosphorIcons.houseFill),
+                selectedIcon: const Icon(
+                  PhosphorIcons.houseFill,
+                  color: Color(0xFF80DCFB),
+                ),
                 label: SystemCopy(context).get('status'),
               ),
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.checkSquare),
-                selectedIcon: const Icon(PhosphorIcons.checkSquareFill),
-                label: l10n.tabQuests,
+                selectedIcon: const Icon(
+                  PhosphorIcons.checkSquareFill,
+                  color: Color(0xFF80DCFB),
+                ),
+                label: journeyCopy.choose(['Routes', '루트', 'ルート', '路線']),
               ),
               NavigationDestination(
                 icon: const Icon(PhosphorIcons.chartBar),
-                selectedIcon: const Icon(PhosphorIcons.chartBarFill),
-                label: SystemCopy(context).get('journal'),
+                selectedIcon: const Icon(
+                  PhosphorIcons.chartBarFill,
+                  color: Color(0xFF80DCFB),
+                ),
+                label: journeyCopy.choose(['Growth', '성장', '成長', '成長']),
               ),
             ],
           ),

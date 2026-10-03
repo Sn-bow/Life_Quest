@@ -104,7 +104,8 @@ void main() {
                       !kIsWeb &&
                       defaultTargetPlatform == TargetPlatform.android,
                   isPurchaseOnly: () => session.purchaseOnlyAuth,
-                  isLocalProfile: () => context.read<CharacterState>().isLocalGuest,
+                  isLocalProfile: () =>
+                      context.read<CharacterState>().isLocalGuest,
                   markPurchaseOnly: session.markPurchaseOnlyAuth,
                   createGateway: FirebasePurchaseAccountGateway.new,
                 );
@@ -203,12 +204,22 @@ class LifeQuestApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          locale: state.locale,
+          locale: state.locale?.languageCode == 'zh'
+              ? const Locale.fromSubtags(
+                  languageCode: 'zh',
+                  scriptCode: 'Hant',
+                  countryCode: 'TW',
+                )
+              : state.locale,
           supportedLocales: const [
             Locale('ko'),
             Locale('en'),
             Locale('ja'),
-            Locale('zh'),
+            Locale.fromSubtags(
+              languageCode: 'zh',
+              scriptCode: 'Hant',
+              countryCode: 'TW',
+            ),
           ],
           themeMode: state.themeMode,
           theme: QuestTheme.build(Brightness.light, cosmetic: cosmetic),

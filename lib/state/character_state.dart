@@ -1,4 +1,6 @@
 import '../features/system/system_journal.dart';
+import '../features/journeys/journey_progress.dart';
+import '../features/journeys/mission_focus_store.dart';
 import '../features/session/profile_write_queue.dart';
 import '../features/research/beta_study.dart';
 import '../features/billing/purchase_verifier.dart';
@@ -83,6 +85,7 @@ class CharacterState extends ChangeNotifier {
   static const String _qaPreviewStorageKey = 'lifequest.qaPreview.state.v2';
   static const String localProfileStorageKey = 'lifequest.local.state.v1';
   SystemJournal systemJournal = SystemJournal();
+  JourneyBook journeys = const JourneyBook();
   bool _systemBusy = false;
   bool get isApplyingSystemAction => _systemBusy;
   double _achievementXpGranted = 0;
@@ -285,6 +288,7 @@ class CharacterState extends ChangeNotifier {
     _saveTimer?.cancel();
     _hpRegenTimer?.cancel();
     await _localWrites.catchError((Object _) {});
+    await MissionFocusStore.clear(personalizationScope);
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(localProfileStorageKey);
     await prefs.remove('lifequest.director.v1.device');
@@ -947,6 +951,7 @@ class CharacterState extends ChangeNotifier {
     _dungeonCheckpoint = null;
     _settledDungeonRunId = null;
     systemJournal = SystemJournal();
+    journeys = const JourneyBook();
     _systemBusy = false;
     _restoringLocal = false;
     _deletingAccount = false;
@@ -1198,6 +1203,10 @@ class CharacterState extends ChangeNotifier {
             .where((r) => r.questId == quest.id && r.at == quest.completedDate)
             .lastOrNull;
       } else {
+        if (quest.id.startsWith('journey:') &&
+            !journeys.runs.any((r) => !r.completed && r.questId == quest.id)) {
+          throw StateError('Journey step already settled');
+        }
         _atomicProfileMutation = true;
         try {
           completeQuest(quest, xpMultiplier: xpMultiplier);
@@ -1368,12 +1377,25 @@ class CharacterState extends ChangeNotifier {
     double xpMultiplier = 1.0,
   }) {
     if (!quest.isCompleted) {
+      if (quest.id.startsWith('journey:') &&
+          !journeys.runs.any((r) => !r.completed && r.questId == quest.id)) {
+        return null;
+      }
       final levelBefore = _character!.level;
       final xpBefore = _character!.xp;
       final achievementXpBefore = _achievementXpGranted;
       final statsBefore = _statSnapshot();
       quest.isCompleted = true;
       quest.completedDate = DateTime.now();
+      journeys = journeys.record(
+        quest.id,
+        JourneyEntry(
+          at: quest.completedDate!,
+          note: journeyText(quest.completionNote, 240),
+          shortVersion: quest.journeyShortVersion,
+          minutes: quest.estimatedMinutes ?? 5,
+        ),
+      );
       _recordGrowthContribution(quest);
       double statBonusRate = 0;
       double statValue = 0;
@@ -1517,6 +1539,111 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get ownsJourneys =>
+      _purchasedEntitlements.contains(journeysCompleteProductId) ||
+      _purchasedEntitlements.contains(statusWindowPlusProductId);
+
+  Future<T> _saveJourneyMutation<T>(T Function() mutate) async {
+    if (!_isDataLoaded || _systemBusy || _restoringLocal || _deletingAccount) {
+      throw StateError('Profile busy');
+    }
+    _systemBusy = true;
+    final generation = _profileGeneration;
+    try {
+      final result = mutate();
+      await _performSaveData();
+      if (generation != _profileGeneration || _disposed) {
+        throw StateError('Profile changed');
+      }
+      notifyListeners();
+      return result;
+    } finally {
+      _systemBusy = false;
+    }
+  }
+
+  Future<JourneyRun> startJourney(JourneyKind kind, String goal) =>
+      _saveJourneyMutation(() {
+        final existing = journeys.latest(kind);
+        if (existing != null && !existing.completed) {
+          journeys = journeys.select(existing.id);
+        } else {
+          final now = DateTime.now();
+          journeys = journeys.start(
+            JourneyRun(
+              id: '${kind.name}_${now.microsecondsSinceEpoch}',
+              kind: kind,
+              goal: journeyText(goal, 120),
+              startedAt: now,
+            ),
+          );
+        }
+        return journeys.active!;
+      });
+
+  Future<void> selectJourney(String id) => _saveJourneyMutation(() {
+    journeys = journeys.select(id);
+  });
+
+  Future<void> renameJourneyGoal(String id, String goal) =>
+      _saveJourneyMutation(() {
+        final clean = journeyText(goal, 120);
+        if (clean.isEmpty) throw ArgumentError('Empty goal');
+        journeys = JourneyBook(
+          activeId: journeys.activeId,
+          runs: List.unmodifiable([
+            for (final run in journeys.runs)
+              run.id == id && !run.completed ? run.withGoal(clean) : run,
+          ]),
+        );
+      });
+
+  /// A route task has a stable identity even when resumed on another day.
+  Future<Quest> acceptJourney({
+    required String runId,
+    required String title,
+    required String instruction,
+    required int minutes,
+    required bool shortVersion,
+    required String locale,
+  }) => _saveJourneyMutation(() {
+    final run = journeys.runs.where((r) => r.id == runId).firstOrNull;
+    if (run == null ||
+        run.completed ||
+        (run.stage >= journeyFreeStages && !ownsJourneys)) {
+      throw StateError('Journey unavailable');
+    }
+    journeys = journeys.select(runId);
+    final existing = _dailyQuests.where((q) => q.id == run.questId).firstOrNull;
+    if (existing != null) return existing;
+    final duration = minutes.clamp(1, 15);
+    final difficulty = duration <= 5
+        ? QuestDifficulty.easy
+        : QuestDifficulty.normal;
+    final quest = Quest(
+      id: run.questId,
+      name: journeyText(title, 120),
+      xp: Quest.xpForDifficulty(difficulty, QuestType.daily),
+      type: QuestType.daily,
+      category: switch (run.kind) {
+        JourneyKind.learning => StatType.wisdom,
+        JourneyKind.order => StatType.wisdom,
+        JourneyKind.vitality => StatType.health,
+        JourneyKind.connection => StatType.charisma,
+      },
+      difficulty: difficulty,
+      estimatedMinutes: duration,
+      scheduledDay: systemDay(DateTime.now()),
+      instruction: instruction,
+      generatedLocale: locale,
+      journeyShortVersion: shortVersion,
+    );
+    quest.lockedXp = previewQuestXp(quest);
+    _dailyQuests.add(quest);
+    _invalidateQuestCache();
+    return quest;
+  });
+
   void addQuest(
     String name,
     int xp,
@@ -1572,7 +1699,10 @@ class CharacterState extends ChangeNotifier {
       return false;
     }
     if (_dailyQuests.any((q) => q.id == quest.id)) return true;
-    if (_dailyQuests.where((q) => q.scheduledDay == day).length >= 3) {
+    if (_dailyQuests
+            .where((q) => q.id.startsWith('director:') && q.scheduledDay == day)
+            .length >=
+        3) {
       return false;
     }
     quest.lockedXp ??= previewQuestXp(quest);
@@ -2195,6 +2325,7 @@ class CharacterState extends ChangeNotifier {
   Map<String, dynamic> _buildSavePayload({bool includeServerTimestamp = true}) {
     return {
       'systemJournal': systemJournal.toJson(),
+      'journeys': journeys.toJson(),
       'dungeonCheckpoint': _dungeonCheckpoint,
       'settledDungeonRunId': _settledDungeonRunId,
       'character': _character!.toJson(),
@@ -2250,6 +2381,7 @@ class CharacterState extends ChangeNotifier {
       }
       _restoreExpedition(decoded);
       systemJournal = SystemJournal.fromJson(decoded['systemJournal']);
+      journeys = JourneyBook.fromJson(decoded['journeys']);
       _dailyQuests = (decoded['dailyQuests'] as List<dynamic>? ?? [])
           .whereType<Map>()
           .map((q) => Quest.fromJson(Map<String, dynamic>.from(q)))
@@ -2472,6 +2604,7 @@ class CharacterState extends ChangeNotifier {
         );
         _restoreExpedition(data);
         systemJournal = SystemJournal.fromJson(data['systemJournal']);
+        journeys = JourneyBook.fromJson(data['journeys']);
         _character!.lastHpRegenAt ??= DateTime.now();
         final expectedMaxXp = xpRequiredForLevel(_character!.level);
         if (_character!.maxXp != expectedMaxXp) {
@@ -2708,13 +2841,16 @@ class CharacterState extends ChangeNotifier {
       didChange = true;
       // Missing a habit never removes earned levels, XP or combat health.
       // Consecutive completion is a bonus; returning after a break is welcome.
+      final dailyActions = _dailyQuests
+          .where((quest) => !quest.id.startsWith('journey:'))
+          .toList();
       final allDailiesCompleted =
-          _dailyQuests.isNotEmpty &&
-          _dailyQuests.every((quest) => quest.isCompleted);
+          dailyActions.isNotEmpty &&
+          dailyActions.every((quest) => quest.isCompleted);
       if (!allDailiesCompleted) _character!.streak = 0;
 
       // --- Streak: increment if ALL daily quests were completed ---
-      if (allDailiesCompleted && _dailyQuests.isNotEmpty) {
+      if (allDailiesCompleted) {
         _character!.streak += 1;
         // Streak bonus: extra AP for maintaining streak
         int streakBonusAp = (_character!.streak ~/ 3); // +1 AP per 3 days
@@ -2727,8 +2863,13 @@ class CharacterState extends ChangeNotifier {
       }
 
       // Suggested actions expire; recurring user quests reset normally.
-      _dailyQuests.removeWhere((quest) => quest.scheduledDay != null);
+      _dailyQuests.removeWhere(
+        (quest) =>
+            quest.scheduledDay != null &&
+            (!quest.id.startsWith('journey:') || quest.isCompleted),
+      );
       for (var quest in _dailyQuests) {
+        if (quest.id.startsWith('journey:')) continue;
         quest.isCompleted = false;
         quest.completedDate = null;
         quest.awardedXp = null;

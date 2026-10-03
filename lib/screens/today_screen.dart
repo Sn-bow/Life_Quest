@@ -1,5 +1,7 @@
 import 'dart:async';
 import '../features/system/system_widgets.dart';
+import '../features/journeys/journey_catalog.dart';
+import '../features/journeys/journey_screen.dart';
 import '../features/system/hunter_status_window.dart';
 import '../features/story/story_screens.dart';
 import 'package:flutter/material.dart';
@@ -548,6 +550,39 @@ class _TodayScreenState extends State<TodayScreen> {
     final theme = Theme.of(context);
     final character = context.read<CharacterState>();
     final director = context.read<QuestDirectorState>();
+    if (quest.id.startsWith('journey:')) {
+      final run = character.journeys.runs
+          .where((r) => quest.id.startsWith('journey:${r.id}:'))
+          .firstOrNull;
+      final stage = int.tryParse(quest.id.split(':').last);
+      if (run == null || stage == null) return;
+      try {
+        final catalog = await JourneyCatalog.load();
+        if (!context.mounted) return;
+        await Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => JourneyMissionScreen(
+              runId: run.id,
+              stage: stage,
+              catalog: catalog,
+            ),
+          ),
+        );
+      } catch (_) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                JourneyCopy(
+                  Localizations.localeOf(context).languageCode,
+                ).t('loadError'),
+              ),
+            ),
+          );
+        }
+      }
+      return;
+    }
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,

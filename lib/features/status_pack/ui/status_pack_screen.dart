@@ -14,6 +14,7 @@ import '../../../config/monetization_config.dart';
 import '../../../services/purchase_service.dart';
 import '../../../state/character_state.dart';
 import '../../billing/purchase_account_screen.dart';
+import '../../journeys/journey_purchase_screen.dart';
 import '../../billing/purchase_account_state.dart';
 import '../../billing/purchase_verifier.dart';
 import '../../system/system_journal.dart';
@@ -42,6 +43,7 @@ class StatusPackScreen extends StatelessWidget {
             .where((item) => item.id == statusWindowPlusProductId)
             .firstOrNull;
         final owned = purchases.ownsStatusWindowPlus;
+        if (!owned) return const JourneyPurchaseScreen();
         return Theme(
           data: HunterSystemFrame.themeFor(context),
           child: Scaffold(

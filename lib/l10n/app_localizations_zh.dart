@@ -4182,16 +4182,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqWelcomeGoalQuickHint => '選擇領域後會自動填入起步目標，也可以自行修改。';
 
   @override
-  String get lqWelcomeExampleVitality => '今天輕鬆活動身體 5 分鐘';
+  String get lqWelcomeExampleVitality => '在日常留出舒服的休息';
 
   @override
-  String get lqWelcomeExampleLearning => '今天閱讀有興趣的主題 5 分鐘';
+  String get lqWelcomeExampleLearning => '理解並運用感興趣的主題';
 
   @override
-  String get lqWelcomeExampleOrder => '今天整理桌面一角 5 分鐘';
+  String get lqWelcomeExampleOrder => '讓書桌更好用';
 
   @override
-  String get lqWelcomeExampleConnection => '今天向一個人問候近況';
+  String get lqWelcomeExampleConnection => '以舒服的步調維持聯繫';
 
   @override
   String get lqWelcomeMinutes => '每天可用的時間';

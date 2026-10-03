@@ -1,3 +1,4 @@
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -118,7 +119,7 @@ void main() {
     },
   );
 
-  testWidgets('direct pack route has restoration but no new sale offer', (
+  testWidgets('old pack entry leads to Complete without selling legacy SKU', (
     tester,
   ) async {
     final character = CharacterState()..initializeForTesting();
@@ -132,23 +133,19 @@ void main() {
         child: const MaterialApp(
           locale: Locale('ja'),
           supportedLocales: [Locale('ja'), Locale('en')],
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
           home: StatusPackScreen(),
         ),
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text(const StatusPackCopy('ja').t('salePaused')), findsOneWidget);
+    expect(find.text('Life Quest Complete'), findsOneWidget);
     expect(find.byKey(const ValueKey('buy-status-plus')), findsNothing);
     expect(
       find.byKey(const ValueKey('status-pack-purchase-panel')),
       findsNothing,
     );
-    expect(find.byKey(const ValueKey('restore-status-plus')), findsOneWidget);
+    expect(find.byKey(const ValueKey('restore-status-plus')), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox());
     character.dispose();

@@ -27,6 +27,8 @@ class Quest {
   double? lockedXp;
   double? awardedXp;
   int? awardedGold;
+  final bool journeyShortVersion;
+  String completionNote;
 
   Quest({
     required this.id,
@@ -46,6 +48,8 @@ class Quest {
     this.lockedXp,
     this.awardedXp,
     this.awardedGold,
+    this.journeyShortVersion = false,
+    this.completionNote = '',
   });
 
   /// Auto-calculate XP based on difficulty and quest type
@@ -109,6 +113,12 @@ class Quest {
       lockedXp: (json['lockedXp'] as num?)?.toDouble(),
       awardedXp: (json['awardedXp'] as num?)?.toDouble(),
       awardedGold: json['awardedGold'] as int?,
+      journeyShortVersion: json['journeyShortVersion'] == true,
+      completionNote: json['completionNote'] is String
+          ? String.fromCharCodes(
+              (json['completionNote'] as String).runes.take(240),
+            )
+          : '',
       completedDate: json['completedDate'] != null
           ? DateTime.tryParse(json['completedDate'])
           : null,
@@ -127,6 +137,8 @@ class Quest {
       if (lockedXp != null) 'lockedXp': lockedXp,
       if (awardedXp != null) 'awardedXp': awardedXp,
       if (awardedGold != null) 'awardedGold': awardedGold,
+      if (journeyShortVersion) 'journeyShortVersion': true,
+      if (completionNote.isNotEmpty) 'completionNote': completionNote,
       'completedDate': completedDate?.toIso8601String(),
       if (directorTemplateId != null) 'directorTemplateId': directorTemplateId,
       if (scheduledDay != null) 'scheduledDay': scheduledDay,

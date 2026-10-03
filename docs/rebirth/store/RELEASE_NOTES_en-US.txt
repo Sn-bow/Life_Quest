@@ -1,6 +1,1 @@
-Life Quest 2.0
-• Your status window now opens first, showing your level, XP and in-app stats.
-• Completed quests update your saved progress and show the reward you earned.
-• Accept or decline surprise quests without losing previously earned XP.
-• Optional one-time Status Window Plus adds three looks, recorded 30/90-day reports, and PNG, text and CSV exports.
-• Core quests, the status window, optional on-device AI and encrypted backups remain free.
+Four quest routes with 21 missions each. Try the first 7 in every route free. Small-action alternatives, optional focus timer and route notes. Life Quest Complete adds the remaining missions, status looks and report exports. Progress is preserved across rest days.

@@ -11,6 +11,7 @@ const PRODUCTS = Object.freeze({
   story_neon_archive_01: 'story_neon_archive_01',
   story_tide_postoffice_01: 'story_tide_postoffice_01',
   status_window_plus_01: 'status_window_plus_01',
+  quest_journeys_complete_01: 'quest_journeys_complete_01',
 });
 const hash = value => createHash('sha256').update(value).digest('hex');
 class PurchasePolicyError extends Error {

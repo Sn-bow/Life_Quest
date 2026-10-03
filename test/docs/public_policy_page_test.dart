@@ -31,7 +31,13 @@ void main() {
       final publicPage = File('docs/index.html').readAsStringSync();
 
       expect(publicPage, contains('2.0.0-preview.1'));
-      expect(publicPage, contains('2.0.0+2013'));
+      final version = RegExp(
+        r'^version: (.+)$',
+        multiLine: true,
+      ).firstMatch(File('pubspec.yaml').readAsStringSync())!.group(1)!;
+      expect(publicPage, contains(version));
+      expect(publicPage, contains('Life Quest Complete'));
+      expect(publicPage, contains('Route and timer data'));
       expect(publicPage, contains('AdMob'));
       expect(publicPage, contains('Google Play Billing'));
       expect(publicPage, contains('disabled'));

@@ -118,7 +118,8 @@ class PurchaseService extends ChangeNotifier {
       ? Set.unmodifiable(_entitlements)
       : const <String>{};
   bool get ownsStatusWindowPlus =>
-      entitlements.contains(statusWindowPlusProductId);
+      entitlements.contains(statusWindowPlusProductId) ||
+      entitlements.contains(journeysCompleteProductId);
   PurchasePhase get phase => _phase;
   String? get activeProduct => _activeProduct;
   bool get busy => {

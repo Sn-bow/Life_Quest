@@ -1,0 +1,674 @@
+[
+  {
+    "title": [
+      "Choose one small finish",
+      "작은 도착점 정하기",
+      "小さなゴールを決める",
+      "選一個小終點"
+    ],
+    "steps": [
+      [
+        "Choose one question your study could answer.",
+        "Write what a useful answer would look like. Keep this question for the route."
+      ],
+      [
+        "공부해서 답하고 싶은 질문 하나를 고르세요.",
+        "어떤 답을 얻으면 도움이 될지 적으세요. 이 질문으로 루트를 진행합니다."
+      ],
+      [
+        "学んで答えたい問いを一つ選びましょう。",
+        "どんな答えが得られたら役立つか、書いておきましょう。この問いを軸に進めます。"
+      ],
+      [
+        "選一個想透過學習回答的問題。",
+        "寫下什麼樣的答案會對你有幫助。接下來就以這個問題為主軸。"
+      ]
+    ],
+    "small": [
+      "Write one question you want to answer and one example of a useful answer.",
+      "답하고 싶은 질문 하나와 도움이 될 답의 예시 하나를 적으세요.",
+      "答えたい問いを一つと、役立つ答えの例を一つ書きましょう。",
+      "寫下一個想回答的問題，以及一個有幫助的答案例子。"
+    ]
+  },
+  {
+    "title": [
+      "Make starting easy",
+      "시작할 자리 만들기",
+      "始める場所を作る",
+      "準備開始的位置"
+    ],
+    "steps": [
+      [
+        "Open one page, lesson or exercise related to your question.",
+        "Choose a small section and leave a bookmark where you will begin."
+      ],
+      [
+        "질문과 관련된 책 한 쪽, 강의 또는 문제를 여세요.",
+        "작은 구간 하나를 고르고 시작할 곳을 표시하세요."
+      ],
+      [
+        "問いに関係する本、講座、問題のどれかを開きましょう。",
+        "小さな範囲を選び、始める場所に目印を付けましょう。"
+      ],
+      [
+        "打開與問題相關的一頁書、一堂課或一道題目。",
+        "選一小段，標記下次要開始的位置。"
+      ]
+    ],
+    "small": [
+      "Open one useful page and mark the first short part you will study.",
+      "도움이 될 자료 한 쪽을 열고 처음 공부할 짧은 부분을 표시하세요.",
+      "役立つ資料を1ページ開き、最初に学ぶ短い部分に印をつけましょう。",
+      "打開一頁有用的資料，標記最先要學的一小段。"
+    ]
+  },
+  {
+    "title": [
+      "One idea in your words",
+      "내 말로 한 문장",
+      "自分の言葉で一文",
+      "用自己的話寫一句"
+    ],
+    "steps": [
+      [
+        "Read or watch a small part of your chosen material.",
+        "Close it and write one idea in your own words. It is fine to check it afterward."
+      ],
+      [
+        "고른 자료의 짧은 부분을 읽거나 보세요.",
+        "자료를 닫고 이해한 내용 한 가지를 내 말로 적으세요. 쓴 뒤 다시 확인해도 됩니다."
+      ],
+      [
+        "選んだ教材を少しだけ読んだり見たりしましょう。",
+        "いったん閉じて、分かったことを自分の言葉で書きましょう。後から確認しても大丈夫です。"
+      ],
+      [
+        "讀或看一小段選好的教材。",
+        "先關掉教材，用自己的話寫下一個重點。寫完再核對也可以。"
+      ]
+    ],
+    "small": [
+      "Read one short paragraph, close it, and write its point in your own words.",
+      "짧은 문단 하나를 읽고 덮은 뒤 핵심을 내 말로 한 줄 적으세요.",
+      "短い段落を読み、閉じてから要点を自分の言葉で一行書きましょう。",
+      "讀一小段，闔上後用自己的話寫下一句重點。"
+    ]
+  },
+  {
+    "title": [
+      "Try one example",
+      "예시 하나 적용하기",
+      "例を一つ試す",
+      "試一個例子"
+    ],
+    "steps": [
+      [
+        "Choose one example or exercise that uses yesterday's idea.",
+        "Try it once, then compare with the explanation. Record where you got stuck."
+      ],
+      [
+        "배운 내용을 사용하는 예시나 문제 하나를 고르세요.",
+        "직접 시도한 뒤 설명과 비교하세요. 막힌 부분이 있으면 적어두세요."
+      ],
+      [
+        "学んだ内容を使う例や問題を一つ選びましょう。",
+        "自分で試してから解説と比べ、詰まった所をメモしましょう。"
+      ],
+      [
+        "選一個會用到剛學內容的例子或練習。",
+        "自己試一次，再對照解說，記下卡住的地方。"
+      ]
+    ],
+    "small": [
+      "Try just the first step of one example. Note where you got stuck or what worked.",
+      "예시 하나의 첫 단계만 직접 해보세요. 막히거나 이해한 부분을 적으세요.",
+      "例題の最初の一手だけ試して、分かった点や迷った点を書きましょう。",
+      "試做一個例子的第一步，記下理解或卡住的地方。"
+    ]
+  },
+  {
+    "title": [
+      "Find the missing piece",
+      "빈칸 찾기",
+      "分からない所を見つける",
+      "找出缺少的拼圖"
+    ],
+    "steps": [
+      [
+        "Write one thing you still cannot explain about your topic.",
+        "Look for an answer in your chosen material. Mark it as unresolved if it is still unclear."
+      ],
+      [
+        "아직 설명하기 어려운 점 하나를 적으세요.",
+        "선택한 자료에서 답을 찾아보세요. 못 찾았다면 미해결로 표시해두면 됩니다."
+      ],
+      [
+        "まだ説明できないことを一つ書きましょう。",
+        "教材の中で答えを探しましょう。見つからなければ「未解決」で残しておけます。"
+      ],
+      [
+        "寫下一個還說不清楚的地方。",
+        "到選好的教材裡找答案。仍不清楚就標記為待解決。"
+      ]
+    ],
+    "small": [
+      "Write one unclear point and find one sentence in your material that may help.",
+      "불분명한 점 하나를 적고 자료에서 도움이 될 문장 하나를 찾으세요.",
+      "曖昧な点を一つ書き、資料から手がかりになる一文を探しましょう。",
+      "寫下一個不清楚的地方，從資料找一句可能有幫助的話。"
+    ]
+  },
+  {
+    "title": [
+      "Recall before reopening",
+      "펴기 전에 떠올리기",
+      "開く前に思い出す",
+      "翻開之前先回想"
+    ],
+    "steps": [
+      [
+        "Without opening your notes, write two things you remember.",
+        "Check your notes and correct one gap. You are checking the method, not grading yourself."
+      ],
+      [
+        "노트를 열기 전에 기억나는 내용을 두 가지 적으세요.",
+        "노트를 보고 빠진 부분 하나를 보완하세요. 점수를 매기는 시간이 아닙니다."
+      ],
+      [
+        "ノートを開く前に、覚えていることを二つ書きましょう。",
+        "見返して足りない所を一つ補いましょう。自分を採点する必要はありません。"
+      ],
+      [
+        "先別開筆記，寫下記得的兩件事。",
+        "再翻筆記，補上一個遺漏。這是在檢查方法，不是在替自己打分數。"
+      ]
+    ],
+    "small": [
+      "Recall one fact without notes, then check and correct it if needed.",
+      "노트 없이 기억나는 것 하나를 적고 확인한 뒤 필요하면 고치세요.",
+      "ノートを見ずに一つ思い出して書き、確認して必要なら直しましょう。",
+      "不看筆記寫出一件記得的事，核對後視需要修正。"
+    ]
+  },
+  {
+    "title": [
+      "Keep what worked",
+      "맞았던 방법 남기기",
+      "合う方法を残す",
+      "留下適合的方法"
+    ],
+    "steps": [
+      [
+        "Choose the most useful note or example from this chapter.",
+        "Write one thing to keep and one thing to change in your next session. Your first chapter is complete."
+      ],
+      [
+        "이번 장에서 가장 도움이 된 메모나 예시를 고르세요.",
+        "다음에도 유지할 점 하나와 바꿀 점 하나를 적으세요. 첫 장을 마쳤습니다."
+      ],
+      [
+        "この章で役立ったメモや例を一つ選びましょう。",
+        "次も続けたいことと変えたいことを一つずつ書けば、最初の章は完了です。"
+      ],
+      [
+        "選出這一章最有幫助的筆記或例子。",
+        "寫下一件想保留、一件想調整的事。第一章就完成了。"
+      ]
+    ],
+    "small": [
+      "Write one learning method you want to keep and one small change for next time.",
+      "유지할 공부 방법 하나와 다음에 바꿀 작은 점 하나를 적으세요.",
+      "続けたい学び方を一つ、次に変える小さな点を一つ書きましょう。",
+      "寫下一個想保留的學習方法，以及下次想微調的一點。"
+    ]
+  },
+  {
+    "title": [
+      "Make a recall card",
+      "복습 카드 만들기",
+      "思い出すカードを作る",
+      "做一張回想卡"
+    ],
+    "steps": [
+      [
+        "Turn one difficult idea into a short question.",
+        "Write its answer separately and try answering without looking. Keep the card for later."
+      ],
+      [
+        "어려웠던 개념 하나를 짧은 질문으로 바꾸세요.",
+        "답은 따로 적고 보지 않은 채 답해보세요. 카드는 나중에 다시 씁니다."
+      ],
+      [
+        "難しかった内容を短い質問にしましょう。",
+        "答えを別に書き、見ずに答えてみましょう。カードは後で使います。"
+      ],
+      [
+        "把一個難懂的概念改寫成短問題。",
+        "把答案另外寫下來，再試著不看答案回答。留著之後複習。"
+      ]
+    ],
+    "small": [
+      "Make one question-and-answer card from a concept you have studied.",
+      "공부한 개념 하나로 질문과 답이 있는 복습 카드를 만드세요.",
+      "学んだ概念から、問いと答えが一組の復習カードを作りましょう。",
+      "用學過的一個概念，做一張問答複習卡。"
+    ]
+  },
+  {
+    "title": [
+      "Explain it simply",
+      "쉽게 설명하기",
+      "やさしく説明する",
+      "簡單解釋一次"
+    ],
+    "steps": [
+      [
+        "Choose one idea and explain it aloud or in writing to an imaginary beginner.",
+        "Replace one unclear term with an example. No audience or posting is needed."
+      ],
+      [
+        "처음 배우는 사람에게 말하듯 개념 하나를 말하거나 적으세요.",
+        "어려운 표현 하나를 예시로 바꿔보세요. 누군가에게 보내거나 공개할 필요는 없습니다."
+      ],
+      [
+        "初めて学ぶ人に向けて、一つの内容を話すか書いてみましょう。",
+        "分かりにくい言葉を例に置き換えましょう。誰かに送る必要はありません。"
+      ],
+      [
+        "想像對完全不熟的人解釋，用說或寫的方式整理一個概念。",
+        "把一個難懂的詞換成例子。不用傳給別人或公開。"
+      ]
+    ],
+    "small": [
+      "Explain one concept in a plain sentence with a familiar example.",
+      "개념 하나를 쉬운 문장과 익숙한 예시 하나로 설명하세요.",
+      "一つの概念を、簡単な一文と身近な例で説明しましょう。",
+      "用一句簡單的話與一個熟悉的例子解釋概念。"
+    ]
+  },
+  {
+    "title": [
+      "Use it somewhere new",
+      "다른 곳에 적용하기",
+      "別の場面で使う",
+      "換個情境試試"
+    ],
+    "steps": [
+      [
+        "Pick a new example related to your original question.",
+        "Apply the same idea and compare what stayed the same and what changed."
+      ],
+      [
+        "처음 정한 질문과 관련된 새로운 예시를 고르세요.",
+        "같은 개념을 적용하고 달라진 점과 그대로인 점을 비교하세요."
+      ],
+      [
+        "最初の問いに関係する新しい例を選びましょう。",
+        "同じ考え方を使って、変わる所と変わらない所を比べましょう。"
+      ],
+      [
+        "選一個與最初問題相關的新例子。",
+        "套用同一個概念，比較哪些地方相同、哪些不同。"
+      ]
+    ],
+    "small": [
+      "Write one new situation where the idea might apply, and try its first step.",
+      "배운 내용을 쓸 새로운 상황을 적고 첫 단계만 시도하세요.",
+      "学んだことを使えそうな別の場面を書き、最初の一手だけ試しましょう。",
+      "寫下一個能運用所學的新情境，並試做第一步。"
+    ]
+  },
+  {
+    "title": [
+      "Keep an error worth fixing",
+      "고칠 가치가 있는 실수",
+      "直したい間違いを残す",
+      "記下一個值得修正的錯誤"
+    ],
+    "steps": [
+      [
+        "Choose one mistake or unclear answer from your practice.",
+        "Write why it happened and a cue that could help you notice it next time."
+      ],
+      [
+        "연습에서 틀렸거나 헷갈린 답 하나를 고르세요.",
+        "이유와 다음에 알아챌 수 있는 단서를 적으세요."
+      ],
+      [
+        "練習で間違えた所や曖昧だった答えを一つ選びましょう。",
+        "原因と、次に気づくための目印を書きましょう。"
+      ],
+      [
+        "選一個練習時答錯或不確定的地方。",
+        "寫下原因，以及下次能提醒自己的線索。"
+      ]
+    ],
+    "small": [
+      "Take one error and write a clue that would help you notice it next time.",
+      "실수 하나를 골라 다음에 알아챌 수 있는 단서를 적으세요.",
+      "一つの間違いについて、次に気づける手がかりを書きましょう。",
+      "針對一個錯誤，寫下下次能察覺的線索。"
+    ]
+  },
+  {
+    "title": [
+      "Repair one weak spot",
+      "약한 부분 하나 보완",
+      "弱い所を一つ補う",
+      "補上一個弱點"
+    ],
+    "steps": [
+      [
+        "Revisit the error or question you saved.",
+        "Try one similar example, then add the corrected reasoning to your note."
+      ],
+      [
+        "남겨둔 실수나 질문을 다시 보세요.",
+        "비슷한 예시를 하나 풀고 수정한 사고 과정을 적으세요."
+      ],
+      [
+        "残しておいた間違いや疑問を見返しましょう。",
+        "似た例を一つ試し、修正した考え方をメモに足しましょう。"
+      ],
+      [
+        "回頭看之前留下的錯誤或問題。",
+        "試一個相似例子，再把修正後的思路補進筆記。"
+      ]
+    ],
+    "small": [
+      "Retry the first step of a confusing example using your correction.",
+      "헷갈렸던 예시의 첫 단계를 수정한 방법으로 다시 해보세요.",
+      "迷った例題の最初の一手を、修正した方法でやり直しましょう。",
+      "用修正後的方法，重試曾困惑的例子的第一步。"
+    ]
+  },
+  {
+    "title": [
+      "Compare two ideas",
+      "비슷한 개념 구분",
+      "似た考えを区別する",
+      "分辨兩個相近概念"
+    ],
+    "steps": [
+      [
+        "Choose two ideas that are easy to mix up.",
+        "Write one similarity, one difference and an example of when to use each."
+      ],
+      [
+        "서로 헷갈리기 쉬운 개념 두 개를 고르세요.",
+        "공통점, 차이점, 각각 쓰이는 예시를 하나씩 적으세요."
+      ],
+      [
+        "混同しやすい考えを二つ選びましょう。",
+        "共通点、違い、それぞれを使う例を一つずつ書きましょう。"
+      ],
+      [
+        "選兩個容易混淆的概念。",
+        "寫下一個共同點、一個差異，以及各自適用的例子。"
+      ]
+    ],
+    "small": [
+      "Write one difference between two ideas you tend to mix up.",
+      "헷갈리는 두 개념의 차이점 하나를 적으세요.",
+      "混同しやすい二つの考えの違いを一つ書きましょう。",
+      "寫下一個容易混淆的兩個概念之間的差異。"
+    ]
+  },
+  {
+    "title": [
+      "A small self-check",
+      "작은 확인 문제",
+      "小さな確認問題",
+      "做一次小檢查"
+    ],
+    "steps": [
+      [
+        "Choose three questions from your own notes.",
+        "Answer without looking, then check them. Save the question that deserves another visit."
+      ],
+      [
+        "내 노트에서 질문 세 개를 고르세요.",
+        "보지 않고 답한 뒤 확인하세요. 한 번 더 살펴볼 질문은 남겨두세요."
+      ],
+      [
+        "自分のノートから質問を三つ選びましょう。",
+        "見ずに答えてから確認し、もう一度見たい問いを残しましょう。"
+      ],
+      [
+        "從自己的筆記選三個問題。",
+        "先不看筆記回答，再核對。留下值得再看一次的題目。"
+      ]
+    ],
+    "small": [
+      "Answer one question without looking, then compare it with your notes.",
+      "질문 하나에 노트를 보지 않고 답한 뒤 비교하세요.",
+      "一問だけノートを見ずに答えてから、ノートと比べましょう。",
+      "不看筆記回答一題，再與筆記比較。"
+    ]
+  },
+  {
+    "title": [
+      "Build a tiny result",
+      "작은 결과물 만들기",
+      "小さな成果を作る",
+      "做一個小成果"
+    ],
+    "steps": [
+      [
+        "Choose a small output: a paragraph, solved example, sketch or code snippet.",
+        "Make a rough version using what you learned. A draft is a real result."
+      ],
+      [
+        "한 문단, 풀이, 스케치, 짧은 코드 등 작은 결과물 하나를 고르세요.",
+        "배운 내용으로 초안을 만드세요. 초안도 실제 결과입니다."
+      ],
+      [
+        "文章、解いた問題、スケッチ、短いコードなど、作る物を一つ決めましょう。",
+        "学んだことを使って下書きを作りましょう。途中の形でも成果です。"
+      ],
+      [
+        "選一小段文字、一道解答、草圖或短程式作為成果。",
+        "用學到的內容做出初稿。草稿也是真實的成果。"
+      ]
+    ],
+    "small": [
+      "Make the first two lines of a useful paragraph, example or small draft.",
+      "문단, 예시, 작은 초안 중 하나의 첫 두 줄을 직접 만드세요.",
+      "文章や例、小さな下書きの最初の二行を作りましょう。",
+      "親手寫出一段文字、例子或小草稿的前兩行。"
+    ]
+  },
+  {
+    "title": [
+      "Improve just one part",
+      "한 부분만 개선",
+      "一か所だけ良くする",
+      "只改善一個部分"
+    ],
+    "steps": [
+      [
+        "Open your rough result and find one unclear or unfinished part.",
+        "Improve only that part, then note what changed. Do not restart the whole project."
+      ],
+      [
+        "초안에서 불분명하거나 덜 끝난 부분 하나를 고르세요.",
+        "그 부분만 고치고 무엇이 달라졌는지 적으세요. 전부 다시 시작하지 않아도 됩니다."
+      ],
+      [
+        "下書きから、分かりにくい所や未完成の部分を一つ選びましょう。",
+        "そこだけ直し、変化を書きましょう。全部やり直す必要はありません。"
+      ],
+      [
+        "打開初稿，找出一個不清楚或未完成的部分。",
+        "只修改那個部分，記下變化。不必整份重做。"
+      ]
+    ],
+    "small": [
+      "Improve one sentence or one step in the draft you already made.",
+      "이미 만든 초안에서 문장 하나나 단계 하나를 고치세요.",
+      "すでに作った下書きの一文、または一手だけ直しましょう。",
+      "改善已有草稿中的一句話或一個步驟。"
+    ]
+  },
+  {
+    "title": [
+      "Return after a gap",
+      "시간을 두고 다시 보기",
+      "間を空けて戻る",
+      "隔一段時間再回來"
+    ],
+    "steps": [
+      [
+        "Try a question you have not looked at recently.",
+        "Check the answer and refresh one forgotten part. Forgetting is a signal to revisit, not to reset."
+      ],
+      [
+        "최근 보지 않았던 질문 하나에 답해보세요.",
+        "확인한 뒤 잊은 부분 하나만 복습하세요. 잊었다고 진도를 지우지 않습니다."
+      ],
+      [
+        "最近見ていなかった質問を一つ試しましょう。",
+        "答えを確認し、忘れた所だけ見直しましょう。進み具合をリセットする必要はありません。"
+      ],
+      [
+        "試著回答一個最近沒看的問題。",
+        "核對後只複習忘記的部分。忘記是回頭看的提示，不是重來的理由。"
+      ]
+    ],
+    "small": [
+      "Recall one older question and check just the part you forgot.",
+      "전에 다룬 질문 하나를 떠올리고 잊은 부분만 확인하세요.",
+      "前に扱った問いを一つ思い出し、忘れた部分だけ確かめましょう。",
+      "回想一個先前的問題，只確認忘記的部分。"
+    ]
+  },
+  {
+    "title": [
+      "Make a one-page guide",
+      "한 장으로 정리",
+      "一枚のガイドにする",
+      "整理成一頁指南"
+    ],
+    "steps": [
+      [
+        "Choose the three ideas that helped your original question most.",
+        "Put them together with one example and one remaining question in a short guide."
+      ],
+      [
+        "처음 질문에 가장 도움이 된 개념 세 개를 고르세요.",
+        "예시 하나와 남은 질문 하나를 더해 짧은 안내문으로 묶으세요."
+      ],
+      [
+        "最初の問いに役立った考えを三つ選びましょう。",
+        "例と残った疑問を一つずつ添え、短いガイドにまとめましょう。"
+      ],
+      [
+        "挑出最能幫助回答起初問題的三個概念。",
+        "加上一個例子和一個待解問題，整理成短指南。"
+      ]
+    ],
+    "small": [
+      "Write a three-line guide: key idea, one example, and one remaining question.",
+      "핵심 개념, 예시, 남은 질문을 한 줄씩 적어 작은 안내문을 만드세요.",
+      "大事な考え、例、残る問いを一行ずつ書き、短い手引きにしましょう。",
+      "各寫一行核心概念、例子與待解問題，做成小指南。"
+    ]
+  },
+  {
+    "title": [
+      "Leave a cue for next time",
+      "다음 시작 단서 남기기",
+      "次のきっかけを置く",
+      "留下下次開始的提示"
+    ],
+    "steps": [
+      [
+        "Choose when and where a small study session fits your actual week.",
+        "Leave the material ready there, or write a clear cue such as after lunch. Keep it realistic."
+      ],
+      [
+        "실제 생활에서 짧게 공부할 수 있는 시간과 장소를 고르세요.",
+        "자료를 준비해두거나 점심 후처럼 시작 단서를 적으세요. 무리 없는 범위면 됩니다."
+      ],
+      [
+        "普段の一週間で、少し学べそうな時間と場所を選びましょう。",
+        "教材を用意するか「昼食後」などのきっかけを書きましょう。無理のない形で十分です。"
+      ],
+      [
+        "找出日常一週裡能短暫學習的時間和地點。",
+        "把教材準備好，或寫下「午餐後」這類提示。選做得到的安排。"
+      ]
+    ],
+    "small": [
+      "Put your study material where you will use it and write a realistic start cue.",
+      "공부할 곳에 자료를 두고 현실적인 시작 단서를 한 줄 적으세요.",
+      "学ぶ場所に資料を置き、無理のない開始の合図を一行書きましょう。",
+      "把資料放在會使用的地方，寫下一個可行的開始提示。"
+    ]
+  },
+  {
+    "title": [
+      "Design your busy-day version",
+      "바쁜 날 버전 만들기",
+      "忙しい日の形を決める",
+      "設計忙碌日版本"
+    ],
+    "steps": [
+      [
+        "Choose the smallest useful study action you could do on a busy day.",
+        "Try that action once and save it as your fallback. It should take less effort than your usual session."
+      ],
+      [
+        "바쁜 날에도 할 수 있는 가장 작은 공부 행동을 고르세요.",
+        "한 번 시도하고 대안으로 적어두세요. 평소보다 부담이 적어야 합니다."
+      ],
+      [
+        "忙しくてもできる、いちばん小さな学習を選びましょう。",
+        "一度試して、予備の方法として残しましょう。いつもより軽い形にします。"
+      ],
+      [
+        "選一個忙碌時仍有用的最小學習動作。",
+        "試一次並記成備案。它應該比平常的練習更輕鬆。"
+      ]
+    ],
+    "small": [
+      "Try one tiny study action now and record it as your busy-day option.",
+      "지금 아주 작은 공부 행동 하나를 하고 바쁜 날 대안으로 남기세요.",
+      "今、ごく小さな学びを一つ試し、忙しい日の選択肢として残しましょう。",
+      "現在做一個極小的學習動作，記作忙碌日的替代方案。"
+    ]
+  },
+  {
+    "title": [
+      "Show yourself the difference",
+      "달라진 나 확인하기",
+      "変化を確かめる",
+      "看看自己的改變"
+    ],
+    "steps": [
+      [
+        "Look at your first question and the result you made.",
+        "Write what you can now explain or do, and choose your next question. Keep the result as evidence of this route."
+      ],
+      [
+        "첫 질문과 직접 만든 결과물을 함께 보세요.",
+        "이제 설명하거나 할 수 있는 것과 다음 질문을 적으세요. 결과물은 이번 루트의 증거로 남습니다."
+      ],
+      [
+        "最初の問いと自分で作った成果を見比べましょう。",
+        "今説明できることやできるようになったこと、次の問いを書きましょう。成果はこのルートの記録になります。"
+      ],
+      [
+        "把最初的問題和做出的成果放在一起看。",
+        "寫下現在能解釋或做到的事，再選下一個問題。留下成果作為這趟路線的紀錄。"
+      ]
+    ],
+    "small": [
+      "Look at your first question. Write one thing you can now explain and a next question.",
+      "첫 질문을 보고 이제 설명할 수 있는 것 하나와 다음 질문을 적으세요.",
+      "最初の問いを見て、今は説明できることを一つと次の問いを書きましょう。",
+      "看看最初的問題，寫下一件現在能解釋的事與下一個問題。"
+    ]
+  }
+]

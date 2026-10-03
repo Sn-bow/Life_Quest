@@ -38,6 +38,8 @@ void main() {
       expect(director.profile.focuses, {GrowthFocus.order});
       expect(director.profile.goal, setup.goal);
       expect(director.profile.minutes, 5);
+      expect(character.journeys.active!.goal, setup.goal);
+      expect(character.journeys.active!.stage, 0);
       expect(director.suggestions, isNotEmpty);
       expect(await WelcomeSetup.loadPending(), isNull);
       director.dispose();

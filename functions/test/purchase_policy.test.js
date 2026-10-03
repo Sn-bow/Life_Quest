@@ -162,6 +162,21 @@ test('full one-time refund revokes the status pack even when the Play lookup is 
   assert.equal(f.rows.get(path).active, false); // Old events cannot reopen access.
 });
 
+test('Complete grant is durable, restored idempotently and revoked on full refund', async () => {
+  const f = fixture();
+  const productId = 'quest_journeys_complete_01';
+  f.input.data.productId = productId;
+  assert.deepEqual(await verifyAndGrant(f.input), {isValid: true, entitlementId: productId});
+  assert.deepEqual(await verifyAndGrant(f.input), {isValid: true, entitlementId: productId});
+  const path = `users/alice/entitlements/${productId}`;
+  assert.equal(f.rows.get(path).active, true);
+  await reconcileNotification({...f.input, notification: {packageName: PACKAGE_NAME,
+    voidedPurchaseNotification: {purchaseToken: f.input.data.purchaseToken,
+      productType: 2, refundType: 1}}});
+  assert.equal(f.rows.get(path).active, false);
+  assert.deepEqual(await verifyAndGrant(f.input), {isValid: false});
+});
+
 test('unrelated or partial voided notifications do not revoke a one-time pack', async () => {
   const f = fixture();
   f.input.data.productId = 'status_window_plus_01';

@@ -4216,16 +4216,16 @@ class AppLocalizationsKo extends AppLocalizations {
       '분야를 고르면 시작하기 쉬운 목표가 자동으로 채워집니다. 직접 바꿔도 돼요.';
 
   @override
-  String get lqWelcomeExampleVitality => '오늘 5분 가볍게 몸 풀기';
+  String get lqWelcomeExampleVitality => '무리 없는 휴식을 일상에 만들기';
 
   @override
-  String get lqWelcomeExampleLearning => '오늘 5분 궁금한 주제 읽기';
+  String get lqWelcomeExampleLearning => '궁금한 주제를 이해하고 활용하기';
 
   @override
-  String get lqWelcomeExampleOrder => '오늘 5분 책상 한 구역 정리하기';
+  String get lqWelcomeExampleOrder => '책상을 쓰기 편한 공간으로 만들기';
 
   @override
-  String get lqWelcomeExampleConnection => '오늘 한 사람에게 안부 전하기';
+  String get lqWelcomeExampleConnection => '편안한 속도로 관계 이어가기';
 
   @override
   String get lqWelcomeMinutes => '하루에 쓸 수 있는 시간';

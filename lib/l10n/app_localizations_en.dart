@@ -4335,18 +4335,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Pick an area to fill in a starter goal. You can edit it.';
 
   @override
-  String get lqWelcomeExampleVitality => 'Stretch gently for 5 minutes today';
+  String get lqWelcomeExampleVitality => 'Make space for comfortable breaks';
 
   @override
   String get lqWelcomeExampleLearning =>
-      'Read about something curious for 5 minutes today';
+      'Understand a topic I am curious about';
 
   @override
-  String get lqWelcomeExampleOrder =>
-      'Clear one area of my desk for 5 minutes today';
+  String get lqWelcomeExampleOrder => 'Make my desk easier to use';
 
   @override
-  String get lqWelcomeExampleConnection => 'Check in with one person today';
+  String get lqWelcomeExampleConnection =>
+      'Keep in touch at a comfortable pace';
 
   @override
   String get lqWelcomeMinutes => 'Time you can give each day';

@@ -4203,16 +4203,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqWelcomeGoalQuickHint => '分野を選ぶと最初の目標が入ります。自由に書き換えられます。';
 
   @override
-  String get lqWelcomeExampleVitality => '今日は5分、無理なく体をほぐす';
+  String get lqWelcomeExampleVitality => '無理のない休息を日常に作る';
 
   @override
-  String get lqWelcomeExampleLearning => '今日は5分、気になるテーマを読む';
+  String get lqWelcomeExampleLearning => '気になるテーマを理解して使ってみる';
 
   @override
-  String get lqWelcomeExampleOrder => '今日は5分、机の一角を片づける';
+  String get lqWelcomeExampleOrder => '机を使いやすい場所にする';
 
   @override
-  String get lqWelcomeExampleConnection => '今日は一人に近況を聞いてみる';
+  String get lqWelcomeExampleConnection => '無理のないペースでつながる';
 
   @override
   String get lqWelcomeMinutes => '1日に使える時間';

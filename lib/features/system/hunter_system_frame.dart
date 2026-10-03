@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../features/billing/purchase_verifier.dart';
 import '../../features/status_pack/status_skin_store.dart';
 import '../../services/purchase_service.dart';
 
@@ -30,12 +29,22 @@ class HunterSystemFrame extends StatefulWidget {
         onSurfaceVariant: const Color(0xFFB2CCDA),
         primary: cyan,
         onPrimary: ink,
+        secondary: cyan,
+        onSecondary: ink,
+        secondaryContainer: const Color(0xFF183B4C),
+        onSecondaryContainer: light,
         outline: const Color(0xFF32546A),
         outlineVariant: const Color(0xFF32546A),
       ),
       textTheme: base.textTheme.apply(bodyColor: light, displayColor: light),
       dividerTheme: const DividerThemeData(color: Color(0xFF32546A)),
+      progressIndicatorTheme: base.progressIndicatorTheme.copyWith(color: cyan),
       iconTheme: IconThemeData(color: cyan),
+      chipTheme: base.chipTheme.copyWith(
+        selectedColor: const Color(0xFF183B4C),
+        checkmarkColor: cyan,
+        secondaryLabelStyle: TextStyle(color: cyan),
+      ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           foregroundColor: ink,
@@ -63,7 +72,7 @@ class _HunterSystemFrameState extends State<HunterSystemFrame> {
     listenable: Listenable.merge([StatusSkinStore.instance, PurchaseService()]),
     builder: (context, _) {
       final look = StatusSkinStore.instance.effective(
-        PurchaseService().entitlements.contains(statusWindowPlusProductId),
+        PurchaseService().ownsStatusWindowPlus,
       );
       return Theme(
         data: HunterSystemFrame.themeFor(context, look: look),

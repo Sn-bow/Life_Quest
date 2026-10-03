@@ -35,6 +35,7 @@ class CatalogPlatform extends InAppPurchasePlatform {
           tideProductId,
           'cosmetic_theme_neon',
           statusWindowPlusProductId,
+          journeysCompleteProductId,
         ])
           ProductDetails(
             id: id,
@@ -56,7 +57,7 @@ class CatalogPlatform extends InAppPurchasePlatform {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   test(
-    'paused sale catalog stays empty without disabling purchase recovery',
+    'complete catalog recovers and filters legacy products',
     () async {
       // This file is run separately with the real feature gates enabled. Only the
       // platform boundary is fake; no production purchase/ownership bypass exists.
@@ -71,16 +72,6 @@ void main() {
         expect(service.products, isEmpty);
         expect(service.checkingStore, false);
         platform.failAvailability = false;
-        if (!kStatusWindowPlusNewSalesEnabled) {
-          await service.refreshCatalog();
-          expect(saleProductIds, isEmpty);
-          expect(service.products, isEmpty);
-          expect(platform.queries, 0);
-          expect(service.checkingStore, false);
-          expect(service.entitlements, isEmpty);
-          expect(service.isAvailable, false); // No connected purchase account.
-          return;
-        }
         platform.queryError = true;
         await service.refreshCatalog();
         expect(
@@ -89,7 +80,7 @@ void main() {
         ); // Never offer a partial error response.
         platform.queryError = false;
         await service.refreshCatalog();
-        expect(service.products.map((p) => p.id), [statusWindowPlusProductId]);
+        expect(service.products.map((p) => p.id), [journeysCompleteProductId]);
         expect(service.products.first.price, '₩6,900');
         final before = platform.queries;
         platform.pause = Completer<void>();

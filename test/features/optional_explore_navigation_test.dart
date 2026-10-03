@@ -1,3 +1,4 @@
+import 'package:life_quest_final_v2/features/journeys/journey_catalog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:life_quest_final_v2/features/director/on_device_quest_model.dart';
@@ -71,15 +72,17 @@ void main() {
             .cast<NavigationDestination>()
             .map((destination) => destination.label)
             .toList();
+        final copy = JourneyCopy(language);
+        final growthLabel = copy.choose(['Growth', '성장', '成長', '成長']);
         expect(navLabels, [
           SystemCopy(context).get('status'),
-          l10n.tabQuests,
-          SystemCopy(context).get('journal'),
+          copy.choose(['Routes', '루트', 'ルート', '路線']),
+          growthLabel,
         ]);
 
         final journalDestination = find.descendant(
           of: nav,
-          matching: find.text(SystemCopy(context).get('journal')),
+          matching: find.text(growthLabel),
         );
         await tester.tap(journalDestination);
         await tester.pumpAndSettle();

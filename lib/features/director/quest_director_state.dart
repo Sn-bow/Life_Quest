@@ -212,7 +212,8 @@ class QuestDirectorState extends ChangeNotifier {
     if (!ready) return;
     var changed = false;
     for (final quest in quests.where(
-      (q) => q.scheduledDay == localDay(clock()),
+      (q) =>
+          q.scheduledDay == localDay(clock()) && q.id.startsWith('director:'),
     )) {
       if (!_accepted.containsKey(quest.id)) {
         _accepted[quest.id] = quest.estimatedMinutes ?? 1;

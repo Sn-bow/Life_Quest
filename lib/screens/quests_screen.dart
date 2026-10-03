@@ -81,7 +81,9 @@ class QuestsScreen extends StatelessWidget {
           children: [
             _buildQuestList(
               context,
-              characterState.sortedDailyQuests,
+              characterState.sortedDailyQuests
+                  .where((q) => !q.id.startsWith('journey:'))
+                  .toList(),
               characterState,
               QuestType.daily,
               l10n,

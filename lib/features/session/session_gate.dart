@@ -1,3 +1,4 @@
+import '../journeys/journey_progress.dart';
 import 'account_deletion_gate.dart';
 import '../backup/backup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,6 +41,14 @@ Future<void> initializeDeviceHunterProfile({
     if (director.saveFailed) {
       throw StateError('Initial recommendations could not be saved.');
     }
+  }
+  if (character.journeys.runs.isEmpty) {
+    await character.startJourney(switch (setup.focus) {
+      GrowthFocus.learning => JourneyKind.learning,
+      GrowthFocus.order => JourneyKind.order,
+      GrowthFocus.vitality => JourneyKind.vitality,
+      GrowthFocus.connection => JourneyKind.connection,
+    }, setup.goal);
   }
   await WelcomeSetup.clearPending();
 }
