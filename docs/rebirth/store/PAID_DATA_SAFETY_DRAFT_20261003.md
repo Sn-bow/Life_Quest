@@ -1,6 +1,6 @@
-# Life Quest 2.1.0+2014 — 데이터 보안 입력 초안
+# Life Quest 2.1.0+2015 — 데이터 보안 입력 초안
 
-작성 2026-10-03. **제출본 아님.** 패키지 `com.logian.lifequest`. 최종 파일 해시/서명/manifest 검사는 [artifact 기록](../product-2014-inspection.json)을 단일 기준으로 사용한다. Cloud/Billing on, Ads/QA off. 새 미션·루트·Complete 구매 경로가 포함된 후보이며 Play 상품·운영 Functions·실거래 검증은 아직 완료되지 않았다. 이전 패키지/2013 문서를 그대로 제출하지 않는다.
+작성 2026-10-03. **제출본 아님.** 패키지 `com.logian.lifequest`. 최종 파일 해시/서명/manifest 검사는 [artifact 기록](../product-2015-inspection.json)을 단일 기준으로 사용한다. Cloud/Billing on, Ads/QA off. 새 미션·루트·Complete 구매 경로가 포함된 후보이며 Play 상품·운영 Functions·실거래 검증은 아직 완료되지 않았다. 이전 패키지/2013 문서를 그대로 제출하지 않는다.
 
 ## 이번 기능의 데이터 증분
 - 미션 완료 전 메모 초안은 프로필별로 분리하여 기기에만 임시 저장한다. 클라우드 전송·진행 백업에는 포함하지 않는다. 완료하면 해당 프로필의 실행 기록에 포함하고 임시 사본을 정리한다. 프로필 삭제 시 남아 있는 초안도 삭제한다.
@@ -23,11 +23,11 @@ Play의 [데이터 보안 양식 안내](https://support.google.com/googleplay/a
 - 선택적 기존 클라우드 계정은 Firebase Auth의 이메일/Google 로그인과 Firestore의 캐릭터 이름, 퀘스트 제목·완료, 행동/성장 기록, 설정 등을 사용한다. 선택한 프로필 사진은 Firebase Storage에 업로드된다. 구매 전용 Google 연결은 계정·권한을 서버에 만들지만 기기 프로필이나 AI 개인화 기록을 자동 업로드하지 않는다 (`lib/screens/signup_screen.dart`, `lib/state/character_state.dart`, `functions/purchase_account.js`).
 - 선택적 AI 제안 **신고**는 사용자가 화면에서 제목·행동·이유를 확인하고 전송을 누른 경우에만 모델명/언어/선택 텍스트/계정 UID(필요하면 익명 UID)를 Functions→Firestore로 보낸다. 전체 목표·학습 이력은 첨부하지 않는다. 신고와 할당량 문서는 90일 후 TTL 삭제 대상이며 즉시 삭제 보장은 아니다 (`lib/features/director/ai_report_button.dart`, `ai_report_service.dart`, `functions/ai_reports.js`).
 - 유료 상품 구매/복원 때 Play 상품 ID와 구매 토큰을 검증 Function에 보내고, 서버가 Play Developer API에서 확인한다. 서버는 Firebase UID의 SHA-256 계정 해시, 구매 토큰 해시, 상품·권한·검증/환불 상태를 보관한다. 실제 카드·계좌 번호를 앱이 받거나 저장하지 않는다. 해시는 재연결 가능한 가명 식별자이므로 데이터 범위에서 제외하지 않는다 (`lib/services/purchase_service.dart`, `functions/purchase_account.js`, `functions/purchase_policy.js`).
-- Firebase App Check는 Play Integrity를 사용한다. [Firebase SDK 공개 문서](https://firebase.google.com/docs/android/play-data-disclosure)와 [Play Integrity 데이터 안내](https://developer.android.com/google/play/integrity/terms#data-safety)에 따라 무결성 토큰/기기·앱 메타데이터를 처리한다. Auth/Functions 호출은 IP와 Firebase UID를 포함할 수 있다. 알림은 현재 로컬 일정이며 Firebase Messaging 원격 푸시 구현은 없다. 광고 SDK가 의존성에 남아 있어도 +2014 AAB의 실제 manifest 검사에서 광고 초기화/컴포넌트/광고 ID 권한이 없음을 확인했다.
+- Firebase App Check는 Play Integrity를 사용한다. [Firebase SDK 공개 문서](https://firebase.google.com/docs/android/play-data-disclosure)와 [Play Integrity 데이터 안내](https://developer.android.com/google/play/integrity/terms#data-safety)에 따라 무결성 토큰/기기·앱 메타데이터를 처리한다. Auth/Functions 호출은 IP와 Firebase UID를 포함할 수 있다. 알림은 현재 로컬 일정이며 Firebase Messaging 원격 푸시 구현은 없다. 광고 SDK가 의존성에 남아 있어도 +2015 AAB의 실제 manifest 검사에서 광고 초기화/컴포넌트/광고 ID 권한이 없음을 확인했다.
 
 ## Play Console 입력값 제안
 
-| 양식 질문 | +2014 AAB에 대한 입력 초안 | 조건/근거 |
+| 양식 질문 | +2015 AAB에 대한 입력 초안 | 조건/근거 |
 | --- | --- | --- |
 | 앱이 데이터를 수집하거나 공유하나? | **예** | 선택적 계정·신고·클라우드·구매, Firebase/App Check 식별자. 로컬 모드가 있어도 전체 앱 답은 예. |
 | 수집되는 **모든** 사용자 데이터는 전송 중 암호화되나? | **예** | Firebase/Google Play 서비스의 HTTPS와 모델 다운로드 HTTPS, cleartext 금지. 다른 전송 경로가 없다는 최종 AAB/실기기 확인 전제. [Firebase 전송 암호화](https://firebase.google.com/docs/android/play-data-disclosure), [Play 안내](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en). |
@@ -55,14 +55,14 @@ Play의 [데이터 보안 양식 안내](https://support.google.com/googleplay/a
 
 ### Crashlytics·진단 정보 판정
 
-+2014 AAB의 실제 manifest에는 `firebase_crashlytics_collection_enabled=false`와 `firebase_analytics_collection_enabled=false`가 확인됐다. `lib/main.dart`에서 `recordError`/`recordFlutterFatalError`를 호출하지만, 현재 코드의 수집 활성화 호출 여부 및 실제 기기 전송은 별도로 확인해야 한다. [Firebase의 Flutter 설명](https://firebase.google.com/docs/crashlytics/flutter/customize-crash-reports#enable_opt-in_reporting)에 따르면 수집이 비활성인 경우 보고서는 기기에만 저장되고, 나중에 수집을 활성화해야 전송된다. 따라서 **Crash logs 및 성능 Diagnostics를 오로지 Crashlytics가 존재한다는 이유로 예로 선택하지 않는다**. 기존 설치에 남은 SDK 수집 override, 다른 활성 Play 아티팩트, Firebase Sessions/App Check 하위 SDK의 실제 전송도 실기기·최종 의존성 점검이 필요하다. 그 과정에서 진단/충돌 데이터 전송이 확인되면 해당 유형을 예로 바꾸고 목적은 `분석`, 필요 시 `앱 기능`을 선택한다.
++2015 AAB의 실제 manifest에는 `firebase_crashlytics_collection_enabled=false`와 `firebase_analytics_collection_enabled=false`가 확인됐다. `lib/main.dart`에서 `recordError`/`recordFlutterFatalError`를 호출하지만, 현재 코드의 수집 활성화 호출 여부 및 실제 기기 전송은 별도로 확인해야 한다. [Firebase의 Flutter 설명](https://firebase.google.com/docs/crashlytics/flutter/customize-crash-reports#enable_opt-in_reporting)에 따르면 수집이 비활성인 경우 보고서는 기기에만 저장되고, 나중에 수집을 활성화해야 전송된다. 따라서 **Crash logs 및 성능 Diagnostics를 오로지 Crashlytics가 존재한다는 이유로 예로 선택하지 않는다**. 기존 설치에 남은 SDK 수집 override, 다른 활성 Play 아티팩트, Firebase Sessions/App Check 하위 SDK의 실제 전송도 실기기·최종 의존성 점검이 필요하다. 그 과정에서 진단/충돌 데이터 전송이 확인되면 해당 유형을 예로 바꾸고 목적은 `분석`, 필요 시 `앱 기능`을 선택한다.
 
 ## 제출 직전 확인(이 항목이 미확인이면 양식을 제출하지 않음)
 
 1. **정확한 AAB와 활성 트랙**: 후보 AAB의 최종 병합 manifest/의존성, 현재 Play에 배포 중인 다른 버전까지 비교한다. 광고 또는 Crashlytics를 켜면 이 초안은 폐기하고 새로 작성한다.
 2. **실제 네트워크 동작**: 기기 모드 첫 실행, 모델 설치, Google 로그인, 클라우드 퀘스트 완료, 사진 업로드, AI 신고, Play 라이선스 테스트 구매/복원/환불에서 전송 도메인과 데이터 범주를 점검한다. 특히 IP→대략 위치, Firebase Installations/Sessions 식별자, Crashlytics 비활성 전송 여부를 확인한다.
 3. **실제 서비스 상태**: 삭제 Function/Firestore TTL·Storage/Auth 삭제, App Check, Play 상품/RTDN이 배포되어 작동하는지 확인한다. 현재 코드와 로컬 AAB만으로 운영 중이라고 주장하지 않는다.
-4. **공개 고지 일치**: [공개 개인정보처리방침](https://sn-bow.github.io/Life_Quest/#privacy)과 삭제 URL의 실제 배포본을 확인한다. 로컬 `docs/index.html` 및 `PRIVACY_POLICY.md`는 무료 공개 APK와 미배포 유료 후보를 구분하도록 10/3 갱신했다. 이번 변경에는 루트·메모·타이머와 한국어/영어/일본어/번체 안내가 포함된다. 아직 이 변경을 공개 사이트에 게시하지 않았다. **유료 테스트 제출 직전 활성 기능과 공개 URL을 다시 확인**해야 한다. 국내·해외 출시 언어의 스토어 설명/앱 안내도 일치시킨다.
+4. **공개 고지 일치**: [공개 개인정보처리방침](https://sn-bow.github.io/Life_Quest/#privacy)과 삭제 URL의 실제 배포본을 확인한다. 로컬 `docs/index.html` 및 `PRIVACY_POLICY.md`는 무료 공개 APK와 미배포 유료 후보를 구분하도록 10/3 갱신했다. 이번 변경에는 루트·메모·타이머와 한국어/영어/일본어/번체 안내가 포함된다. 2026-10-03 이 변경을 공개 사이트에 게시했고 Pages 커밋 `1078423`의 실제 화면을 확인했다. **유료 테스트 제출 직전 활성 기능과 공개 URL을 다시 확인**해야 한다. 국내·해외 출시 언어의 스토어 설명/앱 안내도 일치시킨다.
 5. **계정 소유자 제출**: Google Play Console의 데이터 보안 답변은 실제 개발자 계정에서 저장 전 검토한다. 이 문서는 콘솔에 입력하거나 제출한 기록이 아니다.
 
 공식 근거: [Google Play Data safety 양식·분류·공유 예외](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en), [Firebase Android SDK 공개](https://firebase.google.com/docs/android/play-data-disclosure), [Firebase 개인정보/보존](https://firebase.google.com/support/privacy), [Play Integrity 데이터 처리](https://developer.android.com/google/play/integrity/terms#data-safety), [Crashlytics opt-in 동작](https://firebase.google.com/docs/crashlytics/flutter/customize-crash-reports#enable_opt-in_reporting), [Play Billing 서버 검증](https://developer.android.com/google/play/billing/security).

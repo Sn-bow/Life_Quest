@@ -1,0 +1,90 @@
+{
+  "sourceCommit": "b968d04e936401f4ac244fdbf9c7ce596f4d7388",
+  "package": "com.logian.lifequest",
+  "version": "2.1.0+2015",
+  "flags": {
+    "cloud": true,
+    "billing": true,
+    "ads": false,
+    "qaPreview": false
+  },
+  "artifacts": {
+    "aab": {
+      "path": "build/review/life-quest-2.1.0-2015-complete.aab",
+      "bytes": 156749968,
+      "sha256": "2b141a2dfdc17bdd45a1c64d30bf8582e5378bbe803f5398d3d5d1227a81ff40"
+    },
+    "apk": {
+      "path": "build/review/life-quest-2.1.0-2015-complete.apk",
+      "bytes": 163999543,
+      "sha256": "fa6f071f5a8a0c0cee5d74f51754c228bd9b9e83c54c0466c9d72c4011fd527c"
+    }
+  },
+  "checks": {
+    "flutter": {
+      "passed": 576,
+      "skipped": 1
+    },
+    "cloudBillingRelated": 53,
+    "artifact": {
+      "passed": 40,
+      "total": 40
+    },
+    "analyze": "No issues found",
+    "nativeQa": "docs/rebirth/qa/commercial-flow-20261003/README.md",
+    "unchangedBackendPriorEvidence": {
+      "source": "docs/rebirth/product-2014-build.json",
+      "nodePolicy": 50,
+      "localFirebaseRules": 12
+    }
+  },
+  "externalStatus": {
+    "playUpload": "2015-accepted-and-saved-in-internal-draft",
+    "playReleaseNotes": "2015-four-languages-saved",
+    "firebaseDeployment": "authentication-required",
+    "liveBilling": "not-tested",
+    "closedTesting": "not-published",
+    "kmongTesterCsv": "not-received",
+    "actualRevenueEvidence": "none",
+    "completeProduct": "draft-saved-inactive",
+    "completePurchaseOption": "complete-once",
+    "draftPrices": {
+      "US": {
+        "currency": "USD",
+        "amount": "4.99"
+      },
+      "JP": {
+        "currency": "JPY",
+        "amount": "860"
+      },
+      "TW": {
+        "currency": "TWD",
+        "amount": "170.00"
+      },
+      "KR": {
+        "currency": "KRW",
+        "amount": "6500"
+      },
+      "CA": {
+        "currency": "CAD",
+        "amount": "6.99"
+      },
+      "FR": {
+        "currency": "EUR",
+        "amount": "5.49"
+      }
+    },
+    "advertisingIdDeclaration": "not-used-saved",
+    "playReleaseValidation": "zero-errors-one-warning-no-testers",
+    "playSigningCertificate": {
+      "sha256": "08:F8:1E:22:2C:80:12:56:00:2E:82:E8:59:AE:A6:D1:E0:01:D9:D5:10:AF:F9:3E:55:77:CF:01:E3:15:A2:73",
+      "sha1": "ED:D7:5D:4F:A1:B3:41:78:9A:AE:3E:B7:15:B3:71:69:52:F6:06:4D",
+      "firebaseRegistration": "user-approval-pending"
+    },
+    "publicWebsite": {
+      "url": "https://sn-bow.github.io/Life_Quest/",
+      "pagesCommit": "1078423b600c0359be14da212f35ff1711d635ca",
+      "status": "built-and-browser-verified"
+    }
+  }
+}
