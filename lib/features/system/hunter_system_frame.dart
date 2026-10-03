@@ -83,9 +83,9 @@ class _HunterSystemFrameState extends State<HunterSystemFrame> {
               final requested = widget.padding.resolve(
                 Directionality.of(context),
               );
-              // Reserve the raster rails' proportional width, then leave a
-              // visible gap between their glow and the live content.
-              final safeSide = constraints.maxWidth * .085 + 12;
+              // Raster side rails occupy a fraction of the frame width. Fixed
+              // phone insets let those rails overlap live text on a tablet.
+              final safeSide = constraints.maxWidth * .085;
               final safePadding = requested.copyWith(
                 left: requested.left < safeSide ? safeSide : requested.left,
                 right: requested.right < safeSide ? safeSide : requested.right,

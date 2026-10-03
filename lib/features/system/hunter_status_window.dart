@@ -97,17 +97,11 @@ class HunterStatusWindow extends StatelessWidget {
         media.size.width <= 430 &&
         media.size.height <= 820 &&
         media.textScaler.scale(16) <= 19;
-    final shortPhone = compact && media.size.height <= 680;
     return HunterSystemFrame(
       key: const ValueKey('hunter-status-window'),
       padding: compact
-          ? EdgeInsets.fromLTRB(
-              40,
-              shortPhone ? 26 : 30,
-              40,
-              shortPhone ? 26 : 32,
-            )
-          : const EdgeInsets.fromLTRB(48, 44, 48, 52),
+          ? const EdgeInsets.fromLTRB(28, 22, 28, 21)
+          : const EdgeInsets.fromLTRB(36, 36, 36, 44),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -159,7 +153,7 @@ class HunterStatusWindow extends StatelessWidget {
           ),
           Divider(height: compact ? 8 : 12),
           _menu(context, copy, compact: compact),
-          SizedBox(height: shortPhone ? 4 : (compact ? 8 : 20)),
+          SizedBox(height: compact ? 8 : 20),
           if (section == HunterWindowSection.status) ...[
             if (compact)
               Row(
@@ -244,8 +238,8 @@ class HunterStatusWindow extends StatelessWidget {
               semanticsLabel: 'XP',
             ),
             if (state.journeys.active != null) ...[
-              SizedBox(height: shortPhone ? 8 : (compact ? 12 : 20)),
-              JourneyStatusCard(compact: compact, dense: shortPhone),
+              SizedBox(height: compact ? 12 : 20),
+              JourneyStatusCard(compact: compact),
             ] else if (firstAccepted != null || firstSuggestion != null) ...[
               SizedBox(height: compact ? 12 : 20),
               _firstQuest(
@@ -254,7 +248,7 @@ class HunterStatusWindow extends StatelessWidget {
                 suggested: firstSuggestion,
               ),
             ],
-            SizedBox(height: shortPhone ? 4 : (compact ? 8 : 19)),
+            SizedBox(height: compact ? 8 : 19),
             if (compact)
               for (var row = 0; row < 2; row++)
                 Row(

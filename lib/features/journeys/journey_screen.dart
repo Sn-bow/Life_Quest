@@ -27,12 +27,7 @@ void openJourneys(BuildContext context) => Navigator.of(
 /// A small actionable row inside the user's status window, also after day one.
 class JourneyStatusCard extends StatelessWidget {
   final bool compact;
-  final bool dense;
-  const JourneyStatusCard({
-    super.key,
-    this.compact = false,
-    this.dense = false,
-  });
+  const JourneyStatusCard({super.key, this.compact = false});
   @override
   Widget build(BuildContext context) {
     final state = context.watch<CharacterState>();
@@ -55,10 +50,7 @@ class JourneyStatusCard extends StatelessWidget {
                 ),
               ),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: dense && run != null ? 6 : 12,
-          ),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -91,7 +83,7 @@ class JourneyStatusCard extends StatelessWidget {
                 ],
               ),
               if (run != null) ...[
-                SizedBox(height: dense ? 4 : 8),
+                const SizedBox(height: 8),
                 Text(
                   '${run.completed ? copy.t('finished') : copy.chapter(run.stage)} · ${run.stage}/$journeyStageCount',
                   style: const TextStyle(
@@ -99,7 +91,7 @@ class JourneyStatusCard extends StatelessWidget {
                     fontSize: 12,
                   ),
                 ),
-                SizedBox(height: dense ? 3 : 7),
+                const SizedBox(height: 7),
                 LinearProgressIndicator(
                   value: run.stage / journeyStageCount,
                   color: journeyAccent,
