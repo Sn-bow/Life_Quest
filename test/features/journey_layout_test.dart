@@ -160,6 +160,33 @@ void main() {
         isNull,
       );
       expect(find.byType(JourneyRouteScreen), findsOneWidget);
+      final completed = find.text(
+        '1. ${catalog.mission(run.kind, 0).title('en')}',
+      );
+      await tester.ensureVisible(completed);
+      await tester.tap(completed);
+      await tester.pumpAndSettle();
+      expect(find.text('Recorded actions · 1'), findsOneWidget);
+      expect(
+        find.text(
+          catalog.mission(run.kind, 0).steps('en', shortVersion: true).single,
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.text(catalog.mission(run.kind, 0).steps('en').first),
+        findsNothing,
+      );
+      await tester.tap(find.text('Back to route'));
+      await tester.pumpAndSettle();
+      final record = find.byKey(const ValueKey('journey-record'));
+      await tester.ensureVisible(record);
+      await tester.tap(record);
+      await tester.pumpAndSettle();
+      expect(find.byType(JourneyRecordScreen), findsOneWidget);
+      expect(find.text('I chose the question about roots.'), findsOneWidget);
+      await tester.pageBack();
+      await tester.pumpAndSettle();
       await tester.ensureVisible(next);
       await tester.tap(next);
       await tester.pumpAndSettle();
@@ -254,6 +281,7 @@ void main() {
           TodayScreen(onOpenQuests: () {}),
           const JourneyLibraryScreen(),
           JourneyRouteScreen(kind: run.kind, runId: run.id),
+          JourneyRecordScreen(runId: run.id, catalog: catalog),
           JourneyMissionScreen(runId: run.id, stage: 0, catalog: catalog),
           MissionFocusScreen(quest: quest, scope: 'device'),
           const JourneyPurchaseScreen(),

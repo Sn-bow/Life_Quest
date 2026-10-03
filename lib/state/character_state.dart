@@ -297,6 +297,7 @@ class CharacterState extends ChangeNotifier {
     await prefs.remove(DeviceBackupStore.journalKey);
     await prefs.remove(DeviceBackupStore.undoKey);
     resetState();
+    notifyListeners();
   }
 
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);

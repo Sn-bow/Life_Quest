@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../models/quest.dart';
 import '../../state/character_state.dart';
@@ -10,6 +11,7 @@ import '../system/system_widgets.dart';
 import 'journey_catalog.dart';
 import 'journey_progress.dart';
 import 'journey_purchase_screen.dart';
+import 'journey_record.dart';
 import 'mission_focus_screen.dart';
 import 'mission_draft_store.dart';
 
@@ -250,6 +252,38 @@ class _JourneyRouteScreenState extends State<JourneyRouteScreen> {
   String? _runId;
   bool _busy = false;
   String? _error;
+  Future<void> _openMission(
+    JourneyRun run,
+    JourneyCatalog catalog,
+    JourneyCopy copy,
+  ) async {
+    final state = context.read<CharacterState>();
+    final scope = state.personalizationScope;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      // Resuming an already accepted mission must also update the status window.
+      // Selecting only on first acceptance leaves another route on the home tab.
+      await state.selectJourney(run.id);
+      if (!mounted || state.personalizationScope != scope) return;
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => JourneyMissionScreen(
+            runId: run.id,
+            stage: run.stage,
+            catalog: catalog,
+          ),
+        ),
+      );
+    } catch (_) {
+      if (mounted) setState(() => _error = copy.t('error'));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   Future<void> _editGoal(JourneyCopy copy, JourneyRun run) async {
     final state = context.read<CharacterState>();
     final goal = await showDialog<String>(
@@ -388,16 +422,28 @@ class _JourneyRouteScreenState extends State<JourneyRouteScreen> {
                   const SizedBox(height: 16),
                   FilledButton(
                     key: const ValueKey('journey-next'),
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => JourneyMissionScreen(
-                          runId: run.id,
-                          stage: run.stage,
-                          catalog: catalog,
-                        ),
-                      ),
-                    ),
+                    onPressed: _busy
+                        ? null
+                        : () => _openMission(run, catalog, copy),
                     child: Text(copy.t('open')),
+                  ),
+                ],
+                if (run.entries.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    key: const ValueKey('journey-record'),
+                    onPressed: _busy
+                        ? null
+                        : () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => JourneyRecordScreen(
+                                runId: run.id,
+                                catalog: catalog,
+                              ),
+                            ),
+                          ),
+                    icon: const Icon(Icons.auto_stories_outlined),
+                    label: Text(journeyRecordTitle(copy)),
                   ),
                 ],
               ] else
@@ -466,6 +512,7 @@ class _JourneyRouteScreenState extends State<JourneyRouteScreen> {
     int stage,
     JourneyRun? run,
   ) {
+    final entry = run != null && stage < run.stage ? run.entries[stage] : null;
     // Mission 8 is a full paid-chapter sample. Keep completed records readable
     // even after a refund; unfinished paid instructions require ownership.
     final readable =
@@ -485,7 +532,7 @@ class _JourneyRouteScreenState extends State<JourneyRouteScreen> {
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
           children: [
             Text(
-              '${copy.t('preview')} · ${stage + 1}',
+              '${copy.t(entry == null ? 'preview' : 'saved')} · ${stage + 1}',
               style: const TextStyle(color: journeyAccent),
             ),
             const SizedBox(height: 12),
@@ -494,8 +541,15 @@ class _JourneyRouteScreenState extends State<JourneyRouteScreen> {
               style: Theme.of(ctx).textTheme.headlineSmall,
             ),
             const SizedBox(height: 20),
+            if (entry != null) ...[
+              Text(journeyRecordMode(entry, copy)),
+              const SizedBox(height: 12),
+            ],
             if (readable)
-              for (final step in mission.steps(copy.locale))
+              for (final step in mission.steps(
+                copy.locale,
+                shortVersion: entry?.shortVersion ?? false,
+              ))
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(step, style: const TextStyle(height: 1.6)),
@@ -517,15 +571,13 @@ class _JourneyRouteScreenState extends State<JourneyRouteScreen> {
                 child: Text(copy.t('seeComplete')),
               ),
             ],
-            if (run != null && stage < run.stage) ...[
+            if (entry != null) ...[
               const Divider(),
-              Text(
-                '${copy.t('saved')} · ${run.entries[stage].at.toLocal().toIso8601String().split('T').first}',
-              ),
-              if (run.entries[stage].note.isNotEmpty)
+              Text('${copy.t('saved')} · ${journeyRecordDate(entry.at)}'),
+              if (entry.note.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Text(run.entries[stage].note),
+                  child: Text(entry.note),
                 ),
             ] else
               Text(
@@ -540,6 +592,109 @@ class _JourneyRouteScreenState extends State<JourneyRouteScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class JourneyRecordScreen extends StatefulWidget {
+  final String runId;
+  final JourneyCatalog catalog;
+  const JourneyRecordScreen({
+    super.key,
+    required this.runId,
+    required this.catalog,
+  });
+  @override
+  State<JourneyRecordScreen> createState() => _JourneyRecordScreenState();
+}
+
+class _JourneyRecordScreenState extends State<JourneyRecordScreen> {
+  late final String _scope = context
+      .read<CharacterState>()
+      .personalizationScope;
+  bool _copying = false;
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<CharacterState>();
+    final copy = JourneyCopy(Localizations.localeOf(context).languageCode);
+    final run = state.personalizationScope == _scope
+        ? state.journeys.runs.where((r) => r.id == widget.runId).firstOrNull
+        : null;
+    return _JourneyScaffold(
+      title: journeyRecordTitle(copy),
+      child: run == null
+          ? Text(
+              copy.choose([
+                'This record is no longer available.',
+                '이 기록을 더 이상 볼 수 없습니다.',
+                'この記録は表示できません。',
+                '此紀錄已無法顯示。',
+              ]),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (run.entries.isNotEmpty) ...[
+                  OutlinedButton.icon(
+                    key: const ValueKey('journey-record-copy'),
+                    onPressed: _copying
+                        ? null
+                        : () async {
+                            setState(() => _copying = true);
+                            var succeeded = false;
+                            try {
+                              await Clipboard.setData(
+                                ClipboardData(
+                                  text: journeyRecordText(
+                                    run,
+                                    widget.catalog,
+                                    copy,
+                                  ),
+                                ),
+                              );
+                              succeeded = true;
+                            } catch (_) {
+                              // Keep the record readable and let the user retry.
+                            }
+                            if (!context.mounted) return;
+                            setState(() => _copying = false);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  copy.choose(
+                                    succeeded
+                                        ? [
+                                            'Record copied. Paste it into your notes.',
+                                            '기록을 복사했습니다. 원하는 메모 앱에 붙여 넣으세요.',
+                                            '記録をコピーしました。メモなどに貼り付けられます。',
+                                            '已複製紀錄，可貼到自己的筆記。',
+                                          ]
+                                        : [
+                                            'Could not copy. Please retry.',
+                                            '복사하지 못했습니다. 다시 시도해 주세요.',
+                                            'コピーできませんでした。再試行してください。',
+                                            '無法複製，請重試。',
+                                          ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                    icon: const Icon(Icons.copy_outlined),
+                    label: Text(
+                      copy.choose([
+                        'Copy my record',
+                        '내 기록 복사',
+                        '自分の記録をコピー',
+                        '複製我的紀錄',
+                      ]),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+                JourneyRecordBody(run: run, catalog: widget.catalog),
+              ],
+            ),
     );
   }
 }
