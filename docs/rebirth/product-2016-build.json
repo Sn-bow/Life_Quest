@@ -1,0 +1,48 @@
+{
+  "sourceCommit": "6594fdc22df6f1f8280c862407837ba65a46bfea",
+  "package": "com.logian.lifequest",
+  "version": "2.1.0+2016",
+  "flags": {
+    "cloud": true,
+    "billing": true,
+    "ads": false,
+    "qaPreview": false
+  },
+  "artifacts": {
+    "aab": {
+      "path": "build/review/life-quest-2.1.0-2016-complete.aab",
+      "bytes": 156777996,
+      "sha256": "e6aa66422acd89bd5c0ffd7d41358723ecc8a1ef5ee5370d773f4826232c5cee"
+    },
+    "apk": {
+      "path": "build/review/life-quest-2.1.0-2016-complete.apk",
+      "bytes": 164032311,
+      "sha256": "2d69e29641d012b78bda7b815f7ec02feb22a568a016ec7eb39c95541d71f7e8"
+    }
+  },
+  "checks": {
+    "flutter": {
+      "passed": 586,
+      "skipped": 1
+    },
+    "cloudBillingRelated": 63,
+    "journeyFlowAndRecords": 28,
+    "artifact": {
+      "passed": 40,
+      "total": 40
+    },
+    "analyze": "No issues found",
+    "nativeQa": "docs/rebirth/qa/route-record-20261003/README.md"
+  },
+  "externalStatus": {
+    "thisVersionUploaded": false,
+    "previousPlayDraftVersion": 2015,
+    "firebaseDeployment": "CLI-management-permission-approval-pending-after-MCP-OAuth-error",
+    "liveBilling": "not-tested",
+    "closedTesting": "not-published",
+    "kmongTesterCsv": "not-received",
+    "actualRevenueEvidence": "none",
+    "completeProduct": "draft-saved-inactive",
+    "publicWebsite": "2015 site remains published; 2016 version text prepared locally"
+  }
+}

@@ -10,7 +10,7 @@
 
 [Do It Now](https://play.google.com/store/apps/details?id=com.levor.liferpgtasks), [Focus Plant](https://play.google.com/store/apps/details?id=com.shikudo.focus.google)도 유료 기능을 가진 비교 범주다. 각 공개 리뷰는 개별 의견이며 모집단 조사로 보지 않는다. [LevelsUp](https://play.google.com/store/apps/details?id=com.levelsup.rpg.habittracker)도 상태창/AI를 제안하므로 외관 자체는 고유한 구매 이유가 아니다.
 
-남는 사업 위험은 콘텐츠의 개인별 적합성, 무료 첫 장만으로 충분하다고 느끼는 비율, 첫 사용 뒤 복귀, 실제 목표 효과, 유입 규모다. 제안된 가격은 **미국 US$4.99 상당**의 검증 가설이며 Play에 상품/가격을 등록했다는 뜻이 아니다. 일본어를 포함한 실제 이용자·구매 실적은 아직 없다.
+남는 사업 위험은 콘텐츠의 개인별 적합성, 무료 첫 장만으로 충분하다고 느끼는 비율, 첫 사용 뒤 복귀, 실제 목표 효과, 유입 규모다. 제안된 가격은 **미국 US$4.99 상당**의 검증 가설이다. 이후 Play 비활성 상품 초안에 6개국 가격을 저장했으며, 이는 구매 수요나 실제 거래 검증을 뜻하지 않는다. 일본어를 포함한 실제 이용자·구매 실적은 아직 없다.
 
 ## 돈 계산 (실적이 아닌 민감도 예시)
 세금·환불을 제외한 정산 기준 금액을 임의로 ₩5,000이라고 가정하면:

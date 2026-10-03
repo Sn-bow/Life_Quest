@@ -1,5 +1,7 @@
 # Life Quest - 프로젝트 메모리
 
+> **최신 2026-10-03 재개:** 소스 `6594fdc`, `2.1.0+2016`. 로그인 대기를 전체 중단 사유로 삼지 않고 제품 개선 재개. 실행 기록 모아보기/복사·작은 행동 기록 정확화·루트 이어가기 선택 저장·삭제 후 화면 갱신. 원복한 메인 디자인 유지. Flutter586/CloudBilling63/analyze clean/AAB40, Android 재실행·태블릿200% 확인. 2016 APK/AAB 로컬 준비, Play는2015내부초안만 유지. 실제구매/서버/비공개 배포 미완료. [CONTINUE](docs/rebirth/CONTINUE.md), [2016빌드](docs/rebirth/product-2016-build.json) 우선. 전체 목표 완료 아님.
+
 > **최신 2026-10-03 작업 재개:** 소스 `b968d04`, `2.1.0+2015`. 원복한 메인 디자인 유지, 미션 초안 저장/복구·구매 화면 실제 예시를 구현/검증. 전체Flutter576/CloudBilling53/analyze clean/AAB40 통과. Google Play2015AAB 업로드·내부초안 저장 성공, 광고ID 미사용으로 정정해 차단오류 해소. 아직 실제구매·운영Functions·비공개배포 미완료. 아래2014“최신” 표시는 과거이력이다. [CONTINUE](docs/rebirth/CONTINUE.md)와[2015빌드](docs/rebirth/product-2015-build.json)를 우선하며 목표를 낮춰 완료하지 않는다.
 
 > **2026-10-03 두 번째 디자인 원복:** 사용자가 내부 간격 수정도 “더 이상해지니까 원래대로 되돌려”라고 거절했다. `33ab5f4`/`40ef162`를 되돌렸다. 외곽 패딩 확대와 내부 간격 변경 모두 현재 앱에 없으며, 앱 코드는 `54e2a7f` 제품 상태와 동일하다. `content-spacing.apk`와 `spacing-review.apk`는 거절된 시안이므로 사용하지 않는다. 이번 요청은 원복이며 추가 디자인 변경은 하지 않는다.
