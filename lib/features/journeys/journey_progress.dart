@@ -9,6 +9,17 @@ String journeyText(String value, int limit) => String.fromCharCodes(
   value.replaceAll(RegExp(r'[\x00-\x1f]'), ' ').trim().runes.take(limit),
 );
 
+/// Notes can contain a question/answer or short list; preserve its line breaks.
+String journeyNote(String value) => String.fromCharCodes(
+  value
+      .replaceAll('\r\n', '\n')
+      .replaceAll('\r', '\n')
+      .replaceAll(RegExp(r'[\x00-\x09\x0b\x0c\x0e-\x1f]'), ' ')
+      .trim()
+      .runes
+      .take(240),
+);
+
 class JourneyEntry {
   final DateTime at;
   final String note;
@@ -32,7 +43,7 @@ class JourneyEntry {
     if (at == null) return null;
     return JourneyEntry(
       at: at,
-      note: journeyText(value['note'] is String ? value['note'] : '', 240),
+      note: journeyNote(value['note'] is String ? value['note'] : ''),
       shortVersion: value['short'] == true,
       minutes: value['minutes'] is int
           ? (value['minutes'] as int).clamp(1, 15)

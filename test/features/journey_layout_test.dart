@@ -2,27 +2,80 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
 import 'package:life_quest_final_v2/features/journeys/journey_catalog.dart';
 import 'package:life_quest_final_v2/features/journeys/journey_progress.dart';
 import 'package:life_quest_final_v2/features/journeys/journey_screen.dart';
 import 'package:life_quest_final_v2/features/journeys/journey_purchase_screen.dart';
 import 'package:life_quest_final_v2/features/journeys/mission_focus_screen.dart';
+import 'package:life_quest_final_v2/features/journeys/mission_draft_store.dart';
+import 'package:life_quest_final_v2/features/journeys/journey_samples.dart';
 import 'package:life_quest_final_v2/features/director/quest_director_state.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/screens/today_screen.dart';
 import 'director_layout_test.dart' show LayoutModel;
+import 'mission_draft_test.dart' show DraftFaultStore;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   SoundService.muteForTesting();
   late JourneyCatalog catalog;
   setUpAll(() async => catalog = await JourneyCatalog.load());
+  for (final locale in ['en', 'ko', 'ja', 'zh']) {
+    testWidgets(
+      'purchase samples use shipped content without an account / $locale',
+      (tester) async {
+        tester.view.physicalSize = const Size(320, 740);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        await tester.pumpWidget(
+          MaterialApp(
+            locale: Locale(locale),
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(2)),
+              child: child!,
+            ),
+            home: const Scaffold(
+              body: SingleChildScrollView(child: JourneySamples()),
+            ),
+          ),
+        );
+        await tester.tap(find.byType(ExpansionTile));
+        await tester.pump();
+        await tester.runAsync(() async {});
+        await tester.pumpAndSettle();
+        for (final kind in JourneyKind.values) {
+          final chip = find.byKey(ValueKey('journey-sample-${kind.name}'));
+          await tester.ensureVisible(chip);
+          await tester.tap(chip);
+          await tester.pumpAndSettle();
+          final mission = catalog.mission(kind, journeyFreeStages);
+          expect(find.text(mission.title(locale)), findsOneWidget);
+          expect(find.text(mission.steps(locale).last), findsOneWidget);
+          expect(
+            find.text(mission.steps(locale, shortVersion: true).single),
+            findsOneWidget,
+          );
+          await tester.ensureVisible(find.text(mission.steps(locale).last));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        }
+      },
+    );
+  }
   testWidgets(
     'accept small mission, note result, show real reward, advance once',
     (tester) async {
       SharedPreferences.setMockInitialValues({});
+      final draftStore = DraftFaultStore();
+      SharedPreferencesStorePlatform.instance = draftStore;
       final state = CharacterState();
       await state.initializeForLocalGuest(name: 'Synthetic flow QA');
       final director = QuestDirectorState(model: LayoutModel());
@@ -61,7 +114,28 @@ void main() {
       expect(state.dailyQuests.single.journeyShortVersion, true);
       final field = find.byType(TextField);
       await tester.ensureVisible(field);
+      draftStore.failWrite = true;
       await tester.enterText(field, 'I chose the question about roots.');
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('journey-draft-retry')), findsOneWidget);
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      expect(find.byType(JourneyMissionScreen), findsOneWidget);
+      expect(find.text('I chose the question about roots.'), findsOneWidget);
+      draftStore.failWrite = false;
+      final retry = find.byKey(const ValueKey('journey-draft-retry'));
+      await tester.ensureVisible(retry);
+      await tester.tap(retry);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('journey-draft-retry')), findsNothing);
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(next);
+      await tester.tap(next);
+      await tester.pumpAndSettle();
+      expect(find.text('I chose the question about roots.'), findsOneWidget);
+      expect(state.journeys.active!.stage, 0);
+      expect(state.systemJournal.receipts, isEmpty);
       final finish = find.byKey(const ValueKey('journey-finish'));
       await tester.ensureVisible(finish);
       await tester.tap(finish);
@@ -81,6 +155,10 @@ void main() {
         'I chose the question about roots.',
       );
       expect(state.systemJournal.receipts, hasLength(1));
+      expect(
+        await MissionDraftStore.read('device', 'journey:${run.id}:0'),
+        isNull,
+      );
       expect(find.byType(JourneyRouteScreen), findsOneWidget);
       await tester.ensureVisible(next);
       await tester.tap(next);

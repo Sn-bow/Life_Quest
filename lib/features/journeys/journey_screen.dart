@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/quest.dart';
@@ -10,6 +11,7 @@ import 'journey_catalog.dart';
 import 'journey_progress.dart';
 import 'journey_purchase_screen.dart';
 import 'mission_focus_screen.dart';
+import 'mission_draft_store.dart';
 
 const journeyAccent = Color(0xFF80DCFB);
 
@@ -561,6 +563,78 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
   bool _rewardVisible = false;
   String? _error;
   final _note = TextEditingController();
+  late final CharacterState _profile;
+  late final String _scope;
+  String get _questId => 'journey:${widget.runId}:${widget.stage}';
+  bool _draftReady = false, _draftFailed = false, _leaving = false;
+  String _savedNote = '';
+  int _draftRevision = 0;
+  Future<bool> _draftWrite = Future.value(true);
+  bool get _sameProfile =>
+      _profile.personalizationScope == _scope &&
+      _profile.journeys.runs.any((r) => r.id == widget.runId);
+  bool get _dirty => _draftReady && _note.text != _savedNote;
+
+  @override
+  void initState() {
+    super.initState();
+    _profile = context.read<CharacterState>();
+    _scope = _profile.personalizationScope;
+    unawaited(_loadDraft());
+  }
+
+  Future<void> _loadDraft() async {
+    try {
+      final draft = await MissionDraftStore.read(_scope, _questId);
+      if (!mounted || !_sameProfile) return;
+      final accepted = _profile.dailyQuests
+          .where((q) => q.id == _questId)
+          .firstOrNull;
+      _note.text = draft ?? accepted?.completionNote ?? '';
+      _savedNote = _note.text;
+      setState(() {
+        _draftReady = true;
+        _draftFailed = false;
+      });
+    } catch (_) {
+      if (mounted) setState(() => _draftFailed = true);
+    }
+  }
+
+  Future<bool> _saveDraft() {
+    if (!_draftReady || !_sameProfile) return Future.value(false);
+    final value = _note.text;
+    final revision = ++_draftRevision;
+    setState(() => _draftFailed = false);
+    return _draftWrite = MissionDraftStore.write(_scope, _questId, value).then(
+      (_) {
+        if (mounted && _sameProfile && revision == _draftRevision) {
+          setState(() {
+            _savedNote = value;
+            _draftFailed = false;
+          });
+        }
+        return true;
+      },
+      onError: (Object _, StackTrace __) {
+        if (mounted && _sameProfile && revision == _draftRevision) {
+          setState(() => _draftFailed = true);
+        }
+        return false;
+      },
+    );
+  }
+
+  Future<void> _leave() async {
+    if (_busy || _leaving) return;
+    if (!await _draftWrite || _dirty) {
+      if (!await _saveDraft()) return;
+    }
+    if (!mounted) return;
+    setState(() => _leaving = true);
+    Navigator.pop(context);
+  }
+
   @override
   void dispose() {
     _note.dispose();
@@ -607,10 +681,21 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
       _rewardVisible = false;
     });
     try {
-      quest.completionNote = journeyText(_note.text, 240);
+      quest.completionNote = journeyNote(_note.text);
       final receipt = await state.completeQuestDurably(quest);
+      // Wait for the final local write before cleanup. A cleanup failure must
+      // not turn an already persisted completion into a second XP attempt.
+      await _draftWrite;
+      try {
+        await MissionDraftStore.remove(_scope, _questId);
+      } catch (_) {
+        // Account/device deletion also removes all remaining scoped drafts.
+      }
       if (!mounted) return;
-      setState(() => _rewardVisible = true);
+      setState(() {
+        _rewardVisible = true;
+        _savedNote = _note.text;
+      });
       await showSystemReward(context, receipt);
       if (mounted) Navigator.pop(context);
     } catch (_) {
@@ -627,7 +712,7 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
     final run = state.journeys.runs
         .where((r) => r.id == widget.runId)
         .firstOrNull;
-    if (run == null) {
+    if (run == null || !_sameProfile) {
       return _JourneyScaffold(
         title: copy.t('routes'),
         child: Text(copy.t('finished')),
@@ -648,7 +733,10 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
             ? 2
             : context.watch<QuestDirectorState>().profile.minutes.clamp(3, 15));
     return PopScope(
-      canPop: !_busy,
+      canPop: !_busy && ((!_dirty && !_draftFailed) || _leaving),
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) unawaited(_leave());
+      },
       child: _JourneyScaffold(
         title: copy.title(run.kind),
         child: Column(
@@ -798,21 +886,59 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  key: const ValueKey('journey-note'),
                   controller: _note,
                   maxLength: 240,
                   minLines: 2,
                   maxLines: 5,
-                  enabled: !_busy,
+                  enabled: !_busy && _draftReady && _sameProfile,
+                  onChanged: (_) => unawaited(_saveDraft()),
                   decoration: InputDecoration(
                     labelText: copy.t('note'),
                     hintText: copy.t('noteHint'),
                     alignLabelWithHint: true,
                   ),
                 ),
+                Text(
+                  copy.choose(
+                    _draftFailed
+                        ? [
+                            'Draft not saved. Keep this screen open and retry.',
+                            '임시 저장에 실패했습니다. 화면을 닫지 말고 다시 시도해 주세요.',
+                            '下書きを保存できませんでした。この画面で再試行してください。',
+                            '草稿儲存失敗。請留在此畫面重試。',
+                          ]
+                        : !_draftReady
+                        ? [
+                            'Loading draft…',
+                            '메모 불러오는 중…',
+                            '下書きを読み込み中…',
+                            '正在載入草稿…',
+                          ]
+                        : _dirty
+                        ? ['Saving draft…', '임시 저장 중…', '下書きを保存中…', '正在儲存草稿…']
+                        : [
+                            'Draft saved on this device. Complete the mission to add it to your record.',
+                            '이 기기에 임시 저장됩니다. 실행 완료하면 기록에 남습니다.',
+                            '下書きはこの端末に保存されます。ミッションを完了すると記録に残ります。',
+                            '草稿儲存在此裝置。完成任務後會加入紀錄。',
+                          ],
+                  ),
+                  style: TextStyle(
+                    color: _draftFailed ? const Color(0xFFFFB4AB) : null,
+                    fontSize: 12,
+                  ),
+                ),
+                if (_draftFailed)
+                  TextButton(
+                    key: const ValueKey('journey-draft-retry'),
+                    onPressed: () => _draftReady ? _saveDraft() : _loadDraft(),
+                    child: Text(copy.choose(['Retry', '다시 시도', '再試行', '重試'])),
+                  ),
                 const SizedBox(height: 12),
                 FilledButton(
                   key: const ValueKey('journey-finish'),
-                  onPressed: _busy
+                  onPressed: _busy || !_draftReady || !_sameProfile
                       ? null
                       : () => _finish(state, accepted, copy),
                   child: Text(copy.t('done')),

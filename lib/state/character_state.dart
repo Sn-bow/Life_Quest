@@ -1,6 +1,7 @@
 import '../features/system/system_journal.dart';
 import '../features/journeys/journey_progress.dart';
 import '../features/journeys/mission_focus_store.dart';
+import '../features/journeys/mission_draft_store.dart';
 import '../features/session/profile_write_queue.dart';
 import '../features/research/beta_study.dart';
 import '../features/billing/purchase_verifier.dart';
@@ -289,6 +290,7 @@ class CharacterState extends ChangeNotifier {
     _hpRegenTimer?.cancel();
     await _localWrites.catchError((Object _) {});
     await MissionFocusStore.clear(personalizationScope);
+    await MissionDraftStore.clear(personalizationScope);
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(localProfileStorageKey);
     await prefs.remove('lifequest.director.v1.device');
@@ -1391,7 +1393,7 @@ class CharacterState extends ChangeNotifier {
         quest.id,
         JourneyEntry(
           at: quest.completedDate!,
-          note: journeyText(quest.completionNote, 240),
+          note: journeyNote(quest.completionNote),
           shortVersion: quest.journeyShortVersion,
           minutes: quest.estimatedMinutes ?? 5,
         ),

@@ -1,5 +1,6 @@
 import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
 import 'package:life_quest_final_v2/features/journeys/mission_focus_store.dart';
+import 'package:life_quest_final_v2/features/journeys/mission_draft_store.dart';
 import 'system_journal_test.dart' show JournalFaultStore;
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
@@ -127,9 +128,16 @@ void main() {
       final other = MissionFocusStore.key('other-account', 'q1');
       await prefs.setString(device, '{}');
       await prefs.setString(other, '{}');
+      await MissionDraftStore.write('device', 'q1', 'device draft');
+      await MissionDraftStore.write('other-account', 'q1', 'other draft');
       await state.deleteLocalProfile();
       expect(prefs.containsKey(device), false);
       expect(prefs.containsKey(other), true);
+      expect(await MissionDraftStore.read('device', 'q1'), isNull);
+      expect(
+        await MissionDraftStore.read('other-account', 'q1'),
+        'other draft',
+      );
     },
   );
   test(
@@ -234,7 +242,7 @@ void main() {
         'Listen better',
       );
       final quest = await accept(state, run.id);
-      quest.completionNote = 'An open question';
+      quest.completionNote = 'An open question\nA careful answer';
       await state.completeQuestDurably(quest);
       final snapshot = DeviceSnapshot.create(
         profile: state.exportDeviceProfile(),
@@ -245,7 +253,10 @@ void main() {
         jsonDecode(jsonEncode(snapshot.toJson())),
       );
       final book = JourneyBook.fromJson(roundtrip.profile['journeys']);
-      expect(book.active!.entries.single.note, 'An open question');
+      expect(
+        book.active!.entries.single.note,
+        'An open question\nA careful answer',
+      );
       expect(book.active!.stage, 1);
       final broken = snapshot.toJson();
       (broken['profile'] as Map)['journeys'] = {

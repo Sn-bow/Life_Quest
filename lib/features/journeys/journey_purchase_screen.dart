@@ -10,6 +10,7 @@ import '../billing/purchase_verifier.dart';
 import '../status_pack/ui/status_pack_screen.dart';
 import '../system/hunter_system_frame.dart';
 import 'journey_catalog.dart';
+import 'journey_samples.dart';
 
 class JourneyPurchaseScreen extends StatelessWidget {
   const JourneyPurchaseScreen({super.key});
@@ -71,10 +72,10 @@ class JourneyPurchaseScreen extends StatelessWidget {
                       const SizedBox(height: 24),
                       for (final row in [
                         t([
-                          '84 guided missions · four complete routes',
-                          '안내가 있는 84개 미션 · 네 개의 전체 루트',
-                          '手順つき84ミッション・4つの全ルート',
-                          '84個有步驟的任務・四條完整路線',
+                          '56 more guided missions · 84 total across four routes, including the 28 free missions',
+                          '안내가 있는 미션 56개 추가 · 무료 28개를 포함해 네 루트 전체 84개',
+                          '手順つき56ミッションを追加・無料28個を含む4ルート計84個',
+                          '新增56個有步驟的任務・含免費28個，共四條路線84個',
                         ]),
                         t([
                           'Missions 8–21: practise, make a result, and build your own repeatable method',
@@ -115,6 +116,7 @@ class JourneyPurchaseScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+                      const JourneySamples(),
                       const Divider(),
                       const SizedBox(height: 12),
                       Text(
