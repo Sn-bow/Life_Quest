@@ -1,0 +1,59 @@
+{
+  "sourceCommit": "cb99d7febeb4e727155c4e545577653bab060617",
+  "package": "com.logian.lifequest",
+  "version": "2.2.0+2017",
+  "flags": {
+    "cloud": true,
+    "billing": true,
+    "ads": false,
+    "qaPreview": false
+  },
+  "artifacts": {
+    "aab": {
+      "path": "build/review/life-quest-2.2.0-2017-toolkit.aab",
+      "bytes": 156951577,
+      "sha256": "9526cfdee83120945a490c4b3f5a88630ec9633d08dc50ecc59c12fa7759b1f4"
+    },
+    "apk": {
+      "path": "build/review/life-quest-2.2.0-2017-toolkit.apk",
+      "bytes": 121663325,
+      "sha256": "c595818207b4354facb67bbdcec6438274e69d6715a386a84f8c12699639da58"
+    }
+  },
+  "checks": {
+    "flutter": {
+      "passed": 599,
+      "skipped": 1,
+      "scope": "Full suite before final purchase-preview retention fix"
+    },
+    "cloudBillingRelated": {
+      "passed": 80,
+      "scope": "Related tests after final toolkit input/record changes, before purchase-preview retention fix"
+    },
+    "finalJourneyLayoutRegression": {
+      "passed": 19,
+      "scope": "Includes scroll-away/back failure reproduced before fix and passed after fix"
+    },
+    "analyze": "No issues found on final source",
+    "artifact": {
+      "passed": 40,
+      "total": 40,
+      "report": "docs/rebirth/product-2017-inspection.json"
+    },
+    "apkSignature": "v2 signature verified; expected upload certificate SHA-256",
+    "apkZipAlignment": "zipalign -c -P 16 4 passed",
+    "androidInstall": "Final source signed ARM64 APK installed with adb install -r on existing API35 emulator; versionCode2017/versionName2.2.0/targetSDK36 confirmed",
+    "uiEvidence": "docs/rebirth/qa/toolkit-20261004/README.md",
+    "uiScope": "Actual Flutter web UI at phone/tablet dimensions and widget tests; not new native Android UI verification"
+  },
+  "externalStatus": {
+    "thisVersionUploaded": false,
+    "internalTesting": "Previous2016 owner-only internal release remains unchanged",
+    "liveBilling": "not-tested; app-scoped Play permission approval and actual Play Android device pending",
+    "closedTesting": "not-published",
+    "kmongTesterCsv": "not-received",
+    "completeProductSku": "draft-saved-inactive",
+    "actualRevenueEvidence": "none",
+    "overallUserObjective": "not-achieved; original product and commercial goal unchanged"
+  }
+}
