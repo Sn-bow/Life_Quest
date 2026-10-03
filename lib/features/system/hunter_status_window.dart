@@ -97,9 +97,6 @@ class HunterStatusWindow extends StatelessWidget {
         media.size.width <= 430 &&
         media.size.height <= 820 &&
         media.textScaler.scale(16) <= 19;
-    final shortPhone = compact && media.size.height <= 680;
-    final sectionGap = shortPhone ? 12.0 : (compact ? 18.0 : 28.0);
-    final statRowGap = shortPhone ? 6.0 : (compact ? 10.0 : 12.0);
     return HunterSystemFrame(
       key: const ValueKey('hunter-status-window'),
       padding: compact
@@ -156,7 +153,7 @@ class HunterStatusWindow extends StatelessWidget {
           ),
           Divider(height: compact ? 8 : 12),
           _menu(context, copy, compact: compact),
-          SizedBox(height: shortPhone ? 6 : (compact ? 16 : 28)),
+          SizedBox(height: compact ? 8 : 20),
           if (section == HunterWindowSection.status) ...[
             if (compact)
               Row(
@@ -171,7 +168,7 @@ class HunterStatusWindow extends StatelessWidget {
                       fontFeatures: const [FontFeature.tabularFigures()],
                     ),
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       GuestNameLocalization.displayName(profile, l),
@@ -220,7 +217,7 @@ class HunterStatusWindow extends StatelessWidget {
               TitleLocalization.localizedStoredName(profile.title, l),
               compact: compact,
             ),
-            SizedBox(height: shortPhone ? 8 : (compact ? 14 : 24)),
+            SizedBox(height: compact ? 8 : 17),
             Text(
               '${xpText(profile.xp)} / ${xpText(profile.maxXp)} XP',
               key: const ValueKey('hunter-xp'),
@@ -241,34 +238,29 @@ class HunterStatusWindow extends StatelessWidget {
               semanticsLabel: 'XP',
             ),
             if (state.journeys.active != null) ...[
-              SizedBox(height: sectionGap),
+              SizedBox(height: compact ? 12 : 20),
               JourneyStatusCard(compact: compact),
             ] else if (firstAccepted != null || firstSuggestion != null) ...[
-              SizedBox(height: sectionGap),
+              SizedBox(height: compact ? 12 : 20),
               _firstQuest(
                 context,
                 accepted: firstAccepted,
                 suggested: firstSuggestion,
               ),
             ],
-            SizedBox(height: sectionGap),
+            SizedBox(height: compact ? 8 : 19),
             if (compact)
-              for (var row = 0; row < 2; row++) ...[
-                if (row > 0) SizedBox(height: statRowGap),
+              for (var row = 0; row < 2; row++)
                 Row(
                   children: [
                     Expanded(child: _stat(context, row * 2, compact: true)),
-                    const SizedBox(width: 20),
+                    const SizedBox(width: 16),
                     Expanded(child: _stat(context, row * 2 + 1, compact: true)),
                   ],
-                ),
-              ]
+                )
             else
-              for (var i = 0; i < 4; i++) ...[
-                if (i > 0) SizedBox(height: statRowGap),
-                _stat(context, i),
-              ],
-            SizedBox(height: shortPhone ? 8 : (compact ? 12 : 20)),
+              for (var i = 0; i < 4; i++) _stat(context, i),
+            SizedBox(height: compact ? 4 : 12),
             InkWell(
               key: const ValueKey('hunter-stat-points'),
               onTap: () => _details(context),
@@ -292,7 +284,7 @@ class HunterStatusWindow extends StatelessWidget {
             if (state.journeys.active == null &&
                 firstAccepted == null &&
                 firstSuggestion == null) ...[
-              SizedBox(height: sectionGap),
+              const SizedBox(height: 10),
               JourneyStatusCard(compact: compact),
             ],
             if (!compact) ...[
@@ -464,14 +456,7 @@ class HunterStatusWindow extends StatelessWidget {
       );
     });
     return compact
-        ? Row(
-            children: [
-              for (var i = 0; i < tabs.length; i++) ...[
-                if (i > 0) const SizedBox(width: 6),
-                Expanded(child: tabs[i]),
-              ],
-            ],
-          )
+        ? Row(children: [for (final tab in tabs) Expanded(child: tab)])
         : Wrap(spacing: 4, runSpacing: 4, children: tabs);
   }
 
@@ -523,7 +508,7 @@ class HunterStatusWindow extends StatelessWidget {
       onTap: () => _inspectStat(context, i, labels[i], values[i]),
       child: Container(
         constraints: BoxConstraints(minHeight: compact ? 40 : 48),
-        padding: EdgeInsets.symmetric(vertical: compact ? 6 : 12),
+        padding: EdgeInsets.symmetric(vertical: compact ? 8 : 12),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(color: _accent.withValues(alpha: .17)),
@@ -537,7 +522,7 @@ class HunterStatusWindow extends StatelessWidget {
                 style: TextStyle(color: _ink, fontSize: compact ? 14 : 16),
               ),
             ),
-            SizedBox(width: compact ? 8 : 16),
+            const SizedBox(width: 16),
             Text(
               xpText(values[i]),
               style: TextStyle(
