@@ -1,5 +1,22 @@
 # Life Quest 현재 체크포인트 · 2026-10-03
 
+## 최신 — 지정 계정 로그인 및 실제 서버/내부 트랙 연결
+
+2026-10-03 사용자 “로그인 해줬다” 이후 공식 CLI/MCP의 지정 460 계정 인증을 확인했다. 로그인 요청을 반복하지 않는다.
+
+- 앱 소스 `6594fdc`, **2.1.0+2016** 유지. 이번 작업에 앱 코드 변경/재빌드 없음. 기존 Flutter586/CloudBilling63/artifact40 검사는 해당 소스의 기록이다.
+- **Firebase 운영 함수 9개 ACTIVE**, Node22/us-central1. Firestore 규칙 일치·TTL 3개 배포, Storage 생성과 소유자 전용 규칙 배포/읽기 확인. Publisher API ENABLED, RTDN 공식 publisher/Play 설정 저장, private 승인 큐 IAM·매일 환불 보완 스케줄 확인. [서버 상세와 한계](store/FIREBASE_DEPLOYMENT_2016.md), [함수 원격 설정](firebase-deployment-2016.json).
+- 비인증 callable 5개 HTTP401, private worker HTTP403. 인증 빈 입력 큐 1건과 Google Play 시험 RTDN 각각 HTTP204. 실제 구매 토큰/사용자/권한을 만들지 않은 연결 검사다. **구매/복원/환불 성공 증거로 사용하지 않는다.**
+- **Play 2016 내부 트랙 게시 완료**: 10/3 21:54 KST, 활성/내부 테스터에게 제공됨. 정확한 AAB는 [메타데이터](product-2016-build.json) 해시. 2015는 초안에서만 제외하고 라이브러리에 보존했다. 4언어 노트 저장, 오류/경고 0 확인. 신규 설치 크기는 Console에서 66.6MB.
+- `Life Quest Owner Billing QA` 목록에 소유자 한 명만 넣고 라이선스 테스트와 내부 트랙에 저장했다. RESPOND_NORMALLY 유지. 다른 목록/다른 앱 구성은 수정하지 않았다.
+- 실제 참여 링크: https://play.google.com/apps/internaltest/4701695828383701621 . 기본 45 계정은 미초대, 승인된 460 계정으로 전환해 초대 화면을 확인했다. **Accept invite는 누르지 않음**. 내부 참여/설치는 아직 완료되지 않았다. 임시 앱명 `com.logian.lifequest (unreviewed)`는 Google 심사 전 표시다. 이 링크는 크몽의 14일 비공개 테스트 링크가 아니다. [본인 구매 검증 안내](store/OWNER_BILLING_QA_2016.md).
+- **사용자 답변 대기:** 서버 서비스 계정에 이 앱만 Play 읽기/재무/주문 권한을 부여하는 최종 초대 승인, 실제 Android USB 연결 또는 직접 설치 방식. 권한 화면은 단일 앱 4개 권한까지 준비했다. 승인 전 제출 금지. 개인 서비스 계정 JSON 키는 만들지 않았다.
+- 현재 연결된 Android는 개발용 에뮬레이터뿐이다. App Check 우회나 수동 유료 권한으로 실구매 성공을 대체하지 않는다. 승인과 기기가 준비되면 상품 활성화, Play 시험 결제·복원·환불, 계정 삭제·신고 검증을 이어간다.
+- 크몽 CSV 미수령, 비공개 트랙 미게시, 상품 비활성 초안, 실제 매출/구매 수요 증거 없음. 내부 배포를 전체 목표 완료라 보고하지 않는다. 판매자 연락/결제 없음.
+- 증거: 로컬 `build/review/play-internal-live-2016.png`, `play-license-tester-2016.png`, `play-owner-invite-2016.png`, `play-rtdn-connected-2016.png`, `firebase-storage-created-2016.png`.
+
+아래는 인증/배포 이전 이력이다. 위 상태를 먼저 적용한다.
+
 ## 최신 작업 재개 — 2016 기록 재사용·이어가기 보완
 
 2026-10-03. 사용자가 “그런데 왜 멈춘거야?”라고 지적했다. Firebase 로그인 대기 때문에 독립적으로 할 수 있는 제품 개선까지 중단한 판단이 잘못됐음을 인정하고 실제 수정/검증을 재개했다. **목표 완료나 유료 판매 가능 선언은 하지 않았다.**

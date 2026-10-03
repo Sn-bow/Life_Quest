@@ -35,14 +35,18 @@
     "nativeQa": "docs/rebirth/qa/route-record-20261003/README.md"
   },
   "externalStatus": {
-    "thisVersionUploaded": false,
+    "thisVersionUploaded": true,
     "previousPlayDraftVersion": 2015,
-    "firebaseDeployment": "CLI-management-permission-approval-pending-after-MCP-OAuth-error",
+    "firebaseDeployment": "9 Node22 functions ACTIVE; Storage/rules/TTL/RTDN/private queue deployed; connection probes passed",
     "liveBilling": "not-tested",
     "closedTesting": "not-published",
     "kmongTesterCsv": "not-received",
     "actualRevenueEvidence": "none",
     "completeProduct": "draft-saved-inactive",
-    "publicWebsite": "2015 site remains published; 2016 version text prepared locally"
+    "publicWebsite": "2015 site remains published; 2016 version text prepared locally",
+    "internalTesting": "2016 published; owner-only list; actual Play installation pending",
+    "internalOptInUrl": "https://play.google.com/apps/internaltest/4701695828383701621",
+    "playServiceAccountAccess": "awaiting action-time approval for app-scoped permissions",
+    "licenseTesters": "owner-only list saved; RESPOND_NORMALLY"
   }
 }

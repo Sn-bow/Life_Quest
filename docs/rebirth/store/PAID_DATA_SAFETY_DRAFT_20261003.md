@@ -1,6 +1,6 @@
-# Life Quest 2.1.0+2015 — 데이터 보안 입력 초안
+# Life Quest 2.1.0+2016 — 데이터 보안 입력 초안
 
-작성 2026-10-03. **제출본 아님.** 패키지 `com.logian.lifequest`. 최종 파일 해시/서명/manifest 검사는 [artifact 기록](../product-2015-inspection.json)을 단일 기준으로 사용한다. Cloud/Billing on, Ads/QA off. 새 미션·루트·Complete 구매 경로가 포함된 후보이며 Play 상품·운영 Functions·실거래 검증은 아직 완료되지 않았다. 이전 패키지/2013 문서를 그대로 제출하지 않는다.
+작성/갱신 2026-10-03. **제출본 아님.** 패키지 `com.logian.lifequest`. 최종 파일 해시/서명/manifest 검사는 [artifact 기록](../product-2016-inspection.json)을 단일 기준으로 사용한다. Cloud/Billing on, Ads/QA off. 새 미션·루트·Complete 구매 경로가 포함된 후보이며 Play 상품·실거래 검증은 아직 완료되지 않았다. 운영 함수 9개와 Storage/TTL/RTDN은 배포했고 연결 검사를 마쳤다. [실제 상태](FIREBASE_DEPLOYMENT_2016.md)를 따르며 인증된 앱의 삭제·구매 검증은 별도다. 이전 패키지/2013 문서를 그대로 제출하지 않는다.
 
 ## 이번 기능의 데이터 증분
 - 미션 완료 전 메모 초안은 프로필별로 분리하여 기기에만 임시 저장한다. 클라우드 전송·진행 백업에는 포함하지 않는다. 완료하면 해당 프로필의 실행 기록에 포함하고 임시 사본을 정리한다. 프로필 삭제 시 남아 있는 초안도 삭제한다.
@@ -12,7 +12,7 @@
 - `main.dart`의 중국어 UI는 번체(TW/Hant)로 해석하고 서버에 국가나 위치를 추가 수집하지 않는다.
 
 ## 운영 상태
-10/3 확인한 CLI/MCP는 인증 사용자 없음이다. 이 상태의 `Billing Enabled: No`는 원격 프로젝트 과금 상태의 근거가 아니다. 브라우저 콘솔에서는 기존 Blaze/함수 지출 상한 상세를 확인했다. 로그인 후 원격 서비스·삭제·App Check·전송 범주 확인을 마치기 전 확정된 제출 답변으로 바꾸지 않는다. 코드에 계정 삭제가 있다는 이유만으로 운영 삭제 기능이 완성됐다고 체크하지 않는다.
+10/3 지정 계정의 CLI/MCP 인증 성공 후 함수 9개, 소유자 전용 Storage 규칙, Firestore TTL을 배포하고 RTDN/비공개 큐 연결을 확인했다. [운영 기록](FIREBASE_DEPLOYMENT_2016.md). 실제 Play 설치본의 인증된 계정 삭제/사진 업로드/신고/구매·복원·환불과 전송 범주 검증은 미완료다. 함수 배포나 비인증 요청 거절만으로 삭제 기능의 실제 성공을 체크하지 않는다.
 
 Play의 [데이터 보안 양식 안내](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en)에 따르면 기기 밖으로 전송되는 앱·SDK 데이터, 가명 식별자, 사용자 선택 기능도 검토해야 한다. 각 패키지의 활성 Play 버전 전체를 반영해야 하며 비공개 테스트도 양식 대상이다. 아래의 `선택`은 **사용자가 계정/구매/신고/동기화를 거절해도 기기 기본 기능을 사용할 수 있다는 현재 제품 흐름**을 뜻한다. 사용자가 선택 기능을 켠 뒤 그 기능에 필요한 데이터가 필수라는 뜻과 혼동하지 않는다.
 
@@ -27,7 +27,7 @@ Play의 [데이터 보안 양식 안내](https://support.google.com/googleplay/a
 
 ## Play Console 입력값 제안
 
-| 양식 질문 | +2015 AAB에 대한 입력 초안 | 조건/근거 |
+| 양식 질문 | +2016 AAB에 대한 입력 초안 | 조건/근거 |
 | --- | --- | --- |
 | 앱이 데이터를 수집하거나 공유하나? | **예** | 선택적 계정·신고·클라우드·구매, Firebase/App Check 식별자. 로컬 모드가 있어도 전체 앱 답은 예. |
 | 수집되는 **모든** 사용자 데이터는 전송 중 암호화되나? | **예** | Firebase/Google Play 서비스의 HTTPS와 모델 다운로드 HTTPS, cleartext 금지. 다른 전송 경로가 없다는 최종 AAB/실기기 확인 전제. [Firebase 전송 암호화](https://firebase.google.com/docs/android/play-data-disclosure), [Play 안내](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en). |

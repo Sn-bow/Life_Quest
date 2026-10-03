@@ -1,5 +1,7 @@
 # Life Quest - 프로젝트 메모리
 
+> **최신 2026-10-03 로그인 후 연결:** 지정460 CLI/MCP 인증 성공. 운영 함수9개 ACTIVE·Storage 소유자규칙·Firestore TTL·private 승인큐·Play RTDN 배포/연결검사 완료. 2016 AAB **본인1명 내부트랙 게시**, 라이선스 테스트 목록 저장. 서버의 앱 한정 Play 주문/재무 접근 승인과 Android 실제 설치·구매/복원/환불 확인 대기. 크몽 비공개/정식 판매·수익 검증 완료 아님. [서버 기록](docs/rebirth/store/FIREBASE_DEPLOYMENT_2016.md), [CONTINUE](docs/rebirth/CONTINUE.md) 우선. 이전 인증대기/2016미업로드/서버미배포 표시는 이력이다.
+
 > **최신 2026-10-03 재개:** 소스 `6594fdc`, `2.1.0+2016`. 로그인 대기를 전체 중단 사유로 삼지 않고 제품 개선 재개. 실행 기록 모아보기/복사·작은 행동 기록 정확화·루트 이어가기 선택 저장·삭제 후 화면 갱신. 원복한 메인 디자인 유지. Flutter586/CloudBilling63/analyze clean/AAB40, Android 재실행·태블릿200% 확인. 2016 APK/AAB 로컬 준비, Play는2015내부초안만 유지. 실제구매/서버/비공개 배포 미완료. [CONTINUE](docs/rebirth/CONTINUE.md), [2016빌드](docs/rebirth/product-2016-build.json) 우선. 전체 목표 완료 아님.
 
 > **최신 2026-10-03 작업 재개:** 소스 `b968d04`, `2.1.0+2015`. 원복한 메인 디자인 유지, 미션 초안 저장/복구·구매 화면 실제 예시를 구현/검증. 전체Flutter576/CloudBilling53/analyze clean/AAB40 통과. Google Play2015AAB 업로드·내부초안 저장 성공, 광고ID 미사용으로 정정해 차단오류 해소. 아직 실제구매·운영Functions·비공개배포 미완료. 아래2014“최신” 표시는 과거이력이다. [CONTINUE](docs/rebirth/CONTINUE.md)와[2015빌드](docs/rebirth/product-2015-build.json)를 우선하며 목표를 낮춰 완료하지 않는다.
