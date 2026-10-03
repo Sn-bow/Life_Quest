@@ -33,6 +33,10 @@ class JourneyStatusCard extends StatelessWidget {
     final state = context.watch<CharacterState>();
     final run = state.journeys.active;
     final copy = JourneyCopy(Localizations.localeOf(context).languageCode);
+    // The numeric stage still shows progress when a short phone cannot spare
+    // another progress bar below the route summary.
+    final shortSummary =
+        compact && run != null && MediaQuery.sizeOf(context).height <= 680;
     return Material(
       color: const Color(0xFF102B3B),
       shape: RoundedRectangleBorder(
@@ -50,7 +54,10 @@ class JourneyStatusCard extends StatelessWidget {
                 ),
               ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: shortSummary ? 8 : 12,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -83,7 +90,7 @@ class JourneyStatusCard extends StatelessWidget {
                 ],
               ),
               if (run != null) ...[
-                const SizedBox(height: 8),
+                SizedBox(height: shortSummary ? 4 : 8),
                 Text(
                   '${run.completed ? copy.t('finished') : copy.chapter(run.stage)} · ${run.stage}/$journeyStageCount',
                   style: const TextStyle(
@@ -91,13 +98,15 @@ class JourneyStatusCard extends StatelessWidget {
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 7),
-                LinearProgressIndicator(
-                  value: run.stage / journeyStageCount,
-                  color: journeyAccent,
-                  backgroundColor: const Color(0xFF26414E),
-                  minHeight: 3,
-                ),
+                if (!shortSummary) ...[
+                  const SizedBox(height: 7),
+                  LinearProgressIndicator(
+                    value: run.stage / journeyStageCount,
+                    color: journeyAccent,
+                    backgroundColor: const Color(0xFF26414E),
+                    minHeight: 3,
+                  ),
+                ],
               ] else if (!compact) ...[
                 const SizedBox(height: 5),
                 Text(
