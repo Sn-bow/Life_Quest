@@ -2,10 +2,15 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
 const tideProductId = 'story_tide_postoffice_01';
-const saleProductIds = {tideProductId};
+const statusWindowPlusProductId = 'status_window_plus_01';
+const journeysCompleteProductId = 'quest_journeys_complete_01';
+// Complete supersedes the appearance-only offer. Legacy purchases remain
+// restorable and receive Complete access; never charge the same owner again.
+const bool kStatusWindowPlusNewSalesEnabled = false;
+const saleProductIds = {journeysCompleteProductId};
 const bundledCosmeticProducts = {'theme_tide_postoffice': tideProductId};
 
-const playPackageName = 'com.lifequest.app';
+const playPackageName = 'com.logian.lifequest';
 const playEntitlements = <String, String>{
   'remove_ads_4900': 'remove_ads',
   'cosmetic_theme_neon': 'theme_neon_cyberpunk',
@@ -15,6 +20,8 @@ const playEntitlements = <String, String>{
   'cosmetic_combat_lightning': 'combat_effect_lightning',
   'story_neon_archive_01': 'story_neon_archive_01',
   tideProductId: tideProductId,
+  statusWindowPlusProductId: statusWindowPlusProductId,
+  journeysCompleteProductId: journeysCompleteProductId,
 };
 String playAccountId(String uid) => sha256.convert(utf8.encode(uid)).toString();
 

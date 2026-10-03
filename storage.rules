@@ -11,9 +11,19 @@ service firebase.storage {
              && request.resource.contentType.matches('image/.*');
     }
 
+    function canWriteProfile(userId) {
+      // Signup uploads the picture before its profile document exists. Once
+      // a server-owned purchase-only account exists, it must not gain the
+      // optional cloud-profile upload surface.
+      return isOwner(userId)
+          && (!firestore.exists(/databases/(default)/documents/users/$(userId))
+              || firestore.get(/databases/(default)/documents/users/$(userId))
+                  .data.get('accountKind', '') != 'purchaseOnly');
+    }
+
     match /users/{userId}/profile.jpg {
       allow read: if isOwner(userId);
-      allow create, update: if isOwner(userId) && isSmallImage();
+      allow create, update: if canWriteProfile(userId) && isSmallImage();
       allow delete: if isOwner(userId);
     }
 

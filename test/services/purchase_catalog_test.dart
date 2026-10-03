@@ -27,11 +27,16 @@ class CatalogPlatform extends InAppPurchasePlatform {
     Set<String> identifiers,
   ) async {
     queries++;
-    expect(identifiers, {tideProductId});
+    expect(identifiers, saleProductIds);
     await pause?.future;
     return ProductDetailsResponse(
       productDetails: [
-        for (final id in [tideProductId, 'cosmetic_theme_neon'])
+        for (final id in [
+          tideProductId,
+          'cosmetic_theme_neon',
+          statusWindowPlusProductId,
+          journeysCompleteProductId,
+        ])
           ProductDetails(
             id: id,
             title: 'Synthetic $id',
@@ -52,7 +57,7 @@ class CatalogPlatform extends InAppPurchasePlatform {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   test(
-    'Play catalog outage, retry, unexpected SKU and concurrent refresh',
+    'complete catalog recovers and filters legacy products',
     () async {
       // This file is run separately with the real feature gates enabled. Only the
       // platform boundary is fake; no production purchase/ownership bypass exists.
@@ -75,8 +80,8 @@ void main() {
         ); // Never offer a partial error response.
         platform.queryError = false;
         await service.refreshCatalog();
-        expect(service.products.map((p) => p.id), [tideProductId]);
-        expect(service.products.single.price, '₩6,900');
+        expect(service.products.map((p) => p.id), [journeysCompleteProductId]);
+        expect(service.products.first.price, '₩6,900');
         final before = platform.queries;
         platform.pause = Completer<void>();
         final first = service.refreshCatalog();

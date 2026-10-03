@@ -1,0 +1,24 @@
+<en-US>
+Life Quest puts your own status window first. Complete real-world quests, track XP and review your growth.
+• Status, quests and the weekly report are free.
+• Optional one-time Plus adds three status looks, 30/90-day reports and PNG/TXT/CSV export.
+• Card expeditions and combat are outside this test. Existing records are kept.
+</en-US>
+<ja-JP>
+Life Questは、自分のステータス画面を開くように日々の成長を記録するアプリです。
+• 現実のクエスト、XP、週間レポートは無料です。
+• 買い切りのPlusで外観3種、30/90日レポート、PNG/TXT/CSV保存を追加できます。
+• カード探索と戦闘は今回のテスト対象外です。既存の記録は保持します。
+</ja-JP>
+<ko-KR>
+Life Quest에서 내 상태창을 열고 현실 퀘스트로 성장 기록을 쌓아보세요.
+• 상태창, 퀘스트, 주간 보고서는 무료입니다.
+• 선택형 1회 구매 Plus는 외관 3종, 30/90일 보고서와 PNG/TXT/CSV 저장을 제공합니다.
+• 카드 탐험과 전투는 이번 테스트 범위에서 제외하며 기존 기록은 보존합니다.
+</ko-KR>
+<zh-TW>
+Life Quest 讓你打開自己的狀態視窗，用現實任務記錄每日成長。
+• 狀態視窗、任務與每週報告免費使用。
+• 可選擇一次買斷 Plus，解鎖 3 種外觀、30/90 天報告及 PNG/TXT/CSV 匯出。
+• 卡牌探索與戰鬥不在本次測試範圍內；既有紀錄會保留。
+</zh-TW>

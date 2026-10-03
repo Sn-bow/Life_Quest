@@ -233,6 +233,195 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusStatCharm => 'Charm';
 
   @override
+  String get todayAdventureHeading => 'Today\'s status';
+
+  @override
+  String todayAdventureCompletedCount(int count) {
+    return '$count completed';
+  }
+
+  @override
+  String get todayAdventureDescription =>
+      'Actions you complete in real life become growth, rewards, and recommendations. The dungeon is an optional way to see that growth in action.';
+
+  @override
+  String todayAdventureGoldGain(int amount) {
+    return 'Gold +$amount';
+  }
+
+  @override
+  String get todayAdventureGrowthWaiting => 'Growth pending';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$stat growth';
+  }
+
+  @override
+  String get todayAdventureStatStrength => 'Action';
+
+  @override
+  String get todayAdventureStatWisdom => 'Wisdom';
+
+  @override
+  String get todayAdventureStatHealth => 'Health';
+
+  @override
+  String get todayAdventureStatCharisma => 'Charm';
+
+  @override
+  String get todayAdventureEffectsHeading => 'Today\'s action effects';
+
+  @override
+  String get todayAdventureNoEffects =>
+      'No action effects recorded today. Complete a quest to gain growth and bonuses.';
+
+  @override
+  String get todayAdventureRecommendationHeading => 'Recommended next action';
+
+  @override
+  String get todayAdventureAllDoneTitle =>
+      'You\'ve completed today\'s planned actions';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      'Your actions today have become growth and bonuses. Try them in the dungeon or wrap up with a real-life reward.';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return 'This directly advances the $title title. Complete it to get closer to unlocking it.';
+  }
+
+  @override
+  String get todayAdventureStrengthReason =>
+      'Your action record is empty. Complete this to move toward an attack bonus and health growth.';
+
+  @override
+  String get todayAdventureWisdomReason =>
+      'Your learning record is empty. Complete this to improve your first-turn draw and magic card flow.';
+
+  @override
+  String get todayAdventureHealthReason =>
+      'Your recovery record is empty. Complete this to improve HP and defense card flow.';
+
+  @override
+  String get todayAdventureCharismaReason =>
+      'Your connection record is empty. Complete this to improve event options and starting gold.';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return 'Next title: $title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return 'Dungeon HP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return 'Attack damage +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return 'First-turn cards +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return 'Starting gold +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return 'Defense card flow +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return 'Magic card flow +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return 'Event options +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return 'Shop discount -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return 'Rest healing +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => 'Unlocks a rescue choice for a fallen adventurer';
+
+  @override
+  String get titleUnlockT2 => 'Unlocks a safe detour at the dangerous bridge';
+
+  @override
+  String get titleUnlockT3 =>
+      'Unlocks a strength-based upgrade at the blacksmith';
+
+  @override
+  String get titleUnlockT4 =>
+      'Unlocks a wisdom-based interpretation at the ancient library';
+
+  @override
+  String get titleUnlockT5 =>
+      'Unlocks a safe recovery choice at the mysterious spring';
+
+  @override
+  String get titleUnlockT6 =>
+      'Unlocks a charm-based bargain with the suspicious merchant';
+
+  @override
+  String get titleUnlockT7 =>
+      'Unlocks precise sorting in the card-sorting event';
+
+  @override
+  String get titleUnlockT8 =>
+      'Unlocks balanced purification at the cursed altar';
+
+  @override
+  String get titleUnlockT13 => 'Unlocks expert upgrades at the blacksmith';
+
+  @override
+  String get titleUnlockT14 =>
+      'Unlocks advanced interpretation at the ancient library';
+
+  @override
+  String get titleUnlockT15 =>
+      'Unlocks stable recovery at the mysterious spring';
+
+  @override
+  String get titleUnlockT16 =>
+      'Unlocks a negotiation choice with the suspicious merchant';
+
+  @override
+  String get titleUnlockT19 => 'Unlocks full purification at the cursed altar';
+
+  @override
+  String get titleUnlockT20 =>
+      'Unlocks a campsite choice for the sleeping adventurer';
+
+  @override
+  String get titleUnlockT21 => 'Unlocks a pact choice with the swamp spirit';
+
+  @override
+  String get titleUnlockT24 =>
+      'Unlocks an odds-reading choice in the devil\'s gamble';
+
+  @override
+  String get titleUnlockT26 =>
+      'Unlocks structural support at the dangerous bridge';
+
+  @override
   String get statusTitleChangeTitle => 'Change Title';
 
   @override
@@ -833,31 +1022,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
-  String get onboardingPage1Title => 'Daily Life as Quests';
+  String get onboardingPage1Title => 'Your status window is open';
 
   @override
   String get onboardingPage1Body =>
-      'Register your tasks as quests.\nEarn XP and gold each time you complete one\nand grow your stats and skills.';
+      'The name, level, XP and four stats below are your current profile, not sample progress.';
 
   @override
-  String get onboardingPage2Title => 'Explore the Dungeon';
+  String get onboardingPage2Title => 'Quests and optional AI';
 
   @override
   String get onboardingPage2Body =>
-      'Try a card expedition whenever you like.\nDaily progress supports your adventure.\nLosing a battle never takes your everyday XP.';
+      'Record small actions as quests. On supported devices, you can separately install an AI model.';
 
   @override
-  String get onboardingPage3Title => 'Start Your Adventure';
+  String get onboardingPage3Title => 'Review your growth';
 
   @override
   String get onboardingPage3Body =>
-      'Complete quests, clear dungeons,\nand collect achievements and titles.\nYour everyday life becomes an RPG.';
+      'See completed quests and earned XP in Growth Record.';
 
   @override
   String get onboardingNext => 'Next';
 
   @override
-  String get onboardingStart => 'Start';
+  String get onboardingStart => 'Open my status';
 
   @override
   String get onboardingSkip => 'Skip';
@@ -1083,6 +1272,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reportWeeklyActivitySubtitle =>
       'Check your routine flow for the week.';
+
+  @override
+  String get reportWeeklyActivityEmpty => 'No quests completed this week.';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => 'Go to quests';
 
   @override
   String get reportWeekDayMon => 'Mon';
@@ -4107,37 +4302,104 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lqOpenSourceLicenses => 'Open-source licenses';
 
   @override
-  String get lqWelcomeTitle => 'Your day.\nYour unfolding story.';
+  String get lqWelcomeTitle => 'Open your own\nstatus window.';
 
   @override
   String get lqWelcomeBody =>
-      'A city mystery, a mountain courtyard, a map of stars.\nCarry your everyday progress into a world you choose.';
+      'Choose a name for your status window and one area to grow. You\'ll see a small quest you can start today.';
 
   @override
-  String get lqFirstContract => 'YOUR FIRST CONTRACT';
+  String get lqWelcomePreviewNote =>
+      'Your starting status preview. XP and growth history build when you actually complete quests.';
 
   @override
-  String get lqWelcomeStepOne => 'Start where you are';
+  String get lqWelcomeName => 'Name in your status window';
 
   @override
-  String get lqWelcomeStepOneBody => 'Choose your time, energy and focus.';
+  String get lqWelcomeNameHint => 'Choose your name';
 
   @override
-  String get lqWelcomeStepTwo => 'Grow through small quests';
+  String get lqWelcomeNamePlaceholder => 'Your name';
+
+  @override
+  String get lqWelcomeFocus => 'One area to grow first';
+
+  @override
+  String get lqWelcomeGoal => 'A specific goal you want to work on';
+
+  @override
+  String get lqWelcomeGoalHint => 'e.g. Read for 10 minutes after work';
+
+  @override
+  String get lqWelcomeGoalQuickHint =>
+      'Pick an area to fill in a starter goal. You can edit it.';
+
+  @override
+  String get lqWelcomeExampleVitality => 'Make space for comfortable breaks';
+
+  @override
+  String get lqWelcomeExampleLearning =>
+      'Understand a topic I am curious about';
+
+  @override
+  String get lqWelcomeExampleOrder => 'Make my desk easier to use';
+
+  @override
+  String get lqWelcomeExampleConnection =>
+      'Keep in touch at a comfortable pace';
+
+  @override
+  String get lqWelcomeMinutes => 'Time you can give each day';
+
+  @override
+  String get lqWelcomeSetupPrivacy =>
+      'Your goal note and recommendation history stay on this device. The AI model is optional; XP is earned only when you complete a quest.';
+
+  @override
+  String get lqFirstQuest => 'Your first quest';
+
+  @override
+  String get lqFirstQuestAccept => 'Accept and start quest';
+
+  @override
+  String get lqFirstQuestOpen => 'View active quest';
+
+  @override
+  String get lqFirstQuestNote =>
+      'Today\'s suggestion uses your chosen growth area and time.';
+
+  @override
+  String get lqFirstQuestDefaultNote =>
+      'A starter suggestion. Set a goal for more relevant quests.';
+
+  @override
+  String get lqFirstQuestUnavailable => 'Preparing today\'s quest…';
+
+  @override
+  String get lqFirstContract => 'STATUS WINDOW READY';
+
+  @override
+  String get lqWelcomeStepOne => 'Quests come next';
+
+  @override
+  String get lqWelcomeStepOneBody => 'Record small actions to earn XP.';
+
+  @override
+  String get lqWelcomeStepTwo => 'AI is optional';
 
   @override
   String get lqWelcomeStepTwoBody =>
-      'Earn experience for what you do in real life.';
+      'On supported devices, install a separate model for on-device quest suggestions.';
 
   @override
-  String get lqWelcomeStepThree => 'Grow across three worlds';
+  String get lqWelcomeStepThree => 'Review your growth';
 
   @override
   String get lqWelcomeStepThreeBody =>
-      'Choose a story. Real-life actions unlock the next scene.';
+      'See completed quests and earned XP in Growth Record.';
 
   @override
-  String get lqStartOnDevice => 'Start on this device';
+  String get lqStartOnDevice => 'Open my status';
 
   @override
   String get lqStarting => 'Opening your status…';
@@ -4497,6 +4759,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lqPurchaseAccountConnect => 'Connect Google account';
+
+  @override
+  String get lqPurchaseCloudLinkIntro =>
+      'Connect a Google account to this profile before purchasing. Your quests and progress stay with the same profile. Connecting does not charge you.';
+
+  @override
+  String get lqPurchaseCloudLinkFailed =>
+      'This Google account could not be linked. It may already belong to another Life Quest account. Try a different Google account. Your current email profile is unchanged.';
+
+  @override
+  String get lqPurchaseCloudLinked =>
+      'Google is connected to this profile. Buy and restore purchases with this profile.';
 
   @override
   String get lqPurchaseAccountDisconnect => 'Disconnect on this device';

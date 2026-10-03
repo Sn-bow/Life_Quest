@@ -75,7 +75,7 @@
       "android": {
         "default": {
           "projectId": "lifequest-crossing-2026",
-          "appId": "1:61563760091:android:4f449ea668e5a19120cbfe",
+          "appId": "1:61563760091:android:5cb1227f0ba3719020cbfe",
           "fileOutput": "android/app/google-services.json"
         }
       },
@@ -83,9 +83,19 @@
         "lib/firebase_options.dart": {
           "projectId": "lifequest-crossing-2026",
           "configurations": {
-            "android": "1:61563760091:android:4f449ea668e5a19120cbfe"
+            "android": "1:61563760091:android:5cb1227f0ba3719020cbfe"
           }
         }
+      }
+    }
+  },
+  "auth": {
+    "providers": {
+      "anonymous": true,
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Life Quest",
+        "supportEmail": "hyeonseok460@gmail.com"
       }
     }
   }

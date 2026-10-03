@@ -1,3 +1,4 @@
+import '../features/system/system_widgets.dart' show xpText;
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
@@ -8,7 +9,6 @@ class QuestTile extends StatelessWidget {
   final VoidCallback onChecked;
   final VoidCallback onDeleted;
   final VoidCallback? onEdited;
-  final String? rewardPreview;
 
   const QuestTile({
     super.key,
@@ -16,7 +16,6 @@ class QuestTile extends StatelessWidget {
     required this.onChecked,
     required this.onDeleted,
     this.onEdited,
-    this.rewardPreview,
   });
 
   Color _difficultyColor() {
@@ -83,20 +82,6 @@ class QuestTile extends StatelessWidget {
                         : theme.textTheme.bodyLarge?.color,
                   ),
                 ),
-                subtitle: rewardPreview == null
-                    ? null
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          rewardPreview!,
-                          maxLines: 4,
-                          style: TextStyle(
-                            fontSize: 12,
-                            height: 1.4,
-                            color: Colors.amber.shade300,
-                          ),
-                        ),
-                      ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -105,52 +90,47 @@ class QuestTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '+${quest.xp} XP',
+                          '+${xpText(quest.awardedXp ?? quest.lockedXp ?? quest.xp)} XP',
                           style: TextStyle(
                             color: theme.colorScheme.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 13,
                           ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              '+${(quest.xp * 0.5).round()} ',
-                              style: TextStyle(
-                                color: Colors.amber.shade400,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11,
-                              ),
-                            ),
-                            Icon(Icons.monetization_on,
-                                size: 12, color: Colors.amber.shade400),
-                          ],
-                        ),
                       ],
                     ),
                     if (!quest.isCompleted && onEdited != null)
                       IconButton(
-                        icon: Icon(Icons.edit,
-                            size: 20,
-                            color: theme.colorScheme.primary
-                                .withValues(alpha: 0.7)),
+                        icon: Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.7,
+                          ),
+                        ),
                         onPressed: onEdited,
                         tooltip: l10n.questTileEditTooltip,
                         visualDensity: VisualDensity.compact,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints.tightFor(
-                            width: 32, height: 32),
+                          width: 32,
+                          height: 32,
+                        ),
                       ),
                     IconButton(
-                      icon: Icon(Icons.delete,
-                          size: 20,
-                          color: Colors.redAccent.withValues(alpha: 0.7)),
+                      icon: Icon(
+                        Icons.delete,
+                        size: 20,
+                        color: Colors.redAccent.withValues(alpha: 0.7),
+                      ),
                       onPressed: onDeleted,
                       tooltip: l10n.questTileDeleteTooltip,
                       visualDensity: VisualDensity.compact,
                       padding: EdgeInsets.zero,
-                      constraints:
-                          const BoxConstraints.tightFor(width: 32, height: 32),
+                      constraints: const BoxConstraints.tightFor(
+                        width: 32,
+                        height: 32,
+                      ),
                     ),
                   ],
                 ),

@@ -12,19 +12,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cancel => '取消';
 
   @override
-  String get save => '保存';
+  String get save => '儲存';
 
   @override
-  String get close => '关闭';
+  String get close => '關閉';
 
   @override
-  String get confirm => '确认';
+  String get confirm => '確認';
 
   @override
-  String get delete => '删除';
+  String get delete => '刪除';
 
   @override
-  String get apply => '应用';
+  String get apply => '套用';
 
   @override
   String get change => '修改';
@@ -33,16 +33,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get complete => '完成';
 
   @override
-  String get acquire => '习得';
+  String get acquire => '習得';
 
   @override
-  String get tabStatus => '状态';
+  String get tabStatus => '狀態';
 
   @override
-  String get tabQuests => '任务';
+  String get tabQuests => '任務';
 
   @override
-  String get tabHunt => '狩猎';
+  String get tabHunt => '狩獵';
 
   @override
   String get tabInventory => '背包';
@@ -57,125 +57,125 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tabSkill => '技能';
 
   @override
-  String get loginTitle => '将日常行动转化为经验值';
+  String get loginTitle => '將日常行動轉化為經驗值';
 
   @override
-  String get loginSubtitle => '积累小任务，让自己每天成长的生产力RPG';
+  String get loginSubtitle => '積累小任務，讓自己每天成長的生產力RPG';
 
   @override
-  String get loginEmailLabel => '邮箱';
+  String get loginEmailLabel => '電子郵件';
 
   @override
-  String get loginPasswordLabel => '密码';
+  String get loginPasswordLabel => '密碼';
 
   @override
-  String get loginButton => '登录';
+  String get loginButton => '登入';
 
   @override
-  String get loginRegisterButton => '注册新冒险者';
+  String get loginRegisterButton => '註冊新冒險者';
 
   @override
   String get loginDivider => '或';
 
   @override
-  String get loginGoogleButton => '使用Google账号开始';
+  String get loginGoogleButton => '使用 Google 帳號開始';
 
   @override
-  String get loginErrorEmpty => '请输入邮箱和密码。';
+  String get loginErrorEmpty => '請輸入電子郵件和密碼。';
 
   @override
-  String get loginErrorFailed => '登录失败。';
+  String get loginErrorFailed => '登入失敗。';
 
   @override
-  String get loginErrorGoogleToken => '无法获取Google认证令牌，请重试。';
+  String get loginErrorGoogleToken => '無法取得 Google 驗證資訊，請重試。';
 
   @override
-  String get loginErrorGoogle => 'Google登录失败。';
+  String get loginErrorGoogle => 'Google登入失敗。';
 
   @override
   String loginErrorUnknown(String error) {
-    return '发生错误: $error';
+    return '發生錯誤: $error';
   }
 
   @override
-  String get loginForgotPassword => '忘记密码了吗?';
+  String get loginForgotPassword => '忘記密碼了嗎?';
 
   @override
-  String get loginForgotPasswordEmailRequired => '请先输入邮箱地址。';
+  String get loginForgotPasswordEmailRequired => '請先輸入電子郵件地址。';
 
   @override
   String loginForgotPasswordSent(String email) {
-    return '密码重置邮件已发送至 $email。';
+    return '密碼重置郵件已傳送至 $email。';
   }
 
   @override
-  String get signupTitle => '注册新冒险者';
+  String get signupTitle => '註冊新冒險者';
 
   @override
-  String get signupPickPhoto => '选择头像';
+  String get signupPickPhoto => '選擇頭像';
 
   @override
-  String get signupEmailLabel => '邮箱';
+  String get signupEmailLabel => '電子郵件';
 
   @override
-  String get signupEmailRequired => '请输入邮箱。';
+  String get signupEmailRequired => '請輸入電子郵件。';
 
   @override
-  String get signupEmailInvalid => '请输入有效的邮箱格式。(例: name@example.com)';
+  String get signupEmailInvalid => '請輸入有效的電子郵件地址（例如：name@example.com）。';
 
   @override
-  String get signupNicknameLabel => '昵称';
+  String get signupNicknameLabel => '暱稱';
 
   @override
-  String get signupNicknameRequired => '请输入昵称。';
+  String get signupNicknameRequired => '請輸入暱稱。';
 
   @override
-  String get signupPasswordLabel => '密码';
+  String get signupPasswordLabel => '密碼';
 
   @override
-  String get signupPasswordTooShort => '密码至少需要6个字符。';
+  String get signupPasswordTooShort => '密碼至少需要6個字元。';
 
   @override
-  String get signupPasswordConfirmLabel => '确认密码';
+  String get signupPasswordConfirmLabel => '確認密碼';
 
   @override
-  String get signupPasswordMismatch => '密码不匹配。';
+  String get signupPasswordMismatch => '密碼不匹配。';
 
   @override
-  String get signupButton => '完成注册';
+  String get signupButton => '完成註冊';
 
   @override
-  String get signupSuccess => '🎉 注册成功！欢迎加入！';
+  String get signupSuccess => '🎉 註冊成功！歡迎加入！';
 
   @override
-  String get signupErrorFailed => '注册失败。';
+  String get signupErrorFailed => '註冊失敗。';
 
   @override
   String signupErrorUnknown(String error) {
-    return '发生未知错误: $error';
+    return '發生未知錯誤: $error';
   }
 
   @override
-  String get signupErrorUserCreate => '创建用户失败。';
+  String get signupErrorUserCreate => '建立使用者失敗。';
 
   @override
-  String get statusScreenTitle => '状态';
+  String get statusScreenTitle => '狀態';
 
   @override
-  String get statusTimerTooltip => '专注计时器';
+  String get statusTimerTooltip => '專注計時器';
 
   @override
-  String get statusSettingsTooltip => '设置';
+  String get statusSettingsTooltip => '設定';
 
   @override
   String get statusHpLabel => '生活HP';
 
   @override
-  String get statusHpRecoveryHint => '生活HP表示日常任务状态。非战斗状态下，每10分钟会自然缓慢恢复。';
+  String get statusHpRecoveryHint => '生活HP表示日常任務狀態。非戰鬥狀態下，每10分鐘會自然緩慢恢復。';
 
   @override
   String statusStreakLabel(int days) {
-    return '连续达成: $days天';
+    return '連續達成: $days天';
   }
 
   @override
@@ -184,34 +184,34 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get statusStatHint => '升级时，3点根据最近完成任务的倾向自动成长，其余点数可自行分配。';
+  String get statusStatHint => '升級時，3點根據最近完成任務的傾向自動成長，其餘點數可自行分配。';
 
   @override
-  String get statusGoldLabel => '金币';
+  String get statusGoldLabel => '金幣';
 
   @override
-  String get statusApLabel => '行动力';
+  String get statusApLabel => '行動力';
 
   @override
-  String get statusBaseStatTitle => '基础属性';
+  String get statusBaseStatTitle => '基礎屬性';
 
   @override
-  String get statusDetailStatButton => '查看详细属性';
+  String get statusDetailStatButton => '檢視詳細屬性';
 
   @override
-  String get statusDetailStatTitle => '📊 详细战斗属性';
+  String get statusDetailStatTitle => '📊 詳細戰鬥屬性';
 
   @override
-  String get statusAttackLabel => '攻击力';
+  String get statusAttackLabel => '攻擊力';
 
   @override
-  String get statusDefenseLabel => '防御力';
+  String get statusDefenseLabel => '防禦力';
 
   @override
-  String get statusCritLabel => '暴击率';
+  String get statusCritLabel => '暴擊率';
 
   @override
-  String get statusDodgeLabel => '闪避率';
+  String get statusDodgeLabel => '閃避率';
 
   @override
   String get statusStatStrength => '力量';
@@ -226,24 +226,195 @@ class AppLocalizationsZh extends AppLocalizations {
   String get statusStatCharm => '魅力';
 
   @override
-  String get statusTitleChangeTitle => '更换称号';
+  String get todayAdventureHeading => '今日狀態';
 
   @override
-  String get statusStatApplyTitle => '确认属性分配';
-
-  @override
-  String statusStatApplyBody(String summary) {
-    return '是否应用以下属性？\n\n$summary\n\n应用后无法撤销。';
+  String todayAdventureCompletedCount(int count) {
+    return '已完成 $count 項';
   }
 
   @override
-  String get questsScreenTitle => '任务列表';
+  String get todayAdventureDescription =>
+      '現實中完成的行動會帶來成長、獎勵與下一步建議。地下城則是體驗這些成長的選擇性玩法。';
 
   @override
-  String get questsTabDaily => '每日任务';
+  String todayAdventureGoldGain(int amount) {
+    return '金幣 +$amount';
+  }
 
   @override
-  String get questsTabWeekly => '每周任务';
+  String get todayAdventureGrowthWaiting => '等待成長';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$stat成長';
+  }
+
+  @override
+  String get todayAdventureStatStrength => '執行力';
+
+  @override
+  String get todayAdventureStatWisdom => '智慧';
+
+  @override
+  String get todayAdventureStatHealth => '健康';
+
+  @override
+  String get todayAdventureStatCharisma => '魅力';
+
+  @override
+  String get todayAdventureEffectsHeading => '今日的行動效果';
+
+  @override
+  String get todayAdventureNoEffects => '今天尚未記錄行動效果。完成一項任務即可獲得成長與加成。';
+
+  @override
+  String get todayAdventureRecommendationHeading => '下一步建議行動';
+
+  @override
+  String get todayAdventureAllDoneTitle => '今天計畫的行動已全部完成';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      '今天的行動已轉化為成長與加成。你可以到地下城體驗，也可以用現實獎勵為今天收尾。';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return '這會直接推進「$title」稱號的進度。完成後就更接近解鎖條件。';
+  }
+
+  @override
+  String get todayAdventureStrengthReason => '執行力尚無紀錄。完成後將更接近攻擊加成與健康成長。';
+
+  @override
+  String get todayAdventureWisdomReason => '學習與分析尚無紀錄。完成後可提升首回合抽牌與魔法卡出現率。';
+
+  @override
+  String get todayAdventureHealthReason => '恢復與生活節奏尚無紀錄。完成後可提升 HP 與防禦卡出現率。';
+
+  @override
+  String get todayAdventureCharismaReason => '人際與表達尚無紀錄。完成後可增加事件選項與起始金幣。';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return '下一個稱號：$title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return '地下城 HP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return '攻擊傷害 +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return '首回合卡牌 +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return '起始金幣 +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return '防禦卡出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return '魔法卡出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return '事件選項 +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return '商店折扣 -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return '休息恢復 +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => '解鎖救助倒下冒險者的選項';
+
+  @override
+  String get titleUnlockT2 => '解鎖危險橋樑的安全繞道選項';
+
+  @override
+  String get titleUnlockT3 => '解鎖鐵匠事件中的力量強化選項';
+
+  @override
+  String get titleUnlockT4 => '解鎖古代圖書館中的智慧解讀選項';
+
+  @override
+  String get titleUnlockT5 => '解鎖神祕泉水中的安全恢復選項';
+
+  @override
+  String get titleUnlockT6 => '解鎖與可疑商人交涉的魅力選項';
+
+  @override
+  String get titleUnlockT7 => '解鎖卡牌整理事件中的精細整理選項';
+
+  @override
+  String get titleUnlockT8 => '解鎖詛咒祭壇中的平衡淨化選項';
+
+  @override
+  String get titleUnlockT13 => '解鎖鐵匠事件中的熟練強化選項';
+
+  @override
+  String get titleUnlockT14 => '解鎖古代圖書館中的進階解讀選項';
+
+  @override
+  String get titleUnlockT15 => '解鎖神祕泉水中的穩定恢復選項';
+
+  @override
+  String get titleUnlockT16 => '解鎖與可疑商人的交涉選項';
+
+  @override
+  String get titleUnlockT19 => '解鎖詛咒祭壇中的完全淨化選項';
+
+  @override
+  String get titleUnlockT20 => '解鎖沉睡冒險者事件中的營地選項';
+
+  @override
+  String get titleUnlockT21 => '解鎖與沼澤精靈締約的選項';
+
+  @override
+  String get titleUnlockT24 => '解鎖惡魔賭局中的判讀局勢選項';
+
+  @override
+  String get titleUnlockT26 => '解鎖危險橋樑的結構加固選項';
+
+  @override
+  String get statusTitleChangeTitle => '更換稱號';
+
+  @override
+  String get statusStatApplyTitle => '確認屬性分配';
+
+  @override
+  String statusStatApplyBody(String summary) {
+    return '要套用以下屬性分配嗎？\n\n$summary\n\n套用後無法復原。';
+  }
+
+  @override
+  String get questsScreenTitle => '任務列表';
+
+  @override
+  String get questsTabDaily => '每日任務';
+
+  @override
+  String get questsTabWeekly => '每週任務';
 
   @override
   String get questsTabMonthly => '月度副本';
@@ -252,16 +423,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get questsTabYearly => '年度副本';
 
   @override
-  String get questsEmptyDaily => '还没有添加任务。\n从今天要做的小事开始吧。';
+  String get questsEmptyDaily => '還沒有新增任務。\n從今天要做的小事開始吧。';
 
   @override
-  String get questsEmptyWeekly => '还没有每周常规目标。\n添加想要持续坚持的目标吧。';
+  String get questsEmptyWeekly => '還沒有每週常規目標。\n新增想要持續堅持的目標吧。';
 
   @override
-  String get questsEmptyMonthly => '本月还没有副本。\n将长期目标添加为月度副本吧。';
+  String get questsEmptyMonthly => '本月還沒有副本。\n將長期目標新增為月度副本吧。';
 
   @override
-  String get questsEmptyYearly => '今年还没有大型副本。\n将人生目标级的挑战添加为年度副本吧。';
+  String get questsEmptyYearly => '今年還沒有大型副本。\n將人生目標級的挑戰新增為年度副本吧。';
 
   @override
   String get questsCategoryStrength => '力量';
@@ -276,22 +447,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get questsCategoryCharm => '魅力';
 
   @override
-  String get questsDifficultyEasy => '简单';
+  String get questsDifficultyEasy => '簡單';
 
   @override
   String get questsDifficultyNormal => '普通';
 
   @override
-  String get questsDifficultyHard => '困难';
+  String get questsDifficultyHard => '困難';
 
   @override
-  String get questsDifficultyVeryHard => '非常困难';
+  String get questsDifficultyVeryHard => '非常困難';
 
   @override
   String get questsTypeDaily => '每日';
 
   @override
-  String get questsTypeWeekly => '每周';
+  String get questsTypeWeekly => '每週';
 
   @override
   String get questsTypeMonthly => '月度副本';
@@ -300,104 +471,104 @@ class AppLocalizationsZh extends AppLocalizations {
   String get questsTypeYearly => '年度副本';
 
   @override
-  String get questsCompleteTitle => '完成任务';
+  String get questsCompleteTitle => '完成任務';
 
   @override
   String questsCompleteConfirm(String questName) {
-    return '确认完成任务「$questName」？';
+    return '確認完成任務「$questName」？';
   }
 
   @override
-  String get questsBaseRewardLabel => '基础奖励';
+  String get questsBaseRewardLabel => '基礎獎勵';
 
   @override
-  String get questsGoldUnit => '金币';
+  String get questsGoldUnit => '金幣';
 
   @override
-  String get questsAdRewardApplied => '🎉 广告奖励已应用';
+  String get questsAdRewardApplied => '🎉 已套用廣告獎勵';
 
   @override
   String questsDoubleAdButton(int remaining) {
-    return '看广告获得2倍奖励 (剩余$remaining次)';
+    return '看廣告獲得2倍獎勵 (剩餘$remaining次)';
   }
 
   @override
-  String get questsAdUnavailable => '广告加载失败，已发放基础奖励。';
+  String get questsAdUnavailable => '廣告載入失敗，已發放基礎獎勵。';
 
   @override
-  String get questsEditTitle => '编辑任务';
+  String get questsEditTitle => '編輯任務';
 
   @override
-  String get questsAddTitle => '添加新任务';
+  String get questsAddTitle => '新增新任務';
 
   @override
-  String get questsNameLabel => '任务名称';
+  String get questsNameLabel => '任務名稱';
 
   @override
-  String get questsTypeLabel => '类型';
+  String get questsTypeLabel => '類型';
 
   @override
-  String get questsCategoryLabel => '分类';
+  String get questsCategoryLabel => '分類';
 
   @override
-  String get questsDifficultyLabel => '难度';
+  String get questsDifficultyLabel => '難度';
 
   @override
   String questsRewardPreview(String type, int xp, int gold) {
-    return '$type奖励: $xp XP · $gold 金币';
+    return '$type獎勵: $xp XP · $gold 金幣';
   }
 
   @override
-  String get questsNameRequired => '请输入任务名称。';
+  String get questsNameRequired => '請輸入任務名稱。';
 
   @override
-  String get questsDeleteTitle => '删除任务';
+  String get questsDeleteTitle => '刪除任務';
 
   @override
   String questsDeleteBody(String questName) {
-    return '确认删除任务「$questName」？\n\n删除后无法恢复。';
+    return '確認刪除任務「$questName」？\n\n刪除後無法恢復。';
   }
 
   @override
   String questsRaidClear(int count) {
-    return '副本通关 $count 次';
+    return '副本通關 $count 次';
   }
 
   @override
   String questsRewardSummary(int xp, int gold, int ap) {
-    return '总奖励: $xp XP · $gold 金币 · AP +$ap';
+    return '總獎勵: $xp XP · $gold 金幣 · AP +$ap';
   }
 
   @override
   String questsRewardStatPoints(int sp) {
-    return '额外属性点 +$sp';
+    return '額外屬性點 +$sp';
   }
 
   @override
   String questsRewardUnlockedTitles(String titles) {
-    return '解锁称号: $titles';
+    return '解鎖稱號: $titles';
   }
 
   @override
   String questsRewardUnlockedCosmetics(String cosmetics) {
-    return '解锁奖励: $cosmetics';
+    return '解鎖獎勵: $cosmetics';
   }
 
   @override
-  String get questsRaidBonusMonthly => '副本奖励\n额外XP·额外金币\nAP +2·SP +1\n解锁进度奖励';
+  String get questsRaidBonusMonthly => '副本獎勵\n額外XP·額外金幣\nAP +2·SP +1\n解鎖進度獎勵';
 
   @override
-  String get questsRaidBonusYearly => '副本奖励\n大量XP·大量金币\nAP +4·SP +2\n解锁稀有奖励';
+  String get questsRaidBonusYearly => '副本獎勵\n大量XP·大量金幣\nAP +4·SP +2\n解鎖稀有獎勵';
 
   @override
-  String get huntScreenTitle => '狩猎场';
+  String get huntScreenTitle => '狩獵場';
 
   @override
-  String get huntMyHpLabel => '战斗HP';
+  String get huntMyHpLabel => '戰鬥HP';
 
   @override
   String huntComboBadge(int count) {
-    return '💥 连击: $count';
+    return '💥 連擊: $count';
   }
 
   @override
@@ -406,85 +577,85 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get huntActionAttack => '攻击 (1 AP)';
+  String get huntActionAttack => '攻擊 (1 AP)';
 
   @override
-  String get huntActionDefend => '防御 (1 AP)';
+  String get huntActionDefend => '防禦 (1 AP)';
 
   @override
   String get huntActionSkill => '技能 (自由)';
 
   @override
-  String get huntActionBag => '背包 (1 AP)';
+  String get huntActionBag => '揹包 (1 AP)';
 
   @override
   String get huntActionFlee => '逃跑 (1 AP)';
 
   @override
-  String get huntBagTitle => '背包 (消耗品)';
+  String get huntBagTitle => '揹包 (消耗品)';
 
   @override
-  String get huntBagEmpty => '没有可用的道具。';
+  String get huntBagEmpty => '沒有可用的道具。';
 
   @override
   String get huntBagUse => '使用 (1 AP)';
 
   @override
-  String get huntSkillSelectTitle => '选择要使用的技能:';
+  String get huntSkillSelectTitle => '選擇要使用的技能:';
 
   @override
-  String get huntSkillEmpty => '还没有学习战斗技能。';
+  String get huntSkillEmpty => '還沒有學習戰鬥技能。';
 
   @override
   String get huntApLowTitle => 'AP不足';
 
   @override
   String huntApLowBody(int remaining) {
-    return 'AP不足。看广告回复2 AP吗？\n(今日剩余: $remaining次)';
+    return 'AP不足。看廣告恢復2 AP嗎？\n(今日剩餘: $remaining次)';
   }
 
   @override
-  String get huntApRecoverButton => '看广告回复';
+  String get huntApRecoverButton => '看廣告恢復';
 
   @override
-  String get huntApExhausted => '⚡ AP不足！请完成任务。(今日广告回复已全部用完)';
+  String get huntApExhausted => '⚡ AP不足！請完成任務。(今日廣告恢復已全部用完)';
 
   @override
   String huntDoubleRewardButton(int remaining) {
-    return '看广告获得2倍战利品 (剩余$remaining次)';
+    return '看廣告獲得2倍戰利品 (剩餘$remaining次)';
   }
 
   @override
-  String get huntDoubleRewardSuccess => '🎉 通过广告奖励获得了2倍战利品！';
+  String get huntDoubleRewardSuccess => '🎉 透過廣告獎勵獲得了2倍戰利品！';
 
   @override
-  String get huntAdUnavailable => '广告加载失败，请重试。';
+  String get huntAdUnavailable => '廣告載入失敗，請重試。';
 
   @override
-  String get huntResultButton => '查看结果并返回';
+  String get huntResultButton => '檢視結果並返回';
 
   @override
   String huntReviveButton(int remaining) {
-    return '看广告复活 (今日剩余$remaining次)';
+    return '看廣告復活 (今日剩餘$remaining次)';
   }
 
   @override
-  String get huntReviveSuccess => '❤️ 通过广告奖励立即复活！';
+  String get huntReviveSuccess => '❤️ 透過廣告獎勵立即復活！';
 
   @override
-  String get huntReviveAdUnavailable => '广告加载失败，请稍后重试。';
+  String get huntReviveAdUnavailable => '廣告載入失敗，請稍後重試。';
 
   @override
-  String get huntRetreatButton => '放弃并返回';
+  String get huntRetreatButton => '放棄並返回';
 
   @override
-  String get inventoryScreenTitle => '背包';
+  String get inventoryScreenTitle => '揹包';
 
   @override
-  String get inventoryEquippedSection => '已装备';
+  String get inventoryEquippedSection => '已裝備';
 
   @override
-  String get inventoryCombatStatSection => '战斗属性';
+  String get inventoryCombatStatSection => '戰鬥屬性';
 
   @override
   String inventoryItemsSection(int count) {
@@ -498,7 +669,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inventorySlotArmor => '🛡️ 防具';
 
   @override
-  String get inventorySlotAccessory => '💍 饰品';
+  String get inventorySlotAccessory => '💍 飾品';
 
   @override
   String get inventorySlotEmpty => '空';
@@ -507,19 +678,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inventoryUnequip => '卸下';
 
   @override
-  String get inventoryUseEquip => '使用 / 装备';
+  String get inventoryUseEquip => '使用 / 裝備';
 
   @override
-  String get inventoryEmptyMessage => '没有道具\n猎杀怪物来获取装备吧！';
+  String get inventoryEmptyMessage => '目前沒有道具\n擊敗怪物即可取得裝備！';
 
   @override
   String get inventoryGoDungeon => '前往地下城';
 
   @override
-  String get inventoryAttackLabel => '攻击力';
+  String get inventoryAttackLabel => '攻擊力';
 
   @override
-  String get inventoryDefenseLabel => '防御力';
+  String get inventoryDefenseLabel => '防禦力';
 
   @override
   String get inventoryHpLabel => '健康加成';
@@ -537,35 +708,35 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inventoryStatCharm => '魅力';
 
   @override
-  String get inventoryStatAttack => '攻击力';
+  String get inventoryStatAttack => '攻擊力';
 
   @override
-  String get inventoryStatDefense => '防御力';
+  String get inventoryStatDefense => '防禦力';
 
   @override
   String inventoryUsedHp(String itemName) {
-    return '使用了$itemName。(HP回复)';
+    return '使用了$itemName。(HP恢復)';
   }
 
   @override
   String inventoryUsedAp(String itemName) {
-    return '使用了$itemName。(AP回复)';
+    return '使用了$itemName。(AP恢復)';
   }
 
   @override
   String get inventoryRarityCommon => '普通';
 
   @override
-  String get inventoryRarityUncommon => '优质';
+  String get inventoryRarityUncommon => '優質';
 
   @override
   String get inventoryRarityRare => '稀有';
 
   @override
-  String get inventoryRarityEpic => '史诗';
+  String get inventoryRarityEpic => '史詩';
 
   @override
-  String get inventoryRarityLegendary => '传说';
+  String get inventoryRarityLegendary => '傳說';
 
   @override
   String get shopScreenTitle => '商店';
@@ -574,156 +745,156 @@ class AppLocalizationsZh extends AppLocalizations {
   String get defaultReward1Name => '吃好吃的零食';
 
   @override
-  String get defaultReward1Desc => '享用一份喜欢的零食';
+  String get defaultReward1Desc => '享用一份喜歡的零食';
 
   @override
-  String get defaultReward2Name => '玩30分钟游戏';
+  String get defaultReward2Name => '玩30分鐘遊戲';
 
   @override
-  String get defaultReward2Desc => '无愧疚地玩30分钟';
+  String get defaultReward2Desc => '無愧疚地玩30分鐘';
 
   @override
-  String get defaultReward3Name => '看想看的视频/电影';
+  String get defaultReward3Name => '看想看的影片/電影';
 
   @override
-  String get defaultReward3Desc => '看YouTube或Netflix一小时';
+  String get defaultReward3Desc => '看YouTube或Netflix一小時';
 
   @override
-  String get shopTabGameItems => '游戏道具';
+  String get shopTabGameItems => '遊戲道具';
 
   @override
-  String get shopTabCustomRewards => '我的奖励';
+  String get shopTabCustomRewards => '我的獎勵';
 
   @override
-  String get shopThemeBannerTitle => '主题展示';
+  String get shopThemeBannerTitle => '主題展示';
 
   @override
-  String get shopThemeBannerSubtitle => '预览即将推出的主题和特效。';
+  String get shopThemeBannerSubtitle => '預覽即將推出的主題和特效。';
 
   @override
   String get shopConsumableSection => '消耗品';
 
   @override
-  String get shopEquipBoxSection => '装备箱';
+  String get shopEquipBoxSection => '裝備箱';
 
   @override
-  String get shopPermanentSection => '永久强化';
+  String get shopPermanentSection => '永久強化';
 
   @override
-  String get shopHpPotionName => 'HP回复药水';
+  String get shopHpPotionName => 'HP恢復藥水';
 
   @override
-  String get shopHpPotionDesc => '回复30 HP。';
+  String get shopHpPotionDesc => '恢復30 HP。';
 
   @override
-  String get shopHpFullPotionName => 'HP完全回复药水';
+  String get shopHpFullPotionName => 'HP完全恢復藥水';
 
   @override
-  String get shopHpFullPotionDesc => '将HP恢复至最大值。';
+  String get shopHpFullPotionDesc => '將HP恢復至最大值。';
 
   @override
-  String get shopApPotionName => 'AP充能药水';
+  String get shopApPotionName => 'AP充能藥水';
 
   @override
-  String get shopApPotionDesc => '回复5 AP。';
+  String get shopApPotionDesc => '恢復5 AP。';
 
   @override
-  String get shopNormalBoxName => '普通装备箱';
+  String get shopNormalBoxName => '普通裝備箱';
 
   @override
-  String get shopNormalBoxDesc => '随机获得普通~稀有装备。';
+  String get shopNormalBoxDesc => '隨機獲得普通~稀有裝備。';
 
   @override
-  String get shopNormalBoxSuccess => '获得装备！请查看背包！';
+  String get shopNormalBoxSuccess => '獲得裝備！請檢視揹包！';
 
   @override
-  String get shopPremiumBoxName => '高级装备箱';
+  String get shopPremiumBoxName => '高階裝備箱';
 
   @override
-  String get shopPremiumBoxDesc => '随机获得稀有~传说装备。';
+  String get shopPremiumBoxDesc => '隨機獲得稀有~傳說裝備。';
 
   @override
-  String get shopPremiumBoxSuccess => '获得高级装备！请查看背包！';
+  String get shopPremiumBoxSuccess => '獲得高階裝備！請檢視揹包！';
 
   @override
   String get shopMaxHpName => '最大HP +10';
 
   @override
-  String get shopMaxHpDesc => '永久增加最大HP 10点。';
+  String get shopMaxHpDesc => '永久增加最大HP 10點。';
 
   @override
-  String get shopMaxHpSuccess => '最大HP增加了10点！';
+  String get shopMaxHpSuccess => '最大HP增加了10點！';
 
   @override
   String get shopMaxApName => '最大AP +2';
 
   @override
-  String get shopMaxApDesc => '永久增加最大AP 2点。';
+  String get shopMaxApDesc => '永久增加最大AP 2點。';
 
   @override
-  String get shopMaxApSuccess => '最大AP增加了2点！';
+  String get shopMaxApSuccess => '最大AP增加了2點！';
 
   @override
-  String get shopCustomRewardAddTitle => '添加自定义奖励';
+  String get shopCustomRewardAddTitle => '新增自訂獎勵';
 
   @override
-  String get shopCustomRewardNameLabel => '奖励名称 (例: 1小时Netflix)';
+  String get shopCustomRewardNameLabel => '獎勵名稱 (例: 1小時Netflix)';
 
   @override
-  String get shopCustomRewardDescLabel => '说明';
+  String get shopCustomRewardDescLabel => '說明';
 
   @override
-  String get shopCustomRewardDescHint => '享受这个奖励吧！';
+  String get shopCustomRewardDescHint => '享受這個獎勵吧！';
 
   @override
-  String get shopCustomRewardCostLabel => '所需金币';
+  String get shopCustomRewardCostLabel => '所需金幣';
 
   @override
-  String get shopCustomRewardIconLabel => '图标 (表情符号)';
+  String get shopCustomRewardIconLabel => '圖示 (表情符號)';
 
   @override
-  String get shopCustomRewardAddButton => '添加奖励';
+  String get shopCustomRewardAddButton => '新增獎勵';
 
   @override
   String shopCustomRewardDeleted(String name) {
-    return '$name已删除';
+    return '$name已刪除';
   }
 
   @override
-  String get shopAdSupportTitle => '可选奖励广告已停用';
+  String get shopAdSupportTitle => '可選獎勵廣告已停用';
 
   @override
-  String get shopAdSupportDesc => '当前默认 Android 版本不提供广告奖励功能。';
+  String get shopAdSupportDesc => '目前預設 Android 版本不提供廣告獎勵功能。';
 
   @override
-  String get shopAdModelTitle => '变现功能准备中';
+  String get shopAdModelTitle => '變現功能準備中';
 
   @override
-  String get shopAdModelDesc => '当前默认 Android 版本已停用广告和应用内购买。未来的高级功能会在明确说明后提供。';
+  String get shopAdModelDesc => '目前預設 Android 版本已停用廣告和應用內購買。未來的高階功能會在明確說明後提供。';
 
   @override
   String get achievementScreenTitle => '成就';
 
   @override
-  String get achievementTabInProgress => '进行中';
+  String get achievementTabInProgress => '進行中';
 
   @override
   String get achievementTabCompleted => '已完成';
 
   @override
-  String get achievementEmptyInProgress => '所有成就已达成，或等待新挑战！';
+  String get achievementEmptyInProgress => '所有成就已達成，或等待新挑戰！';
 
   @override
-  String get achievementEmptyCompleted => '还没有完成的成就。';
+  String get achievementEmptyCompleted => '還沒有完成的成就。';
 
   @override
   String achievementRewardXp(int xp) {
-    return '奖励: $xp XP';
+    return '獎勵: $xp XP';
   }
 
   @override
   String achievementRewardSp(int sp) {
-    return '奖励: $sp SP';
+    return '獎勵: $sp SP';
   }
 
   @override
@@ -731,70 +902,70 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String skillRequiredLevel(int level) {
-    return '需求条件: Lv.$level';
+    return '需求條件: Lv.$level';
   }
 
   @override
-  String get settingsScreenTitle => '设置';
+  String get settingsScreenTitle => '設定';
 
   @override
-  String get settingsAccountSection => '账户';
+  String get settingsAccountSection => '帳號';
 
   @override
-  String get settingsNicknameLabel => '昵称';
+  String get settingsNicknameLabel => '暱稱';
 
   @override
-  String get settingsNicknameChangeTitle => '修改昵称';
+  String get settingsNicknameChangeTitle => '修改暱稱';
 
   @override
-  String get settingsNicknameNewLabel => '新昵称';
+  String get settingsNicknameNewLabel => '新暱稱';
 
   @override
-  String get settingsAppSection => '应用设置';
+  String get settingsAppSection => 'App 設定';
 
   @override
   String get settingsDarkMode => '深色模式';
 
   @override
-  String get settingsDarkModeSubtitle => '切换应用主题。';
+  String get settingsDarkModeSubtitle => '切換 App 主題。';
 
   @override
   String get settingsSfx => '音效 (SFX)';
 
   @override
-  String get settingsSfxSubtitle => '开关游戏音效。';
+  String get settingsSfxSubtitle => '開啟或關閉遊戲音效。';
 
   @override
-  String get settingsNotification => '通知设置';
+  String get settingsNotification => '通知設定';
 
   @override
-  String get settingsNotificationSubtitle => '每天早上9点接收任务提醒。';
+  String get settingsNotificationSubtitle => '每天早上9點接收任務提醒。';
 
   @override
-  String get settingsNotificationEnabled => '已为每天早上9点和晚上8点设置通知。';
+  String get settingsNotificationEnabled => '已為每天早上9點和晚上8點設定通知。';
 
   @override
   String get settingsNotificationDisabled => '所有通知已取消。';
 
   @override
-  String get settingsNotificationMorning => '早晨通知时间';
+  String get settingsNotificationMorning => '早晨通知時間';
 
   @override
-  String get settingsNotificationNight => '晚间通知时间';
+  String get settingsNotificationNight => '晚間通知時間';
 
   @override
   String settingsNotificationTimeValue(int hour) {
-    return '每天$hour时';
+    return '每天$hour時';
   }
 
   @override
-  String get settingsLanguage => '语言';
+  String get settingsLanguage => '語言';
 
   @override
-  String get settingsLanguageSubtitle => '选择应用的显示语言。';
+  String get settingsLanguageSubtitle => '選擇 App 的顯示語言。';
 
   @override
-  String get settingsLanguageSystem => '系统默认';
+  String get settingsLanguageSystem => '系統預設';
 
   @override
   String get settingsLanguageKorean => '한국어';
@@ -806,120 +977,120 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsLanguageJapanese => '日本語';
 
   @override
-  String get settingsLanguageChinese => '中文';
+  String get settingsLanguageChinese => '繁體中文（台灣）';
 
   @override
-  String get onboardingPage1Title => '将日常变成任务';
+  String get onboardingPage1Title => '你的狀態視窗已開啟';
 
   @override
-  String get onboardingPage1Body => '将待办事项注册为任务吧。\n每次完成都能获得经验和金币，\n不断提升自己的实力。';
+  String get onboardingPage1Body => '下方的名字、等級、XP 和四項能力值是目前個人檔案的實際紀錄，並非示意進度。';
 
   @override
-  String get onboardingPage2Title => '探索地下城';
+  String get onboardingPage2Title => '任務與選用 AI';
 
   @override
-  String get onboardingPage2Body => '随时开启一次卡牌探索。\n日常成长为冒险增添力量。\n战斗失败不会扣除日常XP。';
+  String get onboardingPage2Body => '把小行動記為任務。支援的裝置可另外安裝 AI 模型。';
 
   @override
-  String get onboardingPage3Title => '开始你的冒险';
+  String get onboardingPage3Title => '查看成長紀錄';
 
   @override
-  String get onboardingPage3Body => '完成任务，通关地下城，\n收集成就与称号。\n你的日常将变成一场RPG。';
+  String get onboardingPage3Body => '在成長紀錄查看已完成的任務與獲得的 XP。';
 
   @override
   String get onboardingNext => '下一步';
 
   @override
-  String get onboardingStart => '开始';
+  String get onboardingStart => '開啟我的狀態視窗';
 
   @override
-  String get onboardingSkip => '跳过';
+  String get onboardingSkip => '跳過';
 
   @override
-  String get settingsAdSupportSection => '变现说明';
+  String get settingsAdSupportSection => '變現說明';
 
   @override
-  String get settingsAdSupportTitle => '广告和购买已停用';
+  String get settingsAdSupportTitle => '廣告和購買已停用';
 
   @override
-  String get settingsAdSupportDesc => '当前默认 Android 版本不提供广告奖励或应用内购买。';
+  String get settingsAdSupportDesc => '目前預設 Android 版本不提供廣告獎勵或應用內購買。';
 
   @override
-  String get settingsAdModelTitle => '高级功能准备中';
+  String get settingsAdModelTitle => '高階功能準備中';
 
   @override
-  String get settingsAdModelDesc => '如果未来提供付费功能，将清楚说明价格、权益和取消方式。';
+  String get settingsAdModelDesc => '如果未來提供付費功能，將清楚說明價格、權益和取消方式。';
 
   @override
-  String get settingsLogout => '退出登录';
+  String get settingsLogout => '登出';
 
   @override
-  String get settingsWithdraw => '注销账户';
+  String get settingsWithdraw => '刪除帳號';
 
   @override
-  String get settingsWithdrawTitle => '注销账户';
+  String get settingsWithdrawTitle => '刪除帳號';
 
   @override
   String get settingsWithdrawBody =>
-      '删除账户、云端记录、举报内容与购买关联。请求受理后将退出登录，关闭应用后也会继续处理。此账户将无法恢复购买内容。删除不可撤销，且不等于退款。';
+      '將刪除帳號、雲端紀錄、檢舉內容與購買關聯。送出申請後會登出；即使關閉 App，刪除作業仍會繼續。此帳號將無法還原已購買內容。刪除後無法復原，且不等於退款。';
 
   @override
-  String get settingsWithdrawConfirm => '确认注销';
+  String get settingsWithdrawConfirm => '確認刪除帳號';
 
   @override
-  String get settingsReauthPasswordTitle => '确认密码';
+  String get settingsReauthPasswordTitle => '確認密碼';
 
   @override
-  String get settingsPrivacyPolicy => '隐私政策';
+  String get settingsPrivacyPolicy => '隱私政策';
 
   @override
-  String get settingsTerms => '服务条款';
+  String get settingsTerms => '服務條款';
 
   @override
-  String get settingsLegalSection => '条款与政策';
+  String get settingsLegalSection => '條款與政策';
 
   @override
-  String get loadingSync => '正在同步猎人信息';
+  String get loadingSync => '正在同步獵人資訊';
 
   @override
-  String get loadingSyncDesc => '正在加载今日任务和成长记录';
+  String get loadingSyncDesc => '正在載入今日任務和成長記錄';
 
   @override
-  String get loadingGate => '正在打开传送门';
+  String get loadingGate => '正在開啟傳送門';
 
   @override
-  String get loadingGateDesc => '正在初始化系统';
+  String get loadingGateDesc => '正在初始化系統';
 
   @override
   String get loadingTagline => 'ARISE YOUR QUEST';
 
   @override
-  String get timerScreenFocus => '🍅 专注计时器';
+  String get timerScreenFocus => '🍅 專注計時器';
 
   @override
-  String get timerScreenBreak => '☕ 休息计时器';
+  String get timerScreenBreak => '☕ 休息計時器';
 
   @override
-  String get timerFocusMode => '专注模式';
+  String get timerFocusMode => '專注模式';
 
   @override
   String get timerBreakMode => '休息模式';
 
   @override
   String timerSessionCount(int count) {
-    return '第$count次专注完成';
+    return '第$count次專注完成';
   }
 
   @override
-  String get timerFocusCompleteTitle => '🎉 专注完成！';
+  String get timerFocusCompleteTitle => '🎉 專注完成！';
 
   @override
   String timerFocusCompleteBody(int minutes) {
-    return '$minutes分钟专注会话完成！';
+    return '$minutes分鐘專注會話完成！';
   }
 
   @override
-  String get timerGoldRewardLabel => '金币 +';
+  String get timerGoldRewardLabel => '金幣 +';
 
   @override
   String timerTodaySessions(int count) {
@@ -927,104 +1098,104 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get timerStartBreak => '开始休息';
+  String get timerStartBreak => '開始休息';
 
   @override
-  String get timerFocusRewardLabel => '专注完成奖励:';
+  String get timerFocusRewardLabel => '專注完成獎勵:';
 
   @override
-  String get cosmeticShopTitle => '主题展示';
+  String get cosmeticShopTitle => '主題展示';
 
   @override
-  String get cosmeticCategoryTheme => '应用主题';
+  String get cosmeticCategoryTheme => 'App 主題';
 
   @override
-  String get cosmeticCategoryTitleEffect => '称号特效';
+  String get cosmeticCategoryTitleEffect => '稱號特效';
 
   @override
-  String get cosmeticCategoryCombatEffect => '战斗特效';
+  String get cosmeticCategoryCombatEffect => '戰鬥特效';
 
   @override
-  String get cosmeticComingSoonTitle => '高级自定义功能即将推出';
+  String get cosmeticComingSoonTitle => '高階自訂功能即將推出';
 
   @override
   String get cosmeticComingSoonDesc =>
-      '当前默认 Android 版本不提供装饰商品购买。主题和特效功能将在明确说明后开放。';
+      '目前預設 Android 版本不提供裝飾商品購買。主題和特效功能將在明確說明後開放。';
 
   @override
   String get cosmeticUnequip => '卸下';
 
   @override
-  String get cosmeticEquip => '装备';
+  String get cosmeticEquip => '裝備';
 
   @override
-  String get cosmeticComingSoon => '即将推出';
+  String get cosmeticComingSoon => '即將推出';
 
   @override
-  String get cosmeticComingSoonSnackbar => '装饰商品将在明确说明后开放。';
+  String get cosmeticComingSoonSnackbar => '裝飾商品將在明確說明後開放。';
 
   @override
-  String get cosmeticUnlocked => '物品已解锁！';
+  String get cosmeticUnlocked => '物品已解鎖！';
 
   @override
-  String get cosmeticPurchaseError => '购买失败';
+  String get cosmeticPurchaseError => '購買失敗';
 
   @override
-  String get questTileEditTooltip => '编辑任务';
+  String get questTileEditTooltip => '編輯任務';
 
   @override
-  String get questTileDeleteTooltip => '删除任务';
+  String get questTileDeleteTooltip => '刪除任務';
 
   @override
-  String get notificationMorningTitle => '开始今日任务！';
+  String get notificationMorningTitle => '開始今日任務！';
 
   @override
-  String get notificationMorningBody => '新的一天开始了。记录你的成长吧。';
+  String get notificationMorningBody => '新的一天開始了。記錄你的成長吧。';
 
   @override
-  String get notificationEveningTitle => '今天的任务都完成了吗？';
+  String get notificationEveningTitle => '今天的任務都完成了嗎？';
 
   @override
-  String get notificationEveningBody => '还有未完成的任务，可能会减少HP！';
+  String get notificationEveningBody => '還有未完成的任務，可能會減少HP！';
 
   @override
-  String get initialTitleRookie => '新手冒险者';
+  String get initialTitleRookie => '新手冒險者';
 
   @override
-  String get initialQuestMorning => '早上7点起床';
+  String get initialQuestMorning => '早上7點起床';
 
   @override
-  String get initialQuestExercise => '运动30分钟';
+  String get initialQuestExercise => '運動30分鐘';
 
   @override
-  String get initialQuestRead => '阅读10页书';
+  String get initialQuestRead => '閱讀10頁書';
 
   @override
-  String get initialQuestWeeklyExercise => '每周运动3次以上';
+  String get initialQuestWeeklyExercise => '每週運動3次以上';
 
   @override
-  String get initialQuestWeeklyLearn => '学习新技能/知识';
+  String get initialQuestWeeklyLearn => '學習新技能/知識';
 
   @override
-  String get initialQuestMonthlyExercise => '本月达成12次运动';
+  String get initialQuestMonthlyExercise => '本月達成12次運動';
 
   @override
-  String get initialQuestMonthlyProject => '完成副业项目核心功能';
+  String get initialQuestMonthlyProject => '完成副業專案核心功能';
 
   @override
-  String get initialQuestYearly => '完成今年最重要的目标';
+  String get initialQuestYearly => '完成今年最重要的目標';
 
   @override
-  String get reportScreenTitle => '详细报告';
+  String get reportScreenTitle => '詳細報告';
 
   @override
-  String get reportExpandedUnlocked => '今日扩展报告已解锁。';
+  String get reportExpandedUnlocked => '今日擴充套件報告已解鎖。';
 
   @override
-  String get reportAdFailed => '广告加载失败，请稍后再试。';
+  String get reportAdFailed => '廣告載入失敗，請稍後再試。';
 
   @override
-  String get reportSummaryStreak => '当前连续记录';
+  String get reportSummaryStreak => '目前連續記錄';
 
   @override
   String reportSummaryStreakValue(int days) {
@@ -1032,24 +1203,30 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get reportSummaryXp => '当前XP';
+  String get reportSummaryXp => '目前XP';
 
   @override
-  String get reportSummaryQuestCount => '完成的任务';
+  String get reportSummaryQuestCount => '完成的任務';
 
   @override
   String reportSummaryQuestCountValue(int count) {
-    return '$count个';
+    return '$count個';
   }
 
   @override
-  String get reportSummaryTitle => '当前称号';
+  String get reportSummaryTitle => '目前稱號';
 
   @override
-  String get reportWeeklyActivityTitle => '本周活动记录';
+  String get reportWeeklyActivityTitle => '本週活動記錄';
 
   @override
-  String get reportWeeklyActivitySubtitle => '查看本周的日常维持情况。';
+  String get reportWeeklyActivitySubtitle => '檢視本週的日常維持情況。';
+
+  @override
+  String get reportWeeklyActivityEmpty => '本週尚未完成任務。';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => '查看任務';
 
   @override
   String get reportWeekDayMon => '一';
@@ -1073,92 +1250,92 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reportWeekDaySun => '日';
 
   @override
-  String get reportExpandedEntryTitle => '广告解锁扩展报告';
+  String get reportExpandedEntryTitle => '廣告解鎖擴充套件報告';
 
   @override
-  String get reportExpandedAlreadyUnlocked => '今日扩展报告已解锁，可在下方查看深度分析。';
+  String get reportExpandedAlreadyUnlocked => '今日擴充套件報告已解鎖，可在下方檢視深度分析。';
 
   @override
-  String get reportExpandedDescription => '解锁后可查看类别比例、成长倾向和自动成长记录。';
+  String get reportExpandedDescription => '解鎖後可檢視類別比例、成長傾向和自動成長記錄。';
 
   @override
-  String get reportFeatureCategoryRatio => '任务类别比例';
+  String get reportFeatureCategoryRatio => '任務類別比例';
 
   @override
-  String get reportFeatureGrowthTrend => '下一等级成长倾向分析';
+  String get reportFeatureGrowthTrend => '下一等級成長傾向分析';
 
   @override
-  String get reportFeatureAutoGrowth => '上一等级自动成长记录';
+  String get reportFeatureAutoGrowth => '上一等級自動成長記錄';
 
   @override
-  String get reportUnlockedToday => '今日扩展报告已解锁';
+  String get reportUnlockedToday => '今日擴充套件報告已解鎖';
 
   @override
   String reportWatchAdButton(int count) {
-    return '观看广告解锁扩展报告（今日剩余$count次）';
+    return '觀看廣告解鎖擴充套件報告（今日剩餘$count次）';
   }
 
   @override
-  String get reportNoMoreViews => '今日已无法再次解锁';
+  String get reportNoMoreViews => '今日已無法再次解鎖';
 
   @override
-  String get reportCategoryRatioTitle => '任务类别比例';
+  String get reportCategoryRatioTitle => '任務類別比例';
 
   @override
-  String get reportInsightGrowthTrendTitle => '本等级成长倾向';
+  String get reportInsightGrowthTrendTitle => '本等級成長傾向';
 
   @override
-  String get reportInsightGrowthTrendCaption => '这是完成任务最多反映的方向。';
+  String get reportInsightGrowthTrendCaption => '這是完成任務最多反映的方向。';
 
   @override
-  String get reportInsightGrowthTrendCaptionEmpty => '完成任务后，自动成长倾向将逐渐积累。';
+  String get reportInsightGrowthTrendCaptionEmpty => '完成任務後，自動成長傾向將逐漸積累。';
 
   @override
-  String get reportInsightDataInsufficient => '数据不足';
+  String get reportInsightDataInsufficient => '資料不足';
 
   @override
-  String get reportInsightAutoGrowthTitle => '上一等级自动成长';
+  String get reportInsightAutoGrowthTitle => '上一等級自動成長';
 
   @override
-  String get reportInsightAutoGrowthCaption => '升级时3点将根据行动统计自动分配。';
+  String get reportInsightAutoGrowthCaption => '升級時3點將根據行動統計自動分配。';
 
   @override
-  String get reportInsightBestDayTitle => '本周最佳专注日';
+  String get reportInsightBestDayTitle => '本週最佳專注日';
 
   @override
   String reportInsightBestDayCaption(int count) {
-    return '本周共完成了$count个任务。';
+    return '本週共完成了$count個任務。';
   }
 
   @override
-  String get reportInsightRecommendedStatTitle => '推荐专注属性';
+  String get reportInsightRecommendedStatTitle => '推薦專注屬性';
 
   @override
   String get reportInsightBalanced => '均衡';
 
   @override
-  String get reportNextLevelPredictionTitle => '下一等级自动成长预测';
+  String get reportNextLevelPredictionTitle => '下一等級自動成長預測';
 
   @override
-  String get reportLongTermTitle => '长期目标进度';
+  String get reportLongTermTitle => '長期目標進度';
 
   @override
-  String get reportLongTermSubtitle => '一次查看月间和年间副本进度。';
+  String get reportLongTermSubtitle => '一次檢視月間和年間副本進度。';
 
   @override
-  String get reportProgressMonthlyRaid => '月间副本';
+  String get reportProgressMonthlyRaid => '月間副本';
 
   @override
-  String get reportProgressYearlyRaid => '年间副本';
+  String get reportProgressYearlyRaid => '年間副本';
 
   @override
-  String get reportLowestStat => '当前最低属性';
+  String get reportLowestStat => '目前最低屬性';
 
   @override
-  String get reportHighestStat => '最高属性';
+  String get reportHighestStat => '最高屬性';
 
   @override
-  String get reportCalendarTitle => '任务日历';
+  String get reportCalendarTitle => '任務日曆';
 
   @override
   String get reportCalendarWeekdaySun => '日';
@@ -1183,56 +1360,56 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String reportCalendarSelectedTitle(int month, int day) {
-    return '$month月$day日 已完成任务';
+    return '$month月$day日 已完成任務';
   }
 
   @override
-  String get reportCalendarSelectPrompt => '请选择日期';
+  String get reportCalendarSelectPrompt => '請選擇日期';
 
   @override
-  String get reportCalendarNoQuests => '该日期没有已完成的任务。';
+  String get reportCalendarNoQuests => '該日期沒有已完成的任務。';
 
   @override
-  String get reportNoRecord => '无记录';
+  String get reportNoRecord => '無記錄';
 
   @override
-  String get reportStatBalanced => '目前属性均衡，状态稳定。';
+  String get reportStatBalanced => '目前屬性均衡，狀態穩定。';
 
   @override
   String reportAddQuestSuggestion(String category) {
-    return '尝试添加$category系任务';
+    return '嘗試新增$category系任務';
   }
 
   @override
   String reportRecommendedAction(String action) {
-    return '推荐行动: $action';
+    return '推薦行動: $action';
   }
 
   @override
   String reportBestWeekday(String weekday, int count) {
-    return '$weekday ($count个)';
+    return '$weekday ($count個)';
   }
 
   @override
-  String get reportWeekdayMonday => '周一';
+  String get reportWeekdayMonday => '週一';
 
   @override
-  String get reportWeekdayTuesday => '周二';
+  String get reportWeekdayTuesday => '週二';
 
   @override
-  String get reportWeekdayWednesday => '周三';
+  String get reportWeekdayWednesday => '週三';
 
   @override
-  String get reportWeekdayThursday => '周四';
+  String get reportWeekdayThursday => '週四';
 
   @override
-  String get reportWeekdayFriday => '周五';
+  String get reportWeekdayFriday => '週五';
 
   @override
-  String get reportWeekdaySaturday => '周六';
+  String get reportWeekdaySaturday => '週六';
 
   @override
-  String get reportWeekdaySunday => '周日';
+  String get reportWeekdaySunday => '週日';
 
   @override
   String reportStatValue(String stat, int value) {
@@ -1241,14 +1418,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String shopItemAcquired(String name) {
-    return '获得了$name！';
+    return '獲得了$name！';
   }
 
   @override
-  String get shopCustomRewardFabLabel => '添加奖励';
+  String get shopCustomRewardFabLabel => '新增獎勵';
 
   @override
-  String get statusReportTooltip => '查看详细报告';
+  String get statusReportTooltip => '檢視詳細報告';
 
   @override
   String get dungeonHomeTitle => '卡牌探索';
@@ -1257,53 +1434,53 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dungeonHomeCardCollectionTooltip => '卡牌收藏';
 
   @override
-  String get dungeonHomeDungeonSelection => '选择地下城';
+  String get dungeonHomeDungeonSelection => '選擇地下城';
 
   @override
   String dungeonHomeRequiredLevel(int requiredLevel) {
-    return '需要$requiredLevel级或以上';
+    return '需要$requiredLevel級或以上';
   }
 
   @override
   String dungeonHomeLockedHint(int requiredLevel) {
-    return '达到Lv.$requiredLevel即可解锁 — 完成任务提升等级';
+    return '達到Lv.$requiredLevel即可解鎖 — 完成任務提升等級';
   }
 
   @override
   String get zone1Name => '青色草原';
 
   @override
-  String get zone1Description => '适合新手冒险者的第一个地下城';
+  String get zone1Description => '適合新手冒險者的第一個地下城';
 
   @override
   String get zone2Name => '黑暗森林';
 
   @override
-  String get zone2Description => '潜伏着使用毒素和减益效果的敌人';
+  String get zone2Description => '潛伏著使用毒素和減益效果的敵人';
 
   @override
-  String get zone3Name => '废墟城堡';
+  String get zone3Name => '廢墟城堡';
 
   @override
-  String get zone3Description => '等待着防御专精的敌人和多重战斗';
+  String get zone3Description => '等待著防禦專精的敵人和多重戰鬥';
 
   @override
   String get zone4Name => '熔岩洞穴';
 
   @override
-  String get zone4Description => '灼伤和高伤害的地狱';
+  String get zone4Description => '灼傷和高傷害的地獄';
 
   @override
-  String get zone5Name => '深渊次元';
+  String get zone5Name => '深淵次元';
 
   @override
-  String get zone5Description => '隐藏意图的敌人，降下诅咒的最终地下城';
+  String get zone5Description => '隱藏意圖的敵人，降下詛咒的最終地下城';
 
   @override
-  String get seasonName => '赛季1：灵魂觉醒';
+  String get seasonName => '賽季1：靈魂覺醒';
 
   @override
-  String get seasonEnded => '已结束';
+  String get seasonEnded => '已結束';
 
   @override
   String seasonCountdown(int days) {
@@ -1311,34 +1488,34 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get ascensionModeTitle => '飞升模式';
+  String get ascensionModeTitle => '飛昇模式';
 
   @override
-  String get ascensionInactive => '未激活';
+  String get ascensionInactive => '未啟用';
 
   @override
-  String get ascensionActiveModifiers => '当前惩罚：';
+  String get ascensionActiveModifiers => '目前懲罰：';
 
   @override
-  String get ascensionSliderHint => '上滑以增加难度';
+  String get ascensionSliderHint => '上滑以增加難度';
 
   @override
-  String get ascensionLevel1Modifier => 'Lv 1: 敌人HP +10%';
+  String get ascensionLevel1Modifier => 'Lv 1: 敵人HP +10%';
 
   @override
-  String get ascensionLevel2Modifier => 'Lv 2: 敌人攻击 +10%';
+  String get ascensionLevel2Modifier => 'Lv 2: 敵人攻擊 +10%';
 
   @override
-  String get ascensionLevel3Modifier => 'Lv 3: 起始金币 -30';
+  String get ascensionLevel3Modifier => 'Lv 3: 起始金幣 -30';
 
   @override
-  String get ascensionLevel4Modifier => 'Lv 4: 增加1张诅咒卡';
+  String get ascensionLevel4Modifier => 'Lv 4: 增加1張詛咒卡';
 
   @override
-  String get ascensionLevel5Modifier => 'Lv 5: 消灭精英后无卡牌选择';
+  String get ascensionLevel5Modifier => 'Lv 5: 消滅精英後無卡牌選擇';
 
   @override
-  String get ascensionLevel6Modifier => 'Lv 6: 商店价格 +25%';
+  String get ascensionLevel6Modifier => 'Lv 6: 商店價格 +25%';
 
   @override
   String get ascensionLevel7Modifier => 'Lv 7: 起始HP -10%';
@@ -1347,119 +1524,119 @@ class AppLocalizationsZh extends AppLocalizations {
   String get ascensionLevel8Modifier => 'Lv 8: Boss HP +25%';
 
   @override
-  String get ascensionLevel9Modifier => 'Lv 9: 强化事件不利选项';
+  String get ascensionLevel9Modifier => 'Lv 9: 強化事件不利選項';
 
   @override
-  String get ascensionLevel10Modifier => 'Lv 10: 所有敌人HP +20%';
+  String get ascensionLevel10Modifier => 'Lv 10: 所有敵人HP +20%';
 
   @override
-  String get infiniteTowerTitle => '无限之塔';
+  String get infiniteTowerTitle => '無限之塔';
 
   @override
   String infiniteTowerBestFloorDesc(int bestFloor) {
-    return '无尽挑战 · 最高记录: $bestFloor层';
+    return '無盡挑戰 · 最高記錄: $bestFloor層';
   }
 
   @override
-  String get infiniteTowerSelectFloor => '选择挑战楼层';
+  String get infiniteTowerSelectFloor => '選擇挑戰樓層';
 
   @override
-  String get infiniteTowerFloorInfo => '楼层信息';
+  String get infiniteTowerFloorInfo => '樓層資訊';
 
   @override
   String infiniteTowerChallengeFloor(int targetFloor) {
-    return '挑战$targetFloor层';
+    return '挑戰$targetFloor層';
   }
 
   @override
-  String get infiniteTowerFloorComposition => '楼层构成';
+  String get infiniteTowerFloorComposition => '樓層構成';
 
   @override
-  String get infiniteTowerBestFloorLabel => '最高记录';
+  String get infiniteTowerBestFloorLabel => '最高記錄';
 
   @override
   String infiniteTowerFloorDisplay(int floor) {
-    return '$floor层';
+    return '$floor層';
   }
 
   @override
-  String get infiniteTowerEnemyHp => '敌人HP';
+  String get infiniteTowerEnemyHp => '敵人HP';
 
   @override
-  String get infiniteTowerEnemyAttack => '敌人攻击';
+  String get infiniteTowerEnemyAttack => '敵人攻擊';
 
   @override
-  String get infiniteTowerDefault => '基础';
+  String get infiniteTowerDefault => '基礎';
 
   @override
-  String get infiniteTowerFloor1To5 => '1-5层';
+  String get infiniteTowerFloor1To5 => '1-5層';
 
   @override
-  String get infiniteTowerFloor6To10 => '6-10层';
+  String get infiniteTowerFloor6To10 => '6-10層';
 
   @override
-  String get infiniteTowerFloor11To15 => '11-15层';
+  String get infiniteTowerFloor11To15 => '11-15層';
 
   @override
-  String get infiniteTowerFloor16To20 => '16-20层';
+  String get infiniteTowerFloor16To20 => '16-20層';
 
   @override
-  String get infiniteTowerFloor21To25 => '21-25层';
+  String get infiniteTowerFloor21To25 => '21-25層';
 
   @override
-  String get infiniteTowerFloor26Plus => '26层以上';
+  String get infiniteTowerFloor26Plus => '26層以上';
 
   @override
-  String get infiniteTowerRepeatZones => '从区域1重复（难度持续上升）';
+  String get infiniteTowerRepeatZones => '從區域1重複（難度持續上升）';
 
   @override
-  String get dungeonMapTitle => '地下城地图';
+  String get dungeonMapTitle => '地下城地圖';
 
   @override
-  String get dungeonMapNoData => '没有地下城数据';
+  String get dungeonMapNoData => '沒有地下城資料';
 
   @override
-  String get dungeonRestTitle => '休息点';
+  String get dungeonRestTitle => '休息點';
 
   @override
-  String get dungeonRestDescription => '发现了一个安静的休息点。温暖的篝火在燃烧。\n你要做什么？';
+  String get dungeonRestDescription => '發現了一個安靜的休息點。溫暖的篝火在燃燒。\n你要做什麼？';
 
   @override
   String get dungeonRestRestTitle => '休息';
 
   @override
-  String get dungeonRestRestDescription => '回复30%的HP';
+  String get dungeonRestRestDescription => '恢復30%的HP';
 
   @override
   String dungeonRestHealResult(int healAmount) {
-    return 'HP回复了$healAmount！';
+    return 'HP恢復了$healAmount！';
   }
 
   @override
-  String get dungeonRestTrainTitle => '修炼';
+  String get dungeonRestTrainTitle => '修煉';
 
   @override
-  String get dungeonRestTrainDescription => '强化1张卡牌';
+  String get dungeonRestTrainDescription => '強化1張卡牌';
 
   @override
-  String get dungeonRestNoCardsToUpgrade => '没有可强化的卡牌';
+  String get dungeonRestNoCardsToUpgrade => '沒有可強化的卡牌';
 
   @override
-  String get dungeonRestContinueButton => '继续';
+  String get dungeonRestContinueButton => '繼續';
 
   @override
-  String get dungeonRestSelectCardToUpgrade => '选择要强化的卡牌';
+  String get dungeonRestSelectCardToUpgrade => '選擇要強化的卡牌';
 
   @override
-  String get dungeonRestCardUpgraded => '已强化';
+  String get dungeonRestCardUpgraded => '已強化';
 
   @override
   String dungeonRestCardUpgradeResult(String name) {
-    return '「$name」卡牌已强化！';
+    return '「$name」卡牌已強化！';
   }
 
   @override
-  String get dungeonEventCardRewardTitle => '请选择一张卡牌';
+  String get dungeonEventCardRewardTitle => '請選擇一張卡牌';
 
   @override
   String get dungeonShopTitle => '地下城商店';
@@ -1468,95 +1645,95 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dungeonShopCardsSection => '卡牌';
 
   @override
-  String get dungeonShopNoCards => '没有在售的卡牌';
+  String get dungeonShopNoCards => '沒有在售的卡牌';
 
   @override
-  String get dungeonShopRelicsSection => '遗物';
+  String get dungeonShopRelicsSection => '遺物';
 
   @override
-  String get dungeonShopNoRelics => '没有在售的遗物';
+  String get dungeonShopNoRelics => '沒有在售的遺物';
 
   @override
   String get dungeonShopCardRemovalSection => '移除卡牌';
 
   @override
-  String get dungeonShopLeaveButton => '离开商店';
+  String get dungeonShopLeaveButton => '離開商店';
 
   @override
-  String get dungeonShopSelectCardToRemove => '选择要移除的卡牌';
+  String get dungeonShopSelectCardToRemove => '選擇要移除的卡牌';
 
   @override
   String dungeonShopRemovalCost(int cost) {
-    return '费用: $cost金币';
+    return '費用: $cost金幣';
   }
 
   @override
-  String get dungeonShopPurchaseComplete => '购买完成';
+  String get dungeonShopPurchaseComplete => '購買完成';
 
   @override
-  String get dungeonShopRemoveOneCard => '移除1张卡牌';
+  String get dungeonShopRemoveOneCard => '移除1張卡牌';
 
   @override
   String dungeonShopRemovalDescription(int deckSize) {
-    return '从牌组中移除不需要的卡牌（当前牌组: $deckSize张）';
+    return '從牌組中移除不需要的卡牌（目前牌組: $deckSize張）';
   }
 
   @override
   String get dungeonEventTitle => '事件';
 
   @override
-  String get dungeonEventNoData => '没有事件数据';
+  String get dungeonEventNoData => '沒有事件資料';
 
   @override
-  String get dungeonEventChooseAction => '请选择';
+  String get dungeonEventChooseAction => '請選擇';
 
   @override
-  String get dungeonEventContinueButton => '继续';
+  String get dungeonEventContinueButton => '繼續';
 
   @override
-  String get dungeonEventOutcomeTitle => '结果';
+  String get dungeonEventOutcomeTitle => '結果';
 
   @override
-  String get dungeonEventEffectCardReward => '获得卡牌';
+  String get dungeonEventEffectCardReward => '獲得卡牌';
 
   @override
-  String get dungeonEventEffectRelicReward => '获得遗物';
+  String get dungeonEventEffectRelicReward => '獲得遺物';
 
   @override
   String get dungeonEventEffectCardRemove => '移除卡牌';
 
   @override
-  String get dungeonEventEffectCardUpgrade => '强化卡牌';
+  String get dungeonEventEffectCardUpgrade => '強化卡牌';
 
   @override
-  String get dungeonEventEffectCurseAdded => '添加诅咒';
+  String get dungeonEventEffectCurseAdded => '新增詛咒';
 
   @override
-  String get dungeonResultVictoryTitle => '地下城通关！';
+  String get dungeonResultVictoryTitle => '地下城通關！';
 
   @override
-  String get dungeonResultDefeatTitle => '探索结束';
+  String get dungeonResultDefeatTitle => '探索結束';
 
   @override
-  String get dungeonResultVictoryMessage => '恭喜！你击败了所有敌人，征服了地下城。';
+  String get dungeonResultVictoryMessage => '恭喜！你擊敗了所有敵人，征服了地下城。';
 
   @override
-  String get dungeonResultDefeatMessage => '已完成房间的成果会保留。准备好后再来探索吧。';
+  String get dungeonResultDefeatMessage => '已完成房間的成果會保留。準備好後再來探索吧。';
 
   @override
-  String get dungeonResultStatsTitle => '冒险记录';
+  String get dungeonResultStatsTitle => '冒險記錄';
 
   @override
-  String get dungeonResultStatsZone => '区域';
+  String get dungeonResultStatsZone => '區域';
 
   @override
-  String get dungeonResultStatsNodesCompleted => '已完成房间';
+  String get dungeonResultStatsNodesCompleted => '已完成房間';
 
   @override
-  String get dungeonResultStatsMonsterKilled => '击杀怪物';
+  String get dungeonResultStatsMonsterKilled => '擊殺怪物';
 
   @override
-  String get dungeonResultRewardsTitle => '奖励';
+  String get dungeonResultRewardsTitle => '獎勵';
 
   @override
   String dungeonResultXpReward(int xpGained) {
@@ -1565,23 +1742,23 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String dungeonResultGoldReward(int goldGained) {
-    return '+$goldGained金币';
+    return '+$goldGained金幣';
   }
 
   @override
-  String get dungeonResultVictoryBonus => '通关奖励 x1.5 + Boss击杀奖励';
+  String get dungeonResultVictoryBonus => '通關獎勵 x1.5 + Boss擊殺獎勵';
 
   @override
-  String get dungeonResultDefeatPenalty => '失败惩罚: 奖励 x0.5';
+  String get dungeonResultDefeatPenalty => '失敗懲罰: 獎勵 x0.5';
 
   @override
-  String get dungeonResultReturnHomeButton => '返回主页';
+  String get dungeonResultReturnHomeButton => '返回主頁';
 
   @override
   String get cardBattleYourTurn => '你的回合';
 
   @override
-  String get cardBattleEnemyTurn => '敌人回合';
+  String get cardBattleEnemyTurn => '敵人回合';
 
   @override
   String cardBattleTurnCount(int turnCount) {
@@ -1589,63 +1766,63 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get cardBattleAbandonDialog => '放弃战斗';
+  String get cardBattleAbandonDialog => '放棄戰鬥';
 
   @override
   String get cardBattleAbandonConfirmation =>
-      '结束本次探索吗？你会获得已完成房间的奖励，日常等级和经验值保持不变。';
+      '結束本次探索嗎？你會獲得已完成房間的獎勵，日常等級和經驗值保持不變。';
 
   @override
-  String get cardBattleAbandonButton => '放弃';
+  String get cardBattleAbandonButton => '放棄';
 
   @override
-  String get cardBattleNoEnemies => '没有敌人';
+  String get cardBattleNoEnemies => '沒有敵人';
 
   @override
-  String get cardBattleEndTurnButton => '结束回合';
+  String get cardBattleEndTurnButton => '結束回合';
 
   @override
-  String get cardBattleNoCardsInHand => '手牌中没有卡牌';
+  String get cardBattleNoCardsInHand => '手牌中沒有卡牌';
 
   @override
-  String get cardBattleVictory => '胜利！';
+  String get cardBattleVictory => '勝利！';
 
   @override
   String cardBattleGoldReward(int gold) {
-    return '+$gold金币';
+    return '+$gold金幣';
   }
 
   @override
-  String get cardBattleSelectCard => '请选择一张卡牌';
+  String get cardBattleSelectCard => '請選擇一張卡牌';
 
   @override
-  String get cardBattleSkipButton => '跳过';
+  String get cardBattleSkipButton => '跳過';
 
   @override
   String get cardBattleEpEmpty => 'EP不足';
 
   @override
   String cardBattlePlayableCount(int count) {
-    return '可出$count张';
+    return '可出$count張';
   }
 
   @override
   String get cardBattleDrawPile => '摸牌';
 
   @override
-  String get cardBattleDiscardPile => '弃牌';
+  String get cardBattleDiscardPile => '棄牌';
 
   @override
-  String get cardBattleIntentAttack => '攻击';
+  String get cardBattleIntentAttack => '攻擊';
 
   @override
-  String get cardBattleIntentMultiAttack => '连续攻击';
+  String get cardBattleIntentMultiAttack => '連續攻擊';
 
   @override
-  String get cardBattleIntentDefend => '防御';
+  String get cardBattleIntentDefend => '防禦';
 
   @override
-  String get cardBattleIntentBuff => '强化';
+  String get cardBattleIntentBuff => '強化';
 
   @override
   String get cardBattleIntentDebuff => '弱化';
@@ -1657,25 +1834,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cardRarityCommon => '普通';
 
   @override
-  String get cardRarityUncommon => '罕见';
+  String get cardRarityUncommon => '罕見';
 
   @override
   String get cardRarityRare => '稀有';
 
   @override
-  String get cardRarityLegendary => '传说';
+  String get cardRarityLegendary => '傳說';
 
   @override
-  String get cardCategoryAttack => '攻击';
+  String get cardCategoryAttack => '攻擊';
 
   @override
   String get cardCategoryMagic => '魔法';
 
   @override
-  String get cardCategoryDefense => '防御';
+  String get cardCategoryDefense => '防禦';
 
   @override
-  String get cardCategoryTactical => '战术';
+  String get cardCategoryTactical => '戰術';
 
   @override
   String get cardCollectionTitle => '卡牌收藏';
@@ -1688,1322 +1865,1322 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String cardCollectionCardCount(int count) {
-    return '($count张)';
+    return '($count張)';
   }
 
   @override
-  String get cardCollectionNoCards => '你没有卡牌。\n完成任务可以获得卡牌！';
+  String get cardCollectionNoCards => '你沒有卡牌。\n完成任務可以獲得卡牌！';
 
   @override
   String cardCollectionDeckInclusion(int copyCount) {
-    return '牌组中有$copyCount张';
+    return '牌組中有$copyCount張';
   }
 
   @override
-  String get cardCollectionAddToDeck => '添加到牌组';
+  String get cardCollectionAddToDeck => '新增到牌組';
 
   @override
-  String get cardCollectionDeckFull => '牌组已满 (20张)';
+  String get cardCollectionDeckFull => '牌組已滿 (20張)';
 
   @override
-  String get cardCollectionMaxCopies => '最多可添加3张';
+  String get cardCollectionMaxCopies => '最多可新增3張';
 
   @override
   String cardCollectionAddedToDeck(String cardName) {
-    return '$cardName已添加到牌组';
+    return '$cardName已新增到牌組';
   }
 
   @override
-  String get cardCollectionMyDeck => '我的牌组';
+  String get cardCollectionMyDeck => '我的牌組';
 
   @override
   String cardCollectionDeckSize(int deckSize) {
-    return '($deckSize/20张)';
+    return '($deckSize/20張)';
   }
 
   @override
-  String get cardCollectionResetDeckDialog => '重置牌组';
+  String get cardCollectionResetDeckDialog => '重置牌組';
 
   @override
-  String get cardCollectionResetDeckConfirmation => '删除自定义牌组并恢复为默认初始牌组？';
+  String get cardCollectionResetDeckConfirmation => '刪除自訂牌組並恢復為預設初始牌組？';
 
   @override
   String get cardCollectionResetButton => '重置';
 
   @override
-  String get cardCollectionDefaultDeckMessage => '当前使用默认初始牌组\n从收藏中添加卡牌';
+  String get cardCollectionDefaultDeckMessage => '目前使用預設初始牌組\n從收藏中新增卡牌';
 
   @override
-  String get cardNameBaseStrike => '基础攻击';
+  String get cardNameBaseStrike => '基礎攻擊';
 
   @override
-  String get cardDescBaseStrike => '造成6点伤害。';
+  String get cardDescBaseStrike => '造成6點傷害。';
 
   @override
-  String get cardNameBaseDefend => '基础格挡';
+  String get cardNameBaseDefend => '基礎格擋';
 
   @override
-  String get cardDescBaseDefend => '获得5点格挡。';
+  String get cardDescBaseDefend => '獲得5點格擋。';
 
   @override
   String get cardNameBaseFocus => '集中';
 
   @override
-  String get cardDescBaseFocus => '抽1张牌。';
+  String get cardDescBaseFocus => '抽1張牌。';
 
   @override
   String get cardNameCursePain => '痛苦';
 
   @override
-  String get cardDescCursePain => '无法使用。每次抽到时失去1HP。';
+  String get cardDescCursePain => '無法使用。每次抽到時失去1HP。';
 
   @override
-  String get cardNameCurseDoubt => '疑虑';
+  String get cardNameCurseDoubt => '疑慮';
 
   @override
-  String get cardDescCurseDoubt => '无法使用。每回合少抽1张牌。';
+  String get cardDescCurseDoubt => '無法使用。每回合少抽1張牌。';
 
   @override
-  String get cardNameCurseBurden => '负担';
+  String get cardNameCurseBurden => '負擔';
 
   @override
-  String get cardDescCurseBurden => '无法使用。每回合开始时失去1能量。';
+  String get cardDescCurseBurden => '無法使用。每回合開始時失去1能量。';
 
   @override
-  String get cardNameCurseDecay => '腐蚀';
+  String get cardNameCurseDecay => '腐蝕';
 
   @override
-  String get cardDescCurseDecay => '无法使用。每回合失去3点格挡。';
+  String get cardDescCurseDecay => '無法使用。每回合失去3點格擋。';
 
   @override
-  String get cardNameAtkC01 => '重击';
+  String get cardNameAtkC01 => '重擊';
 
   @override
-  String get cardDescAtkC01 => '造成6点伤害。';
+  String get cardDescAtkC01 => '造成6點傷害。';
 
   @override
-  String get cardNameAtkC01Up => '重击+';
+  String get cardNameAtkC01Up => '重擊+';
 
   @override
-  String get cardDescAtkC01Up => '造成9点伤害。';
+  String get cardDescAtkC01Up => '造成9點傷害。';
 
   @override
-  String get cardNameAtkC02 => '斩击';
+  String get cardNameAtkC02 => '斬擊';
 
   @override
-  String get cardDescAtkC02 => '造成4点伤害，抽1张牌。';
+  String get cardDescAtkC02 => '造成4點傷害，抽1張牌。';
 
   @override
-  String get cardNameAtkC02Up => '斩击+';
+  String get cardNameAtkC02Up => '斬擊+';
 
   @override
-  String get cardDescAtkC02Up => '造成6点伤害，抽1张牌。';
+  String get cardDescAtkC02Up => '造成6點傷害，抽1張牌。';
 
   @override
-  String get cardNameAtkC03 => '连击';
+  String get cardNameAtkC03 => '連擊';
 
   @override
-  String get cardDescAtkC03 => '造成3点伤害，共2次。';
+  String get cardDescAtkC03 => '造成3點傷害，共2次。';
 
   @override
-  String get cardNameAtkC03Up => '连击+';
+  String get cardNameAtkC03Up => '連擊+';
 
   @override
-  String get cardDescAtkC03Up => '造成3点伤害，共3次。';
+  String get cardDescAtkC03Up => '造成3點傷害，共3次。';
 
   @override
-  String get cardNameAtkC04 => '怒击';
+  String get cardNameAtkC04 => '怒擊';
 
   @override
-  String get cardDescAtkC04 => '造成3点伤害，将1张愤怒牌加入弃牌堆。';
+  String get cardDescAtkC04 => '造成3點傷害，將1張憤怒牌加入棄牌堆。';
 
   @override
-  String get cardNameAtkC04Up => '怒击+';
+  String get cardNameAtkC04Up => '怒擊+';
 
   @override
-  String get cardDescAtkC04Up => '造成5点伤害。';
+  String get cardDescAtkC04Up => '造成5點傷害。';
 
   @override
-  String get cardNameAtkC05 => '冲锋';
+  String get cardNameAtkC05 => '衝鋒';
 
   @override
-  String get cardDescAtkC05 => '造成12点伤害。';
+  String get cardDescAtkC05 => '造成12點傷害。';
 
   @override
-  String get cardNameAtkC05Up => '冲锋+';
+  String get cardNameAtkC05Up => '衝鋒+';
 
   @override
-  String get cardDescAtkC05Up => '造成16点伤害。';
+  String get cardDescAtkC05Up => '造成16點傷害。';
 
   @override
-  String get cardNameAtkC06 => '流血攻击';
+  String get cardNameAtkC06 => '流血攻擊';
 
   @override
-  String get cardDescAtkC06 => '造成4点伤害，施加2层中毒。';
+  String get cardDescAtkC06 => '造成4點傷害，施加2層中毒。';
 
   @override
-  String get cardNameAtkC06Up => '流血攻击+';
+  String get cardNameAtkC06Up => '流血攻擊+';
 
   @override
-  String get cardDescAtkC06Up => '造成4点伤害，施加4层中毒。';
+  String get cardDescAtkC06Up => '造成4點傷害，施加4層中毒。';
 
   @override
   String get cardNameAtkC07 => '快刺';
 
   @override
-  String get cardDescAtkC07 => '造成3点伤害。';
+  String get cardDescAtkC07 => '造成3點傷害。';
 
   @override
   String get cardNameAtkC07Up => '快刺+';
 
   @override
-  String get cardDescAtkC07Up => '造成5点伤害。';
+  String get cardDescAtkC07Up => '造成5點傷害。';
 
   @override
-  String get cardNameAtkC08 => '挑衅';
+  String get cardNameAtkC08 => '挑釁';
 
   @override
-  String get cardDescAtkC08 => '造成5点伤害，施加1回合易伤。';
+  String get cardDescAtkC08 => '造成5點傷害，施加1回合易傷。';
 
   @override
-  String get cardNameAtkC08Up => '挑衅+';
+  String get cardNameAtkC08Up => '挑釁+';
 
   @override
-  String get cardDescAtkC08Up => '造成8点伤害，施加1回合易伤。';
+  String get cardDescAtkC08Up => '造成8點傷害，施加1回合易傷。';
 
   @override
-  String get cardNameAtkC09 => '突袭';
+  String get cardNameAtkC09 => '突襲';
 
   @override
-  String get cardDescAtkC09 => '第1回合造成12点伤害，否则造成6点伤害。';
+  String get cardDescAtkC09 => '第1回合造成12點傷害，否則造成6點傷害。';
 
   @override
-  String get cardNameAtkC09Up => '突袭+';
+  String get cardNameAtkC09Up => '突襲+';
 
   @override
-  String get cardDescAtkC09Up => '第1回合造成18点伤害，否则造成9点伤害。';
+  String get cardDescAtkC09Up => '第1回合造成18點傷害，否則造成9點傷害。';
 
   @override
-  String get cardNameAtkC10 => '刀刃风暴';
+  String get cardNameAtkC10 => '刀刃風暴';
 
   @override
-  String get cardDescAtkC10 => '对所有敌人造成3点伤害。';
+  String get cardDescAtkC10 => '對所有敵人造成3點傷害。';
 
   @override
-  String get cardNameAtkC10Up => '刀刃风暴+';
+  String get cardNameAtkC10Up => '刀刃風暴+';
 
   @override
-  String get cardDescAtkC10Up => '对所有敌人造成5点伤害。';
+  String get cardDescAtkC10Up => '對所有敵人造成5點傷害。';
 
   @override
-  String get cardNameAtkU01 => '强力斩击';
+  String get cardNameAtkU01 => '強力斬擊';
 
   @override
-  String get cardDescAtkU01 => '造成14点伤害，施加脆弱2回合。';
+  String get cardDescAtkU01 => '造成14點傷害，施加脆弱2回合。';
 
   @override
-  String get cardNameAtkU01Up => '强力斩击+';
+  String get cardNameAtkU01Up => '強力斬擊+';
 
   @override
-  String get cardDescAtkU01Up => '造成18点伤害，施加脆弱2回合。';
+  String get cardDescAtkU01Up => '造成18點傷害，施加脆弱2回合。';
 
   @override
   String get cardNameAtkU02 => '刀刃之舞';
 
   @override
-  String get cardDescAtkU02 => '造成3次3点伤害，获得3格挡。';
+  String get cardDescAtkU02 => '造成3次3點傷害，獲得3格擋。';
 
   @override
   String get cardNameAtkU02Up => '刀刃之舞+';
 
   @override
-  String get cardDescAtkU02Up => '造成3次4点伤害，获得5格挡。';
+  String get cardDescAtkU02Up => '造成3次4點傷害，獲得5格擋。';
 
   @override
-  String get cardNameAtkU03 => '处决';
+  String get cardNameAtkU03 => '處決';
 
   @override
-  String get cardDescAtkU03 => '敌人HP低于50%时造成30点伤害，否则10点伤害。';
+  String get cardDescAtkU03 => '敵人HP低於50%時造成30點傷害，否則10點傷害。';
 
   @override
-  String get cardNameAtkU03Up => '处决+';
+  String get cardNameAtkU03Up => '處決+';
 
   @override
-  String get cardDescAtkU03Up => '敌人HP低于50%时造成40点伤害，否则14点伤害。';
+  String get cardDescAtkU03Up => '敵人HP低於50%時造成40點傷害，否則14點傷害。';
 
   @override
   String get cardNameAtkU04 => '狂暴';
 
   @override
-  String get cardDescAtkU04 => '获得力量+2（永久）。';
+  String get cardDescAtkU04 => '獲得力量+2（永久）。';
 
   @override
   String get cardNameAtkU04Up => '狂暴+';
 
   @override
-  String get cardDescAtkU04Up => '获得力量+3（永久）。';
+  String get cardDescAtkU04Up => '獲得力量+3（永久）。';
 
   @override
   String get cardNameAtkU05 => '血誓';
 
   @override
-  String get cardDescAtkU05 => '失去3HP，造成8点伤害，获得力量+1。';
+  String get cardDescAtkU05 => '失去3HP，造成8點傷害，獲得力量+1。';
 
   @override
   String get cardNameAtkU05Up => '血誓+';
 
   @override
-  String get cardDescAtkU05Up => '失去3HP，造成12点伤害，获得力量+1。';
+  String get cardDescAtkU05Up => '失去3HP，造成12點傷害，獲得力量+1。';
 
   @override
-  String get cardNameAtkU06 => '旋风斩';
+  String get cardNameAtkU06 => '旋風斬';
 
   @override
-  String get cardDescAtkU06 => '对所有敌人造成8点伤害。';
+  String get cardDescAtkU06 => '對所有敵人造成8點傷害。';
 
   @override
-  String get cardNameAtkU06Up => '旋风斩+';
+  String get cardNameAtkU06Up => '旋風斬+';
 
   @override
-  String get cardDescAtkU06Up => '对所有敌人造成12点伤害。';
+  String get cardDescAtkU06Up => '對所有敵人造成12點傷害。';
 
   @override
   String get cardNameAtkU07 => '粉碎';
 
   @override
-  String get cardDescAtkU07 => '造成10点伤害，施加虚弱2回合。';
+  String get cardDescAtkU07 => '造成10點傷害，施加虛弱2回合。';
 
   @override
   String get cardNameAtkU07Up => '粉碎+';
 
   @override
-  String get cardDescAtkU07Up => '造成14点伤害，施加虚弱2回合。';
+  String get cardDescAtkU07Up => '造成14點傷害，施加虛弱2回合。';
 
   @override
-  String get cardNameAtkU08 => '无情';
+  String get cardNameAtkU08 => '無情';
 
   @override
-  String get cardDescAtkU08 => '对脆弱状态敌人造成双倍伤害（基础6点伤害）。';
+  String get cardDescAtkU08 => '對脆弱狀態敵人造成雙倍傷害（基礎6點傷害）。';
 
   @override
-  String get cardNameAtkU08Up => '无情+';
+  String get cardNameAtkU08Up => '無情+';
 
   @override
-  String get cardDescAtkU08Up => '对脆弱状态敌人造成双倍伤害（基础9点伤害）。';
+  String get cardDescAtkU08Up => '對脆弱狀態敵人造成雙倍傷害（基礎9點傷害）。';
 
   @override
-  String get cardNameAtkR01 => '龙之一击';
+  String get cardNameAtkR01 => '龍之一擊';
 
   @override
-  String get cardDescAtkR01 => '造成30点伤害，施加燃烧3回合。';
+  String get cardDescAtkR01 => '造成30點傷害，施加燃燒3回合。';
 
   @override
-  String get cardNameAtkR01Up => '龙之一击+';
+  String get cardNameAtkR01Up => '龍之一擊+';
 
   @override
-  String get cardDescAtkR01Up => '造成40点伤害，施加燃烧4回合。';
+  String get cardDescAtkR01Up => '造成40點傷害，施加燃燒4回合。';
 
   @override
-  String get cardNameAtkR02 => '千刀万剐';
+  String get cardNameAtkR02 => '千刀萬剮';
 
   @override
-  String get cardDescAtkR02 => '对手牌中每张牌造成1点伤害。';
+  String get cardDescAtkR02 => '對手牌中每張牌造成1點傷害。';
 
   @override
-  String get cardNameAtkR02Up => '千刀万剐+';
+  String get cardNameAtkR02Up => '千刀萬剮+';
 
   @override
-  String get cardDescAtkR02Up => '对手牌中每张牌造成2点伤害。';
+  String get cardDescAtkR02Up => '對手牌中每張牌造成2點傷害。';
 
   @override
-  String get cardNameAtkR03 => '风暴之剑';
+  String get cardNameAtkR03 => '風暴之劍';
 
   @override
-  String get cardDescAtkR03 => '对本回合已使用的每张牌造成5点伤害。';
+  String get cardDescAtkR03 => '對本回合已使用的每張牌造成5點傷害。';
 
   @override
-  String get cardNameAtkR03Up => '风暴之剑+';
+  String get cardNameAtkR03Up => '風暴之劍+';
 
   @override
-  String get cardDescAtkR03Up => '对本回合已使用的每张牌造成7点伤害。';
+  String get cardDescAtkR03Up => '對本回合已使用的每張牌造成7點傷害。';
 
   @override
-  String get cardNameAtkR04 => '死神镰刀';
+  String get cardNameAtkR04 => '死神鐮刀';
 
   @override
-  String get cardDescAtkR04 => '造成15点伤害。击杀时回复10HP。';
+  String get cardDescAtkR04 => '造成15點傷害。擊殺時恢復10HP。';
 
   @override
-  String get cardNameAtkR04Up => '死神镰刀+';
+  String get cardNameAtkR04Up => '死神鐮刀+';
 
   @override
-  String get cardDescAtkR04Up => '造成20点伤害。击杀时回复15HP。';
+  String get cardDescAtkR04Up => '造成20點傷害。擊殺時恢復15HP。';
 
   @override
-  String get cardNameAtkR05 => '狂战士';
+  String get cardNameAtkR05 => '狂戰士';
 
   @override
-  String get cardDescAtkR05 => '获得力量+5，3回合后力量-5。';
+  String get cardDescAtkR05 => '獲得力量+5，3回合後力量-5。';
 
   @override
-  String get cardNameAtkR05Up => '狂战士+';
+  String get cardNameAtkR05Up => '狂戰士+';
 
   @override
-  String get cardDescAtkR05Up => '获得力量+7，3回合后力量-5。';
+  String get cardDescAtkR05Up => '獲得力量+7，3回合後力量-5。';
 
   @override
-  String get cardNameAtkL01 => '王者之剑';
+  String get cardNameAtkL01 => '王者之劍';
 
   @override
-  String get cardDescAtkL01 => '造成50点伤害，施加脆弱+虚弱3回合。使用后消耗。';
+  String get cardDescAtkL01 => '造成50點傷害，施加脆弱+虛弱3回合。使用後消耗。';
 
   @override
-  String get cardNameAtkL01Up => '王者之剑+';
+  String get cardNameAtkL01Up => '王者之劍+';
 
   @override
-  String get cardDescAtkL01Up => '造成60点伤害，施加脆弱+虚弱3回合。使用后消耗。';
+  String get cardDescAtkL01Up => '造成60點傷害，施加脆弱+虛弱3回合。使用後消耗。';
 
   @override
-  String get cardNameAtkL02 => '无限之刃';
+  String get cardNameAtkL02 => '無限之刃';
 
   @override
-  String get cardDescAtkL02 => '造成8点伤害。每次使用永久+2伤害。';
+  String get cardDescAtkL02 => '造成8點傷害。每次使用永久+2傷害。';
 
   @override
-  String get cardNameAtkL02Up => '无限之刃+';
+  String get cardNameAtkL02Up => '無限之刃+';
 
   @override
-  String get cardDescAtkL02Up => '造成12点伤害。每次使用永久+2伤害。';
+  String get cardDescAtkL02Up => '造成12點傷害。每次使用永久+2傷害。';
 
   @override
   String get cardNameMagC01 => '火球';
 
   @override
-  String get cardDescMagC01 => '造成4点伤害，施加燃烧2回合。';
+  String get cardDescMagC01 => '造成4點傷害，施加燃燒2回合。';
 
   @override
   String get cardNameMagC01Up => '火球+';
 
   @override
-  String get cardDescMagC01Up => '造成6点伤害，施加燃烧3回合。';
+  String get cardDescMagC01Up => '造成6點傷害，施加燃燒3回合。';
 
   @override
   String get cardNameMagC02 => '霜矢';
 
   @override
-  String get cardDescMagC02 => '造成5点伤害，施加虚弱1回合。';
+  String get cardDescMagC02 => '造成5點傷害，施加虛弱1回合。';
 
   @override
   String get cardNameMagC02Up => '霜矢+';
 
   @override
-  String get cardDescMagC02Up => '造成8点伤害，施加虚弱1回合。';
+  String get cardDescMagC02Up => '造成8點傷害，施加虛弱1回合。';
 
   @override
   String get cardNameMagC03 => '法力集中';
 
   @override
-  String get cardDescMagC03 => '获得能量+1，抽1张牌。';
+  String get cardDescMagC03 => '獲得能量+1，抽1張牌。';
 
   @override
   String get cardNameMagC03Up => '法力集中+';
 
   @override
-  String get cardDescMagC03Up => '获得能量+1，抽2张牌。';
+  String get cardDescMagC03Up => '獲得能量+1，抽2張牌。';
 
   @override
-  String get cardNameMagC04 => '电击';
+  String get cardNameMagC04 => '電擊';
 
   @override
-  String get cardDescMagC04 => '对随机敌人造成7点伤害。';
+  String get cardDescMagC04 => '對隨機敵人造成7點傷害。';
 
   @override
-  String get cardNameMagC04Up => '电击+';
+  String get cardNameMagC04Up => '電擊+';
 
   @override
-  String get cardDescMagC04Up => '对随机敌人造成10点伤害。';
+  String get cardDescMagC04Up => '對隨機敵人造成10點傷害。';
 
   @override
-  String get cardNameMagC05 => '魔法飞弹';
+  String get cardNameMagC05 => '魔法飛彈';
 
   @override
-  String get cardDescMagC05 => '对随机目标造成2次4点伤害。';
+  String get cardDescMagC05 => '對隨機目標造成2次4點傷害。';
 
   @override
-  String get cardNameMagC05Up => '魔法飞弹+';
+  String get cardNameMagC05Up => '魔法飛彈+';
 
   @override
-  String get cardDescMagC05Up => '对随机目标造成3次4点伤害。';
+  String get cardDescMagC05Up => '對隨機目標造成3次4點傷害。';
 
   @override
   String get cardNameMagC06 => '冥想';
 
   @override
-  String get cardDescMagC06 => '抽2张牌。';
+  String get cardDescMagC06 => '抽2張牌。';
 
   @override
   String get cardNameMagC06Up => '冥想+';
 
   @override
-  String get cardDescMagC06Up => '抽3张牌。';
+  String get cardDescMagC06Up => '抽3張牌。';
 
   @override
-  String get cardNameMagC07 => '知识之光';
+  String get cardNameMagC07 => '知識之光';
 
   @override
-  String get cardDescMagC07 => '查看牌库顶3张牌，将1张加入手牌。';
+  String get cardDescMagC07 => '檢視牌庫頂3張牌，將1張加入手牌。';
 
   @override
-  String get cardNameMagC07Up => '知识之光+';
+  String get cardNameMagC07Up => '知識之光+';
 
   @override
-  String get cardDescMagC07Up => '查看牌库顶3张牌，将2张加入手牌。';
+  String get cardDescMagC07Up => '檢視牌庫頂3張牌，將2張加入手牌。';
 
   @override
-  String get cardNameMagC08 => '毒雾';
+  String get cardNameMagC08 => '毒霧';
 
   @override
-  String get cardDescMagC08 => '对所有敌人施加毒3。';
+  String get cardDescMagC08 => '對所有敵人施加毒3。';
 
   @override
-  String get cardNameMagC08Up => '毒雾+';
+  String get cardNameMagC08Up => '毒霧+';
 
   @override
-  String get cardDescMagC08Up => '对所有敌人施加毒5。';
+  String get cardDescMagC08Up => '對所有敵人施加毒5。';
 
   @override
-  String get cardNameMagC09 => '魔力爆发';
+  String get cardNameMagC09 => '魔力爆發';
 
   @override
-  String get cardDescMagC09 => '造成10点伤害，获得专注+1。';
+  String get cardDescMagC09 => '造成10點傷害，獲得專注+1。';
 
   @override
-  String get cardNameMagC09Up => '魔力爆发+';
+  String get cardNameMagC09Up => '魔力爆發+';
 
   @override
-  String get cardDescMagC09Up => '造成14点伤害，获得专注+1。';
+  String get cardDescMagC09Up => '造成14點傷害，獲得專注+1。';
 
   @override
-  String get cardNameMagC10 => '元素和谐';
+  String get cardNameMagC10 => '元素和諧';
 
   @override
-  String get cardDescMagC10 => '使下一张牌的效果提高50%。';
+  String get cardDescMagC10 => '使下一張牌的效果提高50%。';
 
   @override
-  String get cardNameMagC10Up => '元素和谐+';
+  String get cardNameMagC10Up => '元素和諧+';
 
   @override
-  String get cardDescMagC10Up => '使下一张牌的效果提高100%。';
+  String get cardDescMagC10Up => '使下一張牌的效果提高100%。';
 
   @override
-  String get cardNameMagU01 => '连锁闪电';
+  String get cardNameMagU01 => '連鎖閃電';
 
   @override
-  String get cardDescMagU01 => '造成8点伤害，对所有敌人造成4点伤害。';
+  String get cardDescMagU01 => '造成8點傷害，對所有敵人造成4點傷害。';
 
   @override
-  String get cardNameMagU01Up => '连锁闪电+';
+  String get cardNameMagU01Up => '連鎖閃電+';
 
   @override
-  String get cardDescMagU01Up => '造成12点伤害，对所有敌人造成6点伤害。';
+  String get cardDescMagU01Up => '造成12點傷害，對所有敵人造成6點傷害。';
 
   @override
   String get cardNameMagU02 => '冰晶之眼';
 
   @override
-  String get cardDescMagU02 => '造成12点伤害，施加冰结1次。';
+  String get cardDescMagU02 => '造成12點傷害，施加冰結1次。';
 
   @override
   String get cardNameMagU02Up => '冰晶之眼+';
 
   @override
-  String get cardDescMagU02Up => '造成16点伤害，施加冰结1次。';
+  String get cardDescMagU02Up => '造成16點傷害，施加冰結1次。';
 
   @override
-  String get cardNameMagU03 => '智慧之书';
+  String get cardNameMagU03 => '智慧之書';
 
   @override
-  String get cardDescMagU03 => '抽3张牌，消耗1张。';
+  String get cardDescMagU03 => '抽3張牌，消耗1張。';
 
   @override
-  String get cardNameMagU03Up => '智慧之书+';
+  String get cardNameMagU03Up => '智慧之書+';
 
   @override
-  String get cardDescMagU03Up => '抽4张牌。';
+  String get cardDescMagU03Up => '抽4張牌。';
 
   @override
-  String get cardNameMagU04 => '法力过载';
+  String get cardNameMagU04 => '法力過載';
 
   @override
-  String get cardDescMagU04 => '获得能量+2。下回合能量-1。';
+  String get cardDescMagU04 => '獲得能量+2。下回合能量-1。';
 
   @override
-  String get cardNameMagU04Up => '法力过载+';
+  String get cardNameMagU04Up => '法力過載+';
 
   @override
-  String get cardDescMagU04Up => '获得能量+3。';
+  String get cardDescMagU04Up => '獲得能量+3。';
 
   @override
-  String get cardNameMagU05 => '元素风暴';
+  String get cardNameMagU05 => '元素風暴';
 
   @override
-  String get cardDescMagU05 => '对所有敌人造成15点伤害。';
+  String get cardDescMagU05 => '對所有敵人造成15點傷害。';
 
   @override
-  String get cardNameMagU05Up => '元素风暴+';
+  String get cardNameMagU05Up => '元素風暴+';
 
   @override
-  String get cardDescMagU05Up => '对所有敌人造成20点伤害。';
+  String get cardDescMagU05Up => '對所有敵人造成20點傷害。';
 
   @override
-  String get cardNameMagU06 => '时间扭曲';
+  String get cardNameMagU06 => '時間扭曲';
 
   @override
-  String get cardDescMagU06 => '获得额外回合1次（能量0，保留手牌）。';
+  String get cardDescMagU06 => '獲得額外回合1次（能量0，保留手牌）。';
 
   @override
-  String get cardNameMagU06Up => '时间扭曲+';
+  String get cardNameMagU06Up => '時間扭曲+';
 
   @override
-  String get cardDescMagU06Up => '获得额外回合1次（以1能量开始）。';
+  String get cardDescMagU06Up => '獲得額外回合1次（以1能量開始）。';
 
   @override
   String get cardNameMagU07 => '魔法增幅';
 
   @override
-  String get cardDescMagU07 => '获得专注+2（永久）。';
+  String get cardDescMagU07 => '獲得專注+2（永久）。';
 
   @override
   String get cardNameMagU07Up => '魔法增幅+';
 
   @override
-  String get cardDescMagU07Up => '获得专注+3（永久）。';
+  String get cardDescMagU07Up => '獲得專注+3（永久）。';
 
   @override
-  String get cardNameMagU08 => '复制术';
+  String get cardNameMagU08 => '複製術';
 
   @override
-  String get cardDescMagU08 => '复制手牌中1张牌（仅本回合）。';
+  String get cardDescMagU08 => '複製手牌中1張牌（僅本回合）。';
 
   @override
-  String get cardNameMagU08Up => '复制术+';
+  String get cardNameMagU08Up => '複製術+';
 
   @override
-  String get cardDescMagU08Up => '以费用0复制手牌中1张牌（仅本回合）。';
+  String get cardDescMagU08Up => '以費用0複製手牌中1張牌（僅本回合）。';
 
   @override
-  String get cardNameMagR01 => '陨石';
+  String get cardNameMagR01 => '隕石';
 
   @override
-  String get cardDescMagR01 => '对所有敌人造成25点伤害，施加燃烧3回合。';
+  String get cardDescMagR01 => '對所有敵人造成25點傷害，施加燃燒3回合。';
 
   @override
-  String get cardNameMagR01Up => '陨石+';
+  String get cardNameMagR01Up => '隕石+';
 
   @override
-  String get cardDescMagR01Up => '对所有敌人造成35点伤害，施加燃烧3回合。';
+  String get cardDescMagR01Up => '對所有敵人造成35點傷害，施加燃燒3回合。';
 
   @override
   String get cardNameMagR02 => '法力暴走';
 
   @override
-  String get cardDescMagR02 => '手牌中所有牌本回合费用变为0。';
+  String get cardDescMagR02 => '手牌中所有牌本回合費用變為0。';
 
   @override
   String get cardNameMagR02Up => '法力暴走+';
 
   @override
-  String get cardDescMagR02Up => '手牌中所有牌的费用下回合前变为0。';
+  String get cardDescMagR02Up => '手牌中所有牌的費用下回合前變為0。';
 
   @override
   String get cardNameMagR03 => '次元裂隙';
 
   @override
-  String get cardDescMagR03 => '从弃牌堆取回3张牌。';
+  String get cardDescMagR03 => '從棄牌堆取回3張牌。';
 
   @override
   String get cardNameMagR03Up => '次元裂隙+';
 
   @override
-  String get cardDescMagR03Up => '从弃牌堆取回5张牌。';
+  String get cardDescMagR03Up => '從棄牌堆取回5張牌。';
 
   @override
-  String get cardNameMagR04 => '灵魂吸收';
+  String get cardNameMagR04 => '靈魂吸收';
 
   @override
-  String get cardDescMagR04 => '造成12点伤害，回复等量HP。';
+  String get cardDescMagR04 => '造成12點傷害，恢復等量HP。';
 
   @override
-  String get cardNameMagR04Up => '灵魂吸收+';
+  String get cardNameMagR04Up => '靈魂吸收+';
 
   @override
-  String get cardDescMagR04Up => '造成18点伤害，回复等量HP。';
+  String get cardDescMagR04Up => '造成18點傷害，恢復等量HP。';
 
   @override
-  String get cardNameMagR05 => '绝对零度';
+  String get cardNameMagR05 => '絕對零度';
 
   @override
-  String get cardDescMagR05 => '使所有敌人冰结，造成10点伤害。';
+  String get cardDescMagR05 => '使所有敵人冰結，造成10點傷害。';
 
   @override
-  String get cardNameMagR05Up => '绝对零度+';
+  String get cardNameMagR05Up => '絕對零度+';
 
   @override
-  String get cardDescMagR05Up => '使所有敌人冰结，造成15点伤害。';
+  String get cardDescMagR05Up => '使所有敵人冰結，造成15點傷害。';
 
   @override
-  String get cardNameMagL01 => '末日审判';
+  String get cardNameMagL01 => '末日審判';
 
   @override
-  String get cardDescMagL01 => '对所有敌人造成99点伤害。自身受到30点伤害。使用后消耗。';
+  String get cardDescMagL01 => '對所有敵人造成99點傷害。自身受到30點傷害。使用後消耗。';
 
   @override
-  String get cardNameMagL01Up => '末日审判+';
+  String get cardNameMagL01Up => '末日審判+';
 
   @override
-  String get cardDescMagL01Up => '对所有敌人造成99点伤害。自身受到15点伤害。使用后消耗。';
+  String get cardDescMagL01Up => '對所有敵人造成99點傷害。自身受到15點傷害。使用後消耗。';
 
   @override
-  String get cardNameMagL02 => '无限智慧';
+  String get cardNameMagL02 => '無限智慧';
 
   @override
-  String get cardDescMagL02 => '抽5张牌，获得能量+2。使用后消耗。';
+  String get cardDescMagL02 => '抽5張牌，獲得能量+2。使用後消耗。';
 
   @override
-  String get cardNameMagL02Up => '无限智慧+';
+  String get cardNameMagL02Up => '無限智慧+';
 
   @override
-  String get cardDescMagL02Up => '抽7张牌，获得能量+3。使用后消耗。';
+  String get cardDescMagL02Up => '抽7張牌，獲得能量+3。使用後消耗。';
 
   @override
-  String get cardNameDefC01 => '防御';
+  String get cardNameDefC01 => '防禦';
 
   @override
-  String get cardDescDefC01 => '获得5格挡。';
+  String get cardDescDefC01 => '獲得5格擋。';
 
   @override
-  String get cardNameDefC01Up => '防御+';
+  String get cardNameDefC01Up => '防禦+';
 
   @override
-  String get cardDescDefC01Up => '获得8格挡。';
+  String get cardDescDefC01Up => '獲得8格擋。';
 
   @override
-  String get cardNameDefC02 => '铁壁';
+  String get cardNameDefC02 => '鐵壁';
 
   @override
-  String get cardDescDefC02 => '获得12格挡。';
+  String get cardDescDefC02 => '獲得12格擋。';
 
   @override
-  String get cardNameDefC02Up => '铁壁+';
+  String get cardNameDefC02Up => '鐵壁+';
 
   @override
-  String get cardDescDefC02Up => '获得16格挡。';
+  String get cardDescDefC02Up => '獲得16格擋。';
 
   @override
-  String get cardNameDefC03 => '反击';
+  String get cardNameDefC03 => '反擊';
 
   @override
-  String get cardDescDefC03 => '获得4格挡和2荆棘。';
+  String get cardDescDefC03 => '獲得4格擋和2荊棘。';
 
   @override
-  String get cardNameDefC03Up => '反击+';
+  String get cardNameDefC03Up => '反擊+';
 
   @override
-  String get cardDescDefC03Up => '获得6格挡和3荆棘。';
+  String get cardDescDefC03Up => '獲得6格擋和3荊棘。';
 
   @override
-  String get cardNameDefC04 => '回复祈祷';
+  String get cardNameDefC04 => '恢復祈禱';
 
   @override
-  String get cardDescDefC04 => '回复4HP。';
+  String get cardDescDefC04 => '恢復4HP。';
 
   @override
-  String get cardNameDefC04Up => '回复祈祷+';
+  String get cardNameDefC04Up => '恢復祈禱+';
 
   @override
-  String get cardDescDefC04Up => '回复7HP。';
+  String get cardDescDefC04Up => '恢復7HP。';
 
   @override
-  String get cardNameDefC05 => '战斗姿态';
+  String get cardNameDefC05 => '戰鬥姿態';
 
   @override
-  String get cardDescDefC05 => '获得6格挡并抽1张牌。';
+  String get cardDescDefC05 => '獲得6格擋並抽1張牌。';
 
   @override
-  String get cardNameDefC05Up => '战斗姿态+';
+  String get cardNameDefC05Up => '戰鬥姿態+';
 
   @override
-  String get cardDescDefC05Up => '获得8格挡并抽1张牌。';
+  String get cardDescDefC05Up => '獲得8格擋並抽1張牌。';
 
   @override
-  String get cardNameDefC06 => '滚动';
+  String get cardNameDefC06 => '滾動';
 
   @override
-  String get cardDescDefC06 => '获得3格挡。下回合获得6格挡。';
+  String get cardDescDefC06 => '獲得3格擋。下回合獲得6格擋。';
 
   @override
-  String get cardNameDefC06Up => '滚动+';
+  String get cardNameDefC06Up => '滾動+';
 
   @override
-  String get cardDescDefC06Up => '获得5格挡。下回合获得8格挡。';
+  String get cardDescDefC06Up => '獲得5格擋。下回合獲得8格擋。';
 
   @override
   String get cardNameDefC07 => '急救';
 
   @override
-  String get cardDescDefC07 => '回复3HP。';
+  String get cardDescDefC07 => '恢復3HP。';
 
   @override
   String get cardNameDefC07Up => '急救+';
 
   @override
-  String get cardDescDefC07Up => '回复5HP。';
+  String get cardDescDefC07Up => '恢復5HP。';
 
   @override
   String get cardNameDefC08 => '忍耐';
 
   @override
-  String get cardDescDefC08 => '获得5格挡和1回合坚定。';
+  String get cardDescDefC08 => '獲得5格擋和1回合堅定。';
 
   @override
   String get cardNameDefC08Up => '忍耐+';
 
   @override
-  String get cardDescDefC08Up => '获得7格挡和2回合坚定。';
+  String get cardDescDefC08Up => '獲得7格擋和2回合堅定。';
 
   @override
   String get cardNameDefC09 => '生命力';
 
   @override
-  String get cardDescDefC09 => '获得再生3（3回合）。';
+  String get cardDescDefC09 => '獲得再生3（3回合）。';
 
   @override
   String get cardNameDefC09Up => '生命力+';
 
   @override
-  String get cardDescDefC09Up => '获得再生4（4回合）。';
+  String get cardDescDefC09Up => '獲得再生4（4回合）。';
 
   @override
-  String get cardNameDefC10 => '嘲讽盾';
+  String get cardNameDefC10 => '嘲諷盾';
 
   @override
-  String get cardDescDefC10 => '获得6格挡并嘲讽1个敌人。';
+  String get cardDescDefC10 => '獲得6格擋並嘲諷1個敵人。';
 
   @override
-  String get cardNameDefC10Up => '嘲讽盾+';
+  String get cardNameDefC10Up => '嘲諷盾+';
 
   @override
-  String get cardDescDefC10Up => '获得9格挡并嘲讽1个敌人。';
+  String get cardDescDefC10Up => '獲得9格擋並嘲諷1個敵人。';
 
   @override
   String get cardNameDefU01 => '路障';
 
   @override
-  String get cardDescDefU01 => '获得12格挡和2回合坚定。';
+  String get cardDescDefU01 => '獲得12格擋和2回合堅定。';
 
   @override
   String get cardNameDefU01Up => '路障+';
 
   @override
-  String get cardDescDefU01Up => '获得16格挡和3回合坚定。';
+  String get cardDescDefU01Up => '獲得16格擋和3回合堅定。';
 
   @override
   String get cardNameDefU02 => '反射盾';
 
   @override
-  String get cardDescDefU02 => '获得8格挡和本回合5荆棘。';
+  String get cardDescDefU02 => '獲得8格擋和本回合5荊棘。';
 
   @override
   String get cardNameDefU02Up => '反射盾+';
 
   @override
-  String get cardDescDefU02Up => '获得12格挡和本回合7荆棘。';
+  String get cardDescDefU02Up => '獲得12格擋和本回合7荊棘。';
 
   @override
-  String get cardNameDefU03 => '治愈祈祷';
+  String get cardNameDefU03 => '治癒祈禱';
 
   @override
-  String get cardDescDefU03 => '回复10HP并获得3回合再生2。';
+  String get cardDescDefU03 => '恢復10HP並獲得3回合再生2。';
 
   @override
-  String get cardNameDefU03Up => '治愈祈祷+';
+  String get cardNameDefU03Up => '治癒祈禱+';
 
   @override
-  String get cardDescDefU03Up => '回复15HP并获得3回合再生3。';
+  String get cardDescDefU03Up => '恢復15HP並獲得3回合再生3。';
 
   @override
   String get cardNameDefU04 => '不屈意志';
 
   @override
-  String get cardDescDefU04 => '获得敏捷性+2（永久）。';
+  String get cardDescDefU04 => '獲得敏捷性+2（永久）。';
 
   @override
   String get cardNameDefU04Up => '不屈意志+';
 
   @override
-  String get cardDescDefU04Up => '获得敏捷性+3（永久）。';
+  String get cardDescDefU04Up => '獲得敏捷性+3（永久）。';
 
   @override
-  String get cardNameDefU05 => '守护屏障';
+  String get cardNameDefU05 => '守護屏障';
 
   @override
-  String get cardDescDefU05 => '获得等于缺失HP25%的格挡。';
+  String get cardDescDefU05 => '獲得等於缺失HP25%的格擋。';
 
   @override
-  String get cardNameDefU05Up => '守护屏障+';
+  String get cardNameDefU05Up => '守護屏障+';
 
   @override
-  String get cardDescDefU05Up => '获得等于缺失HP30%的格挡。';
+  String get cardDescDefU05Up => '獲得等於缺失HP30%的格擋。';
 
   @override
   String get cardNameDefU06 => '求生本能';
 
   @override
-  String get cardDescDefU06 => 'HP≤50%时获得15格挡，否则获得5格挡。';
+  String get cardDescDefU06 => 'HP≤50%時獲得15格擋，否則獲得5格擋。';
 
   @override
   String get cardNameDefU06Up => '求生本能+';
 
   @override
-  String get cardDescDefU06Up => 'HP≤50%时获得20格挡，否则获得8格挡。';
+  String get cardDescDefU06Up => 'HP≤50%時獲得20格擋，否則獲得8格擋。';
 
   @override
-  String get cardNameDefU07 => '吸血荆棘';
+  String get cardNameDefU07 => '吸血荊棘';
 
   @override
-  String get cardDescDefU07 => '获得3荆棘（永久）。被击中时回复1HP。';
+  String get cardDescDefU07 => '獲得3荊棘（永久）。被擊中時恢復1HP。';
 
   @override
-  String get cardNameDefU07Up => '吸血荆棘+';
+  String get cardNameDefU07Up => '吸血荊棘+';
 
   @override
-  String get cardDescDefU07Up => '获得4荆棘（永久）。被击中时回复2HP。';
+  String get cardDescDefU07Up => '獲得4荊棘（永久）。被擊中時恢復2HP。';
 
   @override
-  String get cardNameDefU08 => '强化盔甲';
+  String get cardNameDefU08 => '強化盔甲';
 
   @override
-  String get cardDescDefU08 => '获得20格挡。下回合获得10格挡。';
+  String get cardDescDefU08 => '獲得20格擋。下回合獲得10格擋。';
 
   @override
-  String get cardNameDefU08Up => '强化盔甲+';
+  String get cardNameDefU08Up => '強化盔甲+';
 
   @override
-  String get cardDescDefU08Up => '获得25格挡。下回合获得15格挡。';
+  String get cardDescDefU08Up => '獲得25格擋。下回合獲得15格擋。';
 
   @override
-  String get cardNameDefR01 => '无敌';
+  String get cardNameDefR01 => '無敵';
 
   @override
-  String get cardDescDefR01 => '本回合所有伤害降为0。消耗。';
+  String get cardDescDefR01 => '本回合所有傷害降為0。消耗。';
 
   @override
-  String get cardNameDefR01Up => '无敌+';
+  String get cardNameDefR01Up => '無敵+';
 
   @override
-  String get cardDescDefR01Up => '本回合和下回合所有伤害降为0。消耗。';
+  String get cardDescDefR01Up => '本回合和下回合所有傷害降為0。消耗。';
 
   @override
-  String get cardNameDefR02 => '生命之树';
+  String get cardNameDefR02 => '生命之樹';
 
   @override
-  String get cardDescDefR02 => '回复最大HP的30%。';
+  String get cardDescDefR02 => '恢復最大HP的30%。';
 
   @override
-  String get cardNameDefR02Up => '生命之树+';
+  String get cardNameDefR02Up => '生命之樹+';
 
   @override
-  String get cardDescDefR02Up => '回复最大HP的40%。';
+  String get cardDescDefR02Up => '恢復最大HP的40%。';
 
   @override
-  String get cardNameDefR03 => '神圣盾';
+  String get cardNameDefR03 => '神聖盾';
 
   @override
-  String get cardDescDefR03 => '获得20格挡并移除所有减益。';
+  String get cardDescDefR03 => '獲得20格擋並移除所有減益。';
 
   @override
-  String get cardNameDefR03Up => '神圣盾+';
+  String get cardNameDefR03Up => '神聖盾+';
 
   @override
-  String get cardDescDefR03Up => '获得28格挡并移除所有减益。';
+  String get cardDescDefR03Up => '獲得28格擋並移除所有減益。';
 
   @override
-  String get cardNameDefR04 => '铁甲身';
+  String get cardNameDefR04 => '鐵甲身';
 
   @override
-  String get cardDescDefR04 => '每回合自动获得8格挡（战斗中）。';
+  String get cardDescDefR04 => '每回合自動獲得8格擋（戰鬥中）。';
 
   @override
-  String get cardNameDefR04Up => '铁甲身+';
+  String get cardNameDefR04Up => '鐵甲身+';
 
   @override
-  String get cardDescDefR04Up => '每回合自动获得12格挡（战斗中）。';
+  String get cardDescDefR04Up => '每回合自動獲得12格擋（戰鬥中）。';
 
   @override
-  String get cardNameDefR05 => '重生药水';
+  String get cardNameDefR05 => '重生藥水';
 
   @override
-  String get cardDescDefR05 => '本次战斗死亡时以30%HP复活。消耗。';
+  String get cardDescDefR05 => '本次戰鬥死亡時以30%HP復活。消耗。';
 
   @override
-  String get cardNameDefR05Up => '重生药水+';
+  String get cardNameDefR05Up => '重生藥水+';
 
   @override
-  String get cardDescDefR05Up => '本次战斗死亡时以50%HP复活。消耗。';
+  String get cardDescDefR05Up => '本次戰鬥死亡時以50%HP復活。消耗。';
 
   @override
-  String get cardNameDefL01 => '永恒盾';
+  String get cardNameDefL01 => '永恆盾';
 
   @override
-  String get cardDescDefL01 => '获得30格挡并每回合自动获得5格挡（战斗中）。消耗。';
+  String get cardDescDefL01 => '獲得30格擋並每回合自動獲得5格擋（戰鬥中）。消耗。';
 
   @override
-  String get cardNameDefL01Up => '永恒盾+';
+  String get cardNameDefL01Up => '永恆盾+';
 
   @override
-  String get cardDescDefL01Up => '获得40格挡并每回合自动获得8格挡（战斗中）。消耗。';
+  String get cardDescDefL01Up => '獲得40格擋並每回合自動獲得8格擋（戰鬥中）。消耗。';
 
   @override
   String get cardNameDefL02 => '生命之泉';
 
   @override
-  String get cardDescDefL02 => '完全回复HP并获得最大HP+10（永久）。消耗。';
+  String get cardDescDefL02 => '完全恢復HP並獲得最大HP+10（永久）。消耗。';
 
   @override
   String get cardNameDefL02Up => '生命之泉+';
 
   @override
-  String get cardDescDefL02Up => '完全回复HP并获得最大HP+20（永久）。消耗。';
+  String get cardDescDefL02Up => '完全恢復HP並獲得最大HP+20（永久）。消耗。';
 
   @override
-  String get cardNameTacC01 => '观察';
+  String get cardNameTacC01 => '觀察';
 
   @override
-  String get cardDescTacC01 => '查看敌人意图并抽1张牌。';
+  String get cardDescTacC01 => '檢視敵人意圖並抽1張牌。';
 
   @override
-  String get cardNameTacC01Up => '观察+';
+  String get cardNameTacC01Up => '觀察+';
 
   @override
-  String get cardDescTacC01Up => '查看敌人意图并抽2张牌。';
+  String get cardDescTacC01Up => '檢視敵人意圖並抽2張牌。';
 
   @override
-  String get cardNameTacC02 => '寻宝';
+  String get cardNameTacC02 => '尋寶';
 
   @override
-  String get cardDescTacC02 => '战斗金币+15。';
+  String get cardDescTacC02 => '戰鬥金幣+15。';
 
   @override
-  String get cardNameTacC02Up => '寻宝+';
+  String get cardNameTacC02Up => '尋寶+';
 
   @override
-  String get cardDescTacC02Up => '战斗金币+25。';
+  String get cardDescTacC02Up => '戰鬥金幣+25。';
 
   @override
-  String get cardNameTacC03 => '看破弱点';
+  String get cardNameTacC03 => '看破弱點';
 
   @override
-  String get cardDescTacC03 => '施加易伤2回合和虚弱1回合。';
+  String get cardDescTacC03 => '施加易傷2回合和虛弱1回合。';
 
   @override
-  String get cardNameTacC03Up => '看破弱点+';
+  String get cardNameTacC03Up => '看破弱點+';
 
   @override
-  String get cardDescTacC03Up => '施加易伤2回合和虚弱2回合。';
+  String get cardDescTacC03Up => '施加易傷2回合和虛弱2回合。';
 
   @override
-  String get cardNameTacC04 => '灵巧之手';
+  String get cardNameTacC04 => '靈巧之手';
 
   @override
-  String get cardDescTacC04 => '抽2张牌。';
+  String get cardDescTacC04 => '抽2張牌。';
 
   @override
-  String get cardNameTacC04Up => '灵巧之手+';
+  String get cardNameTacC04Up => '靈巧之手+';
 
   @override
-  String get cardDescTacC04Up => '抽3张牌。';
+  String get cardDescTacC04Up => '抽3張牌。';
 
   @override
-  String get cardNameTacC05 => '设陷阱';
+  String get cardNameTacC05 => '設陷阱';
 
   @override
-  String get cardDescTacC05 => '下次敌人攻击时反射10点伤害。';
+  String get cardDescTacC05 => '下次敵人攻擊時反射10點傷害。';
 
   @override
-  String get cardNameTacC05Up => '设陷阱+';
+  String get cardNameTacC05Up => '設陷阱+';
 
   @override
-  String get cardDescTacC05Up => '下次敌人攻击时反射15点伤害。';
+  String get cardDescTacC05Up => '下次敵人攻擊時反射15點傷害。';
 
   @override
-  String get cardNameTacC06 => '扰乱';
+  String get cardNameTacC06 => '擾亂';
 
   @override
-  String get cardDescTacC06 => '随机改变敌人意图。';
+  String get cardDescTacC06 => '隨機改變敵人意圖。';
 
   @override
-  String get cardNameTacC06Up => '扰乱+';
+  String get cardNameTacC06Up => '擾亂+';
 
   @override
-  String get cardDescTacC06Up => '改变敌人意图并施加虚弱1回合。';
+  String get cardDescTacC06Up => '改變敵人意圖並施加虛弱1回合。';
 
   @override
-  String get cardNameTacC07 => '扒窃';
+  String get cardNameTacC07 => '扒竊';
 
   @override
-  String get cardDescTacC07 => '造成3点伤害，获得5~15金币。';
+  String get cardDescTacC07 => '造成3點傷害，獲得5~15金幣。';
 
   @override
-  String get cardNameTacC07Up => '扒窃+';
+  String get cardNameTacC07Up => '扒竊+';
 
   @override
-  String get cardDescTacC07Up => '造成6点伤害，获得10~25金币。';
+  String get cardDescTacC07Up => '造成6點傷害，獲得10~25金幣。';
 
   @override
-  String get cardNameTacC08 => '烟雾弹';
+  String get cardNameTacC08 => '煙霧彈';
 
   @override
-  String get cardDescTacC08 => '获得4格挡，对所有敌人施加虚弱1回合。';
+  String get cardDescTacC08 => '獲得4格擋，對所有敵人施加虛弱1回合。';
 
   @override
-  String get cardNameTacC08Up => '烟雾弹+';
+  String get cardNameTacC08Up => '煙霧彈+';
 
   @override
-  String get cardDescTacC08Up => '获得6格挡，对所有敌人施加虚弱2回合。';
+  String get cardDescTacC08Up => '獲得6格擋，對所有敵人施加虛弱2回合。';
 
   @override
-  String get cardNameTacC09 => '鼓励';
+  String get cardNameTacC09 => '鼓勵';
 
   @override
-  String get cardDescTacC09 => '本次战斗随机升级1张牌。';
+  String get cardDescTacC09 => '本次戰鬥隨機升級1張牌。';
 
   @override
-  String get cardNameTacC09Up => '鼓励+';
+  String get cardNameTacC09Up => '鼓勵+';
 
   @override
-  String get cardDescTacC09Up => '本次战斗随机升级2张牌。';
+  String get cardDescTacC09Up => '本次戰鬥隨機升級2張牌。';
 
   @override
-  String get cardNameTacC10 => '幸运硬币';
+  String get cardNameTacC10 => '幸運硬幣';
 
   @override
-  String get cardDescTacC10 => '50%概率抽2张牌。';
+  String get cardDescTacC10 => '50%機率抽2張牌。';
 
   @override
-  String get cardNameTacC10Up => '幸运硬币+';
+  String get cardNameTacC10Up => '幸運硬幣+';
 
   @override
-  String get cardDescTacC10Up => '70%概率抽2张牌。';
+  String get cardDescTacC10Up => '70%機率抽2張牌。';
 
   @override
-  String get cardNameTacU01 => '战场分析';
+  String get cardNameTacU01 => '戰場分析';
 
   @override
-  String get cardDescTacU01 => '抽3张牌，将最高费用牌本回合费用降为0。';
+  String get cardDescTacU01 => '抽3張牌，將最高費用牌本回合費用降為0。';
 
   @override
-  String get cardNameTacU01Up => '战场分析+';
+  String get cardNameTacU01Up => '戰場分析+';
 
   @override
-  String get cardDescTacU01Up => '抽4张牌，将最高费用牌本回合费用降为0。';
+  String get cardDescTacU01Up => '抽4張牌，將最高費用牌本回合費用降為0。';
 
   @override
   String get cardNameTacU02 => '影步';
 
   @override
-  String get cardDescTacU02 => '下回合前受到的伤害减少50%。';
+  String get cardDescTacU02 => '下回合前受到的傷害減少50%。';
 
   @override
   String get cardNameTacU02Up => '影步+';
 
   @override
-  String get cardDescTacU02Up => '下回合前受到的伤害减少50%并抽1张牌。';
+  String get cardDescTacU02Up => '下回合前受到的傷害減少50%並抽1張牌。';
 
   @override
-  String get cardNameTacU03 => '宝箱';
+  String get cardNameTacU03 => '寶箱';
 
   @override
-  String get cardDescTacU03 => '激活一次随机圣物效果。消耗。';
+  String get cardDescTacU03 => '啟用一次隨機聖物效果。消耗。';
 
   @override
-  String get cardNameTacU03Up => '宝箱+';
+  String get cardNameTacU03Up => '寶箱+';
 
   @override
-  String get cardDescTacU03Up => '激活两次随机圣物效果。消耗。';
+  String get cardDescTacU03Up => '啟用兩次隨機聖物效果。消耗。';
 
   @override
-  String get cardNameTacU04 => '操纵牌库';
+  String get cardNameTacU04 => '操縱牌庫';
 
   @override
-  String get cardDescTacU04 => '将牌库顶部3张牌按任意顺序排列。';
+  String get cardDescTacU04 => '將牌庫頂部3張牌按任意順序排列。';
 
   @override
-  String get cardNameTacU04Up => '操纵牌库+';
+  String get cardNameTacU04Up => '操縱牌庫+';
 
   @override
-  String get cardDescTacU04Up => '将牌库顶部5张牌按任意顺序排列。';
+  String get cardDescTacU04Up => '將牌庫頂部5張牌按任意順序排列。';
 
   @override
-  String get cardNameTacU05 => '双面间谍';
+  String get cardNameTacU05 => '雙面間諜';
 
   @override
-  String get cardDescTacU05 => '复制并移除敌人的增益。';
+  String get cardDescTacU05 => '複製並移除敵人的增益。';
 
   @override
-  String get cardNameTacU05Up => '双面间谍+';
+  String get cardNameTacU05Up => '雙面間諜+';
 
   @override
-  String get cardDescTacU05Up => '复制并移除敌人的增益，还造成5点伤害。';
+  String get cardDescTacU05Up => '複製並移除敵人的增益，還造成5點傷害。';
 
   @override
-  String get cardNameTacU06 => '战略撤退';
+  String get cardNameTacU06 => '戰略撤退';
 
   @override
-  String get cardDescTacU06 => '洗回手牌并抽5张新牌。';
+  String get cardDescTacU06 => '洗回手牌並抽5張新牌。';
 
   @override
-  String get cardNameTacU06Up => '战略撤退+';
+  String get cardNameTacU06Up => '戰略撤退+';
 
   @override
-  String get cardDescTacU06Up => '洗回手牌并抽6张新牌。';
+  String get cardDescTacU06Up => '洗回手牌並抽6張新牌。';
 
   @override
-  String get cardNameTacU07 => '以物换物';
+  String get cardNameTacU07 => '以物換物';
 
   @override
-  String get cardDescTacU07 => '消耗手中1张牌，生成2张随机牌。';
+  String get cardDescTacU07 => '消耗手中1張牌，生成2張隨機牌。';
 
   @override
-  String get cardNameTacU07Up => '以物换物+';
+  String get cardNameTacU07Up => '以物換物+';
 
   @override
-  String get cardDescTacU07Up => '消耗手中1张牌，生成3张随机牌。';
+  String get cardDescTacU07Up => '消耗手中1張牌，生成3張隨機牌。';
 
   @override
-  String get cardNameTacU08 => '连环陷阱';
+  String get cardNameTacU08 => '連環陷阱';
 
   @override
-  String get cardDescTacU08 => '获得3荆棘（永久）。被击中时施加虚弱1回合。';
+  String get cardDescTacU08 => '獲得3荊棘（永久）。被擊中時施加虛弱1回合。';
 
   @override
-  String get cardNameTacU08Up => '连环陷阱+';
+  String get cardNameTacU08Up => '連環陷阱+';
 
   @override
-  String get cardDescTacU08Up => '获得5荆棘（永久）。被击中时施加虚弱1回合。';
+  String get cardDescTacU08Up => '獲得5荊棘（永久）。被擊中時施加虛弱1回合。';
 
   @override
-  String get cardNameTacR01 => '完美计划';
+  String get cardNameTacR01 => '完美計劃';
 
   @override
-  String get cardDescTacR01 => '获得能量+3并抽3张牌。下回合抽牌数为0。';
+  String get cardDescTacR01 => '獲得能量+3並抽3張牌。下回合抽牌數為0。';
 
   @override
-  String get cardNameTacR01Up => '完美计划+';
+  String get cardNameTacR01Up => '完美計劃+';
 
   @override
-  String get cardDescTacR01Up => '获得能量+3并抽3张牌。下回合抽2张牌。';
+  String get cardDescTacR01Up => '獲得能量+3並抽3張牌。下回合抽2張牌。';
 
   @override
-  String get cardNameTacR02 => '命运之轮';
+  String get cardNameTacR02 => '命運之輪';
 
   @override
-  String get cardDescTacR02 => '随机效果1次：15伤害、15格挡、回复15HP或能量+2之一。';
+  String get cardDescTacR02 => '隨機效果1次：15傷害、15格擋、恢復15HP或能量+2之一。';
 
   @override
-  String get cardNameTacR02Up => '命运之轮+';
+  String get cardNameTacR02Up => '命運之輪+';
 
   @override
-  String get cardDescTacR02Up => '随机效果2次：15伤害、15格挡、回复15HP或能量+2之一。';
+  String get cardDescTacR02Up => '隨機效果2次：15傷害、15格擋、恢復15HP或能量+2之一。';
 
   @override
   String get cardNameTacR03 => '替身';
 
   @override
-  String get cardDescTacR03 => '将本回合使用的所有牌放回手中。';
+  String get cardDescTacR03 => '將本回合使用的所有牌放回手中。';
 
   @override
   String get cardNameTacR03Up => '替身+';
 
   @override
-  String get cardDescTacR03Up => '将本回合使用的所有牌放回手中并获得能量+2。';
+  String get cardDescTacR03Up => '將本回合使用的所有牌放回手中並獲得能量+2。';
 
   @override
-  String get cardNameTacR04 => '贪婪之手';
+  String get cardNameTacR04 => '貪婪之手';
 
   @override
-  String get cardDescTacR04 => '造成6点伤害。击杀时额外获得1张牌奖励。';
+  String get cardDescTacR04 => '造成6點傷害。擊殺時額外獲得1張牌獎勵。';
 
   @override
-  String get cardNameTacR04Up => '贪婪之手+';
+  String get cardNameTacR04Up => '貪婪之手+';
 
   @override
-  String get cardDescTacR04Up => '造成10点伤害。击杀时额外获得1张牌奖励。';
+  String get cardDescTacR04Up => '造成10點傷害。擊殺時額外獲得1張牌獎勵。';
 
   @override
-  String get cardNameTacR05 => '大混乱';
+  String get cardNameTacR05 => '大混亂';
 
   @override
-  String get cardDescTacR05 => '对所有敌人施加易伤+虚弱2回合和毒3。';
+  String get cardDescTacR05 => '對所有敵人施加易傷+虛弱2回合和毒3。';
 
   @override
-  String get cardNameTacR05Up => '大混乱+';
+  String get cardNameTacR05Up => '大混亂+';
 
   @override
-  String get cardDescTacR05Up => '对所有敌人施加易伤+虚弱3回合和毒3。';
+  String get cardDescTacR05Up => '對所有敵人施加易傷+虛弱3回合和毒3。';
 
   @override
-  String get cardNameTacL01 => '时间主宰';
+  String get cardNameTacL01 => '時間主宰';
 
   @override
-  String get cardDescTacL01 => '获得2个额外回合（每回合能量2）。消耗。';
+  String get cardDescTacL01 => '獲得2個額外回合（每回合能量2）。消耗。';
 
   @override
-  String get cardNameTacL01Up => '时间主宰+';
+  String get cardNameTacL01Up => '時間主宰+';
 
   @override
-  String get cardDescTacL01Up => '获得2个额外回合（每回合能量3）。消耗。';
+  String get cardDescTacL01Up => '獲得2個額外回合（每回合能量3）。消耗。';
 
   @override
-  String get cardNameTacL02 => '命运转化';
+  String get cardNameTacL02 => '命運轉化';
 
   @override
-  String get cardDescTacL02 => '本次战斗升级所有牌。消耗。';
+  String get cardDescTacL02 => '本次戰鬥升級所有牌。消耗。';
 
   @override
-  String get cardNameTacL02Up => '命运转化+';
+  String get cardNameTacL02Up => '命運轉化+';
 
   @override
-  String get cardDescTacL02Up => '本次战斗升级所有牌并获得能量+2。消耗。';
+  String get cardDescTacL02Up => '本次戰鬥升級所有牌並獲得能量+2。消耗。';
 
   @override
-  String get relicNameStart01 => '冒险者背包';
+  String get relicNameStart01 => '冒險者揹包';
 
   @override
-  String get relicDescStart01 => '战斗奖励卡牌选项+1张(3→4)';
+  String get relicDescStart01 => '戰鬥獎勵卡牌選項+1張(3→4)';
 
   @override
-  String get relicNameStart02 => '旧护符';
+  String get relicNameStart02 => '舊護符';
 
   @override
-  String get relicDescStart02 => '开始时HP+15';
+  String get relicDescStart02 => '開始時HP+15';
 
   @override
-  String get relicNameStart03 => '幸运硬币';
+  String get relicNameStart03 => '幸運硬幣';
 
   @override
-  String get relicDescStart03 => '战斗金币+30%';
+  String get relicDescStart03 => '戰鬥金幣+30%';
 
   @override
-  String get relicNameC01 => '锚';
+  String get relicNameC01 => '錨';
 
   @override
-  String get relicDescC01 => '每回合开始时自动获得防御4';
+  String get relicDescC01 => '每回合開始時自動獲得防禦4';
 
   @override
-  String get relicNameC02 => '红色药水';
+  String get relicNameC02 => '紅色藥水';
 
   @override
-  String get relicDescC02 => '战斗开始时恢复HP5';
+  String get relicDescC02 => '戰鬥開始時恢復HP5';
 
   @override
   String get relicNameC03 => '魔法球';
@@ -3012,19 +3189,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relicDescC03 => '每3回合能量+1';
 
   @override
-  String get relicNameC04 => '锋利磨刀石';
+  String get relicNameC04 => '鋒利磨刀石';
 
   @override
-  String get relicDescC04 => '第一张攻击卡伤害+3';
+  String get relicDescC04 => '第一張攻擊卡傷害+3';
 
   @override
-  String get relicNameC05 => '盗贼手套';
+  String get relicNameC05 => '盜賊手套';
 
   @override
-  String get relicDescC05 => '战斗奖励金币+15';
+  String get relicDescC05 => '戰鬥獎勵金幣+15';
 
   @override
-  String get relicNameC06 => '轻便鞋';
+  String get relicNameC06 => '輕便鞋';
 
   @override
   String get relicDescC06 => '第一回合抽牌+2';
@@ -3033,598 +3210,598 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relicNameC07 => '毒素袋';
 
   @override
-  String get relicDescC07 => '战斗开始时对所有敌人施加毒素2';
+  String get relicDescC07 => '戰鬥開始時對所有敵人施加毒素2';
 
   @override
-  String get relicNameC08 => '荆棘盾';
+  String get relicNameC08 => '荊棘盾';
 
   @override
-  String get relicDescC08 => '荆棘1(永久)';
+  String get relicDescC08 => '荊棘1(永久)';
 
   @override
-  String get relicNameC09 => '专注戒指';
+  String get relicNameC09 => '專注戒指';
 
   @override
-  String get relicDescC09 => '使用费用为0的卡牌时获得防御2';
+  String get relicDescC09 => '使用費用為0的卡牌時獲得防禦2';
 
   @override
-  String get relicNameC10 => '战士手环';
+  String get relicNameC10 => '戰士手環';
 
   @override
-  String get relicDescC10 => '手牌全为攻击卡时能量+1';
+  String get relicDescC10 => '手牌全為攻擊卡時能量+1';
 
   @override
-  String get relicNameU01 => '霜之心脏';
+  String get relicNameU01 => '霜之心臟';
 
   @override
-  String get relicDescU01 => '使用攻击卡时有20%概率施加虚弱1回合';
+  String get relicDescU01 => '使用攻擊卡時有20%機率施加虛弱1回合';
 
   @override
-  String get relicNameU02 => '贤者之石';
+  String get relicNameU02 => '賢者之石';
 
   @override
-  String get relicDescU02 => '魔法卡伤害+25%';
+  String get relicDescU02 => '魔法卡傷害+25%';
 
   @override
-  String get relicNameU03 => '不死鸟羽毛';
+  String get relicNameU03 => '不死鳥羽毛';
 
   @override
-  String get relicDescU03 => '死亡时以30%HP复活一次';
+  String get relicDescU03 => '死亡時以30%HP復活一次';
 
   @override
-  String get relicNameU04 => '时之沙';
+  String get relicNameU04 => '時之沙';
 
   @override
   String get relicDescU04 => '前3回合能量+1';
 
   @override
-  String get relicNameU05 => '灵魂收割者';
+  String get relicNameU05 => '靈魂收割者';
 
   @override
-  String get relicDescU05 => '击杀敌人时恢复HP5';
+  String get relicDescU05 => '擊殺敵人時恢復HP5';
 
   @override
-  String get relicNameU06 => '魔法镜';
+  String get relicNameU06 => '魔法鏡';
 
   @override
-  String get relicDescU06 => '反射第一个减益效果(一次)';
+  String get relicDescU06 => '反射第一個減益效果(一次)';
 
   @override
-  String get relicNameU07 => '探险家地图';
+  String get relicNameU07 => '探險家地圖';
 
   @override
-  String get relicDescU07 => '在地图上显示下一层全部节点';
+  String get relicDescU07 => '在地圖上顯示下一層全部節點';
 
   @override
-  String get relicNameU08 => '炼金术士背包';
+  String get relicNameU08 => '鍊金術士揹包';
 
   @override
-  String get relicDescU08 => '在商店免费移除一张卡牌';
+  String get relicDescU08 => '在商店免費移除一張卡牌';
 
   @override
-  String get relicNameR01 => '龙鳞';
+  String get relicNameR01 => '龍鱗';
 
   @override
-  String get relicDescR01 => '所有攻击受到的伤害-1';
+  String get relicDescR01 => '所有攻擊受到的傷害-1';
 
   @override
-  String get relicNameR02 => '第三只眼';
+  String get relicNameR02 => '第三隻眼';
 
   @override
-  String get relicDescR02 => '以精确数值显示敌人意图';
+  String get relicDescR02 => '以精確數值顯示敵人意圖';
 
   @override
-  String get relicNameR03 => '无限袋';
+  String get relicNameR03 => '無限袋';
 
   @override
-  String get relicDescR03 => '最大持牌数+1(手牌6张)';
+  String get relicDescR03 => '最大持牌數+1(手牌6張)';
 
   @override
-  String get relicNameR04 => '觉醒法球';
+  String get relicNameR04 => '覺醒法球';
 
   @override
   String get relicDescR04 => '能量上限+1(3→4)';
 
   @override
-  String get relicNameR05 => '命运之线';
+  String get relicNameR05 => '命運之線';
 
   @override
-  String get relicDescR05 => '卡牌奖励中稀有以上概率翻倍';
+  String get relicDescR05 => '卡牌獎勵中稀有以上機率翻倍';
 
   @override
   String get relicNameB01 => '王冠';
 
   @override
-  String get relicDescB01 => '能量上限+1，开始时获得1张诅咒';
+  String get relicDescB01 => '能量上限+1，開始時獲得1張詛咒';
 
   @override
   String get relicNameB02 => '魔王之心';
 
   @override
-  String get relicDescB02 => '所有卡牌伤害+5，受到伤害+5';
+  String get relicDescB02 => '所有卡牌傷害+5，受到傷害+5';
 
   @override
-  String get relicNameB03 => '复活圣杯';
+  String get relicNameB03 => '復活聖盃';
 
   @override
-  String get relicDescB03 => '在休息节点完全恢复HP';
+  String get relicDescB03 => '在休息節點完全恢復HP';
 
   @override
-  String get relicNameB04 => '混沌球体';
+  String get relicNameB04 => '混沌球體';
 
   @override
-  String get relicDescB04 => '每回合在手牌中生成1张随机卡牌';
+  String get relicDescB04 => '每回合在手牌中生成1張隨機卡牌';
 
   @override
-  String get relicNameB05 => '时间王冠';
+  String get relicNameB05 => '時間王冠';
 
   @override
-  String get relicDescB05 => '第一回合额外再来一回合';
+  String get relicDescB05 => '第一回合額外再來一回合';
 
   @override
   String get achievementNameAc1 => '第一步';
 
   @override
-  String get achievementDescAc1 => '完成1次任务';
+  String get achievementDescAc1 => '完成1次任務';
 
   @override
-  String get achievementNameAc2 => '勤勉证明';
+  String get achievementNameAc2 => '勤勉證明';
 
   @override
-  String get achievementDescAc2 => '完成10次任务';
+  String get achievementDescAc2 => '完成10次任務';
 
   @override
-  String get achievementNameAc3 => '达到5级';
+  String get achievementNameAc3 => '達到5級';
 
   @override
-  String get achievementDescAc3 => '脱离新手冒险者';
+  String get achievementDescAc3 => '脫離新手冒險者';
 
   @override
-  String get achievementNameAc4 => '力量觉醒';
+  String get achievementNameAc4 => '力量覺醒';
 
   @override
-  String get achievementDescAc4 => '力量属性达到10';
+  String get achievementDescAc4 => '力量屬性達到10';
 
   @override
   String get achievementNameAc5 => '智慧之始';
 
   @override
-  String get achievementDescAc5 => '智慧属性达到10';
+  String get achievementDescAc5 => '智慧屬性達到10';
 
   @override
-  String get achievementNameAc6 => '向顶峰进发';
+  String get achievementNameAc6 => '向頂峰進發';
 
   @override
-  String get achievementDescAc6 => '达到20级';
+  String get achievementDescAc6 => '達到20級';
 
   @override
   String get achievementNameAc7 => '技能探索者';
 
   @override
-  String get achievementDescAc7 => '学习5个技能';
+  String get achievementDescAc7 => '學習5個技能';
 
   @override
-  String get achievementNameAc8 => '健康达人';
+  String get achievementNameAc8 => '健康達人';
 
   @override
-  String get achievementDescAc8 => '健康属性达到50';
+  String get achievementDescAc8 => '健康屬性達到50';
 
   @override
-  String get achievementNameAc9 => '智慧大师';
+  String get achievementNameAc9 => '智慧大師';
 
   @override
-  String get achievementDescAc9 => '智慧属性达到50';
+  String get achievementDescAc9 => '智慧屬性達到50';
 
   @override
-  String get achievementNameAc10 => '任务狂热者';
+  String get achievementNameAc10 => '任務狂熱者';
 
   @override
-  String get achievementDescAc10 => '完成500次任务';
+  String get achievementDescAc10 => '完成500次任務';
 
   @override
-  String get achievementNameAc11 => '持续实践者';
+  String get achievementNameAc11 => '持續實踐者';
 
   @override
-  String get achievementDescAc11 => '完成50次任务';
+  String get achievementDescAc11 => '完成50次任務';
 
   @override
-  String get achievementNameAc12 => '习惯大师';
+  String get achievementNameAc12 => '習慣大師';
 
   @override
-  String get achievementDescAc12 => '完成100次任务';
+  String get achievementDescAc12 => '完成100次任務';
 
   @override
-  String get achievementNameAc13 => '老练冒险者';
+  String get achievementNameAc13 => '老練冒險者';
 
   @override
-  String get achievementDescAc13 => '达到30级';
+  String get achievementDescAc13 => '達到30級';
 
   @override
-  String get achievementNameAc14 => '传奇英雄';
+  String get achievementNameAc14 => '傳奇英雄';
 
   @override
-  String get achievementDescAc14 => '达到50级';
+  String get achievementDescAc14 => '達到50級';
 
   @override
   String get achievementNameAc15 => '肌肉之王';
 
   @override
-  String get achievementDescAc15 => '力量属性达到100';
+  String get achievementDescAc15 => '力量屬性達到100';
 
   @override
-  String get achievementNameAc16 => '技能大师';
+  String get achievementNameAc16 => '技能大師';
 
   @override
-  String get achievementDescAc16 => '学习12个技能';
+  String get achievementDescAc16 => '學習12個技能';
 
   @override
-  String get achievementNameAc17 => '全能专家';
+  String get achievementNameAc17 => '全能專家';
 
   @override
-  String get achievementDescAc17 => '学习20个技能';
+  String get achievementDescAc17 => '學習20個技能';
 
   @override
-  String get achievementNameAc18 => '初次狩猎';
+  String get achievementNameAc18 => '初次狩獵';
 
   @override
-  String get achievementDescAc18 => '击杀1只怪物';
+  String get achievementDescAc18 => '擊殺1只怪物';
 
   @override
-  String get achievementNameAc19 => '新手猎人';
+  String get achievementNameAc19 => '新手獵人';
 
   @override
-  String get achievementDescAc19 => '击杀10只怪物';
+  String get achievementDescAc19 => '擊殺10只怪物';
 
   @override
-  String get achievementNameAc20 => '熟练战士';
+  String get achievementNameAc20 => '熟練戰士';
 
   @override
-  String get achievementDescAc20 => '击杀50只怪物';
+  String get achievementDescAc20 => '擊殺50只怪物';
 
   @override
-  String get achievementNameAc21 => '屠杀者';
+  String get achievementNameAc21 => '屠殺者';
 
   @override
-  String get achievementDescAc21 => '击杀200只怪物';
+  String get achievementDescAc21 => '擊殺200只怪物';
 
   @override
-  String get achievementNameAc22 => '传奇探险家';
+  String get achievementNameAc22 => '傳奇探險家';
 
   @override
-  String get achievementDescAc22 => '完成1000次任务';
+  String get achievementDescAc22 => '完成1000次任務';
 
   @override
-  String get achievementNameAc23 => '达到10级';
+  String get achievementNameAc23 => '達到10級';
 
   @override
-  String get achievementDescAc23 => '摆脱新手标签！';
+  String get achievementDescAc23 => '擺脫新手標籤！';
 
   @override
   String get achievementNameAc24 => '魅力之星';
 
   @override
-  String get achievementDescAc24 => '魅力属性达到30';
+  String get achievementDescAc24 => '魅力屬性達到30';
 
   @override
   String get achievementNameAc25 => '魅力之王';
 
   @override
-  String get achievementDescAc25 => '魅力属性达到80';
+  String get achievementDescAc25 => '魅力屬性達到80';
 
   @override
-  String get titleNameT0 => '嫩芽冒险者';
+  String get titleNameT0 => '嫩芽冒險者';
 
   @override
-  String get titleDescT0 => '一切都是新的开始';
+  String get titleDescT0 => '一切都是新的開始';
 
   @override
-  String get titleNameT1 => '勤勉冒险者';
+  String get titleNameT1 => '勤勉冒險者';
 
   @override
-  String get titleDescT1 => '坚持不懈是美德';
+  String get titleDescT1 => '堅持不懈是美德';
 
   @override
-  String get titleNameT2 => '熟练开拓者';
+  String get titleNameT2 => '熟練開拓者';
 
   @override
   String get titleDescT2 => '走自己道路的人';
 
   @override
-  String get titleNameT3 => '力量狂热者';
+  String get titleNameT3 => '力量狂熱者';
 
   @override
-  String get titleDescT3 => '力量任务XP+5%';
+  String get titleDescT3 => '力量任務XP+5%';
 
   @override
-  String get titleNameT4 => '志向贤者';
+  String get titleNameT4 => '志向賢者';
 
   @override
-  String get titleDescT4 => '智慧任务XP+5%';
+  String get titleDescT4 => '智慧任務XP+5%';
 
   @override
-  String get titleNameT5 => '钢铁体力';
+  String get titleNameT5 => '鋼鐵體力';
 
   @override
-  String get titleDescT5 => '健康任务XP+5%';
+  String get titleDescT5 => '健康任務XP+5%';
 
   @override
-  String get titleNameT6 => '万人迷';
+  String get titleNameT6 => '萬人迷';
 
   @override
-  String get titleDescT6 => '魅力任务XP+5%';
+  String get titleDescT6 => '魅力任務XP+5%';
 
   @override
   String get titleNameT7 => '勤勉化身';
 
   @override
-  String get titleDescT7 => '完成100次任务';
+  String get titleDescT7 => '完成100次任務';
 
   @override
   String get titleNameT8 => '全能才子';
 
   @override
-  String get titleDescT8 => '所有属性达到20';
+  String get titleDescT8 => '所有屬性達到20';
 
   @override
-  String get titleNameT9 => '任务工匠';
+  String get titleNameT9 => '任務工匠';
 
   @override
-  String get titleDescT9 => '完成250次任务';
+  String get titleDescT9 => '完成250次任務';
 
   @override
-  String get titleNameT10 => '向顶峰迈进';
+  String get titleNameT10 => '向頂峰邁進';
 
   @override
-  String get titleDescT10 => '达到30级';
+  String get titleDescT10 => '達到30級';
 
   @override
-  String get titleNameT11 => '传奇勇士';
+  String get titleNameT11 => '傳奇勇士';
 
   @override
-  String get titleDescT11 => '达到40级';
+  String get titleDescT11 => '達到40級';
 
   @override
   String get titleNameT12 => '世界英雄';
 
   @override
-  String get titleDescT12 => '达到50级';
+  String get titleDescT12 => '達到50級';
 
   @override
-  String get titleNameT13 => '破坏化身';
+  String get titleNameT13 => '破壞化身';
 
   @override
-  String get titleDescT13 => '力量任务XP+10%';
+  String get titleDescT13 => '力量任務XP+10%';
 
   @override
-  String get titleNameT14 => '大贤者';
+  String get titleNameT14 => '大賢者';
 
   @override
-  String get titleDescT14 => '智慧任务XP+10%';
+  String get titleDescT14 => '智慧任務XP+10%';
 
   @override
-  String get titleNameT15 => '不死战士';
+  String get titleNameT15 => '不死戰士';
 
   @override
-  String get titleDescT15 => '健康任务XP+10%';
+  String get titleDescT15 => '健康任務XP+10%';
 
   @override
-  String get titleNameT16 => '绝对魅力';
+  String get titleNameT16 => '絕對魅力';
 
   @override
-  String get titleDescT16 => '魅力任务XP+10%';
+  String get titleDescT16 => '魅力任務XP+10%';
 
   @override
-  String get titleNameT17 => '任务传奇';
+  String get titleNameT17 => '任務傳奇';
 
   @override
-  String get titleDescT17 => '完成500次任务';
+  String get titleDescT17 => '完成500次任務';
 
   @override
-  String get titleNameT18 => '任务之神';
+  String get titleNameT18 => '任務之神';
 
   @override
-  String get titleDescT18 => '完成1000次任务';
+  String get titleDescT18 => '完成1000次任務';
 
   @override
   String get titleNameT19 => '全能掌控者';
 
   @override
-  String get titleDescT19 => '所有属性达到50';
+  String get titleDescT19 => '所有屬性達到50';
 
   @override
-  String get titleNameT20 => '新手营员';
+  String get titleNameT20 => '新手營員';
 
   @override
-  String get titleDescT20 => '达到3级';
+  String get titleDescT20 => '達到3級';
 
   @override
-  String get titleNameT21 => '经验丰富的旅者';
+  String get titleNameT21 => '經驗豐富的旅者';
 
   @override
-  String get titleDescT21 => '达到20级';
+  String get titleDescT21 => '達到20級';
 
   @override
-  String get titleNameT22 => '力量之巅';
+  String get titleNameT22 => '力量之巔';
 
   @override
-  String get titleDescT22 => '力量达到100！';
+  String get titleDescT22 => '力量達到100！';
 
   @override
-  String get titleNameT23 => '智慧之巅';
+  String get titleNameT23 => '智慧之巔';
 
   @override
-  String get titleDescT23 => '智慧达到100！';
+  String get titleDescT23 => '智慧達到100！';
 
   @override
-  String get titleNameT24 => '月间突袭突破者';
+  String get titleNameT24 => '月間突襲突破者';
 
   @override
-  String get titleDescT24 => '月间突袭通关1次';
+  String get titleDescT24 => '月間突襲通關1次';
 
   @override
-  String get titleNameT25 => '月间突袭征服者';
+  String get titleNameT25 => '月間突襲征服者';
 
   @override
-  String get titleDescT25 => '月间突袭通关5次';
+  String get titleDescT25 => '月間突襲通關5次';
 
   @override
-  String get titleNameT26 => '年间突袭生存者';
+  String get titleNameT26 => '年間突襲生存者';
 
   @override
-  String get titleDescT26 => '年间突袭通关1次';
+  String get titleDescT26 => '年間突襲通關1次';
 
   @override
-  String get titleNameT27 => '年间突袭君主';
+  String get titleNameT27 => '年間突襲君主';
 
   @override
-  String get titleDescT27 => '年间突袭通关3次';
+  String get titleDescT27 => '年間突襲通關3次';
 
   @override
-  String get skillNameSk1 => '力量强化';
+  String get skillNameSk1 => '力量強化';
 
   @override
-  String get skillDescSk1 => '力量任务XP+10%';
+  String get skillDescSk1 => '力量任務XP+10%';
 
   @override
   String get skillNameSk2 => '智慧之光';
 
   @override
-  String get skillDescSk2 => '智慧任务XP+10%';
+  String get skillDescSk2 => '智慧任務XP+10%';
 
   @override
-  String get skillNameSk3 => '健康体魄';
+  String get skillNameSk3 => '健康體魄';
 
   @override
-  String get skillDescSk3 => '健康任务XP+10%';
+  String get skillDescSk3 => '健康任務XP+10%';
 
   @override
-  String get skillNameSk4 => '魅力散发';
+  String get skillNameSk4 => '魅力散發';
 
   @override
-  String get skillDescSk4 => '魅力任务XP+10%';
+  String get skillDescSk4 => '魅力任務XP+10%';
 
   @override
-  String get skillNameSk5 => '任务专家';
+  String get skillNameSk5 => '任務專家';
 
   @override
-  String get skillDescSk5 => '所有任务XP+5%';
+  String get skillDescSk5 => '所有任務XP+5%';
 
   @override
-  String get skillNameSk6 => '成长的喜悦';
+  String get skillNameSk6 => '成長的喜悅';
 
   @override
-  String get skillDescSk6 => '升级时额外获得SP1';
+  String get skillDescSk6 => '升級時額外獲得SP1';
 
   @override
-  String get skillNameSk7 => '专注训练';
+  String get skillNameSk7 => '專注訓練';
 
   @override
-  String get skillDescSk7 => '消耗SP1时属性增加2';
+  String get skillDescSk7 => '消耗SP1時屬性增加2';
 
   @override
-  String get skillNameSk8 => '学习加速';
+  String get skillNameSk8 => '學習加速';
 
   @override
-  String get skillDescSk8 => '所有任务XP+10%';
+  String get skillDescSk8 => '所有任務XP+10%';
 
   @override
-  String get skillNameSk9 => '超越成长';
+  String get skillNameSk9 => '超越成長';
 
   @override
-  String get skillDescSk9 => '升级时基础SP5→7';
+  String get skillDescSk9 => '升級時基礎SP5→7';
 
   @override
-  String get skillNameSk10 => '火焰剑击';
+  String get skillNameSk10 => '火焰劍擊';
 
   @override
-  String get skillDescSk10 => '战斗使用：造成额外25伤害';
+  String get skillDescSk10 => '戰鬥使用：造成額外25傷害';
 
   @override
-  String get skillNameSk11 => '治愈之光';
+  String get skillNameSk11 => '治癒之光';
 
   @override
-  String get skillDescSk11 => '战斗使用：恢复HP20';
+  String get skillDescSk11 => '戰鬥使用：恢復HP20';
 
   @override
-  String get skillNameSk12 => '雷电一击';
+  String get skillNameSk12 => '雷電一擊';
 
   @override
-  String get skillDescSk12 => '战斗使用：造成50伤害';
+  String get skillDescSk12 => '戰鬥使用：造成50傷害';
 
   @override
-  String get skillNameSk13 => '冰结魔法';
+  String get skillNameSk13 => '冰結魔法';
 
   @override
-  String get skillDescSk13 => '战斗使用：造成35伤害';
+  String get skillDescSk13 => '戰鬥使用：造成35傷害';
 
   @override
-  String get skillNameSk14 => '毒雾';
+  String get skillNameSk14 => '毒霧';
 
   @override
-  String get skillDescSk14 => '战斗使用：造成30伤害';
+  String get skillDescSk14 => '戰鬥使用：造成30傷害';
 
   @override
-  String get skillNameSk15 => '护盾';
+  String get skillNameSk15 => '護盾';
 
   @override
-  String get skillDescSk15 => '战斗使用：恢复HP40';
+  String get skillDescSk15 => '戰鬥使用：恢復HP40';
 
   @override
   String get skillNameSk16 => '大地震';
 
   @override
-  String get skillDescSk16 => '战斗使用：造成70伤害';
+  String get skillDescSk16 => '戰鬥使用：造成70傷害';
 
   @override
-  String get skillNameSk17 => '神圣祈祷';
+  String get skillNameSk17 => '神聖祈禱';
 
   @override
-  String get skillDescSk17 => '战斗使用：恢复HP60';
+  String get skillDescSk17 => '戰鬥使用：恢復HP60';
 
   @override
-  String get skillNameSk18 => '战斗本能';
+  String get skillNameSk18 => '戰鬥本能';
 
   @override
-  String get skillDescSk18 => '力量任务XP+15%';
+  String get skillDescSk18 => '力量任務XP+15%';
 
   @override
   String get skillNameSk19 => '冥想境界';
 
   @override
-  String get skillDescSk19 => '智慧任务XP+15%';
+  String get skillDescSk19 => '智慧任務XP+15%';
 
   @override
-  String get skillNameSk20 => '黑暗之剑';
+  String get skillNameSk20 => '黑暗之劍';
 
   @override
-  String get skillDescSk20 => '战斗使用：造成100伤害';
+  String get skillDescSk20 => '戰鬥使用：造成100傷害';
 
   @override
   String get skillNameSk21 => '完全再生';
 
   @override
-  String get skillDescSk21 => '战斗使用：恢复HP80';
+  String get skillDescSk21 => '戰鬥使用：恢復HP80';
 
   @override
-  String get skillNameSk22 => '极限效率';
+  String get skillNameSk22 => '極限效率';
 
   @override
-  String get skillDescSk22 => '消耗SP1时属性增加3';
+  String get skillDescSk22 => '消耗SP1時屬性增加3';
 
   @override
   String get skillNameSk23 => '超越加速';
 
   @override
-  String get skillDescSk23 => '所有任务XP+20%';
+  String get skillDescSk23 => '所有任務XP+20%';
 
   @override
   String get skillNameSk24 => '神的祝福';
 
   @override
-  String get skillDescSk24 => '升级时额外获得SP3';
+  String get skillDescSk24 => '升級時額外獲得SP3';
 
   @override
-  String get monsterSlimeGreen => '绿色史莱姆';
+  String get monsterSlimeGreen => '綠色史萊姆';
 
   @override
   String get monsterBat => '洞穴蝙蝠';
@@ -3633,7 +3810,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get monsterMushroom => '毒蘑菇';
 
   @override
-  String get monsterSlimeBlue => '蓝色史莱姆';
+  String get monsterSlimeBlue => '藍色史萊姆';
 
   @override
   String get monsterRat => '巨鼠';
@@ -3642,7 +3819,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get monsterGoblin => '哥布林';
 
   @override
-  String get monsterSkeleton => '骷髅战士';
+  String get monsterSkeleton => '骷髏戰士';
 
   @override
   String get monsterWolf => '暗影之狼';
@@ -3651,100 +3828,100 @@ class AppLocalizationsZh extends AppLocalizations {
   String get monsterSpiderGiant => '巨毒蜘蛛';
 
   @override
-  String get monsterTreant => '行走之树';
+  String get monsterTreant => '行走之樹';
 
   @override
-  String get monsterOrc => '兽人战士';
+  String get monsterOrc => '獸人戰士';
 
   @override
-  String get monsterDarkMage => '暗黑法师';
+  String get monsterDarkMage => '暗黑法師';
 
   @override
-  String get monsterGolem => '石头魔像';
+  String get monsterGolem => '石頭魔像';
 
   @override
-  String get monsterHarpy => '鸟妖';
+  String get monsterHarpy => '鳥妖';
 
   @override
-  String get monsterMimic => '拟态怪';
+  String get monsterMimic => '擬態怪';
 
   @override
   String get monsterLavaGolem => '熔岩魔像';
 
   @override
-  String get monsterFireSpirit => '火焰精灵';
+  String get monsterFireSpirit => '火焰精靈';
 
   @override
-  String get monsterDemonWarrior => '魔族战士';
+  String get monsterDemonWarrior => '魔族戰士';
 
   @override
-  String get monsterSalamander => '蝾螈';
+  String get monsterSalamander => '蠑螈';
 
   @override
-  String get monsterCerberus => '地狱犬';
+  String get monsterCerberus => '地獄犬';
 
   @override
-  String get monsterShadowKnight => '暗影骑士';
+  String get monsterShadowKnight => '暗影騎士';
 
   @override
   String get monsterLich => '巫妖';
 
   @override
-  String get monsterBehemoth => '庞然大物';
+  String get monsterBehemoth => '龐然大物';
 
   @override
-  String get monsterDarkPhoenix => '黑暗不死鸟';
+  String get monsterDarkPhoenix => '黑暗不死鳥';
 
   @override
-  String get monsterVoidWorm => '虚空蠕虫';
+  String get monsterVoidWorm => '虛空蠕蟲';
 
   @override
-  String get monsterBossTroll => '山怪首领';
+  String get monsterBossTroll => '山怪首領';
 
   @override
-  String get monsterBossDragon => '火焰龙';
+  String get monsterBossDragon => '火焰龍';
 
   @override
   String get monsterBossDemonLord => '魔王';
 
   @override
-  String get monsterBossHydra => '九头蛇';
+  String get monsterBossHydra => '九頭蛇';
 
   @override
-  String get monsterBossFallenAngel => '堕天使';
+  String get monsterBossFallenAngel => '墮天使';
 
   @override
-  String get monsterBossDeathKnight => '死亡骑士';
+  String get monsterBossDeathKnight => '死亡騎士';
 
   @override
-  String get chapterName1 => '草原防线';
+  String get chapterName1 => '草原防線';
 
   @override
   String get chapterName2 => '黑暗森林';
 
   @override
-  String get chapterName3 => '废墟城堡';
+  String get chapterName3 => '廢墟城堡';
 
   @override
   String get chapterName4 => '熔岩地牢';
 
   @override
-  String get chapterName5 => '深渊次元';
+  String get chapterName5 => '深淵次元';
 
   @override
-  String get timerDuration15 => '15分钟';
+  String get timerDuration15 => '15分鐘';
 
   @override
-  String get timerDuration25 => '25分钟';
+  String get timerDuration25 => '25分鐘';
 
   @override
-  String get timerDuration45 => '45分钟';
+  String get timerDuration45 => '45分鐘';
 
   @override
-  String get timerDuration60 => '60分钟';
+  String get timerDuration60 => '60分鐘';
 
   @override
-  String get huntApRecovered => '⚡ AP恢复2点！';
+  String get huntApRecovered => '⚡ AP恢復2點！';
 
   @override
   String huntSkillCooldownTurns(int turns) {
@@ -3753,89 +3930,89 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String settingsReauthFailed(String error) {
-    return '重新验证失败: $error';
+    return '重新驗證失敗: $error';
   }
 
   @override
-  String get settingsReauthWrongPassword => '密码不正确。';
+  String get settingsReauthWrongPassword => '密碼不正確。';
 
   @override
   String get lqToday => '今天';
 
   @override
-  String get lqGrowth => '成长';
+  String get lqGrowth => '成長';
 
   @override
   String get lqDungeon => '地下城';
 
   @override
-  String get lqHeadline => '今天，再写一页。';
+  String get lqHeadline => '今天，再寫一頁。';
 
   @override
-  String get lqSubtitle => '现实中的小小行动，开启下一段故事。';
+  String get lqSubtitle => '現實中的小小行動，開啟下一段故事。';
 
   @override
-  String get lqSystem => '个人任务系统';
+  String get lqSystem => '個人任務系統';
 
   @override
-  String get lqDailyMissions => '今日推荐';
+  String get lqDailyMissions => '今日推薦';
 
   @override
-  String get lqActiveQuests => '进行中的任务';
+  String get lqActiveQuests => '進行中的任務';
 
   @override
-  String get lqAllQuests => '查看全部';
+  String get lqAllQuests => '檢視全部';
 
   @override
-  String get lqCheckIn => '调整今日状态';
+  String get lqCheckIn => '調整今日狀態';
 
   @override
-  String get lqCheckInHint => '从现在能做到的开始。';
+  String get lqCheckInHint => '從現在能做到的開始。';
 
   @override
   String get lqEnergy => '今日精力';
 
   @override
-  String get lqEnergyLow => '轻松一点';
+  String get lqEnergyLow => '輕鬆一點';
 
   @override
-  String get lqEnergyMedium => '适中';
+  String get lqEnergyMedium => '適中';
 
   @override
   String get lqEnergyHigh => '很充足';
 
   @override
-  String get lqTimeBudget => '今天留给自己的时间';
+  String get lqTimeBudget => '今天留給自己的時間';
 
   @override
-  String get lqMinutes => '分钟';
+  String get lqMinutes => '分鐘';
 
   @override
-  String get lqFocus => '想成长的领域';
+  String get lqFocus => '想成長的領域';
 
   @override
   String get lqVitality => '活力';
 
   @override
-  String get lqLearning => '学习';
+  String get lqLearning => '學習';
 
   @override
   String get lqOrder => '整理';
 
   @override
-  String get lqConnection => '关系';
+  String get lqConnection => '關係';
 
   @override
-  String get lqGoal => '最近想实现的事（可选）';
+  String get lqGoal => '最近想實現的事（可選）';
 
   @override
-  String get lqGoalHint => '例如：下班后重新开始学英语';
+  String get lqGoalHint => '例如：下班後重新開始學英語';
 
   @override
-  String get lqGoalPrivacy => '此笔记和个性化记录保存在本设备。';
+  String get lqGoalPrivacy => '此筆記和個性化記錄儲存在本裝置。';
 
   @override
-  String get lqApply => '调整今日任务';
+  String get lqApply => '調整今日任務';
 
   @override
   String get lqAccept => '接受';
@@ -3847,430 +4024,492 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqCompleted => '完成';
 
   @override
-  String get lqTooHard => '今天太难了';
+  String get lqTooHard => '今天太難了';
 
   @override
-  String get lqSkip => '换一个';
+  String get lqSkip => '換一個';
 
   @override
-  String get lqWhy => '推荐此任务的理由';
+  String get lqWhy => '推薦此任務的理由';
 
   @override
-  String get lqDefaultReason => '已匹配你的兴趣和可用时间。';
+  String get lqDefaultReason => '已匹配你的興趣和可用時間。';
 
   @override
-  String get lqRecoveryReason => '减少负担，更容易重新开始。';
+  String get lqRecoveryReason => '減少負擔，更容易重新開始。';
 
   @override
-  String get lqAllSet => '今日计划已定。';
+  String get lqAllSet => '今日計劃已定。';
 
   @override
-  String get lqAllSetBody => '按自己的节奏完成已接受的任务。明天会有新推荐。';
+  String get lqAllSetBody => '按自己的節奏完成已接受的任務。明天會有新推薦。';
 
   @override
-  String get lqDirector => '你的任务AI';
+  String get lqDirector => '你的任務AI';
 
   @override
-  String get lqBasicMode => '基础推荐';
+  String get lqBasicMode => '基礎推薦';
 
   @override
-  String get lqLocalAi => '设备端AI';
+  String get lqLocalAi => '裝置端AI';
 
   @override
-  String get lqGenerate => 'AI个性化生成';
+  String get lqGenerate => 'AI個性化生成';
 
   @override
-  String get lqGenerating => '正在生成你的任务…';
+  String get lqGenerating => '正在生成你的任務…';
 
   @override
-  String get lqModelName => 'Gemma 4 E2B · 免费开放模型';
+  String get lqModelName => 'Gemma 4 E2B · 免費開放模型';
 
   @override
-  String get lqModelIntro => '安装后可离线在本设备生成任务。无需AI费用或订阅。';
+  String get lqModelIntro => '安裝後可離線在本裝置生成任務。無需AI費用或訂閱。';
 
   @override
   String get lqModelDownloadInfo =>
-      '模型2.59GB · 建议Wi-Fi · 至少3GB可用空间\n下载时请保持应用开启。可断点续传。可能产生运营商流量费用。';
+      '模型大小 2.59 GB · 建議使用 Wi-Fi · 至少需有 3 GB 可用空間\n下載時請保持 App 開啟。支援續傳，使用行動網路可能產生電信費用。';
 
   @override
-  String get lqDownload => '下载免费模型';
+  String get lqDownload => '下載免費模型';
 
   @override
   String get lqCancel => '取消';
 
   @override
-  String get lqRemoveModel => '删除模型文件';
+  String get lqRemoveModel => '刪除模型檔案';
 
   @override
-  String get lqModelUnavailable => '此环境使用基础推荐。AI需要内存充足的兼容Android设备。';
+  String get lqModelUnavailable => '此環境使用基礎推薦。AI需要記憶體充足的相容Android裝置。';
 
   @override
-  String get lqModelRejected => '此次生成未通过验证。保留现有推荐。';
+  String get lqModelRejected => '此次生成未透過驗證。保留現有推薦。';
 
   @override
-  String get lqModelError => '未能完成。请检查网络和存储后重试。';
+  String get lqModelError => '未能完成。請檢查網路和儲存後重試。';
 
   @override
-  String get lqLearningHistory => '个性化记录';
+  String get lqLearningHistory => '個性化記錄';
 
   @override
   String get lqLearningHistoryBody =>
-      '参考完成、跳过、难度和近期重复来调整后续任务内容与分量。设备仅保留最近90天记录。';
+      '參考完成、跳過、難度和近期重複來調整後續任務內容與分量。裝置僅保留最近90天記錄。';
 
   @override
-  String get lqClearLearning => '重置学习记录';
+  String get lqClearLearning => '重置學習記錄';
 
   @override
-  String get lqResetConfirm => '重置个性化记录吗？等级和已完成任务将保留。';
+  String get lqResetConfirm => '重置個性化記錄嗎？等級和已完成任務將保留。';
 
   @override
-  String get lqStorageError => '保存未完成。关闭应用前请检查存储空间。';
+  String get lqStorageError => '儲存未完成。關閉應用前請檢查儲存空間。';
 
   @override
-  String get lqEarnedToday => '今日任务经验';
+  String get lqEarnedToday => '今日任務經驗';
 
   @override
-  String get lqStatusWindow => '我的状态栏';
+  String get lqStatusWindow => '我的狀態視窗';
 
   @override
-  String get lqGrowthHint => '休息日也不会失去已积累的成长。';
+  String get lqGrowthHint => '休息日也不會失去已積累的成長。';
 
   @override
-  String get lqOpenGate => '检验成长的时刻';
+  String get lqOpenGate => '檢驗成長的時刻';
 
   @override
-  String get lqGateHint => '用现实行动积累的力量挑战短暂的卡牌战斗。';
+  String get lqGateHint => '用現實行動積累的力量挑戰短暫的卡牌戰鬥。';
 
   @override
-  String get lqEnterDungeon => '进入地下城';
+  String get lqEnterDungeon => '進入地下城';
 
   @override
-  String get lqOptional => '可选冒险';
+  String get lqOptional => '可選冒險';
 
   @override
-  String get lqSaved => '已保存';
+  String get lqSaved => '已儲存';
 
   @override
-  String get lqReportSuggestion => '举报不当推荐';
+  String get lqReportSuggestion => '舉報不當推薦';
 
   @override
-  String get lqReportBody => '将此推荐的标题、行动、理由及当前账号标识发送给开发者。不附加目标笔记和学习记录。';
+  String get lqReportBody => '將這項推薦的標題、行動、理由及目前的帳號識別碼傳送給開發者。不會附上目標筆記或學習紀錄。';
 
   @override
-  String get lqSendReport => '发送举报';
+  String get lqSendReport => '傳送舉報';
 
   @override
-  String get lqReportSent => '举报已发送。已隐藏此推荐。';
+  String get lqReportSent => '舉報已傳送。已隱藏此推薦。';
 
   @override
-  String get lqReportPreview => 'QA举报已保存到本机，未发送给开发者。';
+  String get lqReportPreview => 'QA舉報已儲存到本機，未傳送給開發者。';
 
   @override
-  String get lqReportFailed => '无法确认举报操作的结果。请检查网络连接后重试。';
+  String get lqReportFailed => '無法確認舉報操作的結果。請檢查網路連線後重試。';
 
   @override
-  String get lqCloudQuestNotice => '接受的任务通过账号保存到Firebase。AI生成本身仅在本设备运行。';
+  String get lqCloudQuestNotice => '已接受的任務會透過帳號儲存到 Firebase。AI 生成僅在此裝置執行。';
 
   @override
-  String get lqOpenSourceLicenses => '开源许可';
+  String get lqOpenSourceLicenses => '開源許可';
 
   @override
-  String get lqWelcomeTitle => '我的一天，\n成为故事。';
+  String get lqWelcomeTitle => '開啟 App，\n看見自己的狀態視窗。';
 
   @override
-  String get lqWelcomeBody => '城市谜案、山中修习、寻星之旅。\n用今天的小小行动，续写你选择的世界。';
+  String get lqWelcomeBody => '選擇狀態視窗中的名字，以及最想成長的一個領域。接著看看今天就能開始的小任務。';
 
   @override
-  String get lqFirstContract => '与你的第一个约定';
+  String get lqWelcomePreviewNote => '這是初始狀態預覽。實際完成任務後，才會累積 XP 和成長紀錄。';
 
   @override
-  String get lqWelcomeStepOne => '从今天的状态出发';
+  String get lqWelcomeName => '狀態視窗顯示名稱';
 
   @override
-  String get lqWelcomeStepOneBody => '先选好可用的时间、精力和方向。';
+  String get lqWelcomeNameHint => '輸入你的名字';
 
   @override
-  String get lqWelcomeStepTwo => '用小任务积累成长';
+  String get lqWelcomeNamePlaceholder => '你的名字';
 
   @override
-  String get lqWelcomeStepTwoBody => '在现实中完成行动，收获经验。';
+  String get lqWelcomeFocus => '先選一個成長領域';
 
   @override
-  String get lqWelcomeStepThree => '在三个世界中成长';
+  String get lqWelcomeGoal => '目前想達成的具體目標';
 
   @override
-  String get lqWelcomeStepThreeBody => '选择故事，用现实行动开启下一幕。';
+  String get lqWelcomeGoalHint => '例如：下班後閱讀 10 分鐘';
 
   @override
-  String get lqStartOnDevice => '在此设备上开始';
+  String get lqWelcomeGoalQuickHint => '選擇領域後會自動填入起步目標，也可以自行修改。';
 
   @override
-  String get lqStarting => '正在打开状态窗…';
+  String get lqWelcomeExampleVitality => '在日常留出舒服的休息';
 
   @override
-  String get lqExistingAccount => '使用已有账号继续';
+  String get lqWelcomeExampleLearning => '理解並運用感興趣的主題';
 
   @override
-  String get lqDeviceStorageNotice => '无需注册，免费开始。记录仅保存在此设备上，卸载应用后将丢失。';
+  String get lqWelcomeExampleOrder => '讓書桌更好用';
 
   @override
-  String get lqGuestName => '记录者';
+  String get lqWelcomeExampleConnection => '以舒服的步調維持聯繫';
 
   @override
-  String get lqProfileLoadFailed => '无法加载记录。已保存的数据仍被保留，请重试。';
+  String get lqWelcomeMinutes => '每天可用的時間';
 
   @override
-  String get lqRetry => '重试';
+  String get lqWelcomeSetupPrivacy =>
+      '目標筆記與推薦紀錄會保留在此裝置。AI 模型可自由選擇是否安裝；只有完成任務才會獲得 XP。';
 
   @override
-  String get lqBackToStart => '返回开始页';
+  String get lqFirstQuest => '第一個任務';
 
   @override
-  String get lqLocalProfile => '设备专属档案';
+  String get lqFirstQuestAccept => '接受並開始任務';
 
   @override
-  String get lqDeleteLocal => '删除设备记录';
+  String get lqFirstQuestOpen => '查看進行中的任務';
 
   @override
-  String get lqDeleteLocalBody => '删除此设备上的任务、成长和个性化历史。此操作无法撤销。';
+  String get lqFirstQuestNote => '這是根據所選領域與時間提出的今日建議。';
 
   @override
-  String get lqPurchasePending => '付款待确认，获批后将自动验证使用权限。';
+  String get lqFirstQuestDefaultNote => '這是起步建議。設定目標後，就能獲得更適合的任務。';
 
   @override
-  String get lqPurchasePendingShort => '待确认';
+  String get lqFirstQuestUnavailable => '正在準備今天的任務…';
 
   @override
-  String get lqPurchaseVerifying => '正在验证购买…';
+  String get lqFirstContract => '狀態視窗已就緒';
 
   @override
-  String get lqPurchaseGranted => '购买已验证，内容现已可用。';
+  String get lqWelcomeStepOne => '接著才是任務';
 
   @override
-  String get lqPurchaseCancelled => '购买已取消。';
+  String get lqWelcomeStepOneBody => '完成小行動，累積 XP。';
 
   @override
-  String get lqPurchaseRetry => '购买验证延迟，请使用同一账号重试恢复购买。';
+  String get lqWelcomeStepTwo => 'AI 可自由選用';
 
   @override
-  String get lqPurchaseFailed => '无法开始购买，请稍后重试。';
+  String get lqWelcomeStepTwoBody => '支援的裝置可另外安裝模型，在裝置內取得任務建議。';
 
   @override
-  String get lqPurchaseRestoring => '正在恢复购买…';
+  String get lqWelcomeStepThree => '查看成長紀錄';
 
   @override
-  String get lqPurchaseRestoreFinished => '已检查商店购买记录，请确认使用的是购买时的应用账号。';
+  String get lqWelcomeStepThreeBody => '在成長紀錄查看已完成的任務與獲得的 XP。';
 
   @override
-  String get lqRestorePurchases => '恢复购买';
+  String get lqStartOnDevice => '開啟我的狀態視窗';
 
   @override
-  String get lqStoryLibrary => '交界书阁';
+  String get lqStarting => '正在開啟狀態視窗…';
 
   @override
-  String get lqStoryFreePrologue => '免费序章';
+  String get lqExistingAccount => '使用現有帳號繼續';
 
   @override
-  String get lqStoryBannerTitle => '来自零号出口的信号';
+  String get lqDeviceStorageNotice => '不用註冊即可免費開始。紀錄只儲存在此裝置，解除安裝 App 後將會遺失。';
 
   @override
-  String get lqStoryBannerBody => '今天的小小行动，开启下一段故事。';
+  String get lqGuestName => '記錄者';
 
   @override
-  String get lqStoryLibraryHeadline => '同样的一天，\n不同世界的故事。';
+  String get lqProfileLoadFailed => '無法載入記錄。已儲存的資料仍被保留，請重試。';
 
   @override
-  String get lqStoryLibraryHint => '选一本书放在“今天”。换书后，成长与选择都会保留。';
+  String get lqRetry => '重試';
 
   @override
-  String get lqStoryProgress => '已完成的记录';
+  String get lqBackToStart => '返回開始頁';
 
   @override
-  String get lqStoryLoadFailed => '无法加载故事，请退出此页面后重试。';
+  String get lqLocalProfile => '裝置專屬檔案';
 
   @override
-  String get lqStoryFiction => '通过日常任务推进的虚构故事。';
+  String get lqDeleteLocal => '刪除裝置記錄';
 
   @override
-  String get lqStoryNoDeadline => '没有期限，也不要求连续登录。完成任务即可开启下一份记录。';
+  String get lqDeleteLocalBody => '刪除此裝置上的任務、成長和個性化歷史。此操作無法撤銷。';
 
   @override
-  String get lqStoryActionCount => '累计完成的任务：';
+  String get lqPurchasePending => '交易待確認；確認後將自動驗證購買權益。';
 
   @override
-  String get lqStoryReadAgain => '重读';
+  String get lqPurchasePendingShort => '待確認';
 
   @override
-  String get lqStoryReadNow => '现在可以阅读';
+  String get lqPurchaseVerifying => '正在驗證購買…';
 
   @override
-  String get lqStoryUnlockAfter => '还需完成：';
+  String get lqPurchaseGranted => '購買已驗證，內容現已可用。';
 
   @override
-  String get lqStoryQuestUnit => '个任务';
+  String get lqPurchaseCancelled => '購買已取消。';
 
   @override
-  String get lqStoryReadPrevious => '请先完成前一份记录。';
+  String get lqPurchaseRetry => '購買驗證暫時延遲，請使用同一帳號重試「還原購買」。';
 
   @override
-  String get lqStoryRecord => '记录';
+  String get lqPurchaseFailed => '無法開始購買，請稍後重試。';
 
   @override
-  String get lqStoryChoose => '你会如何回应？';
+  String get lqPurchaseRestoring => '正在恢復購買…';
 
   @override
-  String get lqStoryNext => '阅读下一份记录';
+  String get lqPurchaseRestoreFinished =>
+      '已檢查 Google Play 購買紀錄，請確認使用的是購買時的 App 帳號。';
 
   @override
-  String get lqStoryChapterComplete => '本章记录已全部完成。你随时可以重读，尝试不同的选择。';
+  String get lqRestorePurchases => '恢復購買';
 
   @override
-  String get lqStoryReturnLater => '再完成一些日常任务，即可开启下一份记录。已有的故事进度会一直保留。';
+  String get lqStoryLibrary => '交界書閣';
 
   @override
-  String get lqStoryBackToChapter => '查看本章记录';
+  String get lqStoryFreePrologue => '免費序章';
 
   @override
-  String get lqStoryChooseAgain => '尝试其他选择';
+  String get lqStoryBannerTitle => '來自零號出口的訊號';
 
   @override
-  String get lqStorySaveFailed => '无法保存选择，请重试。';
+  String get lqStoryBannerBody => '今天的小小行動，開啟下一段故事。';
 
   @override
-  String get lqDeletionQueued => '已受理删除请求。即使关闭应用，服务器也会继续处理。';
+  String get lqStoryLibraryHeadline => '同樣的一天，\n不同世界的故事。';
 
   @override
-  String get lqBackupTitle => '备份与恢复';
+  String get lqStoryLibraryHint => '選一本書放在“今天”。換書後，成長與選擇都會保留。';
 
   @override
-  String get lqBackupHeadline => '换一台设备，继续你的旅程。';
+  String get lqStoryProgress => '已完成的記錄';
 
   @override
-  String get lqBackupBody => '用自己设定的密码加密记录，保存为文件。备份免费，保存位置由你选择。';
+  String get lqStoryLoadFailed => '無法載入故事，請退出此頁面後重試。';
 
   @override
-  String get lqBackupExport => '创建备份文件';
+  String get lqStoryFiction => '透過日常任務推進的虛構故事。';
 
   @override
-  String get lqBackupImport => '打开备份文件';
+  String get lqStoryNoDeadline => '沒有期限，也不要求連續登入。完成任務即可開啟下一份記錄。';
 
   @override
-  String get lqBackupUndo => '返回恢复前的记录';
+  String get lqStoryActionCount => '累計完成的任務：';
 
   @override
-  String get lqBackupIncluded => '备份内容';
+  String get lqStoryReadAgain => '重讀';
+
+  @override
+  String get lqStoryReadNow => '現在可以閱讀';
+
+  @override
+  String get lqStoryUnlockAfter => '還需完成：';
+
+  @override
+  String get lqStoryQuestUnit => '個任務';
+
+  @override
+  String get lqStoryReadPrevious => '請先完成前一份記錄。';
+
+  @override
+  String get lqStoryRecord => '記錄';
+
+  @override
+  String get lqStoryChoose => '你會如何回應？';
+
+  @override
+  String get lqStoryNext => '閱讀下一份記錄';
+
+  @override
+  String get lqStoryChapterComplete => '本章記錄已全部完成。你隨時可以重讀，嘗試不同的選擇。';
+
+  @override
+  String get lqStoryReturnLater => '再完成一些日常任務，即可開啟下一份記錄。已有的故事進度會一直保留。';
+
+  @override
+  String get lqStoryBackToChapter => '檢視本章記錄';
+
+  @override
+  String get lqStoryChooseAgain => '嘗試其他選擇';
+
+  @override
+  String get lqStorySaveFailed => '無法儲存選擇，請重試。';
+
+  @override
+  String get lqDeletionQueued => '已受理刪除請求。即使關閉應用，伺服器也會繼續處理。';
+
+  @override
+  String get lqBackupTitle => '備份與還原';
+
+  @override
+  String get lqBackupHeadline => '換一台裝置，繼續你的旅程。';
+
+  @override
+  String get lqBackupBody => '用自己設定的密碼加密記錄，儲存為檔案。備份免費，儲存位置由你選擇。';
+
+  @override
+  String get lqBackupExport => '建立備份檔案';
+
+  @override
+  String get lqBackupImport => '開啟備份檔案';
+
+  @override
+  String get lqBackupUndo => '回到還原前的紀錄';
+
+  @override
+  String get lqBackupIncluded => '備份內容';
 
   @override
   String get lqBackupIncludesBody =>
-      '包含任务、成长、已通关地下城、故事选择和个性化历史。不包含进行中的探索、登录信息、购买权限或AI模型文件。恢复后通知默认为关闭。';
+      '包含任務、成長、已通關地下城、故事選擇和個性化歷史。不包含進行中的探索、登入資訊、購買許可權或AI模型檔案。恢復後通知預設為關閉。';
 
   @override
   String get lqBackupPasswordNotice =>
-      '如果忘记密码，开发者也无法打开备份。卸载应用不会删除你保存的备份，请在保存位置自行删除不再需要的文件。';
+      '如果忘記密碼，開發者也無法開啟備份。解除安裝應用不會刪除你儲存的備份，請在儲存位置自行刪除不再需要的檔案。';
 
   @override
-  String get lqBackupSetPassword => '设置备份密码';
+  String get lqBackupSetPassword => '設定備份密碼';
 
   @override
-  String get lqBackupEnterPassword => '输入备份密码';
+  String get lqBackupEnterPassword => '輸入備份密碼';
 
   @override
   String get lqBackupPasswordHint =>
-      '请使用 12–128 个字符。建议使用容易记住的长句。空格和字母大小写都是密码的一部分。';
+      '請使用 12–128 個字元。建議使用容易記住的長句。空格和字母大小寫都是密碼的一部分。';
 
   @override
-  String get lqBackupPassword => '密码';
+  String get lqBackupPassword => '密碼';
 
   @override
-  String get lqBackupRepeatPassword => '再次输入密码';
+  String get lqBackupRepeatPassword => '再次輸入密碼';
 
   @override
-  String get lqBackupShowPassword => '显示密码';
+  String get lqBackupShowPassword => '顯示密碼';
 
   @override
-  String get lqBackupHidePassword => '隐藏密码';
+  String get lqBackupHidePassword => '隱藏密碼';
 
   @override
-  String get lqBackupPasswordMismatch => '两次输入的密码不一致。';
+  String get lqBackupPasswordMismatch => '兩次輸入的密碼不一致。';
 
   @override
-  String get lqBackupUnlock => '查看备份内容';
+  String get lqBackupUnlock => '檢視備份內容';
 
   @override
-  String get lqBackupReview => '恢复这些记录？';
+  String get lqBackupReview => '恢復這些記錄？';
 
   @override
   String get lqBackupReplaceBody =>
-      '这将替换此设备上的记录。原记录会保留在设备中，方便撤回。登录与购买权益仍属于原账户。需要提醒时请重新开启。';
+      '這將替換此裝置上的記錄。原記錄會保留在裝置中，方便撤回。登入與購買權益仍屬於原帳號。需要提醒時請重新開啟。';
 
   @override
-  String get lqBackupRestore => '恢复记录';
+  String get lqBackupRestore => '還原紀錄';
 
   @override
-  String get lqBackupWorking => '正在处理记录…';
+  String get lqBackupWorking => '正在處理記錄…';
 
   @override
-  String get lqBackupSaved => '已保存加密备份文件。';
+  String get lqBackupSaved => '已儲存加密備份檔案。';
 
   @override
-  String get lqBackupSaveFailed => '无法保存备份，请检查可用空间和保存位置。';
+  String get lqBackupSaveFailed => '無法儲存備份，請檢查可用空間和儲存位置。';
 
   @override
-  String get lqBackupInvalid => '无法打开备份，请检查文件和密码。记录未被更改。';
+  String get lqBackupInvalid => '無法開啟備份，請檢查檔案和密碼。記錄未被更改。';
 
   @override
-  String get lqBackupRestored => '记录已恢复，可在设置中重新开启提醒。';
+  String get lqBackupRestored => '紀錄已還原，可在設定中重新開啟提醒。';
 
   @override
-  String get lqBackupRestoreInterrupted => '恢复未完成，请重新打开应用或重试以继续。';
+  String get lqBackupRestoreInterrupted => '還原尚未完成，請重新開啟 App 或重試。';
 
   @override
-  String get lqDungeonIntro => '带着日常积累的力量，开始冒险。';
+  String get lqDungeonIntro => '帶著日常積累的力量，開始冒險。';
 
   @override
-  String get lqDungeonIntroBody => '使用卡牌，选择路线。战斗失败不会扣除日常等级和经验值。';
+  String get lqDungeonIntroBody => '使用卡牌，選擇路線。戰鬥失敗不會扣除日常等級和經驗值。';
 
   @override
-  String get lqDungeonStart => '开始探索';
+  String get lqDungeonStart => '開始探索';
 
   @override
-  String get lqDungeonResume => '继续当前探索';
+  String get lqDungeonResume => '繼續目前探索';
 
   @override
-  String get lqDungeonBonus => '日常积累的加成';
+  String get lqDungeonBonus => '日常積累的加成';
 
   @override
-  String get lqDungeonBonusBody => '完成的任务与装备会为下次探索提供加成。没有加成也能立即开始。';
+  String get lqDungeonBonusBody => '完成的任務與裝備會為下次探索提供加成。沒有加成也能立即開始。';
 
   @override
   String get lqDungeonPacks => '卡包';
 
   @override
-  String get lqDungeonPathHint => '选择下方发光的地点开始。';
+  String get lqDungeonPathHint => '選擇下方發光的地點開始。';
 
   @override
-  String get lqDungeonNextHint => '选择相连的下一地点继续。';
+  String get lqDungeonNextHint => '選擇相連的下一地點繼續。';
 
   @override
-  String get lqDungeonCurrent => '当前位置';
+  String get lqDungeonCurrent => '目前位置';
 
   @override
-  String get lqDungeonAvailable => '可选择';
+  String get lqDungeonAvailable => '可選擇';
 
   @override
-  String get lqDungeonLocked => '未解锁';
+  String get lqDungeonLocked => '未解鎖';
 
   @override
   String get lqDungeonDone => '已完成';
 
   @override
-  String get lqDungeonEntering => '正在进入…';
+  String get lqDungeonEntering => '正在進入…';
 
   @override
-  String get lqDungeonCombat => '战斗';
+  String get lqDungeonCombat => '戰鬥';
 
   @override
-  String get lqDungeonElite => '精英战';
+  String get lqDungeonElite => '精英戰';
 
   @override
   String get lqDungeonEvent => '事件';
@@ -4282,300 +4521,311 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lqDungeonRest => '休息';
 
   @override
-  String get lqDungeonBoss => '首领';
+  String get lqDungeonBoss => '首領';
 
   @override
-  String get lqBattleGuideTitle => '首次战斗指引';
+  String get lqBattleGuideTitle => '首次戰鬥指引';
 
   @override
-  String get lqBattleGuideEnergy => 'EP是每回合的能量。使用卡牌会消耗其左上角所示的点数。';
+  String get lqBattleGuideEnergy => 'EP是每回合的能量。使用卡牌會消耗其左上角所示的點數。';
 
   @override
-  String get lqBattleGuideCards => '敌人不止一个时，先选目标再用卡。攻击造成伤害，防御抵挡敌方伤害。';
+  String get lqBattleGuideCards => '敵人不止一個時，先選目標再用卡。攻擊造成傷害，防禦抵擋敵方傷害。';
 
   @override
-  String get lqBattleGuideTurn => '行动结束后点击“结束回合”。敌方行动后会补充能量和手牌。';
+  String get lqBattleGuideTurn => '行動結束後點選“結束回合”。敵方行動後會補充能量和手牌。';
 
   @override
-  String get lqBattleBegin => '开始战斗';
+  String get lqBattleBegin => '開始戰鬥';
 
   @override
-  String get lqBattleExit => '离开战斗';
+  String get lqBattleExit => '離開戰鬥';
 
   @override
   String lqDungeonNode(String type, int step, int path, String state) {
-    return '$type，第$step层，路线$path，$state';
+    return '$type，第$step層，路線$path，$state';
   }
 
   @override
-  String get lqDungeonCheckpointHint => '进入或离开房间时保存。关闭应用后，未完成的房间会从入口重新开始。';
+  String get lqDungeonCheckpointHint => '進入或離開房間時儲存。關閉應用後，未完成的房間會從入口重新開始。';
 
   @override
-  String get lqDungeonSaveFailed => '无法保存进度。请检查设备存储空间后重试。';
+  String get lqDungeonSaveFailed => '無法儲存進度。請檢查裝置儲存空間後重試。';
 
   @override
-  String get lqDungeonCollectResult => '领取探索结果';
+  String get lqDungeonCollectResult => '領取探索結果';
 
   @override
-  String get lqPurchaseAccount => '购买账号';
+  String get lqPurchaseAccount => '購買用帳號';
 
   @override
-  String get lqPurchaseAccountOptional => '需要时再连接账号';
+  String get lqPurchaseAccountOptional => '需要時再連結帳號';
 
   @override
   String get lqPurchaseAccountPrivacy =>
-      'Google 账号仅用于验证和恢复购买。任务、成长记录和 AI 个性化历史仍保存在此设备上。登录不会产生购买或扣款。';
+      'Google 帳號只用於驗證與還原購買。任務、成長紀錄及 AI 個人化紀錄仍儲存在此裝置。登入不會購買商品或扣款。';
 
   @override
   String get lqPurchaseAccountRestoreHint =>
-      '在其他设备恢复购买时，请同时使用购买时的 Google Play 账号和应用购买账号。成长记录可通过加密备份另行迁移。';
+      '在其他裝置還原購買時，請使用購買時的 Google Play 帳號及 App 購買帳號。成長紀錄可另外透過加密備份轉移。';
 
   @override
-  String get lqPurchaseAccountConnected => '购买账号已连接';
+  String get lqPurchaseAccountConnected => '已連結購買帳號';
 
   @override
-  String get lqPurchaseAccountConnect => '连接 Google 账号';
+  String get lqPurchaseAccountConnect => '連結 Google 帳號';
 
   @override
-  String get lqPurchaseAccountDisconnect => '在此设备断开连接';
+  String get lqPurchaseCloudLinkIntro =>
+      '購買前，請將 Google 帳號連結至目前的個人檔案。任務與成長紀錄會保留在同一份檔案中。僅連結帳號不會收費。';
 
   @override
-  String get lqPurchaseAccountDelete => '删除购买账号';
+  String get lqPurchaseCloudLinkFailed =>
+      '無法連結這個 Google 帳號。它可能已連結至其他 Life Quest 帳號。請改用另一個 Google 帳號重試；目前的電子郵件個人檔案不會受到影響。';
+
+  @override
+  String get lqPurchaseCloudLinked => 'Google 帳號已連結至目前的個人檔案。可使用這份檔案購買及還原商品。';
+
+  @override
+  String get lqPurchaseAccountDisconnect => '解除此裝置的帳號連結';
+
+  @override
+  String get lqPurchaseAccountDelete => '刪除購買帳號';
 
   @override
   String get lqPurchaseAccountDeleteBody =>
-      '将删除此账号的购买权限、举报和已有云端个人资料。删除后无法恢复购买，此操作不会退款。此设备上的任务和成长记录将保留。请再次验证 Google 账号以申请删除。';
+      '將刪除此帳號的購買權益、檢舉及現有的雲端個人資料。刪除後無法還原購買，也不會自動退款。此裝置上的任務與成長紀錄會保留。請再次驗證 Google 帳號以申請刪除。';
 
   @override
-  String get lqPurchaseAccountFailed => '未能完成操作。请检查网络连接和账号，然后重试。';
+  String get lqPurchaseAccountFailed => '無法完成操作。請檢查網路連線及帳號後重試。';
 
   @override
-  String get lqPurchaseAccountDeleted => '已受理删除申请。服务器将继续删除账号数据。此设备上的成长记录将保留。';
+  String get lqPurchaseAccountDeleted => '已收到刪除申請。伺服器會繼續刪除帳號資料，此裝置上的成長紀錄會保留。';
 
   @override
   String get lqPurchaseAccountCleanup =>
-      '删除申请已受理。请再次点击断开连接，完成此设备上的退出操作。服务器端删除将继续。';
+      '刪除申請已受理。請再次點選斷開連線，完成此裝置上的退出操作。伺服器端刪除將繼續。';
 
   @override
-  String get lqReportCopyReceipt => '复制回执编号';
+  String get lqReportCopyReceipt => '複製回執編號';
 
   @override
   String get lqReportRetention =>
-      '举报内容在提交90天后进入自动删除流程。实际删除可能需要额外处理时间。也可在设置中的 AI 举报回执页面删除。';
+      '舉報內容在提交90天后進入自動刪除流程。實際刪除可能需要額外處理時間。也可在設定中的 AI 舉報回執頁面刪除。';
 
   @override
-  String get lqReportReceipts => 'AI 举报回执';
+  String get lqReportReceipts => 'AI 舉報回執';
 
   @override
   String get lqReportReceiptHelp =>
-      '此设备最多保存最近100个回执编号。连接同一举报账号时，可在此删除。若账号已更换或无法打开应用，请复制回执编号并向 logian621@gmail.com 申请删除。';
+      '此裝置最多儲存最近100個回執編號。連線同一舉報帳號時，可在此刪除。若帳號已更換或無法開啟應用，請複製回執編號並向 logian621@gmail.com 申請刪除。';
 
   @override
-  String get lqReportReceiptsEmpty => '此设备没有保存回执编号。';
+  String get lqReportReceiptsEmpty => '此裝置沒有儲存回執編號。';
 
   @override
-  String get lqReportDelete => '删除举报';
+  String get lqReportDelete => '刪除舉報';
 
   @override
-  String get lqReportDeleteBody => '删除服务器上的举报及本地回执。此设备上的日常任务和成长记录将保留。';
+  String get lqReportDeleteBody => '刪除伺服器上的舉報及本地回執。此裝置上的日常任務和成長記錄將保留。';
 
   @override
-  String get lqReportDeleted => '举报已删除。';
+  String get lqReportDeleted => '舉報已刪除。';
 
   @override
-  String get lqReportDeleteIdentity => '删除匿名举报账号';
+  String get lqReportDeleteIdentity => '刪除匿名檢舉帳號';
 
   @override
   String get lqReportDeleteIdentityBody =>
-      '申请删除此设备当前的匿名举报账号及其提交的所有举报。设备上的成长记录将保留。之后再次举报时会创建新的匿名账号。';
+      '申請刪除此裝置目前的匿名舉報帳號及其提交的所有舉報。裝置上的成長記錄將保留。之後再次舉報時會建立新的匿名帳號。';
 
   @override
-  String get lqReportIdentityDeleted => '删除申请已受理。即使关闭应用，服务器仍会继续处理。';
+  String get lqReportIdentityDeleted => '刪除申請已受理。即使關閉應用，伺服器仍會繼續處理。';
 
   @override
   String get lqWorldCurrent => '今天的故事';
 
   @override
-  String get lqWorldChoose => '今天想走进哪个世界？';
+  String get lqWorldChoose => '今天想走進哪個世界？';
 
   @override
-  String get lqWorldChooseHint => '城市·修习·探索，三篇免费故事。';
+  String get lqWorldChooseHint => '城市·修習·探索，三篇免費故事。';
 
   @override
-  String get lqWorldChange => '换一本书';
+  String get lqWorldChange => '換一本書';
 
   @override
-  String get lqWorldSelect => '从这本书开始';
+  String get lqWorldSelect => '從這本書開始';
 
   @override
-  String get lqWorldContinue => '继续今天的书';
+  String get lqWorldContinue => '繼續今天的書';
 
   @override
-  String get lqWorldSaving => '正在保存书签…';
+  String get lqWorldSaving => '正在儲存書籤…';
 
   @override
-  String get lqWorldFreeCollection => '三篇故事均免费·没有期限';
+  String get lqWorldFreeCollection => '三篇故事均免費·沒有期限';
 
   @override
-  String get lqWorldCollectionPromise => '基础任务、AI和记录免费。本书阁的三篇故事无需购买。';
+  String get lqWorldCollectionPromise => '基礎任務、AI和記錄免費。本書閣的三篇故事無需購買。';
 
   @override
   String lqActionsRecorded(int count) {
-    return '已完成 $count 个现实任务';
+    return '已完成 $count 個現實任務';
   }
 
   @override
   String lqStoryActionsRemaining(int count) {
-    return '再完成 $count 个任务即可开启下一幕';
+    return '再完成 $count 個任務即可開啟下一幕';
   }
 
   @override
   String get lqDeletionUncertain =>
-      '无法确认删除请求是否已受理。此账号的同步已停止。请完成设备断开连接后，重新登录确认。';
+      '無法確認刪除請求是否已受理。此帳號的同步已停止。請完成裝置斷開連線後，重新登入確認。';
 
   @override
-  String get lqDeletionCheckFailed => '无法读取本机账号状态。为保护记录，尚未开始同步。';
+  String get lqDeletionCheckFailed => '無法讀取本機帳號狀態。為保護記錄，尚未開始同步。';
 
   @override
-  String get lqDeletionLocalFinished => '此设备已断开连接。';
+  String get lqDeletionLocalFinished => '此裝置已斷開連線。';
 
   @override
-  String get lqDeletionLocalHint => '仅清除此账号在本机剩余的缓存和登录连接。独立的本机档案及其他账号记录会保留。';
+  String get lqDeletionLocalHint => '僅清除此帳號在本機剩餘的快取和登入連線。獨立的本機檔案及其他帳號記錄會保留。';
 
   @override
-  String get lqDeletionFinishLocal => '完成断开本机连接';
+  String get lqDeletionFinishLocal => '完成斷開本機連線';
 
   @override
-  String get lqDeletionLocalRetry => '本机清理未完成，请重试。此账号的同步仍处于停止状态。';
+  String get lqDeletionLocalRetry => '本機清理未完成，請重試。此帳號的同步仍處於停止狀態。';
 
   @override
   String get lqPackCollection => '完整故事包';
 
   @override
-  String get lqPackContents => '12个场景、随选择变化的两种结局、海色主题和纸船印记。一次购买，无使用期限。';
+  String get lqPackContents => '12個場景、隨選擇變化的兩種結局、海色主題和紙船印記。一次購買，無使用期限。';
 
   @override
-  String get lqPackPreview => '前两个场景免费体验';
+  String get lqPackPreview => '前兩個場景免費體驗';
 
   @override
-  String get lqPackLocked => '购买故事包后可解锁此场景。';
+  String get lqPackLocked => '購買故事包後可解鎖此場景。';
 
   @override
-  String get lqPackUnavailable => '此版本暂不销售。您仍可阅读免费体验内容。';
+  String get lqPackUnavailable => '此版本暫不銷售。您仍可閱讀免費體驗內容。';
 
   @override
   String lqPackBuy(String price) {
-    return '购买完整故事包 · $price';
+    return '購買完整故事包 · $price';
   }
 
   @override
-  String get lqPackOwned => '已购买的故事包';
+  String get lqPackOwned => '已購買的故事包';
 
   @override
-  String get lqPackThemeApply => '应用海色主题';
+  String get lqPackThemeApply => '套用海色主題';
 
   @override
-  String get lqPackThemeRemove => '恢复默认主题';
+  String get lqPackThemeRemove => '恢復預設主題';
 
   @override
-  String get lqPackThemeHint => '主题和印记不会改变经验、属性或任务推荐。';
+  String get lqPackThemeHint => '主題和印記不會改變經驗、屬性或任務推薦。';
 
   @override
-  String get lqPackMark => '潮汐邮局 · 纸船印记';
+  String get lqPackMark => '潮汐郵局 · 紙船印記';
 
   @override
-  String get lqPackMarkHint => '完成最后一个场景后，印记将显示在成长页面。';
+  String get lqPackMarkHint => '完成最後一個場景後，印記將顯示在成長頁面。';
 
   @override
-  String get lqPackEndingHint => '前十一次选择中更常采用的方式决定结局。您可以重读并更改选择。';
+  String get lqPackEndingHint => '前十一次選擇中更常採用的方式決定結局。您可以重讀並更改選擇。';
 
   @override
-  String get lqPackPacing => '从第三个场景起，每完成两次现实行动即可继续，累计20次解锁最终场景。购买不会跳过行动条件。';
+  String get lqPackPacing => '從第三個場景起，每完成兩次現實行動即可繼續，累計20次解鎖最終場景。購買不會跳過行動條件。';
 
   @override
-  String get lqPackPreviewEnd => '免费体验到此结束。返回章节可查看故事包内容与销售状态。';
+  String get lqPackPreviewEnd => '免費體驗到此結束。返回章節可檢視故事包內容與銷售狀態。';
 
   @override
-  String get lqPackStoreUnavailable => '请连接Google Play以查看商品信息。';
+  String get lqPackStoreUnavailable => '請連線Google Play以檢視商品資訊。';
 
   @override
-  String get lqDeviceQuestNotice => '已接受的任务和个性化记录保存在本设备。连接Google购买账号也不会上传进度。';
+  String get lqDeviceQuestNotice => '已接受的任務和個性化記錄儲存在本裝置。連線Google購買帳號也不會上傳進度。';
 
   @override
-  String get lqStudyTitle => '14天使用体验测试';
+  String get lqStudyTitle => '14天使用體驗測試';
 
   @override
-  String get lqStudyIntro => '自愿参与 · 仅保存在本设备';
+  String get lqStudyIntro => '自願參與 · 僅儲存在本裝置';
 
   @override
   String get lqStudyConsent =>
-      '参与后，14天内记录每日访问、任务完成数量、故事体验完成情况及自选评价，并生成随机参与码。不包含姓名、目标、任务内容或Google账号。不会自动发送；只有您主动分享文件，开发者才会收到。可随时删除测试记录，不影响应用使用。每天按参与时刻起的24小时计算。';
+      '參與後，14天內記錄每日訪問、任務完成數量、故事體驗完成情況及自選評價，並生成隨機參與碼。不包含姓名、目標、任務內容或Google帳號。不會自動傳送；只有您主動分享檔案，開發者才會收到。可隨時刪除測試記錄，不影響應用使用。每天按參與時刻起的24小時計算。';
 
   @override
-  String get lqStudyStart => '我已了解并自愿参与';
+  String get lqStudyStart => '我已瞭解並自願參與';
 
   @override
-  String get lqStudySummary => '记录天数 / 完成数量';
+  String get lqStudySummary => '記錄天數 / 完成數量';
 
   @override
-  String get lqStudyValue => '读完免费体验后的吸引力（1–5）';
+  String get lqStudyValue => '讀完免費體驗後的吸引力（1–5）';
 
   @override
-  String get lqStudyPrice => '愿意为此故事包支付的最高金额';
+  String get lqStudyPrice => '願意為此故事包支付的最高金額';
 
   @override
-  String get lqStudyPriceNote => '这是价格调查，并非购买或预订。目前尚未销售，可以修改答案。';
+  String get lqStudyPriceNote => '這是價格調查，並非購買或預訂。目前尚未銷售，可以修改答案。';
 
   @override
-  String get lqStudyUndecided => '还不确定';
+  String get lqStudyUndecided => '還不確定';
 
   @override
-  String get lqStudyNoPurchase => '我不会购买';
+  String get lqStudyNoPurchase => '我不會購買';
 
   @override
-  String get lqStudyPreviewFirst => '读完《潮汐邮局》的两个免费场景并完成选择后即可评价。';
+  String get lqStudyPreviewFirst => '讀完《潮汐郵局》的兩個免費場景並完成選擇後即可評價。';
 
   @override
-  String get lqStudySave => '保存评价';
+  String get lqStudySave => '儲存評價';
 
   @override
-  String get lqStudyExport => '保存结果文件';
+  String get lqStudyExport => '儲存結果檔案';
 
   @override
   String get lqStudyExportNote =>
-      '文件包含下方参与码、每日完成数量、体验状态、评价及记录异常标记，不证明现实行为或实际购买。保存后仅在自愿时自行分享。';
+      '檔案包含下方參與碼、每日完成數量、體驗狀態、評價及記錄異常標記，不證明現實行為或實際購買。儲存後僅在自願時自行分享。';
 
   @override
-  String get lqStudyWithdraw => '退出并删除测试记录';
+  String get lqStudyWithdraw => '退出並刪除測試記錄';
 
   @override
-  String get lqStudyWithdrawNote => '只删除本设备的测试记录，任务与故事进度保留。已分享的文件不会被删除。';
+  String get lqStudyWithdrawNote => '只刪除本裝置的測試記錄，任務與故事進度保留。已分享的檔案不會被刪除。';
 
   @override
-  String get lqStudySaved => '已保存。';
+  String get lqStudySaved => '已儲存。';
 
   @override
-  String get lqStudyError => '无法读取或保存记录，已有记录已保留。可重试或删除测试记录。';
+  String get lqStudyError => '無法讀取或儲存記錄，已有記錄已保留。可重試或刪除測試記錄。';
 
   @override
-  String get lqStudyFlagged => '检测到记录变化或存储问题，此报告将不计入留存分析。不影响继续使用应用。';
+  String get lqStudyFlagged => '檢測到記錄變化或儲存問題，此報告將不計入留存分析。不影響繼續使用應用。';
 
   @override
-  String get lqStudyWebPreview => '网页预览数据不计入真实用户验证。';
+  String get lqStudyWebPreview => '網頁預覽資料不會列入真實使用者驗證。';
 
   @override
-  String get lqFeedbackTitle => '反馈与帮助';
+  String get lqFeedbackTitle => '意見回饋與協助';
 
   @override
-  String get lqFeedbackDescription => '告诉我们遇到的问题或期待的功能。不会自动附加你的记录。';
+  String get lqFeedbackDescription => '告訴我們遇到的問題或期待的功能。不會自動附加你的記錄。';
 
   @override
   String get lqReportManualDescription =>
-      '此预览版不会在应用内发送举报。请检查下面的建议，需要时复制并通过支持页面的邮箱发送。发送前请删除个人信息。打开支持页面不会传送这些内容。';
+      '此預覽版不會在應用內傳送舉報。請檢查下面的建議，需要時複製並透過支援頁面的電子郵件傳送。傳送前請刪除個人資訊。開啟支援頁面不會傳送這些內容。';
 
   @override
-  String get lqReportCopySuggestion => '复制建议';
+  String get lqReportCopySuggestion => '複製建議';
 
   @override
-  String get lqReportManualCopied => '建议已复制，尚未发送。';
+  String get lqReportManualCopied => '建議已複製，尚未傳送。';
 }

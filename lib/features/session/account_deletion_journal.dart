@@ -1,4 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import '../journeys/mission_focus_store.dart';
+import '../journeys/mission_draft_store.dart';
 
 enum AccountDeletionPhase { requesting, accepted }
 
@@ -35,9 +37,12 @@ class AccountDeletionJournal {
     required Future<void> Function() signOut,
   }) async {
     final prefs = await SharedPreferences.getInstance();
+    await MissionFocusStore.clear(uid);
+    await MissionDraftStore.clear(uid);
     for (final cache in [
       'lifequest.director.v1.$uid',
       'lifequest.purchases.v1.$uid',
+      'lifequest.purchases.serverVerifiedAt.v1.$uid',
     ]) {
       if (!await prefs.remove(cache)) {
         throw StateError('Account cache could not be cleared.');

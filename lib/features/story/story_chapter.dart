@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import '../billing/purchase_verifier.dart';
 
 class StoryChoice {
   final String id, label, response;
@@ -96,6 +97,11 @@ class StoryChapter {
     scenes.length,
     (i) => i,
   ).where((i) => selectedChoice(i, choices) != null).length;
+
+  /// Retired paid stories stay available to verified owners, without showing
+  /// an unconfigured purchase to readers who do not own them.
+  bool visibleTo({required bool owned}) =>
+      productId == null || owned || saleProductIds.contains(productId);
 
   /// Find the first unanswered scene, even if a restored record has gaps.
   /// A completed book returns null and remains available for rereading.

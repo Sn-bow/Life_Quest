@@ -1,12 +1,16 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/config/monetization_config.dart';
+import 'package:life_quest_final_v2/data/title_localization.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
+import 'package:life_quest_final_v2/services/purchase_service.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
+import 'package:life_quest_final_v2/features/status_pack/ui/status_pack_screen.dart';
 import 'package:life_quest_final_v2/widgets/translucent_card.dart';
+import 'quests_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -86,16 +90,10 @@ class _ReportScreenState extends State<ReportScreen> {
       await characterState.unlockExpandedReportForToday();
       if (!mounted) return;
       messenger.showSnackBar(
-        SnackBar(
-          content: Text(l10n.reportExpandedUnlocked),
-        ),
+        SnackBar(content: Text(l10n.reportExpandedUnlocked)),
       );
     } else {
-      messenger.showSnackBar(
-        SnackBar(
-          content: Text(l10n.reportAdFailed),
-        ),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.reportAdFailed)));
     }
 
     if (mounted) {
@@ -119,31 +117,39 @@ class _ReportScreenState extends State<ReportScreen> {
     final dominantCategory = characterState.dominantGrowthCategory;
     final character = characterState.character;
     final theme = Theme.of(context);
+    final plusCopy = StatusPackCopy.forLocale(Localizations.localeOf(context));
     final isDarkMode = theme.brightness == Brightness.dark;
-    final isExpandedUnlocked = kLifeQuestQaPreview ||
+    final isExpandedUnlocked =
+        kLifeQuestQaPreview ||
         !kLifeQuestAdsEnabled ||
         characterState.isExpandedReportUnlockedToday;
     final remainingViews = kLifeQuestQaPreview
         ? 0
         : (kLifeQuestAdsEnabled
-            ? AdService().getRemainingViews('report_detail')
-            : 0);
+              ? AdService().getRemainingViews('report_detail')
+              : 0);
     final monthlyCompletionRate = _completionRate(characterState.monthlyQuests);
     final yearlyCompletionRate = _completionRate(characterState.yearlyQuests);
     final recommendedCategory = _recommendedCategory(characterState);
-    final recommendedQuest =
-        _recommendedQuestLabel(characterState, recommendedCategory, l10n);
+    final recommendedQuest = _recommendedQuestLabel(
+      characterState,
+      recommendedCategory,
+      l10n,
+    );
     final bestWeekday = _bestWeekdayLabel(weeklyData, l10n);
-    final weeklyTotal =
-        weeklyData.values.fold<int>(0, (total, value) => total + value);
+    final weeklyTotal = weeklyData.values.fold<int>(
+      0,
+      (total, value) => total + value,
+    );
     final completedQuestMap = _buildCompletedQuestMap(characterState);
     final selectedDayQuests =
         completedQuestMap[_selectedDay ?? _normalizeDate(DateTime.now())] ?? [];
 
-    double maxY = (weeklyData.values.isEmpty
-            ? 0
-            : weeklyData.values.reduce((a, b) => a > b ? a : b))
-        .toDouble();
+    double maxY =
+        (weeklyData.values.isEmpty
+                ? 0
+                : weeklyData.values.reduce((a, b) => a > b ? a : b))
+            .toDouble();
     if (maxY < 5) {
       maxY = 5;
     } else {
@@ -161,9 +167,7 @@ class _ReportScreenState extends State<ReportScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.reportScreenTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.reportScreenTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -175,7 +179,8 @@ class _ReportScreenState extends State<ReportScreen> {
                     context,
                     title: l10n.reportSummaryStreak,
                     value: l10n.reportSummaryStreakValue(
-                        characterState.character.streak),
+                      characterState.character.streak,
+                    ),
                     icon: PhosphorIcons.fire,
                     color: Colors.orange.shade400,
                   ),
@@ -200,7 +205,8 @@ class _ReportScreenState extends State<ReportScreen> {
                     context,
                     title: l10n.reportSummaryQuestCount,
                     value: l10n.reportSummaryQuestCountValue(
-                        characterState.questCompletionCount),
+                      characterState.questCompletionCount,
+                    ),
                     icon: PhosphorIcons.checkCircle,
                     color: Colors.green.shade400,
                   ),
@@ -210,7 +216,10 @@ class _ReportScreenState extends State<ReportScreen> {
                   child: _buildSummaryCard(
                     context,
                     title: l10n.reportSummaryTitle,
-                    value: characterState.character.title,
+                    value: TitleLocalization.localizedStoredName(
+                      character.title,
+                      l10n,
+                    ),
                     icon: PhosphorIcons.medal,
                     color: Colors.blue.shade400,
                   ),
@@ -222,100 +231,193 @@ class _ReportScreenState extends State<ReportScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.reportWeeklyActivityTitle,
-                      style: theme.textTheme.titleLarge),
+                  Text(
+                    l10n.reportWeeklyActivityTitle,
+                    style: theme.textTheme.titleLarge,
+                  ),
                   const SizedBox(height: 10),
                   Text(
                     l10n.reportWeeklyActivitySubtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color:
-                          theme.colorScheme.onSurface.withValues(alpha: 0.72),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    height: 300,
-                    child: BarChart(
-                      BarChartData(
-                        alignment: BarChartAlignment.spaceAround,
-                        maxY: maxY,
-                        barTouchData: BarTouchData(
-                          enabled: true,
-                          touchTooltipData: BarTouchTooltipData(
-                            tooltipRoundedRadius: 8,
-                            getTooltipColor: (_) => Colors.blueGrey,
-                            getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                              return BarTooltipItem(
-                                '${rod.toY.toInt()}',
-                                const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: (double value, TitleMeta meta) {
-                                final style = TextStyle(
-                                  color:
-                                      isDarkMode ? Colors.white : Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                );
-                                final index = value.toInt();
-                                final text =
-                                    index >= 0 && index < weekLabels.length
-                                        ? weekLabels[index]
-                                        : '';
-                                return SideTitleWidget(
-                                  axisSide: meta.axisSide,
-                                  space: 16,
-                                  child: Text(text, style: style),
-                                );
-                              },
-                              reservedSize: 42,
-                            ),
-                          ),
-                          leftTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          topTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          rightTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                        ),
-                        borderData: FlBorderData(show: false),
-                        barGroups: List.generate(7, (index) {
-                          final count = weeklyData[index + 1]?.toDouble() ?? 0;
-                          return BarChartGroupData(
-                            x: index,
-                            barRods: [
-                              BarChartRodData(
-                                toY: count,
-                                color: theme.colorScheme.primary,
-                                width: 22,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(6),
-                                  topRight: Radius.circular(6),
-                                ),
-                              ),
-                            ],
-                            showingTooltipIndicators: count > 0 ? [0] : [],
-                          );
-                        }),
-                        gridData: const FlGridData(show: false),
+                      color: theme.colorScheme.onSurface.withValues(
+                        alpha: 0.72,
                       ),
                     ),
                   ),
+                  const SizedBox(height: 24),
+                  if (weeklyTotal == 0)
+                    Container(
+                      key: const ValueKey('report-weekly-empty'),
+                      width: double.infinity,
+                      constraints: const BoxConstraints(minHeight: 96),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            l10n.reportWeeklyActivityEmpty,
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.72,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            key: const ValueKey('report-weekly-open-quests'),
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const QuestsScreen(),
+                              ),
+                            ),
+                            child: Text(l10n.reportWeeklyActivityOpenQuests),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (weeklyTotal > 0)
+                    SizedBox(
+                      key: const ValueKey('report-weekly-chart'),
+                      height: 300,
+                      child: BarChart(
+                        BarChartData(
+                          alignment: BarChartAlignment.spaceAround,
+                          maxY: maxY,
+                          barTouchData: BarTouchData(
+                            enabled: true,
+                            touchTooltipData: BarTouchTooltipData(
+                              tooltipRoundedRadius: 8,
+                              getTooltipColor: (_) => Colors.blueGrey,
+                              getTooltipItem:
+                                  (group, groupIndex, rod, rodIndex) {
+                                    return BarTooltipItem(
+                                      '${rod.toY.toInt()}',
+                                      const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  },
+                            ),
+                          ),
+                          titlesData: FlTitlesData(
+                            show: true,
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget:
+                                    (double value, TitleMeta meta) {
+                                      final style = TextStyle(
+                                        color: isDarkMode
+                                            ? Colors.white
+                                            : Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      );
+                                      final index = value.toInt();
+                                      final text =
+                                          index >= 0 &&
+                                              index < weekLabels.length
+                                          ? weekLabels[index]
+                                          : '';
+                                      return SideTitleWidget(
+                                        axisSide: meta.axisSide,
+                                        space: 16,
+                                        child: Text(text, style: style),
+                                      );
+                                    },
+                                reservedSize: 42,
+                              ),
+                            ),
+                            leftTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            rightTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                          ),
+                          borderData: FlBorderData(show: false),
+                          barGroups: List.generate(7, (index) {
+                            final count =
+                                weeklyData[index + 1]?.toDouble() ?? 0;
+                            return BarChartGroupData(
+                              x: index,
+                              barRods: [
+                                BarChartRodData(
+                                  toY: count,
+                                  color: theme.colorScheme.primary,
+                                  width: 22,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(6),
+                                    topRight: Radius.circular(6),
+                                  ),
+                                ),
+                              ],
+                              showingTooltipIndicators: count > 0 ? [0] : [],
+                            );
+                          }),
+                          gridData: const FlGridData(show: false),
+                        ),
+                      ),
+                    ),
                 ],
               ),
+            ),
+            // New Plus offers are paused; verified owners retain their report
+            // and a direct route back to the purchased pack.
+            ListenableBuilder(
+              listenable: PurchaseService(),
+              builder: (context, _) => PurchaseService().ownsStatusWindowPlus
+                  ? Column(
+                      children: [
+                        const SizedBox(height: 24),
+                        TranslucentCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                plusCopy.t('reportEntryTitle'),
+                                style: theme.textTheme.titleLarge,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                plusCopy.t('purchaseContents'),
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              if (characterState
+                                  .systemJournal
+                                  .receipts
+                                  .isEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  plusCopy.t('noRecordYet'),
+                                  style: theme.textTheme.bodySmall,
+                                ),
+                              ],
+                              const SizedBox(height: 14),
+                              OutlinedButton.icon(
+                                key: const ValueKey('report-plus-open'),
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => const StatusPackScreen(),
+                                  ),
+                                ),
+                                icon: const Icon(Icons.open_in_new),
+                                label: Text(plusCopy.t('reportEntryAction')),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
             ),
             const SizedBox(height: 24),
             if (kLifeQuestAdsEnabled)
@@ -393,9 +495,7 @@ class _ReportScreenState extends State<ReportScreen> {
               decoration: BoxDecoration(
                 color: Colors.green.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: Colors.green.withValues(alpha: 0.3),
-                ),
+                border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
@@ -468,8 +568,10 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.reportCategoryRatioTitle,
-                  style: theme.textTheme.titleLarge),
+              Text(
+                l10n.reportCategoryRatioTitle,
+                style: theme.textTheme.titleLarge,
+              ),
               const SizedBox(height: 24),
               SizedBox(
                 height: 200,
@@ -497,21 +599,22 @@ class _ReportScreenState extends State<ReportScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              Wrap(
-                spacing: 16,
-                runSpacing: 8,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: StatType.values.map((category) {
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 16,
-                        height: 16,
-                        color: _getCategoryColor(category),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(_getCategoryName(category, l10n)),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 16,
+                          height: 16,
+                          color: _getCategoryColor(category),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(child: Text(_getCategoryName(category, l10n))),
+                      ],
+                    ),
                   );
                 }).toList(),
               ),
@@ -577,8 +680,10 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.reportNextLevelPredictionTitle,
-                  style: theme.textTheme.titleLarge),
+              Text(
+                l10n.reportNextLevelPredictionTitle,
+                style: theme.textTheme.titleLarge,
+              ),
               const SizedBox(height: 16),
               ...StatType.values.map((stat) {
                 final percent = growthData[stat] ?? 0;
@@ -590,7 +695,8 @@ class _ReportScreenState extends State<ReportScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(_getCategoryName(stat, l10n)),
+                          Expanded(child: Text(_getCategoryName(stat, l10n))),
+                          const SizedBox(width: 8),
                           Text('${percent.toStringAsFixed(0)}%'),
                         ],
                       ),
@@ -689,28 +795,35 @@ class _ReportScreenState extends State<ReportScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(l10n.reportCalendarTitle, style: theme.textTheme.titleLarge),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(l10n.reportCalendarTitle, style: theme.textTheme.titleLarge),
-              const Spacer(),
               IconButton(
                 onPressed: () {
                   setState(() {
-                    _focusedMonth =
-                        DateTime(_focusedMonth.year, _focusedMonth.month - 1);
+                    _focusedMonth = DateTime(
+                      _focusedMonth.year,
+                      _focusedMonth.month - 1,
+                    );
                   });
                 },
                 icon: const Icon(Icons.chevron_left_rounded),
               ),
-              Text(
-                '${_focusedMonth.year}.${_focusedMonth.month.toString().padLeft(2, '0')}',
-                style: theme.textTheme.titleMedium,
+              Flexible(
+                child: Text(
+                  '${_focusedMonth.year}.${_focusedMonth.month.toString().padLeft(2, '0')}',
+                  style: theme.textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
               ),
               IconButton(
                 onPressed: () {
                   setState(() {
-                    _focusedMonth =
-                        DateTime(_focusedMonth.year, _focusedMonth.month + 1);
+                    _focusedMonth = DateTime(
+                      _focusedMonth.year,
+                      _focusedMonth.month + 1,
+                    );
                   });
                 },
                 icon: const Icon(Icons.chevron_right_rounded),
@@ -752,8 +865,11 @@ class _ReportScreenState extends State<ReportScreen> {
               }
 
               final dayNumber = index - leadingEmptyDays + 1;
-              final day =
-                  DateTime(_focusedMonth.year, _focusedMonth.month, dayNumber);
+              final day = DateTime(
+                _focusedMonth.year,
+                _focusedMonth.month,
+                dayNumber,
+              );
               final key = _normalizeDate(day);
               final completed = completedQuestMap[key] ?? const [];
               final isSelected = _selectedDay == key;
@@ -776,8 +892,8 @@ class _ReportScreenState extends State<ReportScreen> {
                       color: isSelected
                           ? theme.colorScheme.primary
                           : (isToday
-                              ? Colors.cyanAccent.withValues(alpha: 0.7)
-                              : Colors.white.withValues(alpha: 0.08)),
+                                ? Colors.cyanAccent.withValues(alpha: 0.7)
+                                : Colors.white.withValues(alpha: 0.08)),
                     ),
                   ),
                   child: Stack(
@@ -789,8 +905,9 @@ class _ReportScreenState extends State<ReportScreen> {
                           '$dayNumber',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color:
-                                isSelected ? theme.colorScheme.primary : null,
+                            color: isSelected
+                                ? theme.colorScheme.primary
+                                : null,
                           ),
                         ),
                       ),
@@ -823,7 +940,9 @@ class _ReportScreenState extends State<ReportScreen> {
           Text(
             _selectedDay != null
                 ? l10n.reportCalendarSelectedTitle(
-                    _selectedDay!.month, _selectedDay!.day)
+                    _selectedDay!.month,
+                    _selectedDay!.day,
+                  )
                 : l10n.reportCalendarSelectPrompt,
             style: theme.textTheme.titleMedium,
           ),
@@ -868,8 +987,9 @@ class _ReportScreenState extends State<ReportScreen> {
                             '${_getQuestTypeName(quest.type, l10n)} · ${_getCategoryName(quest.category, l10n)} · ${quest.xp} XP',
                             style: TextStyle(
                               fontSize: 12,
-                              color: theme.colorScheme.onSurface
-                                  .withValues(alpha: 0.68),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.68,
+                              ),
                             ),
                           ),
                         ],
@@ -895,7 +1015,8 @@ class _ReportScreenState extends State<ReportScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label),
+            Expanded(child: Text(label)),
+            const SizedBox(width: 8),
             Text('${percent.toStringAsFixed(0)}%'),
           ],
         ),
@@ -922,18 +1043,12 @@ class _ReportScreenState extends State<ReportScreen> {
         children: [
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.white70,
-            ),
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
           ),
           const SizedBox(height: 6),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -976,10 +1091,7 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(caption, style: const TextStyle(height: 1.4)),
@@ -989,7 +1101,9 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   String _autoGrowthLabel(
-      Map<StatType, int> autoGrowthData, AppLocalizations l10n) {
+    Map<StatType, int> autoGrowthData,
+    AppLocalizations l10n,
+  ) {
     final parts = autoGrowthData.entries
         .where((entry) => entry.value > 0)
         .map((entry) => '${_getCategoryName(entry.key, l10n)} +${entry.value}')
@@ -1044,7 +1158,10 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   String _recommendedQuestLabel(
-      CharacterState state, StatType? category, AppLocalizations l10n) {
+    CharacterState state,
+    StatType? category,
+    AppLocalizations l10n,
+  ) {
     if (category == null) return l10n.reportStatBalanced;
     final allQuests = [
       ...state.dailyQuests,
@@ -1093,7 +1210,9 @@ class _ReportScreenState extends State<ReportScreen> {
     };
     final weakest = stats.entries.reduce((a, b) => a.value <= b.value ? a : b);
     return l10n.reportStatValue(
-        _getCategoryName(weakest.key, l10n), weakest.value.toInt());
+      _getCategoryName(weakest.key, l10n),
+      weakest.value.toInt(),
+    );
   }
 
   String _highestStatLabel(dynamic character, AppLocalizations l10n) {
@@ -1103,10 +1222,13 @@ class _ReportScreenState extends State<ReportScreen> {
       StatType.health: character.health,
       StatType.charisma: character.charisma,
     };
-    final strongest =
-        stats.entries.reduce((a, b) => a.value >= b.value ? a : b);
+    final strongest = stats.entries.reduce(
+      (a, b) => a.value >= b.value ? a : b,
+    );
     return l10n.reportStatValue(
-        _getCategoryName(strongest.key, l10n), strongest.value.toInt());
+      _getCategoryName(strongest.key, l10n),
+      strongest.value.toInt(),
+    );
   }
 
   Widget _buildSummaryCard(
@@ -1137,12 +1259,16 @@ class _ReportScreenState extends State<ReportScreen> {
             children: [
               Icon(icon, color: color, size: 24),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -1150,10 +1276,7 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 12),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

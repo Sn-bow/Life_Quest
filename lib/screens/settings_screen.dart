@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:life_quest_final_v2/config/monetization_config.dart';
+import 'package:life_quest_final_v2/data/guest_name_localization.dart';
 import 'package:life_quest_final_v2/services/ad_service.dart';
 import 'package:life_quest_final_v2/config/qa_preview_config.dart';
 import 'package:life_quest_final_v2/services/notification_service.dart';
@@ -105,7 +106,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     CharacterState characterState,
   ) {
     final nameController = TextEditingController(
-      text: characterState.character.name,
+      text: GuestNameLocalization.displayName(
+        characterState.character,
+        AppLocalizations.of(context)!,
+      ),
     );
     showDialog(
       context: context,
@@ -459,7 +463,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   leading: const Icon(PhosphorIcons.userCircle),
                   title: Text(l10n.settingsNicknameLabel),
-                  subtitle: Text(characterState.character.name),
+                  subtitle: Text(
+                    GuestNameLocalization.displayName(
+                      characterState.character,
+                      l10n,
+                    ),
+                  ),
                   trailing: const Icon(PhosphorIcons.caretRight),
                   onTap: () => _showChangeNameDialog(context, characterState),
                 ),

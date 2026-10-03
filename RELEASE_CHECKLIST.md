@@ -1,5 +1,7 @@
 # Life Quest - 프로덕션 릴리스 체크리스트
 
+> **현재 기준 · 2026-09-29:** Android 패키지는 `com.logian.lifequest`, 사용량 하한은 **잔여 5%**다. 아래 2026-04~05 체크리스트와 `com.lifequest.app` 표기는 이전 패키지의 당시 기록이며 현재 배포 승인이나 검증 결과가 아니다. 패키지 변경으로 기존 앱·기기 로컬 데이터는 새 앱으로 제자리 업데이트/자동 이전되지 않는다. 계정 데이터 연속성은 미검증이다. [패키지 이전 기록](docs/rebirth/store/PACKAGE_MIGRATION_20260929.md)과 [현재 체크포인트](docs/rebirth/CONTINUE.md)를 우선한다. 다음 명시적 `배포해` 전 AAB 업로드·트랙 게시는 보류한다.
+
 > **작성일**: 2026-04-06  |  **최종 업데이트**: 2026-04-26
 > **목표**: 유저 이탈률 최소화 수준의 완성도로 Google Play Store 배포
 > **예상 기간**: 최소 출시 4~5주 / 완성도 높은 출시 8~10주
@@ -85,7 +87,7 @@
 | **우선순위** | 🔴 P0 |
 | **작업 주체** | 수동 (물리 기기 또는 emulator + USB 디버깅/ADB authorization 필수) |
 
-### A-2. Firebase 콘솔 패키지명 업데이트
+### A-2. Firebase 콘솔 패키지명 업데이트 (2026-04 당시 이전 패키지 이력)
 | 항목 | 내용 |
 |------|------|
 | **문제** | `applicationId`가 `com.lifequest.app`으로 변경되었지만 Firebase 콘솔 미업데이트 시 Auth/Firestore/App Check 전부 동작 안 함 |

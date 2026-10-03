@@ -42,7 +42,11 @@ class StoryBanner extends StatelessWidget {
       ),
       builder: (context, snapshot) {
         final chapter = snapshot.data
-            ?.where((book) => book.id == state.activeStoryChapterId)
+            ?.where(
+              (book) =>
+                  book.id == state.activeStoryChapterId &&
+                  book.visibleTo(owned: state.ownsStory(book)),
+            )
             .firstOrNull;
         final next = chapter?.nextSceneIndex(state.storyChoices);
         final remaining = next == null
@@ -214,7 +218,9 @@ class _StoryLibraryScreenState extends State<StoryLibraryScreen> {
                   ),
                 ),
                 const SizedBox(height: 22),
-                for (final chapter in snapshot.data!) ...[
+                for (final chapter in snapshot.data!.where(
+                  (book) => book.visibleTo(owned: state.ownsStory(book)),
+                )) ...[
                   if (chapter.productId != null) ...[
                     const SizedBox(height: 10),
                     Text(l.lqPackCollection, style: t.textTheme.titleMedium),

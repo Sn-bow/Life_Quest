@@ -6,6 +6,10 @@ class Character {
   Map<String, String> storyChoices;
   String? activeStoryChapterId;
   String name;
+
+  /// True only while [name] is the app-provided guest placeholder. The
+  /// persisted name remains unchanged when the app language changes.
+  bool usesDefaultGuestName;
   String? photoUrl;
   int level;
   String title;
@@ -66,6 +70,7 @@ class Character {
 
   Character({
     required this.name,
+    this.usesDefaultGuestName = false,
     this.totalQuestCompletions = 0,
     Map<String, String>? storyChoices,
     this.activeStoryChapterId,
@@ -124,6 +129,7 @@ class Character {
     final level = json['level'] ?? 1;
     return Character(
       name: json['name'] ?? '모험가',
+      usesDefaultGuestName: json['usesDefaultGuestName'] == true,
       totalQuestCompletions: (json['totalQuestCompletions'] as int? ?? 0).clamp(
         0,
         1000000000,
@@ -225,6 +231,7 @@ class Character {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'usesDefaultGuestName': usesDefaultGuestName,
       'totalQuestCompletions': totalQuestCompletions,
       'storyChoices': storyChoices,
       'activeStoryChapterId': activeStoryChapterId,

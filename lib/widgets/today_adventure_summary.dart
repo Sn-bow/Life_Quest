@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/title_unlock_rules.dart';
+import 'package:life_quest_final_v2/data/title_localization.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class TodayAdventureSummary extends StatelessWidget {
   final CharacterState state;
 
-  const TodayAdventureSummary({
-    super.key,
-    required this.state,
-  });
+  const TodayAdventureSummary({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +19,7 @@ class TodayAdventureSummary extends StatelessWidget {
     final modifier = state.todayDailyModifier;
     final recommendation = state.todayRecommendedAction;
     final nextTitle = state.nextTitleProgress;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
@@ -38,21 +38,21 @@ class TodayAdventureSummary extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  '오늘의 상태',
+                  l10n.todayAdventureHeading,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
               _Pill(
-                label: '${growth.completedCount}개 완료',
+                label: l10n.todayAdventureCompletedCount(growth.completedCount),
                 color: colors.primary,
               ),
             ],
           ),
           const SizedBox(height: 8),
           Text(
-            '현실에서 완료한 행동이 성장, 보상, 다음 추천 행동으로 바뀝니다. 던전은 그 성장을 확인하는 선택형 루프입니다.',
+            l10n.todayAdventureDescription,
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.onSurfaceVariant,
               height: 1.35,
@@ -66,53 +66,57 @@ class TodayAdventureSummary extends StatelessWidget {
               _MetricChip(icon: PhosphorIcons.star, label: 'XP +${growth.xp}'),
               _MetricChip(
                 icon: PhosphorIcons.coins,
-                label: '골드 +${growth.gold}',
+                label: l10n.todayAdventureGoldGain(growth.gold),
               ),
               _MetricChip(
                 icon: _statIcon(growth.dominantStat),
                 label: growth.dominantStat == null
-                    ? '성장 대기'
-                    : '${_statLabel(growth.dominantStat!)} 성장',
+                    ? l10n.todayAdventureGrowthWaiting
+                    : l10n.todayAdventureStatGrowth(
+                        _statLabel(growth.dominantStat!, l10n),
+                      ),
               ),
             ],
           ),
           const SizedBox(height: 14),
-          const _SectionHeader(
+          _SectionHeader(
             icon: PhosphorIcons.sparkle,
-            title: '오늘 행동 효과',
+            title: l10n.todayAdventureEffectsHeading,
           ),
           const SizedBox(height: 8),
           if (modifier.hasAnyBonus)
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: modifier
-                  .labels()
+              children: _modifierLabels(modifier, l10n)
                   .take(4)
                   .map((label) => _Pill(label: label, color: colors.tertiary))
                   .toList(),
             )
           else
             Text(
-              '아직 오늘 기록된 행동 효과가 없습니다. 퀘스트를 하나 완료하면 성장과 보정이 열립니다.',
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: colors.onSurfaceVariant),
+              l10n.todayAdventureNoEffects,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.onSurfaceVariant,
+              ),
             ),
           const SizedBox(height: 14),
-          const _SectionHeader(
+          _SectionHeader(
             icon: Icons.flag_outlined,
-            title: '다음 추천 행동',
+            title: l10n.todayAdventureRecommendationHeading,
           ),
           const SizedBox(height: 8),
           Text(
-            recommendation.title,
+            recommendation.quest == null
+                ? l10n.todayAdventureAllDoneTitle
+                : recommendation.title,
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 3),
           Text(
-            recommendation.reason,
+            _recommendationReason(recommendation, nextTitle, l10n),
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.onSurfaceVariant,
               height: 1.35,
@@ -127,12 +131,72 @@ class TodayAdventureSummary extends StatelessWidget {
     );
   }
 
-  static String _statLabel(StatType stat) {
+  static String _statLabel(StatType stat, AppLocalizations l10n) {
     return switch (stat) {
-      StatType.strength => '실행력',
-      StatType.wisdom => '지혜',
-      StatType.health => '건강',
-      StatType.charisma => '매력',
+      StatType.strength => l10n.todayAdventureStatStrength,
+      StatType.wisdom => l10n.todayAdventureStatWisdom,
+      StatType.health => l10n.todayAdventureStatHealth,
+      StatType.charisma => l10n.todayAdventureStatCharisma,
+    };
+  }
+
+  static List<String> _modifierLabels(
+    DailyModifier modifier,
+    AppLocalizations l10n,
+  ) {
+    return [
+      if (modifier.combatHpBonus > 0)
+        l10n.todayAdventureDungeonHp(modifier.combatHpBonus),
+      if (modifier.attackDamageBonus > 0)
+        l10n.todayAdventureAttackDamage(modifier.attackDamageBonus),
+      if (modifier.firstTurnDrawBonus > 0)
+        l10n.todayAdventureFirstTurnDraw(modifier.firstTurnDrawBonus),
+      if (modifier.startingGoldBonus > 0)
+        l10n.todayAdventureStartingGold(modifier.startingGoldBonus),
+      if (modifier.defenseCardWeightBonus > 0)
+        l10n.todayAdventureDefenseFlow(
+          (modifier.defenseCardWeightBonus * 100).round(),
+        ),
+      if (modifier.magicCardWeightBonus > 0)
+        l10n.todayAdventureMagicFlow(
+          (modifier.magicCardWeightBonus * 100).round(),
+        ),
+      if (modifier.eventOptionBonusChance > 0)
+        l10n.todayAdventureEventChoice(
+          (modifier.eventOptionBonusChance * 100).round(),
+        ),
+      if (modifier.shopDiscountRate > 0)
+        l10n.todayAdventureShopDiscount(
+          (modifier.shopDiscountRate * 100).round(),
+        ),
+      if (modifier.restHealPercentBonus > 0)
+        l10n.todayAdventureRestHealing(
+          (modifier.restHealPercentBonus * 100).round(),
+        ),
+    ];
+  }
+
+  static String _recommendationReason(
+    RecommendedAction recommendation,
+    TitleProgressSnapshot? nextTitle,
+    AppLocalizations l10n,
+  ) {
+    return switch (recommendation.reasonKind) {
+      RecommendedActionReason.completed => l10n.todayAdventureAllDoneReason,
+      RecommendedActionReason.titleProgress =>
+        nextTitle == null
+            ? recommendation.reason
+            : l10n.todayAdventureTitleProgressReason(
+                TitleLocalization.localizedName(
+                  nextTitle.title.id,
+                  l10n,
+                  fallback: nextTitle.title.name,
+                ),
+              ),
+      RecommendedActionReason.strength => l10n.todayAdventureStrengthReason,
+      RecommendedActionReason.wisdom => l10n.todayAdventureWisdomReason,
+      RecommendedActionReason.health => l10n.todayAdventureHealthReason,
+      RecommendedActionReason.charisma => l10n.todayAdventureCharismaReason,
     };
   }
 
@@ -162,9 +226,9 @@ class _SectionHeader extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           title,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w800,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w800),
         ),
       ],
     );
@@ -216,9 +280,9 @@ class _Pill extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w800,
-            ),
+          color: color,
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }
@@ -233,6 +297,7 @@ class _TitleProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -242,7 +307,13 @@ class _TitleProgress extends StatelessWidget {
             const SizedBox(width: 6),
             Expanded(
               child: Text(
-                '다음 칭호: ${progress.title.name}',
+                l10n.todayAdventureNextTitle(
+                  TitleLocalization.localizedName(
+                    progress.title.id,
+                    l10n,
+                    fallback: progress.title.name,
+                  ),
+                ),
                 style: theme.textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.w800,
                 ),
@@ -250,8 +321,9 @@ class _TitleProgress extends StatelessWidget {
             ),
             Text(
               '${progress.current}/${progress.required}',
-              style: theme.textTheme.labelSmall
-                  ?.copyWith(color: colors.onSurfaceVariant),
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colors.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -267,7 +339,11 @@ class _TitleProgress extends StatelessWidget {
         if (TitleUnlockRules.unlockPreviewForTitle(progress.title) != null) ...[
           const SizedBox(height: 7),
           Text(
-            TitleUnlockRules.unlockPreviewForTitle(progress.title)!,
+            TitleLocalization.localizedUnlockPreview(
+              progress.title.id,
+              l10n,
+              fallback: TitleUnlockRules.unlockPreviewForTitle(progress.title)!,
+            ),
             style: theme.textTheme.labelSmall?.copyWith(
               color: colors.secondary,
               fontWeight: FontWeight.w700,

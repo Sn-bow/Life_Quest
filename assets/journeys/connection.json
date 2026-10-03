@@ -1,0 +1,674 @@
+[
+  {
+    "title": [
+      "Choose a connection to care for",
+      "돌보고 싶은 관계",
+      "大切にしたい関係を選ぶ",
+      "選一段想用心的關係"
+    ],
+    "steps": [
+      [
+        "Choose a person or kind of relationship you would like to give attention to.",
+        "Write what a small, comfortable step could be. You do not have to contact anyone."
+      ],
+      [
+        "조금 더 관심을 두고 싶은 사람이나 관계를 고르세요.",
+        "부담 없는 작은 행동이 무엇일지 적으세요. 연락할 필요는 없습니다."
+      ],
+      [
+        "少し気にかけたい人や関係を選びましょう。",
+        "無理なくできる小さな一歩を書きましょう。誰かに連絡する必要はありません。"
+      ],
+      [
+        "選一個想多關心的人，或一種關係。",
+        "寫下一個舒服的小步驟。不需要真的聯絡任何人。"
+      ]
+    ],
+    "small": [
+      "Write one small, welcome way to care for a relationship. You do not need to send anything.",
+      "관계에 도움이 될 부담 없는 행동 하나를 적으세요. 연락하지 않아도 됩니다.",
+      "関係を大切にする、負担のない小さな行動を一つ書きましょう。連絡は不要です。",
+      "寫下一個體貼、沒負擔的小行動，不需要傳送任何訊息。"
+    ]
+  },
+  {
+    "title": [
+      "Notice one kind moment",
+      "작은 친절 발견",
+      "小さな親切に気づく",
+      "留意一個友善時刻"
+    ],
+    "steps": [
+      [
+        "Recall one small kindness you received or witnessed recently.",
+        "Write what made it meaningful. Keep it private or share it only if you want to."
+      ],
+      [
+        "최근 받거나 본 작은 친절 하나를 떠올리세요.",
+        "어떤 점이 좋았는지 적으세요. 혼자 간직해도, 원할 때만 전해도 됩니다."
+      ],
+      [
+        "最近受け取った、または見かけた親切を一つ思い出しましょう。",
+        "何がうれしかったか書きましょう。自分だけの記録にしても構いません。"
+      ],
+      [
+        "回想最近收到或看到的一個小小善意。",
+        "寫下它為什麼有意義。可以私下保留，想分享才分享。"
+      ]
+    ],
+    "small": [
+      "Write one kind action you noticed and why it mattered to you.",
+      "발견한 친절 하나와 좋았던 이유를 적으세요.",
+      "気づいた親切を一つと、自分にとってよかった理由を書きましょう。",
+      "寫下一個注意到的善意，以及它為何對你有意義。"
+    ]
+  },
+  {
+    "title": [
+      "Draft a low-pressure hello",
+      "부담 없는 안부 초안",
+      "気軽な挨拶を下書きする",
+      "寫一則沒壓力的問候"
+    ],
+    "steps": [
+      [
+        "Write a short greeting you would feel comfortable sending.",
+        "Remove any pressure for a quick reply. Save the draft or send it if the contact is welcome."
+      ],
+      [
+        "편하게 보낼 수 있는 짧은 안부를 적으세요.",
+        "빠른 답을 요구하는 표현은 빼보세요. 초안으로 두거나 상대가 반길 연락일 때만 보내세요."
+      ],
+      [
+        "無理なく送れそうな短い挨拶を書きましょう。",
+        "すぐ返事を求める表現を外しましょう。下書きのままでも、相手が望む連絡なら送っても構いません。"
+      ],
+      [
+        "寫一段你會舒服地傳出的簡短問候。",
+        "拿掉催促立即回覆的語氣。留作草稿，或在對方願意聯絡時再傳。"
+      ]
+    ],
+    "small": [
+      "Draft a short hello without asking for a quick reply. Sending is optional.",
+      "빠른 답을 요구하지 않는 짧은 안부 초안을 적으세요. 보내기는 선택입니다.",
+      "すぐの返事を求めない短い挨拶を下書きしましょう。送るかは自由です。",
+      "草擬一句不催促回覆的問候，是否傳送由你決定。"
+    ]
+  },
+  {
+    "title": [
+      "Prepare one curious question",
+      "궁금한 질문 하나",
+      "聞いてみたい質問を一つ",
+      "準備一個真心好奇的問題"
+    ],
+    "steps": [
+      [
+        "Choose an everyday topic you would genuinely like to hear about.",
+        "Write an open question that respects privacy. You can use it in a future conversation or keep it as practice."
+      ],
+      [
+        "진짜로 들어보고 싶은 일상 주제 하나를 고르세요.",
+        "사생활을 존중하는 열린 질문을 적으세요. 나중에 쓰거나 연습으로 남겨도 됩니다."
+      ],
+      [
+        "本当に聞いてみたい身近な話題を選びましょう。",
+        "プライバシーを尊重する、自由に答えられる質問を書きましょう。次の会話用でも練習だけでも大丈夫です。"
+      ],
+      [
+        "選一個你真想聽聽的日常話題。",
+        "寫一個尊重隱私的開放式問題。之後聊天可用，也可以只當練習。"
+      ]
+    ],
+    "small": [
+      "Write one respectful, open question about an everyday topic.",
+      "일상 주제에 대해 상대를 존중하는 열린 질문 하나를 적으세요.",
+      "日常の話題で、相手を尊重した開かれた質問を一つ書きましょう。",
+      "針對日常話題，寫下一個尊重對方的開放式問題。"
+    ]
+  },
+  {
+    "title": [
+      "Practise reflecting back",
+      "들은 말 요약 연습",
+      "聞いたことをまとめる",
+      "練習把聽到的話說回來"
+    ],
+    "steps": [
+      [
+        "Recall a harmless conversation or read a short public interview.",
+        "Summarise the speaker's point in one sentence without adding advice. This is listening practice, not a message to send."
+      ],
+      [
+        "부담 없는 대화를 떠올리거나 짧은 공개 인터뷰를 읽으세요.",
+        "조언을 덧붙이지 않고 상대의 요점을 한 문장으로 요약하세요. 보내는 메시지가 아닌 듣기 연습입니다."
+      ],
+      [
+        "気軽な会話を思い出すか、短い公開インタビューを読みましょう。",
+        "助言を足さず、話し手の要点を一文にまとめましょう。送るためでなく、聞く練習です。"
+      ],
+      [
+        "回想一段輕鬆對話，或讀一小段公開訪談。",
+        "不加建議，用一句話總結對方重點。這是聆聽練習，不是要傳出的訊息。"
+      ]
+    ],
+    "small": [
+      "Summarise one point from a light conversation or public interview without adding advice.",
+      "가벼운 대화나 공개 인터뷰의 요점 하나를 조언 없이 요약하세요.",
+      "軽い会話や公開インタビューの要点を一つ、助言を足さずにまとめましょう。",
+      "不加建議，摘要一段輕鬆對話或公開訪談的一個重點。"
+    ]
+  },
+  {
+    "title": [
+      "Write a specific thank-you",
+      "구체적인 고마움",
+      "具体的なありがとう",
+      "寫具體的感謝"
+    ],
+    "steps": [
+      [
+        "Choose one small action you appreciated.",
+        "Write a thank-you that names the action and why it mattered. Sending it is optional."
+      ],
+      [
+        "고마웠던 작은 행동 하나를 고르세요.",
+        "그 행동과 도움이 된 이유를 담아 감사 문장을 적으세요. 보내는 것은 선택입니다."
+      ],
+      [
+        "ありがたかった小さな行動を一つ選びましょう。",
+        "その行動と助かった理由を添えて、お礼を書きましょう。送るかどうかは自由です。"
+      ],
+      [
+        "選一個你感謝的小動作。",
+        "寫下對方做了什麼，以及為何對你有幫助。傳不傳由你決定。"
+      ]
+    ],
+    "small": [
+      "Write a thank-you sentence naming one action and how it helped.",
+      "고마운 행동과 도움 된 점을 담은 감사 문장 하나를 적으세요.",
+      "感謝したい行動と助かった点を入れ、お礼を一文書きましょう。",
+      "用一句感謝寫出具體行動與它如何幫助你。"
+    ]
+  },
+  {
+    "title": [
+      "Keep a comfortable pace",
+      "편안한 속도 남기기",
+      "無理のないペースを残す",
+      "留下舒服的步調"
+    ],
+    "steps": [
+      [
+        "Look back at this chapter and choose the action that felt most natural.",
+        "Write how often you would like to give it time. A relationship does not need a daily streak."
+      ],
+      [
+        "이번 장에서 가장 자연스러웠던 행동을 고르세요.",
+        "얼마나 자주 시간을 내고 싶은지 적으세요. 관계에도 매일 연속 기록이 필요한 것은 아닙니다."
+      ],
+      [
+        "この章でいちばん自然にできた行動を選びましょう。",
+        "どのくらいの頻度で時間を使いたいか書きましょう。関係に毎日の連続記録は必要ありません。"
+      ],
+      [
+        "回看這章，選一個感覺最自然的行動。",
+        "寫下你想多久花一次時間。關係不需要每天連續打卡。"
+      ]
+    ],
+    "small": [
+      "Write a comfortable pace for keeping in touch, including room for quiet days.",
+      "조용히 지낼 날도 포함해 편안한 연락 속도를 적으세요.",
+      "静かに過ごす日も含め、無理のない連絡のペースを書きましょう。",
+      "寫下舒服的聯絡步調，也為安靜的日子留空間。"
+    ]
+  },
+  {
+    "title": [
+      "Make an invitation easy to decline",
+      "거절하기 편한 제안",
+      "断りやすい誘い方",
+      "寫一個容易婉拒的邀請"
+    ],
+    "steps": [
+      [
+        "Draft an invitation with one clear activity or time.",
+        "Add room to say no or suggest another time. Keep it as practice unless you want to send it."
+      ],
+      [
+        "활동이나 시간이 분명한 초대 문장을 적으세요.",
+        "거절하거나 다른 때를 제안할 여유를 넣으세요. 보내지 않고 연습으로 두어도 됩니다."
+      ],
+      [
+        "活動や時間が分かる短い誘い文を書きましょう。",
+        "断ったり別の時を提案したりできる余地を加えましょう。練習だけでも構いません。"
+      ],
+      [
+        "寫一則活動或時間明確的邀請。",
+        "留給對方說不或另約時間的空間。不想傳就當練習。"
+      ]
+    ],
+    "small": [
+      "Add an easy way to decline to one invitation draft.",
+      "초대 초안 하나에 편하게 거절할 수 있는 문장을 더하세요.",
+      "誘いの下書きに、断りやすくする一文を足しましょう。",
+      "在一份邀請草稿中，加上一句讓對方容易婉拒的話。"
+    ]
+  },
+  {
+    "title": [
+      "Name a small boundary",
+      "작은 경계 표현",
+      "小さな境界を言葉にする",
+      "說清楚一個小界線"
+    ],
+    "steps": [
+      [
+        "Choose an ordinary situation where you need more time or space.",
+        "Write a calm sentence that states what you can do and what you cannot. No confrontation is required."
+      ],
+      [
+        "시간이나 여유가 더 필요한 일상 상황 하나를 고르세요.",
+        "할 수 있는 것과 어려운 것을 차분한 문장으로 적으세요. 직접 부딪칠 필요는 없습니다."
+      ],
+      [
+        "時間や余裕が必要な身近な場面を選びましょう。",
+        "できることと難しいことを、落ち着いた一文にしましょう。実際に対立する必要はありません。"
+      ],
+      [
+        "選一個需要多點時間或空間的日常情境。",
+        "平靜地寫出能做與不能做的事。不需要真的與人衝突。"
+      ]
+    ],
+    "small": [
+      "Draft a calm sentence saying what you can offer and what you cannot.",
+      "할 수 있는 것과 어려운 것을 차분하게 말하는 문장을 적으세요.",
+      "できることと難しいことを、落ち着いて伝える一文を下書きしましょう。",
+      "草擬一句平靜表達能做與不能做的話。"
+    ]
+  },
+  {
+    "title": [
+      "Follow up on one detail",
+      "이야기 하나 기억하기",
+      "話の続きを覚えておく",
+      "記住一個對話細節"
+    ],
+    "steps": [
+      [
+        "Recall one nonprivate detail someone willingly shared, such as a hobby or project.",
+        "Draft a considerate follow-up question. Ask it only if the situation feels welcome."
+      ],
+      [
+        "상대가 자발적으로 말했던 취미나 작업처럼 사적이지 않은 내용을 떠올리세요.",
+        "배려 있는 후속 질문을 적으세요. 반길 상황일 때만 물어보세요."
+      ],
+      [
+        "趣味や作品など、相手が自分から話した私的すぎないことを思い出しましょう。",
+        "気づかいのある続きの質問を書きましょう。聞くのは相手が望みそうな時だけで大丈夫です。"
+      ],
+      [
+        "回想對方自願分享且不私密的細節，例如興趣或作品。",
+        "寫一個體貼的後續問題，只在適合時詢問。"
+      ]
+    ],
+    "small": [
+      "Write a considerate follow-up about a non-private topic someone shared willingly.",
+      "상대가 자발적으로 말한 사적이지 않은 주제에 배려 있는 후속 질문을 적으세요.",
+      "相手が自分から話した私的すぎない話題に、思いやりのある続きの質問を書きましょう。",
+      "對對方主動分享的非私密話題，寫一個體貼的後續問題。"
+    ]
+  },
+  {
+    "title": [
+      "Offer help with a clear limit",
+      "가능한 만큼 돕기",
+      "できる範囲で手を貸す",
+      "在能力範圍內幫忙"
+    ],
+    "steps": [
+      [
+        "Think of a small, realistic way you could help someone, without promising too much.",
+        "Write an offer with a clear scope. It is fine to decide you do not have capacity today."
+      ],
+      [
+        "무리한 약속 없이 도울 수 있는 작은 방법을 생각하세요.",
+        "범위가 분명한 제안을 적으세요. 오늘은 여유가 없다고 판단해도 됩니다."
+      ],
+      [
+        "約束しすぎずにできる、小さな手助けを考えましょう。",
+        "範囲が分かる申し出を書きましょう。今日は余裕がないと決めても構いません。"
+      ],
+      [
+        "想一個做得到的小幫忙，不過度承諾。",
+        "寫一個範圍明確的提議。今天沒有餘力也沒關係。"
+      ]
+    ],
+    "small": [
+      "Draft a small offer with clear limits, or honestly note that you have no room today.",
+      "범위가 분명한 작은 도움 제안을 적거나 오늘 여유가 없음을 솔직히 적으세요.",
+      "範囲を決めた小さな手助けを下書きするか、今日は余裕がないと正直に書きましょう。",
+      "草擬一個範圍清楚的小協助提議，或誠實記下今天沒有餘力。"
+    ]
+  },
+  {
+    "title": [
+      "Ask instead of assuming",
+      "짐작 대신 확인",
+      "決めつけずに確かめる",
+      "先問再猜"
+    ],
+    "steps": [
+      [
+        "Choose a harmless situation where you might guess what another person wants.",
+        "Draft a neutral question that lets them tell you. Keep private or sensitive topics out of this exercise."
+      ],
+      [
+        "상대가 원하는 것을 지레 생각할 수 있는 가벼운 상황을 고르세요.",
+        "상대가 직접 말할 수 있는 중립적인 질문을 적으세요. 민감하거나 사적인 주제는 제외하세요."
+      ],
+      [
+        "相手の希望をつい推測してしまう、軽い場面を選びましょう。",
+        "本人が答えられる中立的な質問を書きましょう。私的で敏感な話題は避けます。"
+      ],
+      [
+        "選一個容易猜測對方想法、但不敏感的情境。",
+        "寫個讓對方自己說明的中性問題。不要拿私密或敏感議題練習。"
+      ]
+    ],
+    "small": [
+      "Turn one harmless assumption into a neutral question.",
+      "가벼운 짐작 하나를 중립적인 질문으로 바꿔 적으세요.",
+      "軽い思い込みを一つ、中立的な質問に書き換えましょう。",
+      "把一個無傷大雅的猜測改寫成中立的問題。"
+    ]
+  },
+  {
+    "title": [
+      "Share one ordinary thing",
+      "평범한 하루 한 조각",
+      "普通のことを一つ話す",
+      "分享一件平凡小事"
+    ],
+    "steps": [
+      [
+        "Choose a small part of your day you would be comfortable telling someone.",
+        "Write it in two sentences without trying to make it impressive. Sharing is optional."
+      ],
+      [
+        "누군가에게 편하게 말할 수 있는 일상 한 조각을 고르세요.",
+        "대단하게 꾸미지 말고 두 문장으로 적으세요. 공유는 선택입니다."
+      ],
+      [
+        "誰かに気軽に話せそうな、一日の小さな出来事を選びましょう。",
+        "立派に見せようとせず二文で書きましょう。共有は自由です。"
+      ],
+      [
+        "選一天裡可以舒服地告訴別人的小事。",
+        "不用寫得厲害，用兩句話記下。分享是選擇。"
+      ]
+    ],
+    "small": [
+      "Write two honest sentences about an ordinary part of your day. Sharing is optional.",
+      "평범한 하루 한 부분을 솔직하게 두 문장으로 적으세요. 공유는 선택입니다.",
+      "日常の一場面を、飾らず二文で書きましょう。共有は自由です。",
+      "用兩句真實的話寫日常片段，分享與否由你決定。"
+    ]
+  },
+  {
+    "title": [
+      "Review what felt mutual",
+      "서로 편했던 점 보기",
+      "お互いに楽だった点を振り返る",
+      "回看彼此都舒服的地方"
+    ],
+    "steps": [
+      [
+        "Think about a recent comfortable exchange or your practice drafts.",
+        "Note what made space for both people. Choose one habit to keep, without scoring anyone."
+      ],
+      [
+        "최근 편안했던 대화나 연습한 초안을 살펴보세요.",
+        "서로의 여유를 만든 부분을 적으세요. 사람을 평가하지 말고 유지할 행동 하나를 고르세요."
+      ],
+      [
+        "最近の気楽なやり取りや練習の下書きを振り返りましょう。",
+        "双方に余裕があった点を書き、人を採点せず続けたい行動を一つ選びましょう。"
+      ],
+      [
+        "想想最近舒服的交流或練習草稿。",
+        "記下哪些做法給雙方空間。不替任何人打分數，只挑一個想保留的習慣。"
+      ]
+    ],
+    "small": [
+      "Note one detail that made a conversation or draft comfortable for both sides.",
+      "대화나 초안에서 서로 편하게 만든 부분 하나를 적으세요.",
+      "会話や下書きで、お互いを楽にした点を一つ書きましょう。",
+      "記下一個讓對話或草稿對雙方都舒服的細節。"
+    ]
+  },
+  {
+    "title": [
+      "A no-cost shared moment",
+      "돈 들지 않는 함께 시간",
+      "お金をかけないひととき",
+      "不用花錢的共處時光"
+    ],
+    "steps": [
+      [
+        "Choose a simple activity you could enjoy with someone, such as a short walk or talking about a book.",
+        "Sketch a plan with a solo alternative. No purchase or invitation is needed to complete this mission."
+      ],
+      [
+        "짧은 산책이나 책 이야기처럼 함께 즐길 수 있는 간단한 활동을 고르세요.",
+        "혼자 할 대안과 함께 계획을 적으세요. 구매하거나 초대하지 않아도 미션 완료입니다."
+      ],
+      [
+        "短い散歩や本の話など、誰かと楽しめそうな活動を選びましょう。",
+        "一人でできる代案も添えて計画しましょう。買い物や招待は必須ではありません。"
+      ],
+      [
+        "選簡單且能與人一起享受的活動，例如短暫散步或聊書。",
+        "寫個小計畫，也準備獨自進行的版本。不需購買或發邀請就能完成。"
+      ]
+    ],
+    "small": [
+      "Write a simple shared activity and an equally good solo alternative.",
+      "함께 할 간단한 활동과 혼자 해도 좋은 대안을 적으세요.",
+      "一緒に楽しめる簡単なことと、一人でもよい代案を書きましょう。",
+      "寫下一個簡單的共同活動與同樣好的獨自替代方案。"
+    ]
+  },
+  {
+    "title": [
+      "Practise a clear request",
+      "분명하게 부탁하기",
+      "分かりやすく頼む練習",
+      "練習清楚地請求"
+    ],
+    "steps": [
+      [
+        "Choose a small everyday thing you might need help with.",
+        "Write what you need, when you need it and room for the other person to decline. Keep it as a draft if preferred."
+      ],
+      [
+        "도움이 필요할 수 있는 작은 일상 일을 고르세요.",
+        "필요한 내용과 때, 거절할 여유를 담아 적으세요. 초안으로 남겨도 됩니다."
+      ],
+      [
+        "少し助けが必要になりそうな日常のことを選びましょう。",
+        "何をいつまでに頼みたいか、断れる余地も添えて書きましょう。下書きのままでも大丈夫です。"
+      ],
+      [
+        "選一件可能需要幫忙的小日常事。",
+        "寫清需要什麼、何時需要，也留給對方婉拒的空間。想保留草稿也可以。"
+      ]
+    ],
+    "small": [
+      "Draft a specific, small request that leaves the other person free to decline.",
+      "상대가 거절해도 되는 구체적이고 작은 부탁 문장을 적으세요.",
+      "相手が断れる余地を残し、具体的で小さなお願いを下書きしましょう。",
+      "草擬一個具體的小請求，保留讓對方拒絕的空間。"
+    ]
+  },
+  {
+    "title": [
+      "Leave room for a reply",
+      "답을 기다릴 여유",
+      "返事を待つ余裕を作る",
+      "留點時間等回覆"
+    ],
+    "steps": [
+      [
+        "Look at a draft or conversation where you might feel tempted to chase a reply.",
+        "Write one way to give the other person time while returning to your own day. No follow-up is required."
+      ],
+      [
+        "답을 재촉하고 싶어질 수 있는 대화나 초안을 살펴보세요.",
+        "상대에게 시간을 주고 내 일상으로 돌아오는 방법을 적으세요. 추가 연락은 필요 없습니다."
+      ],
+      [
+        "返事を急かしたくなりそうな下書きや会話を振り返りましょう。",
+        "相手に時間を渡し、自分の一日に戻る方法を書きましょう。追加の連絡は不要です。"
+      ],
+      [
+        "看看一段可能讓你想催回覆的草稿或對話。",
+        "寫一個給對方時間、也回到自己生活的方法。不需要再追問。"
+      ]
+    ],
+    "small": [
+      "Remove urgency or pressure from one message draft.",
+      "메시지 초안 하나에서 재촉하거나 부담 주는 표현을 덜어내세요.",
+      "メッセージの下書きから、急かす言葉や負担になる表現を減らしましょう。",
+      "從一份訊息草稿中，刪去催促或造成壓力的表達。"
+    ]
+  },
+  {
+    "title": [
+      "Choose a welcoming space",
+      "편안한 모임 살펴보기",
+      "居心地のよさそうな場を探す",
+      "找一個友善的空間"
+    ],
+    "steps": [
+      [
+        "Find one public group, place or activity related to an interest you already have.",
+        "Read its description or rules and decide whether it seems welcoming. Joining, paying or posting is optional."
+      ],
+      [
+        "이미 좋아하는 관심사와 관련된 공개 모임이나 장소 하나를 찾으세요.",
+        "소개나 규칙을 읽고 편안할지 판단하세요. 가입, 결제, 글쓰기는 선택입니다."
+      ],
+      [
+        "好きなことに関係する公開の集まり、場所、活動を一つ探しましょう。",
+        "紹介やルールを読み、合いそうか考えましょう。参加、支払い、投稿は自由です。"
+      ],
+      [
+        "找一個與既有興趣相關的公開社群、場所或活動。",
+        "閱讀介紹與規則，想想是否友善。加入、付費或發文都是選擇。"
+      ]
+    ],
+    "small": [
+      "Write one small way to participate in a group without overcommitting.",
+      "무리한 약속 없이 모임에 참여할 작은 방법 하나를 적으세요.",
+      "無理な約束をせず集まりに参加する、小さな方法を一つ書きましょう。",
+      "寫下一個不過度承諾也能參與群體的小方法。"
+    ]
+  },
+  {
+    "title": [
+      "Save your useful phrases",
+      "내 말투의 문장 남기기",
+      "自分らしい言葉を残す",
+      "保存像自己的句子"
+    ],
+    "steps": [
+      [
+        "Choose three drafts from this route that sound like you.",
+        "Edit them into reusable starting points, not scripts you must follow. Keep names and private details out if unnecessary."
+      ],
+      [
+        "이번 루트에서 내 말투에 맞는 초안 세 개를 고르세요.",
+        "꼭 따라야 할 대본 대신 다시 시작할 단서로 다듬으세요. 불필요한 이름과 사적 정보는 빼세요."
+      ],
+      [
+        "このルートの下書きから、自分らしいものを三つ選びましょう。",
+        "従う台本ではなく、話し始めるヒントに整えましょう。不要な名前や個人情報は省きます。"
+      ],
+      [
+        "從這趟路線挑三份像自己語氣的草稿。",
+        "整理成可再次使用的開頭，不是一定得照念的劇本。不必要的人名和私密細節就省略。"
+      ]
+    ],
+    "small": [
+      "Save one considerate phrase in your own words for another time.",
+      "다음에 쓸 배려 있는 표현 하나를 내 말로 적어두세요.",
+      "また使いたい気遣いの言葉を一つ、自分の言葉で残しましょう。",
+      "用自己的話留下一句體貼表達，供下次使用。"
+    ]
+  },
+  {
+    "title": [
+      "Your low-energy option",
+      "여유 없는 날의 방법",
+      "余裕のない日の方法",
+      "沒餘力時的選項"
+    ],
+    "steps": [
+      [
+        "Choose a way to care for a connection without demanding a conversation, such as saving a thoughtful note.",
+        "Try the private version or plan a later moment. Quiet attention is enough today."
+      ],
+      [
+        "메모를 남기는 것처럼 대화를 요구하지 않고 관계를 돌볼 방법을 고르세요.",
+        "혼자 할 수 있는 버전을 해보거나 나중에 할 때를 정하세요. 오늘은 조용한 관심으로도 충분합니다."
+      ],
+      [
+        "気づかいのメモを残すなど、会話を求めずに関係を大切にする方法を選びましょう。",
+        "一人でできる形を試すか、後で行う時を決めましょう。今日は静かに気にかけるだけで十分です。"
+      ],
+      [
+        "選一個不用開啟對話也能用心的方式，例如留下體貼的筆記。",
+        "先做私下版本或安排之後的時機。今天默默關心也足夠。"
+      ]
+    ],
+    "small": [
+      "Write a low-energy option: a short draft, a later reply, or a quiet pause.",
+      "짧은 초안, 나중에 답하기, 조용히 쉬기 중 여유 없는 날의 대안을 적으세요.",
+      "短い下書き、後で返す、静かに休むなど、余裕のない日の選択肢を書きましょう。",
+      "寫下一個沒餘力時的選項：短草稿、稍後回覆或安靜休息。"
+    ]
+  },
+  {
+    "title": [
+      "Keep your own connection style",
+      "나만의 관계 방식 남기기",
+      "自分の関わり方を残す",
+      "留下自己的相處方式"
+    ],
+    "steps": [
+      [
+        "Look back at what felt natural, respectful and sustainable for you.",
+        "Write one action, one boundary and one comfortable pace to keep. Your route ends with choices, not a social score."
+      ],
+      [
+        "자연스럽고 서로를 존중하며 계속할 수 있었던 방법을 돌아보세요.",
+        "유지할 행동, 경계, 편안한 속도를 하나씩 적으세요. 관계 점수가 아닌 나의 선택을 남깁니다."
+      ],
+      [
+        "自然で、お互いを尊重でき、続けられそうだった方法を振り返りましょう。",
+        "続けたい行動、境界、ペースを一つずつ書きましょう。社交の点数ではなく、自分の選択を残します。"
+      ],
+      [
+        "回看哪些方式自然、尊重彼此且能持續。",
+        "寫下一個想保留的行動、界線和舒服的步調。留下的是你的選擇，不是社交分數。"
+      ]
+    ],
+    "small": [
+      "Write one connection habit that suits you and one boundary you will keep.",
+      "내게 맞는 관계 습관 하나와 지킬 경계 하나를 적으세요.",
+      "自分に合うつながり方を一つと、大切にする境界を一つ書きましょう。",
+      "寫下一個適合自己的交流習慣與一條想保留的界線。"
+    ]
+  }
+]

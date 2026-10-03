@@ -1,79 +1,161 @@
-# 재개 체크포인트 · 2026-09-21
+# Life Quest 현재 체크포인트 · 2026-10-04
 
-먼저 이 문서, `PUBLIC_PREVIEW.md`, `RELEASE_GATES.md`를 읽고 Git 상태·실제 계정 사용량을 확인한다. Obsidian 요청이 아니므로 Vault에 접근하지 않는다.
+## 최우선 · 앱 제품 완성 작업 (2017)
 
-## 최신 사용자 결정
+사용자가 “앱을 완성하라, 임의로 목표 수정 금지”를 재강조했다. 기존 서버 등록과 내부 게시를 완성의 근거로 사용한 접근을 중단하고 앱의 실제 사용/구매/재사용 흐름을 수정했다. **주된 작업은 제품 완성**이며 아래 서버/배포 내용은 보존 이력이다.
 
-Life Quest를 현대 판타지 상태창 습관 RPG로 개선해 Google Play에서 수익화한다. 사용자는 기획·개발·배포 권한을 위임했다. 특정 작품을 복제하지 않으며, 무료 공개 온디바이스 AI가 핵심이다. 아트는 image_gen 또는 권리가 확인된 무료 이미지/템플릿만 사용한다. 수제 SVG/HTML/Canvas 아트는 추가하지 않는다.
+- 로컬 소스 버전 **2.2.0+2017**, 원복한 메인 상태창 유지. [제품 QA](qa/toolkit-20261004/README.md).
+- 복습 카드·정리 체크리스트·일상 루틴·재사용 문장을 21개 관련 미션에 연결. 무료 첫 장4개와 후속17개. 초안·기록·휴대용 백업·수정/오류복구·도구함. 실제 샘플을 구매 전에 조작. 수락한 미션을2분으로 줄여 재개. 연습/복사로 XP 추가 없음.
+- 앱 소스 `cb99d7febeb4e727155c4e545577653bab060617`. 전체599/1skip, 도구 수정 후 Cloud/Billing on80, 마지막 구매 체험 스크롤 수정 후 관련19, 최종 정적 분석 clean. 웹 휴대폰/태블릿 실제 조작 확인. [최종 빌드와 정확한 검사 범위](product-2017-build.json).
+- 최종 signed AAB/APK는 `build/review/life-quest-2.2.0-2017-toolkit.aab` / `.apk`. AAB40검사·APK서명/16KB정렬 통과. 최종APK를 기존API35에 데이터 보존 업데이트 설치했고2017/2.2.0/target36확인. 새 Android UI 전체 직접검사나 실제 Play 설치를 뜻하지 않는다. [아티팩트 검사](product-2017-inspection.json)의 `remaining`은 검사 스크립트의 일반 외부 확인 목록이며, 운영 함수의 배포 여부는 아래 최신 서버 기록을 따른다.
+- 이 기능 묶음과 검사는 사람들이 비용을 낼 제품을 만드는 작업이다. 실제 고객 구매나 매출이 생겼다고 주장하지 않는다. 기존 **2016만 본인1명 내부 게시** 상태며2017 외부 업로드는 하지 않았다.
+- 실제 Play 구매·복원·환불은 아직 미검증이다. 이전 앱 한정 서비스계정 권한 승인/Android 설치 방식 질문에 답이 없으며, 이를 우회하거나 수동 유료권한 부여로 대신하지 않는다. 승인 대기를 제품 작업 전체 중단의 근거로 삼지 않는다.
 
-**사전 테스터를 모집할 수 없으므로 먼저 공개해서 반응을 본다.** 이전 자체 12명 파일럿·5명 독자 검수를 직접 APK 공개의 필수 조건으로 되살리지 않는다. Google Play의 실제 계정 요건은 별개이며 가짜 계정/참여로 대체하지 않는다. 누구에게도 모집 메시지를 보내지 않았다.
 
-**최신 사용량 하한은 잔여20%.** 반드시20%까지 소모하라는 뜻이 아니다. 9/21 마지막 확인은 사용42%/잔여58%였으며, 공유 계정이므로 재개할 때 다시 조회한다. 이전60%/70% 하한은 폐기됐다. 자동 일정·새 작업·목표·서브에이전트는 만들지 않았다.
+## 최신 — 지정 계정 로그인 및 실제 서버/내부 트랙 연결
 
-## 실제 공개 완료
+2026-10-03 사용자 “로그인 해줬다” 이후 공식 CLI/MCP의 지정 460 계정 인증을 확인했다. 로그인 요청을 반복하지 않는다.
 
-- 다운로드 페이지: https://sn-bow.github.io/Life_Quest/
-- 무료 Android 공개판: https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1
-- GitHub 공개 시각 2026-09-21 00:53 KST. draft=false, prerelease=true. **Google Play 정식 출시나 매출 발생은 아니다.**
-- Android8+/ARM64, **2.0.0+7**, main 진입점. Cloud/Billing/Ads/Research 모두false. 자동 분석 없음.
-- 공개 파일 `LifeQuest-2.0.0-preview.1-arm64.apk`, **160,519,338bytes**, SHA256 `587da3cee0a5d55a62e3158a404f36a6ea55045193ab505d98ce9e708c172a88`.
-- 실제 앱 소스 **d69aafbaef9b761198af29ac07c76dae5ddb0f24**. 태그는 이 커밋을 가리킨다. 이후 변경은 배포 기록/문서다.
-- 공개 링크에서 전체 APK를 내려받아 해시 일치 확인. 자체 검증 다운로드는 수요·설치자·재방문으로 집계하지 않는다. 근거 `public-distribution.json`, `public-preview-apk.json`.
-- 사이트는 gh-pages **aee4c152800203b2e2cee213f59e2e908b051fe4**, Pages built 확인. 기존 생성 아트 재사용, 다운로드/제약/문의/정책 포함. CUA 데스크톱·390px 로컬 확인과 공개 페이지 확인은 `PUBLIC_PREVIEW_UX.md`. 브라우저에서 작동하는 앱 자체를 공개한 것은 아니다.
-- APK는 자동 업데이트되지 않는다. Play 앱 서명과 다르면 전환 시 백업 후 재설치가 필요할 수 있음을 안내했다. 사용자의 기록을 지우지 않는다.
+- 앱 소스 `6594fdc`, **2.1.0+2016** 유지. 이번 작업에 앱 코드 변경/재빌드 없음. 기존 Flutter586/CloudBilling63/artifact40 검사는 해당 소스의 기록이다.
+- **Firebase 운영 함수 9개 ACTIVE**, Node22/us-central1. Firestore 규칙 일치·TTL 3개 배포, Storage 생성과 소유자 전용 규칙 배포/읽기 확인. Publisher API ENABLED, RTDN 공식 publisher/Play 설정 저장, private 승인 큐 IAM·매일 환불 보완 스케줄 확인. [서버 상세와 한계](store/FIREBASE_DEPLOYMENT_2016.md), [함수 원격 설정](firebase-deployment-2016.json).
+- 비인증 callable 5개 HTTP401, private worker HTTP403. 인증 빈 입력 큐 1건과 Google Play 시험 RTDN 각각 HTTP204. 실제 구매 토큰/사용자/권한을 만들지 않은 연결 검사다. **구매/복원/환불 성공 증거로 사용하지 않는다.**
+- **Play 2016 내부 트랙 게시 완료**: 10/3 21:54 KST, 활성/내부 테스터에게 제공됨. 정확한 AAB는 [메타데이터](product-2016-build.json) 해시. 2015는 초안에서만 제외하고 라이브러리에 보존했다. 4언어 노트 저장, 오류/경고 0 확인. 신규 설치 크기는 Console에서 66.6MB.
+- `Life Quest Owner Billing QA` 목록에 소유자 한 명만 넣고 라이선스 테스트와 내부 트랙에 저장했다. RESPOND_NORMALLY 유지. 다른 목록/다른 앱 구성은 수정하지 않았다.
+- 실제 참여 링크: https://play.google.com/apps/internaltest/4701695828383701621 . 기본 45 계정은 미초대, 승인된 460 계정으로 전환해 초대 화면을 확인했다. **Accept invite는 누르지 않음**. 내부 참여/설치는 아직 완료되지 않았다. 임시 앱명 `com.logian.lifequest (unreviewed)`는 Google 심사 전 표시다. 이 링크는 크몽의 14일 비공개 테스트 링크가 아니다. [본인 구매 검증 안내](store/OWNER_BILLING_QA_2016.md).
+- **사용자 답변 대기:** 서버 서비스 계정에 이 앱만 Play 읽기/재무/주문 권한을 부여하는 최종 초대 승인, 실제 Android USB 연결 또는 직접 설치 방식. 권한 화면은 단일 앱 4개 권한까지 준비했다. 승인 전 제출 금지. 개인 서비스 계정 JSON 키는 만들지 않았다.
+- 현재 연결된 Android는 개발용 에뮬레이터뿐이다. App Check 우회나 수동 유료 권한으로 실구매 성공을 대체하지 않는다. 승인과 기기가 준비되면 상품 활성화, Play 시험 결제·복원·환불, 계정 삭제·신고 검증을 이어간다.
+- 크몽 CSV 미수령, 비공개 트랙 미게시, 상품 비활성 초안, 실제 매출/구매 수요 증거 없음. 내부 배포를 전체 목표 완료라 보고하지 않는다. 판매자 연락/결제 없음.
+- 증거: 로컬 `build/review/play-internal-live-2016.png`, `play-license-tester-2016.png`, `play-owner-invite-2016.png`, `play-rtdn-connected-2016.png`, `firebase-storage-created-2016.png`.
 
-## 저장소와 도구
+아래는 인증/배포 이전 이력이다. 위 상태를 먼저 적용한다.
 
-- Repo `/Users/jeonghyeonseok/Documents/ChatGPT/Life_Quest`, 작업 branch `codex/rebirth-2026-09`, 이전 main `bdc7801`.
-- PR https://github.com/Sn-bow/Life_Quest/pull/1. 재개 시 실제 병합 상태와 main을 확인한다. 다른 main checkout `~/.graphify/repos/Sn-bow/Life_Quest`는 이 세션에서 변경하지 않았다.
-- Flutter `~/.local/share/lifequest/flutter/bin/flutter`3.47.4, Dart3.13.3, JDK21 `/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home`, Android SDK `~/Library/Android/sdk`, build-tools36.0.0.
-- **Flutter pub/gen-l10n/analyze/test/build/run은 같은 checkout에서 직렬 실행.** `--no-pub` APK 빌드의 오래된 플러그인 등록 오류는 일반 release 빌드로 해결했다. 생성 등록 파일을 손으로 우회하지 않았다.
-- Firebase CLI `/opt/homebrew/bin/firebase`, bundletool `~/.local/share/lifequest/tools/bundletool-1.18.3.jar`.
-- Python 모델 런타임 `~/.local/share/uv/tools/litert-lm/bin/python`. 로그/합성 입력/다운로드/검사용 산출물은 Git 제외 `qa_artifacts/rebirth/`.
-- UI는 CUA. 실제 Android 기기 미연결. Android Emulator는 이번 CUA에서 조작할 수 없었다. UI 입력/캡처를 adb나 다른 도구로 우회하지 않는다.
-- 기존 로컬 앱 프리뷰8766은 합성 QA 상태이며 연구true일 수 있다. 일반 공개판으로 혼동하지 않는다. 새 다운로드 사이트 확인용8767은 종료해도 된다.
+## 최신 작업 재개 — 2016 기록 재사용·이어가기 보완
 
-## 계정과 외부 상태
+2026-10-03. 사용자가 “그런데 왜 멈춘거야?”라고 지적했다. Firebase 로그인 대기 때문에 독립적으로 할 수 있는 제품 개선까지 중단한 판단이 잘못됐음을 인정하고 실제 수정/검증을 재개했다. **목표 완료나 유료 판매 가능 선언은 하지 않았다.**
 
-**Firebase 지정 계정 hyeonseok460.** `lifequest-crossing-2026`를 실제 생성했고 Android `com.lifequest.app`, appID `1:61563760091:android:4f449ea668e5a19120cbfe`, 공개 업로드 인증서를 등록했다. Spark무료, Firestore(default)서울 `asia-northeast3`, STANDARD/FIRESTORE_NATIVE, 클라이언트 모두 거부 규칙 및 삭제 보호 적용. 과금 계정/Blaze 연결 없음.
+- 앱 소스 `6594fdc22df6f1f8280c862407837ba65a46bfea`, **2.1.0+2016**. 원복한 메인 디자인 유지.
+- 완료 기록을 한곳에서 열람/복사하고 장별 직접 쓴 회고를 모음. 완료했던 작은 행동 안내를 정확하게 재표시. 수락해 둔 다른 루트를 열 때 상태창 선택 저장. 기기 프로필 삭제 후 기록 화면 갱신.
+- 전체586/CloudBilling63/루트28/analyze clean/배포파일40 통과. Android 업데이트·작은 행동 완료·재열람·강제종료 보존·가로태블릿200% 확인. [QA](qa/route-record-20261003/README.md), [빌드](product-2016-build.json), [검사](product-2016-inspection.json).
+- `build/review/life-quest-2.1.0-2016-complete.apk`와 `.aab`는 로컬 검증 후보. **2016 미업로드**, Play2015 내부초안 유지, 비공개 테스트 미게시.
+- Firebase MCP 인증NONE을 재확인. MCP와 공식CLI의 원격 로그인(`auth.firebase.tools`)은 OAuth오류로 실패했다. 실패가 확인된 원격 세션만 종료하고 공식CLI 기본 로컬 콜백 방식(`firebase login --reauth`)으로 전환했다. 지정 계정 확인을 통과해 Firebase/Cloud 관리권한 Allow의 사용자 승인 대기까지 진행했다. 현재 대기 중인 로컬 로그인은 임의로 갱신하지 않는다. 인증 코드·토큰은 파일에 저장하지 않는다. 인증 없이 표시된 Billing No를 실제 과금 상태로 해석하지 않는다.
+- **로그인 후 Console 읽기 확인:** hyeonseok460의 해당 프로젝트는 Blaze이며 Auth의 이메일/비밀번호·Google·익명이 이미 활성화돼 있다. 새 Android 앱에 Play 앱서명 SHA1/SHA256이 저장돼 있고 App Check / Play Integrity에도 업로드 SHA256과 Play SHA256 두 개가 이미 존재한다. 재등록하거나 보안 설정을 변경하지 않았다. 이전 ‘인증서 추가 대기’ 기록은 현재 상태가 아니다.
+- Functions 화면은 아직 시작 안내이며 운영 함수 목록이 없다. 실제 구매/복원/환불·운영서버는 미완료다. Firestore App Check는 적용되지 않음, Auth는 모니터링이며 Storage는 시작 전으로 표시됐다. callable 코드의 App Check 강제 설정은 유지한다. 이를 무료 기록 UI/테스트 통과로 대체하지 않는다.
+- 위 읽기 증거는 `build/review/firebase-auth-providers-2016.png`, `firebase-functions-before-deploy-2016.png`, `firebase-play-integrity-2016.png`, `firebase-android-sha-2016.png`. 관리 권한 승인 후 공식 CLI로 원격 규칙·인덱스·서비스를 확인하고 배포한다. 인증 연결을 확인하기 전에 콘솔 접근과 CLI 인증을 혼동하지 않는다.
+- [2016 테스터 안내](store/TESTER_STEPS_2016.md) 준비. 판매자CSV/실제참여링크 없음. 판매자 연락·결제·전달 없음.
+- 공개 사이트는 직전2015 설명 그대로이며 소스에서2016 표기만 준비했다. 이번 제품 수정 때문에 Console 업로드나 사이트 배포를 다시 선행하지 않았다.
 
-Auth/Functions/AppCheck/Storage/구매 검증/RTDN/신고 서버는 아직 배포하지 않았다. 새 서비스 계정 키나 권한 확대도 없다. 앱 Cloudfalse이므로 이 프로젝트에 앱 기록을 전송하지 않는다. `.firebaserc`, Android SDK 설정, `lib/firebase_options.dart`는 새 프로젝트를 가리킨다.
+아래2015 상태는 이전 체크포인트다.
 
-잠금 규칙은 `firebase.bootstrap.json` + `firestore.bootstrap.rules`로만 배포했다. **기본 firebase.json을 일괄 배포하지 않는다.** 운영 규칙·함수는 아직 준비 대상이다. Firestore서울과 기존 Functions/us-central1 호출 설정은 실제 클라우드 기능을 켜기 전에 함께 검토한다. gcloud 활성 계정hyeonseok45는 다른 계정이므로460 조회·배포 근거로 쓰지 않는다.45 계정의 다른 프로젝트는 변경하지 않았다.
+## 최신 작업 재개 — 2015 제품 흐름 보완
+사용자가 “왜 끝냈느냐”고 지적했다. 디자인 원복만으로 전체 작업을 멈춘 것은 잘못이며, 원복 디자인을 유지한 채 제품 개선·실제 거래 검증·비공개 테스트까지 이어간다. 기능/빌드/콘솔 초안을 목표 완료로 낮추지 않는다.
 
-**Google Play Log_Ian**, developer8167226228602257815, app4972166589004992203, packagecom.lifequest.app. 9/21 실제 프로덕션 화면에서 ‘아직 프로덕션에 액세스할 수 없습니다’를 확인했다. 대시보드의 Console 오류와 별개다. 공식 개인 계정 요건: https://support.google.com/googleplay/android-developer/answer/14151465?hl=en . 실제12명 연속14일 참여 후 신청/심사이며, 직접 APK 배포가 이를 충족하지 않는다.
+- 앱 소스 `b968d04e936401f4ac244fdbf9c7ce596f4d7388`, 버전 **2.1.0+2015**, 패키지 `com.logian.lifequest`.
+- 실제Android에서 완료 전 메모가 뒤로가기 후 사라지는 문제를 재현하고 수정했다. 프로필별 로컬 초안 저장·순서 보장·실패 재시도·완료/삭제 정리·줄바꿈 보존. 강제 종료/재실행에서도 실제 확인했다.
+- 구매 화면에서 네 루트의 실제8번 미션과 작은 행동을 바로 비교한다. 무료28개와 추가56개를 분명히 설명한다. 상태창 프레임/능력치/간격은 원복 상태 유지.
+- 전체Flutter **576통과/1기본설정 의도적skip**, Cloud/Billing on 관련 **53통과**, analyze clean, signed AAB/split **40/40통과**. Android API35/16KB에서 메모 강제종료 복구·완료·구매예시·가로태블릿200% 확인. [QA](qa/commercial-flow-20261003/README.md), [빌드](product-2015-build.json), [검사](product-2015-inspection.json).
+- AAB `build/review/life-quest-2.1.0-2015-complete.aab`, SHA256 `2b141a2dfdc17bdd45a1c64d30bf8582e5378bbe803f5398d3d5d1227a81ff40`.
+- APK `build/review/life-quest-2.1.0-2015-complete.apk`, SHA256 `fa6f071f5a8a0c0cee5d74f51754c228bd9b9e83c54c0466c9d72c4011fd527c`.
+- **Play AAB 업로드 해결:** Chrome 기본 파일 선택창으로2015를 업로드했고 Console 수신/처리 및 내부 릴리스1 초안 저장 확인. 확장의 파일URL 접근을 확대하지 않았다. 이전 권한 차단 기록은 해결된 이력이다.
+- 내부 출시명/4언어 출시노트를2015로 저장. 광고 없는 실제AAB와 불일치했던 광고ID선언을 **미사용**으로 저장. 출시 차단 오류0, ‘테스터미지정’ 경고1. 아직 내부/비공개 트랙을 활성화하지 않았다.
+- Play 앱 서명 공개SHA256 `08:F8:1E:22:2C:80:12:56:00:2E:82:E8:59:AE:A6:D1:E0:01:D9:D5:10:AF:F9:3E:55:77:CF:01:E3:15:A2:73`, SHA1 `ED:D7:5D:4F:A1:B3:41:78:9A:AE:3E:B7:15:B3:71:69:52:F6:06:4D`. 업로드 인증서와 다름. 새Play 인증서의Firebase/AppCheck추가 승인 질문 대기.
+- Complete 상품 `quest_journeys_complete_01` / `complete-once`를 네 언어·6개국 가격과 함께 **비활성 초안 저장**했다. 미국US$4.99, 일본¥860, 대만NT$170, 한국₩6,500, 캐나다CA$6.99, 프랑스€5.49. 실제 구매 검증 전 판매를 활성화하지 않았다.
+- Firebase 로그인은 hyeonseok460 사용자 입력 대기. 기존대기세션을 임의로 갱신하지 않는다. 인증코드/토큰은 저장하지 않는다. 운영Functions/구매·복원·환불/RTDN·큐IAM은 미검증.
+- 판매자CSV와 실제비공개참여링크 없음. [2015테스터안내](store/TESTER_STEPS_2015.md)와[의뢰준비](store/KMONG_HANDOFF_20261003.md)는 준비자료이며 발송하지 않았다.
 
-내부 테스트 릴리스1 초안과 EN/KR 노트를 저장했다. EN/KR 등록정보 설명도 저장돼 있다. AAB 선택은 Chrome 확장 파일URL 권한 제한으로 실패했고 공식 설정 안내를 이미 전달했다. 권한 변경 없이 재시도/우회하지 않는다. AAB 업로드·프로덕션 제출·상품 판매 없음. 실제 Android 스토어 캡처·최종 선언/데이터 보안·인앱 AI 신고 운영도 남아 있다. 사용자에게 사전 친구 모집을 다시 요구하지 않는다.
+- 공개 사이트 `https://sn-bow.github.io/Life_Quest/`를 `gh-pages` 커밋 `1078423`으로 게시했다. Pages built 및 실제브라우저에서84미션/Complete·4언어정책·2015안내 확인. 실제앱사진은 촬영본2014로 정확히 표기하고 메인디자인은2015와같다. 직접공개APK는여전히과거무료프리뷰다.
+- `build/review/kmong-handoff-draft-2015.zip`에 최신테스터안내와의뢰준비를 묶었다. 실제참여링크/판매자CSV가없어 발송가능최종본이아니다.
 
-## 제품과 수익 방향
+아래2014 상태는 직전 이력이다. 위2015 체크포인트를 우선한다.
 
-**Life Quest: 경계의 서가 / The Crossing Library.** 기록자가 작은 현실 행동으로 도시·수련·탐사의 책을 이어 읽는다. Today/Quests/Dungeon/Growth 네 탭, 읽기 좋은 상태창, 선택형 카드 탐험. 무림로그인·더 게이머·퀘스트지상주의·전독시·영지설계사 공식 소개와 LifeUp/Finch를 참고했으며 전편 정독이나 해당 IP 사용을 주장하지 않는다.
+## 2014 디자인 원복 이력 — 현재도 유지
+사용자가 `33ab5f4`의 내부 간격과 루트 표시 변경도 거절해 모두 되돌렸다. 앱 코드는 아래 `54e2a7f` 제품 상태와 동일하고, 보존된 `complete.apk`의 해시도 다시 확인했다. 거절된 `content-spacing.apk` 및 `spacing-review.apk`는 배포하거나 최신본으로 사용하지 않는다. 해당 시안·캡처는 Git 이력에만 보존하며, 이번 원복 뒤 추가 디자인 변경은 하지 않는다.
 
-무료3권×4장면×4언어, 누적 현실0/1/3/6개로 해금. 책 전환/재독/선택/백업 유지. 읽기로 XP를 주지 않으며 휴식으로 일상 XP를 깎지 않는다. 조수 우체국은12장면×4언어·두 결말·테마·표식, 처음2장면 무료 체험. **판매off, 가격미정.** 2,900/4,900/6,900원은 가설이고 실제 수요·매출은 없다. 본편 원고/번들은 공개 저장소이므로 독점 콘텐츠/DRM을 주장하지 않는다.
+## 직전 디자인 수정 원복
+사용자가 테두리 안쪽 패딩을 넓힌 결과를 거절하고 원래대로 되돌리라고 했다. `afe594f`와 `12816fc`의 변경을 모두 되돌려 아래 `54e2a7f` 제품 소스와 동일하게 복원했다. 관련 후속 화면·메타데이터는 현재 검증 자료에서 제거했으며 Git 이력에는 남는다. 기존 `complete.apk`의 해시를 다시 확인했다. `spacing-review.apk`는 거절된 이전 시안이므로 배포하거나 최신본으로 사용하지 않는다. 사용자가 지칭한 것은 “테두리 안쪽 내용물들”이며, 후속 내부 요소 배치 수정은 아직 적용하지 않았다.
 
-수익 방향은 무료 개인화/백업 + 선택 구매하는 완결 이야기·장식이다. 광고·실패 페널티 과금·능력치 판매·AI 구독은 현재 도입하지 않았다. 먼저 공개 의견과 실제 사용 문제를 보고 콘텐츠·가격을 결정한다. 공개 파일 다운로드만으로 수익화 근거가 확보됐다고 말하지 않는다.
+## 사용자 목표·승인
+사용자가 요구한 완료 기준은 **반복해서 사용하고 돈을 지불할 만한 제품을 실제로 완성한 뒤 비공개 테스트 배포까지**다. 기능 수/빌드/Console 초안/테스터 설치를 전체 완료나 수익 검증으로 낮춰 말하지 않는다. 기존 주제·수익 모델을 보존해야 하는 조건은 없다. 사용량 전체 사용 승인. 판매자 메시지 전송/결제는 승인받지 않았다. Obsidian 작업 요청 없음.
 
-## 이번 코드와 품질 근거
+## 저장된 제품 작업
+- 소스 `54e2a7fba6fc0633b2b96db0ddc61413cfe056d5`. 브랜치 `codex/rebirth-2026-09`, 기존 draft PR #2.
+- [제품 결정](market/PRODUCT_DECISION_20261003.md): 계획 작성 부담을 줄이는4개 성장 루트. 21개씩84미션, 한국어/영어/일본어/번체 중국어. 각 미션마다 별도로 작성한 작은 행동, 선택형 타이머, 메모, 단계별 회고/새 목표 재사용.
+- 각 루트 첫7개씩 무료, 일회 구매 **Complete**에56개 후속 미션+외관3종+30/90일 보고서/내보내기. SKU `quest_journeys_complete_01`, 구 Plus 소유자 권한 유지. 가격 US$4.99 상당 가설이며 실제 Console 가격 등록은 아직 없다.
+- 중복 완료/저장 실패 재시도/앱 재시작/자정/프로필 전환/백업·삭제를 연결했다. 쉬어도 루트가 초기화되지 않는다. 새 프로필0XP 실제 화면도 확인.
+- [비교·운영비 판단](market/ECONOMICS_REVIEW_20261003.md). 비교 앱의 구매형 시장은 존재하지만 우리 앱의 구매 의향·매출은 아직 없다. 실제 판매 가능 최종 판정은 하지 않았다.
 
-- 설정에4언어 피드백/도움말 추가. Cloudoff AI 추천 신고는 문구 검토→명시적 복사→문의 페이지다. 자동 전송되지 않으며 ‘접수 완료’라고 거짓 표시하지 않는다. 개인 목표/전체 기록을 자동 첨부하지 않는다. 공개 이메일과 GitHub 이슈 경로를 제공했다.
-- 실제 온디바이스 모델 샘플에서 목표와 무관한 외국어 학습을 발견해 학습 슬롯을 해당 분야 단어/용어로 변경했다. 임의 초 단위 시간·밤 말하기·체중감량 정당화·숨 참기·송금·보이지 않는 제어문자 검사를 보강했다. 실패 시 앱의 기본 추천으로 돌아간다.
-- **Flutter 전체414통과**, 결제카탈로그1개 기본off 의도적skip. analyze clean. `preview-full-tests.log`, `preview-analyze.log`. 4언어320px/200% 수동 신고·복사·무전송 경계 포함. 변경 후 전체 실행했다.
-- 실제 Gemma4E2B + LiteRT-LM으로4언어×6조건24회 생성:19채택/5기본추천, 엔진오류0. 앱 파서24조건검사 통과. Mac 지연7.43–12.27초/중앙8.46초이며 실물 성능이 아니다. `AI_QUALITY_REVIEW.md`, `ai-quality-20260921.json`. 인간 번역 검수·전반적 안전성 보증이 아니다.
-- 모델은 Apache2, 선택다운로드2,588,147,712bytes, revision/hash 고정. CPU4/context2048/output550/thinkingoff. AndroidAI는 ARM64 및 총RAM>=5500MiB 조건이다. 모델 미설치에서도 기본 추천 가능. API 호출료 없음과 모든 운영비 무료는 구분한다.
-- Node22서버27개는9/20 기준선. Firestore/Storage에뮬레이터9개·manifest7조합·signed/R8 모델/백업 probe는9/17 결과이며 이번에 재실행했다고 쓰지 않는다. 실제 기기/RAM/발열/배터리/파일 선택기/TalkBack은 남아 있다.
-- 기존 연구 코드/집계 도구는 보존됐으나 공개판 Researchfalse다. 사전 모집 조건이 아니며 합성 QA를 실제 참여/사용자 반응으로 계산하지 않는다.
+## 현 파일과 검증
+[빌드 메타데이터](product-2014-build.json), [40개 artifact 검사](product-2014-inspection.json), [실제 Android 화면/검사 범위](design/status-system/qa/product-20261003/README.md).
+- AAB `build/review/life-quest-2.1.0-2014-complete.aab`: 156,702,612 bytes, SHA-256 `5b95fb18d6eead0876f14a8d1e64c6eb1607a1b80a0e364a2503c86df0469f5d`.
+- APK `build/review/life-quest-2.1.0-2014-complete.apk`: 163,852,087 bytes, SHA-256 `2ac422ad8b85558815e523ee5805040f260e853dcfaa270fdab1da0470e587db`.
+- Cloud/Billing on, Ads/QA off. ARM64/API35/16KB 표본 Play 다운로드 65,465,355 bytes. split 검사용 서명은 QA 전용이며 제출용은 위 signed AAB.
+- 전체Flutter569통과/1의도적skip, Cloud/Billing on 관련42통과, 서버정책50, 로컬Firestore/Storage12, analyze clean. 실제 금융거래 증거 아님.
+- 네 언어·320/800/1280dp·200% 위젯 검증. Native API35에서 전화/태블릿세로/가로200% 및 번체320dp200% 확인. 실물 기기는 연결되지 않았다.
 
-## 최신 파일과 재현
+## 실제 원격 상태 — 완료와 구분
+- Play 계정 Log_Ian, 앱 `Life Quest: My Status Window`, app ID `4972166589004992203`. 새 패키지 인증 검토 중,0설치,테스트 비활성. 내부 초안 release1의 출시명과4개 언어 출시 노트를2014제품에 맞춰 **저장 완료**.
+- **AAB 업로드 실패:** Chrome ChatGPT 확장의 파일URL 접근 권한이 없어 도구가 차단. 파일은 Console에 도착하지 않았다. 권한 확대 질문을 사용자에게 보냈고 답변 대기. 임의로 권한을 변경하지 않았다.
+- **Firebase 인증 없음:** MCP는 프로젝트 디렉터리/ID를 올바르게 가리키지만 인증 사용자는없음. hyeonseok460 사용자에게 Firebase 로그인/세션 확인/코드 입력을 요청했고 답변 대기. 다른 gcloud 계정(hyeonseok45)을 대신 사용하지 않았다. 인증 코드/토큰은 문서에 저장하지 않는다.
+- 브라우저에서 기존 함수 지출 상한 상세 **₩5,000 / 프로젝트 lifequest-crossing-2026 / Cloud Run Functions / 월간**을 확인. 목록의 `$5,000`와 표기 불일치, 실제 집행은 미검증. 새 상한 생성은 중복으로 거절되어 기존 설정은 변경하지 않았다. 계정₩10,000 알림은 하드캡이 아니다. 인증 없는 MCP의 `Billing Enabled: No`를 원격 Blaze 미연결 증거로 쓰지 않는다.
+- 운영Functions/상품·가격/실제 구매·복원·환불/삭제·AI신고/RTDN·큐IAM이 아직 미검증이다. 내부 초안을 크몽 비공개 배포라고 보고하지 않는다. 전달 가능한 실제 참여 링크는 아직 없음.
+- `docs/index.html`에 새 기능/실제앱이미지/4언어 고지 반영. **gh-pages 공개 사이트에는 이번 수정 미배포**. 앱판매 시작표시나 유효하지 않은 Play링크 없음.
 
-공개 APK 로컬 사본: `qa_artifacts/rebirth/LifeQuest-2.0.0-preview.1-arm64.apk`. 원본 `build/app/outputs/flutter-apk/app-arm64-v8a-release.apk`. 오래된 `app-release.apk`나 v6 연구용 APK를 대신 배포하지 않는다.
+## 크몽
+[검토/전달문](store/KMONG_HANDOFF_20261003.md), [테스터 안내](store/TESTER_STEPS_2014.md).
+Drive `앱배포-크몽`의 25개 캡처와 [Zardu 공개 상품](https://kmong.com/gig/638898)을 확인했다. ₩5,000, 12–20대·14일 이상 실행은 판매자의 설명이다. 서로 다른 12명이 14일 연속 참여했는지는 Google 기준으로 별도 확인한다. 구매 의향 검증 서비스로 계산하지 않는다.
+판매자 가이드 URL과 `zardu_closed_testers_list.csv`의 실제 내용은 없다. 사용자에게 가이드 주소를 물었고 답변 대기 중이다. 명단을 받아 Play에 등록한 뒤 활성화된 참여·설치 링크, 버전, 간단한 사용 순서를 전달한다. 비밀번호·소스·서명키·관리자 권한은 전달할 필요가 없다. 판매자 연락·결제·명단 등록은 하지 않았다.
+준비용 압축 파일은 `build/review/kmong-handoff-draft-2014.zip`이다. 실제 링크가 없으므로 아직 발송용 완성본은 아니다.
 
-같은 앱 소스의 기본 AAB: `build/app/outputs/bundle/release/app-release.aab`, versionCode7, **221,661,496bytes**, SHA256 `6d1b9ff4d4388330a2d523c3a78955017bc00e8c668edc7b6bbbb065ccddd1ca`. 표본 ARM64/API35 다운로드130,435,164bytes. 서명/manifest/11ELF/기기splitZIP16KiB/QA진입점제외 검사 통과. `artifact-inspection.json`. Play업로드는 미완료다.
+## 바로 이어서 할 일
+1. **권한 답변이 오면** Chrome의 파일 URL 권한을 승인 범위대로 변경한다. 위 최종 AAB를 업로드하고 패키지·인증서·오류를 확인한다. 법적 약관이나 추가 보안 접근은 구체적인 화면에서 처리한다.
+2. **Firebase 로그인 코드가 오면** 대기 세션으로 교환하고 hyeonseok460 계정과 프로젝트를 확인한다. [운영·실거래 확인표](store/COMPLETE_PRODUCT_2014.md) 순서대로 실제 서비스를 완성한다. 불필요하게 새 로그인 흐름을 만들어 기존 코드를 무효화하지 않는다.
+3. 실제 Play 테스트 설치본의 구매·복원·취소·환불 및 삭제를 검증한다. 서버·결제 실패를 무료 기능의 성공으로 대체하지 않는다.
+4. 실제 동작과 [데이터 보안 초안](store/PAID_DATA_SAFETY_DRAFT_20261003.md), 공개 정책을 맞춘 뒤 비공개 심사·게시를 진행한다. 한국을 포함한 기존 6개국을 재확인한다. 판매자 CSV 등록과 참여 링크 접근 확인 후 전달 자료의 미확정 칸을 실제 값으로 채운다.
+5. 심사 대기나 외부 입력 부재는 목표 완료가 아니다. 이 상태에서 이어서 작업하며 제품·빌드를 처음부터 다시 만들지 않는다.
 
-공개 업로드 인증서 SHA256 `15:37:D6:F3:9E:E3:EE:D1:53:E1:34:12:8B:BE:66:11:32:18:38:47:CA:3A:A7:F4:B5:11:27:6B:FD:35:2B:B3`. 비밀키/인증저장소/토큰을 열거나 출력하지 않는다. 검사split `v7-inspection-only.apks`는 debug서명이므로 배포하지 않는다. `REVIEW_BUILDS.md`에 재현 명령이 있다.
+---
 
-## 다음에 이어갈 일
+# 2026-10-03 작업 재개 — 현행 요청
 
-1. 자발적으로 들어온 공개 이슈/문의와 실제 파일 다운로드 현황을 확인한다. 사용자 메시지나 평가를 만들거나 타인에게 연락하지 않는다. GitHub 다운로드에는 자체 검증도 섞이므로 고유 설치자·유지율로 보고하지 않는다.
-2. 연결 가능한 실제 Android가 생기면 네이티브 저장/복원·모델 설치/중단·TalkBack·발열부터 확인한다. 공개판을 ‘실물 검증 완료’로 바꾸지 않는다.
-3. Play는 실제 계정 접근 요건·파일 업로드 권한이 해결되면 최신 AAB/최종 그래픽/선언/AI 신고 운영을 준비해 제출한다. 자동화 도구가 플랫폼 요건을 없애지는 않는다.
-4. 유료 판매는 실제 구매 검증·환불·복원·신고/삭제 운영과 가격/콘텐츠 판단을 마친 뒤 켠다. 무료 공개 완료와 Google Play 출시/수익화 완료를 구분한다.
+- 제품을 구매할 이유가 충분한 수준으로 완성한 후 비공개 테스트 배포와 크몽 전달 자료까지 진행한다. 임의로 출시 파일/등록 완료로 목표를 축소하지 않는다.
+- 이번 요청에서 조건 충족 후 테스트 배포 권한이 주어졌다. 아래의 별도 `배포해` 대기는 과거 조건이다.
+- 사용량 전체 사용 승인; 이번 시작 조회 0% 사용. 이전 5% 하한은 적용하지 않는다.
+- Google Drive `앱배포-크몽`: 25장, 판매자 Zardu/자두의 비공개 테스트 지원. 원본 폴더: https://drive.google.com/drive/folders/1OAstr4eieIpSFTzGUexD9b5FbWPMjzPl . 요구사항/정책 교차확인 후 전달문 작성 중.
+- 시작 소스 `c0cf099`; 기존 새 Plus 판매 비활성화, 현재 유료 출시/실제 매출 없음. 상품 설계·콘텐츠·구매 경로를 제품에 연결해야 한다.
+
+---
+
+# Life Quest 재개 체크포인트 · 2026-09-30
+
+> **9/30 사용자 최우선 결정:** 지금까지의 AAB·Play/Firebase 준비는 보존하되 출시 준비를 멈추고 앱의 반복 사용 가치·콘텐츠·UI/UX·유료 구매 이유를 먼저 다시 만든다. 아래 9/29 빌드와 Plus는 현행 기술 이력이지 제품 완성이나 수익성 판정이 아니다. [제품 재검토](PRODUCT_RESET_20260930.md)를 먼저 읽는다.
+
+이 문서는 **현재 Android 패키지 `com.logian.lifequest`**의 출시 전 상태다. 이전 `com.lifequest.app` 빌드·Play 초안은 [패키지 이전 기록](store/PACKAGE_MIGRATION_20260929.md)의 이력이며, 해시나 검증 결과를 새 패키지에 재사용하지 않는다. 작업 전 `git status`를 확인하고 사용량을 다시 조회한다. 사용자 승인 하한은 **잔여 5%**다. Obsidian 요청이 없으면 개인 Vault에 접근하지 않는다. **이 문서의 9/29 빌드는 현 소스를 반영하지 않는 폐기된 제품 후보**이며 해시를 현행 빌드 증거로 인용하지 않는다.
+
+## 제품 범위와 데이터
+
+- 제품 가설은 막연한 개인 목표를 지금 할 수 있는 작은 행동으로 바꾸고 다음 날의 제안에 실제 기록을 반영하는 것이다. 상태창은 성장 피드백의 표현 방식이다. 기존 `status_window_plus_01`의 외관 3종·30/90일 집계·내보내기는 **과거 유료 후보**이며 구매 이유나 가격이 검증되지 않았다. 새 유료 경로의 내용과 SKU는 미완성이다. [게임 범위 결정](market/GAME_SCOPE_DECISION_20260928.md)에 따라 탐험·전투·상점·몬스터 업적 진입과 신규 게임 재화 보상은 숨겼으며 새 게임 콘텐츠는 보류한다.
+- 9/30 제품 우선 작업: 로컬 첫 실행에 이름·성장 분야·구체적 목표·가능 시간 입력을 연결하고, 첫 상태창에서 실제 첫 추천을 수락하도록 했다. 목표가 명확할 때 오프라인 추천이 기존 템플릿 중 관련 분야를 우선하며 거절/너무 어려웠던 행동은 밀어낸다. 신규 클라우드 계정의 강제 한국어 퀘스트를 제거했다. 5분 계획은 1개의 5분 행동으로 제안한다. 기존 Plus 신규 판매 유도는 제품 재설계 중 중지하고 검증된 기존 소유자의 접근·복원은 보존한다. 현재 템플릿 어휘와 목표 해석은 제한적이며 7일 경로·유료 콘텐츠가 완성됐다는 뜻은 아니다.
+- 이전 패키지의 게임 저장 데이터는 그 앱의 이력으로 남지만, **패키지 ID가 달라 기존 설치 앱을 제자리 업데이트하거나 기기 로컬 데이터를 새 앱으로 자동 이전할 수 없다.** 동일 Firebase 프로젝트의 계정 데이터가 실제 로그인 후 이어지는지는 미검증이다. [새 패키지 Android QA](design/status-system/qa/PACKAGE_MIGRATION_ANDROID_QA_20260929.md)에서 두 앱이 별도 설치되고 새 앱이 첫 실행 화면을 표시함을 확인했다.
+- 다음 명시적 **“배포해”** 요청 전에는 새 AAB를 Play에 업로드하거나 테스트 트랙을 게시하지 않는다. 기존 공개 GitHub APK와 안내 사이트는 이전 패키지의 무료 프리뷰이며 새 유료 후보의 Play 출시·매출이 아니다.
+
+## 새 패키지 로컬 후보와 검증
+
+- Android `com.logian.lifequest`, `2.0.0+2013`, **빌드 소스 `8a14501`**. signed AAB `build/review/life-quest-2.0.0-2013-paid-candidate.aab`: **156,033,758 bytes**, SHA-256 `a50e22b8ea3d85d8d823dccf62ab792b18b533f48646141f25d0a2153a098b8c`. Cloud/Billing on, Ads/QA preview off. 선택 AI 모델은 AAB에서 별도 설치한다. 이 AAB는 Play에 업로드하지 않았다.
+- signed QA APK `build/review/life-quest-2.0.0-2013-paid-review.apk`: **163,188,472 bytes**, SHA-256 `4db8d8028e0645d03d2ca89e03e7b5143e2a54a501d07cbc36068424ec8bbddf`. APK는 Play 제출 파일이 아니다.
+- [AAB 검사 JSON](paid-candidate-2013-inspection.json) **54/54 통과**: 새 패키지/versionCode2013, target API36, 결제 권한, 광고 ID·Mobile Ads 부재, 공개 업로드 인증서, ELF/표본 split ZIP 16KB 정렬. ARM64/API35/16KB 표본 다운로드는 **65,330,545 bytes**다. 표본 split은 디버그 서명의 검사 전용 파일이다.
+- [실제 Android QA](design/status-system/qa/PACKAGE_MIGRATION_ANDROID_QA_20260929.md): API35/16KB 에뮬레이터에서 새 signed APK 설치·첫 실행, 기존 계정 로그인 진입, 무료 상태창, Plus 화면을 **영어·기본 배율**로 캡처했다. 온보딩의 옛 탐험 안내를 네 언어 두 진입 경로에서 성장 기록 안내로 수정했고 집중 위젯 테스트 **9개** 및 `flutter analyze --no-pub`가 통과했다. 실제 계정 인증·복구, Play 상품 조회·구매·복원, 물리 기기·태블릿은 아직 검증하지 않았다. 이전 패키지에서 실행한 전체 Flutter 518 통과/1 skip은 새 패키지 최종 전체 실행 결과가 아니다.
+- [9/30 첫 행동 Android QA](design/status-system/qa/FIRST_EXPERIENCE_ANDROID_QA_20260930.md)는 현 제품 수정본의 로컬 release APK로 영어 411×731dp/360×640dp 전화 화면을 직접 확인했다. 5분 첫 제안 하나→수락→합성 완료→+60 XP 보상→상태창 60/150 복귀가 보인다. 작은 화면 보상의 가려진 설명도 고쳤다. 이 APK는 콘솔 제출용 signed AAB가 아니며, 태블릿·네 언어 실기·실제 행동 수행·유지는 확인하지 않았다.
+- 9/30 제품 수정 및 구 Plus 신규 판매 게이트 `6645ddc`까지 포함한 현 소스에서 `flutter analyze --no-pub`는 오류 0건, `flutter test --no-pub --reporter compact`는 **545 통과·1개 의도적 skip**이다. 이 검사는 시장 반응이나 Play 라이선스 실거래 증거가 아니다.
+
+## Play·Firebase·판매 상태
+
+- 이전 `com.lifequest.app` Play 임시 앱에 저장한 4언어 등록정보·스크린샷·출시 노트는 **새 앱으로 자동 이전되지 않는다**. [이전 초안 기록](store/PLAY_CONSOLE_DRAFT_STATUS_20260928.md)은 현재 출시 대상이 아니다. 새 Play 앱 생성은 개발자 프로그램 정책 준수·미국 수출법 선언에 대한 사용자 결정 뒤 진행한다. 새 앱 AAB 업로드·트랙 게시·심사 제출·테스터 opt-in 링크는 없다.
+- Android 개발자 인증의 새 패키지는 9/29 공개 서명키 등록 후 **검토 중**으로 관찰됐고 등록 완료는 미확인이다. 새 Play 앱 서명 인증서는 첫 Play 바이너리 업로드 뒤 확인해야 한다. [패키지 이전 기록](store/PACKAGE_MIGRATION_20260929.md)을 따른다.
+- 기존 개인 판매자 결제 프로필은 **LOGIAN** 명세서명으로 연결됐다. 지급 은행 계좌는 등록하지 않았고 Plus 상품·지역 가격도 없다. 실제 구매·복원·환불과 수익은 검증되지 않았다. [계정 감사](market/PREDEPLOY_ACCOUNT_AUDIT_20260928.md)를 참조한다.
+- 기존 Firebase 프로젝트에 **새 패키지 Android 앱**을 등록하고 공개 SHA 지문과 App Check / Play Integrity provider 등록을 확인했다. **Enforcement와 실제 Play 설치본 토큰은 미검증**이다. 프로젝트의 **Blaze 연결**과 **Cloud Run Functions 월 ₩5,000 지출 상한 생성**은 Firebase Console에서 확인했다. 기존 결제 계정 전체의 월 ₩10,000 **예산 알림**도 유지 중이다. 함수 상한은 해당 서비스에만 적용되며 집행 지연 초과분과 다른 서비스 비용을 막지 못한다. 운영 Storage/Functions·구매 검증·RTDN·작업 큐·실거래는 준비 완료로 보지 않는다.
+
+## 다음 작업
+
+1. 현재 소스의 전체 Flutter/서버 검증과 새 패키지 Android·작은 화면·태블릿·큰 글자 QA를 마친다. 9/29 AAB와 캡처를 현행 앱 증거로 쓰지 않는다.
+2. 목표→첫 행동→완료→실제 성장→다음날 제안이 반복해서 쓸 만한지, 거절·중단·회복을 포함한 최소 7일 경로와 네 언어의 실제 콘텐츠로 완성한다. 온디바이스 모델 없는 기본 기기에서 먼저 검증한다.
+3. 무료 경험 위에 구매할 이유가 분명한 유료 경로를 실제 데이터 또는 정직한 예시로 시연한다. 구독/일회 구매와 가격은 제품과 구매 전 가치가 확정된 뒤 결정한다. 구매·복원·환불 및 순이익 검증 전에는 판매 가능이라고 부르지 않는다.
+4. 제품 게이트가 통과하고 사용자가 별도로 배포를 지시하면, 그때 최신 AAB와 새 Play 앱/스토어 정보·라이선스 거래·비공개 테스트 절차를 확인한다. 이전 콘솔 초안을 완료 상태로 간주하지 않는다.

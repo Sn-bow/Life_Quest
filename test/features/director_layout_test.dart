@@ -23,8 +23,9 @@ void main() {
   SoundService.muteForTesting();
   for (final locale in ['ko', 'en', 'ja', 'zh']) {
     for (final scene in ['today', 'growth']) {
-      testWidgets('$scene fits 320px with 200% text in $locale',
-          (tester) async {
+      testWidgets('$scene fits 320px with 200% text in $locale', (
+        tester,
+      ) async {
         SharedPreferences.setMockInitialValues({});
         tester.view.physicalSize = const Size(320, 900);
         tester.view.devicePixelRatio = 1;
@@ -34,7 +35,8 @@ void main() {
         character.character.name = '아주 긴 사용자 이름 Long';
         final director = QuestDirectorState(model: LayoutModel());
         await director.bind('layout-test');
-        await tester.pumpWidget(MultiProvider(
+        await tester.pumpWidget(
+          MultiProvider(
             providers: [
               ChangeNotifierProvider.value(value: character),
               ChangeNotifierProvider.value(value: director),
@@ -45,16 +47,20 @@ void main() {
               supportedLocales: AppLocalizations.supportedLocales,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               builder: (context, child) => MediaQuery(
-                  data: MediaQuery.of(context)
-                      .copyWith(textScaler: const TextScaler.linear(2)),
-                  child: child!),
+                data: MediaQuery.of(
+                  context,
+                ).copyWith(textScaler: const TextScaler.linear(2)),
+                child: child!,
+              ),
               home: scene == 'today'
-                  ? TodayScreen(onOpenQuests: () {}, onOpenDungeon: () {})
+                  ? TodayScreen(onOpenQuests: () {})
                   : const GrowthHubScreen(),
-            )));
+            ),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
-        await tester.drag(find.byType(ListView).first, const Offset(0, -650));
+        await tester.drag(find.byType(Scrollable).first, const Offset(0, -650));
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
         await tester.pumpWidget(const SizedBox());

@@ -116,7 +116,12 @@ class _AiReportReceiptsScreenState extends State<AiReportReceiptsScreen> {
                     ),
                   );
                 }
-                final records = snapshot.data ?? [];
+                // Receipts remain on disk for their original account, but a
+                // different signed-in user must not see its UID or reference.
+                final currentUid = widget.service.currentUid;
+                final records = (snapshot.data ?? [])
+                    .where((receipt) => receipt.ownerUid == currentUid)
+                    .toList();
                 return ListView(
                   padding: const EdgeInsets.all(24),
                   children: [

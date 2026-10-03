@@ -183,6 +183,13 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.text(l.lqPackUnavailable), findsOneWidget);
         expect(find.textContaining('₩'), findsNothing); // No fake price.
+        expect(
+          find.descendant(
+            of: find.byType(StoryPackPanel),
+            matching: find.byType(FilledButton),
+          ),
+          findsNothing,
+        ); // Retired Tide never exposes a purchase action.
         expect(tester.takeException(), isNull);
         state.setPurchasedEntitlements({tideProductId});
         await tester.pumpAndSettle();

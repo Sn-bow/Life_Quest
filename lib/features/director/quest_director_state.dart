@@ -9,6 +9,7 @@ import 'quest_director_engine.dart';
 import 'quest_generation.dart';
 
 class QuestDirectorState extends ChangeNotifier {
+  static const int _planVersion = 2;
   final QuestDirectorEngine engine;
   final OnDeviceQuestModel model;
   final DateTime Function() clock;
@@ -132,7 +133,8 @@ class QuestDirectorState extends ChangeNotifier {
             }
           }
         }
-        if (json['day'] == localDay(clock()) &&
+        if (json['planVersion'] == _planVersion &&
+            json['day'] == localDay(clock()) &&
             json['quietHours'] == QuestGeneration.quietHours(clock()) &&
             json['suggestions'] is List) {
           suggestions = (json['suggestions'] as List)
@@ -210,7 +212,8 @@ class QuestDirectorState extends ChangeNotifier {
     if (!ready) return;
     var changed = false;
     for (final quest in quests.where(
-      (q) => q.scheduledDay == localDay(clock()),
+      (q) =>
+          q.scheduledDay == localDay(clock()) && q.id.startsWith('director:'),
     )) {
       if (!_accepted.containsKey(quest.id)) {
         _accepted[quest.id] = quest.estimatedMinutes ?? 1;
@@ -454,6 +457,7 @@ class QuestDirectorState extends ChangeNotifier {
     final key = _key;
     final binding = _binding;
     final payload = jsonEncode({
+      'planVersion': _planVersion,
       'profile': profile.toJson(),
       'lastAutomaticContext': _lastAutomaticContext,
       'day': _day,

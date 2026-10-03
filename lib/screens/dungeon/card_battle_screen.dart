@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/data/card_localization.dart';
+import 'package:life_quest_final_v2/data/monster_localization.dart';
 import 'package:life_quest_final_v2/data/card_body_assets.dart';
 import 'package:life_quest_final_v2/widgets/dungeon_modal.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
@@ -980,6 +981,10 @@ class _EnemyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final monsterName = MonsterLocalization.displayName(
+      enemy.monster,
+      AppLocalizations.of(context)!,
+    );
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -1034,8 +1039,8 @@ class _EnemyCard extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            enemy.monster.name.isNotEmpty
-                                ? enemy.monster.name.characters.first
+                            monsterName.isNotEmpty
+                                ? monsterName.characters.first
                                 : '?',
                             style: const TextStyle(
                               color: Colors.white,
@@ -1054,7 +1059,7 @@ class _EnemyCard extends StatelessWidget {
 
             // Name
             Text(
-              enemy.monster.name,
+              monsterName,
               style: TextStyle(
                 color: isDark ? Colors.white : Colors.black87,
                 fontSize: 14,

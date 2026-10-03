@@ -228,6 +228,182 @@ class AppLocalizationsKo extends AppLocalizations {
   String get statusStatCharm => '매력';
 
   @override
+  String get todayAdventureHeading => '오늘의 상태';
+
+  @override
+  String todayAdventureCompletedCount(int count) {
+    return '$count개 완료';
+  }
+
+  @override
+  String get todayAdventureDescription =>
+      '현실에서 완료한 행동이 성장, 보상, 다음 추천 행동으로 바뀝니다. 던전은 그 성장을 확인하는 선택형 루프입니다.';
+
+  @override
+  String todayAdventureGoldGain(int amount) {
+    return '골드 +$amount';
+  }
+
+  @override
+  String get todayAdventureGrowthWaiting => '성장 대기';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$stat 성장';
+  }
+
+  @override
+  String get todayAdventureStatStrength => '실행력';
+
+  @override
+  String get todayAdventureStatWisdom => '지혜';
+
+  @override
+  String get todayAdventureStatHealth => '건강';
+
+  @override
+  String get todayAdventureStatCharisma => '매력';
+
+  @override
+  String get todayAdventureEffectsHeading => '오늘 행동 효과';
+
+  @override
+  String get todayAdventureNoEffects =>
+      '아직 오늘 기록된 행동 효과가 없습니다. 퀘스트를 하나 완료하면 성장과 보정이 열립니다.';
+
+  @override
+  String get todayAdventureRecommendationHeading => '다음 추천 행동';
+
+  @override
+  String get todayAdventureAllDoneTitle => '오늘 계획한 행동을 모두 완료했습니다';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      '오늘 기록한 행동이 성장과 보정으로 전환됐습니다. 원하면 던전에서 체감하거나 현실 보상으로 마무리하세요.';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return '$title 칭호 진행에 직접 연결됩니다. 완료하면 다음 해금 조건에 더 가까워집니다.';
+  }
+
+  @override
+  String get todayAdventureStrengthReason =>
+      '실행력 기록이 비어 있습니다. 완료하면 공격 보정과 건강 성장에 가까워집니다.';
+
+  @override
+  String get todayAdventureWisdomReason =>
+      '학습/분석 기록이 비어 있습니다. 완료하면 첫 턴 드로우와 마법 카드 흐름이 열립니다.';
+
+  @override
+  String get todayAdventureHealthReason =>
+      '회복/생활 리듬 기록이 비어 있습니다. 완료하면 HP와 방어 카드 흐름이 좋아집니다.';
+
+  @override
+  String get todayAdventureCharismaReason =>
+      '관계/표현 기록이 비어 있습니다. 완료하면 이벤트 선택지와 시작 골드 보정이 좋아집니다.';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return '다음 칭호: $title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return '던전 HP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return '공격 피해 +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return '첫 턴 카드 +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return '시작 골드 +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return '방어 카드 흐름 +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return '마법 카드 흐름 +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return '이벤트 선택지 +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return '상점 할인 -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return '휴식 회복 +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => '쓰러진 모험가 이벤트에 동행 구조 선택지 해금';
+
+  @override
+  String get titleUnlockT2 => '위험한 다리 이벤트에 안전 우회 선택지 해금';
+
+  @override
+  String get titleUnlockT3 => '대장장이 이벤트에서 힘 기반 강화 선택지 해금';
+
+  @override
+  String get titleUnlockT4 => '고대 도서관 이벤트에서 지혜 기반 해석 선택지 해금';
+
+  @override
+  String get titleUnlockT5 => '신비한 샘 이벤트에서 안전한 회복 선택지 해금';
+
+  @override
+  String get titleUnlockT6 => '수상한 상인 이벤트에서 매력 기반 협상 선택지 해금';
+
+  @override
+  String get titleUnlockT7 => '카드 정리 이벤트에 정밀 정리 선택지 해금';
+
+  @override
+  String get titleUnlockT8 => '저주받은 제단 이벤트에 균형 정화 선택지 해금';
+
+  @override
+  String get titleUnlockT13 => '대장장이 이벤트에 숙련 강화 선택지 해금';
+
+  @override
+  String get titleUnlockT14 => '고대 도서관 이벤트에 고급 해석 선택지 해금';
+
+  @override
+  String get titleUnlockT15 => '신비한 샘 이벤트에 안정 회복 선택지 해금';
+
+  @override
+  String get titleUnlockT16 => '수상한 상인 이벤트에 협상 선택지 해금';
+
+  @override
+  String get titleUnlockT19 => '저주받은 제단 이벤트에 완전 정화 선택지 해금';
+
+  @override
+  String get titleUnlockT20 => '잠자는 모험가 이벤트에서 야영지 선택지 해금';
+
+  @override
+  String get titleUnlockT21 => '늪의 정령 이벤트에 계약 선택지 해금';
+
+  @override
+  String get titleUnlockT24 => '악마의 도박 이벤트에 판 읽기 선택지 해금';
+
+  @override
+  String get titleUnlockT26 => '위험한 다리 이벤트에 구조물 보강 선택지 해금';
+
+  @override
   String get statusTitleChangeTitle => '칭호 변경';
 
   @override
@@ -816,31 +992,29 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
-  String get onboardingPage1Title => '일상을 퀘스트로';
+  String get onboardingPage1Title => '나의 상태창이 열렸습니다';
 
   @override
-  String get onboardingPage1Body =>
-      '할 일을 퀘스트로 등록하세요.\n완료할 때마다 XP와 골드를 획득하고\n나의 퀘스트 성장이 쌓입니다.';
+  String get onboardingPage1Body => '아래 이름·레벨·XP·네 가지 능력치는 현재 프로필의 실제 기록입니다.';
 
   @override
-  String get onboardingPage2Title => '던전을 탐험하라';
+  String get onboardingPage2Title => '퀘스트와 선택 AI';
 
   @override
   String get onboardingPage2Body =>
-      '원할 때 카드 탐험을 즐기세요.\n일상의 성장이 탐험에 힘을 보탭니다.\n전투에서 져도 현실의 XP는 줄지 않아요.';
+      '작은 행동을 퀘스트로 기록하세요. 지원 기기에서는 AI 모델을 따로 설치할 수도 있습니다.';
 
   @override
-  String get onboardingPage3Title => '모험을 시작하세요';
+  String get onboardingPage3Title => '성장 기록 살펴보기';
 
   @override
-  String get onboardingPage3Body =>
-      '퀘스트를 완료하고, 던전을 클리어하고\n업적과 칭호를 수집하세요.\n당신의 일상이 RPG가 됩니다.';
+  String get onboardingPage3Body => '완료한 퀘스트와 얻은 XP를 성장 기록에서 확인하세요.';
 
   @override
   String get onboardingNext => '다음';
 
   @override
-  String get onboardingStart => '시작하기';
+  String get onboardingStart => '내 상태창 보기';
 
   @override
   String get onboardingSkip => '건너뛰기';
@@ -1062,6 +1236,12 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get reportWeeklyActivitySubtitle => '이번 주 루틴 유지 흐름을 먼저 확인할 수 있습니다.';
+
+  @override
+  String get reportWeeklyActivityEmpty => '이번 주 완료한 퀘스트가 없어요.';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => '퀘스트 열기';
 
   @override
   String get reportWeekDayMon => '월';
@@ -4003,35 +4183,98 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lqOpenSourceLicenses => '오픈소스 라이선스';
 
   @override
-  String get lqWelcomeTitle => '나의 하루가,\n이야기가 된다.';
+  String get lqWelcomeTitle => '앱을 열면,\n내 상태창이 열린다.';
 
   @override
   String get lqWelcomeBody =>
-      '도시의 미스터리, 산속의 수련, 별을 찾는 탐사.\n오늘의 작은 행동으로 원하는 세계를 이어가세요.';
+      '내 상태창에 표시할 이름과 지금 키우고 싶은 영역을 정해 주세요. 오늘 바로 시작할 수 있는 작은 퀘스트를 보여드립니다.';
 
   @override
-  String get lqFirstContract => '당신과의 첫 번째 약속';
+  String get lqWelcomePreviewNote =>
+      '시작 상태의 미리보기입니다. 퀘스트를 실제로 완료하면 XP와 성장 기록이 쌓입니다.';
 
   @override
-  String get lqWelcomeStepOne => '오늘의 나에게 맞추기';
+  String get lqWelcomeName => '상태창에 표시할 이름';
 
   @override
-  String get lqWelcomeStepOneBody => '쓸 수 있는 시간과 에너지부터 정해요.';
+  String get lqWelcomeNameHint => '나만의 이름을 입력하세요';
 
   @override
-  String get lqWelcomeStepTwo => '작은 퀘스트로 성장하기';
+  String get lqWelcomeNamePlaceholder => '당신의 이름';
 
   @override
-  String get lqWelcomeStepTwoBody => '현실에서 해낸 일로 경험치를 쌓아요.';
+  String get lqWelcomeFocus => '먼저 키울 성장 영역 하나';
 
   @override
-  String get lqWelcomeStepThree => '세 세계에서 이어지는 성장';
+  String get lqWelcomeGoal => '지금 이루고 싶은 구체적인 목표';
 
   @override
-  String get lqWelcomeStepThreeBody => '이야기를 고르고, 현실의 행동으로 다음 장면을 열어요.';
+  String get lqWelcomeGoalHint => '예: 퇴근 후 10분씩 책 읽기';
 
   @override
-  String get lqStartOnDevice => '기기에서 시작하기';
+  String get lqWelcomeGoalQuickHint =>
+      '분야를 고르면 시작하기 쉬운 목표가 자동으로 채워집니다. 직접 바꿔도 돼요.';
+
+  @override
+  String get lqWelcomeExampleVitality => '무리 없는 휴식을 일상에 만들기';
+
+  @override
+  String get lqWelcomeExampleLearning => '궁금한 주제를 이해하고 활용하기';
+
+  @override
+  String get lqWelcomeExampleOrder => '책상을 쓰기 편한 공간으로 만들기';
+
+  @override
+  String get lqWelcomeExampleConnection => '편안한 속도로 관계 이어가기';
+
+  @override
+  String get lqWelcomeMinutes => '하루에 쓸 수 있는 시간';
+
+  @override
+  String get lqWelcomeSetupPrivacy =>
+      '목표 메모와 추천 기록은 이 기기에 저장됩니다. AI 모델 설치는 선택 사항이며, 퀘스트를 완료해야 XP가 쌓입니다.';
+
+  @override
+  String get lqFirstQuest => '첫 번째 퀘스트';
+
+  @override
+  String get lqFirstQuestAccept => '퀘스트 수락하고 시작';
+
+  @override
+  String get lqFirstQuestOpen => '진행 중인 퀘스트 보기';
+
+  @override
+  String get lqFirstQuestNote => '선택한 성장 영역과 시간에 맞춘 오늘의 추천입니다.';
+
+  @override
+  String get lqFirstQuestDefaultNote => '기본 추천입니다. 목표를 설정하면 더 맞게 제안할 수 있어요.';
+
+  @override
+  String get lqFirstQuestUnavailable => '오늘의 퀘스트를 준비하고 있어요.';
+
+  @override
+  String get lqFirstContract => '상태창 접속';
+
+  @override
+  String get lqWelcomeStepOne => '퀘스트는 그다음';
+
+  @override
+  String get lqWelcomeStepOneBody => '작은 행동을 완료하고 XP를 쌓으세요.';
+
+  @override
+  String get lqWelcomeStepTwo => 'AI는 선택';
+
+  @override
+  String get lqWelcomeStepTwoBody => '지원 기기에서 모델을 따로 설치하면 기기 안에서 퀘스트를 제안합니다.';
+
+  @override
+  String get lqWelcomeStepThree => '성장 기록 살펴보기';
+
+  @override
+  String get lqWelcomeStepThreeBody => '완료한 퀘스트와 얻은 XP를 성장 기록에서 확인하세요.';
+
+  @override
+  String get lqStartOnDevice => '내 상태창 열기';
 
   @override
   String get lqStarting => '상태창 여는 중…';
@@ -4378,6 +4621,18 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get lqPurchaseAccountConnect => 'Google 계정 연결';
+
+  @override
+  String get lqPurchaseCloudLinkIntro =>
+      '구매하려면 현재 프로필에 Google 계정을 연결하세요. 기존 퀘스트와 성장 기록은 같은 프로필에 그대로 남고, 연결만으로 결제되지는 않습니다.';
+
+  @override
+  String get lqPurchaseCloudLinkFailed =>
+      '이 Google 계정을 연결하지 못했습니다. 다른 Life Quest 계정에 이미 연결되어 있을 수 있습니다. 다른 Google 계정으로 다시 시도하세요. 현재 이메일 프로필은 그대로 유지됩니다.';
+
+  @override
+  String get lqPurchaseCloudLinked =>
+      'Google 계정이 현재 프로필에 연결되었습니다. 구매와 복원은 이 프로필에서 진행됩니다.';
 
   @override
   String get lqPurchaseAccountDisconnect => '이 기기에서 연결 해제';

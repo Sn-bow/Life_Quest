@@ -26,9 +26,12 @@ class PurchaseService extends ChangeNotifier {
   static final PurchaseService _instance = PurchaseService._();
   factory PurchaseService() => _instance;
   final bool _connectToCloud;
-  PurchaseService._() : _connectToCloud = true;
+  final DateTime Function() _now;
+  PurchaseService._() : _connectToCloud = true, _now = DateTime.now;
   @visibleForTesting
-  PurchaseService.cacheOnlyForTesting() : _connectToCloud = false;
+  PurchaseService.cacheOnlyForTesting({DateTime Function()? now})
+    : _connectToCloud = false,
+      _now = now ?? DateTime.now;
   InAppPurchase get _store => InAppPurchase.instance;
   StreamSubscription<List<PurchaseDetails>>? _purchases;
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _grants;
@@ -41,14 +44,82 @@ class PurchaseService extends ChangeNotifier {
   String? _uid;
   int _revision = 0;
   Set<String> _entitlements = {};
+  int? _lastServerVerifiedAt;
+  Timer? _cacheExpiryTimer;
   List<ProductDetails> _products = [];
   PurchasePhase _phase = PurchasePhase.idle;
   String? _activeProduct;
   static const removeAdsId = 'remove_ads_4900';
+  static const offlineEntitlementLifetime = Duration(days: 7);
+  static String _verifiedAtKey(String uid) =>
+      'lifequest.purchases.serverVerifiedAt.v1.$uid';
 
-  bool get isAvailable => _available && _uid != null;
+  bool _freshAt(int? verifiedAt) {
+    if (verifiedAt == null) return false;
+    final age = _now().millisecondsSinceEpoch - verifiedAt;
+    return age >= 0 && age < offlineEntitlementLifetime.inMilliseconds;
+  }
+
+  void _scheduleCacheExpiry() {
+    _cacheExpiryTimer?.cancel();
+    final uid = _uid;
+    final verifiedAt = _lastServerVerifiedAt;
+    if (uid == null || verifiedAt == null || _entitlements.isEmpty) return;
+    final remaining =
+        verifiedAt +
+        offlineEntitlementLifetime.inMilliseconds -
+        _now().millisecondsSinceEpoch;
+    if (remaining <= 0) {
+      scheduleMicrotask(recheckEntitlementCache);
+      return;
+    }
+    _cacheExpiryTimer = Timer(Duration(milliseconds: remaining), () {
+      recheckEntitlementCache();
+      if (_uid == uid && _entitlements.isNotEmpty) {
+        _scheduleCacheExpiry();
+      }
+    });
+  }
+
+  /// Stop local paid access after seven days without a server-confirmed grant.
+  /// A Play restore can renew it; the free status window and quests remain.
+  void recheckEntitlementCache() {
+    final uid = _uid;
+    if (uid == null ||
+        _entitlements.isEmpty ||
+        _freshAt(_lastServerVerifiedAt)) {
+      return;
+    }
+    _cacheExpiryTimer?.cancel();
+    _entitlements = {};
+    onEntitlementsChanged?.call(entitlements);
+    notifyListeners();
+    final write = _cacheWrites.catchError((Object _) {}).then((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList('lifequest.purchases.v1.$uid', const []);
+    });
+    _cacheWrites = write;
+    if (isAvailable) unawaited(restorePurchases());
+  }
+
+  bool get isAvailable {
+    if (!_available || _uid == null) return false;
+    final user = FirebaseAuth.instance.currentUser;
+    return user != null &&
+        !user.isAnonymous &&
+        user.uid == _uid &&
+        user.providerData.any(
+          (provider) => provider.providerId == 'google.com',
+        );
+  }
+
   List<ProductDetails> get products => List.unmodifiable(_products);
-  Set<String> get entitlements => Set.unmodifiable(_entitlements);
+  Set<String> get entitlements => _freshAt(_lastServerVerifiedAt)
+      ? Set.unmodifiable(_entitlements)
+      : const <String>{};
+  bool get ownsStatusWindowPlus =>
+      entitlements.contains(statusWindowPlusProductId) ||
+      entitlements.contains(journeysCompleteProductId);
   PurchasePhase get phase => _phase;
   String? get activeProduct => _activeProduct;
   bool get busy => {
@@ -101,11 +172,24 @@ class PurchaseService extends ChangeNotifier {
       _products = [];
       _available = await _store.isAvailable();
       if (!_available) return;
+      // An empty sale catalog pauses new purchases without turning off the
+      // purchase stream or restore path for already verified owners.
+      if (saleProductIds.isEmpty) {
+        _initialized = true;
+        return;
+      }
       final response = await _store.queryProductDetails(saleProductIds);
       if (response.error != null) return;
-      _products = response.productDetails
-          .where((p) => saleProductIds.contains(p.id))
-          .toList();
+      final preferredIds = saleProductIds.toList();
+      _products =
+          response.productDetails
+              .where((p) => saleProductIds.contains(p.id))
+              .toList()
+            ..sort(
+              (a, b) => preferredIds
+                  .indexOf(a.id)
+                  .compareTo(preferredIds.indexOf(b.id)),
+            );
       _initialized = true;
     } catch (_) {
       // A Store outage must leave the preview usable and the query retryable.
@@ -123,6 +207,8 @@ class PurchaseService extends ChangeNotifier {
     final previous = _grants;
     _grants = null;
     _uid = uid;
+    _cacheExpiryTimer?.cancel();
+    _lastServerVerifiedAt = null;
     await previous?.cancel();
     if (revision != _revision) return;
     _entitlements = {};
@@ -137,9 +223,14 @@ class PurchaseService extends ChangeNotifier {
     if (uid == null || (_connectToCloud && !kLifeQuestCloudEnabled)) return;
     final prefs = await SharedPreferences.getInstance();
     if (revision != _revision) return;
-    _entitlements = (prefs.getStringList('lifequest.purchases.v1.$uid') ?? [])
-        .where(playEntitlements.containsValue)
-        .toSet();
+    final verifiedAt = prefs.getInt(_verifiedAtKey(uid));
+    if (_freshAt(verifiedAt)) {
+      _lastServerVerifiedAt = verifiedAt;
+      _entitlements = (prefs.getStringList('lifequest.purchases.v1.$uid') ?? [])
+          .where(playEntitlements.containsValue)
+          .toSet();
+      _scheduleCacheExpiry();
+    }
     onEntitlementsChanged?.call(entitlements);
     notifyListeners();
     if (!_connectToCloud) return;
@@ -151,8 +242,9 @@ class PurchaseService extends ChangeNotifier {
         .listen(
           (snapshot) {
             if (revision != _revision) return;
-            // An empty, offline Firestore cache must not erase our durable cache.
-            if (snapshot.metadata.isFromCache && snapshot.docs.isEmpty) return;
+            // Firestore's device cache cannot renew an expired entitlement.
+            // The bounded local cache above is the only offline source.
+            if (snapshot.metadata.isFromCache) return;
             final owned = snapshot.docs
                 .where((d) => d.data()['active'] == true)
                 .map((d) => d.data()['entitlementId'])
@@ -172,27 +264,66 @@ class PurchaseService extends ChangeNotifier {
   Future<void> _replaceEntitlements(String uid, Set<String> owned) async {
     if (_uid != uid) return;
     _entitlements = Set.of(owned);
+    _lastServerVerifiedAt = _now().millisecondsSinceEpoch;
+    _scheduleCacheExpiry();
     onEntitlementsChanged?.call(entitlements);
     notifyListeners();
     final snapshot = owned.toList()..sort();
+    final verifiedAt = _lastServerVerifiedAt!;
     final write = _cacheWrites.catchError((Object _) {}).then((_) async {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setStringList('lifequest.purchases.v1.$uid', snapshot);
+      // Save the time last: an interrupted write cannot refresh old rights.
+      await prefs.setInt(_verifiedAtKey(uid), verifiedAt);
     });
     _cacheWrites = write;
     await write;
+  }
+
+  Future<bool> _ensurePurchaseAccount(String uid) async {
+    final signedIn = FirebaseAuth.instance.currentUser;
+    if (signedIn == null ||
+        signedIn.isAnonymous ||
+        signedIn.uid != uid ||
+        !signedIn.providerData.any(
+          (provider) => provider.providerId == 'google.com',
+        )) {
+      return false;
+    }
+    try {
+      // Also migrates existing purchase accounts to the server-only Play
+      // account lookup needed to recover a transaction after app exit.
+      final account = await FirebaseFunctions.instance
+          .httpsCallable(
+            'ensurePurchaseAccount',
+            options: HttpsCallableOptions(timeout: const Duration(seconds: 25)),
+          )
+          .call<Map<String, dynamic>>();
+      return _uid == uid &&
+          FirebaseAuth.instance.currentUser?.uid == uid &&
+          account.data['ready'] == true;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<void> buyProduct(ProductDetails product) async {
     if (!isAvailable ||
         busy ||
         checkingStore ||
+        !saleProductIds.contains(product.id) ||
         !_products.any((p) => p.id == product.id)) {
       return;
     }
     final uid = _uid!;
     _setPhase(PurchasePhase.launching, product: product.id);
     try {
+      final ready = await _ensurePurchaseAccount(uid);
+      if (_uid != uid) return;
+      if (!ready) {
+        _setPhase(PurchasePhase.failed);
+        return;
+      }
       final launched = await _store.buyNonConsumable(
         purchaseParam: PurchaseParam(
           productDetails: product,
@@ -207,9 +338,16 @@ class PurchaseService extends ChangeNotifier {
 
   Future<void> restorePurchases() async {
     if (!isAvailable || busy) return;
+    final uid = _uid!;
     _setPhase(PurchasePhase.restoring);
     try {
-      await _store.restorePurchases(applicationUserName: playAccountId(_uid!));
+      final ready = await _ensurePurchaseAccount(uid);
+      if (_uid != uid) return;
+      if (!ready) {
+        _setPhase(PurchasePhase.retry);
+        return;
+      }
+      await _store.restorePurchases(applicationUserName: playAccountId(uid));
       await _events;
       if (_phase == PurchasePhase.restoring) {
         _setPhase(PurchasePhase.restoreFinished);
@@ -274,6 +412,7 @@ class PurchaseService extends ChangeNotifier {
   @override
   void dispose() {
     _revision++;
+    _cacheExpiryTimer?.cancel();
     unawaited(_purchases?.cancel());
     unawaited(_grants?.cancel());
     super.dispose();

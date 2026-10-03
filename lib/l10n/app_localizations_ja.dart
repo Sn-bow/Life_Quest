@@ -228,6 +228,182 @@ class AppLocalizationsJa extends AppLocalizations {
   String get statusStatCharm => '魅力';
 
   @override
+  String get todayAdventureHeading => '今日のステータス';
+
+  @override
+  String todayAdventureCompletedCount(int count) {
+    return '$count件完了';
+  }
+
+  @override
+  String get todayAdventureDescription =>
+      '現実で完了した行動が成長や報酬、次のおすすめにつながります。ダンジョンでは、その成長を確かめられます。';
+
+  @override
+  String todayAdventureGoldGain(int amount) {
+    return 'ゴールド +$amount';
+  }
+
+  @override
+  String get todayAdventureGrowthWaiting => '成長待ち';
+
+  @override
+  String todayAdventureStatGrowth(String stat) {
+    return '$statが成長';
+  }
+
+  @override
+  String get todayAdventureStatStrength => '実行力';
+
+  @override
+  String get todayAdventureStatWisdom => '知恵';
+
+  @override
+  String get todayAdventureStatHealth => '健康';
+
+  @override
+  String get todayAdventureStatCharisma => '魅力';
+
+  @override
+  String get todayAdventureEffectsHeading => '今日の行動効果';
+
+  @override
+  String get todayAdventureNoEffects =>
+      '今日はまだ行動効果がありません。クエストを1つ完了すると、成長とボーナスが得られます。';
+
+  @override
+  String get todayAdventureRecommendationHeading => '次のおすすめ行動';
+
+  @override
+  String get todayAdventureAllDoneTitle => '今日予定した行動をすべて完了しました';
+
+  @override
+  String get todayAdventureAllDoneReason =>
+      '今日の行動は成長とボーナスに変わりました。ダンジョンで試すか、現実のご褒美で締めくくりましょう。';
+
+  @override
+  String todayAdventureTitleProgressReason(String title) {
+    return '称号「$title」の獲得に直結します。完了すると解放条件に近づきます。';
+  }
+
+  @override
+  String get todayAdventureStrengthReason =>
+      '実行力の記録がまだありません。完了すると攻撃ボーナスと健康の成長につながります。';
+
+  @override
+  String get todayAdventureWisdomReason =>
+      '学習・分析の記録がまだありません。完了すると初ターンのドローと魔法カードの出現率が向上します。';
+
+  @override
+  String get todayAdventureHealthReason =>
+      '回復・生活リズムの記録がまだありません。完了するとHPと防御カードの出現率が向上します。';
+
+  @override
+  String get todayAdventureCharismaReason =>
+      '交流・表現の記録がまだありません。完了するとイベントの選択肢と開始時のゴールドが増えます。';
+
+  @override
+  String todayAdventureNextTitle(String title) {
+    return '次の称号: $title';
+  }
+
+  @override
+  String todayAdventureDungeonHp(int amount) {
+    return 'ダンジョンHP +$amount';
+  }
+
+  @override
+  String todayAdventureAttackDamage(int amount) {
+    return '攻撃ダメージ +$amount';
+  }
+
+  @override
+  String todayAdventureFirstTurnDraw(int amount) {
+    return '初ターンのカード +$amount';
+  }
+
+  @override
+  String todayAdventureStartingGold(int amount) {
+    return '開始時のゴールド +$amount';
+  }
+
+  @override
+  String todayAdventureDefenseFlow(int percent) {
+    return '防御カードの出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureMagicFlow(int percent) {
+    return '魔法カードの出現率 +$percent%';
+  }
+
+  @override
+  String todayAdventureEventChoice(int percent) {
+    return 'イベント選択肢 +$percent%';
+  }
+
+  @override
+  String todayAdventureShopDiscount(int percent) {
+    return 'ショップ割引 -$percent%';
+  }
+
+  @override
+  String todayAdventureRestHealing(int percent) {
+    return '休息時の回復 +$percent%';
+  }
+
+  @override
+  String get titleUnlockT1 => '倒れた冒険者を助ける選択肢を解放';
+
+  @override
+  String get titleUnlockT2 => '危険な橋で安全な迂回路を選べるようになる';
+
+  @override
+  String get titleUnlockT3 => '鍛冶屋で力を生かした強化を選べるようになる';
+
+  @override
+  String get titleUnlockT4 => '古代図書館で知恵を生かした解読を選べるようになる';
+
+  @override
+  String get titleUnlockT5 => '神秘の泉で安全に回復する選択肢を解放';
+
+  @override
+  String get titleUnlockT6 => '怪しい商人との交渉で魅力を生かせるようになる';
+
+  @override
+  String get titleUnlockT7 => 'カード整理イベントで精密な整理を選べるようになる';
+
+  @override
+  String get titleUnlockT8 => '呪われた祭壇で均衡を保つ浄化を選べるようになる';
+
+  @override
+  String get titleUnlockT13 => '鍛冶屋で熟練の強化を選べるようになる';
+
+  @override
+  String get titleUnlockT14 => '古代図書館で高度な解読を選べるようになる';
+
+  @override
+  String get titleUnlockT15 => '神秘の泉で安定した回復を選べるようになる';
+
+  @override
+  String get titleUnlockT16 => '怪しい商人との交渉を選べるようになる';
+
+  @override
+  String get titleUnlockT19 => '呪われた祭壇で完全な浄化を選べるようになる';
+
+  @override
+  String get titleUnlockT20 => '眠る冒険者イベントで野営地を作る選択肢を解放';
+
+  @override
+  String get titleUnlockT21 => '沼の精霊との契約を選べるようになる';
+
+  @override
+  String get titleUnlockT24 => '悪魔の賭けで勝負の流れを読む選択肢を解放';
+
+  @override
+  String get titleUnlockT26 => '危険な橋で構造を補強する選択肢を解放';
+
+  @override
   String get statusTitleChangeTitle => '称号変更';
 
   @override
@@ -815,31 +991,29 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsLanguageChinese => '中文';
 
   @override
-  String get onboardingPage1Title => '日常をクエストに';
+  String get onboardingPage1Title => '自分のステータス画面が開きました';
 
   @override
   String get onboardingPage1Body =>
-      'やることをクエストとして登録しましょう。\n完了するたびにXPとゴールドを獲得し\nあなたの実力が成長します。';
+      '下の名前・レベル・XP・4つの能力値は、サンプルではなく現在のプロフィールの記録です。';
 
   @override
-  String get onboardingPage2Title => 'ダンジョンを探索せよ';
+  String get onboardingPage2Title => 'クエストと任意のAI';
 
   @override
-  String get onboardingPage2Body =>
-      '好きなときにカード探索を。\n日々の成長が冒険を支えます。\n負けても日常のXPは減りません。';
+  String get onboardingPage2Body => '小さな行動をクエストとして記録。対応端末ではAIモデルを別途インストールできます。';
 
   @override
-  String get onboardingPage3Title => '冒険を始めよう';
+  String get onboardingPage3Title => '成長記録を見る';
 
   @override
-  String get onboardingPage3Body =>
-      'クエストをこなし、ダンジョンをクリアして\n実績や称号を集めましょう。\nあなたの日常がRPGになります。';
+  String get onboardingPage3Body => '完了したクエストと獲得したXPを成長記録で確認できます。';
 
   @override
   String get onboardingNext => '次へ';
 
   @override
-  String get onboardingStart => '始める';
+  String get onboardingStart => 'ステータスを開く';
 
   @override
   String get onboardingSkip => 'スキップ';
@@ -1059,6 +1233,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get reportWeeklyActivitySubtitle => '今週のルーティン維持の流れを確認できます。';
+
+  @override
+  String get reportWeeklyActivityEmpty => '今週完了したクエストはありません。';
+
+  @override
+  String get reportWeeklyActivityOpenQuests => 'クエストを見る';
 
   @override
   String get reportWeekDayMon => '月';
@@ -3992,34 +4172,96 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lqOpenSourceLicenses => 'オープンソースライセンス';
 
   @override
-  String get lqWelcomeTitle => '私の一日が、\n物語になる。';
+  String get lqWelcomeTitle => 'アプリを開けば、\n自分のステータス画面。';
 
   @override
-  String get lqWelcomeBody => '街の謎、山里の修練、星を探す旅。\n今日の小さな行動で、好きな世界の続きを。';
+  String get lqWelcomeBody =>
+      'ステータス画面に表示する名前と、まず伸ばしたい分野を決めましょう。今日から始められる小さなクエストを提案します。';
 
   @override
-  String get lqFirstContract => 'あなたとの最初の約束';
+  String get lqWelcomePreviewNote => '開始時のステータスです。クエストを実際に完了すると、XPと成長記録が増えます。';
 
   @override
-  String get lqWelcomeStepOne => '今日の自分に合わせる';
+  String get lqWelcomeName => 'ステータス画面に表示する名前';
 
   @override
-  String get lqWelcomeStepOneBody => '使える時間とエネルギーを選びましょう。';
+  String get lqWelcomeNameHint => 'あなたの名前を入力';
 
   @override
-  String get lqWelcomeStepTwo => '小さなクエストで成長する';
+  String get lqWelcomeNamePlaceholder => 'あなたの名前';
 
   @override
-  String get lqWelcomeStepTwoBody => '現実でできたことで経験値を得られます。';
+  String get lqWelcomeFocus => 'まず伸ばしたい分野を一つ';
 
   @override
-  String get lqWelcomeStepThree => '三つの世界で続く成長';
+  String get lqWelcomeGoal => '今取り組みたい具体的な目標';
 
   @override
-  String get lqWelcomeStepThreeBody => '物語を選び、現実の行動で次の場面を開きましょう。';
+  String get lqWelcomeGoalHint => '例：仕事の後に10分読書する';
 
   @override
-  String get lqStartOnDevice => 'この端末で始める';
+  String get lqWelcomeGoalQuickHint => '分野を選ぶと最初の目標が入ります。自由に書き換えられます。';
+
+  @override
+  String get lqWelcomeExampleVitality => '無理のない休息を日常に作る';
+
+  @override
+  String get lqWelcomeExampleLearning => '気になるテーマを理解して使ってみる';
+
+  @override
+  String get lqWelcomeExampleOrder => '机を使いやすい場所にする';
+
+  @override
+  String get lqWelcomeExampleConnection => '無理のないペースでつながる';
+
+  @override
+  String get lqWelcomeMinutes => '1日に使える時間';
+
+  @override
+  String get lqWelcomeSetupPrivacy =>
+      '目標メモと提案履歴はこの端末に保存されます。AIモデルの導入は任意です。XPはクエストを完了したときだけ増えます。';
+
+  @override
+  String get lqFirstQuest => '最初のクエスト';
+
+  @override
+  String get lqFirstQuestAccept => 'クエストを受けて始める';
+
+  @override
+  String get lqFirstQuestOpen => '進行中のクエストを見る';
+
+  @override
+  String get lqFirstQuestNote => '選んだ分野と時間に合わせた今日の提案です。';
+
+  @override
+  String get lqFirstQuestDefaultNote => '最初の提案です。目標を設定すると、より合ったクエストを提案できます。';
+
+  @override
+  String get lqFirstQuestUnavailable => '今日のクエストを準備しています…';
+
+  @override
+  String get lqFirstContract => 'ステータス画面に接続';
+
+  @override
+  String get lqWelcomeStepOne => 'クエストはその次';
+
+  @override
+  String get lqWelcomeStepOneBody => '小さな行動を完了して、XPを積み重ねます。';
+
+  @override
+  String get lqWelcomeStepTwo => 'AIは任意';
+
+  @override
+  String get lqWelcomeStepTwoBody => '対応端末ならモデルを別途入れて、端末内でクエストを提案できます。';
+
+  @override
+  String get lqWelcomeStepThree => '成長記録を見る';
+
+  @override
+  String get lqWelcomeStepThreeBody => '完了したクエストと獲得したXPを成長記録で確認できます。';
+
+  @override
+  String get lqStartOnDevice => '自分のステータスを開く';
 
   @override
   String get lqStarting => 'ステータスを開いています…';
@@ -4359,6 +4601,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lqPurchaseAccountConnect => 'Google アカウントを連携';
+
+  @override
+  String get lqPurchaseCloudLinkIntro =>
+      '購入するには、今のプロフィールに Google アカウントを連携してください。クエストと成長記録は同じプロフィールに残ります。連携だけでは課金されません。';
+
+  @override
+  String get lqPurchaseCloudLinkFailed =>
+      'この Google アカウントは連携できませんでした。別の Life Quest アカウントで使用中の可能性があります。別の Google アカウントでお試しください。現在のメールアドレスのプロフィールはそのまま残ります。';
+
+  @override
+  String get lqPurchaseCloudLinked =>
+      'Google アカウントを今のプロフィールに連携しました。購入と復元はこのプロフィールで行えます。';
 
   @override
   String get lqPurchaseAccountDisconnect => 'この端末で連携を解除';

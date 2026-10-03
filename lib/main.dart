@@ -33,7 +33,7 @@ import 'package:provider/provider.dart';
 
 const _homeWidgetAppGroupId = String.fromEnvironment(
   'HOME_WIDGET_APP_GROUP_ID',
-  defaultValue: 'group.com.lifequest.app.widget',
+  defaultValue: 'group.com.logian.lifequest.widget',
 );
 
 void main() {
@@ -104,6 +104,8 @@ void main() {
                       !kIsWeb &&
                       defaultTargetPlatform == TargetPlatform.android,
                   isPurchaseOnly: () => session.purchaseOnlyAuth,
+                  isLocalProfile: () =>
+                      context.read<CharacterState>().isLocalGuest,
                   markPurchaseOnly: session.markPurchaseOnlyAuth,
                   createGateway: FirebasePurchaseAccountGateway.new,
                 );
@@ -202,12 +204,22 @@ class LifeQuestApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          locale: state.locale,
+          locale: state.locale?.languageCode == 'zh'
+              ? const Locale.fromSubtags(
+                  languageCode: 'zh',
+                  scriptCode: 'Hant',
+                  countryCode: 'TW',
+                )
+              : state.locale,
           supportedLocales: const [
             Locale('ko'),
             Locale('en'),
             Locale('ja'),
-            Locale('zh'),
+            Locale.fromSubtags(
+              languageCode: 'zh',
+              scriptCode: 'Hant',
+              countryCode: 'TW',
+            ),
           ],
           themeMode: state.themeMode,
           theme: QuestTheme.build(Brightness.light, cosmetic: cosmetic),

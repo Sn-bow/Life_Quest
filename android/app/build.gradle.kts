@@ -1,6 +1,7 @@
 import java.util.Properties
 import java.io.FileInputStream
 import java.util.Base64
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 
 plugins {
     id("com.android.application")
@@ -47,7 +48,7 @@ val androidManifestPath = when {
 }
 
 android {
-    namespace = "com.lifequest.app"
+    namespace = "com.logian.lifequest"
     compileSdk = 36
     ndkVersion = "29.0.14206865"
 
@@ -59,7 +60,7 @@ android {
 
 
     defaultConfig {
-        applicationId = "com.lifequest.app"
+        applicationId = "com.logian.lifequest"
         minSdk = 26
         targetSdk = 36
         versionCode = flutter.versionCode
@@ -92,6 +93,11 @@ android {
 
     buildTypes {
         release {
+            // Crashlytics collection is disabled in the release manifest.
+            // Do not upload its unused R8 mapping file on every local build.
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+            }
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
             } else {

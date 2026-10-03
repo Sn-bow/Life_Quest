@@ -1,3 +1,4 @@
+import '../features/system/system_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -13,38 +14,24 @@ import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 class QuestsScreen extends StatelessWidget {
   const QuestsScreen({super.key});
 
-  String _raidRewardPreview(Quest quest, AppLocalizations l10n) {
-    switch (quest.type) {
-      case QuestType.monthly:
-        return l10n.questsRaidBonusMonthly;
-      case QuestType.yearly:
-        return l10n.questsRaidBonusYearly;
-      case QuestType.daily:
-      case QuestType.weekly:
-        return '';
-    }
-  }
-
   String _completionSummary(
-      QuestCompletionResult? result, Quest quest, AppLocalizations l10n) {
+    QuestCompletionResult? result,
+    Quest quest,
+    AppLocalizations l10n,
+  ) {
     if (result == null) {
       return l10n.questsCompleteConfirm(quest.name);
     }
 
     final lines = <String>[
       if (result.wasRaid) l10n.questsRaidClear(result.raidClearCount),
-      l10n.questsRewardSummary(result.totalXpAwarded.round(),
-          result.totalGoldAwarded, result.actionPointsAwarded),
+      l10n.achievementRewardXp(result.totalXpAwarded.round()),
       if (result.statPointsAwarded > 0)
         l10n.questsRewardStatPoints(result.statPointsAwarded),
       if (result.unlockedTitles.isNotEmpty)
         l10n.questsRewardUnlockedTitles(result.unlockedTitles.join(', ')),
       if (result.unlockedCosmetics.isNotEmpty)
         l10n.questsRewardUnlockedCosmetics(result.unlockedCosmetics.join(', ')),
-      // CP + 카드 팩 보상 표시
-      if (result.cardPointsAwarded > 0) '⭐ CP +${result.cardPointsAwarded}',
-      if (result.newPacksAwarded > 0)
-        '🎁 카드 팩 +${result.newPacksAwarded}개 획득! (던전 홈에서 열기)',
     ];
     return lines.join('\n');
   }
@@ -64,9 +51,9 @@ class QuestsScreen extends StatelessWidget {
               tooltip: l10n.statusTimerTooltip,
               icon: const Icon(PhosphorIcons.timer),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const TimerScreen()),
-                );
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const TimerScreen()));
               },
             ),
           ],
@@ -74,10 +61,14 @@ class QuestsScreen extends StatelessWidget {
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             labelPadding: const EdgeInsets.symmetric(horizontal: 14),
-            labelStyle:
-                const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-            unselectedLabelStyle:
-                const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            labelStyle: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
             tabs: [
               Tab(text: l10n.questsTabDaily),
               Tab(text: l10n.questsTabWeekly),
@@ -88,31 +79,60 @@ class QuestsScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _buildQuestList(context, characterState.sortedDailyQuests,
-                characterState, QuestType.daily, l10n),
-            _buildQuestList(context, characterState.sortedWeeklyQuests,
-                characterState, QuestType.weekly, l10n),
-            _buildQuestList(context, characterState.sortedMonthlyQuests,
-                characterState, QuestType.monthly, l10n),
-            _buildQuestList(context, characterState.sortedYearlyQuests,
-                characterState, QuestType.yearly, l10n),
+            _buildQuestList(
+              context,
+              characterState.sortedDailyQuests
+                  .where((q) => !q.id.startsWith('journey:'))
+                  .toList(),
+              characterState,
+              QuestType.daily,
+              l10n,
+            ),
+            _buildQuestList(
+              context,
+              characterState.sortedWeeklyQuests,
+              characterState,
+              QuestType.weekly,
+              l10n,
+            ),
+            _buildQuestList(
+              context,
+              characterState.sortedMonthlyQuests,
+              characterState,
+              QuestType.monthly,
+              l10n,
+            ),
+            _buildQuestList(
+              context,
+              characterState.sortedYearlyQuests,
+              characterState,
+              QuestType.yearly,
+              l10n,
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: l10n.questsScreenTitle,
           onPressed: () => _showAddQuestDialog(context),
           backgroundColor: Theme.of(context).colorScheme.primary,
-          child: Icon(PhosphorIcons.plus,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.black
-                  : Colors.white),
+          child: Icon(
+            PhosphorIcons.plus,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Colors.white,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildQuestList(BuildContext context, List<Quest> quests,
-      CharacterState state, QuestType type, AppLocalizations l10n) {
+  Widget _buildQuestList(
+    BuildContext context,
+    List<Quest> quests,
+    CharacterState state,
+    QuestType type,
+    AppLocalizations l10n,
+  ) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
@@ -125,16 +145,18 @@ class QuestsScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(PhosphorIcons.ghost,
-                    size: 80,
-                    color: isDarkMode ? Colors.white24 : Colors.grey.shade300),
+                Icon(
+                  PhosphorIcons.ghost,
+                  size: 80,
+                  color: isDarkMode ? Colors.white24 : Colors.grey.shade300,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   _emptyMessageFor(type, l10n),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color:
-                          isDarkMode ? Colors.white54 : Colors.grey.shade600),
+                    color: isDarkMode ? Colors.white54 : Colors.grey.shade600,
+                  ),
                 ),
               ],
             ),
@@ -150,10 +172,6 @@ class QuestsScreen extends StatelessWidget {
         final quest = quests[index];
         return QuestTile(
           quest: quest,
-          rewardPreview:
-              quest.type == QuestType.monthly || quest.type == QuestType.yearly
-                  ? _raidRewardPreview(quest, l10n)
-                  : null,
           onChecked: () {
             _showCompleteConfirmationDialog(context, quest, state);
           },
@@ -236,7 +254,10 @@ class QuestsScreen extends StatelessWidget {
   // ─────────────────────────────────────────────────────────────────────────
 
   void _showEditQuestDialog(
-      BuildContext context, Quest quest, CharacterState state) {
+    BuildContext context,
+    Quest quest,
+    CharacterState state,
+  ) {
     final nameController = TextEditingController(text: quest.name);
     StatType selectedCategory = quest.category;
     QuestDifficulty selectedDifficulty = quest.difficulty;
@@ -249,9 +270,10 @@ class QuestsScreen extends StatelessWidget {
           title: Text(dialogL10n.questsEditTitle),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              final previewXp =
-                  Quest.xpForDifficulty(selectedDifficulty, quest.type);
-              final previewGold = (previewXp * 0.5).round();
+              final previewXp = Quest.xpForDifficulty(
+                selectedDifficulty,
+                quest.type,
+              );
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -260,13 +282,16 @@ class QuestsScreen extends StatelessWidget {
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
-                          labelText: dialogL10n.questsNameLabel,
-                          counterText: ''),
+                        labelText: dialogL10n.questsNameLabel,
+                        counterText: '',
+                      ),
                       maxLength: 50,
                     ),
                     const SizedBox(height: 20),
-                    Text(dialogL10n.questsCategoryLabel,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      dialogL10n.questsCategoryLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Wrap(
                       spacing: 8.0,
                       children: StatType.values.map((category) {
@@ -282,16 +307,19 @@ class QuestsScreen extends StatelessWidget {
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    Text(dialogL10n.questsDifficultyLabel,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      dialogL10n.questsDifficultyLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Wrap(
                       spacing: 8.0,
                       children: QuestDifficulty.values.map((d) {
                         return ChoiceChip(
                           label: Text(_difficultyName(d, dialogL10n)),
                           selected: selectedDifficulty == d,
-                          selectedColor:
-                              _difficultyColor(d).withValues(alpha: 0.3),
+                          selectedColor: _difficultyColor(
+                            d,
+                          ).withValues(alpha: 0.3),
                           onSelected: (bool selected) {
                             setState(() {
                               if (selected) selectedDifficulty = d;
@@ -302,13 +330,11 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      dialogL10n.questsRewardPreview(
-                        _questTypeName(quest.type, dialogL10n),
-                        previewXp,
-                        previewGold,
+                      dialogL10n.achievementRewardXp(previewXp),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey.shade600,
                       ),
-                      style:
-                          TextStyle(fontSize: 13, color: Colors.grey.shade600),
                     ),
                   ],
                 ),
@@ -324,8 +350,10 @@ class QuestsScreen extends StatelessWidget {
               onPressed: () {
                 final name = nameController.text;
                 if (name.isNotEmpty) {
-                  final newXp =
-                      Quest.xpForDifficulty(selectedDifficulty, quest.type);
+                  final newXp = Quest.xpForDifficulty(
+                    selectedDifficulty,
+                    quest.type,
+                  );
                   quest.difficulty = selectedDifficulty;
                   state.editQuest(quest, name, newXp, selectedCategory);
                   Navigator.pop(context);
@@ -340,7 +368,10 @@ class QuestsScreen extends StatelessWidget {
   }
 
   void _showCompleteConfirmationDialog(
-      BuildContext context, Quest quest, CharacterState state) {
+    BuildContext context,
+    Quest quest,
+    CharacterState state,
+  ) {
     // 이미 완료됐거나 광고 시청 중(비동기 갭)이면 차단
     if (quest.isCompleted) return;
     if (state.isQuestPending(quest.id)) return;
@@ -365,11 +396,7 @@ class QuestsScreen extends StatelessWidget {
                 [
                   l10n.questsCompleteConfirm(quest.name),
                   l10n.questsBaseRewardLabel,
-                  '- ${quest.xp} XP',
-                  '- ${(quest.xp * 0.5).round()} ${l10n.questsGoldUnit}',
-                  if (quest.type == QuestType.monthly ||
-                      quest.type == QuestType.yearly)
-                    _raidRewardPreview(quest, l10n),
+                  '+${quest.xp} XP',
                 ].join('\n'),
               ),
               actions: <Widget>[
@@ -396,8 +423,9 @@ class QuestsScreen extends StatelessWidget {
                             state.markQuestPending(quest.id);
                             Navigator.of(dialogContext).pop();
                             try {
-                              final success = await adService!
-                                  .showRewardedAd('quest_double');
+                              final success = await adService!.showRewardedAd(
+                                'quest_double',
+                              );
                               // R-4 fix: mounted 체크 후 l10n을 안전하게 획득
                               if (!context.mounted) return;
                               final mountedL10n = AppLocalizations.of(context);
@@ -412,7 +440,8 @@ class QuestsScreen extends StatelessWidget {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                      '$prefix\n${_completionSummary(result, quest, mountedL10n)}'),
+                                    '$prefix\n${_completionSummary(result, quest, mountedL10n)}',
+                                  ),
                                   duration: const Duration(seconds: 5),
                                 ),
                               );
@@ -426,18 +455,8 @@ class QuestsScreen extends StatelessWidget {
                       ? null
                       : () {
                           setDialogState(() => isProcessing = true);
-                          final result = state.completeQuest(quest);
                           Navigator.of(dialogContext).pop();
-                          if (context.mounted) {
-                            final mountedL10n = AppLocalizations.of(context)!;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(_completionSummary(
-                                    result, quest, mountedL10n)),
-                                duration: const Duration(seconds: 5),
-                              ),
-                            );
-                          }
+                          completeAndPresentQuest(context, quest, state);
                         },
                   child: Text(l10n.complete),
                 ),
@@ -450,7 +469,10 @@ class QuestsScreen extends StatelessWidget {
   }
 
   void _showDeleteConfirmDialog(
-      BuildContext context, Quest quest, CharacterState state) {
+    BuildContext context,
+    Quest quest,
+    CharacterState state,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -464,8 +486,10 @@ class QuestsScreen extends StatelessWidget {
               onPressed: () => Navigator.of(dialogContext).pop(),
             ),
             TextButton(
-              child:
-                  Text(l10n.delete, style: const TextStyle(color: Colors.red)),
+              child: Text(
+                l10n.delete,
+                style: const TextStyle(color: Colors.red),
+              ),
               onPressed: () {
                 state.deleteQuest(quest);
                 Navigator.of(dialogContext).pop();
@@ -491,9 +515,10 @@ class QuestsScreen extends StatelessWidget {
           title: Text(dialogL10n.questsAddTitle),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              final previewXp =
-                  Quest.xpForDifficulty(selectedDifficulty, selectedType);
-              final previewGold = (previewXp * 0.5).round();
+              final previewXp = Quest.xpForDifficulty(
+                selectedDifficulty,
+                selectedType,
+              );
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -502,13 +527,16 @@ class QuestsScreen extends StatelessWidget {
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
-                          labelText: dialogL10n.questsNameLabel,
-                          counterText: ''),
+                        labelText: dialogL10n.questsNameLabel,
+                        counterText: '',
+                      ),
                       maxLength: 50,
                     ),
                     const SizedBox(height: 20),
-                    Text(dialogL10n.questsTypeLabel,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      dialogL10n.questsTypeLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
@@ -526,8 +554,10 @@ class QuestsScreen extends StatelessWidget {
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    Text(dialogL10n.questsCategoryLabel,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      dialogL10n.questsCategoryLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Wrap(
                       spacing: 8.0,
                       children: StatType.values.map((category) {
@@ -543,16 +573,19 @@ class QuestsScreen extends StatelessWidget {
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    Text(dialogL10n.questsDifficultyLabel,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      dialogL10n.questsDifficultyLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Wrap(
                       spacing: 8.0,
                       children: QuestDifficulty.values.map((d) {
                         return ChoiceChip(
                           label: Text(_difficultyName(d, dialogL10n)),
                           selected: selectedDifficulty == d,
-                          selectedColor:
-                              _difficultyColor(d).withValues(alpha: 0.3),
+                          selectedColor: _difficultyColor(
+                            d,
+                          ).withValues(alpha: 0.3),
                           onSelected: (bool selected) {
                             setState(() {
                               if (selected) selectedDifficulty = d;
@@ -563,13 +596,11 @@ class QuestsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      dialogL10n.questsRewardPreview(
-                        _questTypeName(selectedType, dialogL10n),
-                        previewXp,
-                        previewGold,
+                      dialogL10n.achievementRewardXp(previewXp),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey.shade600,
                       ),
-                      style:
-                          TextStyle(fontSize: 13, color: Colors.grey.shade600),
                     ),
                   ],
                 ),
@@ -585,11 +616,17 @@ class QuestsScreen extends StatelessWidget {
               onPressed: () {
                 final name = nameController.text;
                 if (name.isNotEmpty) {
-                  final xp =
-                      Quest.xpForDifficulty(selectedDifficulty, selectedType);
+                  final xp = Quest.xpForDifficulty(
+                    selectedDifficulty,
+                    selectedType,
+                  );
                   Provider.of<CharacterState>(context, listen: false).addQuest(
-                      name, xp, selectedType, selectedCategory,
-                      difficulty: selectedDifficulty);
+                    name,
+                    xp,
+                    selectedType,
+                    selectedCategory,
+                    difficulty: selectedDifficulty,
+                  );
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

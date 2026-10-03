@@ -1,5 +1,7 @@
 # 배포 상태와 후속 검증 · 2026-09-21
 
+> **2026-09-28 갱신:** 이 표는 9/21 무료 공개 프리뷰 당시 기록이다. 새 상태창 중심 `2.0.0+2013` 유료 후보와 `status_window_plus_01`의 현재 배포 판단은 [출시 후보](market/PAID_RELEASE_CANDIDATE_20260928.md), [Play 제출 감사](store/PLAY_SUBMISSION_AUDIT_20260928.md), [수익 구조 벤치마크](market/STATUS_PACK_BENCHMARK_20260928.md)를 우선한다. 새 후보는 아직 Play에 업로드하지 않았다.
+
 사용자가 사전 테스터 모집 없이 먼저 공개하여 반응을 보기로 결정했다. **무료 Android APK는 공개 프리뷰로 게시했다. Google Play 정식 출시와 유료 판매는 미완료다.** 이전 자체 파일럿 조건을 APK 공개의 필수 조건으로 되살리지 않는다.
 
 [공개 APK](https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1) · [다운로드 페이지](https://sn-bow.github.io/Life_Quest/) · [공개판 범위](PUBLIC_PREVIEW.md)

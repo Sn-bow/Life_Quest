@@ -1,4 +1,5 @@
 'use strict';
+const {hash} = require('./purchase_policy');
 class AccountDeletionError extends Error {
   constructor(code, message) { super(message); this.code = code; }
 }
@@ -57,6 +58,7 @@ async function completeDeletion({uid, db, auth, deleteFiles, timestamp, nowMilli
     for (const doc of page.docs) batch.delete(doc.ref);
     await batch.commit();
   }
+  await db.collection('purchaseAccountIds').doc(hash(uid)).delete();
   try {
     await auth.deleteUser(uid);
   } catch (error) {

@@ -13,15 +13,15 @@ class QuestTheme {
         dark ? const Color(0xFFF4D38A) : const Color(0xFF785400),
       'theme_neon_cyberpunk' =>
         dark ? const Color(0xFFFFA2DC) : const Color(0xFF9E246A),
-      _ => dark ? const Color(0xFFE8C58E) : const Color(0xFF79531C),
+      _ => dark ? const Color(0xFFDABC83) : const Color(0xFF79531C),
     };
     final background = dark
-        ? Color(tide ? 0xFF101D20 : 0xFF101619)
+        ? Color(tide ? 0xFF101D20 : 0xFF090F14)
         : Color(tide ? 0xFFF0F6F2 : 0xFFF7F4ED);
-    final surface = dark ? Color(tide ? 0xFF192C30 : 0xFF1B2428) : Colors.white;
-    final foreground = dark ? const Color(0xFFF4F0E7) : const Color(0xFF202B30);
+    final surface = dark ? Color(tide ? 0xFF192C30 : 0xFF111B23) : Colors.white;
+    final foreground = dark ? const Color(0xFFEFF1EE) : const Color(0xFF202B30);
     final muted = dark ? const Color(0xFFAFBBB9) : const Color(0xFF5C6867);
-    final border = dark ? const Color(0xFF374344) : const Color(0xFFDCDDD3);
+    final border = dark ? const Color(0xFF344149) : const Color(0xFFDCDDD3);
     final scheme =
         ColorScheme.fromSeed(
           seedColor: accent,
@@ -94,7 +94,7 @@ class QuestTheme {
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(6),
           side: BorderSide(color: border),
         ),
       ),
@@ -120,18 +120,14 @@ class QuestTheme {
             fontWeight: FontWeight.w700,
             fontSize: 14,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(48, 48),
           side: BorderSide(color: border),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -141,11 +137,11 @@ class QuestTheme {
         filled: true,
         fillColor: background,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(color: border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(color: border),
         ),
       ),
@@ -158,7 +154,7 @@ class QuestTheme {
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,

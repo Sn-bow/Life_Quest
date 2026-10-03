@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/monetization_config.dart';
+import '../billing/purchase_verifier.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/purchase_service.dart';
 import '../../state/character_state.dart';
@@ -41,6 +42,20 @@ class _StoryPackPanelState extends State<StoryPackPanel> {
     final owned = state.ownsStory(chapter);
     final t = Theme.of(context);
     final purchases = PurchaseService();
+    if (!owned && !saleProductIds.contains(chapter.productId)) {
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(l.lqPackUnavailable, style: t.textTheme.bodySmall),
+              if (kLifeQuestMonetizationEnabled) const PurchaseStatusBanner(),
+            ],
+          ),
+        ),
+      );
+    }
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(18),

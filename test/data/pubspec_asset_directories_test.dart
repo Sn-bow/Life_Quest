@@ -18,30 +18,34 @@ void main() {
       }
     });
 
-    test('game asset directory skeleton is tracked for release builds', () {
-      const requiredDirectories = [
-        'assets/images/game/',
-        'assets/images/game/player/',
-        'assets/images/game/monsters/',
-        'assets/images/game/backgrounds/',
-        'assets/images/game/effects/',
-        'assets/images/game/cards/frames/',
-        'assets/images/game/cards/icons/',
-        'assets/images/game/cards/art/',
-        'assets/images/game/cards/full_body/',
-        'assets/images/game/relics/',
-        'assets/images/game/ui/',
-        'assets/images/game/map/',
-      ];
-
+    test('release bundle includes core visuals without dormant game artwork', () {
       final pubspec = File('pubspec.yaml').readAsStringSync();
-      for (final path in requiredDirectories) {
+      for (final path in [
+        'assets/story/',
+        'assets/images/',
+        'assets/images/ui/',
+        'assets/sounds/',
+        'assets/sounds/sfx/',
+      ]) {
         expect(pubspec, contains('- $path'));
-        expect(
-          Directory(path).existsSync(),
-          isTrue,
-          reason: '$path must exist for the Android release asset bundle.',
-        );
+      }
+      for (final image in [
+        'atlas.jpg',
+        'courtyard.jpg',
+        'exit_zero_gateway.jpg',
+        'journal_worlds.jpg',
+        'tide_postoffice.jpg',
+      ]) {
+        expect(pubspec, contains('- assets/images/backgrounds/$image'));
+      }
+      for (final path in [
+        'assets/images/monsters/',
+        'assets/images/cards/',
+        'assets/images/game/',
+        'assets/sounds/game/',
+        'assets/sounds/bgm/',
+      ]) {
+        expect(pubspec, isNot(contains('- $path')));
       }
     });
   });

@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:life_quest_final_v2/data/guest_name_localization.dart';
+import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/features/session/session_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
@@ -10,6 +13,89 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   SoundService.muteForTesting();
   setUp(() => SharedPreferences.setMockInitialValues({}));
+
+  test(
+    'only generated guest names localize without rewriting saved name',
+    () async {
+      final state = CharacterState();
+      await state.initializeForLocalGuest(
+        name: 'Chronicler',
+        languageCode: 'en',
+        usesDefaultGuestName: true,
+      );
+      expect(state.character.name, 'Chronicler');
+      expect(state.character.usesDefaultGuestName, true);
+      for (final (code, expected) in [
+        ('ko', '기록자'),
+        ('en', 'Chronicler'),
+        ('ja', '記録者'),
+        ('zh', '記錄者'),
+      ]) {
+        expect(
+          GuestNameLocalization.displayName(
+            state.character,
+            lookupAppLocalizations(Locale(code)),
+          ),
+          expected,
+        );
+      }
+      await state.forceSave();
+      final prefs = await SharedPreferences.getInstance();
+      final saved =
+          jsonDecode(prefs.getString(CharacterState.localProfileStorageKey)!)
+              as Map<String, dynamic>;
+      expect(saved['character']['name'], 'Chronicler');
+      expect(saved['character']['usesDefaultGuestName'], true);
+      state.dispose();
+
+      final restored = CharacterState();
+      await restored.initializeForLocalGuest(name: '記録者', languageCode: 'ja');
+      expect(restored.character.name, 'Chronicler');
+      expect(
+        GuestNameLocalization.displayName(
+          restored.character,
+          lookupAppLocalizations(const Locale('ja')),
+        ),
+        '記録者',
+      );
+      await restored.changeCharacterName('Chronicler');
+      expect(restored.character.usesDefaultGuestName, false);
+      expect(
+        GuestNameLocalization.displayName(
+          restored.character,
+          lookupAppLocalizations(const Locale('ja')),
+        ),
+        'Chronicler',
+      );
+      restored.dispose();
+    },
+  );
+
+  test(
+    'legacy guest default migrates only for an exact built-in name',
+    () async {
+      final state = CharacterState();
+      await state.initializeForLocalGuest(name: 'Chronicler');
+      await state.forceSave();
+      state.dispose();
+      final prefs = await SharedPreferences.getInstance();
+      final saved =
+          jsonDecode(prefs.getString(CharacterState.localProfileStorageKey)!)
+              as Map<String, dynamic>;
+      (saved['character'] as Map<String, dynamic>).remove(
+        'usesDefaultGuestName',
+      );
+      await prefs.setString(
+        CharacterState.localProfileStorageKey,
+        jsonEncode(saved),
+      );
+      final migrated = CharacterState();
+      await migrated.initializeForLocalGuest(name: '記録者', languageCode: 'ja');
+      expect(migrated.character.name, 'Chronicler');
+      expect(migrated.character.usesDefaultGuestName, true);
+      migrated.dispose();
+    },
+  );
 
   test(
     'real device profile starts empty, preserves rewards and name across restart',

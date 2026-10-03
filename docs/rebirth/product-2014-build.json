@@ -1,0 +1,47 @@
+{
+  "sourceCommit": "54e2a7fba6fc0633b2b96db0ddc61413cfe056d5",
+  "package": "com.logian.lifequest",
+  "version": "2.1.0+2014",
+  "flags": {
+    "cloud": true,
+    "billing": true,
+    "ads": false,
+    "qaPreview": false
+  },
+  "artifacts": {
+    "aab": {
+      "path": "build/review/life-quest-2.1.0-2014-complete.aab",
+      "bytes": 156702612,
+      "sha256": "5b95fb18d6eead0876f14a8d1e64c6eb1607a1b80a0e364a2503c86df0469f5d"
+    },
+    "apk": {
+      "path": "build/review/life-quest-2.1.0-2014-complete.apk",
+      "bytes": 163852087,
+      "sha256": "2ac422ad8b85558815e523ee5805040f260e853dcfaa270fdab1da0470e587db"
+    }
+  },
+  "checks": {
+    "flutter": {
+      "passed": 569,
+      "skipped": 1
+    },
+    "cloudBillingRelated": 42,
+    "nodePolicy": 50,
+    "localFirebaseRules": 12,
+    "artifact": {
+      "passed": 40,
+      "total": 40
+    },
+    "analyze": "No issues found",
+    "nativeQa": "docs/rebirth/design/status-system/qa/product-20261003/README.md"
+  },
+  "externalStatus": {
+    "playUpload": "blocked-by-browser-local-file-permission",
+    "playReleaseNotes": "saved-in-existing-internal-draft",
+    "firebaseDeployment": "authentication-required",
+    "liveBilling": "not-tested",
+    "closedTesting": "not-published",
+    "kmongTesterCsv": "not-received",
+    "actualRevenueEvidence": "none"
+  }
+}

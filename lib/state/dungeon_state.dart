@@ -32,6 +32,9 @@ enum RunPhase {
 class DungeonState extends ChangeNotifier {
   String? _runId;
   int? _towerFloor;
+  // Legacy runs promised character XP. New expeditions can pay gold and unlock
+  // zones, but status level advances only from real-world activity.
+  bool _awardsCharacterXp = false;
   Map<String, dynamic>? _checkpointData;
   Future<void> Function(Map<String, dynamic>?)? _saveCheckpoint;
   Future<void> _pendingSave = Future.value();
@@ -186,6 +189,7 @@ class DungeonState extends ChangeNotifier {
     _runId =
         '${DateTime.now().microsecondsSinceEpoch}-'
         '${Random.secure().nextInt(0x100000000).toRadixString(16)}';
+    _awardsCharacterXp = false;
     _towerFloor = towerFloor;
     _currentZone = zone;
     _ascensionLevel = ascension;
@@ -593,7 +597,7 @@ class DungeonState extends ChangeNotifier {
     final bossBonus = isVictory ? 100 : 0;
 
     return {
-      'xp': (baseXp * multiplier).round() + bossBonus,
+      'xp': _awardsCharacterXp ? (baseXp * multiplier).round() + bossBonus : 0,
       'gold': (baseGold * multiplier).round(),
       'monstersKilled': _monstersKilled,
       'nodesCompleted': _nodesCompleted,
@@ -620,6 +624,7 @@ class DungeonState extends ChangeNotifier {
   void _clearRun() {
     _runId = null;
     _towerFloor = null;
+    _awardsCharacterXp = false;
     _runPhase = RunPhase.notStarted;
     _currentMap = null;
     _currentZone = 1;
@@ -648,6 +653,7 @@ class DungeonState extends ChangeNotifier {
     return {
       'version': 1,
       'runId': _runId,
+      'awardsCharacterXp': _awardsCharacterXp,
       if (_towerFloor != null) 'towerFloor': _towerFloor,
       'towerStatMult': _towerStatMult,
       'runPhase': _runPhase.name,
@@ -678,6 +684,9 @@ class DungeonState extends ChangeNotifier {
       throw const FormatException('Invalid expedition checkpoint.');
     }
     _runId = json['runId'] as String;
+    // Version 1 checkpoints created before this field retain the original
+    // reward promise, even if the run is still in progress at update time.
+    _awardsCharacterXp = json['awardsCharacterXp'] as bool? ?? true;
     _towerFloor = json['towerFloor'] as int?;
     _towerStatMult = (json['towerStatMult'] as num? ?? 1).toDouble();
     _runPhase = RunPhase.values.firstWhere(
