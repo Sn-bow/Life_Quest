@@ -1,3 +1,4 @@
+import '../features/journeys/journey_tool.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 
 enum QuestType { daily, weekly, monthly, yearly }
@@ -29,6 +30,7 @@ class Quest {
   int? awardedGold;
   final bool journeyShortVersion;
   String completionNote;
+  JourneyTool? journeyTool;
 
   Quest({
     required this.id,
@@ -50,6 +52,7 @@ class Quest {
     this.awardedGold,
     this.journeyShortVersion = false,
     this.completionNote = '',
+    this.journeyTool,
   });
 
   /// Auto-calculate XP based on difficulty and quest type
@@ -114,6 +117,7 @@ class Quest {
       awardedXp: (json['awardedXp'] as num?)?.toDouble(),
       awardedGold: json['awardedGold'] as int?,
       journeyShortVersion: json['journeyShortVersion'] == true,
+      journeyTool: JourneyTool.parse(json['journeyTool']),
       completionNote: json['completionNote'] is String
           ? String.fromCharCodes(
               (json['completionNote'] as String).runes.take(240),
@@ -139,6 +143,7 @@ class Quest {
       if (awardedGold != null) 'awardedGold': awardedGold,
       if (journeyShortVersion) 'journeyShortVersion': true,
       if (completionNote.isNotEmpty) 'completionNote': completionNote,
+      if (journeyTool != null) 'journeyTool': journeyTool!.toJson(),
       'completedDate': completedDate?.toIso8601String(),
       if (directorTemplateId != null) 'directorTemplateId': directorTemplateId,
       if (scheduledDay != null) 'scheduledDay': scheduledDay,

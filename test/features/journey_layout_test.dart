@@ -112,7 +112,7 @@ void main() {
       await tester.runAsync(() async {});
       await tester.pumpAndSettle();
       expect(state.dailyQuests.single.journeyShortVersion, true);
-      final field = find.byType(TextField);
+      final field = find.byKey(const ValueKey('journey-note'));
       await tester.ensureVisible(field);
       draftStore.failWrite = true;
       await tester.enterText(field, 'I chose the question about roots.');
@@ -122,6 +122,17 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(JourneyMissionScreen), findsOneWidget);
       expect(find.text('I chose the question about roots.'), findsOneWidget);
+      draftStore.failWrite = false;
+      final questionField = find.byKey(const ValueKey('journey-tool-field-0'));
+      final answerField = find.byKey(const ValueKey('journey-tool-field-1'));
+      await tester.ensureVisible(questionField);
+      await tester.enterText(questionField, 'What do roots absorb?');
+      await tester.ensureVisible(answerField);
+      await tester.enterText(answerField, 'Water and minerals.');
+      await tester.pumpAndSettle();
+      draftStore.failWrite = true;
+      await tester.enterText(answerField, 'Water and minerals from soil.');
+      await tester.pumpAndSettle();
       draftStore.failWrite = false;
       final retry = find.byKey(const ValueKey('journey-draft-retry'));
       await tester.ensureVisible(retry);
@@ -134,6 +145,8 @@ void main() {
       await tester.tap(next);
       await tester.pumpAndSettle();
       expect(find.text('I chose the question about roots.'), findsOneWidget);
+      expect(find.text('What do roots absorb?'), findsOneWidget);
+      expect(find.text('Water and minerals from soil.'), findsOneWidget);
       expect(state.journeys.active!.stage, 0);
       expect(state.systemJournal.receipts, isEmpty);
       final finish = find.byKey(const ValueKey('journey-finish'));
@@ -150,6 +163,10 @@ void main() {
       await tester.tap(close);
       await tester.pumpAndSettle();
       expect(state.journeys.active!.stage, 1);
+      expect(
+        state.journeys.active!.entries.single.tool!.field(1),
+        'Water and minerals from soil.',
+      );
       expect(
         state.journeys.active!.entries.single.note,
         'I chose the question about roots.',

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'journey_catalog.dart';
 import 'journey_progress.dart';
+import 'journey_tool_copy.dart';
+import 'journey_tool.dart';
+import 'journey_tool_widgets.dart';
 
 String journeyRecordDate(DateTime at) {
   final local = at.toLocal();
@@ -43,7 +46,9 @@ String journeyRecordText(
       ...catalog
           .mission(run.kind, i)
           .steps(copy.locale, shortVersion: entry.shortVersion),
-      entry.note.isEmpty ? journeyRecordEmpty(copy) : entry.note,
+      if (entry.note.isNotEmpty || entry.tool?.hasContent != true)
+        entry.note.isEmpty ? journeyRecordEmpty(copy) : entry.note,
+      if (entry.tool != null) journeyToolExport(entry.tool!, copy),
     ]);
   }
   return lines.join('\n');
@@ -147,11 +152,24 @@ class JourneyRecordBody extends StatelessWidget {
                   Text(journeyRecordDate(run.entries[i].at)),
                   Text(journeyRecordMode(run.entries[i], copy)),
                   const SizedBox(height: 12),
-                  SelectableText(
-                    run.entries[i].note.isEmpty
-                        ? journeyRecordEmpty(copy)
-                        : run.entries[i].note,
-                  ),
+                  if (run.entries[i].note.isNotEmpty ||
+                      run.entries[i].tool?.hasContent != true)
+                    SelectableText(
+                      run.entries[i].note.isEmpty
+                          ? journeyRecordEmpty(copy)
+                          : run.entries[i].note,
+                    ),
+                  if (journeyToolFor(run.kind, i) != null)
+                    JourneyToolCard(
+                      key: ValueKey('record-tool-$i'),
+                      tool:
+                          run.entries[i].tool ??
+                          JourneyTool(
+                            kind: journeyToolFor(run.kind, i)!,
+                            fields: const [],
+                          ),
+                      onEdit: () => editJourneyTool(context, run, i),
+                    ),
                 ],
               ),
             ),

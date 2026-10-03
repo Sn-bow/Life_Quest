@@ -1,3 +1,5 @@
+import '../features/journeys/journey_tool.dart';
+import '../features/journeys/journey_tool_copy.dart';
 import '../features/system/system_journal.dart';
 import '../features/journeys/journey_progress.dart';
 import '../features/journeys/mission_focus_store.dart';
@@ -1395,6 +1397,7 @@ class CharacterState extends ChangeNotifier {
         JourneyEntry(
           at: quest.completedDate!,
           note: journeyNote(quest.completionNote),
+          tool: quest.journeyTool,
           shortVersion: quest.journeyShortVersion,
           minutes: quest.estimatedMinutes ?? 5,
         ),
@@ -1601,6 +1604,41 @@ class CharacterState extends ChangeNotifier {
         );
       });
 
+  /// Editing an earned tool never requires buying again and never awards XP.
+  Future<void> updateJourneyTool(
+    String runId,
+    int stage,
+    JourneyTool tool,
+  ) async {
+    final before = journeys;
+    final generation = _profileGeneration;
+    try {
+      await _saveJourneyMutation(() {
+        final run = journeys.runs.where((r) => r.id == runId).firstOrNull;
+        if (run == null ||
+            stage < 0 ||
+            stage >= run.stage ||
+            journeyToolFor(run.kind, stage) != tool.kind) {
+          throw StateError('Tool unavailable');
+        }
+        final clean = JourneyTool.parse(tool.toJson())!;
+        journeys = JourneyBook(
+          activeId: journeys.activeId,
+          runs: List.unmodifiable([
+            for (final item in journeys.runs)
+              item.id == runId ? item.withTool(stage, clean) : item,
+          ]),
+        );
+      });
+    } catch (_) {
+      if (generation == _profileGeneration && !_disposed) {
+        journeys = before;
+        notifyListeners();
+      }
+      rethrow;
+    }
+  }
+
   /// A route task has a stable identity even when resumed on another day.
   Future<Quest> acceptJourney({
     required String runId,
@@ -1646,6 +1684,54 @@ class CharacterState extends ChangeNotifier {
     _invalidateQuestCache();
     return quest;
   });
+
+  /// A returning user may shrink an unfinished action without losing its
+  /// identity or draft. The lower reward is locked; retries cannot increase it.
+  Future<void> shortenJourney(
+    String runId, {
+    required String instruction,
+    required String locale,
+  }) async {
+    final before = List<Quest>.of(_dailyQuests);
+    final generation = _profileGeneration;
+    try {
+      await _saveJourneyMutation(() {
+        final run = journeys.runs
+            .where((r) => r.id == runId && !r.completed)
+            .firstOrNull;
+        if (run == null) throw StateError('Journey unavailable');
+        final index = _dailyQuests.indexWhere(
+          (q) => q.id == run.questId && !q.isCompleted,
+        );
+        if (index < 0) throw StateError('No accepted mission');
+        final old = _dailyQuests[index];
+        if (old.journeyShortVersion) return;
+        final next = Quest.fromJson({
+          ...old.toJson(),
+          'estimatedMinutes': 2,
+          'instruction': instruction,
+          'generatedLocale': locale,
+          'journeyShortVersion': true,
+          'difficulty': QuestDifficulty.easy.index,
+          'xp': Quest.xpForDifficulty(QuestDifficulty.easy, QuestType.daily),
+        });
+        next.lockedXp = null;
+        next.lockedXp = math.min(
+          old.lockedXp ?? previewQuestXp(old),
+          previewQuestXp(next),
+        );
+        _dailyQuests[index] = next;
+        _invalidateQuestCache();
+      });
+    } catch (_) {
+      if (generation == _profileGeneration && !_disposed) {
+        _dailyQuests = before;
+        _invalidateQuestCache();
+        notifyListeners();
+      }
+      rethrow;
+    }
+  }
 
   void addQuest(
     String name,

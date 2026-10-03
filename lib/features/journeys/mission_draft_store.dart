@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'journey_tool.dart';
 import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,4 +63,29 @@ class MissionDraftStore {
       }
     }
   });
+}
+
+/// Versioned workspace drafts also read the plain-text notes saved by v2016.
+/// The prefix avoids interpreting a user's ordinary JSON note as a workspace.
+class MissionWorkspaceDraft {
+  static const marker = 'lifequest-workspace-v1:';
+  final String note;
+  final JourneyTool? tool;
+  const MissionWorkspaceDraft({this.note = '', this.tool});
+  String encode() => tool == null
+      ? note
+      : '$marker${jsonEncode({'note': note, 'tool': tool!.toJson()})}';
+  factory MissionWorkspaceDraft.decode(String value) {
+    if (!value.startsWith(marker)) return MissionWorkspaceDraft(note: value);
+    final json = jsonDecode(value.substring(marker.length));
+    if (json is! Map ||
+        json['note'] is! String ||
+        JourneyTool.parse(json['tool']) == null) {
+      throw const FormatException('Invalid workspace draft');
+    }
+    return MissionWorkspaceDraft(
+      note: json['note'],
+      tool: JourneyTool.parse(json['tool']),
+    );
+  }
 }

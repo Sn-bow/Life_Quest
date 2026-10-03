@@ -78,10 +78,10 @@ class JourneyPurchaseScreen extends StatelessWidget {
                           '新增56個有步驟的任務・含免費28個，共四條路線84個',
                         ]),
                         t([
-                          'Missions 8–21: practise, make a result, and build your own repeatable method',
-                          '8–21번째 미션: 연습하고 결과를 만들며 다시 쓸 방법을 정리',
-                          'ミッション8〜21：試して成果を作り、また使える方法を残す',
-                          '第8–21個任務：練習、做出成果、留下可再次使用的方法',
+                          'Missions 8–21: practise and make reusable recall cards, checklists, routines and conversation drafts',
+                          '8–21번째 미션: 복습 카드·정리 체크리스트·일상 루틴·대화 초안을 만들고 재사용',
+                          'ミッション8〜21：復習カード・片づけリスト・生活ルーティン・会話の下書きを作って再利用',
+                          '第8–21個任務：製作並再次使用複習卡、整理清單、日常步驟與對話草稿',
                         ]),
                         t([
                           'New goals after finishing · keep past route notes',
@@ -121,10 +121,10 @@ class JourneyPurchaseScreen extends StatelessWidget {
                       const SizedBox(height: 12),
                       Text(
                         t([
-                          'Still free: the first 7 missions of every route, your own quests, daily suggestions, your saved progress and backup.',
-                          '계속 무료: 모든 루트의 첫 7개 미션, 직접 만든 퀘스트, 일일 추천, 저장된 진도와 백업.',
-                          'ずっと無料：各ルートの最初の7ミッション、自作クエスト、毎日の提案、保存済みの進み具合とバックアップ。',
-                          '仍然免費：每條路線前7個任務、自訂任務、每日建議、已存進度與備份。',
+                          'Still free: the first 7 missions of every route, a first toolkit worksheet in each route, your own quests, daily suggestions, saved tools, progress and backup.',
+                          '계속 무료: 모든 루트의 첫 7개 미션과 첫 도구 만들기, 직접 만든 퀘스트, 일일 추천, 저장한 도구·진도·백업.',
+                          'ずっと無料：各ルートの最初の7ミッションと最初の道具作り、自作クエスト、毎日の提案、保存済みの道具・進み具合・バックアップ。',
+                          '仍然免費：每條路線前7個任務與第一次工具製作、自訂任務、每日建議、已存工具、進度與備份。',
                         ]),
                         style: const TextStyle(height: 1.6),
                       ),

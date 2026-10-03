@@ -12,6 +12,9 @@ import 'journey_catalog.dart';
 import 'journey_progress.dart';
 import 'journey_purchase_screen.dart';
 import 'journey_record.dart';
+import 'journey_tool.dart';
+import 'journey_tool_copy.dart';
+import 'journey_tool_widgets.dart';
 import 'mission_focus_screen.dart';
 import 'mission_draft_store.dart';
 
@@ -149,6 +152,16 @@ class JourneyLibraryScreen extends StatelessWidget {
             label: Text(
               copy.choose(['My own quests', '직접 만든 퀘스트', '自分で作るクエスト', '自訂任務']),
             ),
+          ),
+          OutlinedButton.icon(
+            key: const ValueKey('journey-toolkit'),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const JourneyToolkitScreen(),
+              ),
+            ),
+            icon: const Icon(Icons.inventory_2_outlined),
+            label: Text(journeyToolkitTitle(copy)),
           ),
           const SizedBox(height: 24),
           for (final kind in JourneyKind.values) ...[
@@ -718,6 +731,25 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
   bool _rewardVisible = false;
   String? _error;
   final _note = TextEditingController();
+  final _toolFields = List.generate(3, (_) => TextEditingController());
+  JourneyToolKind? get _toolKind {
+    final run = _profile.journeys.runs
+        .where((r) => r.id == widget.runId)
+        .firstOrNull;
+    return run == null ? null : journeyToolFor(run.kind, widget.stage);
+  }
+
+  JourneyTool? get _tool => _toolKind == null
+      ? null
+      : JourneyTool(
+          kind: _toolKind!,
+          fields: _toolFields
+              .take(_toolKind == JourneyToolKind.routine ? 3 : 2)
+              .map((c) => c.text)
+              .toList(),
+        );
+  String get _draftValue =>
+      MissionWorkspaceDraft(note: _note.text, tool: _tool).encode();
   late final CharacterState _profile;
   late final String _scope;
   String get _questId => 'journey:${widget.runId}:${widget.stage}';
@@ -728,7 +760,7 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
   bool get _sameProfile =>
       _profile.personalizationScope == _scope &&
       _profile.journeys.runs.any((r) => r.id == widget.runId);
-  bool get _dirty => _draftReady && _note.text != _savedNote;
+  bool get _dirty => _draftReady && _draftValue != _savedNote;
 
   @override
   void initState() {
@@ -745,8 +777,17 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
       final accepted = _profile.dailyQuests
           .where((q) => q.id == _questId)
           .firstOrNull;
-      _note.text = draft ?? accepted?.completionNote ?? '';
-      _savedNote = _note.text;
+      final workspace = draft == null
+          ? MissionWorkspaceDraft(
+              note: accepted?.completionNote ?? '',
+              tool: accepted?.journeyTool,
+            )
+          : MissionWorkspaceDraft.decode(draft);
+      _note.text = workspace.note;
+      for (var i = 0; i < _toolFields.length; i++) {
+        _toolFields[i].text = workspace.tool?.field(i) ?? '';
+      }
+      _savedNote = _draftValue;
       setState(() {
         _draftReady = true;
         _draftFailed = false;
@@ -758,7 +799,7 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
 
   Future<bool> _saveDraft() {
     if (!_draftReady || !_sameProfile) return Future.value(false);
-    final value = _note.text;
+    final value = _draftValue;
     final revision = ++_draftRevision;
     setState(() => _draftFailed = false);
     return _draftWrite = MissionDraftStore.write(_scope, _questId, value).then(
@@ -793,6 +834,9 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
   @override
   void dispose() {
     _note.dispose();
+    for (final controller in _toolFields) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -825,6 +869,31 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
     }
   }
 
+  Future<void> _shorten(
+    CharacterState state,
+    JourneyRun run,
+    JourneyMission mission,
+    JourneyCopy copy,
+  ) async {
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await state.shortenJourney(
+        run.id,
+        instruction: mission
+            .steps(copy.locale, shortVersion: true)
+            .join('\n\n'),
+        locale: copy.locale,
+      );
+    } catch (_) {
+      if (mounted) setState(() => _error = copy.t('error'));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   Future<void> _finish(
     CharacterState state,
     Quest quest,
@@ -837,6 +906,9 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
     });
     try {
       quest.completionNote = journeyNote(_note.text);
+      quest.journeyTool = _tool?.hasContent == true
+          ? JourneyTool.parse(_tool!.toJson())
+          : null;
       final receipt = await state.completeQuestDurably(quest);
       // Wait for the final local write before cleanup. A cleanup failure must
       // not turn an already persisted completion into a second XP attempt.
@@ -849,7 +921,7 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
       if (!mounted) return;
       setState(() {
         _rewardVisible = true;
-        _savedNote = _note.text;
+        _savedNote = _draftValue;
       });
       await showSystemReward(context, receipt);
       if (mounted) Navigator.pop(context);
@@ -983,6 +1055,22 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
                   '${copy.t('accepted')} · $minutes ${copy.t('min')}',
                   style: const TextStyle(color: journeyAccent),
                 ),
+              if (accepted != null && !short)
+                TextButton.icon(
+                  key: const ValueKey('journey-shorten'),
+                  onPressed: _busy
+                      ? null
+                      : () => _shorten(state, run, mission, copy),
+                  icon: const Icon(Icons.spa_outlined),
+                  label: Text(
+                    copy.choose([
+                      'Make it a 2-minute step today',
+                      '오늘은 2분 행동으로 줄이기',
+                      '今日は2分の一歩にする',
+                      '今天改成2分鐘的小步驟',
+                    ]),
+                  ),
+                ),
               if (short)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -1040,13 +1128,38 @@ class _JourneyMissionScreenState extends State<JourneyMissionScreen> {
                   label: Text(copy.t('timer')),
                 ),
                 const SizedBox(height: 20),
+                if (_toolKind != null) ...[
+                  JourneyToolEditor(
+                    kind: _toolKind!,
+                    controllers: _toolFields,
+                    enabled:
+                        !_busy &&
+                        _draftReady &&
+                        _sameProfile &&
+                        !accepted.isCompleted,
+                    onChanged: () => unawaited(_saveDraft()),
+                  ),
+                  Text(
+                    copy.choose([
+                      'Optional: you can also do this on paper. Saved here, it becomes a tool you can reuse after completing the mission.',
+                      '선택 사항입니다. 종이에 해도 좋습니다. 여기에 적으면 미션 완료 후 도구함에서 다시 사용할 수 있습니다.',
+                      '任意です。紙に書いても大丈夫。ここに書くと、完了後に道具箱からまた使えます。',
+                      '可自由選擇，也能寫在紙上。填在這裡，完成任務後就能從工具箱再次使用。',
+                    ]),
+                  ),
+                  const SizedBox(height: 20),
+                ],
                 TextField(
                   key: const ValueKey('journey-note'),
                   controller: _note,
                   maxLength: 240,
                   minLines: 2,
                   maxLines: 5,
-                  enabled: !_busy && _draftReady && _sameProfile,
+                  enabled:
+                      !_busy &&
+                      _draftReady &&
+                      _sameProfile &&
+                      !accepted.isCompleted,
                   onChanged: (_) => unawaited(_saveDraft()),
                   decoration: InputDecoration(
                     labelText: copy.t('note'),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'journey_catalog.dart';
 import 'journey_progress.dart';
+import 'journey_tool_copy.dart';
+import 'journey_tool_widgets.dart';
 
 /// Uses the shipped content, not a separate marketing-only example. Opening a
 /// sample neither starts a route nor grants ownership or progress.
@@ -95,6 +97,20 @@ class _JourneySamplesState extends State<JourneySamples> {
                 Text(
                   mission.steps(copy.locale, shortVersion: true).single,
                   style: const TextStyle(height: 1.6),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  copy.choose([
+                    'Try a sample result · example content',
+                    '결과물 체험 · 예시 내용',
+                    '成果を体験・サンプルの内容',
+                    '試用成果・範例內容',
+                  ]),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                JourneyToolCard(
+                  key: ValueKey('sample-tool-${_kind.name}'),
+                  tool: journeyToolSample(_kind, copy),
                 ),
                 const SizedBox(height: 16),
                 Text(

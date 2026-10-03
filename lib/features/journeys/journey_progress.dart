@@ -1,3 +1,5 @@
+import 'journey_tool.dart';
+
 /// Authored routes advance through actions, never through a streak or a date.
 /// This document is saved atomically with the character and its XP receipt.
 enum JourneyKind { learning, order, vitality, connection }
@@ -25,24 +27,37 @@ class JourneyEntry {
   final String note;
   final bool shortVersion;
   final int minutes;
+  final JourneyTool? tool;
   const JourneyEntry({
     required this.at,
     this.note = '',
     this.shortVersion = false,
     this.minutes = 5,
+    this.tool,
   });
+  JourneyEntry withTool(JourneyTool value) => JourneyEntry(
+    at: at,
+    note: note,
+    shortVersion: shortVersion,
+    minutes: minutes,
+    tool: value,
+  );
   Map<String, dynamic> toJson() => {
     'at': at.toIso8601String(),
     'note': note,
     'short': shortVersion,
     'minutes': minutes,
+    if (tool != null) 'tool': tool!.toJson(),
   };
   static JourneyEntry? parse(Object? value) {
     if (value is! Map || value['at'] is! String) return null;
     final at = DateTime.tryParse(value['at']);
     if (at == null) return null;
+    final tool = JourneyTool.parse(value['tool']);
+    if (value['tool'] != null && tool == null) return null;
     return JourneyEntry(
       at: at,
+      tool: tool,
       note: journeyNote(value['note'] is String ? value['note'] : ''),
       shortVersion: value['short'] == true,
       minutes: value['minutes'] is int
@@ -74,6 +89,16 @@ class JourneyRun {
     goal: journeyText(value, 120),
     startedAt: startedAt,
     entries: entries,
+  );
+  JourneyRun withTool(int index, JourneyTool tool) => JourneyRun(
+    id: id,
+    kind: kind,
+    goal: goal,
+    startedAt: startedAt,
+    entries: List.unmodifiable([
+      for (var i = 0; i < entries.length; i++)
+        i == index ? entries[i].withTool(tool) : entries[i],
+    ]),
   );
   JourneyRun append(JourneyEntry entry) => JourneyRun(
     id: id,
