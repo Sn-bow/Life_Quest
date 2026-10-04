@@ -1,0 +1,50 @@
+{
+  "sourceCommit": "21380b0012d147a641a36980af957a97856c6187",
+  "package": "com.logian.lifequest",
+  "version": "2.2.0+2017",
+  "flags": {
+    "cloud": true,
+    "billing": true,
+    "ads": false,
+    "qaPreview": false
+  },
+  "artifacts": {
+    "aab": {
+      "path": "build/review/life-quest-2.2.0-2017-save-recovery.aab",
+      "bytes": 156966528,
+      "sha256": "1e3cfab3537c1a6e89b443fed170b0716d3604f14a0af59cba72d34a4be228f1"
+    },
+    "apk": {
+      "path": "build/review/life-quest-2.2.0-2017-save-recovery.apk",
+      "bytes": 121663325,
+      "sha256": "6eda7428b7535eedb08cf9da074a61e317195a33cc700fd143d48ecd716220dd"
+    }
+  },
+  "checks": {
+    "flutter": {
+      "passed": 603,
+      "skipped": 1
+    },
+    "cloudBillingRelated": 37,
+    "analyze": "No issues found",
+    "aab": {
+      "passed": 40,
+      "total": 40,
+      "report": "docs/rebirth/product-2017-recovery-inspection.json"
+    },
+    "apk": "Expected certificate v2 signature and16KB ZIP alignment passed",
+    "installation": "adb install -r succeeded on existing API35/16KB emulator; installed base.apk SHA256 equals final APK",
+    "uiScope": "No visual changes. Prior toolkit UI evidence retained; this run verified storage behavior and installation, not native UI or Play billing."
+  },
+  "fixEvidence": "docs/rebirth/qa/route-save-recovery-20261004.md",
+  "externalStatus": {
+    "thisBuildUploaded": false,
+    "internalTesting": "2016 owner-only internal track unchanged",
+    "closedTesting": "not-published",
+    "completeSku": "inactive-draft",
+    "playPurchaseRestoreRefund": "not-verified",
+    "actualRevenueEvidence": "none",
+    "goal": "unchanged and not declared complete"
+  },
+  "supersedesLocalArtifactSource": "cb99d7febeb4e727155c4e545577653bab060617"
+}
