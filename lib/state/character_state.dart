@@ -90,6 +90,7 @@ class CharacterState extends ChangeNotifier {
   SystemJournal systemJournal = SystemJournal();
   JourneyBook journeys = const JourneyBook();
   bool _systemBusy = false;
+  Completer<void>? _journeySaveBarrier;
   bool get isApplyingSystemAction => _systemBusy;
   double _achievementXpGranted = 0;
   final Set<String> _announcedReceiptIds = {};
@@ -1555,16 +1556,53 @@ class CharacterState extends ChangeNotifier {
     }
     _systemBusy = true;
     final generation = _profileGeneration;
+    final previousBook = journeys;
+    final previousQuests = {for (final quest in _dailyQuests) quest.id: quest};
+    final barrier = Completer<void>();
+    _journeySaveBarrier = barrier;
+    Map<String, Quest>? changedQuests;
     try {
       final result = mutate();
-      await _performSaveData();
+      // Route mutations add or replace quests; they never edit existing quest
+      // objects in place. Track only their changes so a failed route save does
+      // not discard an unrelated quest added while storage was pending.
+      changedQuests = {
+        for (final quest in _dailyQuests)
+          if (!identical(previousQuests[quest.id], quest)) quest.id: quest,
+      };
+      await _performSaveData(journeyMutation: true);
       if (generation != _profileGeneration || _disposed) {
         throw StateError('Profile changed');
       }
       notifyListeners();
       return result;
+    } catch (_) {
+      if (generation == _profileGeneration && !_disposed) {
+        journeys = previousBook;
+        final changed =
+            changedQuests ??
+            {
+              for (final quest in _dailyQuests)
+                if (!identical(previousQuests[quest.id], quest))
+                  quest.id: quest,
+            };
+        _dailyQuests = [
+          for (final quest in _dailyQuests)
+            if (!identical(changed[quest.id], quest))
+              quest
+            else if (previousQuests[quest.id] case final previous?)
+              previous,
+        ];
+        _invalidateQuestCache();
+        notifyListeners();
+      }
+      rethrow;
     } finally {
-      _systemBusy = false;
+      if (identical(_journeySaveBarrier, barrier)) {
+        _journeySaveBarrier = null;
+        _systemBusy = false;
+      }
+      barrier.complete();
     }
   }
 
@@ -1605,15 +1643,8 @@ class CharacterState extends ChangeNotifier {
       });
 
   /// Editing an earned tool never requires buying again and never awards XP.
-  Future<void> updateJourneyTool(
-    String runId,
-    int stage,
-    JourneyTool tool,
-  ) async {
-    final before = journeys;
-    final generation = _profileGeneration;
-    try {
-      await _saveJourneyMutation(() {
+  Future<void> updateJourneyTool(String runId, int stage, JourneyTool tool) =>
+      _saveJourneyMutation(() {
         final run = journeys.runs.where((r) => r.id == runId).firstOrNull;
         if (run == null ||
             stage < 0 ||
@@ -1630,14 +1661,6 @@ class CharacterState extends ChangeNotifier {
           ]),
         );
       });
-    } catch (_) {
-      if (generation == _profileGeneration && !_disposed) {
-        journeys = before;
-        notifyListeners();
-      }
-      rethrow;
-    }
-  }
 
   /// A route task has a stable identity even when resumed on another day.
   Future<Quest> acceptJourney({
@@ -1691,47 +1714,34 @@ class CharacterState extends ChangeNotifier {
     String runId, {
     required String instruction,
     required String locale,
-  }) async {
-    final before = List<Quest>.of(_dailyQuests);
-    final generation = _profileGeneration;
-    try {
-      await _saveJourneyMutation(() {
-        final run = journeys.runs
-            .where((r) => r.id == runId && !r.completed)
-            .firstOrNull;
-        if (run == null) throw StateError('Journey unavailable');
-        final index = _dailyQuests.indexWhere(
-          (q) => q.id == run.questId && !q.isCompleted,
-        );
-        if (index < 0) throw StateError('No accepted mission');
-        final old = _dailyQuests[index];
-        if (old.journeyShortVersion) return;
-        final next = Quest.fromJson({
-          ...old.toJson(),
-          'estimatedMinutes': 2,
-          'instruction': instruction,
-          'generatedLocale': locale,
-          'journeyShortVersion': true,
-          'difficulty': QuestDifficulty.easy.index,
-          'xp': Quest.xpForDifficulty(QuestDifficulty.easy, QuestType.daily),
-        });
-        next.lockedXp = null;
-        next.lockedXp = math.min(
-          old.lockedXp ?? previewQuestXp(old),
-          previewQuestXp(next),
-        );
-        _dailyQuests[index] = next;
-        _invalidateQuestCache();
-      });
-    } catch (_) {
-      if (generation == _profileGeneration && !_disposed) {
-        _dailyQuests = before;
-        _invalidateQuestCache();
-        notifyListeners();
-      }
-      rethrow;
-    }
-  }
+  }) => _saveJourneyMutation(() {
+    final run = journeys.runs
+        .where((r) => r.id == runId && !r.completed)
+        .firstOrNull;
+    if (run == null) throw StateError('Journey unavailable');
+    final index = _dailyQuests.indexWhere(
+      (q) => q.id == run.questId && !q.isCompleted,
+    );
+    if (index < 0) throw StateError('No accepted mission');
+    final old = _dailyQuests[index];
+    if (old.journeyShortVersion) return;
+    final next = Quest.fromJson({
+      ...old.toJson(),
+      'estimatedMinutes': 2,
+      'instruction': instruction,
+      'generatedLocale': locale,
+      'journeyShortVersion': true,
+      'difficulty': QuestDifficulty.easy.index,
+      'xp': Quest.xpForDifficulty(QuestDifficulty.easy, QuestType.daily),
+    });
+    next.lockedXp = null;
+    next.lockedXp = math.min(
+      old.lockedXp ?? previewQuestXp(old),
+      previewQuestXp(next),
+    );
+    _dailyQuests[index] = next;
+    _invalidateQuestCache();
+  });
 
   void addQuest(
     String name,
@@ -2567,7 +2577,16 @@ class CharacterState extends ChangeNotifier {
 
   /// A returned Future means this exact snapshot reached its storage boundary.
   /// It never returns early merely because another write is already pending.
-  Future<void> _performSaveData() async {
+  Future<void> _performSaveData({bool journeyMutation = false}) async {
+    final requestedGeneration = _profileGeneration;
+    while (!journeyMutation && _journeySaveBarrier != null) {
+      // Snapshot only after a route edit has committed or rolled back. A
+      // background flush must not resurrect the payload of a rejected edit.
+      await _journeySaveBarrier!.future;
+      if (requestedGeneration != _profileGeneration) {
+        throw StateError('Profile changed before save.');
+      }
+    }
     if (_deletingAccount || _restoringLocal || _disposed) {
       throw StateError('Profile is not available for saving.');
     }

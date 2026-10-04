@@ -3,6 +3,7 @@ import 'package:life_quest_final_v2/features/journeys/mission_focus_store.dart';
 import 'package:life_quest_final_v2/features/journeys/mission_draft_store.dart';
 import 'system_journal_test.dart' show JournalFaultStore;
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:life_quest_final_v2/features/journeys/journey_catalog.dart';
@@ -13,6 +14,25 @@ import 'package:life_quest_final_v2/features/backup/device_backup.dart';
 import 'package:life_quest_final_v2/models/quest.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 import 'package:life_quest_final_v2/services/sound_service.dart';
+
+class PausedJourneyStore extends JournalFaultStore {
+  Completer<void>? pause;
+  final entered = Completer<void>();
+  bool reject = false;
+
+  @override
+  Future<bool> setValue(String type, String key, Object value) async {
+    final pending = pause;
+    if (pending != null &&
+        key == 'flutter.${CharacterState.localProfileStorageKey}') {
+      pause = null;
+      entered.complete();
+      await pending.future;
+      if (reject) throw StateError('Interrupted route write');
+    }
+    return super.setValue(type, key, value);
+  }
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +77,91 @@ void main() {
         throwsArgumentError,
       );
       expect(state.journeys.active!.goal, 'Study desk');
+    },
+  );
+  test(
+    'failed route edits do not leave unsaved goals or active routes visible',
+    () async {
+      final store = JournalFaultStore();
+      SharedPreferencesStorePlatform.instance = store;
+      final state = await local();
+      store.fail = true;
+      await expectLater(
+        state.startJourney(JourneyKind.learning, 'Discarded first goal'),
+        throwsStateError,
+      );
+      expect(state.journeys.runs, isEmpty);
+      store.fail = false;
+      final learning = await state.startJourney(
+        JourneyKind.learning,
+        'Chosen second goal',
+      );
+      final order = await state.startJourney(JourneyKind.order, 'Desk');
+      store.fail = true;
+      await expectLater(state.selectJourney(learning.id), throwsStateError);
+      expect(state.journeys.active!.id, order.id);
+      await expectLater(
+        state.renameJourneyGoal(order.id, 'Unsaved goal'),
+        throwsStateError,
+      );
+      expect(state.journeys.active!.goal, 'Desk');
+      store.fail = false;
+      await state.forceSave();
+      final reopened = await local();
+      expect(reopened.journeys.active!.goal, 'Desk');
+      expect(
+        reopened.journeys.latest(JourneyKind.learning)!.goal,
+        'Chosen second goal',
+      );
+    },
+  );
+  test(
+    'failed acceptance can be retried with the newly chosen small action',
+    () async {
+      final store = JournalFaultStore();
+      SharedPreferencesStorePlatform.instance = store;
+      final state = await local();
+      final learning = await state.startJourney(JourneyKind.learning, 'Topic');
+      final order = await state.startJourney(JourneyKind.order, 'Desk');
+      store.fail = true;
+      await expectLater(accept(state, learning.id), throwsStateError);
+      expect(state.dailyQuests, isEmpty);
+      expect(state.journeys.active!.id, order.id);
+      store.fail = false;
+      final quest = await accept(state, learning.id, short: true);
+      expect(quest.journeyShortVersion, true);
+      expect(quest.estimatedMinutes, 2);
+      final reopened = await local();
+      expect(reopened.dailyQuests.single.journeyShortVersion, true);
+      expect(reopened.journeys.active!.id, learning.id);
+      expect(reopened.questCompletionCount, 0);
+    },
+  );
+  test(
+    'background saves wait for route failure and preserve unrelated changes',
+    () async {
+      final store = PausedJourneyStore();
+      SharedPreferencesStorePlatform.instance = store;
+      final state = await local();
+      final run = await state.startJourney(JourneyKind.order, 'Saved goal');
+      final gate = Completer<void>();
+      store.pause = gate;
+      store.reject = true;
+      final failed = expectLater(
+        state.renameJourneyGoal(run.id, 'Failed goal'),
+        throwsStateError,
+      );
+      await store.entered.future;
+      state.addQuest('Unrelated action', 10, QuestType.daily, StatType.wisdom);
+      final background = state.forceSave();
+      gate.complete();
+      await failed;
+      expect(await background, true);
+      expect(state.dailyQuests.single.name, 'Unrelated action');
+      expect(state.journeys.active!.goal, 'Saved goal');
+      final reopened = await local();
+      expect(reopened.journeys.active!.goal, 'Saved goal');
+      expect(reopened.dailyQuests.single.name, 'Unrelated action');
     },
   );
   test(
