@@ -1,0 +1,130 @@
+{
+  "project": "lifequest-crossing-2026",
+  "observedAt": "2026-10-03",
+  "functions": [
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/submitAiReport",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/submitaireport",
+      "uri": "https://submitaireport-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 2,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/verifyPurchase",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/verifypurchase",
+      "uri": "https://verifypurchase-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 3,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/requestReportIdentityDeletion",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/requestreportidentitydeletion",
+      "uri": "https://requestreportidentitydeletion-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 2,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/reconcilePlayVoidedPurchases",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/reconcileplayvoidedpurchases",
+      "uri": "https://reconcileplayvoidedpurchases-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 1,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/requestAccountDeletion",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/requestaccountdeletion",
+      "uri": "https://requestaccountdeletion-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 2,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/ensurePurchaseAccount",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/ensurepurchaseaccount",
+      "uri": "https://ensurepurchaseaccount-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 2,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/onPlayPurchaseNotification",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/onplaypurchasenotification",
+      "uri": "https://onplaypurchasenotification-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 2,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/acknowledgePlayPurchase",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/acknowledgeplaypurchase",
+      "uri": "https://acknowledgeplaypurchase-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 2,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    },
+    {
+      "name": "projects/lifequest-crossing-2026/locations/us-central1/functions/onAccountDeletionRequested",
+      "state": "ACTIVE",
+      "runtime": "nodejs22",
+      "service": "projects/lifequest-crossing-2026/locations/us-central1/services/onaccountdeletionrequested",
+      "uri": "https://onaccountdeletionrequested-vr7vvarf6a-uc.a.run.app",
+      "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+      "minInstances": 0,
+      "maxInstances": 2,
+      "memory": "256Mi",
+      "cpu": "1",
+      "concurrency": 80
+    }
+  ],
+  "verification": {
+    "missingAuthAppCheckAllFiveCallables": "HTTP 401 UNAUTHENTICATED",
+    "unauthenticatedAcknowledgementWorker": "HTTP 403",
+    "authenticatedEmptyInputTask": "HTTP 204; no purchase or entitlement",
+    "playTestNotification": "HTTP 204",
+    "realPurchaseRestoreRefund": "not-tested"
+  }
+}

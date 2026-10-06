@@ -142,11 +142,13 @@ class _DungeonResultScreenState extends State<DungeonResultScreen> {
                             style: theme.textTheme.titleMedium,
                           ),
                           const SizedBox(height: 12),
-                          Text(
-                            l.dungeonResultXpReward(rewards['xp'] as int? ?? 0),
-                            style: theme.textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 8),
+                          if ((rewards['xp'] as int? ?? 0) > 0) ...[
+                            Text(
+                              l.dungeonResultXpReward(rewards['xp'] as int),
+                              style: theme.textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: 8),
+                          ],
                           Text(
                             l.dungeonResultGoldReward(
                               rewards['gold'] as int? ?? 0,

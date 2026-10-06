@@ -17,7 +17,11 @@ class AchievementScreen extends StatelessWidget {
         final allAchievements = characterState.allAchievements;
         final progressMap = characterState.achievementProgress;
 
-        final inProgressAchievements = allAchievements.where((ach) => !(progressMap[ach.id]?.isCompleted ?? false)).toList();
+        // Preserve earned monster achievements, but do not advertise a goal
+        // that cannot advance while exploration is outside the release scope.
+        final inProgressAchievements = allAchievements.where((ach) =>
+            ach.condition != AchievementCondition.monstersKilled &&
+            !(progressMap[ach.id]?.isCompleted ?? false)).toList();
         final completedAchievements = allAchievements.where((ach) => progressMap[ach.id]?.isCompleted ?? false).toList();
 
         return DefaultTabController(

@@ -7,18 +7,21 @@ void main() {
     late String draft;
     late String loginScreen;
     late String signupScreen;
+    late String registration;
 
     setUpAll(() {
-      draft = File(
-        'docs/lifequest-play-console-app-access-draft-20260604.md',
-      ).readAsStringSync();
+      draft = File('docs/rebirth/store/APP_ACCESS_2018.md').readAsStringSync();
       loginScreen = File('lib/screens/login_screen.dart').readAsStringSync();
       signupScreen = File('lib/screens/signup_screen.dart').readAsStringSync();
+      registration = File(
+        'lib/features/session/cloud_profile_registration.dart',
+      ).readAsStringSync();
     });
 
     test('matches the shipped authentication paths', () {
       expect(loginScreen, contains('signInWithEmailAndPassword'));
-      expect(signupScreen, contains('createUserWithEmailAndPassword'));
+      expect(signupScreen, contains('_registration.finish('));
+      expect(registration, contains('createUserWithEmailAndPassword'));
       expect(loginScreen, contains('GoogleSignIn'));
       expect(draft, contains('Email/password sign-in'));
       expect(draft, contains('Email/password sign-up'));
@@ -28,7 +31,7 @@ void main() {
 
     test('gives reviewer access instructions without committing secrets', () {
       expect(draft, contains('Play Console > Policy and programs'));
-      expect(draft, contains('enter the dedicated reviewer email'));
+      expect(draft, contains('Enter the dedicated reviewer email'));
       expect(draft, contains('enter the reviewer password'));
       expect(draft, contains('Do not commit reviewer'));
       expect(draft, contains('credential manager'));
@@ -50,11 +53,16 @@ void main() {
     });
 
     test('keeps default release scope and review blockers explicit', () {
-      expect(draft, contains('com.lifequest.app'));
-      expect(draft, contains('default Android build'));
-      expect(draft, contains('Ads and in-app purchases are disabled'));
+      expect(draft, contains('com.logian.lifequest'));
+      expect(draft, contains('Google Play candidate'));
+      expect(draft, contains('Ads are disabled'));
+      expect(draft, contains('Core device features require no sign-in'));
+      expect(draft, contains('Complete content is restricted'));
+      expect(draft, contains('REVIEW ACCESS NOT YET PREPARED'));
       expect(
-          draft, contains('Web QA Preview is not the production Android app'));
+        draft,
+        contains('Web QA Preview is not the production Android app'),
+      );
       expect(draft, contains('must remain active, reusable, and valid'));
       expect(draft, contains('must not require 2-Step Verification'));
       expect(draft, contains('separate disposable account for deletion tests'));

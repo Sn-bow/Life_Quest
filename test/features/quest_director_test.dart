@@ -95,8 +95,11 @@ void main() {
         for (var energy = 1; energy <= 3; energy++) {
           final profile = HunterProfile(minutes: minute, energy: energy);
           final plan = engine.plan(profile: profile, history: [], now: now);
-          expect(plan.length, 3);
-          expect(plan.map((q) => q.id).toSet().length, 3);
+          expect(plan, isNotEmpty);
+          expect(plan.length, lessThanOrEqualTo(3));
+          if (minute <= 5) expect(plan, hasLength(1));
+          if (minute >= 15 && energy > 1) expect(plan, hasLength(3));
+          expect(plan.map((q) => q.id).toSet().length, plan.length);
           expect(
             plan.fold(0, (sum, q) => sum + q.minutes),
             lessThanOrEqualTo(minute),
@@ -113,6 +116,149 @@ void main() {
       }
     },
   );
+  test(
+    'five minutes yields one usable action; larger budgets stay bounded',
+    () {
+      final five = engine.plan(
+        profile: const HunterProfile(minutes: 5, energy: 2),
+        history: [],
+        now: now,
+      );
+      expect(five, hasLength(1));
+      expect(five.single.minutes, 5);
+      final fifteen = engine.plan(
+        profile: const HunterProfile(minutes: 15, energy: 2),
+        history: [],
+        now: now,
+      );
+      expect(fifteen, hasLength(3));
+      expect(fifteen.every((q) => q.minutes == 5), isTrue);
+      final thirty = engine.plan(
+        profile: const HunterProfile(minutes: 30, energy: 2),
+        history: [],
+        now: now,
+      );
+      expect(thirty, hasLength(3));
+      expect(thirty.every((q) => q.minutes <= 15), isTrue);
+      expect(
+        thirty.fold(0, (sum, q) => sum + q.minutes),
+        lessThanOrEqualTo(30),
+      );
+    },
+  );
+  test('English fallback titles use singular minute only at one minute', () {
+    for (final template in QuestDirectorEngine.catalog) {
+      expect(template.title('en', 1), isNot(contains('1 minutes')));
+      expect(template.title('en', 2), isNot(contains('{m}')));
+    }
+    final read = QuestDirectorEngine.catalog.firstWhere((q) => q.id == 'read');
+    expect(read.title('en', 1), contains('1 minute'));
+    expect(read.title('en', 2), contains('2 minutes'));
+  });
+  test('clear goals choose a related template without the optional model', () {
+    final cases = <(String, Set<GrowthFocus>, String)>[
+      ('영어 공부를 하고 싶다', {GrowthFocus.order}, 'language'),
+      ('I want to read a book', {GrowthFocus.vitality}, 'read'),
+      ('毎日散歩したい', {GrowthFocus.learning}, 'walk'),
+      ('我想整理書桌', {GrowthFocus.vitality}, 'desk'),
+    ];
+    for (final (goal, focuses, expected) in cases) {
+      final profile = HunterProfile(focuses: focuses, goal: goal);
+      final plan = engine.plan(profile: profile, history: [], now: now);
+      expect(plan, hasLength(3), reason: goal);
+      expect(plan.first.template.id, expected, reason: goal);
+      expect(plan.first.generatedTitle, isNull);
+      expect(plan.first.title('en'), isNot(contains(goal)));
+    }
+  });
+  test('ambiguous, negated and risky goals do not override chosen focuses', () {
+    const focuses = {GrowthFocus.learning};
+    final baseline = engine.plan(
+      profile: const HunterProfile(focuses: focuses),
+      history: [],
+      now: now,
+    );
+    for (final goal in [
+      'I want to be a better person',
+      'I want to study and walk',
+      'I do not want to walk',
+      'I am not reading books',
+      'I want to lose weight by exercise',
+      '더 나은 사람이 되고 싶다',
+      '걷고 싶지 않다',
+      '自分を変えたい',
+      '散歩したくない',
+      '我想變得更好',
+      '我不想散步',
+    ]) {
+      final plan = engine.plan(
+        profile: const HunterProfile(focuses: focuses).copyWith(goal: goal),
+        history: [],
+        now: now,
+      );
+      expect(
+        plan.map((q) => q.template.id),
+        baseline.map((q) => q.template.id),
+        reason: goal,
+      );
+    }
+  });
+  test('goal relevance yields to quiet hours, energy and recent refusal', () {
+    final quiet = engine.plan(
+      profile: const HunterProfile(
+        focuses: {GrowthFocus.learning},
+        goal: '毎日散歩したい',
+      ),
+      history: [],
+      now: DateTime(2026, 9, 15, 22),
+    );
+    expect(quiet, hasLength(3));
+    expect(quiet.any((q) => q.template.id == 'walk'), isFalse);
+    expect(quiet.first.template.focus, GrowthFocus.vitality);
+
+    final lowEnergy = engine.plan(
+      profile: const HunterProfile(
+        focuses: {GrowthFocus.order},
+        goal: '영어 공부',
+        minutes: 4,
+        energy: 1,
+      ),
+      history: [],
+      now: now,
+    );
+    expect(lowEnergy, hasLength(1));
+    expect(lowEnergy.every((q) => q.minutes <= 3), isTrue);
+    expect(
+      lowEnergy.fold(0, (sum, q) => sum + q.minutes),
+      lessThanOrEqualTo(4),
+    );
+    expect(lowEnergy.single.template.id, 'language');
+    expect(lowEnergy.first.template.focus, GrowthFocus.learning);
+
+    for (final feedback in [QuestFeedback.skipped, QuestFeedback.tooHard]) {
+      final plan = engine.plan(
+        profile: const HunterProfile(
+          focuses: {GrowthFocus.vitality},
+          goal: 'I want to read more',
+          minutes: 30,
+        ),
+        history: [
+          QuestSignal(
+            questId: 'yesterday-read',
+            templateId: 'read',
+            feedback: feedback,
+            at: now.subtract(const Duration(days: 1)),
+          ),
+        ],
+        now: now,
+      );
+      expect(plan.first.template.focus, GrowthFocus.learning);
+      expect(plan.first.template.id, isNot('read'));
+      if (feedback == QuestFeedback.tooHard) {
+        expect(plan.every((q) => q.recovery && q.minutes <= 3), isTrue);
+      }
+    }
+  });
   test(
     'repeated difficulty reduces effort, and accepted time is never reassigned',
     () {
@@ -245,6 +391,73 @@ void main() {
       restored.dispose();
     },
   );
+  test(
+    'five-minute refusal replaces one action without spending the budget',
+    () async {
+      var clock = now;
+      final state = QuestDirectorState(clock: () => clock, model: FakeModel());
+      await state.bind('five-minute');
+      await state.configure(
+        const HunterProfile(
+          minutes: 5,
+          goal: 'I want to read more',
+          focuses: {GrowthFocus.learning},
+        ),
+      );
+      expect(state.suggestions, hasLength(1));
+      final first = state.suggestions.single;
+      expect(first.minutes, 5);
+      await state.skip(first, QuestFeedback.skipped, 'en');
+      expect(state.acceptedToday, 0);
+      expect(state.suggestions, hasLength(1));
+      final replacement = state.suggestions.single;
+      expect(replacement.id, isNot(first.id));
+      expect(replacement.minutes, 5);
+      await state.accept(replacement);
+      expect(state.acceptedToday, 1);
+      expect(state.suggestions, isEmpty);
+      final restored = QuestDirectorState(
+        clock: () => clock,
+        model: FakeModel(),
+      );
+      await restored.bind('five-minute');
+      expect(restored.acceptedToday, 1);
+      expect(restored.suggestions, isEmpty);
+      clock = clock.add(const Duration(days: 1));
+      await restored.refreshDay();
+      expect(restored.acceptedToday, 0);
+      expect(restored.suggestions, hasLength(1));
+      expect(restored.suggestions.single.minutes, 5);
+      state.dispose();
+      restored.dispose();
+    },
+  );
+  test('old one-minute cached suggestions are replanned on reopen', () async {
+    final stale = [
+      for (final id in ['read', 'desk', 'stretch'])
+        {
+          'id': 'director:${localDay(now)}:$id',
+          'templateId': id,
+          'minutes': 1,
+          'recovery': false,
+        },
+    ];
+    SharedPreferences.setMockInitialValues({
+      'lifequest.director.v1.legacy-five': jsonEncode({
+        'profile': const HunterProfile(minutes: 5).toJson(),
+        'day': localDay(now),
+        'quietHours': false,
+        'history': [],
+        'accepted': {},
+        'suggestions': stale,
+      }),
+    });
+    final state = QuestDirectorState(clock: () => now, model: FakeModel());
+    await state.bind('legacy-five');
+    expect(state.suggestions, hasLength(1));
+    expect(state.suggestions.single.minutes, 5);
+    state.dispose();
+  });
 
   test(
     'quiet hours rebuild suggestions without releasing accepted daily slots',
@@ -282,7 +495,8 @@ void main() {
       );
       await generation;
       expect(state.usedModel, isFalse);
-      expect(state.suggestions.every((q) => q.minutes == 1), isTrue);
+      expect(state.suggestions, hasLength(1));
+      expect(state.suggestions.single.minutes, 3);
       expect(state.busy, isFalse);
       state.dispose();
     },
@@ -357,20 +571,17 @@ void main() {
       state.dispose();
     },
   );
-  test(
-    'selected focus stays selected when three safe actions are available',
-    () {
-      for (final focus in GrowthFocus.values) {
-        final plan = engine.plan(
-          profile: HunterProfile(focuses: {focus}, minutes: 3),
-          history: [],
-          now: now,
-        );
-        expect(plan.length, 3);
-        expect(plan.every((q) => q.template.focus == focus), isTrue);
-      }
-    },
-  );
+  test('selected focus stays selected for a short safe action', () {
+    for (final focus in GrowthFocus.values) {
+      final plan = engine.plan(
+        profile: HunterProfile(focuses: {focus}, minutes: 3),
+        history: [],
+        now: now,
+      );
+      expect(plan.length, 1);
+      expect(plan.every((q) => q.template.focus == focus), isTrue);
+    }
+  });
   test(
     'sign-out drains writes and ignores late inference after account deletion',
     () async {

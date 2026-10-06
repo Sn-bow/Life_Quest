@@ -37,7 +37,7 @@ def main():
     check('APK ZIP 16 KiB alignment', True)
     manifest = command([args.build_tools / 'aapt2', 'dump', 'badging', args.apk])
     match = re.search(r"package: name='([^']+)' versionCode='(\d+)' versionName='([^']+)'", manifest)
-    check('Expected package and version', bool(match) and match[1] == 'com.lifequest.app' and int(match[2]) == args.version_code)
+    check('Expected package and version', bool(match) and match[1] == 'com.logian.lifequest' and int(match[2]) == args.version_code)
     target = re.search(r"targetSdkVersion:'(\d+)'", manifest)
     check('Target API at least 36', bool(target) and int(target[1]) >= 36)
     tree = command([args.build_tools / 'aapt2', 'dump', 'xmltree', args.apk, '--file', 'AndroidManifest.xml'])

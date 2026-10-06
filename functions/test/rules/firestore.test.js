@@ -5,8 +5,10 @@ const {initializeTestEnvironment, assertFails, assertSucceeds} = require('@fireb
 const {doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp} = require('firebase/firestore');
 let env;
 before(async () => {
-  if (!process.env.FIRESTORE_EMULATOR_HOST?.startsWith('127.0.0.1:')) throw Error('Local emulator required.');
-  env = await initializeTestEnvironment({projectId: 'demo-lifequest-rules', firestore: {
+  if (!process.env.FIRESTORE_EMULATOR_HOST?.startsWith('127.0.0.1:') || !process.env.GCLOUD_PROJECT) {
+    throw Error('Local emulator with GCLOUD_PROJECT required.');
+  }
+  env = await initializeTestEnvironment({projectId: process.env.GCLOUD_PROJECT, firestore: {
     host: '127.0.0.1', port: 8080, rules: readFileSync('../firestore.rules', 'utf8'),
   }});
 });
@@ -44,7 +46,7 @@ test('anonymous identity can delete its own server report but cannot forge quota
   await assertFails(getDoc(doc(anon, 'users/report-only/_private/aiReportQuota')));
 });
 test('paid rights cannot be forged or modified by the client', async () => {
-  const path = 'users/alice/entitlements/cosmetic_theme_neon';
+  const path = 'users/alice/entitlements/quest_journeys_complete_01';
   await assertFails(setDoc(doc(owner(), path), {active: true}));
   await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), path), {active: true}));
   await assertSucceeds(getDoc(doc(owner(), path)));
@@ -52,11 +54,35 @@ test('paid rights cannot be forged or modified by the client', async () => {
   await assertFails(updateDoc(doc(owner(), path), {active: false}));
   await assertFails(deleteDoc(doc(owner(), path)));
 });
+test('route notes stay private and purchase-only accounts cannot upload progress', async () => {
+  const path = 'users/alice';
+  const progress = {character: {gold: 0, level: 1}, journeys: {
+    version: 1, activeId: 'synthetic-run', runs: [{id: 'synthetic-run',
+      kind: 'learning', goal: 'Synthetic QA goal', startedAt: '2026-10-03T12:00:00Z',
+      entries: [{at: '2026-10-03T12:02:00Z', note: 'Synthetic private note', short: true, minutes: 2}]}],
+  }};
+  await assertSucceeds(setDoc(doc(owner(), path), progress));
+  await assertSucceeds(getDoc(doc(owner(), path)));
+  await assertFails(getDoc(doc(other(), path)));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), path)));
+  await env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), path), {accountKind: 'purchaseOnly'}));
+  await assertFails(setDoc(doc(owner(), path), progress));
+  await assertFails(updateDoc(doc(owner(), path), {journeys: progress.journeys}));
+});
 test('purchase-token ledger is inaccessible even to authenticated clients', async () => {
   const path = 'purchaseTokens/synthetic-token-hash';
   await assertFails(setDoc(doc(owner(), path), {uid: 'alice'}));
   await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), path), {uid: 'alice'}));
   await assertFails(getDoc(doc(owner(), path)));
+  await assertFails(deleteDoc(doc(owner(), path)));
+});
+test('Play account-hash lookup is server-only and cannot be read or forged', async () => {
+  const path = 'purchaseAccountIds/synthetic-account-hash';
+  await assertFails(setDoc(doc(owner(), path), {uid: 'alice'}));
+  await env.withSecurityRulesDisabled(async c => setDoc(doc(c.firestore(), path), {uid: 'alice'}));
+  await assertFails(getDoc(doc(owner(), path)));
+  await assertFails(getDoc(doc(other(), path)));
+  await assertFails(updateDoc(doc(owner(), path), {uid: 'bob'}));
   await assertFails(deleteDoc(doc(owner(), path)));
 });
 

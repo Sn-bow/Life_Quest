@@ -96,12 +96,12 @@ void main() {
   // ── Asset directory registration ────────────────────────────────────────────
 
   group('Asset directory registration', () {
-    test('full_body directory is registered in pubspec.yaml', () {
+    test('dormant card art stays out of the release asset bundle', () {
       final pubspec = File('pubspec.yaml').readAsStringSync();
       expect(
         pubspec,
-        contains('assets/images/game/cards/full_body/'),
-        reason: 'pubspec.yaml must register the full_body asset directory',
+        isNot(contains('- assets/images/game/cards/full_body/')),
+        reason: 'Unreachable game art should not increase install size',
       );
     });
 

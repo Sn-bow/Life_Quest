@@ -18,8 +18,10 @@ class PurchaseIdentity {
 
 abstract interface class PurchaseAccountGateway {
   PurchaseIdentity? get current;
+  PurchaseIdentity? get currentSession;
   Stream<PurchaseIdentity?> get changes;
   Future<PurchaseIdentity?> signIn();
+  Future<PurchaseIdentity?> linkCurrentWithGoogle();
   Future<bool> ensureAccount();
   Future<void> signOut();
   Future<bool> requestDeletion();
@@ -40,6 +42,7 @@ class PurchaseAccountState extends ChangeNotifier {
   static const readyUidKey = 'lifequest.purchaseIdentity.readyUid';
   final bool enabled;
   final bool Function() isPurchaseOnly;
+  final bool Function() isLocalProfile;
   final Future<void> Function() markPurchaseOnly;
   final PurchaseAccountGateway Function() createGateway;
   PurchaseAccountGateway? _gateway;
@@ -51,9 +54,12 @@ class PurchaseAccountState extends ChangeNotifier {
   PurchaseAccountState({
     required this.enabled,
     required this.isPurchaseOnly,
+    bool Function()? isLocalProfile,
     required this.markPurchaseOnly,
     required this.createGateway,
-  });
+  }) : isLocalProfile = isLocalProfile ?? _defaultLocalProfile;
+
+  static bool _defaultLocalProfile() => true;
 
   PurchaseIdentity? get identity => _identity;
   PurchaseIdentity? get signedInIdentity => _gateway?.current;
@@ -86,7 +92,17 @@ class PurchaseAccountState extends ChangeNotifier {
 
   Future<void> initialize() => _initializing ??= _initialize();
   Future<void> _initialize() async {
-    if (!enabled || !isPurchaseOnly()) return;
+    if (!enabled) return;
+    if (!isLocalProfile()) {
+      final gateway = _listen();
+      final linked = gateway.current;
+      if (linked != null && gateway.currentSession?.uid == linked.uid) {
+        _identity = linked;
+        _emit(PurchaseAccountStatus.connected);
+      }
+      return;
+    }
+    if (!isPurchaseOnly()) return;
     try {
       final prefs = await SharedPreferences.getInstance();
       final current = _listen().current;
@@ -114,6 +130,25 @@ class PurchaseAccountState extends ChangeNotifier {
     if (busy || _disposed) return;
     _emit(PurchaseAccountStatus.working);
     try {
+      if (!isLocalProfile()) {
+        final gateway = _listen();
+        final original = gateway.currentSession;
+        if (original == null) throw StateError('No signed-in profile.');
+        final selected = gateway.current ?? await gateway.linkCurrentWithGoogle();
+        if (selected == null) {
+          _emit(PurchaseAccountStatus.idle);
+          return;
+        }
+        if (selected.uid != original.uid ||
+            gateway.currentSession?.uid != original.uid ||
+            !await gateway.ensureAccount() ||
+            gateway.currentSession?.uid != original.uid) {
+          throw StateError('The current profile was not confirmed.');
+        }
+        _identity = selected;
+        _emit(PurchaseAccountStatus.connected);
+        return;
+      }
       // Both local writes must finish before authentication can change.
       await markPurchaseOnly();
       await _forgetReady();
@@ -144,7 +179,7 @@ class PurchaseAccountState extends ChangeNotifier {
   }
 
   Future<void> disconnect() async {
-    if (!enabled || busy) return;
+    if (!enabled || busy || !isLocalProfile()) return;
     final deletionAccepted = _status == PurchaseAccountStatus.cleanupNeeded;
     _emit(PurchaseAccountStatus.working);
     try {
@@ -165,7 +200,7 @@ class PurchaseAccountState extends ChangeNotifier {
   }
 
   Future<void> deleteAccount() async {
-    if (!enabled || busy || signedInIdentity == null) return;
+    if (!enabled || busy || !isLocalProfile() || signedInIdentity == null) return;
     _emit(PurchaseAccountStatus.working);
     var accepted = false;
     try {

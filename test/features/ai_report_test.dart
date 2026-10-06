@@ -147,6 +147,38 @@ void main() {
       expect(prefs.getString(AiReportService.receiptsKey), '{broken');
     },
   );
+  testWidgets('receipt list never exposes another account reference', (
+    tester,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      AiReportService.receiptsKey,
+      jsonEncode([
+        AiReportReceipt(
+          id: 'b' * 64,
+          ownerUid: 'other',
+          createdAt: 1800000000000,
+        ).toJson(),
+        AiReportReceipt(
+          id: id,
+          ownerUid: 'reporter',
+          createdAt: 1800000000000,
+        ).toJson(),
+      ]),
+    );
+    final service = AiReportService(currentUidOverride: () => 'reporter');
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: AiReportReceiptsScreen(service: service),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('reporter/$id'), findsOneWidget);
+    expect(find.text('other/${'b' * 64}'), findsNothing);
+    expect(await service.receipts(), hasLength(2));
+  });
   for (final code in ['ko', 'en', 'ja', 'zh']) {
     testWidgets('report receipts stay readable at 320px / 200%: $code', (
       tester,

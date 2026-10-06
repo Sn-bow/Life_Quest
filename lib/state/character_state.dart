@@ -1,3 +1,9 @@
+import '../features/journeys/journey_tool.dart';
+import '../features/journeys/journey_tool_copy.dart';
+import '../features/system/system_journal.dart';
+import '../features/journeys/journey_progress.dart';
+import '../features/journeys/mission_focus_store.dart';
+import '../features/journeys/mission_draft_store.dart';
 import '../features/session/profile_write_queue.dart';
 import '../features/research/beta_study.dart';
 import '../features/billing/purchase_verifier.dart';
@@ -28,6 +34,7 @@ import 'package:life_quest_final_v2/services/notification_service.dart';
 import 'package:life_quest_final_v2/data/achievement_database.dart';
 import 'package:life_quest_final_v2/data/core_loop_rules.dart';
 import 'package:life_quest_final_v2/data/title_database.dart';
+import 'package:life_quest_final_v2/data/guest_name_localization.dart';
 import 'package:life_quest_final_v2/data/skill_database.dart';
 import 'package:life_quest_final_v2/data/card_database.dart';
 import 'package:life_quest_final_v2/models/card_data.dart';
@@ -44,8 +51,6 @@ class QuestCompletionResult {
   final int raidClearCount;
   final List<String> unlockedTitles;
   final List<String> unlockedCosmetics;
-  final int cardPointsAwarded;
-  final int newPacksAwarded;
 
   const QuestCompletionResult({
     required this.totalXpAwarded,
@@ -56,8 +61,6 @@ class QuestCompletionResult {
     required this.raidClearCount,
     this.unlockedTitles = const [],
     this.unlockedCosmetics = const [],
-    this.cardPointsAwarded = 0,
-    this.newPacksAwarded = 0,
   });
 }
 
@@ -84,6 +87,23 @@ class _RaidRewardOutcome {
 class CharacterState extends ChangeNotifier {
   static const String _qaPreviewStorageKey = 'lifequest.qaPreview.state.v2';
   static const String localProfileStorageKey = 'lifequest.local.state.v1';
+  SystemJournal systemJournal = SystemJournal();
+  JourneyBook journeys = const JourneyBook();
+  bool _systemBusy = false;
+  Completer<void>? _journeySaveBarrier;
+  bool get isApplyingSystemAction => _systemBusy;
+  double _achievementXpGranted = 0;
+  final Set<String> _announcedReceiptIds = {};
+  GrowthReceipt? get lastGrowthReceipt => systemJournal.receipts.lastOrNull;
+  double get recordedXpToday => systemJournal.receipts
+      .where((r) => r.day == systemDay(DateTime.now()))
+      .fold(0.0, (total, r) => total + r.xp);
+  List<double> _statSnapshot() => [
+    _character!.strength,
+    _character!.wisdom,
+    _character!.health,
+    _character!.charisma,
+  ];
   Map<String, dynamic>? _dungeonCheckpoint;
   String? _settledDungeonRunId;
   bool _atomicProfileMutation = false;
@@ -101,8 +121,10 @@ class CharacterState extends ChangeNotifier {
     await _performSaveData();
   }
 
-  /// XP, zone unlock, tower progress and the receipt share ONE profile write.
-  /// If storage fails, retry writes the same in-memory result without adding XP.
+  /// Legacy XP (if promised), gold, expedition unlocks and the receipt share
+  /// ONE profile write. New expeditions never award character XP.
+  /// If storage fails, retry writes the same in-memory result without paying
+  /// the reward a second time.
   /// If the process dies, disk contains either the pending or settled result.
   Future<void> settleDungeonRun(DungeonState dungeon) async {
     if (_character == null ||
@@ -215,6 +237,7 @@ class CharacterState extends ChangeNotifier {
   Future<void> initializeForLocalGuest({
     required String name,
     String languageCode = 'ko',
+    bool usesDefaultGuestName = false,
   }) async {
     resetState();
     _isLocalGuest = true;
@@ -233,6 +256,7 @@ class CharacterState extends ChangeNotifier {
       );
       if (!restored) {
         _initializeLocalPreviewCharacter(name: name);
+        _character!.usesDefaultGuestName = usesDefaultGuestName;
         _dailyQuests = [];
         _weeklyQuests = [];
         _monthlyQuests = [];
@@ -268,12 +292,15 @@ class CharacterState extends ChangeNotifier {
     _saveTimer?.cancel();
     _hpRegenTimer?.cancel();
     await _localWrites.catchError((Object _) {});
+    await MissionFocusStore.clear(personalizationScope);
+    await MissionDraftStore.clear(personalizationScope);
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(localProfileStorageKey);
     await prefs.remove('lifequest.director.v1.device');
     await prefs.remove(DeviceBackupStore.journalKey);
     await prefs.remove(DeviceBackupStore.undoKey);
     resetState();
+    notifyListeners();
   }
 
   static double xpRequiredForLevel(int level) => 100.0 + (level * 50.0);
@@ -293,9 +320,9 @@ class CharacterState extends ChangeNotifier {
         ['動画・映画を観る', 'YouTubeやNetflixを1時間見る'],
       ],
       'zh': [
-        ['吃好吃的零食', '享用一份喜欢的零食'],
-        ['玩30分钟游戏', '无愧疚地玩30分钟'],
-        ['看想看的视频/电影', '看YouTube或Netflix一小时'],
+        ['吃點喜歡的點心', '享用一份喜歡的點心'],
+        ['玩 30 分鐘遊戲', '沒有罪惡感地玩 30 分鐘'],
+        ['看想看的影片或電影', '看一小時 YouTube 或 Netflix'],
       ],
       'ko': [
         ['맛있는 간식 먹기', '좋아하는 간식 1개 먹기'],
@@ -381,7 +408,7 @@ class CharacterState extends ChangeNotifier {
       skillPoints: 0,
       gold: 0,
       cardPoints: 0,
-      cardPackCount: 1,
+      cardPackCount: 0,
       unlockedCardIds: [
         'base_strike',
         'base_defend',
@@ -494,7 +521,7 @@ class CharacterState extends ChangeNotifier {
     final message = switch (_locale?.languageCode) {
       'en' => 'Saving did not finish. Keep the app open and try again.',
       'ja' => '保存が完了しませんでした。アプリを閉じずに再試行してください。',
-      'zh' => '保存未完成。请保持应用开启并重试。',
+      'zh' => '儲存尚未完成。請保持 App 開啟並重試。',
       _ => '저장이 끝나지 않았습니다. 앱을 닫지 말고 다시 시도해 주세요.',
     };
     scaffoldMessengerKey.currentState?.showSnackBar(
@@ -514,6 +541,7 @@ class CharacterState extends ChangeNotifier {
     final referenceTime = _character!.lastLoginDate ?? now;
     bool didChange = _resetQuestsIfNeeded(referenceTime, now: now);
     didChange = _applyHpRecovery(notify: false, now: now) || didChange;
+    didChange = systemJournal.expire(now) || didChange;
     if (!didChange) return;
 
     await _performSaveData();
@@ -538,23 +566,9 @@ class CharacterState extends ChangeNotifier {
       case 'ja':
         return 'ソウルデッククリア！';
       case 'zh':
-        return '灵魂牌组通关！';
+        return '靈魂牌組通關！';
       default: // ko
         return 'Soul Deck 클리어!';
-    }
-  }
-
-  /// Y-2: 카드 획득 SnackBar 메시지 (BuildContext 없이 locale 기반 다국어)
-  String _localizedCardUnlock(String cardName) {
-    switch (_locale?.languageCode) {
-      case 'en':
-        return 'Card Unlocked: $cardName!';
-      case 'ja':
-        return 'カード獲得: $cardName！';
-      case 'zh':
-        return '获得卡片: $cardName！';
-      default: // ko
-        return '카드 획득: $cardName!';
     }
   }
 
@@ -566,7 +580,7 @@ class CharacterState extends ChangeNotifier {
       case 'ja':
         return '🎉 実績達成: $name（報酬: $reward）';
       case 'zh':
-        return '🎉 成就达成: $name（奖励: $reward）';
+        return '🎉 達成成就：$name（獎勵：$reward）';
       default: // ko
         return '🎉 업적 달성: $name (보상: $reward)';
     }
@@ -579,7 +593,7 @@ class CharacterState extends ChangeNotifier {
       return 'アカウント削除中にエラーが発生しました。もう一度ログインしてからお試しください。';
     }
     if (languageCode == 'zh') {
-      return '删除账号时发生错误。请重新登录后再试。';
+      return '刪除帳號時發生錯誤。請重新登入後再試。';
     }
     if (languageCode != 'en') {
       return '계정 삭제 중 오류가 발생했습니다. 다시 로그인한 뒤 시도해 주세요.';
@@ -590,7 +604,7 @@ class CharacterState extends ChangeNotifier {
       case 'ja':
         return 'アカウント削除中にエラーが発生しました。再ログイン後、もう一度お試しください。';
       case 'zh':
-        return '注销账户时发生错误，请重新登录后再试。';
+        return '刪除帳號時發生錯誤，請重新登入後再試。';
       default: // ko
         return '회원 탈퇴 중 오류가 발생했습니다. 다시 로그인 후 시도해주세요.';
     }
@@ -638,9 +652,6 @@ class CharacterState extends ChangeNotifier {
 
   // Y-1: questCategoryDistribution 메모이제이션 캐시
   Map<StatType, double>? _cachedCategoryDistribution;
-  // Y-4: 매번 Random() 신규 생성 대신 단일 인스턴스 재사용
-  final math.Random _random = math.Random();
-
   // 퀘스트 중복 완료 방지: 광고 시청 중 비동기 갭에서의 재진입 차단
   final Set<String> _pendingQuestIds = {};
 
@@ -855,7 +866,12 @@ class CharacterState extends ChangeNotifier {
   Map<int, int> get weeklyCompletedQuests {
     final Map<int, int> weeklyData = {for (var i = 1; i <= 7; i++) i: 0};
     final now = DateTime.now();
-    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    final startOfWeek = DateTime(
+      now.year,
+      now.month,
+      now.day - now.weekday + 1,
+    );
+    final endOfWeek = startOfWeek.add(const Duration(days: 7));
     final allQuests = [
       ..._dailyQuests,
       ..._weeklyQuests,
@@ -864,11 +880,25 @@ class CharacterState extends ChangeNotifier {
     ];
     for (final quest in allQuests) {
       if (quest.isCompleted && quest.completedDate != null) {
-        if (quest.completedDate!.isAfter(startOfWeek) ||
-            quest.completedDate!.isAtSameMomentAs(startOfWeek)) {
+        if (!quest.completedDate!.isBefore(startOfWeek) &&
+            quest.completedDate!.isBefore(endOfWeek) &&
+            !quest.completedDate!.isAfter(now)) {
           weeklyData[quest.completedDate!.weekday] =
               (weeklyData[quest.completedDate!.weekday] ?? 0) + 1;
         }
+      }
+    }
+    // Receipts survive daily resets/deletion. Avoid counting a live quest twice.
+    final live = allQuests
+        .where((q) => q.isCompleted && q.completedDate != null)
+        .map((q) => '${q.id}:${q.completedDate!.toIso8601String()}')
+        .toSet();
+    for (final r in systemJournal.receipts) {
+      if (!live.contains('${r.questId}:${r.at.toIso8601String()}') &&
+          !r.at.isBefore(startOfWeek) &&
+          r.at.isBefore(endOfWeek) &&
+          !r.at.isAfter(now)) {
+        weeklyData[r.at.weekday] = weeklyData[r.at.weekday]! + 1;
       }
     }
     return weeklyData;
@@ -926,6 +956,9 @@ class CharacterState extends ChangeNotifier {
     _cloudProfileUid = null;
     _dungeonCheckpoint = null;
     _settledDungeonRunId = null;
+    systemJournal = SystemJournal();
+    journeys = const JourneyBook();
+    _systemBusy = false;
     _restoringLocal = false;
     _deletingAccount = false;
     _purchasedEntitlements = {};
@@ -1123,6 +1156,7 @@ class CharacterState extends ChangeNotifier {
       await user.updateDisplayName(newName);
     }
     _character!.name = newName;
+    _character!.usesDefaultGuestName = false;
     await _saveData();
     notifyListeners();
   }
@@ -1135,13 +1169,240 @@ class CharacterState extends ChangeNotifier {
     }
   }
 
+  double previewQuestXp(Quest quest) {
+    if (quest.lockedXp != null) return quest.lockedXp!;
+    final stat = _statSnapshot()[quest.category.index];
+    var bonus = ((stat / 10) * .05).clamp(0.0, .5);
+    final title = _allTitles.firstWhere(
+      (t) => t.name == _character!.title,
+      orElse: () => _allTitles.first,
+    );
+    if (title.bonusType == quest.category) bonus += title.bonusValue ?? 0;
+    for (final skill in _allSkills.where(
+      (s) => _learnedSkillIds.contains(s.id),
+    )) {
+      if (skill.effectType == SkillEffectType.xpBoost &&
+          (skill.effectTarget == null ||
+              skill.effectTarget == quest.category)) {
+        bonus += skill.effectValue;
+      }
+    }
+    bonus += (_character!.streak * .10).clamp(0.0, .5);
+    return quest.xp * (1 + bonus);
+  }
+
+  /// Result scenes are shown only after this shared profile write succeeds.
+  /// Retrying a failed write reuses its receipt and never awards XP twice.
+  Future<GrowthReceipt> completeQuestDurably(
+    Quest quest, {
+    double xpMultiplier = 1,
+  }) async {
+    if (_systemBusy || _restoringLocal || _deletingAccount) {
+      throw StateError('Profile busy');
+    }
+    _systemBusy = true;
+    final generation = _profileGeneration;
+    try {
+      GrowthReceipt? receipt;
+      if (quest.isCompleted) {
+        receipt = systemJournal.receipts
+            .where((r) => r.questId == quest.id && r.at == quest.completedDate)
+            .lastOrNull;
+      } else {
+        if (quest.id.startsWith('journey:') &&
+            !journeys.runs.any((r) => !r.completed && r.questId == quest.id)) {
+          throw StateError('Journey step already settled');
+        }
+        _atomicProfileMutation = true;
+        try {
+          completeQuest(quest, xpMultiplier: xpMultiplier);
+        } finally {
+          _atomicProfileMutation = false;
+        }
+        receipt = lastGrowthReceipt;
+      }
+      if (receipt == null) throw StateError('No completion receipt');
+      await _performSaveData();
+      if (generation != _profileGeneration || _disposed) {
+        throw StateError('Profile changed');
+      }
+      if (_announcedReceiptIds.add(receipt.id)) {
+        SoundService().playQuestComplete();
+        if (receipt.levelAfter > receipt.levelBefore) {
+          SoundService().playLevelUp();
+          onLevelUp?.call();
+        }
+        onQuestCompleted?.call(quest);
+      }
+      notifyListeners();
+      return receipt;
+    } finally {
+      _systemBusy = false;
+    }
+  }
+
+  Future<void> maybeOfferSystemQuest({
+    required int availableMinutes,
+    int category = 1,
+    DateTime? now,
+  }) async {
+    if (_systemBusy ||
+        !_isDataLoaded ||
+        _character == null ||
+        _restoringLocal) {
+      return;
+    }
+    _systemBusy = true;
+    final before = systemJournal.toJson();
+    try {
+      final offer = systemJournal.propose(
+        now: now ?? DateTime.now(),
+        completions: questCompletionCount,
+        availableMinutes: availableMinutes,
+        category: category,
+      );
+      if (offer == null) return;
+      await _performSaveData();
+      notifyListeners();
+    } catch (_) {
+      systemJournal = SystemJournal.fromJson(before);
+      rethrow;
+    } finally {
+      _systemBusy = false;
+    }
+  }
+
+  Future<void> changeSystemOffer(
+    SystemOffer offer,
+    SystemOfferStatus next, {
+    DateTime? now,
+  }) async {
+    final current = systemJournal.current;
+    if (_systemBusy ||
+        _restoringLocal ||
+        _deletingAccount ||
+        current?.id != offer.id) {
+      throw StateError('No active offer');
+    }
+    offer = current!;
+    _systemBusy = true;
+    final before = systemJournal.toJson();
+    try {
+      final at = now ?? DateTime.now();
+      if (offer.expire(at)) {
+        await _performSaveData();
+        notifyListeners();
+        return;
+      }
+      if (offer.status == SystemOfferStatus.offered &&
+          next == SystemOfferStatus.accepted) {
+        offer.status = next;
+        offer.acceptedAt = at;
+        offer.deadline = at.add(const Duration(minutes: 20));
+      } else if ((offer.status == SystemOfferStatus.offered &&
+              next == SystemOfferStatus.declined) ||
+          (offer.status == SystemOfferStatus.accepted &&
+              next == SystemOfferStatus.abandoned)) {
+        offer.status = next;
+      } else {
+        throw StateError('Invalid offer transition');
+      }
+      await _performSaveData();
+      notifyListeners();
+    } catch (_) {
+      systemJournal = SystemJournal.fromJson(before);
+      rethrow;
+    } finally {
+      _systemBusy = false;
+    }
+  }
+
+  Future<void> setSystemOffersEnabled(bool enabled) async {
+    if (_systemBusy || _restoringLocal || _deletingAccount) {
+      throw StateError('Profile busy');
+    }
+    _systemBusy = true;
+    final before = systemJournal.enabled;
+    systemJournal.enabled = enabled;
+    try {
+      await _performSaveData();
+      notifyListeners();
+    } catch (_) {
+      systemJournal.enabled = before;
+      rethrow;
+    } finally {
+      _systemBusy = false;
+    }
+  }
+
+  Future<GrowthReceipt> completeSystemOffer(
+    SystemOffer offer,
+    String title, {
+    DateTime? now,
+  }) async {
+    final storedOffer = systemJournal.offers
+        .where((o) => o.id == offer.id)
+        .firstOrNull;
+    if (_systemBusy ||
+        _restoringLocal ||
+        _deletingAccount ||
+        storedOffer == null) {
+      throw StateError('No system offer');
+    }
+    offer = storedOffer;
+    final at = now ?? DateTime.now();
+    if (offer.status == SystemOfferStatus.completed) {
+      final receipt = systemJournal.receipts
+          .where((r) => r.questId == offer.id)
+          .last;
+      await _performSaveData();
+      notifyListeners();
+      return receipt;
+    }
+    if (offer.status != SystemOfferStatus.accepted || offer.expire(at)) {
+      await _performSaveData();
+      notifyListeners();
+      throw StateError('System offer ended');
+    }
+    // The event and its fixed reward are captured in the very same save payload.
+    offer.status = SystemOfferStatus.completed;
+    final quest = Quest(
+      id: offer.id,
+      name: title,
+      xp: offer.reward,
+      lockedXp: offer.reward.toDouble(),
+      type: QuestType.daily,
+      category: StatType.values[offer.category],
+      difficulty: QuestDifficulty.easy,
+    );
+    return completeQuestDurably(quest);
+  }
+
   QuestCompletionResult? completeQuest(
     Quest quest, {
     double xpMultiplier = 1.0,
   }) {
     if (!quest.isCompleted) {
+      if (quest.id.startsWith('journey:') &&
+          !journeys.runs.any((r) => !r.completed && r.questId == quest.id)) {
+        return null;
+      }
+      final levelBefore = _character!.level;
+      final xpBefore = _character!.xp;
+      final achievementXpBefore = _achievementXpGranted;
+      final statsBefore = _statSnapshot();
       quest.isCompleted = true;
       quest.completedDate = DateTime.now();
+      journeys = journeys.record(
+        quest.id,
+        JourneyEntry(
+          at: quest.completedDate!,
+          note: journeyNote(quest.completionNote),
+          tool: quest.journeyTool,
+          shortVersion: quest.journeyShortVersion,
+          minutes: quest.estimatedMinutes ?? 5,
+        ),
+      );
       _recordGrowthContribution(quest);
       double statBonusRate = 0;
       double statValue = 0;
@@ -1188,7 +1449,7 @@ class CharacterState extends ChangeNotifier {
 
       // Calculate XP with 2x ad multiplier applied to the base+bonus
       double bonusXp = quest.xp * totalBonusRate;
-      double totalXp = (quest.xp + bonusXp) * xpMultiplier;
+      double totalXp = (quest.lockedXp ?? (quest.xp + bonusXp)) * xpMultiplier;
       _character!.xp += totalXp;
 
       // RPG Element: Gain Action Points (AP) based on Quest Base XP
@@ -1198,7 +1459,7 @@ class CharacterState extends ChangeNotifier {
       if (_character!.actionPoints > _character!.maxActionPoints) {
         _character!.actionPoints = _character!.maxActionPoints;
       }
-      SoundService().playQuestComplete();
+      if (!_atomicProfileMutation) SoundService().playQuestComplete();
 
       // Quest gold reward: 50% of base XP (min 1). Also affected by 2x ad.
       int goldReward = (quest.xp * 0.5 * xpMultiplier).round();
@@ -1229,45 +1490,39 @@ class CharacterState extends ChangeNotifier {
       _character!.totalQuestCompletions = questCompletionCount + 1;
       unlockedTitleNames.addAll(_checkTitleUnlock());
       _updateAchievement(AchievementCondition.questCompleted, 1);
-      final unlockedCardName = _tryUnlockRandomCard();
-      if (unlockedCardName != null) {
-        scaffoldMessengerKey.currentState?.showSnackBar(
-          SnackBar(
-            content: Text(
-              _localizedCardUnlock(unlockedCardName), // Y-2: locale 기반 다국어
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            backgroundColor: const Color(0xFF00FFFF),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 3),
-            margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
-          ),
-        );
-      }
-      // ── Card Points (CP) reward ───────────────────────────────────────────
-      final cpGained = _calcCardPoints(quest);
-      _character!.cardPoints += cpGained;
-
-      // Convert every 10 CP into 1 normal pack, every 30 into 1 premium pack
-      // (premium packs handled as normal packs for simplicity — UI can
-      //  differentiate later via cardPoints overflow indicator)
-      int newPacks = 0;
-      while (_character!.cardPoints >= 10) {
-        _character!.cardPoints -= 10;
-        _character!.cardPackCount += 1;
-        newPacks++;
-      }
-      // ─────────────────────────────────────────────────────────────────────
-
+      final achievementXp = _achievementXpGranted - achievementXpBefore;
+      quest.awardedXp = totalXp;
+      quest.awardedGold = totalGoldReward;
+      final statsAfter = _statSnapshot();
+      systemJournal.receipts.add(
+        GrowthReceipt(
+          id: '${quest.id}:${quest.completedDate!.microsecondsSinceEpoch}',
+          questId: quest.id,
+          title: quest.name,
+          day: systemDay(quest.completedDate!),
+          at: quest.completedDate!,
+          source: quest.id.startsWith('system-') ? 'system' : 'quest',
+          category: quest.category.index,
+          baseXp: quest.xp,
+          xp: totalXp + achievementXp,
+          bonusXp: achievementXp,
+          gold: totalGoldReward,
+          levelBefore: levelBefore,
+          levelAfter: _character!.level,
+          xpBefore: xpBefore,
+          xpAfter: _character!.xp,
+          maxXpAfter: _character!.maxXp,
+          statChanges: List.generate(4, (i) => statsAfter[i] - statsBefore[i]),
+        ),
+      );
       _invalidateQuestCache();
       unawaited(_saveData());
-      notifyListeners();
-      onQuestCompleted?.call(quest);
+      if (!_atomicProfileMutation) {
+        notifyListeners();
+        onQuestCompleted?.call(quest);
+      }
       return QuestCompletionResult(
-        totalXpAwarded: totalXp,
+        totalXpAwarded: totalXp + achievementXp,
         totalGoldAwarded: totalGoldReward,
         actionPointsAwarded: totalApReward,
         statPointsAwarded: totalStatPointReward,
@@ -1276,45 +1531,9 @@ class CharacterState extends ChangeNotifier {
         raidClearCount: raidClearCount,
         unlockedTitles: unlockedTitleNames.toSet().toList(),
         unlockedCosmetics: unlockedCosmeticNames.toSet().toList(),
-        cardPointsAwarded: cpGained,
-        newPacksAwarded: newPacks,
       );
     }
     return null;
-  }
-
-  /// CP 지급량 계산 (GAME_DESIGN § 2.3 기준)
-  static int _calcCardPoints(Quest quest) {
-    switch (quest.type) {
-      case QuestType.daily:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 1,
-          QuestDifficulty.normal => 2,
-          QuestDifficulty.hard => 3,
-          QuestDifficulty.veryHard => 3,
-        };
-      case QuestType.weekly:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 5,
-          QuestDifficulty.normal => 7,
-          QuestDifficulty.hard => 10,
-          QuestDifficulty.veryHard => 10,
-        };
-      case QuestType.monthly:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 20,
-          QuestDifficulty.normal => 25,
-          QuestDifficulty.hard => 30,
-          QuestDifficulty.veryHard => 30,
-        };
-      case QuestType.yearly:
-        return switch (quest.difficulty) {
-          QuestDifficulty.easy => 50,
-          QuestDifficulty.normal => 75,
-          QuestDifficulty.hard => 100,
-          QuestDifficulty.veryHard => 100,
-        };
-    }
   }
 
   void deleteQuest(Quest quest) {
@@ -1326,6 +1545,203 @@ class CharacterState extends ChangeNotifier {
     unawaited(_saveData());
     notifyListeners();
   }
+
+  bool get ownsJourneys =>
+      _purchasedEntitlements.contains(journeysCompleteProductId) ||
+      _purchasedEntitlements.contains(statusWindowPlusProductId);
+
+  Future<T> _saveJourneyMutation<T>(T Function() mutate) async {
+    if (!_isDataLoaded || _systemBusy || _restoringLocal || _deletingAccount) {
+      throw StateError('Profile busy');
+    }
+    _systemBusy = true;
+    final generation = _profileGeneration;
+    final previousBook = journeys;
+    final previousQuests = {for (final quest in _dailyQuests) quest.id: quest};
+    final barrier = Completer<void>();
+    _journeySaveBarrier = barrier;
+    Map<String, Quest>? changedQuests;
+    try {
+      final result = mutate();
+      // Route mutations add or replace quests; they never edit existing quest
+      // objects in place. Track only their changes so a failed route save does
+      // not discard an unrelated quest added while storage was pending.
+      changedQuests = {
+        for (final quest in _dailyQuests)
+          if (!identical(previousQuests[quest.id], quest)) quest.id: quest,
+      };
+      await _performSaveData(journeyMutation: true);
+      if (generation != _profileGeneration || _disposed) {
+        throw StateError('Profile changed');
+      }
+      notifyListeners();
+      return result;
+    } catch (_) {
+      if (generation == _profileGeneration && !_disposed) {
+        journeys = previousBook;
+        final changed =
+            changedQuests ??
+            {
+              for (final quest in _dailyQuests)
+                if (!identical(previousQuests[quest.id], quest))
+                  quest.id: quest,
+            };
+        _dailyQuests = [
+          for (final quest in _dailyQuests)
+            if (!identical(changed[quest.id], quest))
+              quest
+            else if (previousQuests[quest.id] case final previous?)
+              previous,
+        ];
+        _invalidateQuestCache();
+        notifyListeners();
+      }
+      rethrow;
+    } finally {
+      if (identical(_journeySaveBarrier, barrier)) {
+        _journeySaveBarrier = null;
+        _systemBusy = false;
+      }
+      barrier.complete();
+    }
+  }
+
+  Future<JourneyRun> startJourney(JourneyKind kind, String goal) =>
+      _saveJourneyMutation(() {
+        final existing = journeys.latest(kind);
+        if (existing != null && !existing.completed) {
+          journeys = journeys.select(existing.id);
+        } else {
+          final now = DateTime.now();
+          journeys = journeys.start(
+            JourneyRun(
+              id: '${kind.name}_${now.microsecondsSinceEpoch}',
+              kind: kind,
+              goal: journeyText(goal, 120),
+              startedAt: now,
+            ),
+          );
+        }
+        return journeys.active!;
+      });
+
+  Future<void> selectJourney(String id) => _saveJourneyMutation(() {
+    journeys = journeys.select(id);
+  });
+
+  Future<void> renameJourneyGoal(String id, String goal) =>
+      _saveJourneyMutation(() {
+        final clean = journeyText(goal, 120);
+        if (clean.isEmpty) throw ArgumentError('Empty goal');
+        journeys = JourneyBook(
+          activeId: journeys.activeId,
+          runs: List.unmodifiable([
+            for (final run in journeys.runs)
+              run.id == id && !run.completed ? run.withGoal(clean) : run,
+          ]),
+        );
+      });
+
+  /// Editing an earned tool never requires buying again and never awards XP.
+  Future<void> updateJourneyTool(String runId, int stage, JourneyTool tool) =>
+      _saveJourneyMutation(() {
+        final run = journeys.runs.where((r) => r.id == runId).firstOrNull;
+        if (run == null ||
+            stage < 0 ||
+            stage >= run.stage ||
+            journeyToolFor(run.kind, stage) != tool.kind) {
+          throw StateError('Tool unavailable');
+        }
+        final clean = JourneyTool.parse(tool.toJson())!;
+        journeys = JourneyBook(
+          activeId: journeys.activeId,
+          runs: List.unmodifiable([
+            for (final item in journeys.runs)
+              item.id == runId ? item.withTool(stage, clean) : item,
+          ]),
+        );
+      });
+
+  /// A route task has a stable identity even when resumed on another day.
+  Future<Quest> acceptJourney({
+    required String runId,
+    required String title,
+    required String instruction,
+    required int minutes,
+    required bool shortVersion,
+    required String locale,
+  }) => _saveJourneyMutation(() {
+    final run = journeys.runs.where((r) => r.id == runId).firstOrNull;
+    if (run == null ||
+        run.completed ||
+        (run.stage >= journeyFreeStages && !ownsJourneys)) {
+      throw StateError('Journey unavailable');
+    }
+    journeys = journeys.select(runId);
+    final existing = _dailyQuests.where((q) => q.id == run.questId).firstOrNull;
+    if (existing != null) return existing;
+    final duration = minutes.clamp(1, 15);
+    final difficulty = duration <= 5
+        ? QuestDifficulty.easy
+        : QuestDifficulty.normal;
+    final quest = Quest(
+      id: run.questId,
+      name: journeyText(title, 120),
+      xp: Quest.xpForDifficulty(difficulty, QuestType.daily),
+      type: QuestType.daily,
+      category: switch (run.kind) {
+        JourneyKind.learning => StatType.wisdom,
+        JourneyKind.order => StatType.wisdom,
+        JourneyKind.vitality => StatType.health,
+        JourneyKind.connection => StatType.charisma,
+      },
+      difficulty: difficulty,
+      estimatedMinutes: duration,
+      scheduledDay: systemDay(DateTime.now()),
+      instruction: instruction,
+      generatedLocale: locale,
+      journeyShortVersion: shortVersion,
+    );
+    quest.lockedXp = previewQuestXp(quest);
+    _dailyQuests.add(quest);
+    _invalidateQuestCache();
+    return quest;
+  });
+
+  /// A returning user may shrink an unfinished action without losing its
+  /// identity or draft. The lower reward is locked; retries cannot increase it.
+  Future<void> shortenJourney(
+    String runId, {
+    required String instruction,
+    required String locale,
+  }) => _saveJourneyMutation(() {
+    final run = journeys.runs
+        .where((r) => r.id == runId && !r.completed)
+        .firstOrNull;
+    if (run == null) throw StateError('Journey unavailable');
+    final index = _dailyQuests.indexWhere(
+      (q) => q.id == run.questId && !q.isCompleted,
+    );
+    if (index < 0) throw StateError('No accepted mission');
+    final old = _dailyQuests[index];
+    if (old.journeyShortVersion) return;
+    final next = Quest.fromJson({
+      ...old.toJson(),
+      'estimatedMinutes': 2,
+      'instruction': instruction,
+      'generatedLocale': locale,
+      'journeyShortVersion': true,
+      'difficulty': QuestDifficulty.easy.index,
+      'xp': Quest.xpForDifficulty(QuestDifficulty.easy, QuestType.daily),
+    });
+    next.lockedXp = null;
+    next.lockedXp = math.min(
+      old.lockedXp ?? previewQuestXp(old),
+      previewQuestXp(next),
+    );
+    _dailyQuests[index] = next;
+    _invalidateQuestCache();
+  });
 
   void addQuest(
     String name,
@@ -1382,9 +1798,13 @@ class CharacterState extends ChangeNotifier {
       return false;
     }
     if (_dailyQuests.any((q) => q.id == quest.id)) return true;
-    if (_dailyQuests.where((q) => q.scheduledDay == day).length >= 3) {
+    if (_dailyQuests
+            .where((q) => q.id.startsWith('director:') && q.scheduledDay == day)
+            .length >=
+        3) {
       return false;
     }
+    quest.lockedXp ??= previewQuestXp(quest);
     _dailyQuests.add(quest);
     _invalidateQuestCache();
     unawaited(_saveData());
@@ -1396,6 +1816,7 @@ class CharacterState extends ChangeNotifier {
     quest.name = newName;
     quest.xp = newXp;
     quest.category = newCategory;
+    quest.lockedXp = null;
     _invalidateQuestCache();
     unawaited(_saveData());
     notifyListeners();
@@ -1432,10 +1853,8 @@ class CharacterState extends ChangeNotifier {
       bonusGold = (quest.xp * 1.2 * xpMultiplier).round().clamp(20, 999999);
       bonusActionPoints = 4;
       bonusStatPoints = 2;
-      if (raidClearCount == 1) {
-        final unlocked = _unlockCosmeticForReward('combat_effect_lightning');
-        if (unlocked != null) unlockedCosmeticNames.add(unlocked);
-      }
+      // Combat effects stay in existing profiles, but are no longer granted
+      // while the combat game is outside the release scope.
       if (raidClearCount == 2) {
         final unlocked = _unlockCosmeticForReward('theme_royal_gold');
         if (unlocked != null) unlockedCosmeticNames.add(unlocked);
@@ -1613,9 +2032,11 @@ class CharacterState extends ChangeNotifier {
     if (_character!.level % 2 == 0) {
       _character!.skillPoints += 1;
     }
-    SoundService().playLevelUp();
-    HapticFeedback.heavyImpact(); // 레벨업 강한 진동
-    onLevelUp?.call();
+    if (!_atomicProfileMutation) {
+      SoundService().playLevelUp();
+      HapticFeedback.heavyImpact();
+      onLevelUp?.call();
+    }
     _checkTitleUnlock();
     _updateAchievement(AchievementCondition.levelReached, _character!.level);
   }
@@ -1761,6 +2182,7 @@ class CharacterState extends ChangeNotifier {
         String rewardText = '';
         if (achievement.rewardType == RewardType.xp) {
           _character!.xp += achievement.rewardValue;
+          _achievementXpGranted += achievement.rewardValue;
           rewardText = 'XP +${achievement.rewardValue}';
           while (_character!.xp >= _character!.maxXp) {
             _levelUp();
@@ -1770,20 +2192,25 @@ class CharacterState extends ChangeNotifier {
           _character!.statPoints += achievement.rewardValue;
           rewardText = 'SP +${achievement.rewardValue}';
         }
-        scaffoldMessengerKey.currentState?.showSnackBar(
-          SnackBar(
-            content: Text(
-              _localizedAchievementUnlock(achievement.name, rewardText), // Y-2
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+        if (!_atomicProfileMutation) {
+          scaffoldMessengerKey.currentState?.showSnackBar(
+            SnackBar(
+              content: Text(
+                _localizedAchievementUnlock(
+                  achievement.name,
+                  rewardText,
+                ), // Y-2
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              backgroundColor: const Color(0xFF00FFFF),
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
             ),
-            backgroundColor: const Color(0xFF00FFFF),
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
-          ),
-        );
+          );
+        }
         unawaited(_saveData());
       }
     }
@@ -1983,34 +2410,6 @@ class CharacterState extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Rolls for a random card unlock on quest completion.
-  /// 30% Common, 10% Uncommon, 5% Rare. Returns the card name if a new card
-  /// was unlocked, or null if no card was awarded or all matching cards are
-  /// already owned.
-  String? _tryUnlockRandomCard() {
-    if (_character == null) return null;
-    // Y-4: 클래스 레벨 _random 재사용 (매번 신규 생성 방지)
-    final roll = _random.nextDouble();
-    CardRarity? rarity;
-    if (roll < 0.05) {
-      rarity = CardRarity.rare;
-    } else if (roll < 0.15) {
-      rarity = CardRarity.uncommon;
-    } else if (roll < 0.45) {
-      rarity = CardRarity.common;
-    }
-    if (rarity == null) return null;
-
-    final pool = CardDatabase.getCardsByRarity(
-      rarity,
-    ).where((c) => !_character!.unlockedCardIds.contains(c.id)).toList();
-    if (pool.isEmpty) return null;
-
-    final card = pool[_random.nextInt(pool.length)];
-    _character!.unlockedCardIds.add(card.id);
-    return card.name;
-  }
-
   /// Called once for new players (or existing players with no unlocked cards)
   /// to give them the 10 default starter cards.
   void _initStarterCards() {
@@ -2024,6 +2423,8 @@ class CharacterState extends ChangeNotifier {
 
   Map<String, dynamic> _buildSavePayload({bool includeServerTimestamp = true}) {
     return {
+      'systemJournal': systemJournal.toJson(),
+      'journeys': journeys.toJson(),
       'dungeonCheckpoint': _dungeonCheckpoint,
       'settledDungeonRunId': _settledDungeonRunId,
       'character': _character!.toJson(),
@@ -2064,10 +2465,22 @@ class CharacterState extends ChangeNotifier {
         throw const FormatException('Invalid local profile.');
       }
 
-      _character = Character.fromJson(
-        Map<String, dynamic>.from(decoded['character'] as Map),
+      final savedCharacter = Map<String, dynamic>.from(
+        decoded['character'] as Map,
       );
+      _character = Character.fromJson(savedCharacter);
+      // Older device profiles had no marker. Migrate only the four exact
+      // built-in placeholders; cloud names and other user names stay literal.
+      // An old custom name identical to a built-in placeholder cannot be
+      // distinguished from the placeholder because its origin was not saved.
+      if (_isLocalGuest &&
+          !savedCharacter.containsKey('usesDefaultGuestName') &&
+          GuestNameLocalization.legacyDefaults.contains(_character!.name)) {
+        _character!.usesDefaultGuestName = true;
+      }
       _restoreExpedition(decoded);
+      systemJournal = SystemJournal.fromJson(decoded['systemJournal']);
+      journeys = JourneyBook.fromJson(decoded['journeys']);
       _dailyQuests = (decoded['dailyQuests'] as List<dynamic>? ?? [])
           .whereType<Map>()
           .map((q) => Quest.fromJson(Map<String, dynamic>.from(q)))
@@ -2164,7 +2577,16 @@ class CharacterState extends ChangeNotifier {
 
   /// A returned Future means this exact snapshot reached its storage boundary.
   /// It never returns early merely because another write is already pending.
-  Future<void> _performSaveData() async {
+  Future<void> _performSaveData({bool journeyMutation = false}) async {
+    final requestedGeneration = _profileGeneration;
+    while (!journeyMutation && _journeySaveBarrier != null) {
+      // Snapshot only after a route edit has committed or rolled back. A
+      // background flush must not resurrect the payload of a rejected edit.
+      await _journeySaveBarrier!.future;
+      if (requestedGeneration != _profileGeneration) {
+        throw StateError('Profile changed before save.');
+      }
+    }
     if (_deletingAccount || _restoringLocal || _disposed) {
       throw StateError('Profile is not available for saving.');
     }
@@ -2289,6 +2711,8 @@ class CharacterState extends ChangeNotifier {
           Map<String, dynamic>.from(data['character'] as Map),
         );
         _restoreExpedition(data);
+        systemJournal = SystemJournal.fromJson(data['systemJournal']);
+        journeys = JourneyBook.fromJson(data['journeys']);
         _character!.lastHpRegenAt ??= DateTime.now();
         final expectedMaxXp = xpRequiredForLevel(_character!.level);
         if (_character!.maxXp != expectedMaxXp) {
@@ -2525,13 +2949,16 @@ class CharacterState extends ChangeNotifier {
       didChange = true;
       // Missing a habit never removes earned levels, XP or combat health.
       // Consecutive completion is a bonus; returning after a break is welcome.
+      final dailyActions = _dailyQuests
+          .where((quest) => !quest.id.startsWith('journey:'))
+          .toList();
       final allDailiesCompleted =
-          _dailyQuests.isNotEmpty &&
-          _dailyQuests.every((quest) => quest.isCompleted);
+          dailyActions.isNotEmpty &&
+          dailyActions.every((quest) => quest.isCompleted);
       if (!allDailiesCompleted) _character!.streak = 0;
 
       // --- Streak: increment if ALL daily quests were completed ---
-      if (allDailiesCompleted && _dailyQuests.isNotEmpty) {
+      if (allDailiesCompleted) {
         _character!.streak += 1;
         // Streak bonus: extra AP for maintaining streak
         int streakBonusAp = (_character!.streak ~/ 3); // +1 AP per 3 days
@@ -2544,10 +2971,18 @@ class CharacterState extends ChangeNotifier {
       }
 
       // Suggested actions expire; recurring user quests reset normally.
-      _dailyQuests.removeWhere((quest) => quest.scheduledDay != null);
+      _dailyQuests.removeWhere(
+        (quest) =>
+            quest.scheduledDay != null &&
+            (!quest.id.startsWith('journey:') || quest.isCompleted),
+      );
       for (var quest in _dailyQuests) {
+        if (quest.id.startsWith('journey:')) continue;
         quest.isCompleted = false;
         quest.completedDate = null;
+        quest.awardedXp = null;
+        quest.awardedGold = null;
+        quest.lockedXp = null;
       }
 
       // Update lastLoginDate
@@ -2568,6 +3003,9 @@ class CharacterState extends ChangeNotifier {
       for (var quest in _weeklyQuests) {
         quest.isCompleted = false;
         quest.completedDate = null;
+        quest.awardedXp = null;
+        quest.awardedGold = null;
+        quest.lockedXp = null;
       }
     }
 
@@ -2579,6 +3017,9 @@ class CharacterState extends ChangeNotifier {
       for (var quest in _monthlyQuests) {
         quest.isCompleted = false;
         quest.completedDate = null;
+        quest.awardedXp = null;
+        quest.awardedGold = null;
+        quest.lockedXp = null;
       }
     }
 
@@ -2588,6 +3029,9 @@ class CharacterState extends ChangeNotifier {
       for (var quest in _yearlyQuests) {
         quest.isCompleted = false;
         quest.completedDate = null;
+        quest.awardedXp = null;
+        quest.awardedGold = null;
+        quest.lockedXp = null;
       }
     }
 
@@ -2595,11 +3039,16 @@ class CharacterState extends ChangeNotifier {
   }
 
   void _initializeNewData(User user) {
+    final displayName = user.displayName?.trim();
+    final hasDisplayName = displayName != null && displayName.isNotEmpty;
     _character = Character(
-      name: user.displayName ?? '모험가',
+      // Keep a canonical placeholder in storage. The existing display helper
+      // translates it using the active app locale in every supported language.
+      name: hasDisplayName ? displayName : '기록자',
+      usesDefaultGuestName: !hasDisplayName,
       photoUrl: user.photoURL,
       level: 1,
-      title: '새싹 모험가',
+      title: _allTitles.first.name,
       xp: 0,
       maxXp: xpRequiredForLevel(1),
       strength: 0,
@@ -2611,73 +3060,13 @@ class CharacterState extends ChangeNotifier {
       lastLoginDate: DateTime.now(),
       lastHpRegenAt: DateTime.now(),
     );
-    _dailyQuests = [
-      Quest(
-        id: 'd1',
-        name: '아침 7시 기상',
-        xp: 10,
-        type: QuestType.daily,
-        category: StatType.health,
-      ),
-      Quest(
-        id: 'd2',
-        name: '운동 30분',
-        xp: 20,
-        type: QuestType.daily,
-        category: StatType.strength,
-      ),
-      Quest(
-        id: 'd3',
-        name: '책 10페이지 읽기',
-        xp: 15,
-        type: QuestType.daily,
-        category: StatType.wisdom,
-      ),
-    ];
-    _weeklyQuests = [
-      Quest(
-        id: 'w1',
-        name: '주 3회 이상 운동하기',
-        xp: 100,
-        type: QuestType.weekly,
-        category: StatType.strength,
-      ),
-      Quest(
-        id: 'w2',
-        name: '새로운 기술/지식 학습하기',
-        xp: 120,
-        type: QuestType.weekly,
-        category: StatType.wisdom,
-      ),
-    ];
-    _monthlyQuests = [
-      Quest(
-        id: 'm1',
-        name: '이번 달 운동 12회 달성',
-        xp: 140,
-        type: QuestType.monthly,
-        category: StatType.health,
-        difficulty: QuestDifficulty.hard,
-      ),
-      Quest(
-        id: 'm2',
-        name: '사이드 프로젝트 핵심 기능 완성',
-        xp: 200,
-        type: QuestType.monthly,
-        category: StatType.wisdom,
-        difficulty: QuestDifficulty.veryHard,
-      ),
-    ];
-    _yearlyQuests = [
-      Quest(
-        id: 'y1',
-        name: '올해 대표 목표 하나 완수하기',
-        xp: 280,
-        type: QuestType.yearly,
-        category: StatType.charisma,
-        difficulty: QuestDifficulty.veryHard,
-      ),
-    ];
+    // A new person has not agreed to any schedule or long-term objective.
+    // Directed suggestions are offered separately and only added on acceptance.
+    _dailyQuests = [];
+    _weeklyQuests = [];
+    _monthlyQuests = [];
+    _yearlyQuests = [];
+    _invalidateQuestCache();
     _unlockedTitleIds = {'t0'};
     _learnedSkillIds = {};
     _initializeAchievementProgress();
@@ -2687,6 +3076,31 @@ class CharacterState extends ChangeNotifier {
         langCode: _locale?.languageCode ?? 'ko',
       );
       _initStarterCards();
+    }
+  }
+
+  @visibleForTesting
+  void initializeNewCloudProfileForTesting(User user) {
+    _initializeNewData(user);
+  }
+
+  /// Signup and the first-login recovery path share the same empty profile.
+  /// This creates a payload only; it never loads or overwrites a saved profile.
+  static Map<String, dynamic> newCloudProfilePayload(
+    User user, {
+    required String languageCode,
+  }) {
+    final state = CharacterState();
+    try {
+      state._locale = Locale(
+        const {'ko', 'en', 'ja', 'zh'}.contains(languageCode)
+            ? languageCode
+            : 'en',
+      );
+      state._initializeNewData(user);
+      return state._buildSavePayload();
+    } finally {
+      state.dispose();
     }
   }
 

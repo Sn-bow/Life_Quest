@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inspect actual default-mode artifacts, not Play publication readiness.
+"""Inspect actual free/paid artifacts, not Play publication readiness.
 
 No passwords or keystores are read. Supply the expected PUBLIC certificate hash.
 Device APKs must come from this AAB; native binaries are compared with the AAB.
@@ -19,6 +19,20 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 ANDROID = '{http://schemas.android.com/apk/res/android}'
+
+
+def permission_checks(permissions, profile):
+    billing = 'com.android.vending.BILLING'
+    forbidden = {'com.google.android.gms.permission.AD_ID',
+                 'android.permission.ACCESS_ADSERVICES_AD_ID',
+                 'android.permission.ACCESS_ADSERVICES_ATTRIBUTION',
+                 'android.permission.ACCESS_ADSERVICES_TOPICS',
+                 'android.permission.QUERY_ALL_PACKAGES'}
+    return {
+        'No advertising or broad package-query permissions': not permissions.intersection(forbidden),
+        'Billing permission matches ' + profile + ' profile':
+            (billing in permissions) == (profile == 'paid'),
+    }
 
 
 def command(args):
@@ -47,6 +61,8 @@ def main():
     parser.add_argument('--bundle', type=Path, default=Path('build/app/outputs/bundle/release/app-release.aab'))
     parser.add_argument('--bundletool', type=Path, default=Path.home() / '.local/share/lifequest/tools/bundletool-1.18.3.jar')
     parser.add_argument('--certificate-sha256', required=True)
+    parser.add_argument('--profile', choices=['free', 'paid'], default='free',
+                        help='Manifest permission policy only; paid does not certify working purchases.')
     parser.add_argument('--device-apks', type=Path)
     parser.add_argument('--device-spec', type=Path)
     parser.add_argument('--output', type=Path, default=Path('qa_artifacts/rebirth/artifact-inspection.json'))
@@ -66,7 +82,7 @@ def main():
     manifest_text = command(bundletool + ['dump', 'manifest', '--bundle=' + str(args.bundle)])
     manifest = ET.fromstring(manifest_text)
     app = manifest.find('application')
-    check('Package com.lifequest.app', manifest.get('package') == 'com.lifequest.app')
+    check('Package com.logian.lifequest', manifest.get('package') == 'com.logian.lifequest')
     check('Target API at least 36', int(manifest.find('uses-sdk').get(ANDROID + 'targetSdkVersion', '0')) >= 36)
     for attr in ['debuggable', 'testOnly', 'usesCleartextTraffic']:
         check('Release ' + attr + ' is not true', app.get(ANDROID + attr) != 'true')
@@ -76,10 +92,8 @@ def main():
           not any(p.get(ANDROID + 'name') == 'com.google.firebase.provider.FirebaseInitProvider'
                   for p in app.findall('provider')))
     permissions = {n.get(ANDROID + 'name') for n in manifest.findall('uses-permission')}
-    forbidden = {'com.android.vending.BILLING', 'com.google.android.gms.permission.AD_ID',
-                 'android.permission.ACCESS_ADSERVICES_AD_ID', 'android.permission.ACCESS_ADSERVICES_ATTRIBUTION',
-                 'android.permission.ACCESS_ADSERVICES_TOPICS', 'android.permission.QUERY_ALL_PACKAGES'}
-    check('Default artifact excludes billing and advertising permissions', not permissions.intersection(forbidden))
+    for label, okay in permission_checks(permissions, args.profile).items():
+        check(label, okay)
     check('No Mobile Ads components', 'com.google.android.gms.ads.' not in manifest_text)
     metadata = {m.get(ANDROID + 'name'): m.get(ANDROID + 'value') for m in app.findall('meta-data')}
     for name in ['firebase_crashlytics_collection_enabled', 'firebase_analytics_collection_enabled']:
@@ -128,7 +142,8 @@ def main():
     with args.bundle.open('rb') as bundle_file:
         bundle_hash = hashlib.file_digest(bundle_file, 'sha256').hexdigest()
     report = {
-        'scope': 'Local default-mode artifact only; NOT ready-to-publish certification',
+        'scope': 'Local artifact only; NOT ready-to-publish certification',
+        'profile': args.profile,
         'bundle': str(args.bundle), 'bytes': args.bundle.stat().st_size, 'sha256': bundle_hash,
         'versionName': manifest.get(ANDROID + 'versionName'), 'versionCode': manifest.get(ANDROID + 'versionCode'),
         'certificateSha256': expected, 'libraries': libraries, 'sampleDeviceDownloadBytes': size,

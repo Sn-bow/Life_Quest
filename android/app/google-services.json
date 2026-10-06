@@ -12,7 +12,28 @@
           "package_name": "com.lifequest.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "61563760091-mbd787epdh3ujam24reissaederdchvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lifequest.app",
+            "certificate_hash": "f20e50ae0e8a7fdaf31040aaeecea5ad125595f6"
+          }
+        },
+        {
+          "client_id": "61563760091-qodv3t261bs4m7mf8sp8e5g713o4afvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lifequest.app",
+            "certificate_hash": "edd75d4fa1b341789aae3eb715b3716952f6064d"
+          }
+        },
+        {
+          "client_id": "61563760091-jujcb8n6ut0rcj0c85trcimolr550mjb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBAeM1nqaiJywxOgzj8JPTcmHtr9wZItZs"
@@ -20,7 +41,57 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61563760091-jujcb8n6ut0rcj0c85trcimolr550mjb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61563760091:android:5cb1227f0ba3719020cbfe",
+        "android_client_info": {
+          "package_name": "com.logian.lifequest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61563760091-bu3t39rvp239rn7oklam7onvken9med0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.logian.lifequest",
+            "certificate_hash": "edd75d4fa1b341789aae3eb715b3716952f6064d"
+          }
+        },
+        {
+          "client_id": "61563760091-hvp753n60rlbs9fd5uuk5poimcjlk5hb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.logian.lifequest",
+            "certificate_hash": "f20e50ae0e8a7fdaf31040aaeecea5ad125595f6"
+          }
+        },
+        {
+          "client_id": "61563760091-jujcb8n6ut0rcj0c85trcimolr550mjb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAeM1nqaiJywxOgzj8JPTcmHtr9wZItZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61563760091-jujcb8n6ut0rcj0c85trcimolr550mjb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

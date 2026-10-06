@@ -1,7 +1,22 @@
+import 'package:life_quest_final_v2/data/title_database.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 
 class TitleLocalization {
-  static String localizedName(String titleId, AppLocalizations l10n) {
+  static final Map<String, String> _idsByCanonicalName = {
+    for (final title in TitleDatabase.all) title.name: title.id,
+  };
+
+  /// Character.title stores the canonical name. Resolve it only for display.
+  static String localizedStoredName(String storedName, AppLocalizations l10n) {
+    final titleId = _idsByCanonicalName[storedName];
+    return titleId == null ? storedName : localizedName(titleId, l10n);
+  }
+
+  static String localizedName(
+    String titleId,
+    AppLocalizations l10n, {
+    String? fallback,
+  }) {
     switch (titleId) {
       case 't0': return l10n.titleNameT0;
       case 't1': return l10n.titleNameT1;
@@ -31,11 +46,15 @@ class TitleLocalization {
       case 't25': return l10n.titleNameT25;
       case 't26': return l10n.titleNameT26;
       case 't27': return l10n.titleNameT27;
-      default: return titleId;
+      default: return fallback ?? titleId;
     }
   }
 
-  static String localizedDescription(String titleId, AppLocalizations l10n) {
+  static String localizedDescription(
+    String titleId,
+    AppLocalizations l10n, {
+    String? fallback,
+  }) {
     switch (titleId) {
       case 't0': return l10n.titleDescT0;
       case 't1': return l10n.titleDescT1;
@@ -65,7 +84,34 @@ class TitleLocalization {
       case 't25': return l10n.titleDescT25;
       case 't26': return l10n.titleDescT26;
       case 't27': return l10n.titleDescT27;
-      default: return titleId;
+      default: return fallback ?? titleId;
+    }
+  }
+
+  static String localizedUnlockPreview(
+    String titleId,
+    AppLocalizations l10n, {
+    String? fallback,
+  }) {
+    switch (titleId) {
+      case 't1': return l10n.titleUnlockT1;
+      case 't2': return l10n.titleUnlockT2;
+      case 't3': return l10n.titleUnlockT3;
+      case 't4': return l10n.titleUnlockT4;
+      case 't5': return l10n.titleUnlockT5;
+      case 't6': return l10n.titleUnlockT6;
+      case 't7': return l10n.titleUnlockT7;
+      case 't8': return l10n.titleUnlockT8;
+      case 't13': return l10n.titleUnlockT13;
+      case 't14': return l10n.titleUnlockT14;
+      case 't15': return l10n.titleUnlockT15;
+      case 't16': return l10n.titleUnlockT16;
+      case 't19': return l10n.titleUnlockT19;
+      case 't20': return l10n.titleUnlockT20;
+      case 't21': return l10n.titleUnlockT21;
+      case 't24': return l10n.titleUnlockT24;
+      case 't26': return l10n.titleUnlockT26;
+      default: return fallback ?? titleId;
     }
   }
 }

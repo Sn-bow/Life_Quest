@@ -2,6 +2,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const {requestDeletion, completeDeletion} = require('../account_deletion');
+const {hash} = require('../purchase_policy');
 
 function fixture() {
   const rows = new Map([
@@ -9,6 +10,8 @@ function fixture() {
     ['users/alice/aiReports/r', {title: 'Synthetic report'}],
     ['users/alice/entitlements/theme', {active: true}],
     ['purchaseTokens/a', {uid: 'alice'}], ['purchaseTokens/b', {uid: 'bob'}],
+    [`purchaseAccountIds/${hash('alice')}`, {uid: 'alice'}],
+    [`purchaseAccountIds/${hash('bob')}`, {uid: 'bob'}],
     ['users/bob', {character: {name: 'Other'}}],
   ]);
   let failStorage = false, failData = false, authError = null;
@@ -18,6 +21,7 @@ function fixture() {
     doc: id => ref(`${path}/${id}`),
     get: async () => snapshot(path),
     set: async (data, options) => rows.set(path, options?.merge ? {...rows.get(path), ...data} : data),
+    delete: async () => rows.delete(path),
     where: (field, op, value) => ({limit: size => ({get: async () => {
       const docs = [...rows.entries()].filter(([k, v]) => k.startsWith(`${path}/`) && v[field] === value).slice(0, size).map(([k]) => snapshot(k));
       return {empty: docs.length === 0, docs};
@@ -50,6 +54,7 @@ function fixture() {
       assert.equal(uid, 'alice'); calls.push('auth');
       assert.equal([...rows.keys()].some(k => k.startsWith('users/alice')), false);
       assert.equal(rows.has('purchaseTokens/a'), false);
+      assert.equal(rows.has(`purchaseAccountIds/${hash('alice')}`), false);
       if (authError) throw Object.assign(Error('auth failure'), {code: authError});
     }},
   };
@@ -78,6 +83,7 @@ test('cleanup removes only the requesting account, including reports and purchas
   assert.deepEqual(f.calls, ['storage', 'data', 'auth']);
   assert.equal(f.rows.has('users/bob'), true);
   assert.equal(f.rows.has('purchaseTokens/b'), true);
+  assert.equal(f.rows.has(`purchaseAccountIds/${hash('bob')}`), true);
   const marker = f.rows.get('accountDeletions/alice');
   assert.equal(marker.state, 'complete');
   assert.equal(marker.expiresAt.getTime(), f.input.nowMillis + 7 * 86400000);

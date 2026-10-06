@@ -1,33 +1,31 @@
-Life Quest: Your Story
+Life Quest: My Status Window
 
-Your day opens three worlds. Personal quests, story choices and on-device AI.
+Know your next step. Complete guided quests and grow your own status window.
 
-Turn small everyday actions into quests that help you grow.
+A status window for the things you actually do.
+Life Quest turns a personal goal into a next action. Start with a topic you want to learn, a space you want to put in order, a comfortable break, or a connection you want to care for. You do not need to design a whole reward system before you begin.
 
-Life Quest is a habit and goal app with a fantasy status window. Choose an action you can do today, finish it, and see your experience and progress build over time.
+FOUR ROUTES, A CLEAR NEXT STEP
+Each route has 21 different missions across three chapters. Read the action, accept the mission, do it and leave an optional note. Your notes stay with the route so you can use what you discovered next time. The first 7 missions in every route are free: 28 guided missions in total.
 
-THREE ACTIONS FOR TODAY
-Set your available time, energy and interests. Recommendations adapt using completion, skipped quests and difficulty feedback. A suggestion becomes your quest only when you accept it. You can also create and edit your own quests.
+SMALL COUNTS TOO
+Busy day? Each mission has a small version with a concrete action. Use the optional focus timer, or work at your own pace. Time passing never marks a quest complete; you record what you did. Days off do not erase your route progress or subtract earned XP. The timer has no background alarm.
 
-PROGRESS THAT STAYS WITH YOU
-View your level, XP, stats and history in your status window. Taking a day off does not subtract your everyday level or XP.
+OPEN YOUR STATUS WINDOW
+See your saved level, XP, title and four in-app stats. Complete a quest to see the actual reward and updated progress. These game stats are not measurements of your health or real-world ability.
 
-CHOOSE YOUR PATH THROUGH A CARD DUNGEON
-Play attack and defense cards, then choose the next branch. Completed everyday quests and equipment support your expedition. Losing a battle does not reduce your everyday level or XP.
+LIFE QUEST COMPLETE — OPTIONAL ONE-TIME PURCHASE
+Continue with missions 8–21 in all four routes: 56 additional missions, for 84 in total. Finish a route, keep its notes and start again with a new goal. Also includes three original status looks, 30/90-day reports from your completion history, and PNG, text and CSV report export. No subscription and no paid XP multiplier. Price is shown by Google Play before purchase.
 
-A STORY THAT OPENS WITH YOUR ACTIONS
-Choose from three free short stories: the city mystery Exit Zero, the martial-arts practice story The Listening Courtyard, or the discovery story Atlas of the Missing Star. Everyday quests unlock new scenes and your choices shape later dialogue. Switch books without losing your choices or everyday progress.
+YOUR OWN QUESTS REMAIN FREE
+Create personal quests, get daily suggestions and choose whether to accept occasional surprise quests inside the app. Declining a suggestion costs no XP. Your existing history and password-encrypted backups remain free. Three short stories are an optional extra.
 
-OPTIONAL AI, RUNNING ON YOUR DEVICE
-Install the public Gemma 4 E2B model on a supported Android device. After installation, generation runs locally: your goals and personalization history are not sent to a cloud AI service. There is no model-use or AI-call fee. Without the model, you can still use built-in recommendations and your own quests.
+OPTIONAL ON-DEVICE AI
+Core routes work without a model or account. On compatible Android devices, the optional Gemma 4 E2B download is approximately 2.59GB. Generation then runs on your device without an AI-call fee. Device performance varies; mobile data charges can apply. Review, edit or skip suggestions.
 
-Model installation requires an approximately 2.59GB download and free storage space. Your mobile carrier may charge for data. Generation speed varies by device. Review suggestions before accepting them; you can edit or skip a quest.
+RECORDS AND PURCHASES
+Start with a device profile without signing in. Back up your records before uninstalling; a forgotten backup password cannot be recovered. Buying or restoring requires a Google purchase account and internet. Verified paid access can be cached offline for up to 7 days before another online check. Connecting a purchase account does not upload your device-only goals or notes. An optional cloud profile is a separate choice.
 
-START WITHOUT AN ACCOUNT
-The default mode stores your progress and personalization history on your device. Free encrypted backups let you save a file and restore it on another device. Keep the password safe: a forgotten backup password cannot be recovered.
-
-Active dungeon expeditions are not included in backups. Expeditions are saved on the device when you enter or leave a room. After closing the app, an unfinished room restarts from its entrance.
-
-Languages: Korean, English, Japanese and Chinese.
+Languages: English, Korean, Japanese and Traditional Chinese
 Support: logian621@gmail.com
 Privacy and deletion: https://sn-bow.github.io/Life_Quest/

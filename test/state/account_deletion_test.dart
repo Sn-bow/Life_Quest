@@ -10,6 +10,7 @@ void main() {
     () => SharedPreferences.setMockInitialValues({
       'lifequest.director.v1.test-user': 'synthetic private history',
       'lifequest.purchases.v1.test-user': ['theme_neon_cyberpunk'],
+      'lifequest.purchases.serverVerifiedAt.v1.test-user': 1790000000000,
       'lifequest.director.v1.other-user': 'other account history',
       'lifequest.local.state.v1': 'device profile',
     }),
@@ -49,6 +50,12 @@ void main() {
           final prefs = await SharedPreferences.getInstance();
           expect(prefs.containsKey('lifequest.director.v1.test-user'), false);
           expect(prefs.containsKey('lifequest.purchases.v1.test-user'), false);
+          expect(
+            prefs.containsKey(
+              'lifequest.purchases.serverVerifiedAt.v1.test-user',
+            ),
+            false,
+          );
           calls.add('sign-out');
         },
       );

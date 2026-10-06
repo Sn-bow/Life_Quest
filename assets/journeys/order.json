@@ -1,0 +1,674 @@
+[
+  {
+    "title": [
+      "Choose one small zone",
+      "작은 구역 고르기",
+      "小さな場所を選ぶ",
+      "選一個小區域"
+    ],
+    "steps": [
+      [
+        "Choose one surface or small area that would make today easier if it were clear.",
+        "Describe a realistic finish: enough desk space for a notebook is fine."
+      ],
+      [
+        "정리되면 오늘이 편해질 작은 공간 하나를 고르세요.",
+        "노트를 놓을 자리처럼 현실적인 완료 모습을 정하세요."
+      ],
+      [
+        "片づくと今日が少し楽になる場所を一つ選びましょう。",
+        "ノートを置ける広さなど、無理のない完成形を決めましょう。"
+      ],
+      [
+        "選一個整理後能讓今天更方便的小地方。",
+        "訂個實際的完成樣子，例如能放下一本筆記本。"
+      ]
+    ],
+    "small": [
+      "Choose a hand-sized area and move one safe-to-move item out of its way.",
+      "손바닥만 한 구역을 정하고 안전하게 옮길 물건 하나를 치우세요.",
+      "手のひらほどの場所を決め、安全に動かせる物を一つ移しましょう。",
+      "選一塊手掌大小的區域，移開一件能安全移動的物品。"
+    ]
+  },
+  {
+    "title": [
+      "Return five things",
+      "물건 다섯 개 제자리",
+      "五つだけ元の場所へ",
+      "五樣東西歸位"
+    ],
+    "steps": [
+      [
+        "Choose up to five items in that zone that already have a home.",
+        "Put them back. For anything without a home, make one temporary group rather than forcing a decision."
+      ],
+      [
+        "그 구역에서 원래 자리가 있는 물건을 다섯 개까지 고르세요.",
+        "제자리로 옮기세요. 자리가 없는 물건은 억지로 결정하지 말고 임시로 모아두세요."
+      ],
+      [
+        "その場所から、置き場所が決まっている物を五つまで選びましょう。",
+        "元に戻しましょう。決まっていない物は無理に決めず、一か所にまとめておけます。"
+      ],
+      [
+        "在這個區域選出最多五樣已有固定位置的物品。",
+        "把它們放回去。還沒位置的先集中，不必勉強決定。"
+      ]
+    ],
+    "small": [
+      "Put one item back where it belongs. Leave uncertain items for later.",
+      "물건 하나를 원래 자리에 놓으세요. 애매한 물건은 나중에 결정해도 됩니다.",
+      "物を一つ元の場所に戻しましょう。迷う物は後で決めて大丈夫です。",
+      "把一件物品放回原位，不確定的物品可以稍後再決定。"
+    ]
+  },
+  {
+    "title": [
+      "Make one item easy to find",
+      "자주 찾는 물건 자리",
+      "よく探す物に定位置を",
+      "替常找的物品定位置"
+    ],
+    "steps": [
+      [
+        "Pick an item you often search for.",
+        "Choose a convenient home for it and put it there. The best place is one you can actually keep using."
+      ],
+      [
+        "자주 찾느라 시간을 쓰는 물건 하나를 고르세요.",
+        "쓰기 편한 자리를 정해 놓으세요. 계속 쓸 수 있는 위치가 좋습니다."
+      ],
+      [
+        "よく探してしまう物を一つ選びましょう。",
+        "戻しやすい場所を決めて置きましょう。続けて使える場所を選びます。"
+      ],
+      [
+        "選一樣你常花時間找的東西。",
+        "決定方便拿取與放回的位置，並放過去。重點是能持續使用。"
+      ]
+    ],
+    "small": [
+      "Give one often-used item an easy-to-reach home and put it there.",
+      "자주 쓰는 물건 하나의 꺼내기 쉬운 자리를 정해 놓으세요.",
+      "よく使う物を一つ、取り出しやすい定位置に置きましょう。",
+      "替一件常用物品選個容易拿取的位置，並放好。"
+    ]
+  },
+  {
+    "title": [
+      "Clear a usable patch",
+      "실제로 쓸 공간 만들기",
+      "使える場所を空ける",
+      "清出能用的空間"
+    ],
+    "steps": [
+      [
+        "Move the few items blocking your chosen work surface.",
+        "Use the cleared space for one real action, such as opening your notebook. Check that the new layout helps."
+      ],
+      [
+        "사용할 면을 막고 있는 물건 몇 개를 옮기세요.",
+        "노트를 펴는 등 실제로 한 번 사용해보세요. 배치가 편한지 확인합니다."
+      ],
+      [
+        "使いたい面をふさいでいる物を少し動かしましょう。",
+        "ノートを開くなど、実際に一度使ってみましょう。使いやすい配置か確かめます。"
+      ],
+      [
+        "移開擋住工作區的幾樣東西。",
+        "實際使用一次，例如打開筆記本，確認新配置有沒有幫助。"
+      ]
+    ],
+    "small": [
+      "Clear just enough space to open a notebook, then actually open it.",
+      "노트를 펼칠 만큼만 공간을 비우고 실제로 펼쳐보세요.",
+      "ノートを開ける分だけ場所を空け、実際に開いてみましょう。",
+      "只清出能打開筆記本的空間，並真的打開看看。"
+    ]
+  },
+  {
+    "title": [
+      "Make a temporary inbox",
+      "임시 보관함 만들기",
+      "一時置き場を作る",
+      "建立暫存區"
+    ],
+    "steps": [
+      [
+        "Choose a small container or folder for items that need a decision.",
+        "Move a few undecided items there and choose when to revisit them. Do not discard important papers just to finish."
+      ],
+      [
+        "판단이 필요한 물건을 둘 작은 상자나 폴더를 정하세요.",
+        "몇 개를 모으고 다시 살필 때를 정하세요. 끝내려고 중요한 서류를 버리지 마세요."
+      ],
+      [
+        "判断が必要な物を置く小さな箱やフォルダを選びましょう。",
+        "いくつかまとめ、見直す時を決めましょう。大事な書類を無理に捨てる必要はありません。"
+      ],
+      [
+        "選一個小盒子或資料夾，收待決定的東西。",
+        "先放幾樣，並決定何時再看。不必為了完成而丟掉重要文件。"
+      ]
+    ],
+    "small": [
+      "Put one undecided item in a temporary spot and note when to revisit it.",
+      "판단이 필요한 물건 하나를 임시로 두고 다시 볼 때를 적으세요.",
+      "迷っている物を一つ仮置きし、見直すタイミングを書きましょう。",
+      "把一件待決定的物品暫放好，記下何時再查看。"
+    ]
+  },
+  {
+    "title": [
+      "Prepare tomorrow's start",
+      "내일의 시작 준비",
+      "明日の一歩を用意する",
+      "準備明天的起點"
+    ],
+    "steps": [
+      [
+        "Choose one thing you expect to do tomorrow.",
+        "Place the few items you need together, or write a short setup list. Avoid preparing the whole day."
+      ],
+      [
+        "내일 할 일 하나를 고르세요.",
+        "필요한 물건 몇 개를 모으거나 준비 목록을 적으세요. 하루 전체를 준비하지 않아도 됩니다."
+      ],
+      [
+        "明日やりそうなことを一つ選びましょう。",
+        "必要な物をまとめるか、短い準備メモを書きましょう。一日全部を整える必要はありません。"
+      ],
+      [
+        "選一件明天可能要做的事。",
+        "把所需的幾樣物品放一起，或列短清單。不用準備整天。"
+      ]
+    ],
+    "small": [
+      "Prepare one item you will need tomorrow.",
+      "내일 필요한 물건 하나를 준비해 두세요.",
+      "明日使う物を一つ準備しておきましょう。",
+      "先準備好一件明天會用到的物品。"
+    ]
+  },
+  {
+    "title": [
+      "Test your new space",
+      "정리한 공간 사용하기",
+      "整えた場所を試す",
+      "試用整理好的空間"
+    ],
+    "steps": [
+      [
+        "Use your chosen zone for its normal purpose.",
+        "Note one thing that is easier and one thing still in the way. The first chapter ends with a usable space, not a perfect room."
+      ],
+      [
+        "고른 공간을 원래 용도로 사용해보세요.",
+        "편해진 점과 아직 불편한 점을 하나씩 적으세요. 완벽한 방이 아닌 쓸 수 있는 공간이면 첫 장 완료입니다."
+      ],
+      [
+        "選んだ場所を普段の用途で使ってみましょう。",
+        "楽になった所とまだ邪魔な所を一つずつ記録しましょう。完璧な部屋でなく、使える場所がこの章のゴールです。"
+      ],
+      [
+        "照平常用途使用這個區域。",
+        "記下一件變方便、一件仍不順的事。第一章的目標是能用的空間，不是完美房間。"
+      ]
+    ],
+    "small": [
+      "Use the cleared area briefly and note one thing that is easier now.",
+      "정리한 공간을 잠깐 사용하고 편해진 점 하나를 적으세요.",
+      "片づけた場所を少し使い、楽になった点を一つ書きましょう。",
+      "短暫使用整理好的區域，記下一件變方便的事。"
+    ]
+  },
+  {
+    "title": [
+      "Give a drawer one job",
+      "서랍에 역할 하나",
+      "引き出しに役割を一つ",
+      "讓抽屜只做一件事"
+    ],
+    "steps": [
+      [
+        "Choose one small drawer or compartment and name its main purpose.",
+        "Group a few related items there. Stop before pulling out more than you can put back."
+      ],
+      [
+        "작은 서랍이나 칸 하나를 고르고 주 용도를 정하세요.",
+        "관련된 물건 몇 개를 모으세요. 다시 넣을 수 없을 만큼 꺼내지 마세요."
+      ],
+      [
+        "小さな引き出しや仕切りを選び、主な用途を決めましょう。",
+        "関係する物を少しまとめましょう。戻せる量だけ出します。"
+      ],
+      [
+        "選一個小抽屜或隔層，決定主要用途。",
+        "把幾樣相關物品放一起。一次只拿出能放回去的量。"
+      ]
+    ],
+    "small": [
+      "Put two related items together in one drawer or compartment.",
+      "관련된 물건 두 개를 한 서랍이나 칸에 모으세요.",
+      "関係のある物を二つ、同じ引き出しや区画にまとめましょう。",
+      "把兩件相關物品放進同一個抽屜或隔間。"
+    ]
+  },
+  {
+    "title": [
+      "Reset your everyday bag",
+      "매일 쓰는 가방 점검",
+      "いつものバッグを整える",
+      "整理日常包包"
+    ],
+    "steps": [
+      [
+        "Take out three things from your everyday bag and check whether you need them.",
+        "Return the essentials to easy-to-reach places. Leave anything you are unsure about for later."
+      ],
+      [
+        "가방에서 물건 세 개를 꺼내 필요한지 확인하세요.",
+        "꼭 필요한 것은 찾기 쉬운 곳에 넣으세요. 애매한 것은 나중에 결정해도 됩니다."
+      ],
+      [
+        "バッグの中から三つ取り出し、今必要か確かめましょう。",
+        "必需品を取り出しやすい場所に戻しましょう。迷う物は後で考えて構いません。"
+      ],
+      [
+        "從平常用的包包拿出三樣東西，確認是否需要。",
+        "必需品放回容易拿的位置。不確定的可以之後再決定。"
+      ]
+    ],
+    "small": [
+      "Put one essential item in an easy-to-find part of your bag.",
+      "꼭 필요한 물건 하나를 가방에서 찾기 쉬운 곳에 놓으세요.",
+      "必需品を一つ、かばんの探しやすい場所に入れましょう。",
+      "把一件必需品放在包包裡容易找到的位置。"
+    ]
+  },
+  {
+    "title": [
+      "A home for current papers",
+      "진행 중인 문서 자리",
+      "今使う書類の場所",
+      "替進行中的文件安家"
+    ],
+    "steps": [
+      [
+        "Find one paper or file you are actively using.",
+        "Choose a clearly named place for current items. Check that you can find this one again without searching."
+      ],
+      [
+        "지금 사용하는 서류나 파일 하나를 찾으세요.",
+        "현재 작업용으로 이름이 분명한 보관 위치를 정하세요. 다시 쉽게 찾을 수 있는지 확인하세요."
+      ],
+      [
+        "今使っている書類やファイルを一つ見つけましょう。",
+        "作業中の物を置く場所に分かりやすい名前を付け、すぐ見つかるか確かめましょう。"
+      ],
+      [
+        "找一份正在用的紙本或檔案。",
+        "替目前使用中的資料定一個名稱清楚的位置，再確認能輕鬆找回它。"
+      ]
+    ],
+    "small": [
+      "Place one current document in a clearly named working location.",
+      "작업 중인 문서 하나를 이름이 분명한 작업 위치에 놓으세요.",
+      "作業中の書類を一つ、名前の分かる作業用の場所に置きましょう。",
+      "把一份使用中的文件放到名稱明確的工作位置。"
+    ]
+  },
+  {
+    "title": [
+      "Find one digital file faster",
+      "파일 하나 빨리 찾기",
+      "ファイルを見つけやすく",
+      "讓一個檔案更好找"
+    ],
+    "steps": [
+      [
+        "Pick a file you often reopen and locate it.",
+        "Give it a clear name or bookmark its folder. Keep a copy before changing anything you cannot replace."
+      ],
+      [
+        "자주 여는 파일 하나를 찾으세요.",
+        "알기 쉬운 이름을 붙이거나 폴더를 즐겨찾기 하세요. 대체할 수 없는 파일을 바꾸기 전 복사본을 남기세요."
+      ],
+      [
+        "よく開くファイルを一つ探しましょう。",
+        "分かりやすく名前を付けるか、フォルダをブックマークしましょう。大切な物は変更前にコピーを残します。"
+      ],
+      [
+        "找出一個經常開啟的檔案。",
+        "改成清楚的名稱，或將資料夾加入書籤。無法替代的檔案請先留副本再修改。"
+      ]
+    ],
+    "small": [
+      "Bookmark the folder for one frequently used file without moving or deleting it.",
+      "자주 쓰는 파일의 폴더를 즐겨찾기 하세요. 파일을 옮기거나 지울 필요는 없습니다.",
+      "よく使うファイルのフォルダをブックマークしましょう。移動や削除は不要です。",
+      "將常用檔案的資料夾加入書籤，不必移動或刪除檔案。"
+    ]
+  },
+  {
+    "title": [
+      "Reduce one digital distraction",
+      "방해 요소 하나 줄이기",
+      "デジタルの邪魔を一つ減らす",
+      "減少一個數位干擾"
+    ],
+    "steps": [
+      [
+        "Choose one nonessential notification or shortcut that interrupts you.",
+        "Adjust that one setting if you want to. Keep reminders you rely on and check how the change feels."
+      ],
+      [
+        "나를 방해하는 불필요한 알림이나 바로가기 하나를 고르세요.",
+        "원하면 그 설정만 바꾸세요. 필요한 알림은 유지하고 변화가 편한지 살펴보세요."
+      ],
+      [
+        "気が散る通知やショートカットを一つ選びましょう。",
+        "必要ならその設定だけ変えましょう。頼りにしている通知は残し、使い心地を確かめます。"
+      ],
+      [
+        "選一個會打斷你的非必要通知或捷徑。",
+        "有需要就只調整那一項。保留重要提醒，再感受是否更順手。"
+      ]
+    ],
+    "small": [
+      "If you want, mute one nonessential notification; otherwise note the one you may change.",
+      "원하면 불필요한 알림 하나를 끄거나 나중에 바꿀 설정을 적으세요.",
+      "よければ不要な通知を一つ止めるか、後で変えたい設定を書きましょう。",
+      "願意的話關閉一個不必要的通知，或記下稍後想改的設定。"
+    ]
+  },
+  {
+    "title": [
+      "Review your temporary inbox",
+      "임시 보관함 다시 보기",
+      "一時置き場を見直す",
+      "回頭看暫存區"
+    ],
+    "steps": [
+      [
+        "Choose one item from the temporary group you made earlier.",
+        "Give it a home, a next action or a review date. One resolved item is enough."
+      ],
+      [
+        "앞서 모아둔 물건이나 문서 하나를 고르세요.",
+        "자리, 다음 행동 또는 다시 볼 날짜를 정하세요. 하나만 해결해도 됩니다."
+      ],
+      [
+        "前にまとめた物から一つ選びましょう。",
+        "定位置、次の行動、見直す日のどれかを決めましょう。一つ決まれば十分です。"
+      ],
+      [
+        "從之前暫存的東西選一樣。",
+        "決定固定位置、下一步或再檢查的日期。解決一樣就夠了。"
+      ]
+    ],
+    "small": [
+      "Give one item in your temporary spot a home, a next action or a review date.",
+      "임시로 둔 물건 하나의 자리, 다음 행동, 다시 볼 날짜 중 하나를 정하세요.",
+      "仮置きの物を一つ選び、置き場所・次の行動・見直す日のどれかを決めましょう。",
+      "替一件暫放物品決定位置、下一步或再次查看的日期。"
+    ]
+  },
+  {
+    "title": [
+      "Check what stayed clear",
+      "유지된 곳 살펴보기",
+      "保てた場所を確認する",
+      "看看哪些地方維持住了"
+    ],
+    "steps": [
+      [
+        "Look at the zone you chose at the beginning.",
+        "Notice what stayed useful and what filled up again. Change one small part of the arrangement."
+      ],
+      [
+        "처음 고른 구역을 살펴보세요.",
+        "편하게 유지된 곳과 다시 쌓인 곳을 확인하세요. 배치의 작은 부분 하나만 바꿔보세요."
+      ],
+      [
+        "最初に選んだ場所を見てみましょう。",
+        "使いやすいままの所と、また物がたまった所を見つけ、配置を一つだけ変えてみましょう。"
+      ],
+      [
+        "回頭看最初選的區域。",
+        "找出維持好用與再次堆滿的地方，只調整一個小配置。"
+      ]
+    ],
+    "small": [
+      "Return one item that has drifted out of your original area.",
+      "처음 정리한 구역에서 벗어난 물건 하나를 되돌려 놓으세요.",
+      "最初に片づけた場所からずれた物を一つ戻しましょう。",
+      "把一件偏離最初整理位置的物品放回去。"
+    ]
+  },
+  {
+    "title": [
+      "Move a habit's tools closer",
+      "습관 도구 가까이 두기",
+      "習慣の道具を近くに",
+      "把習慣的工具放近一點"
+    ],
+    "steps": [
+      [
+        "Choose a routine you want to make easier, such as reading or getting ready.",
+        "Move one needed item closer to where you use it. Check that it stays safe and out of the way."
+      ],
+      [
+        "독서나 외출 준비처럼 쉽게 하고 싶은 일상을 고르세요.",
+        "필요한 물건 하나를 사용하는 곳 가까이 옮기세요. 안전하고 방해되지 않는 위치인지 확인하세요."
+      ],
+      [
+        "読書や外出準備など、楽にしたい日課を選びましょう。",
+        "必要な物を使う場所の近くに置き、安全で邪魔にならないか確かめましょう。"
+      ],
+      [
+        "選一個想更輕鬆做到的日常行動，例如閱讀或出門準備。",
+        "把一樣需要的物品放到使用處附近，確認安全且不擋路。"
+      ]
+    ],
+    "small": [
+      "Put one item for a habit close to its point of use, without blocking a safe path.",
+      "일상에 쓸 물건 하나를 동선을 막지 않는 사용 장소 가까이 놓으세요.",
+      "習慣に使う物を一つ、安全な通り道を塞がず使う場所の近くに置きましょう。",
+      "把一件日常用品放近使用處，別擋住安全通道。"
+    ]
+  },
+  {
+    "title": [
+      "Make putting things back easier",
+      "되돌려 놓기 쉽게",
+      "戻す手間を減らす",
+      "讓歸位更容易"
+    ],
+    "steps": [
+      [
+        "Choose one item that keeps ending up in the wrong place.",
+        "Try a more convenient home or reduce one step in putting it away."
+      ],
+      [
+        "자꾸 엉뚱한 곳에 놓이는 물건 하나를 고르세요.",
+        "더 편한 자리를 시도하거나 정리하는 과정에서 한 단계를 줄이세요."
+      ],
+      [
+        "いつも別の場所に置いてしまう物を一つ選びましょう。",
+        "もっと戻しやすい定位置に変えるか、片づけの手順を一つ減らしましょう。"
+      ],
+      [
+        "選一樣總是放錯地方的物品。",
+        "試個更方便的位置，或減少一個收回去的步驟。"
+      ]
+    ],
+    "small": [
+      "Try an easier home for one item you often leave out.",
+      "자꾸 꺼내둔 채 잊는 물건 하나를 더 편한 자리에 놓아보세요.",
+      "出しっぱなしになる物を一つ、戻しやすい場所に置いてみましょう。",
+      "替一件常忘記收好的物品，試個更容易放回的位置。"
+    ]
+  },
+  {
+    "title": [
+      "A two-minute closing ritual",
+      "2분 마무리 의식",
+      "二分の締めくくり",
+      "兩分鐘的收尾儀式"
+    ],
+    "steps": [
+      [
+        "Choose two small actions that leave your zone ready, such as returning a pen and clearing a cup.",
+        "Try the pair once. Keep only the actions that made restarting easier."
+      ],
+      [
+        "펜 제자리, 컵 치우기처럼 공간을 준비하는 작은 행동 두 개를 고르세요.",
+        "한 번 해보세요. 다음 시작을 편하게 한 행동만 남기세요."
+      ],
+      [
+        "ペンを戻す、カップを片づけるなど、次に備える行動を二つ選びましょう。",
+        "一度試し、再開しやすくなるものだけ残しましょう。"
+      ],
+      [
+        "選兩個讓空間能再次使用的小動作，例如筆歸位、杯子收好。",
+        "試一次，只留下讓下次開始更容易的動作。"
+      ]
+    ],
+    "small": [
+      "Put one pen, cup or similar item back to prepare your next start.",
+      "펜이나 컵 같은 물건 하나를 제자리에 놓아 다음 시작을 준비하세요.",
+      "ペンやカップなどを一つ戻して、次に始めやすくしましょう。",
+      "把筆、杯子等一件物品歸位，準備好下一次開始。"
+    ]
+  },
+  {
+    "title": [
+      "Choose the next small zone",
+      "다음 작은 구역",
+      "次の小さな場所へ",
+      "前往下一個小區域"
+    ],
+    "steps": [
+      [
+        "Choose another small area that would benefit from the method you learned.",
+        "Apply one successful rule there. Avoid expanding into a whole-room project."
+      ],
+      [
+        "앞서 배운 방법을 쓰면 좋을 작은 공간을 하나 더 고르세요.",
+        "잘 맞았던 규칙 하나만 적용하세요. 방 전체로 일을 키울 필요는 없습니다."
+      ],
+      [
+        "今までの方法を使えそうな、小さな場所をもう一つ選びましょう。",
+        "うまくいったルールを一つ試しましょう。部屋全体に広げる必要はありません。"
+      ],
+      [
+        "再選一個適合套用剛學方法的小地方。",
+        "只用一條有效的規則，不必擴大成整理整間房間。"
+      ]
+    ],
+    "small": [
+      "Apply one useful rule from this route to a second small spot.",
+      "이번 루트에서 좋았던 규칙 하나를 다른 작은 구역에 적용하세요.",
+      "このルートで合ったルールを一つ、別の小さな場所に使いましょう。",
+      "把這條路線中好用的一個規則，運用到另一個小區域。"
+    ]
+  },
+  {
+    "title": [
+      "Set a gentle review cue",
+      "가벼운 점검 단서",
+      "軽い見直しの合図",
+      "設定輕鬆的檢查提示"
+    ],
+    "steps": [
+      [
+        "Choose an existing moment when you could check your space, such as finishing work.",
+        "Write a one-line reminder of what to check. You do not need a perfect daily streak."
+      ],
+      [
+        "일을 마친 뒤처럼 공간을 살필 수 있는 기존 일상 순간을 고르세요.",
+        "무엇을 확인할지 한 줄 적으세요. 매일 빠짐없이 할 필요는 없습니다."
+      ],
+      [
+        "仕事を終えた後など、場所を見直せる普段の場面を選びましょう。",
+        "何を見るか一行書きましょう。毎日欠かさず続けなくても大丈夫です。"
+      ],
+      [
+        "選一個能順便看看空間的日常時刻，例如工作結束後。",
+        "用一行寫下要檢查什麼。不必追求每天不中斷。"
+      ]
+    ],
+    "small": [
+      "Write a one-line cue for when you will briefly check this space.",
+      "이 공간을 잠깐 살펴볼 때를 한 줄로 적으세요.",
+      "この場所を少し見直すタイミングを一行で書きましょう。",
+      "用一行寫下何時會稍微檢查這個空間。"
+    ]
+  },
+  {
+    "title": [
+      "Your reset after a busy week",
+      "바쁜 한 주 뒤 복귀",
+      "忙しい週の後に戻る",
+      "忙了一週後重新開始"
+    ],
+    "steps": [
+      [
+        "Choose the one action that makes your space usable fastest.",
+        "Try it now and save it as your reset plan. You can return with this even after a long break."
+      ],
+      [
+        "공간을 가장 빨리 쓸 수 있게 만드는 행동 하나를 고르세요.",
+        "지금 해보고 복귀 방법으로 남기세요. 오래 쉬어도 이 행동으로 돌아오면 됩니다."
+      ],
+      [
+        "場所をいちばん早く使いやすくする行動を一つ選びましょう。",
+        "今試して、戻る方法として残しましょう。長く休んでもここから再開できます。"
+      ],
+      [
+        "選一個能最快讓空間恢復可用的動作。",
+        "現在試做，並留下作為重整方案。休息很久也能從這裡回來。"
+      ]
+    ],
+    "small": [
+      "Do the single quickest action that makes this space usable again.",
+      "이 공간을 다시 쓸 수 있게 만드는 가장 빠른 행동 하나를 하세요.",
+      "この場所をまた使えるようにする、一番手軽な行動を一つしましょう。",
+      "做一個最快能讓這個空間重新可用的動作。"
+    ]
+  },
+  {
+    "title": [
+      "Keep your own simple system",
+      "나만의 정리법 남기기",
+      "自分の仕組みを残す",
+      "留下自己的簡單系統"
+    ],
+    "steps": [
+      [
+        "Compare your chosen zone with the finish you described at the start.",
+        "Record what is easier to find or start, and the few rules worth keeping. The system is yours to reuse."
+      ],
+      [
+        "처음 정했던 완료 모습과 지금 공간을 비교하세요.",
+        "찾거나 시작하기 편해진 것, 유지할 규칙 몇 개를 적으세요. 이 방법을 다시 쓸 수 있습니다."
+      ],
+      [
+        "最初に決めた完成形と今の場所を比べましょう。",
+        "探しやすく、始めやすくなったことと、残したいルールを書きましょう。別の場所でも使えます。"
+      ],
+      [
+        "比較最初設定的完成樣子與現在的空間。",
+        "記下哪些東西更好找、事情更好開始，以及值得留下的幾條規則。這套方法可以再使用。"
+      ]
+    ],
+    "small": [
+      "Write one thing that became easier and one rule you will keep.",
+      "편해진 점 하나와 앞으로 유지할 규칙 하나를 적으세요.",
+      "楽になったことを一つ、続けたいルールを一つ書きましょう。",
+      "寫下一件變方便的事，以及一個想保留的規則。"
+    ]
+  }
+]

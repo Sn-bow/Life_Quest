@@ -1,3 +1,4 @@
+import '../features/journeys/journey_tool.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
 
 enum QuestType { daily, weekly, monthly, yearly }
@@ -6,7 +7,7 @@ enum QuestDifficulty {
   easy, // 쉬움
   normal, // 보통
   hard, // 어려움
-  veryHard // 매우 어려움
+  veryHard, // 매우 어려움
 }
 
 class Quest {
@@ -24,6 +25,12 @@ class Quest {
   final String? instruction;
   final String? directorReason;
   final String? generatedLocale;
+  double? lockedXp;
+  double? awardedXp;
+  int? awardedGold;
+  final bool journeyShortVersion;
+  String completionNote;
+  JourneyTool? journeyTool;
 
   Quest({
     required this.id,
@@ -40,6 +47,12 @@ class Quest {
     this.instruction,
     this.directorReason,
     this.generatedLocale,
+    this.lockedXp,
+    this.awardedXp,
+    this.awardedGold,
+    this.journeyShortVersion = false,
+    this.completionNote = '',
+    this.journeyTool,
   });
 
   /// Auto-calculate XP based on difficulty and quest type
@@ -76,7 +89,8 @@ class Quest {
       category: (categoryIndex >= 0 && categoryIndex < StatType.values.length)
           ? StatType.values[categoryIndex]
           : StatType.strength,
-      difficulty: (difficultyIndex != null &&
+      difficulty:
+          (difficultyIndex != null &&
               difficultyIndex >= 0 &&
               difficultyIndex < QuestDifficulty.values.length)
           ? QuestDifficulty.values[difficultyIndex]
@@ -85,18 +99,30 @@ class Quest {
       directorTemplateId: json['directorTemplateId'] is String
           ? json['directorTemplateId']
           : null,
-      scheduledDay:
-          json['scheduledDay'] is String ? json['scheduledDay'] : null,
+      scheduledDay: json['scheduledDay'] is String
+          ? json['scheduledDay']
+          : null,
       estimatedMinutes: json['estimatedMinutes'] is num
           ? (json['estimatedMinutes'] as num).toInt().clamp(1, 60)
           : null,
       instruction: json['instruction'] is String ? json['instruction'] : null,
-      directorReason:
-          json['directorReason'] is String ? json['directorReason'] : null,
+      directorReason: json['directorReason'] is String
+          ? json['directorReason']
+          : null,
       generatedLocale:
           ['ko', 'en', 'ja', 'zh'].contains(json['generatedLocale'])
-              ? json['generatedLocale']
-              : null,
+          ? json['generatedLocale']
+          : null,
+      lockedXp: (json['lockedXp'] as num?)?.toDouble(),
+      awardedXp: (json['awardedXp'] as num?)?.toDouble(),
+      awardedGold: json['awardedGold'] as int?,
+      journeyShortVersion: json['journeyShortVersion'] == true,
+      journeyTool: JourneyTool.parse(json['journeyTool']),
+      completionNote: json['completionNote'] is String
+          ? String.fromCharCodes(
+              (json['completionNote'] as String).runes.take(240),
+            )
+          : '',
       completedDate: json['completedDate'] != null
           ? DateTime.tryParse(json['completedDate'])
           : null,
@@ -112,6 +138,12 @@ class Quest {
       'category': category.index,
       'difficulty': difficulty.index,
       'isCompleted': isCompleted,
+      if (lockedXp != null) 'lockedXp': lockedXp,
+      if (awardedXp != null) 'awardedXp': awardedXp,
+      if (awardedGold != null) 'awardedGold': awardedGold,
+      if (journeyShortVersion) 'journeyShortVersion': true,
+      if (completionNote.isNotEmpty) 'completionNote': completionNote,
+      if (journeyTool != null) 'journeyTool': journeyTool!.toJson(),
       'completedDate': completedDate?.toIso8601String(),
       if (directorTemplateId != null) 'directorTemplateId': directorTemplateId,
       if (scheduledDay != null) 'scheduledDay': scheduledDay,

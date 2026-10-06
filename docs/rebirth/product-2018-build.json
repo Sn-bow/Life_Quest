@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-06",
+  "sourceCommit": "764de804edad5998322457251cfdcb2da741877f",
+  "package": "com.logian.lifequest",
+  "version": "2.2.1+2018",
+  "requestedBuildFlags": {
+    "cloud": true,
+    "billing": true,
+    "ads": false,
+    "qaPreview": false
+  },
+  "artifacts": {
+    "aab": {
+      "path": "build/review/life-quest-2.2.1-2018-signup-recovery.aab",
+      "bytes": 157011146,
+      "sha256": "3e90148e8478217f890d858c0c4e78bc5498a4f306aa7201553fb0fc1ce4b0fa"
+    },
+    "apk": {
+      "path": "build/review/life-quest-2.2.1-2018-signup-recovery.apk",
+      "bytes": 164180087,
+      "sha256": "5184a3dde67a5bec6c804925282476f410ae5cd2e33703283c6eeac8bc44d567"
+    }
+  },
+  "checks": {
+    "defaultFullRun": {
+      "passed": 621,
+      "skipped": 2,
+      "failed": 1,
+      "failure": "Documentation capitalization expectation, corrected afterward",
+      "log": "build/review/signup-2018-full-tests-final.log"
+    },
+    "correctedDocumentationAndDefaultMonetization": {
+      "passed": 6,
+      "failed": 0,
+      "log": "build/review/signup-2018-doc-default-tests.log"
+    },
+    "cloudBillingRelated": {
+      "passed": 22,
+      "failed": 0,
+      "log": "build/review/signup-2018-cloud-tests-clean.log"
+    },
+    "analyze": "No issues found",
+    "aab": {
+      "passed": 40,
+      "total": 40,
+      "report": "docs/rebirth/product-2018-inspection.json",
+      "sampleDeviceDownloadBytes": {
+        "MIN": 65513698,
+        "MAX": 65513698
+      }
+    },
+    "apk": {
+      "expectedCertificate": true,
+      "v2Signature": true,
+      "zip16KBAlignment": true,
+      "package": "com.logian.lifequest",
+      "versionName": "2.2.1",
+      "versionCode": 2018,
+      "targetSdk": 36
+    },
+    "buildRecovery": "First --no-pub AAB attempt used development plugin registrant entries; normal release generation succeeded without further app source changes.",
+    "native2018Installation": "not-performed",
+    "remote2018CloudSignup": "not-verified"
+  },
+  "fixEvidence": "docs/rebirth/qa/cloud-registration-20261006.md",
+  "scope": "Local signup-recovery candidate. Internal Play remains 2.2.0+2017; no 2018 deployment or complete product/revenue certification.",
+  "externalStatus": {
+    "thisBuildUploaded": false,
+    "internalTesting": "2017 owner-only track unchanged",
+    "closedTesting": "on hold; no new external tester deployment",
+    "serverAndSku": "unchanged",
+    "priorOwnerBillingEvidence": "2017 purchase/restore/refund/decline test-card evidence; not real revenue",
+    "reviewAccess": "not prepared; see docs/rebirth/store/APP_ACCESS_2018.md",
+    "actualRevenueEvidence": "none"
+  },
+  "currentTurnBoundary": "Finish current signup repair checks/build, save state, report; no further feature or QA-environment expansion."
+}

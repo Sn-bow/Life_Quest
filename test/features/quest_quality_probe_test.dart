@@ -92,7 +92,7 @@ void main() {
         'prompt': QuestGeneration.prompt(plan, profile, history, now),
       });
       test('$id keeps app-owned rewards and a bounded daily plan', () {
-        expect(plan, hasLength(3));
+        expect(plan, hasLength(name == 'night_recovery' ? 1 : 3));
         expect(
           plan.fold(0, (sum, q) => sum + q.minutes),
           lessThanOrEqualTo(profile.minutes),

@@ -85,7 +85,7 @@ void main() {
         currentUid: () => 'account-a',
         verify: (request) async {
           expect(request, {
-            'packageName': 'com.lifequest.app',
+            'packageName': 'com.logian.lifequest',
             'productId': product,
             'purchaseToken': token,
           });
@@ -101,6 +101,42 @@ void main() {
       expect(owned, {'theme_neon_cyberpunk'});
       expect(playAccountId('account-a'), hasLength(64));
       expect(playAccountId('account-a'), isNot(playAccountId('account-b')));
+    },
+  );
+
+  test(
+    'status window pack is granted only after the matching server response',
+    () async {
+      final owned = <String>{};
+      final verifier = PurchaseVerifier(
+        currentUid: () => 'account-a',
+        verify: (request) async {
+          expect(request['productId'], statusWindowPlusProductId);
+          return {'isValid': true, 'entitlementId': statusWindowPlusProductId};
+        },
+        deliver: (_, entitlement) async => owned.add(entitlement),
+      );
+      expect(
+        await verifier.process(
+          productId: statusWindowPlusProductId,
+          token: token,
+        ),
+        true,
+      );
+      expect(owned, {statusWindowPlusProductId});
+      final mismatched = PurchaseVerifier(
+        currentUid: () => 'account-a',
+        verify: (_) async => valid,
+        deliver: (_, _) async =>
+            fail('A legacy entitlement cannot unlock the pack'),
+      );
+      expect(
+        await mismatched.process(
+          productId: statusWindowPlusProductId,
+          token: token,
+        ),
+        false,
+      );
     },
   );
 
@@ -126,15 +162,19 @@ void main() {
   test(
     'cold start keeps an equipped theme confirmed by the account cache',
     () async {
+      final now = DateTime.utc(2026, 9, 28);
       SharedPreferences.setMockInitialValues({
         'lifequest.purchases.v1.account-a': [
           'theme_neon_cyberpunk',
           'untrusted_entitlement',
         ],
+        'lifequest.purchases.serverVerifiedAt.v1.account-a': now
+            .subtract(const Duration(days: 1))
+            .millisecondsSinceEpoch,
       });
       final state = CharacterState()..initializeForTesting();
       state.character.equippedTheme = 'theme_neon_cyberpunk';
-      final purchases = PurchaseService.cacheOnlyForTesting();
+      final purchases = PurchaseService.cacheOnlyForTesting(now: () => now);
       purchases.onEntitlementsChanged = state.setPurchasedEntitlements;
       await purchases.bindUser('account-a');
       expect(state.character.equippedTheme, 'theme_neon_cyberpunk');
@@ -144,6 +184,49 @@ void main() {
       expect(state.ownsCosmetic('theme_neon_cyberpunk'), false);
       purchases.dispose();
       state.dispose();
+    },
+  );
+
+  test(
+    'offline ownership expires after seven days without server renewal',
+    () async {
+      var now = DateTime.utc(2026, 9, 28);
+      SharedPreferences.setMockInitialValues({
+        'lifequest.purchases.v1.account-a': [
+          statusWindowPlusProductId,
+          tideProductId,
+        ],
+        'lifequest.purchases.serverVerifiedAt.v1.account-a':
+            now.millisecondsSinceEpoch,
+      });
+      final purchases = PurchaseService.cacheOnlyForTesting(now: () => now);
+      await purchases.bindUser('account-a');
+      expect(purchases.ownsStatusWindowPlus, true);
+      expect(purchases.entitlements, contains(tideProductId));
+      now = now.add(PurchaseService.offlineEntitlementLifetime);
+      purchases.recheckEntitlementCache();
+      expect(purchases.ownsStatusWindowPlus, false);
+      expect(purchases.entitlements, isEmpty);
+      await purchases.endSession();
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getStringList('lifequest.purchases.v1.account-a'), isEmpty);
+      purchases.dispose();
+    },
+  );
+
+  test(
+    'legacy cache without a server verification time cannot grant paid access',
+    () async {
+      SharedPreferences.setMockInitialValues({
+        'lifequest.purchases.v1.account-a': [
+          statusWindowPlusProductId,
+          tideProductId,
+        ],
+      });
+      final purchases = PurchaseService.cacheOnlyForTesting();
+      await purchases.bindUser('account-a');
+      expect(purchases.entitlements, isEmpty);
+      purchases.dispose();
     },
   );
 

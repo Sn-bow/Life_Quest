@@ -1,3 +1,8 @@
+import 'dart:async';
+import '../features/system/system_widgets.dart';
+import '../features/journeys/journey_catalog.dart';
+import '../features/journeys/journey_screen.dart';
+import '../features/system/hunter_status_window.dart';
 import '../features/story/story_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,17 +20,56 @@ import '../models/quest.dart';
 import '../state/character_state.dart';
 import 'timer_screen.dart';
 
-class TodayScreen extends StatelessWidget {
+class TodayScreen extends StatefulWidget {
   final VoidCallback onOpenQuests;
-  final VoidCallback onOpenDungeon;
-  const TodayScreen({
-    super.key,
-    required this.onOpenQuests,
-    required this.onOpenDungeon,
-  });
+  const TodayScreen({super.key, required this.onOpenQuests});
+
+  @override
+  State<TodayScreen> createState() => _TodayScreenState();
+}
+
+class _TodayScreenState extends State<TodayScreen> {
+  HunterWindowSection _section = HunterWindowSection.status;
 
   @override
   Widget build(BuildContext context) {
+    final character = context.watch<CharacterState>();
+    if (!character.isDataLoaded) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return Scaffold(
+      backgroundColor: const Color(0xFF040B13),
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 28),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SystemEntrance(
+                child: HunterStatusWindow(
+                  state: character,
+                  section: _section,
+                  onSectionChanged: (value) => setState(() => _section = value),
+                  child: switch (_section) {
+                    HunterWindowSection.status => null,
+                    HunterWindowSection.quests => Builder(
+                      builder: _questContent,
+                    ),
+                    HunterWindowSection.journal => const SystemHistorySection(),
+                  },
+                ),
+              ),
+              const SizedBox(height: 12),
+              const SystemOfferCard(compact: true),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _questContent(BuildContext context) {
     final character = context.watch<CharacterState>();
     final director = context.watch<QuestDirectorState>();
     final s = AppLocalizations.of(context)!;
@@ -48,247 +92,202 @@ class TodayScreen extends StatelessWidget {
       s.lqEnergyMedium,
       s.lqEnergyHigh,
     ][director.profile.energy - 1];
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
-          children: [
-            Row(
-              children: [
-                Icon(PhosphorIcons.compass, color: colors.primary, size: 23),
-                const SizedBox(width: 9),
-                Expanded(
-                  child: Text(
-                    'LIFE QUEST',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 2.1,
-                      color: colors.onSurface,
-                    ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Material(
+          color: colors.surface,
+          borderRadius: BorderRadius.circular(14),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(14),
+            onTap: director.ready ? () => showHunterCheckIn(context) : null,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(14, 13, 10, 13),
+              child: Row(
+                children: [
+                  Icon(
+                    PhosphorIcons.slidersHorizontal,
+                    size: 20,
+                    color: colors.primary,
                   ),
-                ),
-                IconButton(
-                  tooltip: s.statusTimerTooltip,
-                  icon: const Icon(PhosphorIcons.timer, size: 23),
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => const TimerScreen(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(s.lqHeadline, style: theme.textTheme.headlineMedium),
-            const SizedBox(height: 5),
-            Text(
-              s.lqSubtitle,
-              style: theme.textTheme.bodySmall?.copyWith(fontSize: 13),
-            ),
-            const SizedBox(height: 22),
-            ProgressStatusSummary(state: character, compact: true),
-            const SizedBox(height: 14),
-            const StoryBanner(),
-            const SizedBox(height: 14),
-            Material(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(14),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(14),
-                onTap: director.ready ? () => showHunterCheckIn(context) : null,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 13, 10, 13),
-                  child: Row(
-                    children: [
-                      Icon(
-                        PhosphorIcons.slidersHorizontal,
-                        size: 20,
-                        color: colors.primary,
-                      ),
-                      const SizedBox(width: 11),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              director.profile.configured
-                                  ? '$energy · ${director.profile.minutes} ${s.lqMinutes}'
-                                  : s.lqCheckIn,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontSize: 13,
-                              ),
-                            ),
-                            if (!director.profile.configured)
-                              Text(
-                                s.lqCheckInHint,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  fontSize: 11,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                      const Icon(PhosphorIcons.caretRight, size: 17),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 26),
-            Wrap(
-              spacing: 12,
-              runSpacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Text(
-                  s.lqDailyMissions,
-                  style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
-                ),
-                QuestTag(
-                  director.usedModel ? s.lqLocalAi : s.lqBasicMode,
-                  icon: director.usedModel
-                      ? PhosphorIcons.cpu
-                      : PhosphorIcons.sparkle,
-                  color: colors.primary,
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            if (!director.ready)
-              const Padding(
-                padding: EdgeInsets.all(28),
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            for (final quest in missions)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _acceptedCard(context, quest),
-              ),
-            for (final quest in director.suggestions)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _suggestionCard(context, quest, locale),
-              ),
-            if (director.ready &&
-                director.suggestions.isEmpty &&
-                missions.isEmpty)
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        PhosphorIcons.checkCircle,
-                        color: colors.primary,
-                        size: 28,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(s.lqAllSet, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 5),
-                      Text(s.lqAllSetBody, style: theme.textTheme.bodySmall),
-                    ],
-                  ),
-                ),
-              ),
-            if (director.saveFailed)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  s.lqStorageError,
-                  style: TextStyle(color: colors.error, fontSize: 12),
-                ),
-              ),
-            if (director.modelIssue == 'generation_rejected')
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  s.lqModelRejected,
-                  style: theme.textTheme.bodySmall,
-                ),
-              ),
-            if (director.busy)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        s.lqGenerating,
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: director.cancelModelOperation,
-                      child: Text(s.lqCancel),
-                    ),
-                  ],
-                ),
-              )
-            else
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                  icon: Icon(
-                    director.modelStatus == OnDeviceModelStatus.available
-                        ? PhosphorIcons.sparkle
-                        : PhosphorIcons.cpu,
-                    size: 17,
-                  ),
-                  onPressed: () =>
-                      director.modelStatus == OnDeviceModelStatus.available
-                      ? director.personalize(locale)
-                      : Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => const DirectorSettingsScreen(),
+                  const SizedBox(width: 11),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          director.profile.configured
+                              ? '$energy · ${director.profile.minutes} ${s.lqMinutes}'
+                              : s.lqCheckIn,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontSize: 13,
                           ),
                         ),
-                  label: Text(
-                    director.modelStatus == OnDeviceModelStatus.available
-                        ? s.lqGenerate
-                        : s.lqDirector,
-                  ),
-                ),
-              ),
-            if (ordinary.isNotEmpty) ...[
-              const SizedBox(height: 14),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      s.lqActiveQuests,
-                      style: theme.textTheme.titleMedium,
+                        if (!director.profile.configured)
+                          Text(
+                            s.lqCheckInHint,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontSize: 13,
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  TextButton(
-                    onPressed: onOpenQuests,
-                    child: Text(s.lqAllQuests),
-                  ),
+                  const Icon(PhosphorIcons.caretRight, size: 17),
                 ],
               ),
-              for (final quest in ordinary)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: _acceptedCard(context, quest),
-                ),
-            ],
-            const SizedBox(height: 26),
-            TextButton.icon(
-              onPressed: onOpenDungeon,
-              icon: const Icon(PhosphorIcons.sword, size: 18),
-              label: Text(s.lqEnterDungeon),
+            ),
+          ),
+        ),
+        const SizedBox(height: 26),
+        Wrap(
+          spacing: 12,
+          runSpacing: 8,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text(
+              s.lqDailyMissions,
+              style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
+            ),
+            QuestTag(
+              director.usedModel ? s.lqLocalAi : s.lqBasicMode,
+              icon: director.usedModel
+                  ? PhosphorIcons.cpu
+                  : PhosphorIcons.sparkle,
+              color: colors.primary,
             ),
           ],
         ),
-      ),
+        const SizedBox(height: 12),
+        if (!director.ready)
+          const Padding(
+            padding: EdgeInsets.all(28),
+            child: Center(child: CircularProgressIndicator()),
+          ),
+        for (final quest in missions)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _acceptedCard(context, quest),
+          ),
+        for (final quest in director.suggestions)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _suggestionCard(context, quest, locale),
+          ),
+        if (director.ready && director.suggestions.isEmpty && missions.isEmpty)
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    PhosphorIcons.checkCircle,
+                    color: colors.primary,
+                    size: 28,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(s.lqAllSet, style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 5),
+                  Text(s.lqAllSetBody, style: theme.textTheme.bodySmall),
+                ],
+              ),
+            ),
+          ),
+        if (director.saveFailed)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              s.lqStorageError,
+              style: TextStyle(color: colors.error, fontSize: 12),
+            ),
+          ),
+        if (director.modelIssue == 'generation_rejected')
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(s.lqModelRejected, style: theme.textTheme.bodySmall),
+          ),
+        if (director.busy)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(s.lqGenerating, style: theme.textTheme.bodySmall),
+                ),
+                TextButton(
+                  onPressed: director.cancelModelOperation,
+                  child: Text(s.lqCancel),
+                ),
+              ],
+            ),
+          )
+        else
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              icon: Icon(
+                director.modelStatus == OnDeviceModelStatus.available
+                    ? PhosphorIcons.sparkle
+                    : PhosphorIcons.cpu,
+                size: 17,
+              ),
+              onPressed: () =>
+                  director.modelStatus == OnDeviceModelStatus.available
+                  ? director.personalize(locale)
+                  : Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const DirectorSettingsScreen(),
+                      ),
+                    ),
+              label: Text(
+                director.modelStatus == OnDeviceModelStatus.available
+                    ? s.lqGenerate
+                    : s.lqDirector,
+              ),
+            ),
+          ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton.icon(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const TimerScreen()),
+            ),
+            icon: const Icon(PhosphorIcons.timer, size: 18),
+            label: Text(s.statusTimerTooltip),
+          ),
+        ),
+        if (ordinary.isNotEmpty) ...[
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 12,
+            runSpacing: 4,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(s.lqActiveQuests, style: theme.textTheme.titleMedium),
+              TextButton(
+                onPressed: widget.onOpenQuests,
+                child: Text(s.lqAllQuests),
+              ),
+            ],
+          ),
+          for (final quest in ordinary)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _acceptedCard(context, quest),
+            ),
+        ],
+        const SizedBox(height: 18),
+        TextButton(onPressed: widget.onOpenQuests, child: Text(s.lqAllQuests)),
+        const SizedBox(height: 8),
+        const StoryBanner(),
+      ],
     );
   }
 
@@ -302,7 +301,7 @@ class TodayScreen extends StatelessWidget {
     final color = focusColor(quest.template.focus, context);
     return Card(
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(6),
         onTap: () => _showSuggestion(context, quest, locale),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(15, 14, 10, 14),
@@ -339,9 +338,9 @@ class TodayScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          '${quest.minutes} ${s.lqMinutes}  ·  ${focusName(quest.template.focus, s)}  ·  +${quest.xp} XP',
+                          '${quest.minutes} ${s.lqMinutes}  ·  ${focusName(quest.template.focus, s)}  ·  +${xpText(context.read<CharacterState>().previewQuestXp(Quest(id: quest.id, name: quest.title(locale), xp: quest.xp, type: QuestType.daily, category: quest.template.stat)))} XP',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
+                            fontSize: 13,
                           ),
                         ),
                       ],
@@ -438,8 +437,8 @@ class TodayScreen extends StatelessWidget {
         subtitle: Text(
           quest.isCompleted
               ? s.lqCompleted
-              : '${quest.estimatedMinutes != null ? '${quest.estimatedMinutes} ${s.lqMinutes}  ·  ' : ''}+${quest.xp} XP',
-          style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
+              : '${quest.estimatedMinutes != null ? '${quest.estimatedMinutes} ${s.lqMinutes}  ·  ' : ''}+${xpText(quest.lockedXp ?? quest.xp)} XP',
+          style: theme.textTheme.bodySmall?.copyWith(fontSize: 13),
         ),
         onTap: () => _showActive(context, quest),
         trailing: quest.isCompleted
@@ -479,7 +478,10 @@ class TodayScreen extends StatelessWidget {
                   '${quest.minutes} ${s.lqMinutes}',
                   icon: PhosphorIcons.timer,
                 ),
-                QuestTag('+${quest.xp} XP', color: theme.colorScheme.primary),
+                QuestTag(
+                  '+${xpText(context.read<CharacterState>().previewQuestXp(Quest(id: quest.id, name: quest.title(locale), xp: quest.xp, type: QuestType.daily, category: quest.template.stat)))} XP',
+                  color: theme.colorScheme.primary,
+                ),
                 QuestTag(focusName(quest.template.focus, s)),
               ],
             ),
@@ -548,6 +550,39 @@ class TodayScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final character = context.read<CharacterState>();
     final director = context.read<QuestDirectorState>();
+    if (quest.id.startsWith('journey:')) {
+      final run = character.journeys.runs
+          .where((r) => quest.id.startsWith('journey:${r.id}:'))
+          .firstOrNull;
+      final stage = int.tryParse(quest.id.split(':').last);
+      if (run == null || stage == null) return;
+      try {
+        final catalog = await JourneyCatalog.load();
+        if (!context.mounted) return;
+        await Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => JourneyMissionScreen(
+              runId: run.id,
+              stage: stage,
+              catalog: catalog,
+            ),
+          ),
+        );
+      } catch (_) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                JourneyCopy(
+                  Localizations.localeOf(context).languageCode,
+                ).t('loadError'),
+              ),
+            ),
+          );
+        }
+      }
+      return;
+    }
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -567,26 +602,21 @@ class TodayScreen extends StatelessWidget {
                 child: Text(quest.instruction!),
               ),
             const SizedBox(height: 22),
-            QuestTag('+${quest.xp} XP', color: theme.colorScheme.primary),
+            QuestTag(
+              '+${xpText(character.previewQuestXp(quest))} XP',
+              color: theme.colorScheme.primary,
+            ),
             const SizedBox(height: 22),
             FilledButton.icon(
               icon: const Icon(PhosphorIcons.check),
               label: Text(s.lqDone),
               onPressed: quest.isCompleted
                   ? null
-                  : () {
-                      final result = character.completeQuest(quest);
+                  : () async {
                       Navigator.pop(sheet);
-                      if (result != null) {
-                        HapticFeedback.lightImpact();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '${s.lqCompleted} · +${result.totalXpAwarded.round()} XP',
-                            ),
-                          ),
-                        );
-                      }
+                      await completeAndPresentQuest(context, quest, character);
+                      if (!mounted || !quest.isCompleted) return;
+                      setState(() => _section = HunterWindowSection.status);
                     },
             ),
             if (quest.directorTemplateId != null && !quest.isCompleted)
