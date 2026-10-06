@@ -1,0 +1,55 @@
+{
+  "observedDate": "2026-10-06",
+  "sourceCommit": "21380b0012d147a641a36980af957a97856c6187",
+  "package": "com.logian.lifequest",
+  "version": "2.2.0+2017",
+  "aab": {
+    "path": "build/review/life-quest-2.2.0-2017-save-recovery.aab",
+    "sha256": "1e3cfab3537c1a6e89b443fed170b0716d3604f14a0af59cba72d34a4be228f1",
+    "bytes": 156966528,
+    "uploaded": true
+  },
+  "internalTrack": {
+    "id": "4701695828383701621",
+    "audience": "Life Quest Owner Billing QA, owner only",
+    "status": "active, available to internal testers",
+    "releaseName": "2.2.0 (2017) · 도구함·저장 복구 · 본인 결제 검증",
+    "publishedAt": "2026-10-06T14:22:00+09:00",
+    "optInUrl": "https://play.google.com/apps/internaltest/4701695828383701621",
+    "ownerParticipation": "You're a tester shown; accepted by owner, not by agent",
+    "releaseNoteLocales": ["en-US", "ja-JP", "ko-KR", "zh-TW"],
+    "consoleInstallSize": "66.6MB",
+    "consoleUpdateSize": "1.68MB",
+    "physicalPhoneInstallation": "not-verified"
+  },
+  "purchaseVerificationServer": {
+    "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
+    "scope": "Life Quest app only",
+    "appPermissions": ["read app information", "read app quality information (included)", "view financial data and purchase API", "manage orders and subscriptions"],
+    "finalInvite": "explicitly approved by user and submitted",
+    "consoleStatus": "active, no expiry",
+    "publisherPurchaseApiCall": "not-verified-with-a-real-test-purchase",
+    "serviceAccountJsonKeyCreated": false
+  },
+  "completeProduct": {
+    "sku": "quest_journeys_complete_01",
+    "purchaseOption": "complete-once",
+    "consoleStatus": "active",
+    "countryCount": 6,
+    "pricesChanged": false
+  },
+  "evidence": [
+    "build/review/play-server-active-20261006.png",
+    "build/review/play-complete-active-20261006.png",
+    "build/review/play-internal-live-2017.png"
+  ],
+  "ownerInstructions": "docs/rebirth/store/OWNER_BILLING_QA_2017.md",
+  "remaining": {
+    "playPurchaseAcknowledgementRestoreRefund": "not-verified",
+    "closedTesting": "not-published",
+    "production": "not-published",
+    "kmongHandoff": "not-sent; seller CSV still missing",
+    "actualRevenueEvidence": "none",
+    "overallGoal": "unchanged; not declared complete"
+  }
+}

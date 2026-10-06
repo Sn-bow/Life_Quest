@@ -1,10 +1,12 @@
 # Life Quest - 프로젝트 메모리
 
+> **최신 2026-10-06 본인 휴대폰 테스트 준비:** 사용자 ‘초대 확정 승인’ 직후 구매 검증 서버 서비스 계정을 단일 앱의 Play 읽기/구매 API·재무/주문 권한으로 초대했고 목록의 **활성** 상태를 확인했다. Complete `complete-once` 구매 옵션도 6개국 활성. 본인460 계정은 참여 페이지에서 이미 테스터로 확인됐다. 최신 저장복구 AAB **2.2.0 (2017)**를 기존 본인1명 내부 트랙에 **10/6 14:22 KST 게시**, ‘내부 테스터에게 제공됨’ 확인. [게시 기록](docs/rebirth/play-owner-testing-2017.json), [USB 없이 본인 휴대폰 안내](docs/rebirth/store/OWNER_BILLING_QA_2017.md), CONTINUE를 우선한다. 실제 구매·복원·환불·정식 판매·수익 증거 없음; 전체 목표를 완료로 낮추지 않는다.
+
 > **추가 2026-10-04 저장 복구:** 루트 시작/목표/선택/수락 실패가 메모리에 남고 자동 저장으로 되살아나는 결함3개를 재현/수정했다. 전체Flutter603/1skip·CloudBilling관련37·analyze clean. [기록](docs/rebirth/qa/route-save-recovery-20261004.md)과 CONTINUE의 최상단을 우선한다. 권한·기기 대기는 결제 단계의 대기이며 제품 개선 전체 중단 조건이 아니다. `cb99d7f`는 이 수정 전2017소스다.
 
 > **최신 제품 우선 지시 · 2026-10-04:** 사용자가 다시 “앱을 완성하라, 임의 목표 수정 금지”를 명시했다. 기존2016 서버/내부게시를 완성으로 계산하지 않는다. 원복된 메인 상태창 유지. 현재 2017 제품 보완은 재사용 도구4종(21개 관련 미션), 무료 첫 장 체험, 실제 유료 예시 조작, 수락한 미션2분으로 축소, 초안/기록/백업/오류 복구다. [제품 QA](docs/rebirth/qa/toolkit-20261004/README.md), [현재 기록](docs/rebirth/CONTINUE.md)를 먼저 읽는다. 제품 가치·반복 사용·실제 결제 동작의 판단을 배포 설정으로 대체하지 않으며 전체 목표 완료 선언 없음.
 
-> **최신 2026-10-03 로그인 후 연결:** 지정460 CLI/MCP 인증 성공. 운영 함수9개 ACTIVE·Storage 소유자규칙·Firestore TTL·private 승인큐·Play RTDN 배포/연결검사 완료. 2016 AAB **본인1명 내부트랙 게시**, 라이선스 테스트 목록 저장. 서버의 앱 한정 Play 주문/재무 접근 승인과 Android 실제 설치·구매/복원/환불 확인 대기. 크몽 비공개/정식 판매·수익 검증 완료 아님. [서버 기록](docs/rebirth/store/FIREBASE_DEPLOYMENT_2016.md), [CONTINUE](docs/rebirth/CONTINUE.md) 우선. 이전 인증대기/2016미업로드/서버미배포 표시는 이력이다.
+> **2026-10-03 로그인 후 연결 이력:** 지정460 CLI/MCP 인증 성공. 운영 함수9개 ACTIVE·Storage 소유자규칙·Firestore TTL·private 승인큐·Play RTDN 배포/연결검사 완료. 2016 AAB **본인1명 내부트랙 게시**, 라이선스 테스트 목록 저장. 10/6에 위2017게시/서버권한 활성으로 이어졌다. Android 실제 설치·구매/복원/환불 확인 대기. 크몽 비공개/정식 판매·수익 검증 완료 아님. [서버 기록](docs/rebirth/store/FIREBASE_DEPLOYMENT_2016.md), [CONTINUE](docs/rebirth/CONTINUE.md) 우선. 이전 인증대기/2016미업로드/서버미배포 표시는 이력이다.
 
 > **최신 2026-10-03 재개:** 소스 `6594fdc`, `2.1.0+2016`. 로그인 대기를 전체 중단 사유로 삼지 않고 제품 개선 재개. 실행 기록 모아보기/복사·작은 행동 기록 정확화·루트 이어가기 선택 저장·삭제 후 화면 갱신. 원복한 메인 디자인 유지. Flutter586/CloudBilling63/analyze clean/AAB40, Android 재실행·태블릿200% 확인. 2016 APK/AAB 로컬 준비, Play는2015내부초안만 유지. 실제구매/서버/비공개 배포 미완료. [CONTINUE](docs/rebirth/CONTINUE.md), [2016빌드](docs/rebirth/product-2016-build.json) 우선. 전체 목표 완료 아님.
 
