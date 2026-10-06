@@ -20,7 +20,7 @@
     "releaseNoteLocales": ["en-US", "ja-JP", "ko-KR", "zh-TW"],
     "consoleInstallSize": "66.6MB",
     "consoleUpdateSize": "1.68MB",
-    "physicalPhoneInstallation": "not-verified"
+    "physicalPhoneInstallation": "owner reported completing a Play test purchase on an Android phone; installed version not yet confirmed"
   },
   "purchaseVerificationServer": {
     "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
@@ -28,7 +28,7 @@
     "appPermissions": ["read app information", "read app quality information (included)", "view financial data and purchase API", "manage orders and subscriptions"],
     "finalInvite": "explicitly approved by user and submitted",
     "consoleStatus": "active, no expiry",
-    "publisherPurchaseApiCall": "not-verified-with-a-real-test-purchase",
+    "publisherPurchaseApiCall": "verified by actual Play test purchase, server receipt state purchased, and google_play entitlement active",
     "serviceAccountJsonKeyCreated": false
   },
   "completeProduct": {
@@ -38,6 +38,32 @@
     "countryCount": 6,
     "pricesChanged": false
   },
+  "ownerTestPurchase": {
+    "observedDate": "2026-10-06",
+    "executedBy": "owner on Android phone",
+    "paymentMethod": "Google Play test card, always approves",
+    "productId": "quest_journeys_complete_01",
+    "playOrderStatus": "test order, processed",
+    "playOrderReceivedAt": "2026-10-06T05:37:22Z",
+    "playOrderProcessedAt": "2026-10-06T05:37:23Z",
+    "displayedPriceKRW": 6500,
+    "consoleExpectedRevenueKRW": 0,
+    "actualPaymentOrRevenue": false,
+    "callableAuth": "VALID",
+    "callableAppCheck": "VALID",
+    "serverReceiptState": "purchased",
+    "entitlementActive": true,
+    "entitlementSource": "google_play",
+    "entitlementGrantedAt": "2026-10-06T05:37:35.237Z",
+    "receiptVerifiedAt": "2026-10-06T05:38:43.864Z",
+    "acknowledgementTask": "HTTP success matched 200/204 request filter; direct Play acknowledgementState field not queried",
+    "restartAndRestore": "awaiting owner phone result",
+    "refundAndRevoke": "not performed",
+    "pendingAndDeclinedPurchases": "not verified on owner phone",
+    "phoneAppVersion": "not reported",
+    "evidenceReport": "docs/rebirth/qa/play-test-purchase-20261006.md",
+    "privateIdentifiersRecorded": false
+  },
   "evidence": [
     "build/review/play-server-active-20261006.png",
     "build/review/play-complete-active-20261006.png",
@@ -45,7 +71,7 @@
   ],
   "ownerInstructions": "docs/rebirth/store/OWNER_BILLING_QA_2017.md",
   "remaining": {
-    "playPurchaseAcknowledgementRestoreRefund": "not-verified",
+    "playPurchaseAcknowledgementRestoreRefund": "test purchase and server entitlement verified; acknowledgement task succeeded; restart/restore and refund/revoke pending",
     "closedTesting": "not-published",
     "production": "not-published",
     "kmongHandoff": "not-sent; seller CSV still missing",

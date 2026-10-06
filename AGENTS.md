@@ -1,5 +1,7 @@
 # Life Quest - 프로젝트 메모리
 
+> **최신 2026-10-06 본인 테스트 구매:** 사용자가 Android에서 ‘테스트 카드, 항상 승인’ 결제 완료를 보고했다. Play 테스트 주문 처리됨, 서버 purchased/Complete active=true/google_play, Auth·App Check VALID, 승인 복구 작업 HTTP2xx 확인. [검사 기록](docs/rebirth/qa/play-test-purchase-20261006.md), CONTINUE 우선. 재실행/구매 복원 사용자 답변 대기, 테스트 환불 미실행, 휴대폰 버전 미확인. 원문 토큰·UID·주문번호 공개 기록 없음. 이 결과는 매출·구매 수요·전체 제품 완성·비공개 테스트 완료가 아니다.
+
 > **최신 2026-10-06 본인 휴대폰 테스트 준비:** 사용자 ‘초대 확정 승인’ 직후 구매 검증 서버 서비스 계정을 단일 앱의 Play 읽기/구매 API·재무/주문 권한으로 초대했고 목록의 **활성** 상태를 확인했다. Complete `complete-once` 구매 옵션도 6개국 활성. 본인460 계정은 참여 페이지에서 이미 테스터로 확인됐다. 최신 저장복구 AAB **2.2.0 (2017)**를 기존 본인1명 내부 트랙에 **10/6 14:22 KST 게시**, ‘내부 테스터에게 제공됨’ 확인. [게시 기록](docs/rebirth/play-owner-testing-2017.json), [USB 없이 본인 휴대폰 안내](docs/rebirth/store/OWNER_BILLING_QA_2017.md), CONTINUE를 우선한다. 실제 구매·복원·환불·정식 판매·수익 증거 없음; 전체 목표를 완료로 낮추지 않는다.
 
 > **추가 2026-10-04 저장 복구:** 루트 시작/목표/선택/수락 실패가 메모리에 남고 자동 저장으로 되살아나는 결함3개를 재현/수정했다. 전체Flutter603/1skip·CloudBilling관련37·analyze clean. [기록](docs/rebirth/qa/route-save-recovery-20261004.md)과 CONTINUE의 최상단을 우선한다. 권한·기기 대기는 결제 단계의 대기이며 제품 개선 전체 중단 조건이 아니다. `cb99d7f`는 이 수정 전2017소스다.
