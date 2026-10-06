@@ -11,6 +11,7 @@ import 'package:life_quest_final_v2/features/journeys/journey_tool.dart';
 import 'package:life_quest_final_v2/features/journeys/journey_tool_copy.dart';
 import 'package:life_quest_final_v2/features/journeys/journey_tool_widgets.dart';
 import 'package:life_quest_final_v2/features/journeys/mission_draft_store.dart';
+import 'package:life_quest_final_v2/features/billing/purchase_verifier.dart';
 import 'package:life_quest_final_v2/features/backup/device_backup.dart';
 import 'package:life_quest_final_v2/l10n/app_localizations.dart';
 import 'package:life_quest_final_v2/state/character_state.dart';
@@ -96,6 +97,87 @@ void main() {
           isNotEmpty,
         );
       }
+    },
+  );
+  test(
+    'revoking Complete locks new paid missions but preserves paid tool results across edit, restart and backup',
+    () async {
+      final state = CharacterState();
+      await state.initializeForLocalGuest(name: 'Synthetic refund QA');
+      addTearDown(state.dispose);
+      state.setPurchasedEntitlements({journeysCompleteProductId});
+      final run = await state.startJourney(
+        JourneyKind.learning,
+        'Synthetic learning goal',
+      );
+      for (var stage = 0; stage < 8; stage++) {
+        final quest = await state.acceptJourney(
+          runId: run.id,
+          title: 'Mission ${stage + 1}',
+          instruction: 'Synthetic completed action',
+          minutes: 2,
+          shortVersion: true,
+          locale: 'en',
+        );
+        quest.completionNote = 'Saved result ${stage + 1} 日本語\n한글';
+        if (journeyToolFor(run.kind, stage) == JourneyToolKind.flashcard) {
+          quest.journeyTool = card;
+        }
+        await state.completeQuestDurably(quest);
+      }
+      final beforeBook = jsonEncode(state.journeys.toJson());
+      final beforeXp = state.character.xp;
+      final beforeCount = state.questCompletionCount;
+      state.setPurchasedEntitlements({});
+      expect(state.ownsJourneys, false);
+      expect(jsonEncode(state.journeys.toJson()), beforeBook);
+      await expectLater(
+        state.acceptJourney(
+          runId: run.id,
+          title: 'Locked next mission',
+          instruction: 'Must not be accepted',
+          minutes: 2,
+          shortVersion: true,
+          locale: 'en',
+        ),
+        throwsStateError,
+      );
+      const edited = JourneyTool(
+        kind: JourneyToolKind.flashcard,
+        fields: ['Edited after refund 日本語', 'Still my answer\n한글'],
+      );
+      await state.updateJourneyTool(run.id, 7, edited);
+      expect(state.character.xp, beforeXp);
+      expect(state.questCompletionCount, beforeCount);
+      await state.suspendLocalPersistence();
+
+      final resumed = CharacterState();
+      await resumed.initializeForLocalGuest(name: 'Ignored');
+      addTearDown(resumed.dispose);
+      expect(resumed.ownsJourneys, false);
+      expect(resumed.journeys.active!.stage, 8);
+      expect(
+        resumed.journeys.active!.entries[7].tool!.toJson(),
+        edited.toJson(),
+      );
+      expect(
+        resumed.journeys.active!.entries[7].note,
+        'Saved result 8 日本語\n한글',
+      );
+      expect(resumed.character.xp, beforeXp);
+      expect(resumed.questCompletionCount, beforeCount);
+      final backup = DeviceSnapshot.create(
+        profile: resumed.exportDeviceProfile(),
+        director: {},
+        createdAt: DateTime.now(),
+      );
+      final roundtrip = DeviceSnapshot.fromJson(
+        jsonDecode(jsonEncode(backup.toJson())),
+      );
+      final backedUp = JourneyBook.fromJson(roundtrip.profile['journeys']);
+      expect(backedUp.active!.stage, 8);
+      expect(backedUp.active!.entries[7].tool!.toJson(), edited.toJson());
+      expect(roundtrip.profile.containsKey('entitlements'), false);
     },
   );
   test(

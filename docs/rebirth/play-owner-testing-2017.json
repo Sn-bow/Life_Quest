@@ -25,7 +25,12 @@
     "publishedAt": "2026-10-06T14:22:00+09:00",
     "optInUrl": "https://play.google.com/apps/internaltest/4701695828383701621",
     "ownerParticipation": "You're a tester shown; accepted by owner, not by agent",
-    "releaseNoteLocales": ["en-US", "ja-JP", "ko-KR", "zh-TW"],
+    "releaseNoteLocales": [
+      "en-US",
+      "ja-JP",
+      "ko-KR",
+      "zh-TW"
+    ],
     "consoleInstallSize": "66.6MB",
     "consoleUpdateSize": "1.68MB",
     "physicalPhoneInstallation": "owner completed Play purchase/restore/refund and reports app info versionName 2.2.0; device versionCode not independently read"
@@ -33,7 +38,12 @@
   "purchaseVerificationServer": {
     "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
     "scope": "Life Quest app only",
-    "appPermissions": ["read app information", "read app quality information (included)", "view financial data and purchase API", "manage orders and subscriptions"],
+    "appPermissions": [
+      "read app information",
+      "read app quality information (included)",
+      "view financial data and purchase API",
+      "manage orders and subscriptions"
+    ],
     "finalInvite": "explicitly approved by user and submitted",
     "consoleStatus": "active, no expiry",
     "publisherPurchaseApiCall": "verified by actual Play test purchase, server receipt state purchased, and google_play entitlement active",
@@ -73,10 +83,19 @@
     "serverReceiptStateAfterRefund": "revoked",
     "entitlementActiveAfterRefund": false,
     "entitlementRevocationVerifiedAt": "2026-10-06T06:00:45.737Z",
-    "refundRtdnRequestTimes": ["2026-10-06T06:00:36.652257Z", "2026-10-06T06:00:36.776086Z"],
+    "refundRtdnRequestTimes": [
+      "2026-10-06T06:00:36.652257Z",
+      "2026-10-06T06:00:36.776086Z"
+    ],
     "phoneAccessAfterRefund": "owner reports purchase is required again; owned access no longer shown",
-    "phoneRecordRetentionAfterRefund": "not yet reported by owner",
-    "pendingAndDeclinedPurchases": "not verified on owner phone",
+    "phoneRecordRetentionAfterRefund": "owner replied unknown (모름); not verified",
+    "pendingAndDeclinedPurchases": "always-declines card: owner reported failure message and no Complete access; pending purchase transitions not verified on owner phone",
+    "declinedPurchase": {
+      "paymentMethod": "Google Play test card, always declines",
+      "result": "payment failure message and expansion not owned, reported by owner",
+      "directPhoneScreenshotCaptured": false,
+      "actualPaymentOrRevenue": false
+    },
     "phoneAppVersionName": "2.2.0, reported by owner from app info",
     "phoneAppVersionCode": "not independently read; published internal build is 2017",
     "evidenceReport": "docs/rebirth/qa/play-test-purchase-20261006.md",
@@ -89,11 +108,63 @@
   ],
   "ownerInstructions": "docs/rebirth/store/OWNER_BILLING_QA_2017.md",
   "remaining": {
-    "playPurchaseAcknowledgementRestoreRefund": "purchase, server grant, acknowledgement task, owner restore, Play refund/server revoke and owner-reported return to purchase state verified; owner record retention not yet reported",
+    "playPurchaseAcknowledgementRestoreRefund": "purchase, server grant, acknowledgement task, owner restore, Play refund/server revoke, owner-reported return to purchase state and always-declines failure/no access verified; owner record retention unknown and pending transitions not verified",
     "closedTesting": "not-published",
     "production": "not-published",
     "kmongHandoff": "not-sent; seller CSV still missing",
     "actualRevenueEvidence": "none",
     "overallGoal": "unchanged; not declared complete"
+  },
+  "nativeProductQa": {
+    "observedDate": "2026-10-06",
+    "platform": "API35 / 16KB dedicated emulator, native English phone portrait and landscape",
+    "profile": "local synthetic QA toolkit, no purchase entitlement or Google sign-in",
+    "apkSha256": "6eda7428b7535eedb08cf9da074a61e317195a33cc700fd143d48ecd716220dd",
+    "initialXp": 0,
+    "acceptedMissionShrink": "5 minutes to 2 minutes, question and answer preserved",
+    "draftAfterProcessRestart": "question and answer preserved in a new process",
+    "firstCompletionXp": {
+      "quest": 10,
+      "firstAchievement": 50,
+      "total": 60
+    },
+    "progressAfterCompletion": "1/21, next mission 2",
+    "xpAfterToolkitReuse": 60,
+    "xpAndRecordAfterProcessRestart": "60 XP, 1/21, question and answer preserved",
+    "newDefectsFound": false,
+    "appSourceChanged": false,
+    "newNativeTabletOrLargeTextQa": false,
+    "evidenceReport": "docs/rebirth/qa/native-toolkit-20261006/README.md",
+    "followUpRegressionTests": {
+      "file": "test/features/journey_tool_test.dart",
+      "addedCases": 1,
+      "filePassed": 14,
+      "behavior": "Complete revocation blocks new paid missions but preserves completed paid cards/notes/XP; editing/restart/profile backup remains available without ownership",
+      "scope": "automated local profile test, not direct owner-phone refund record evidence",
+      "staticAnalysis": "no issues in changed test file",
+      "fullSuiteRerun": false,
+      "appSourceAndArtifactChanged": false
+    }
+  },
+  "publicGuide": {
+    "url": "https://sn-bow.github.io/Life_Quest/",
+    "pagesCommit": "bb160a4891257c7330847722e2b66d534ed25759",
+    "pagesStatus": "built",
+    "observedDate": "2026-10-06",
+    "changedPaths": [
+      "index.html"
+    ],
+    "verifiedInBrowser": [
+      "2017 scope",
+      "toolkit reuse",
+      "owner-only test-card billing facts",
+      "October 6 policy",
+      "Japanese and Traditional Chinese tool drafts",
+      "no failed images",
+      "expanded English policy: October 6 date and toolkit drafts"
+    ],
+    "localEnglishPolicyVerified": true,
+    "proofScreenshot": "build/review/public-guide-2017-20261006.png",
+    "appTrackOrSellerChanged": false
   }
 }
