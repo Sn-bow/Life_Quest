@@ -59,6 +59,9 @@
   "signupPasswordMismatch": "密碼不匹配。",
   "signupButton": "完成註冊",
   "signupSuccess": "🎉 註冊成功！歡迎加入！",
+  "signupSetupPending": "帳號已建立，但個人資料尚未設定完成。請再試一次，即可用同一個帳號繼續設定。返回會登出，但不會刪除帳號。",
+  "signupSetupRetryNotice": "個人資料尚未設定完成。請再試一次。",
+  "signupFinishSetup": "完成設定",
   "signupErrorFailed": "註冊失敗。",
   "signupErrorUnknown": "發生未知錯誤: {error}",
   "@signupErrorUnknown": {

@@ -148,6 +148,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get signupSuccess => '🎉 登録成功！ようこそ！';
 
   @override
+  String get signupSetupPending =>
+      'アカウントは作成されましたが、プロフィールの設定が完了していません。もう一度お試しください。同じアカウントで設定を続けられます。戻るとログアウトしますが、アカウントは削除されません。';
+
+  @override
+  String get signupSetupRetryNotice => 'プロフィールの設定が完了していません。もう一度お試しください。';
+
+  @override
+  String get signupFinishSetup => '設定を完了する';
+
+  @override
   String get signupErrorFailed => '登録に失敗しました。';
 
   @override

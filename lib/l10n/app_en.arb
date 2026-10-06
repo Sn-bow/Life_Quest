@@ -59,6 +59,9 @@
   "signupPasswordMismatch": "Passwords do not match.",
   "signupButton": "Complete Registration",
   "signupSuccess": "🎉 Registration successful! Welcome!",
+  "signupSetupPending": "Your account was created, but profile setup did not finish. Try again to continue with the same account. Going back signs out; it does not delete the account.",
+  "signupSetupRetryNotice": "Profile setup did not finish. Please try again.",
+  "signupFinishSetup": "Finish setup",
   "signupErrorFailed": "Registration failed.",
   "signupErrorUnknown": "An unknown error occurred: {error}",
   "@signupErrorUnknown": {

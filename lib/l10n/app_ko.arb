@@ -59,6 +59,9 @@
   "signupPasswordMismatch": "비밀번호가 일치하지 않습니다.",
   "signupButton": "가입 완료",
   "signupSuccess": "🎉 회원가입 성공! 환영합니다!",
+  "signupSetupPending": "계정은 만들어졌지만 프로필 설정을 마치지 못했습니다. 다시 시도하면 같은 계정으로 이어서 설정합니다. 뒤로 가면 로그아웃되며 계정이 삭제되지는 않습니다.",
+  "signupSetupRetryNotice": "프로필 설정을 마치지 못했습니다. 다시 시도해 주세요.",
+  "signupFinishSetup": "설정 이어서 완료",
   "signupErrorFailed": "회원가입에 실패했습니다.",
   "signupErrorUnknown": "알 수 없는 오류가 발생했습니다: {error}",
   "@signupErrorUnknown": {

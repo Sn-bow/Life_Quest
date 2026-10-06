@@ -56,7 +56,8 @@ Future<void> initializeDeviceHunterProfile({
 /// This widget stays at the navigation root. Auth changes replace its child,
 /// so logout never leaves a detached MainScreen waiting for a deleted profile.
 class SessionGate extends StatefulWidget {
-  const SessionGate({super.key});
+  final FirebaseAuth? auth;
+  const SessionGate({super.key, this.auth});
   @override
   State<SessionGate> createState() => _SessionGateState();
 }
@@ -82,20 +83,23 @@ class _SessionGateState extends State<SessionGate> {
           : null,
     );
     if (!kLifeQuestCloudEnabled || session.purchaseOnlyAuth) return welcome;
+    final auth = widget.auth ?? FirebaseAuth.instance;
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      initialData: FirebaseAuth.instance.currentUser,
+      stream: auth.authStateChanges(),
+      initialData: auth.currentUser,
       builder: (context, snapshot) {
         final user = snapshot.data;
         // An anonymous identity exists only to send a user-reviewed AI report.
-        if (user != null && !user.isAnonymous) {
+        if (user != null &&
+            !user.isAnonymous &&
+            !session.cloudRegistrationPending) {
           return AccountDeletionGate(
             key: ValueKey('deletion-guard-${user.uid}'),
             uid: user.uid,
             signOut: () async {
               // Never sign out a different identity after an account switch.
-              if (FirebaseAuth.instance.currentUser?.uid == user.uid) {
-                await FirebaseAuth.instance.signOut();
+              if (auth.currentUser?.uid == user.uid) {
+                await auth.signOut();
               }
             },
             child: _ProfileLoader(key: ValueKey(user.uid), user: user),

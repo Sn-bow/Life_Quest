@@ -372,6 +372,24 @@ abstract class AppLocalizations {
   /// **'🎉 회원가입 성공! 환영합니다!'**
   String get signupSuccess;
 
+  /// No description provided for @signupSetupPending.
+  ///
+  /// In ko, this message translates to:
+  /// **'계정은 만들어졌지만 프로필 설정을 마치지 못했습니다. 다시 시도하면 같은 계정으로 이어서 설정합니다. 뒤로 가면 로그아웃되며 계정이 삭제되지는 않습니다.'**
+  String get signupSetupPending;
+
+  /// No description provided for @signupSetupRetryNotice.
+  ///
+  /// In ko, this message translates to:
+  /// **'프로필 설정을 마치지 못했습니다. 다시 시도해 주세요.'**
+  String get signupSetupRetryNotice;
+
+  /// No description provided for @signupFinishSetup.
+  ///
+  /// In ko, this message translates to:
+  /// **'설정 이어서 완료'**
+  String get signupFinishSetup;
+
   /// No description provided for @signupErrorFailed.
   ///
   /// In ko, this message translates to:

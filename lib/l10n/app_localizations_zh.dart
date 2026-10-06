@@ -148,6 +148,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signupSuccess => '🎉 註冊成功！歡迎加入！';
 
   @override
+  String get signupSetupPending =>
+      '帳號已建立，但個人資料尚未設定完成。請再試一次，即可用同一個帳號繼續設定。返回會登出，但不會刪除帳號。';
+
+  @override
+  String get signupSetupRetryNotice => '個人資料尚未設定完成。請再試一次。';
+
+  @override
+  String get signupFinishSetup => '完成設定';
+
+  @override
   String get signupErrorFailed => '註冊失敗。';
 
   @override

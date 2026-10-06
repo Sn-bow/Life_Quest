@@ -1,5 +1,7 @@
 # Life Quest Play Console App Access Draft - 2026-06-04
 
+> Historical default-build draft. The current `com.logian.lifequest` candidate has a free device-first path, optional cloud profiles and Complete purchases. Follow [current App access preparation](rebirth/store/APP_ACCESS_2018.md); do not submit the login-only/dungeon/default-billing-off instructions below as current.
+
 Scope: default real Android release or closed-testing build for
 `com.lifequest.app`.
 

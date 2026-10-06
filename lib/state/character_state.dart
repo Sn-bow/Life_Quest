@@ -3084,6 +3084,26 @@ class CharacterState extends ChangeNotifier {
     _initializeNewData(user);
   }
 
+  /// Signup and the first-login recovery path share the same empty profile.
+  /// This creates a payload only; it never loads or overwrites a saved profile.
+  static Map<String, dynamic> newCloudProfilePayload(
+    User user, {
+    required String languageCode,
+  }) {
+    final state = CharacterState();
+    try {
+      state._locale = Locale(
+        const {'ko', 'en', 'ja', 'zh'}.contains(languageCode)
+            ? languageCode
+            : 'en',
+      );
+      state._initializeNewData(user);
+      return state._buildSavePayload();
+    } finally {
+      state.dispose();
+    }
+  }
+
   Future<void> unlockExpandedReportForToday() async {
     if (_character == null) return;
     _character!.expandedReportUnlockedOn = _todayKey(DateTime.now());

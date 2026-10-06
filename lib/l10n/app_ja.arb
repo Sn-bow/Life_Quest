@@ -59,6 +59,9 @@
   "signupPasswordMismatch": "パスワードが一致しません。",
   "signupButton": "登録完了",
   "signupSuccess": "🎉 登録成功！ようこそ！",
+  "signupSetupPending": "アカウントは作成されましたが、プロフィールの設定が完了していません。もう一度お試しください。同じアカウントで設定を続けられます。戻るとログアウトしますが、アカウントは削除されません。",
+  "signupSetupRetryNotice": "プロフィールの設定が完了していません。もう一度お試しください。",
+  "signupFinishSetup": "設定を完了する",
   "signupErrorFailed": "登録に失敗しました。",
   "signupErrorUnknown": "不明なエラーが発生しました: {error}",
   "@signupErrorUnknown": {

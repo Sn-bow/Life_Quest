@@ -19,6 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   bool _obscurePassword = true;
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> _handleLogin() async {
     final l10n = AppLocalizations.of(context)!;
     if (_emailController.text.trim().isEmpty ||
@@ -30,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await _auth.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+        password: _passwordController.text,
       );
     } on FirebaseAuthException catch (e) {
       _showErrorSnackBar(e.message ?? l10n.loginErrorFailed);

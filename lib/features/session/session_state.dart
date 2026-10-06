@@ -7,6 +7,17 @@ class SessionState extends ChangeNotifier {
   static const purchasePurposeKey = 'lifequest.session.purchaseOnlyAuth';
   bool _purchaseOnlyAuth = false;
   bool get purchaseOnlyAuth => _purchaseOnlyAuth;
+  bool _cloudRegistrationPending = false;
+  bool get cloudRegistrationPending => _cloudRegistrationPending;
+
+  /// Keep the signup route in place until profile setup finishes. Firebase
+  /// emits sign-in before the chosen name, optional photo and profile are saved.
+  void setCloudRegistrationPending(bool pending) {
+    if (_cloudRegistrationPending == pending) return;
+    _cloudRegistrationPending = pending;
+    notifyListeners();
+  }
+
   int _deviceRevision = 0;
   int get deviceRevision => _deviceRevision;
   void reloadDevice() {

@@ -55,11 +55,11 @@ void main() {
 
         expect(publicPage, contains('공개 무료 APK의 기본 퀘스트·성장·이야기·카드 탐험'));
         expect(publicPage, contains('카드 탐험 화면과 신규 카드 보상은 출시 범위에서 제외했습니다'));
-        expect(publicPage, contains('現在ダウンロードできる無料APKにはカード探索があります'));
+        expect(publicPage, contains('現在の無料APKにはカード探索があります'));
         expect(
           publicPage,
           contains(
-            'The unreleased candidate does not expose card expeditions or grant new card rewards',
+            'The new candidate does not expose card expeditions or grant new card rewards',
           ),
         );
         expect(publicPage, contains('進行中の探索記録は、下記のとおり手動バックアップの対象外'));

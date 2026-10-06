@@ -153,6 +153,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signupSuccess => '🎉 Registration successful! Welcome!';
 
   @override
+  String get signupSetupPending =>
+      'Your account was created, but profile setup did not finish. Try again to continue with the same account. Going back signs out; it does not delete the account.';
+
+  @override
+  String get signupSetupRetryNotice =>
+      'Profile setup did not finish. Please try again.';
+
+  @override
+  String get signupFinishSetup => 'Finish setup';
+
+  @override
   String get signupErrorFailed => 'Registration failed.';
 
   @override
