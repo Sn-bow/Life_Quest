@@ -7,7 +7,8 @@
 - Google 검토 전에는 `com.logian.lifequest (unreviewed)`라는 임시 이름이 보일 수 있다.
 - 구매 상품: Life Quest Complete, `quest_journeys_complete_01` / `complete-once`.
 - 10월 6일 본인의 명시적 승인 후 서버 서비스 계정이 Play 사용자 목록에 **활성**으로 등록됐다. 단일 앱의 정보 읽기·재무/구매 API·주문 관리 권한이다. 구매 옵션도 6개국 **활성** 상태로 확인했다.
-- 이후 본인이 테스트 카드 결제 완료를 보고했고, Play의 테스트 주문 처리와 서버 검증·Complete 권한 활성화를 확인했다. [10/6 테스트 결과와 확인 범위](../qa/play-test-purchase-20261006.md). 구매 복원·환불 결과는 아직 확인 전이다.
+- 이후 본인의 테스트 구매·구매 복원 성공과 서버 Complete 활성 유지를 확인했다. 본인이 최종 환불 버튼을 직접 눌렀고 Play ‘환불됨’·RTDN 성공·서버 구매 revoked/권한 inactive까지 확인했다. [10/6 테스트 결과와 확인 범위](../qa/play-test-purchase-20261006.md). 휴대폰의 환불 후 유료 기능 잠금/기존 기록 보존과 앱 버전 답변 대기다.
+- 최신 지시: 앱 완성을 위한 내부 QA는 계속한다. 크몽 외부 테스터용 비공개 배포는 앱 완성과 준비 상태를 먼저 보고할 때까지 보류한다. 내부 테스트는 Google의 비공개 최소12명·연속14일 요건에 포함되지 않는다. [Google 공식 요구사항](https://support.google.com/googleplay/android-developer/answer/14151465?hl=ko).
 
 ## 먼저 할 일
 
