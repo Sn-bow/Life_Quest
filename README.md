@@ -1,67 +1,67 @@
 # Life Quest
 
-현실의 작은 행동으로 여러 세계의 성장기를 이어 쓰는 Android 습관 RPG. **경계의 서가**에서 도시 미스터리·무협 수련·기록 탐사의 책을 고르고, 기기 안의 개인화 퀘스트와 상태창으로 다음 장면을 엽니다.
+내 일상의 작은 행동을 퀘스트로 실행하고 자신의 상태창에서 성장을 확인하는 Android 앱입니다. 첫 화면은 이름·레벨·경험치·능력치를 보여 주는 상태창입니다. 목표에 맞는 성장 루트를 고르고, 작은 미션을 실행하며 자기만의 기록과 도구를 남길 수 있습니다.
 
-![Life Quest 생성 이미지 배너](docs/rebirth/store/feature-graphic-1024x500.png)
+**2026-10-06 기준: 2.2.0 (2017), `com.logian.lifequest`.** 소유자 한 명의 Google Play 내부 검사를 진행하고 있습니다. 외부 테스터를 모집하는 비공개 배포는 사용자 지시로 보류 중입니다. 프로덕션 출시와 실제 매출은 아직 없습니다.
 
-**무료 Android 공개 프리뷰 배포 · 2026-09-21.** [다운로드 페이지](https://sn-bow.github.io/Life_Quest/) · [APK와 버전 정보](https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1)
-
-Android 8.0 이상 ARM64용 **2.0.0+7**입니다. Google Play 정식 출시와 유료 판매는 아직 시작하지 않았습니다. 현재 Play 계정의 프로덕션 접근이 제한되어 직접 APK로 공개합니다. Cloud·결제·광고·연구 기능·자동 분석은 꺼져 있습니다. [공개 범위와 한계](docs/rebirth/PUBLIC_PREVIEW.md), [작업 재개 정보](docs/rebirth/CONTINUE.md)를 참고하세요.
+[제품·개인정보 안내](https://sn-bow.github.io/Life_Quest/) · [현재 체크포인트](docs/rebirth/CONTINUE.md) · [최종 빌드](docs/rebirth/product-2017-recovery-build.json) · [Play 검사 기록](docs/rebirth/play-owner-testing-2017.json)
 
 ## 제품 구성
 
-- **오늘 / 퀘스트 / 던전 / 성장:** 하루의 실행 가능한 행동을 먼저 보여 주며, 쉬는 날에 일상의 경험치나 레벨을 차감하지 않습니다.
-- **무료 온디바이스 AI:** 공개 Apache-2.0 Gemma 4 E2B를 선택 설치합니다. 설치 후 퀘스트 생성은 기기에서 실행하며 목표와 개인화 이력을 클라우드 LLM에 보내지 않습니다. 모델 미설치·미지원·검증 실패 시 기본 추천을 사용할 수 있습니다. 모델은 별도 약2.59GB 다운로드입니다.
-- **개인화:** 완료·보류·체감 난이도·가용 시간에 따라 추천을 조정합니다. 모델 가중치를 사용자 데이터로 재학습한다고 주장하지 않습니다. 보상과 시간 제한은 앱이 관리합니다.
-- **무료 단편 세 권:** 도시 「0번 출구」, 수련 「바람을 듣는 마당」, 탐사 「잃어버린 별의 지도」. 각4장면이 현실 퀘스트로 열리고 이전 선택이 대사에 반영됩니다. 오늘 이어 읽을 책을 바꿔도 진행·XP가 남고 암호화 백업에도 포함됩니다. 읽기만으로 XP를 주지 않습니다.
-- **카드 탐험:** 기존207장 카드와5구역 게임을 활용합니다. 방에 들어가거나 나올 때 저장하며, 미완료 방은 입구에서 다시 시작합니다. 최종 보상과 수령 기록을 함께 저장해 중복 지급을 막습니다.
-- **기기 전용 기록과 무료 백업:** 가입 없이 시작합니다. 비밀번호로 암호화한 백업, 복원 전 확인, 직전 기록 되돌리기, 중단된 복원 재개를 제공합니다. 계정 인증·구매 권한·진행 중 탐험·모델·신고 접수 로그는 백업에서 제외합니다.
-- **한국어·영어·일본어·중국어:** 주요 새 화면은320px/200% 글자 크기에서 검사했습니다. 전체5구역의 게임 밸런스와 실물 Android 접근성 검증은 남아 있습니다.
+- **내 상태창:** 실제 완료에 따라 경험치·성장 기록을 반영합니다. 새 프로필은 0XP에서 시작하며 쉬거나 제안을 거절했다고 경험치를 차감하지 않습니다.
+- **네 성장 루트:** 학습·정리·가벼운 움직임·관계의 루트에 21개씩, 총 84개 미션이 있습니다. 각 첫 7개, 총 28개는 무료입니다. 선택형 타이머·메모와 더 작은 행동을 제공하며, 수락한 미션도 2분으로 줄여 이어갈 수 있습니다.
+- **재사용 도구:** 관련 미션에서 복습 카드·정리 체크리스트·일상 루틴·재사용 문장을 작성합니다. 완료 후 도구함에서 다시 쓰고 고칠 수 있으며 재사용으로 XP를 추가 지급하지 않습니다. 완료 전 초안은 기기에 보관하고, 완료된 결과는 해당 프로필의 기록과 백업에 포함합니다.
+- **기록과 무료 백업:** 루트 진도·회고·실행 결과를 보존하고 끝낸 루트는 새 목표로 다시 시작할 수 있습니다. 기기 프로필은 가입 없이 이용하며 비밀번호로 암호화한 진행 백업과 복원을 제공합니다. 구매 권한은 백업으로 이전하지 않습니다.
+- **선택형 온디바이스 AI:** 공개 Apache-2.0 Gemma 4 E2B를 약 2.59GB 별도 다운로드합니다. 설치 후 생성은 기기에서 실행하며 목표·개인화 이력을 클라우드 LLM으로 보내지 않습니다. 미설치·미지원·출력 검증 실패 시 기본 추천을 사용합니다. 모델 없이도 핵심 미션과 유료 콘텐츠를 이용할 수 있습니다.
+- **네 언어:** 한국어·영어·일본어·대만 번체 중국어를 지원합니다.
 
-새 아이콘·스플래시·첫 화면·이야기 표지·스토어 배너는 image generation으로 제작했습니다. [아트 제작 기록](docs/rebirth/artwork/README.md)에 실제 레퍼런스와 출처를 기록했으며, 다른 작품의 캐릭터·로고·UI 이미지를 복사하지 않았습니다.
+현재 주력은 상태창·현실 미션·기록·재사용 도구입니다. 이전 카드 전투와 이야기 팩은 개발 이력에 남아 있으며 현 판매 상품에 포함된다고 안내하지 않습니다. [상태창 디자인 기록](docs/rebirth/design/status-system/HUNTER_WINDOW_V9.md), [이미지 아트 출처](docs/rebirth/artwork/README.md).
 
-## 수익화와 계정
+## 일회 구매 Complete
 
-기본 퀘스트·AI·백업·세 단편은 무료입니다. 별도 완결 세계관 팩(12장면·두 결말·테마·기록 표식)을 한 번 구매해 소장하는 방식을 검증하려 합니다. 「조수 우체국」의12장면×4언어·두 결말·두 장면 체험·테마·표식을 구현했습니다. 가격은 미정이며 2,900/4,900/6,900원·비구매·미정을 비교합니다. Play 상품 등록·실제 결제·독자 검수 전입니다. **무료 공개판을 먼저 배포하고 실제 반응으로 유료 콘텐츠 방향을 판단합니다.** 실제 상품 완성·테스트 구매·환불·복원 검증도 필요합니다. 가격·전환율·수익은 아직 검증되지 않았습니다.
+무료 다운로드에 선택형 앱 내 일회 구매를 제공합니다. 구현된 유료 혜택은 각 루트 8–21번의 **56개 후속 미션**, 전체 루트의 새 목표 재사용, **상태창 외관 세 종류**, **30/90일 성장 보고서와 내보내기**입니다. 구매 전에 실제 유료 미션과 도구 예시를 조작할 수 있습니다.
 
-선택적 Google 구매 계정은 기기의 진행 기록과 분리했습니다. 최소 계정 생성, 서버 영수증 확인, 구매 권한 복원, RTDN 환불, 재시도 가능한 계정 삭제를 구현했습니다. 신고는 사용자 검토 문구만 접수하며 접수번호, 중복 방지, 개별 삭제, 익명 신고 계정 삭제,90일 TTL을 갖춥니다. **지정 계정에 새 Firebase 프로젝트와 서울 Firestore를 만들고 모든 클라이언트 접근을 차단했습니다. 무료 Spark 상태이며 실제 Auth·Functions·결제 운영 검증은 남아 있습니다.** 공개 프리뷰의 AI 신고는 문구 검토·복사와 문의 페이지 안내만 제공하며 자동 전송하거나 접수 완료라고 표시하지 않습니다.
+기본 퀘스트·무료 첫 장·기본 AI·기존 기록·백업은 무료입니다. 환불로 Complete가 회수되어도 이미 만든 자기 기록과 도구를 유료 잠금으로 숨기지 않습니다. 새 유료 미션의 접근 권한은 회수합니다.
 
-결제와 광고의 Android 권한은 독립적입니다. 결제를 켜도 광고가 켜지지 않습니다. 무료 모델 실행과 별개로 Functions·Firestore·TTL 삭제에는 플랫폼 요금이 발생할 수 있습니다.
+상품은 `quest_journeys_complete_01` / `complete-once`입니다. 10월 6일 Console에서 확인한 한국 표시 가격은 ₩6,500이며 실제 가격과 통화는 Google Play 상품 응답을 사용합니다. 정기결제·유료 XP 배율·강제 광고는 없습니다. [제품 결정](docs/rebirth/market/PRODUCT_DECISION_20261003.md), [수익 구조·운영비 검토](docs/rebirth/market/ECONOMICS_REVIEW_20261003.md). 비교 앱의 다운로드나 테스트 카드 성공은 Life Quest의 구매 수요·매출 실적이 아닙니다.
+
+## 계정과 운영
+
+기기 프로필과 구매용 Google 연결을 분리합니다. 구매 연결만으로 기기의 퀘스트나 AI 이력을 자동 업로드하지 않습니다. 별도로 선택한 클라우드 프로필은 Firebase Auth·Firestore를 사용합니다. 사진 업로드와 사용자 검토 후 AI 제안 신고는 선택 기능입니다.
+
+구매 검증·권한 복원·RTDN 환불 처리·승인 복구 큐와 삭제 요청 서버는 배포되어 있습니다. App Check 보호를 유지합니다. [서버 운영 기록](docs/rebirth/store/FIREBASE_DEPLOYMENT_2016.md)의 배포 이력과 아래 실제 거래 검사를 구분합니다. 클라우드는 사용량 기반 Blaze이며 기존 함수 월 ₩5,000 상한과 결제 계정 월 ₩10,000 알림은 전체 비용의 하드캡을 뜻하지 않습니다.
+
+## 확인한 범위
+
+- **최종 앱 소스 `21380b0`:** 전체 Flutter 603개 통과·기본 설정의 의도적 1개 skip, Cloud/Billing 관련 37개 통과, analyze 문제 없음. 최종 AAB 40/40 검사와 APK 서명·16KB 정렬 확인. [저장 실패 수정](docs/rebirth/qa/route-save-recovery-20261004.md).
+- **10월 6일 실제 Android 조작:** 최종2017 APK의 로컬 합성 프로필에서 0XP 시작, 미션 수락·2분 축소·카드 작성·프로세스 종료 후 초안 복구·완료·재사용·재실행 보존을 확인했습니다. 영어 전화 세로/가로 표본입니다. [원본 화면과 검사](docs/rebirth/qa/native-toolkit-20261006/README.md).
+- **권한 회수 회귀 검사:** 도구 테스트 파일 14개 통과. Complete 회수 후 기존 유료 단계의 자기 카드·메모·XP 보존, 무료 수정·재실행·백업을 검사했습니다. 앱 소스 변경이나 전체604개 재실행을 뜻하지 않습니다.
+- **Play 테스트 카드:** 본인이 휴대폰에서 구매·복원·환불·항상 거부 실패 안내를 확인했습니다. 서버도 구매 권한 부여와 환불 후 회수, Auth/App Check VALID를 확인했습니다. 실제 청구·매출은 0원입니다. 환불 후 휴대폰의 기존 무료 기록 보존은 본인이 ‘모름’으로 답해 미확인으로 남겼으며 보류 결제 전환도 별도 미확인입니다. [거래 기록](docs/rebirth/qa/play-test-purchase-20261006.md).
+- **이전 화면·모델 검사:** 네 언어의 작은 화면/큰 글자 위젯과 웹 태블릿 검사, Android R8 모델·암호화 백업 probe 기록이 있습니다. [2017 제품 QA](docs/rebirth/qa/toolkit-20261004/README.md), [모델 선정·Android 측정](docs/rebirth/ON_DEVICE_AI_DECISION.md). 에뮬레이터 수치를 실물 기기의 성능·발열·배터리 보증으로 사용하지 않습니다.
+
+인증된 앱의 계정 삭제·사진 업로드·AI 신고 등의 남은 운영 경로는 계속 확인 중입니다. 내부 검사 통과만으로 전체 제품 목표나 실제 수익이 달성됐다고 선언하지 않습니다. 외부 테스터 배포와 판매자 전달은 준비 상태를 보고한 뒤 사용자 지시를 기다립니다.
 
 ## 개발
 
-검증한 도구: Flutter3.47.4 / Dart3.13.3 / JDK21 / Android SDK36 / LiteRT-LM0.17.0. Android 전용이며 iOS는 지원하지 않습니다. Flutter 도구는 같은 checkout에서 직렬 실행하세요.
+Flutter 3.47.4 / Dart 3.13.3 / JDK 21 / Android SDK 36 / LiteRT-LM 0.17.0을 사용합니다. Android 전용입니다. 같은 checkout의 Flutter 명령은 직렬 실행합니다.
 
 ```sh
 flutter pub get
 flutter analyze
 flutter test
-flutter build appbundle --release --target lib/main.dart
+flutter build appbundle --release --target lib/main.dart \
+  --dart-define=LIFEQUEST_CLOUD_ENABLED=true \
+  --dart-define=LIFEQUEST_MONETIZATION_ENABLED=true \
+  --dart-define=LIFEQUEST_ADS_ENABLED=false \
+  --dart-define=LIFEQUEST_QA_PREVIEW=false
 ```
 
-릴리스는 Git에 포함하지 않는 `android/key.properties`와 업로드 키 설정이 필요합니다. 비밀값을 문서·로그·명령 인수에 직접 넣지 마세요. 공개 서명 지문으로 실제 산출물을 검사합니다.
+기본 빌드는 Cloud/Billing이 꺼진 개발 설정이므로 유료 제출 빌드와 구분합니다. 릴리스 서명에는 Git에서 제외한 업로드 키와 `android/key.properties`가 필요합니다. 비밀값을 문서·명령 인수·공개 로그에 넣지 않습니다. 산출물 검사는 `scripts/inspect_release_artifact.py`와 최종 빌드의 검사 기록을 따릅니다. `integration_test/`의 probe APK/AAB는 Play 제출용이 아닙니다.
 
-```sh
-bash scripts/check_release_readiness.sh --certificate-sha256 <PUBLIC_CERTIFICATE_SHA256>
-python3 scripts/check_android_feature_manifests.py
-```
+## 공개판과 배포 자료
 
-`integration_test/`의 모델·백업 probe는 QA 진입점입니다. 해당 probe로 만든 APK/AAB를 Play에 올리지 마세요. 예전 iOS·광고 통합 설정용 `scripts/apply_release_values.sh`는2.0 출시 경로에서 사용하지 않습니다.
+직접 다운로드 링크의 공개 프리뷰는 **2026-09-21의 2.0.0+7 / 이전 패키지 `com.lifequest.app`**입니다. 최신2017 내부 설치본과 다르며 새 패키지로 기기의 로컬 데이터가 자동 이전되지 않습니다. [과거 공개판 범위](docs/rebirth/PUBLIC_PREVIEW.md), [공개 APK 버전](https://github.com/Sn-bow/Life_Quest/releases/tag/v2.0.0-preview.1), [패키지 이전 기록](docs/rebirth/store/PACKAGE_MIGRATION_20260929.md).
 
-## 확인된 범위
+[2017 테스터 사용 안내](docs/rebirth/store/TESTER_STEPS_2017.md) · [크몽 전달 준비·보류 범위](docs/rebirth/store/KMONG_HANDOFF_20261003.md) · [개인정보·삭제·약관](https://sn-bow.github.io/Life_Quest/#privacy)
 
-- Flutter analyze: 문제 없음. 2026-09-21 전체414개 테스트 통과. 별도 Cloud/Billing 활성 상품 카탈로그 검사1개 통과(기본 전체 실행에서는 의도적 skip).
-- Node22 서버 정책27개 통과(9월20일). 실제 Firestore/Storage 로컬 emulator9개와 아래 manifest 검사는9월17일 기준선입니다.
-- 실제 Gradle manifest merger의7개 권한 조합 통과.
-- 서명된 R8 Android probe에서 모델 생성과 암호화 백업 상호 호환 확인. 에뮬레이터 측정이며 실물 성능 인증이 아닙니다.
-- 캠페인 검사6개:1,000개 생성 지도 연결 및5구역의 모든 방 저장/복원·보상 재수령 방지. 전투 밸런스 검증은 별도입니다.
-- 실제 브라우저 UI에서 첫 퀘스트, 이야기 체험, 백업/복원/재시작과 첫 전투를 확인했습니다. 최신 검토에서 탐험 진행도를 경로의6단계로 수정하고, 0비용 카드 안내와 저주 카드 활성 조건을 바로잡았습니다.
-- 내부 빌드의 자발적14일 연구는 기기에만 저장하고 직접 파일로 내보냅니다. Python 집계8개 검사 통과. 이 기능과 개발용 웹 입력은 실제 사용자 유지율·구매 증거가 아닙니다.
-- 공개 APK의 실제 서명·버전·해시는 [public-preview-apk.json](docs/rebirth/public-preview-apk.json). 별도 로컬 추론24조건 중19조건 채택/5조건 기본 추천 전환을 확인했습니다. [검증 한계](docs/rebirth/AI_QUALITY_REVIEW.md)를 함께 읽으세요.
-- 정확한 최신 AAB의 서명·16KiB·용량 증거는 [artifact-inspection.json](docs/rebirth/artifact-inspection.json). 빌드 검사와 Play 출시 승인은 다릅니다.
-
-## 설계·출시 문서
-
-[수익화 검증 계획](docs/rebirth/REVENUE_VALIDATION.md) · [테스터 안내](docs/rebirth/RESEARCH_TESTER_GUIDE.md) · [최신 화면 검토](docs/rebirth/REVENUE_UX_REVIEW.md) · [콘셉트·수익 결정](docs/rebirth/CONCEPT_AND_REVENUE.md) · [화면 검토](docs/rebirth/CONCEPT_UX_REVIEW.md) · [제품 방향](docs/rebirth/PRODUCT_BRIEF.md) · [모델 선정·실측](docs/rebirth/ON_DEVICE_AI_DECISION.md) · [던전 저장](docs/rebirth/DUNGEON_CHECKPOINTS.md) · [암호화 백업](docs/rebirth/DEVICE_BACKUP.md) · [구매 계정](docs/rebirth/PURCHASE_ACCOUNT.md) · [신고 운영](docs/rebirth/AI_REPORTING.md) · [결제·출시](docs/rebirth/BILLING_AND_RELEASE.md) · [Play 초안·테스트](docs/rebirth/store/STORE_AND_TEST_PLAN.md)
-
-공개 안내: [개인정보·데이터 삭제·이용약관](https://sn-bow.github.io/Life_Quest/). 지원: logian621@gmail.com.
+지원: logian621@gmail.com.
