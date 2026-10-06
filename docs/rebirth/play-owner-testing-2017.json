@@ -28,7 +28,7 @@
     "releaseNoteLocales": ["en-US", "ja-JP", "ko-KR", "zh-TW"],
     "consoleInstallSize": "66.6MB",
     "consoleUpdateSize": "1.68MB",
-    "physicalPhoneInstallation": "owner reported completing a Play test purchase on an Android phone; installed version not yet confirmed"
+    "physicalPhoneInstallation": "owner completed Play purchase/restore/refund and reports app info versionName 2.2.0; device versionCode not independently read"
   },
   "purchaseVerificationServer": {
     "serviceAccount": "61563760091-compute@developer.gserviceaccount.com",
@@ -74,9 +74,11 @@
     "entitlementActiveAfterRefund": false,
     "entitlementRevocationVerifiedAt": "2026-10-06T06:00:45.737Z",
     "refundRtdnRequestTimes": ["2026-10-06T06:00:36.652257Z", "2026-10-06T06:00:36.776086Z"],
-    "phoneAccessAndRecordsAfterRefund": "awaiting owner result",
+    "phoneAccessAfterRefund": "owner reports purchase is required again; owned access no longer shown",
+    "phoneRecordRetentionAfterRefund": "not yet reported by owner",
     "pendingAndDeclinedPurchases": "not verified on owner phone",
-    "phoneAppVersion": "not reported",
+    "phoneAppVersionName": "2.2.0, reported by owner from app info",
+    "phoneAppVersionCode": "not independently read; published internal build is 2017",
     "evidenceReport": "docs/rebirth/qa/play-test-purchase-20261006.md",
     "privateIdentifiersRecorded": false
   },
@@ -87,7 +89,7 @@
   ],
   "ownerInstructions": "docs/rebirth/store/OWNER_BILLING_QA_2017.md",
   "remaining": {
-    "playPurchaseAcknowledgementRestoreRefund": "purchase, server grant, acknowledgement task, owner restore, Play refund and server revoke verified; phone access/record retention after refund pending",
+    "playPurchaseAcknowledgementRestoreRefund": "purchase, server grant, acknowledgement task, owner restore, Play refund/server revoke and owner-reported return to purchase state verified; owner record retention not yet reported",
     "closedTesting": "not-published",
     "production": "not-published",
     "kmongHandoff": "not-sent; seller CSV still missing",
